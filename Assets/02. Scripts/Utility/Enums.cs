@@ -1,7 +1,6 @@
-using UnityEngine;
-
-public class Enums : MonoBehaviour
+public enum EUILayer
 {
-
-
-}
+    Base,
+    UI,
+    Setting
+};
