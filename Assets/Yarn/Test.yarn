@@ -1,0 +1,20 @@
+﻿title: Start
+tags:
+---
+Monster : 홀리몰리
+
+-> Player : 넌 뭐야.
+	Monster : 비밀이다.
+		-> Player : 그럼 죽어!
+-> Player : 내 동료가 돼라.
+	Monster : 싫어!
+		-> Player : 그럼 죽어!
+			Monster : 되..될게요!
+				<<jump Peer>>
+===
+
+title: Peer
+---
+Monster : 전 이제 뭘 하면 될까요
+	Player : 필요없어!
+===
