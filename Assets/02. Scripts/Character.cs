@@ -2,55 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-#region Enum
-enum Food
-{
-    Normal,
-    Hunger,
-    Starving
-}
-
-enum Water
-{
-    Normal,
-    Thirst,
-    Dehydration
-}
-
-enum Condition
-{
-    Normal,
-    Anx,
-    Crazy,
-    Machine
-}
-
-enum BodyHealth
-{
-    Normal,
-    Hurt,
-    Injury,
-    Disease
-}
-
-enum Infection
-{
-    Normal,
-    Bite,
-    Zombie
-}
-
-enum Parts
-{
-    None,
-    Eyeball,
-    LeftArm,
-    RightArm,
-    Body,
-    Legs
-}
-#endregion
-
 #region 구조체
 /// <summary>
 /// 변수들을 갖고있는 구조체
@@ -73,23 +24,24 @@ public struct Data
 }
 
 /// <summary>
-/// 필요한 모든 Enum들을 갖고있는 구조체
+/// Enum들을 갖고있는 구조체
 /// </summary>
-public struct Enums
+public struct Enum
 {
-    Food food;
-    Water water;
-    BodyHealth bodyhealth;
-    Infection infection;
-    Condition condition;
+    EHungerType eHunger;
+    EThirstType eThirst;
+    EConditionType eCondition;
+    EBodyHealthType eBody;
+    EInfectionType eInfection;
+    EPartsType eParts;
 } 
 #endregion
 
 public abstract class Character : MonoBehaviour
 {
     public Data data;
-    public Enums enums;
-    
+    public Enum enums;
+
     /// <summary>
     /// 초기화 함수. Start에서 호출
     /// </summary>
