@@ -17,6 +17,7 @@ public struct Data
     float reliability;
     float battery;
 
+    string name;
     string job;
     string[] equipments;
 
