@@ -30,6 +30,7 @@ public class SoundManager : Singleton<SoundManager>
         dic_SFX = new Dictionary<string, AudioClip>();
     }
 
+    
     void Start()
     {
         foreach (Sound sound in bgm)
