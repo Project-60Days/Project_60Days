@@ -29,7 +29,6 @@ public class SoundManager : Singleton<SoundManager>
         dic_BGM = new Dictionary<string, AudioClip>();
         dic_SFX = new Dictionary<string, AudioClip>();
     }
-
     
     void Start()
     {
