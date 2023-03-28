@@ -47,6 +47,24 @@ public enum EPartsType
     RightArm,
     Body,
     Legs
-}; 
+};
+
+#endregion
+
+#region HexTile
+
+public enum TerrainType 
+{ 
+    Grassland, 
+    Machine, 
+    Desert, 
+    Water 
+};
+public enum TileHeight 
+{ 
+    Flat, 
+    Uphill, 
+    Downhill 
+};
 
 #endregion
