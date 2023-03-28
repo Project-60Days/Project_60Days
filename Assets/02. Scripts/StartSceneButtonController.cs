@@ -1,17 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class StartSceneButtonController : MonoBehaviour
 {
-    public Animator animator;
+    private Animator animator;
     public string clipName;
 
     private bool isPlaying = false;
 
     void Start()
     {
-        
+        animator = GetComponentInParent<Animator>();
     }
 
     public void OnButtonClick()
@@ -23,13 +24,17 @@ public class StartSceneButtonController : MonoBehaviour
         }
     }
 
+    //public void OnPointerDown(PointerEventData eventData)
+    //{
+    //    if (eventData.pointerPress == gameObject)
+    //    {
+    //        animator.Play(clipName);
+    //        isPlaying = true;
+    //    }
+    //}
+
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            animator.Play("Selected");
-        }
-
         if (isPlaying && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
         {
             animator.Play(0);
