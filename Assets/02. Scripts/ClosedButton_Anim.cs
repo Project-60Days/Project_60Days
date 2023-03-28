@@ -25,6 +25,9 @@ public class ClosedButton_Anim : MonoBehaviour
         });
     }
 
+    /// <summary>
+    /// ClosedButton_anim 끝난 후 Opened 애니메이션 클립 재생 이벤트 호출
+    /// </summary>
     public void PlayOpenedAnimation()
     {
         OpenedButton.SetActive(true);
