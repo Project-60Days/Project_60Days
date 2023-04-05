@@ -1,0 +1,41 @@
+﻿title: Start
+tags:
+position: 0,-84
+---
+<<play_bgm main>>
+안녕하세요 국민 여러분.
+엑시오스 인더스트리는 언제나 여러분들의 편의를 위해서 노력합니다!
+가짜뉴스를 귀담아 듣지마세요!
+언제나 여...들의...이용을...립...
+<<jump Player>>
+===
+title: Player
+position: 0,91
+---
+Player: ...
+-> Player: 라디오를 부순다.
+    <<play_sfx destroy>>
+    <<wait 2>>
+    <<jump Zombie>>
+-> Player: 라디오를 끈다.
+    <<play_sfx button>>
+    주변이 조용해지니, 발걸음 소리가 희미하게 들린다.
+    Player: 어서 자리를 뜨자.
+    <<jump Street>>
+===
+title: Street
+position: -194,277
+---
+<<play_bgm tribe>>
+<<change_img street>>
+<<wait 2>>
+Player: 어디 먹을 것 없으려나..
+===
+title: Zombie
+position: 195,277
+---
+<<change_img zombie>>
+<<play_sfx zombie>>
+좀비들이 달려오는 소리가 들린다.
+Player: 젠장.
+===

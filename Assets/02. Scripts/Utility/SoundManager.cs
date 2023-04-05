@@ -20,7 +20,8 @@ public class SoundManager : Singleton<SoundManager>
     Dictionary<string, AudioClip> dic_BGM;
     Dictionary<string, AudioClip> dic_SFX;
 
-    [SerializeField] float BGM_Volume = 0.5f;
+    [SerializeField] float bgmVolume;
+    [SerializeField] float sfxVolume;
 
     private void Awake()
     {
@@ -28,10 +29,7 @@ public class SoundManager : Singleton<SoundManager>
 
         dic_BGM = new Dictionary<string, AudioClip>();
         dic_SFX = new Dictionary<string, AudioClip>();
-    }
-    
-    void Start()
-    {
+
         foreach (Sound sound in bgm)
         {
             dic_BGM.Add(sound.name, sound.clip);
@@ -45,14 +43,28 @@ public class SoundManager : Singleton<SoundManager>
 
     public void PlaySFX(string sfxName)
     {
+        if (!dic_SFX.ContainsKey(sfxName))
+        {
+            Debug.LogWarning("SoundManager - Sound not found: " + sfxName);
+            return;
+        }
+
         sfxPlayer.clip = dic_SFX[sfxName];
+        sfxPlayer.volume = sfxVolume;
 
         sfxPlayer.Play();
     }
 
     public void PlayBGM(string bgmName)
     {
+        if (!dic_BGM.ContainsKey(bgmName))
+        {
+            Debug.LogWarning("SoundManager - Sound not found: " + bgmName);
+            return;
+        }
+
         bgmPlayer.clip = dic_BGM[bgmName];
+        bgmPlayer.volume = bgmVolume;
 
         bgmPlayer.Play();
     }
@@ -62,4 +74,17 @@ public class SoundManager : Singleton<SoundManager>
         bgmPlayer.Stop();
     }
 
+    public void SetBGMVolume(float volume)
+    {
+        bgmVolume = Mathf.Clamp01(volume);
+
+        bgmPlayer.volume = bgmVolume;
+    }
+
+    public void SetSFXVolume(float volume)
+    {
+        sfxVolume = Mathf.Clamp01(volume);
+
+        sfxPlayer.volume = sfxVolume;
+    }
 }
