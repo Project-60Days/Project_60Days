@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class OnScroll : MonoBehaviour
+public class DepthScroll : MonoBehaviour
 {
     public Transform[] panels;
     public Image[] images;
@@ -14,7 +14,8 @@ public class OnScroll : MonoBehaviour
     void Update()
     {
         float scroll = Input.GetAxis("Mouse ScrollWheel");
-
+        
+        
         if (scroll > 0f) // 마우스 휠을 위로 스크롤한 경우
         {
             if (currentPanel > 0)

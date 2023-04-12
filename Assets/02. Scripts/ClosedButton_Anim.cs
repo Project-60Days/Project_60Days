@@ -9,12 +9,12 @@ public class ClosedButton_Anim : MonoBehaviour
     public Animator anim;
     public Animation OpenedAnim;
     public AnimationClip OpenedClip;
-    public GameObject OpenedButton;
+    public GameObject openedButton;
 
     private void Start()
     {
-        OpenedButton = GameObject.Find("Opened_Button");
-        OpenedButton.SetActive(false);
+        openedButton = GameObject.Find("Opened_Button");
+        openedButton.SetActive(false);
 
         this.anim.Play("Normal");
 
@@ -30,7 +30,7 @@ public class ClosedButton_Anim : MonoBehaviour
     /// </summary>
     public void PlayOpenedAnimation()
     {
-        OpenedButton.SetActive(true);
+        openedButton.SetActive(true);
         OpenedAnim.clip = OpenedClip;
         OpenedAnim.Play();
     }
