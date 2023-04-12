@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class OnScroll : MonoBehaviour
+public class DepthScroll : MonoBehaviour
 {
     public Transform[] panels;
     public Image[] images;
