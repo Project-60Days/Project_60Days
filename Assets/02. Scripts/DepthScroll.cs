@@ -14,8 +14,7 @@ public class DepthScroll : MonoBehaviour
     void Update()
     {
         float scroll = Input.GetAxis("Mouse ScrollWheel");
-        
-        
+
         if (scroll > 0f) // 마우스 휠을 위로 스크롤한 경우
         {
             if (currentPanel > 0)
