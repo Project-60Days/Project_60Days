@@ -1147,7 +1147,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1095869202}
   m_Layer: 0
-  m_Name: Dialogue_Objects
+  m_Name: DialogueObjects
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1301,7 +1301,7 @@ GameObject:
   - component: {fileID: 1589821071}
   - component: {fileID: 1589821070}
   m_Layer: 0
-  m_Name: Dialogue_Manager
+  m_Name: DialogueManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1358,7 +1358,7 @@ GameObject:
   - component: {fileID: 1617684548}
   - component: {fileID: 1617684547}
   m_Layer: 0
-  m_Name: Sound_Manager
+  m_Name: SoundManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1422,7 +1422,7 @@ GameObject:
   - component: {fileID: 1660401535}
   - component: {fileID: 1660401534}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Generate_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1995,7 +1995,7 @@ GameObject:
   - component: {fileID: 2112503445}
   - component: {fileID: 2112503448}
   m_Layer: 5
-  m_Name: Scroll View
+  m_Name: NameCard_Scroll View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

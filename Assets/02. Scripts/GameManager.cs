@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public struct Controller
 {
@@ -18,16 +18,29 @@ public class GameManager : Singleton<GameManager>
 {
     Controller controller;
 
-    private void Awake()
+    void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
     }
 
+    void Update()
+    {
+        InputKey();
+    }
+
+    public void InputKey()
+    {
+        // 키 입력
+        if (Input.GetKeyDown(KeyCode.Space))
+            Debug.Log("스페이스 바");
+        if (Input.GetKeyDown(KeyCode.Escape))
+            QuitGame();
+
+    }
+
     public void UpdateAllState()
     {
-        // 게임 시작 시 모든 데이터 연결
-
-        // 1. 일차 업데이트
+        // 1. 일차 변경
 
         // 2. 맵 업데이트
 
@@ -46,7 +59,7 @@ public class GameManager : Singleton<GameManager>
         // 이전 데이터 불러오기
 
         // 씬 이동
-        SceneManager.LoadScene("02. GameScene");
+        SceneLoader.instance.LoadScene(1);
     }
 
     public void NewGameStart()
@@ -54,7 +67,13 @@ public class GameManager : Singleton<GameManager>
         // 데이터 초기화
 
         // 씬 이동
-        SceneManager.LoadScene("02. GameScene");
+        SceneLoader.instance.LoadScene(1);
+    }
+
+    public void Settings()
+    {
+        // 설정 창
+        Debug.Log("설정");
     }
 
     public void QuitGame()
