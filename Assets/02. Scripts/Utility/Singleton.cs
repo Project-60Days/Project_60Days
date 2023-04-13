@@ -63,14 +63,14 @@ public class Singleton<T> : MonoBehaviour where T : Singleton<T>
     {
         if (_instance != null)
         {
-            Debug.LogFormat("Singleton Release : {0}", name);
+            //Debug.LogFormat("Singleton Release : {0}", name);
             _instance.Destory();
             Destroy(_instance.gameObject);
             _instance = null;
             //isDestroy = true;
         }
-        else
-            Debug.LogFormat("Singleton Release null : {0}", name);
+        //else
+            //Debug.LogFormat("Singleton Release null : {0}", name);
 
     }
 
