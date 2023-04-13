@@ -67,6 +67,8 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
             Debug.Log("Can't find the target!");
         }
 
+        target.gameObject.SetActive(false);
+
         prev.sortingOrder -= 1;
         target.sortingOrder += 1;
 

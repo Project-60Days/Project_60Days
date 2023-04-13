@@ -39,5 +39,6 @@ position: 195,277
 좀비들이 달려오는 소리가 들린다.
 Player: 젠장.
 <<change_img main>>
+<<wait 2>>
 <<jump Start>>
 ===
