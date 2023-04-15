@@ -10,6 +10,9 @@ public interface ILoader<Key, Value>
 
 public class DataManager : Singleton<DataManager>
 {
+    public Dictionary<string, StringData> stringData = new Dictionary<string, StringData>();
+    public Dictionary<string, CharData> charData = new Dictionary<string, CharData>();
+
     public Dictionary<int, Stat> StatDict { get; private set; } = new Dictionary<int, Stat>();
 
     public void InitDict()
@@ -21,5 +24,108 @@ public class DataManager : Singleton<DataManager>
     {
         TextAsset textAsset = Resources.Load<TextAsset>($"Data/{path}"); // text 파일이 textAsset에 담긴다. TextAsset 타입은 텍스트파일 에셋이라고 생각하면 됨!
         return JsonUtility.FromJson<Loader>(textAsset.text);
+    }
+
+
+
+    public string GetString(string _code)
+    {
+        string language = "";
+
+        if (!stringData.ContainsKey(_code))
+            return "String is Not Exist";
+
+        switch (Application.systemLanguage)
+        {
+            case SystemLanguage.Korean:
+                language = stringData[_code].korean;
+                break;
+
+            case SystemLanguage.Chinese:
+                language = stringData[_code].chinese;
+                break;
+
+            case SystemLanguage.Japanese:
+                language = stringData[_code].japanese;
+                break;
+
+            default:
+                language = stringData[_code].english;
+                break;
+        }
+
+        return language;
+    }
+}
+
+[Serializable]
+public class StringData
+{
+    public int index;
+    public string code;
+    public string korean;
+    public string english;
+    public string japanese;
+    public string chinese;
+}
+
+
+[Serializable]
+public class CharData
+{
+    public int index;
+    public string code;
+    public string nameCode;
+    public string storyCode;
+    public int minHP;
+    public int maxHp;
+    public int minFood;
+    public int maxFood;
+    public int minWater;
+    public int maxWater;
+    public int minBattery;
+    public int maxBattery;
+    public int dayFoodCost;
+    public int dayWaterCost;
+    public EBodyHealthType health;
+    public int immunity;
+    public int mental;
+    public int mentalEffectType;
+    public string equipmentCode;
+    public int power;
+    public string buttCode;
+    public string relationshipCode1;
+    public string relationshipCode2;
+}
+
+
+public class JsonUtilityHelper
+{
+    public static T[] FromJson<T>(string json)
+    {
+        string newJson = "";
+        if (json[0] == '{')
+        {
+            newJson = json;
+        }
+        else
+        {
+            newJson = "{ \"array\": " + json + "}";
+        }
+        Wrapper<T> wrapper = JsonUtility.FromJson<Wrapper<T>>(newJson);
+        return wrapper.array;
+    }
+
+    public static string ToJson<T>(T[] array)
+    {
+        Wrapper<T> wrapper = new Wrapper<T>();
+        wrapper.array = array;
+        return JsonUtility.ToJson(wrapper);
+    }
+
+    [Serializable]
+    private class Wrapper<T>
+    {
+        public T[] array;
     }
 }
