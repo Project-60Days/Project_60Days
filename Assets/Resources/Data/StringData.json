@@ -1,0 +1,50 @@
+﻿[
+  {
+    "Index": 1001,
+    "Code": "STR_TITLE_START_GAME",
+    "Korean": "새 게임 시작",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 1002,
+    "Code": "STR_TITLE_LOAD_GAME",
+    "Korean": "이전 게임",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 1003,
+    "Code": "STR_TITLE_EXIT_GAME",
+    "Korean": "나가기",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 1004,
+    "Code": "STR_TITLE_LOADING",
+    "Korean": "로드 중…",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 1005,
+    "Code": "STR_TITLE_SAVING",
+    "Korean": "저장 중…",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 1006,
+    "Code": "STR_TITLE_SETTING",
+    "Korean": "설정",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  }
+]

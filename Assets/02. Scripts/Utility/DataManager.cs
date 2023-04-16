@@ -13,20 +13,42 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<string, StringData> stringData = new Dictionary<string, StringData>();
     public Dictionary<string, CharData> charData = new Dictionary<string, CharData>();
 
-    public Dictionary<int, Stat> StatDict { get; private set; } = new Dictionary<int, Stat>();
+    //public Dictionary<int, Stat> StatDict { get; private set; } = new Dictionary<int, Stat>();
 
-    public void InitDict()
+    //public void InitDict()
+    //{
+    //    StatDict = LoadJson<StatData, int, Stat>("StatData").MakeDict();
+    //}
+
+    //Loader LoadJson<Loader, Key, Value>(string path) where Loader : ILoader<Key, Value>
+    //{
+    //    TextAsset textAsset = Resources.Load<TextAsset>($"Data/{path}"); // text 파일이 textAsset에 담긴다. TextAsset 타입은 텍스트파일 에셋이라고 생각하면 됨!
+    //    return JsonUtility.FromJson<Loader>(textAsset.text);
+    //}
+
+    private void Start()
     {
-        StatDict = LoadJson<StatData, int, Stat>("StatData").MakeDict();
+        InitStringData();
+        //InitDict();
     }
 
-    Loader LoadJson<Loader, Key, Value>(string path) where Loader : ILoader<Key, Value>
+    public void InitGameData()
     {
-        TextAsset textAsset = Resources.Load<TextAsset>($"Data/{path}"); // text 파일이 textAsset에 담긴다. TextAsset 타입은 텍스트파일 에셋이라고 생각하면 됨!
-        return JsonUtility.FromJson<Loader>(textAsset.text);
+        charData.Clear();
     }
 
+    public void InitStringData()
+    {
+        stringData.Clear();
 
+        var json = Resources.Load<TextAsset>(StringUtility.stringDataPath);
+        var stringDataList = JsonUtilityHelper.FromJson<StringData>(json.ToString());
+
+        foreach(var data in stringDataList)
+        {
+            stringData.Add(data.Code, data);
+        }
+    }
 
     public string GetString(string _code)
     {
@@ -38,19 +60,19 @@ public class DataManager : Singleton<DataManager>
         switch (Application.systemLanguage)
         {
             case SystemLanguage.Korean:
-                language = stringData[_code].korean;
+                language = stringData[_code].Korean;
                 break;
 
             case SystemLanguage.Chinese:
-                language = stringData[_code].chinese;
+                language = stringData[_code].Chinese;
                 break;
 
             case SystemLanguage.Japanese:
-                language = stringData[_code].japanese;
+                language = stringData[_code].Japanese;
                 break;
 
             default:
-                language = stringData[_code].english;
+                language = stringData[_code].English;
                 break;
         }
 
@@ -61,12 +83,12 @@ public class DataManager : Singleton<DataManager>
 [Serializable]
 public class StringData
 {
-    public int index;
-    public string code;
-    public string korean;
-    public string english;
-    public string japanese;
-    public string chinese;
+    public int Index;
+    public string Code;
+    public string Korean;
+    public string English;
+    public string Japanese;
+    public string Chinese;
 }
 
 
