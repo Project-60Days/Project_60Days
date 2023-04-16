@@ -27,7 +27,7 @@ public struct Data
 /// <summary>
 /// Enum들을 갖고있는 구조체
 /// </summary>
-public struct Enum
+public struct Enums
 {
     EHungerType eHunger;
     EThirstType eThirst;
@@ -41,7 +41,7 @@ public struct Enum
 public abstract class Character : MonoBehaviour
 {
     public Data data;
-    public Enum enums;
+    public Enums enums;
 
     /// <summary>
     /// 초기화 함수. Start에서 호출
