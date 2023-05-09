@@ -40,8 +40,8 @@ public struct Enums
 
 public abstract class Character : MonoBehaviour
 {
-    public Data data;
-    public Enums enums;
+    Data data;
+    Enums enums;
 
     /// <summary>
     /// 초기화 함수. Start에서 호출

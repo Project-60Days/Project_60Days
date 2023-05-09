@@ -15,10 +15,10 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 {
     [SerializeField] SpriteRenderer[] bgRenderers;
     [SerializeField] Images[] img = null;
-    
+
     public LineView lineView;
     public DialogueRunner dialogueRunner;
-    public bool imgOrder=false;
+    public bool imgOrder = false;
 
     Dictionary<string, Sprite> dic_IMG;
     Sequence sequence;
@@ -52,7 +52,6 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         {
             Debug.Log("º±≈√µ ");
         }
-            
     }
 
     private void ChageImages(string imgName)
