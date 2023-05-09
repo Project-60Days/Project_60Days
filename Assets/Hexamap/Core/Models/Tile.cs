@@ -29,7 +29,6 @@ namespace Hexamap
             _neighbours[compass] = neighbour;
         }
 
-
         private void findNeighbours()
         {
             foreach (CompassPoint compass in _enumCompassPointValues)

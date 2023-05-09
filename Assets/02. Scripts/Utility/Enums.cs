@@ -67,4 +67,20 @@ public enum TileHeight
     Downhill 
 };
 
+public enum ETileType
+{
+    Grassland,
+    Machine,
+    Desert,
+    Water
+}
+
+public enum EWeatherType
+{
+    Sunny,
+    Cloudy,
+    Rainy,
+    Fog
+}
+
 #endregion
