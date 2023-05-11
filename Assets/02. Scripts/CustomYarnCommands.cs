@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Yarn.Unity;
 using DG.Tweening;
+using Yarn;
+using UnityEngine.UIElements;
 
 [System.Serializable]
 public class Images
@@ -31,6 +33,10 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         dialogueRunner.AddCommandHandler<string>("play_bgm", PlayBGM);
         dialogueRunner.AddCommandHandler<string>("play_sfx", PlaySFX);
         dialogueRunner.AddCommandHandler<string>("stop_bgm", StopBGM);
+        dialogueRunner.AddFunction("randomNode", ()=>
+        {
+            return Random.Range(1, 6);
+        });
     }
 
     void Start()
@@ -100,5 +106,10 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     private void StopBGM(string soundName)
     {
         SoundManager.instance.StopBGM();
+    }
+
+    private string RandomNode(string[] nodeArray)
+    {
+        return nodeArray[0];
     }
 }
