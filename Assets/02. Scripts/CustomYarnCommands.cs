@@ -17,10 +17,10 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 {
     [SerializeField] SpriteRenderer[] bgRenderers;
     [SerializeField] Images[] img = null;
-    
+
     public LineView lineView;
     public DialogueRunner dialogueRunner;
-    public bool imgOrder=false;
+    public bool imgOrder = false;
 
     Dictionary<string, Sprite> dic_IMG;
     Sequence sequence;
@@ -33,10 +33,13 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         dialogueRunner.AddCommandHandler<string>("play_bgm", PlayBGM);
         dialogueRunner.AddCommandHandler<string>("play_sfx", PlaySFX);
         dialogueRunner.AddCommandHandler<string>("stop_bgm", StopBGM);
-        dialogueRunner.AddFunction("randomNode", ()=>
-        {
-            return Random.Range(1, 6);
-        });
+        //dialogueRunner.AddFunction("randomNode", () =>
+        //{
+        //    int randomIndex = Random.Range(0, numbers.Count);
+        //    int selectedNumber = numbers[randomIndex];
+        //    numbers.RemoveAt(randomIndex);
+        //    return selectedNumber;
+        //});
     }
 
     void Start()
@@ -58,7 +61,6 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         {
             Debug.Log("º±≈√µ ");
         }
-            
     }
 
     private void ChageImages(string imgName)
@@ -106,10 +108,5 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     private void StopBGM(string soundName)
     {
         SoundManager.instance.StopBGM();
-    }
-
-    private string RandomNode(string[] nodeArray)
-    {
-        return nodeArray[0];
     }
 }

@@ -37,8 +37,10 @@ public class Note_Anim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     private bool isOpen = false;
     private int pageNum = 0;
     private int dayCount = 1;
+    int selectedNumber;
 
-    //public CustomYarnCommands dialogueManager;
+    List<int> numbers = new List<int>() { 1, 2, 3, 4, 5 };
+
     public DialogueRunner dialogueRunner;
 
     void Start()
@@ -78,6 +80,10 @@ public class Note_Anim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         blackPanel.gameObject.SetActive(false);
         day.gameObject.SetActive(false);
         dialogueBox.SetActive(false);
+
+        int randomIndex = Random.Range(0, numbers.Count);
+        selectedNumber = numbers[randomIndex];
+        numbers.RemoveAt(randomIndex);
     }
 
     /// <summary>
@@ -199,12 +205,17 @@ public class Note_Anim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         openBtn.image.sprite = btnImages[1];
         closeBtn.image.sprite = btnImages[0];
     }
-
+    /// <summary>
+    /// 제출 버튼 콜백함수
+    /// </summary>
     void NewDay()
     {
         blackPanel.gameObject.SetActive(false);
         day.text = "Day" + ++dayCount;
         pageNum = 0;
+        int randomIndex = Random.Range(0, numbers.Count);
+        selectedNumber = numbers[randomIndex];
+        numbers.RemoveAt(randomIndex);
     }
 
     /// <summary>
@@ -267,6 +278,10 @@ public class Note_Anim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         }
     }
 
+    /// <summary>
+    /// yarn 스크립트 실행 함수
+    /// </summary>
+    /// <param name="index"></param>
     void callYarn(int index)
     {
         string nodeName;
@@ -280,13 +295,13 @@ public class Note_Anim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         }
         else if (index == 3)
         {
-            nodeName = "Day" + dayCount;
+            nodeName = "Day" + dayCount + "ChooseEvent";
             dialogueRunner.Stop();
             dialogueRunner.StartDialogue(nodeName);
         }
         else if (index == 4)
         {
-            nodeName = "SpecialEvent";
+            nodeName = "specialEvent" + selectedNumber;
             dialogueRunner.Stop();
             dialogueRunner.StartDialogue(nodeName);
         }
