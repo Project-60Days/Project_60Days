@@ -12,6 +12,7 @@ public class DataManager : Singleton<DataManager>
 {
     public Dictionary<string, StringData> stringData = new Dictionary<string, StringData>();
     public Dictionary<string, CharData> charData = new Dictionary<string, CharData>();
+    public Dictionary<string, GameData> gameData = new Dictionary<string, GameData>();
 
     //public Dictionary<int, Stat> StatDict { get; private set; } = new Dictionary<int, Stat>();
 
@@ -29,12 +30,23 @@ public class DataManager : Singleton<DataManager>
     private void Start()
     {
         InitStringData();
+        InitGameData();
         //InitDict();
     }
 
     public void InitGameData()
     {
         charData.Clear();
+        gameData.Clear();
+
+        var jsonGameData = Resources.Load<TextAsset>(StringUtility.gameDataPath);
+        var stringDataList = JsonUtilityHelper.FromJson<GameData>(jsonGameData.ToString());
+
+        foreach(var data in stringDataList)
+        {
+            gameData.Add(data.Code, data);
+        }
+
     }
 
     public void InitStringData()
@@ -90,6 +102,15 @@ public class StringData
     public string Japanese;
     public string Chinese;
 }
+
+[Serializable]
+public class GameData
+{
+    public int Index;
+    public string Code;
+    public float value;
+}
+
 
 
 [Serializable]
