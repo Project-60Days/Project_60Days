@@ -23,6 +23,7 @@ public class TempScript : MonoBehaviour
     NoteManager noteManager;
 
     private int pageNum = 0;
+    private int pages = 0;
     int selectedNumber;
     List<int> numbers = new List<int>() { 1, 2, 3, 4, 5 };
     private int dayCount = 1;
@@ -39,12 +40,15 @@ public class TempScript : MonoBehaviour
                 targets.Add(child);
             }
         }
-
         notePages = targets.ToArray();
         for (int i = 0; i < notePages.Length; i++)
         {
             notePages[i].gameObject.SetActive(false);
         }
+
+
+        pages = CountPages("Day" + dayCount, 30) + CountPages("Day" + dayCount + "ChooseEvent", 30) + CountPages("specialEvent" + selectedNumber, 30) + 3;
+        
 
         dialogueBox.SetActive(false);
 
@@ -75,7 +79,7 @@ public class TempScript : MonoBehaviour
             prevPageBtn.image.sprite = btnImages[0];
         }
     }
-    public int CountPages(string nodeName, int maxCharsPerPage)
+    int CountPages(string nodeName, int maxCharsPerPage)
     {
         Yarn.IVariableStorage variableStorage = new Yarn.MemoryVariableStore();
         Dialogue dialogue = new Dialogue(variableStorage);
@@ -107,7 +111,7 @@ public class TempScript : MonoBehaviour
         return pageCount;
     }
 
-    public string[] CreatePages(string nodeName, int pageCount, int maxCharsPerPage)
+    string[] CreatePages(string nodeName, int pageCount, int maxCharsPerPage)
     {
         Yarn.IVariableStorage variableStorage = new Yarn.MemoryVariableStore();
         Dialogue dialogue = new Dialogue(variableStorage);

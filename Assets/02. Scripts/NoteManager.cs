@@ -144,7 +144,6 @@ public class NoteManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         nextPage.SetActive(true);
         prevPage.SetActive(true);
         dayText.gameObject.SetActive(true);
-        //ChangePageButton();
     }
     /// <summary>
     /// »óÀÚ ´İÈû Äİ¹éÇÔ¼ö
