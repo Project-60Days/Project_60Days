@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/10.Data/GameDataTable.xlsx.meta
 guid: 46c577000d29637498afa40b1fd45600
+=======
+guid: f0f9e6928aca84e4aba0304d709477cd
+folderAsset: yes
+>>>>>>> 10303f7e4af572c95e080fca096f9edac90dffbd:Assets/Hexamap/_DEMO/Prefabs/Humid/Player.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

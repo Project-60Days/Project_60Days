@@ -66,6 +66,13 @@ public class NameCard : MonoBehaviour
         }
     }
 
+    public void Reset()
+    {
+        TurnOff(food);
+        TurnOff(water);
+        TurnOff(battery);
+    }
+
     public void TurnOffButton(int number)
     {
 
