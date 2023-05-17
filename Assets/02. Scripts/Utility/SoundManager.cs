@@ -11,8 +11,8 @@ public class Sound
 
 public class SoundManager : Singleton<SoundManager>
 {
-    [SerializeField] Sound[] sfx = null;
-    [SerializeField] Sound[] bgm = null;
+    [SerializeField] Sound[] array_sfx = null;
+    [SerializeField] Sound[] array_bgm = null;
 
     [SerializeField] AudioSource bgmPlayer = null;
     [SerializeField] AudioSource sfxPlayer = null;
@@ -30,17 +30,21 @@ public class SoundManager : Singleton<SoundManager>
         dic_BGM = new Dictionary<string, AudioClip>();
         dic_SFX = new Dictionary<string, AudioClip>();
 
-        foreach (Sound sound in bgm)
+        foreach (Sound sound in array_bgm)
         {
             dic_BGM.Add(sound.name, sound.clip);
         }
 
-        foreach (Sound sound in sfx)
+        foreach (Sound sound in array_sfx)
         {
             dic_SFX.Add(sound.name, sound.clip);
         }
     }
 
+    /// <summary>
+    /// sfxName ÀÌ¸§ÀÇ SFX Àç»ý
+    /// </summary>
+    /// <param name="sfxName"></param>
     public void PlaySFX(string sfxName)
     {
         if (!dic_SFX.ContainsKey(sfxName))
@@ -55,6 +59,10 @@ public class SoundManager : Singleton<SoundManager>
         sfxPlayer.Play();
     }
 
+    /// <summary>
+    /// bgmName ÀÌ¸§ÀÇ BGM Àç»ý
+    /// </summary>
+    /// <param name="bgmName"></param>
     public void PlayBGM(string bgmName)
     {
         if (!dic_BGM.ContainsKey(bgmName))
@@ -69,11 +77,18 @@ public class SoundManager : Singleton<SoundManager>
         bgmPlayer.Play();
     }
 
+    /// <summary>
+    /// BGM ¸ØÃã
+    /// </summary>
     public void StopBGM()
     {
         bgmPlayer.Stop();
     }
 
+    /// <summary>
+    /// BGM º¼·ý Á¶Àý (0 ~ 1)
+    /// </summary>
+    /// <param name="volume"></param>
     public void SetBGMVolume(float volume)
     {
         bgmVolume = Mathf.Clamp01(volume);
@@ -81,6 +96,10 @@ public class SoundManager : Singleton<SoundManager>
         bgmPlayer.volume = bgmVolume;
     }
 
+    /// <summary>
+    /// SFX º¼·ý Á¶Àý (0 ~ 1)
+    /// </summary>
+    /// <param name="volume"></param>
     public void SetSFXVolume(float volume)
     {
         sfxVolume = Mathf.Clamp01(volume);
