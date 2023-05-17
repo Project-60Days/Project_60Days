@@ -6,8 +6,8 @@ using DG.Tweening;
 
 public class DepthScroll : MonoBehaviour
 {
-    public Transform[] panels;
-    public Image[] images;
+    [SerializeField] Transform[] panels;
+    [SerializeField] Image[] images;
 
     private int currentPanel = 0;
 

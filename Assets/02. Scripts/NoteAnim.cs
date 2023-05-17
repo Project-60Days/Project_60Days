@@ -3,54 +3,54 @@ using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine.EventSystems;
 
-public class NoteManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public Button closeBtn;
-    public Button openBtn;
-    public Button nextDayBtn;
+    [SerializeField] Button closeBtn;
+    [SerializeField] Button openBtn;
+    [SerializeField] Button nextDayBtn;
 
-    public GameObject boxTop;
-    public GameObject boxBottom;
-    public GameObject notePanel;
-    public Image blackPanel;
-    public Text dayText;
+    [SerializeField] GameObject boxTop;
+    [SerializeField] GameObject boxBottom;
+    [SerializeField] GameObject notePanel;
+    
+    [SerializeField] Image blackPanel;
+    [SerializeField] Text dayText;
+    [SerializeField] GameObject nextPage;
+    [SerializeField] GameObject prevPage;
+    [SerializeField] GameObject nextDay;
 
-    public GameObject nextPage;
-    public GameObject prevPage;
-    public GameObject nextDay;
+    [SerializeField] Sprite[] btnImages;
 
-    public Sprite[] btnImages;
+    Vector2 originalPos;
+    Vector2 topOriginalPos;
+    Vector2 bottomOriginalPos;
 
-    private Vector2 originalPos;
-    private Vector2 topOriginalPos;
-    private Vector2 bottomOriginalPos;
+    bool isOpen = false;
+    int dayCount = 1;
 
-    public bool isOpen = false;
-    private int dayCount = 1;
-
-    TempScript pageManager;
+    NotePage notePage;
 
     void Start()
     {
-        pageManager = GameObject.Find("PageManager").GetComponent<TempScript>();
-
-        notePanel.GetComponent<Image>().DOFade(0f, 0f);
-        blackPanel.DOFade(0f, 0f);
+        notePage = GameObject.Find("PageManager").GetComponent<NotePage>();
 
         topOriginalPos = boxTop.transform.position;
         bottomOriginalPos = boxBottom.transform.position;
         originalPos = transform.position;
 
-        openBtn.onClick.AddListener(Open_Anim);
-        closeBtn.onClick.AddListener(Close_Anim);
-        nextDayBtn.onClick.AddListener(NextDayEvent);
-
+        notePanel.GetComponent<Image>().DOFade(0f, 0f);
+        blackPanel.DOFade(0f, 0f);
         nextPage.SetActive(false);
         prevPage.SetActive(false);
         nextDay.SetActive(false);
         blackPanel.gameObject.SetActive(false);
         dayText.gameObject.SetActive(false);
+
+        openBtn.onClick.AddListener(Open_Anim);
+        closeBtn.onClick.AddListener(Close_Anim);
+        nextDayBtn.onClick.AddListener(NextDayEvent);
     }
+
 
     /// <summary>
     /// 상자 마우스 호버
@@ -69,6 +69,7 @@ public class NoteManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         transform.DOMoveY(originalPos.y, 0.5f);
     }
+
 
     /// <summary>
     /// 상자 열림 애니메이션
@@ -101,10 +102,11 @@ public class NoteManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         if (isOpen)
         {
-            pageManager.CloseBox();
+            notePage.CloseBox();
             nextPage.SetActive(false);
             prevPage.SetActive(false);
             nextDay.SetActive(false);
+            dayText.gameObject.SetActive(false);
 
             Sequence sequence = DOTween.Sequence();
             sequence.Append(notePanel.GetComponent<Image>().DOFade(0f, 0.5f))
@@ -119,10 +121,10 @@ public class NoteManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             isOpen = false;
             openBtn.image.sprite = btnImages[0];
             closeBtn.image.sprite = btnImages[0];
-            dayText.gameObject.SetActive(false);
             sequence.Play();
         }
     }
+
 
     /// <summary>
     /// 다음 날로 넘어가는 애니메이션(페이드아웃)
@@ -139,6 +141,7 @@ public class NoteManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         sequence.Play();
     }
 
+
     /// <summary>
     /// 상자 열림 콜백함수
     /// </summary>
@@ -149,7 +152,7 @@ public class NoteManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         nextPage.SetActive(true);
         prevPage.SetActive(true);
         dayText.gameObject.SetActive(true);
-        pageManager.OpenBox();
+        notePage.OpenBox();
     }
     /// <summary>
     /// 상자 닫힘 콜백함수

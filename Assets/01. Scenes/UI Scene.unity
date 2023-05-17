@@ -381,7 +381,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 171.22205, y: 416.4508}
-  m_SizeDelta: {x: 1920, y: 1080}
+  m_SizeDelta: {x: 2000, y: 1100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &172930949
 MonoBehaviour:
@@ -519,7 +519,6 @@ MonoBehaviour:
   btnImages:
   - {fileID: 21300000, guid: 48c98b02a21b3bd4fb96dbaf2f8ac598, type: 3}
   - {fileID: 21300000, guid: 9c978845257f0774ca1810da102f57b1, type: 3}
-  isOpen: 0
 --- !u!1 &373399039
 GameObject:
   m_ObjectHideFlags: 0
@@ -736,10 +735,11 @@ MonoBehaviour:
   notePages: []
   prefab: {fileID: 5877162685254587269, guid: 610254bb95ab1454181cda0ed9480991, type: 3}
   parent: {fileID: 1367580281}
-  dialogueRunner: {fileID: 1433740549}
   nextPageBtn: {fileID: 172874818}
   prevPageBtn: {fileID: 2054573658}
   nextDayBtn: {fileID: 1811381967}
+  dialogueRunner: {fileID: 1433740549}
+  pageNum: 0
 --- !u!4 &592508144
 Transform:
   m_ObjectHideFlags: 0
@@ -2066,7 +2066,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8956352941271377725, guid: d64db5d02f62ba9409967e1e6fbc3c3b, type: 3}
       propertyPath: typewriterEffectSpeed
-      value: 100
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8956352941692457086, guid: d64db5d02f62ba9409967e1e6fbc3c3b, type: 3}
       propertyPath: m_IsActive

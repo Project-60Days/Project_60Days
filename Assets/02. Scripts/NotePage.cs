@@ -1,15 +1,10 @@
-using DG.Tweening;
-using JetBrains.Annotations;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using Yarn;
 using Yarn.Unity;
+using UnityEngine.SceneManagement;
 
-public class TempScript : MonoBehaviour
+public class NotePage : MonoBehaviour
 {
     [SerializeField] GameObject pageContainer;
     [SerializeField] GameObject dialogueBox;
@@ -20,33 +15,32 @@ public class TempScript : MonoBehaviour
     [SerializeField] GameObject prefab;
     [SerializeField] Transform parent;
 
-    public DialogueRunner dialogueRunner;
-
     [SerializeField] Button nextPageBtn;
     [SerializeField] Button prevPageBtn;
     [SerializeField] Button nextDayBtn;
 
+    [SerializeField] DialogueRunner dialogueRunner;
     InMemoryVariableStorage variableStorage;
-    private int pageNum = 0;
-    private int pages = 0;
-    int selectedNumber;
-    List<int> numbers = new List<int>() { 1, 2, 3, 4, 5 };
-    private int dayCount = 1;
+    bool isEnd = false;
     bool isContinued = false;
     string nextNode;
     string nodeName;
-    bool isEnd = false;
 
-    // Start is called before the first frame update
+    public int pageNum = 0;
+    int dayCount = 1;
+    
+    List<int> numbers = new List<int>() { 1, 2, 3, 4, 5 };
+    int selectedNumber;
+
     void Start()
     {
-        Transform[] allChildren = pageContainer.GetComponentsInChildren<Transform>();
+        Transform[] pages = pageContainer.GetComponentsInChildren<Transform>();
         List<Transform> targets = new List<Transform>();
-        foreach (Transform child in allChildren)
+        foreach (Transform page in pages)
         {
-            if (child.CompareTag("NotePage"))
+            if (page.CompareTag("NotePage"))
             {
-                targets.Add(child);
+                targets.Add(page);
             }
         }
         notePages = targets.ToArray();
@@ -71,12 +65,19 @@ public class TempScript : MonoBehaviour
         variableStorage = GameObject.FindObjectOfType<InMemoryVariableStorage>();
     }
 
+
+    /// <summary>
+    /// 상자 열릴 때 NoteAnim.cs에서 호출되는 함수
+    /// </summary>
     public void OpenBox()
     {
         notePages[pageNum].gameObject.SetActive(true);
         ChangePageButton();
-        PageOn(0);
+        PageOn(pageNum);
     }
+    /// <summary>
+    /// 상자 닫힐 때 NoteAnim.cs에서 호출되는 함수 
+    /// </summary>
     public void CloseBox()
     {
         notePages[pageNum].gameObject.SetActive(false);
@@ -85,10 +86,11 @@ public class TempScript : MonoBehaviour
         prevPageBtn.image.sprite = btnImages[0];
     }
 
+
     /// <summary>
-    /// 다음 페이지 버튼
+    /// 다음 페이지 버튼 클릭 시 호출
     /// </summary>
-    private void NextPageEvent()
+    void NextPageEvent()
     {
         if (pageNum + 1 > notePages.Length - 1)
             return;
@@ -102,12 +104,13 @@ public class TempScript : MonoBehaviour
         PageOn(pageNum);
     }
     /// <summary>
-    /// 이전 페이지 버튼
+    /// 이전 페이지 버튼 클릭 시 호출
     /// </summary>
-    private void PrevPageEvent()
+    void PrevPageEvent()
     {
         if (pageNum - 1 < 0)
             return;
+
         if (isEnd || pageNum == 1 || pageNum == 2 || pageNum == 5)
         {
             dialogueBox.SetActive(false);
@@ -116,8 +119,13 @@ public class TempScript : MonoBehaviour
         
         PageOn(pageNum);
     }
-    
-    void ChangePage(int index)
+
+
+    /// <summary>
+    /// 다음/이전 페이지로 이동
+    /// </summary>
+    /// <param name="index"></param>
+    public void ChangePage(int index)
     {
         notePages[pageNum].gameObject.SetActive(false);
         notePages[index].gameObject.SetActive(true);
@@ -126,12 +134,12 @@ public class TempScript : MonoBehaviour
         isEnd = false;
         ChangePageButton();
     }
-
-    private void PageOn(int index)
+    /// <summary>
+    /// 한 페이지 내에서 yarn node 이동
+    /// </summary>
+    /// <param name="index"></param>
+    void PageOn(int index)
     {
-        if (pageNum == 1 || pageNum == 2 || pageNum == 5)
-            return;
-
         switch (index)
         {
             case 0:
@@ -141,49 +149,36 @@ public class TempScript : MonoBehaviour
             case 4:
                 nodeName = "specialEvent" + selectedNumber; break;
             default:
-                dialogueBox.SetActive(false);
-                ChangePage(index + 1);
-                break;
+                return;
         }
         if (!isContinued)
         {
             dialogueBox.SetActive(true);
-
-            dialogueRunner.Stop();
-            dialogueRunner.StartDialogue(nodeName);
-            variableStorage = GameObject.FindObjectOfType<InMemoryVariableStorage>();
-            variableStorage.TryGetValue("$isContinued", out isContinued);
-            Debug.Log("isContinued" + isContinued);
-            variableStorage.TryGetValue("$nextNode", out nextNode);
-            variableStorage.TryGetValue("$isEnd", out isEnd);
+            ChangeNode(nodeName);
         }
         else
         {
             nodeName = nextNode;
-            dialogueRunner.Stop();
-            dialogueRunner.StartDialogue(nodeName);
-            variableStorage = GameObject.FindObjectOfType<InMemoryVariableStorage>();
-            variableStorage.TryGetValue("$isContinued", out isContinued);
-            variableStorage.TryGetValue("$nextNode", out nextNode);
-            variableStorage.TryGetValue("$isEnd", out isEnd);
+            ChangeNode(nodeName);
         }
-    }
-    void NextDayEvent()
-    {
-        pageNum = 0;
-        int randomIndex = Random.Range(0, numbers.Count);
-        selectedNumber = numbers[randomIndex];
-        numbers.RemoveAt(randomIndex);
-        for (int i = 0; i < notePages.Length; i++)
-        {
-            notePages[i].gameObject.SetActive(false);
-        }
-        dayCount++;
-        RemoveExistingNameCard();
-        InstantiateNewNameCard();
     }
     /// <summary>
-    /// 페이지 버튼 이미지 변경
+    /// PageOn 함수 내에 중복되는 부분 따로 뺀 함수. 구체적인 기능은 노드를 실행하고 해당 노드의 변수를 받아옴.
+    /// </summary>
+    /// <param name="nodeName"></param>
+    void ChangeNode(string nodeName)
+    {
+        dialogueRunner.Stop();
+        dialogueRunner.StartDialogue(nodeName);
+        variableStorage = GameObject.FindObjectOfType<InMemoryVariableStorage>();
+        variableStorage.TryGetValue("$isContinued", out isContinued);
+        variableStorage.TryGetValue("$nextNode", out nextNode);
+        variableStorage.TryGetValue("$isEnd", out isEnd);
+    }
+
+
+    /// <summary>
+    /// 페이지 이동 버튼 이미지 변경
     /// </summary>
     void ChangePageButton()
     {
@@ -206,6 +201,23 @@ public class TempScript : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// 제출 버튼 클릭 시 일과 노트 내용 초기화
+    /// </summary>
+    void NextDayEvent()
+    {
+        pageNum = 0;
+        int randomIndex = Random.Range(0, numbers.Count);
+        selectedNumber = numbers[randomIndex];
+        numbers.RemoveAt(randomIndex);
+        dayCount++;
+        RemoveExistingNameCard();
+        InstantiateNewNameCard();
+    }
+    /// <summary>
+    /// 생성된 NameCard 프리팹 삭제
+    /// </summary>
     void RemoveExistingNameCard()
     {
         notePages[1].gameObject.SetActive(true);
@@ -216,6 +228,9 @@ public class TempScript : MonoBehaviour
         }
         notePages[1].gameObject.SetActive(false);
     }
+    /// <summary>
+    /// NameCard 프리팹 생성
+    /// </summary>
     void InstantiateNewNameCard()
     {
         for (int i = 0; i < selectedNumber; i++)

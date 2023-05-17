@@ -33,13 +33,6 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         dialogueRunner.AddCommandHandler<string>("play_bgm", PlayBGM);
         dialogueRunner.AddCommandHandler<string>("play_sfx", PlaySFX);
         dialogueRunner.AddCommandHandler<string>("stop_bgm", StopBGM);
-        //dialogueRunner.AddFunction("randomNode", () =>
-        //{
-        //    int randomIndex = Random.Range(0, numbers.Count);
-        //    int selectedNumber = numbers[randomIndex];
-        //    numbers.RemoveAt(randomIndex);
-        //    return selectedNumber;
-        //});
     }
 
     void Start()
