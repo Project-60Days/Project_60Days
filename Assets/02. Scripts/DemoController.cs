@@ -6,16 +6,37 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
+[System.Serializable]
+public class Nodes
+{
+    public Nodes(bool _isWall, int _x, int _y)
+    {
+        isWall = _isWall;
+        x = _x;
+        y = _y;
+    }
+
+    public bool isWall;
+    public Nodes ParentNode;
+
+    // G : 시작으로부터 이동했던 거리, H : |가로|+|세로| 장애물 무시하여 목표까지의 거리, F : G + H
+    public int x, y, G, H;
+    public int F { get { return G + H; } }
+}
+
 namespace Hexamap
 {
     // This script is used by the demo scene and is in charge of handling the camera controls and mouse selection
     public class DemoController : MonoBehaviour
     {
         private Camera _camera;
-        private List<TileController> _selectedTiles = new List<TileController>();
+        private List<TileController> selectedTiles = new List<TileController>();
+        List<Coords> selectPath;
+        List<Coords> movePath;
 
         public HexamapController Hexamap;
         public Text TextStats;
+        public Text TextHealth;
         public GameObject playerPrefab;
         public GameObject player;
         public Tile playerLocationTile;
@@ -26,9 +47,14 @@ namespace Hexamap
         public int MaxXRotation = 90;
         public int ScrollSpeed = 50;
         public int MoveSpeed = 50;
+        public int Hp = 3;
 
         private bool isSelected;
+        private bool isPlayerMove;
+        private bool isUIOn;
         private bool playerCanMove;
+
+        public GameObject currentUI;
 
         void Start()
         {
@@ -38,6 +64,7 @@ namespace Hexamap
 
         void Update()
         {
+            TextHealth.text = "체력: " + Hp;
             // -- Regenerate
             if (Input.GetKeyDown(KeyCode.R))
             {
@@ -47,7 +74,8 @@ namespace Hexamap
 
             CameraMoveInputKey();
 
-            TileSelectWithRaycast();
+            if (!isPlayerMove)
+                TileSelectWithRaycast();
         }
 
         private void generateMap()
@@ -129,7 +157,7 @@ namespace Hexamap
                 movement += Vector3.left * MoveSpeed * Time.deltaTime;
             }
 
-            /* 
+
             // -- Mouse scrolling
             float scrollWheel = Input.GetAxis("Mouse ScrollWheel");
 
@@ -141,7 +169,7 @@ namespace Hexamap
             {
                 movement += Vector3.up * ScrollSpeed * Time.deltaTime;
             }
-            */
+
 
             float relativeY = movement.y / (MaxYPosition - MinYPosition);
             float newXRot = (MaxXRotation - MinXRotation) * relativeY + MinXRotation;
@@ -166,13 +194,21 @@ namespace Hexamap
                 Transform objectHit = hit.transform;
                 TileController tile = objectHit.parent.GetComponent<TileController>();
 
-                if (tile != null && !_selectedTiles.Contains(tile))
+
+
+                if (tile != null && !selectedTiles.Contains(tile))
                 {
                     // If the landform is a filler, just select the tile
                     if (tile.Model.Landform.GetType().IsSubclassOf(typeof(LandformFiller)))
-                    {
+                    {        
                         unselectAllTile();
-                        selectTile(tile);
+                        selectTile(tile, "BorderNo");
+
+                        if (isUIOn)
+                        {
+                            currentUI.SetActive(false);
+                            isUIOn = false;
+                        }
                     }
                     else // If not, select the whole metalandform
                     {
@@ -180,9 +216,40 @@ namespace Hexamap
                     }
                 }
             }
+            else if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMaskTile) && playerCanMove)
+            {
+                Transform objectHit = hit.transform;
+                TileController tile = objectHit.parent.GetComponent<TileController>();
+                var hpCount = 0;
+
+                unselectAllTile();
+                unselectAllPathTile();
+
+                if (tile.Model != playerLocationTile)
+                {
+                    selectPath = AStar.FindPath(playerLocationTile.Coords, tile.Model.Coords);
+
+                    foreach (var item in selectPath)
+                    {
+                        if (hpCount == Hp)
+                            break;
+
+                        Tile targetTile = Hexamap.Map.GetTileFromCoords(item);
+                        var tileBorder = getTileBorder(targetTile, "Border");
+                        tileBorder?.SetActive(true);
+                        hpCount++;
+                    }
+                }
+
+                if (hpCount == Hp)
+                    selectTile(tile, "BorderNo");
+                else
+                    selectTile(tile, "BorderYes");
+            }
             else
             {
                 unselectAllTile();
+                unselectAllPathTile();
             }
 
             if (Input.GetMouseButtonDown(0))
@@ -192,35 +259,37 @@ namespace Hexamap
                 if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMaskPlayer) && !playerCanMove)
                 {
                     isSelected = true;
+                    playerCanMove = true;
 
                     // 플레이어 주변 보더 활성화
-                    Debug.Log("플레이어! " + playerLocationTile.Coords);
-
-                    foreach (KeyValuePair<CompassPoint, Tile> item in playerLocationTile.Neighbours)
-                    {
-                        var border = getTileBorder(item.Value);
-                        border?.SetActive(true);
-                    }
-                    playerCanMove = true;
+                    Debug.Log("플레이어의 좌표 : " + playerLocationTile.Coords);
                 }
                 else if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMaskTile) && !isSelected)
                 {
                     // 클릭한 타일의 좌표 출력
-                    if (_selectedTiles[0].Coords != playerLocationTile.Coords.ToVector())
-                        Debug.Log(_selectedTiles[0].Coords);
+                    /*                    if (selectedTiles[0].Coords != playerLocationTile.Coords.ToVector())
+                                            Debug.Log(selectedTiles[0].Coords);*/
+
+
+                    Transform objectHit = hit.transform;
+                    TileController tile = objectHit.parent.GetComponent<TileController>();
+
+                    currentUI = GetUi(tile);
+                    currentUI.transform.position = Camera.main.WorldToScreenPoint(objectHit.position);
+                    currentUI.transform.position += Vector3.right*300;
+                    currentUI.transform.position += Vector3.up*200;
+                    currentUI.SetActive(true);
+
+                    isUIOn = true;
                 }
                 else if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMaskTile) && playerCanMove)
                 {
                     Transform objectHit = hit.transform;
                     TileController tile = objectHit.parent.GetComponent<TileController>();
-                    if (getTileControllerBorder(tile).activeInHierarchy)
+                    if (getTileControllerBorder(tile, "BorderYes").activeInHierarchy)
                     {
-                        //보더 비활성화
-                        foreach (KeyValuePair<CompassPoint, Tile> item in playerLocationTile.Neighbours)
-                        {
-                            var border = getTileBorder(item.Value);
-                            border?.SetActive(false);
-                        }
+
+                        movePath = AStar.FindPath(playerLocationTile.Coords, tile.Model.Coords);
                         // 플레이어 선택한 칸으로 이동
                         StartCoroutine(PlayerMove(tile.transform.position));
                         playerLocationTile = tile.Model;
@@ -229,6 +298,17 @@ namespace Hexamap
                     {
                         return;
                     }
+                }
+            }
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                if (playerCanMove)
+                {
+                    unselectAllTile();
+                    unselectAllPathTile();
+                    isSelected = false;
+                    playerCanMove = false;
                 }
             }
         }
@@ -246,76 +326,127 @@ namespace Hexamap
                 .Select(g => g.GetComponent<TileController>())
                 .ToList();
 
-            var tileToUnselect = _selectedTiles.Except(metaLandformTiles).ToList();
-            var tileToSelect = metaLandformTiles.Except(_selectedTiles).ToList();
+            var tileToUnselect = selectedTiles.Except(metaLandformTiles).ToList();
+            var tileToSelect = metaLandformTiles.Except(selectedTiles).ToList();
 
-            tileToSelect.ForEach(t => selectTile(t));
+            tileToSelect.ForEach(t => selectTile(t, "BorderNo"));
             tileToUnselect.ForEach(t => unselectTile(t));
         }
 
         private void unselectAllTile()
         {
-            foreach (var t in _selectedTiles)
+            foreach (var t in selectedTiles)
             {
                 if (t == null)
                     continue;
-
-                GameObject border = getTileControllerBorder(t);
-                if (border != null)
-                    border.SetActive(false);
+                BordersOff(t);
             }
-            _selectedTiles.Clear();
+            selectedTiles.Clear();
+        }
+
+        private void unselectAllPathTile()
+        {
+            if (selectPath == null)
+                return;
+
+            foreach (var t in selectPath)
+            {
+                BordersOff(Hexamap.Map.GetTileFromCoords(t));
+            }
+            selectPath.Clear();
         }
 
         private void unselectTile(TileController tile)
         {
-            GameObject border = getTileControllerBorder(tile);
-            if (border != null)
-                border.SetActive(false);
-            _selectedTiles.Remove(tile);
-
-
+            BordersOff(tile);
+            selectedTiles.Remove(tile);
         }
 
-        private void selectTile(TileController tile)
+        private void selectTile(TileController tile, string name)
         {
-            GameObject border = getTileControllerBorder(tile);
-
-            if (border == null)
-                return;
+            GameObject border = getTileBorder(tile.Model, name);
 
             border.SetActive(true);
-            _selectedTiles.Add(tile);
+            selectedTiles.Add(tile);
         }
 
-        private GameObject getTileControllerBorder(TileController tile)
+        private GameObject getTileControllerBorder(TileController tile, string name)
         {
             GameObject tileGO = (GameObject)tile.Model.GameEntity;
 
             if (tileGO != null && tile.Model.Landform.GetType().Name != "LandformWorldLimit")
-                return tileGO.transform.Find("Border").gameObject;
+                return tileGO.transform.Find(name).gameObject;
 
             return null;
         }
 
-        private IEnumerator PlayerMove(Vector3 targetPos, float time = 0.5f)
-        {
-            
-            yield return player.transform.DOMove(targetPos, time);
-            isSelected = false;
-            playerCanMove = false;
-
-        }
-
-        private GameObject getTileBorder(Tile tile)
+        private GameObject getTileBorder(Tile tile, string name)
         {
             GameObject tileGO = (GameObject)tile.GameEntity;
 
             if (tileGO != null && tile.Landform.GetType().Name != "LandformWorldLimit")
-                return tileGO.transform.Find("Border").gameObject;
+                return tileGO.transform.Find(name).gameObject;
 
             return null;
         }
 
+        private GameObject GetUi(TileController tile)
+        {
+            GameObject tileGO = (GameObject)tile.Model.GameEntity;
+
+            if (tileGO != null && tile.Model.Landform.GetType().Name != "LandformWorldLimit")
+                return tileGO.transform.Find("Canvas").Find("TileInfo").gameObject;
+
+            return null;
+        }
+
+        private void BordersOff(TileController tile)
+        {
+            GameObject border1 = getTileControllerBorder(tile, "Border");
+            GameObject border2 = getTileControllerBorder(tile, "BorderYes");
+            GameObject border3 = getTileControllerBorder(tile, "BorderNo");
+
+            border1?.SetActive(false);
+            border2?.SetActive(false);
+            border3?.SetActive(false);
+        }
+
+        private void BordersOff(Tile tile)
+        {
+            GameObject border1 = getTileBorder(tile, "Border");
+            GameObject border2 = getTileBorder(tile, "BorderYes"); ;
+            GameObject border3 = getTileBorder(tile, "BorderNo"); ;
+
+            border1?.SetActive(false);
+            border2?.SetActive(false);
+            border3?.SetActive(false);
+        }
+
+        private IEnumerator PlayerMove(Vector3 lastTargetPos, float time = 0.5f)
+        {
+            isPlayerMove = true;
+            Tile targetTile;
+            Vector3 targetPos;
+
+            foreach (var item in movePath)
+            {
+                targetTile = Hexamap.Map.GetTileFromCoords(item);
+                if (targetTile == null)
+                    break;
+
+                targetPos = ((GameObject)targetTile.GameEntity).transform.position;
+                targetPos.y += 1;
+                player.transform.DOMove(targetPos, time);
+                yield return new WaitForSeconds(time);
+            }
+            lastTargetPos.y += 1;
+            yield return player.transform.DOMove(lastTargetPos, time);
+
+            isSelected = false;
+            playerCanMove = false;
+            isPlayerMove = false;
+            unselectAllPathTile();
+            movePath.Clear();
+        }
     }
 }

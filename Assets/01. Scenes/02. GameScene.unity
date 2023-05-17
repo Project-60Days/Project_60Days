@@ -433,8 +433,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d99a9969a984074b8f1e2243ec73ffe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cloud1: {fileID: 0}
-  cloud2: {fileID: 0}
   panels:
   - {fileID: 285001312}
   - {fileID: 1205657411}

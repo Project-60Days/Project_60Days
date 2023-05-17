@@ -16,7 +16,7 @@ namespace Hexamap
 
         protected LandformTemplateConnection(Biome biome, IEnumerable<Coords> allocatedCoords) : base(biome, allocatedCoords, true)
         {
-            
+
         }
 
         protected override IEnumerable<Coords> AllocateLandform()
