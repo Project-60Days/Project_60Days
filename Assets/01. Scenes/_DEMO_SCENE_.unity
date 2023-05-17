@@ -275,6 +275,7 @@ MonoBehaviour:
   MoveSpeed: 50
   maxHp: 3
   zombieNum: 3
+  nextDayButton: {fileID: 218333884}
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
