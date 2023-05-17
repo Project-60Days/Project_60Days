@@ -28,8 +28,12 @@ public class NoteManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public bool isOpen = false;
     private int dayCount = 1;
 
+    TempScript pageManager;
+
     void Start()
     {
+        pageManager = GameObject.Find("PageManager").GetComponent<TempScript>();
+
         notePanel.GetComponent<Image>().DOFade(0f, 0f);
         blackPanel.DOFade(0f, 0f);
 
@@ -97,6 +101,7 @@ public class NoteManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         if (isOpen)
         {
+            pageManager.CloseBox();
             nextPage.SetActive(false);
             prevPage.SetActive(false);
             nextDay.SetActive(false);
@@ -144,6 +149,7 @@ public class NoteManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         nextPage.SetActive(true);
         prevPage.SetActive(true);
         dayText.gameObject.SetActive(true);
+        pageManager.OpenBox();
     }
     /// <summary>
     /// »óÀÚ ´ÝÈû ÄÝ¹éÇÔ¼ö

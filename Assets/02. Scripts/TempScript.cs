@@ -1,6 +1,9 @@
 using DG.Tweening;
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using Yarn;
@@ -8,25 +11,31 @@ using Yarn.Unity;
 
 public class TempScript : MonoBehaviour
 {
-    public GameObject pageContainer;
-    public GameObject dialogueBox;
-    public Sprite[] btnImages;
-    public GameObject nextDay;
-    public Transform[] notePages;
+    [SerializeField] GameObject pageContainer;
+    [SerializeField] GameObject dialogueBox;
+    [SerializeField] GameObject nextDay;
+    [SerializeField] Sprite[] btnImages;
+    [SerializeField] Transform[] notePages;
+
+    [SerializeField] GameObject prefab;
+    [SerializeField] Transform parent;
 
     public DialogueRunner dialogueRunner;
 
-    public Button nextPageBtn;
-    public Button prevPageBtn;
-    public Button nextDayBtn;
+    [SerializeField] Button nextPageBtn;
+    [SerializeField] Button prevPageBtn;
+    [SerializeField] Button nextDayBtn;
 
-    NoteManager noteManager;
-
+    InMemoryVariableStorage variableStorage;
     private int pageNum = 0;
     private int pages = 0;
     int selectedNumber;
     List<int> numbers = new List<int>() { 1, 2, 3, 4, 5 };
     private int dayCount = 1;
+    bool isContinued = false;
+    string nextNode;
+    string nodeName;
+    bool isEnd = false;
 
     // Start is called before the first frame update
     void Start()
@@ -46,86 +55,34 @@ public class TempScript : MonoBehaviour
             notePages[i].gameObject.SetActive(false);
         }
 
-
-        pages = CountPages("Day" + dayCount, 30) + CountPages("Day" + dayCount + "ChooseEvent", 30) + CountPages("specialEvent" + selectedNumber, 30) + 3;
-        
-
         dialogueBox.SetActive(false);
 
         int randomIndex = Random.Range(0, numbers.Count);
         selectedNumber = numbers[randomIndex];
         numbers.RemoveAt(randomIndex);
 
+        InstantiateNewNameCard();
+
         nextPageBtn.onClick.AddListener(NextPageEvent);
         prevPageBtn.onClick.AddListener(PrevPageEvent);
         nextDayBtn.onClick.AddListener(NextDayEvent);
 
-        noteManager=GameObject.Find("Box_Back").GetComponent<NoteManager>();
+        dialogueRunner.StartDialogue("Day1");
+        variableStorage = GameObject.FindObjectOfType<InMemoryVariableStorage>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OpenBox()
     {
-        if (noteManager.isOpen)
-        {
-            notePages[pageNum].gameObject.SetActive(true);
-            ChangePageButton();
-        }
-        else
-        {
-            notePages[pageNum].gameObject.SetActive(false);
-            dialogueBox.SetActive(false);
-            nextPageBtn.image.sprite = btnImages[0];
-            prevPageBtn.image.sprite = btnImages[0];
-        }
+        notePages[pageNum].gameObject.SetActive(true);
+        ChangePageButton();
+        PageOn(0);
     }
-    int CountPages(string nodeName, int maxCharsPerPage)
+    public void CloseBox()
     {
-        Yarn.IVariableStorage variableStorage = new Yarn.MemoryVariableStore();
-        Dialogue dialogue = new Dialogue(variableStorage);
-
-        string text = dialogue.GetStringIDForNode(nodeName);
-
-        int pageCount = 1;
-        int totalChars = 0;
-
-        for (int i = 0; i < text.Length; i++)
-        {
-            if (text[i] == '\n')
-            {
-                pageCount++;
-                totalChars = 0;
-            }
-            else
-            {
-                totalChars++;
-
-                if (totalChars > maxCharsPerPage)
-                {
-                    pageCount++;
-                    totalChars = 0;
-                }
-            }
-        }
-
-        return pageCount;
-    }
-
-    string[] CreatePages(string nodeName, int pageCount, int maxCharsPerPage)
-    {
-        Yarn.IVariableStorage variableStorage = new Yarn.MemoryVariableStore();
-        Dialogue dialogue = new Dialogue(variableStorage);
-
-        string[] pages = new string[pageCount];
-        string text = dialogue.GetStringIDForNode(nodeName);
-        for (int i = 0; i < pageCount; i++)
-        {
-            int startIndex = i * maxCharsPerPage;
-            int endIndex = Mathf.Min(startIndex + maxCharsPerPage, text.Length);
-            pages[i] = text.Substring(startIndex, endIndex - startIndex);
-        }
-
-        return pages;
+        notePages[pageNum].gameObject.SetActive(false);
+        dialogueBox.SetActive(false);
+        nextPageBtn.image.sprite = btnImages[0];
+        prevPageBtn.image.sprite = btnImages[0];
     }
 
     /// <summary>
@@ -136,7 +93,13 @@ public class TempScript : MonoBehaviour
         if (pageNum + 1 > notePages.Length - 1)
             return;
 
-        PageOn(pageNum + 1);
+        if(isEnd || pageNum == 1 || pageNum == 2 || pageNum == 5)
+        {
+            dialogueBox.SetActive(false);
+            ChangePage(pageNum + 1);
+        }
+  
+        PageOn(pageNum);
     }
     /// <summary>
     /// 이전 페이지 버튼
@@ -145,18 +108,65 @@ public class TempScript : MonoBehaviour
     {
         if (pageNum - 1 < 0)
             return;
-
-        PageOn(pageNum - 1);
+        if (isEnd || pageNum == 1 || pageNum == 2 || pageNum == 5)
+        {
+            dialogueBox.SetActive(false);
+            ChangePage(pageNum - 1);
+        }
+        
+        PageOn(pageNum);
     }
-
-    private void PageOn(int index)
+    
+    void ChangePage(int index)
     {
         notePages[pageNum].gameObject.SetActive(false);
         notePages[index].gameObject.SetActive(true);
 
         pageNum = index;
-
+        isEnd = false;
         ChangePageButton();
+    }
+
+    private void PageOn(int index)
+    {
+        if (pageNum == 1 || pageNum == 2 || pageNum == 5)
+            return;
+
+        switch (index)
+        {
+            case 0:
+                nodeName = "Day" + dayCount; break;
+            case 3:
+                nodeName = "Day" + dayCount + "ChooseEvent"; break;
+            case 4:
+                nodeName = "specialEvent" + selectedNumber; break;
+            default:
+                dialogueBox.SetActive(false);
+                ChangePage(index + 1);
+                break;
+        }
+        if (!isContinued)
+        {
+            dialogueBox.SetActive(true);
+
+            dialogueRunner.Stop();
+            dialogueRunner.StartDialogue(nodeName);
+            variableStorage = GameObject.FindObjectOfType<InMemoryVariableStorage>();
+            variableStorage.TryGetValue("$isContinued", out isContinued);
+            Debug.Log("isContinued" + isContinued);
+            variableStorage.TryGetValue("$nextNode", out nextNode);
+            variableStorage.TryGetValue("$isEnd", out isEnd);
+        }
+        else
+        {
+            nodeName = nextNode;
+            dialogueRunner.Stop();
+            dialogueRunner.StartDialogue(nodeName);
+            variableStorage = GameObject.FindObjectOfType<InMemoryVariableStorage>();
+            variableStorage.TryGetValue("$isContinued", out isContinued);
+            variableStorage.TryGetValue("$nextNode", out nextNode);
+            variableStorage.TryGetValue("$isEnd", out isEnd);
+        }
     }
     void NextDayEvent()
     {
@@ -164,6 +174,13 @@ public class TempScript : MonoBehaviour
         int randomIndex = Random.Range(0, numbers.Count);
         selectedNumber = numbers[randomIndex];
         numbers.RemoveAt(randomIndex);
+        for (int i = 0; i < notePages.Length; i++)
+        {
+            notePages[i].gameObject.SetActive(false);
+        }
+        dayCount++;
+        RemoveExistingNameCard();
+        InstantiateNewNameCard();
     }
     /// <summary>
     /// 페이지 버튼 이미지 변경
@@ -189,42 +206,22 @@ public class TempScript : MonoBehaviour
         }
     }
 
-    void PageOne()
+    void RemoveExistingNameCard()
     {
-        string nodeName;
-        dialogueBox.SetActive(true);
-        nodeName = "Day" + dayCount;
-        dialogueRunner.Stop();
-        dialogueRunner.StartDialogue(nodeName);
-        int pageCount = PageManager.Instance.CountPages(nodeName, 30);
-        string[] pages = PageManager.Instance.CreatePages(nodeName, pageCount, 30);
+        notePages[1].gameObject.SetActive(true);
+        GameObject[] existingPrefabs = GameObject.FindGameObjectsWithTag("NameCardPrefab");
+        foreach (GameObject prefab in existingPrefabs)
+        {
+            Destroy(prefab);
+        }
+        notePages[1].gameObject.SetActive(false);
     }
-    void PageTwo()
+    void InstantiateNewNameCard()
     {
-
-    }
-    void PageThree()
-    {
-
-    }
-    void PageFour()
-    {
-        string nodeName;
-        dialogueBox.SetActive(true);
-        nodeName = "Day" + dayCount + "ChooseEvent";
-        dialogueRunner.Stop();
-        dialogueRunner.StartDialogue(nodeName);
-    }
-    void PageFive()
-    {
-        string nodeName;
-        dialogueBox.SetActive(true);
-        nodeName = "specialEvent" + selectedNumber;
-        dialogueRunner.Stop();
-        dialogueRunner.StartDialogue(nodeName);
-    }
-    void PageSix()
-    {
-
+        for (int i = 0; i < selectedNumber; i++)
+        {
+            GameObject nameCard = Instantiate(prefab, parent);
+            nameCard.tag = "NameCardPrefab";
+        }
     }
 }
