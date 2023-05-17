@@ -1,75 +1,123 @@
 ﻿title: Day1
 tags:
 ---
-1일차 스토리입니다.
+<<set $nextNode to "Day1_1">>
+<<set $isContinued = true>>
+<<set $isEnd = false>>
+계절이 지나가는 하늘에는 가을로 가득 차 있습니다. 나는 아무 걱정도 없이 가을 속의 별들을 다 헤일 듯합니다.
+===
+title: Day1_1
+tags:
+---
+<<set $beforeNode = "Day1">>
+<<set $nextNode to "Day1_2">>
+<<set $isContinued = true>>
+<<set $isEnd = false>>
+가슴 속에 하나 둘 새겨지는 별을 이제 다 못 헤는 것은 쉬이 아침이 오는 까닭이요, 내일 밤이 남은 까닭이요, 
+===
+title: Day1_2
+tags:
+---
+<<set $beforeNode = "Day1_1">>
+<<set $isContinued = false>>
+<<set $isEnd = true>>
+아직 나의 청춘이 다하지 않은 까닭입니다. 별 하나에 추억과 별 하나에 사랑과 별 하나에 쓸쓸함과 별 하나에 
 ===
 title: Day2
 tags:
 ---
+<<set $isContinued = false>>
+<<set $isEnd = true>>
 2일차 스토리입니다.
 ===
 title: Day3
 tags:
 ---
+<<set $isContinued = false>>
+<<set $isEnd = true>>
 3일차 스토리입니다.
 ===
 title: Day4
 tags:
 ---
+<<set $isContinued = false>>
+<<set $isEnd = true>>
 4일차 스토리입니다.
 ===
 title: Day5
 tags:
 ---
+<<set $isContinued = false>>
+<<set $isEnd = true>>
 5일차 스토리입니다.
 ===
 title: specialEvent1
 tags:
 ---
+<<set $isContinued = false>>
+<<set $isEnd = true>>
 특수 이벤트 1 입니다.
 ===
 title: specialEvent2
 tags:
 ---
+<<set $isContinued = false>>
+<<set $isEnd = true>>
 특수 이벤트 2 입니다.
 ===
 title: specialEvent3
 tags:
 ---
+<<set $isContinued = false>>
+<<set $isEnd = true>>
 특수 이벤트 3 입니다.
 ===
 title: specialEvent4
 tags:
 ---
+<<set $isContinued = false>>
+<<set $isEnd = true>>
 특수 이벤트 4 입니다.
 ===
 title: specialEvent5
 tags:
 ---
+<<set $isContinued = false>>
+<<set $isEnd = true>>
 특수 이벤트 5 입니다.
 ===
 title: Day1ChooseEvent
 tags:
 ---
+<<set $isContinued = false>>
+<<set $isEnd = true>>
 1일차 선택 이벤트입니다.
 ===
 title: Day2ChooseEvent
 tags:
 ---
+<<set $isContinued = false>>
+<<set $isEnd = true>>
 2일차 선택 이벤트입니다.
 ===
 title: Day3ChooseEvent
 tags:
 ---
+<<set $isContinued = false>>
+<<set $isEnd = true>>
 3일차 선택 이벤트입니다.
 ===
 title: Day4ChooseEvent
 tags:
 ---
+<<set $isContinued = false>>
+<<set $isEnd = true>>
 4일차 선택 이벤트입니다.
 ===
 title: Day5ChooseEvent
 tags:
 ---
+<<set $isContinued = false>>
+<<set $isEnd = true>>
 5일차 선택 이벤트입니다.
 ===
