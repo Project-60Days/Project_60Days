@@ -32,6 +32,11 @@ namespace VInspector
             var curProperty = serializedObject.GetIterator();
             curProperty.NextVisible(true);
 
+            if (!VIMenuItems.hideScriptField)
+                using (new EditorGUI.DisabledScope(true))
+                    EditorGUILayout.PropertyField(curProperty);
+
+
             var selectedTabPath = "";
             void updateSelectedTabPath()
             {
@@ -363,6 +368,9 @@ namespace VInspector
             if (header != null || isScriptableObjectEditor) return;
 
             var window = typeof(Editor).GetProperty("propertyViewer", maxBindingFlags).GetValue(this) as EditorWindow;
+                        
+            if (!window) return;
+
             var editorField = typeof(InspectorElement).GetField("m_Editor", maxBindingFlags);
 
             void findHeader(VisualElement element)

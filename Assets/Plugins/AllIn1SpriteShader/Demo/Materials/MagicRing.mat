@@ -2,16 +2,30 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: MagicRing
   m_Shader: {fileID: 4800000, guid: a36b7719ff0465b42ab1407d67672c5f, type: 3}
-  m_ShaderKeywords: BLUR_ON DISTORT_ON ETC1_EXTERNAL_ALPHA GLOW_ON OUTBASE8DIR_ON
-    OUTBASEPIXELPERF_ON OUTBASE_ON PINCH_ON RADIALGRADIENT_ON ROTATEUV_ON TWISTUV_ON
-    WAVEUV_ON _GRADISRADIAL_ON _OUTLINE8DIRECTIONS_ON _OUTLINEISPIXEL_ON
+  m_ValidKeywords:
+  - BLUR_ON
+  - DISTORT_ON
+  - GLOW_ON
+  - OUTBASE8DIR_ON
+  - OUTBASEPIXELPERF_ON
+  - OUTBASE_ON
+  - PINCH_ON
+  - RADIALGRADIENT_ON
+  - ROTATEUV_ON
+  - TWISTUV_ON
+  - WAVEUV_ON
+  m_InvalidKeywords:
+  - ETC1_EXTERNAL_ALPHA
+  - _GRADISRADIAL_ON
+  - _OUTLINE8DIRECTIONS_ON
+  - _OUTLINEISPIXEL_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -69,6 +83,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _Alpha: 0.9
     - _AlphaCutoffValue: 0.25
@@ -103,6 +118,7 @@ Material:
     - _DistortAmount: 0.79
     - _DistortTexXSpeed: -1
     - _DistortTexYSpeed: -10
+    - _EditorDrawers: 6
     - _FadeAmount: -0.1
     - _FadeBurnGlow: 2
     - _FadeBurnTransition: 0.075
@@ -236,3 +252,4 @@ Material:
     - _OverlayColor: {r: 1, g: 1, b: 1, a: 1}
     - _ShadowColor: {r: 0, g: 0, b: 0, a: 1}
     - _ShineColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []

@@ -10,6 +10,7 @@ namespace Hexamap
 
         public static List<Coords> FindPath(Section start, Section end, HashSet<Coords> available, HashSet<Coords> others, Func<int> randomCost = null)
         {
+
             HashSet<Coords> allAvailable = available
                 .Concat(start.Tiles.Select(t => t.Coords))
                 .Concat(end.Tiles.Select(t => t.Coords))
@@ -61,7 +62,6 @@ namespace Hexamap
                     break;
             }
 
-
             if (!closedList.Last().Coords.Equals(nodeEnd.Coords))
                 return null;
 
@@ -77,6 +77,62 @@ namespace Hexamap
             truncatePath(path, end);
 
             return path.Select(n => n.Coords).Intersect(available).ToList();
+        }
+
+        public static List<Coords> FindPath(Coords start, Coords end)
+        {
+
+            Node nodeStart = new Node() { Coords = start };
+            Node nodeEnd = new Node() { Coords = end };
+
+            List<Node> path = new List<Node>();
+            List<Node> openList = new List<Node>();
+            List<Node> closedList = new List<Node>();
+
+            Node nodeCurrent = nodeStart;
+
+            openList.Add(nodeStart);
+
+            while (openList.Count != 0)
+            {
+                nodeCurrent = openList[0];
+                openList.Remove(nodeCurrent);
+                closedList.Add(nodeCurrent);
+
+                nodeCurrent.Neighbours = getNeighbourNodes(nodeCurrent).ToList();
+
+                foreach (var n in nodeCurrent.Neighbours)
+                {
+
+                    var n1 = n;
+                    if (!closedList.Exists(node => node.Coords.Equals(n1.Coords)))
+                        if (!openList.Exists(node => node.Coords.Equals(n.Coords)))
+                        {
+                            n.Parent = nodeCurrent;
+                            n.Cost = n.Parent.Cost + 10;
+                            n.Distance = Math.Abs(n.Coords.X - nodeEnd.Coords.X) + Math.Abs(n.Coords.Y - nodeEnd.Coords.Y);
+                            openList.Add(n);
+                            openList = openList.OrderBy(node => node.Heuristic).ToList();
+                        }
+                }
+
+                if (closedList.Last().Coords.Equals(nodeEnd.Coords))
+                    break;
+            }
+
+            if (!closedList.Last().Coords.Equals(nodeEnd.Coords))
+                return null;
+
+            Node tmp = closedList.First(n => n == nodeCurrent?.Parent);
+            while (tmp != nodeStart && tmp != null)
+            {
+                path.Add(tmp);
+                tmp = tmp.Parent;
+            }
+
+            path.Reverse();
+
+            return path.Select(n => n.Coords).ToList();
         }
 
         // Find at which index an element of the path meet the section and discard every other element after this one

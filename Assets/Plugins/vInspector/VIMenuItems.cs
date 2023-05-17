@@ -1,6 +1,4 @@
-// #define DISABLED    // comment to enable menu items at Tools/vInspector
-
-#if UNITY_EDITOR && !DISABLED
+#if UNITY_EDITOR
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +12,9 @@ namespace VInspector
     class VIMenuItems
     {
         const string menuDir = "Tools/vInspector/";
+
+        public static bool hideScriptField { get => EditorPrefs.GetBool("vInspector-hideScriptField", true); set => EditorPrefs.SetBool("vInspector-hideScriptField", value); }
+
 
 
         [MenuItem(menuDir + "Script inspector")]
@@ -38,6 +39,12 @@ namespace VInspector
         static void adsdsaads() => ToggleDefineDisabledInScript(typeof(VIResettablePropDrawer));
         [MenuItem(menuDir + "Resettable variables", true)]
         static bool sadsadads() { Menu.SetChecked(menuDir + "Resettable variables", !ScriptHasDefineDisabled(typeof(VIResettablePropDrawer))); return true; }
+
+
+        [MenuItem(menuDir + "Hide script field")]
+        static void adsddassaads() => hideScriptField = !hideScriptField;
+        [MenuItem(menuDir + "Hide script field", true)]
+        static bool sadsadsadads() { Menu.SetChecked(menuDir + "Hide script field", hideScriptField); return true; }
     }
 }
 #endif
