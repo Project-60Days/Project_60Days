@@ -6,31 +6,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-[System.Serializable]
-public class Nodes
-{
-    public Nodes(bool _isWall, int _x, int _y)
-    {
-        isWall = _isWall;
-        x = _x;
-        y = _y;
-    }
-
-    public bool isWall;
-    public Nodes ParentNode;
-
-    // G : 시작으로부터 이동했던 거리, H : |가로|+|세로| 장애물 무시하여 목표까지의 거리, F : G + H
-    public int x, y, G, H;
-    public int F { get { return G + H; } }
-}
-
 namespace Hexamap
 {
     // This script is used by the demo scene and is in charge of handling the camera controls and mouse selection
-    public class DemoController : MonoBehaviour
+    public class DemoController : Singleton<DemoController>
     {
-        private Camera _camera;
-        private List<TileController> selectedTiles = new List<TileController>();
+        #region 변수
+        List<TileController> selectedTiles = new List<TileController>();
         List<Coords> selectPath;
         List<Coords> movePath;
 
@@ -38,7 +20,10 @@ namespace Hexamap
         public Text TextStats;
         public Text TextHealth;
         public GameObject playerPrefab;
-        public GameObject player;
+        public GameObject zombiePrefab;
+
+        public Transform zombieSpawnPoint;
+        public List<GameObject> zombies;
         public Tile playerLocationTile;
 
         public int MaxYPosition = 70;
@@ -47,28 +32,40 @@ namespace Hexamap
         public int MaxXRotation = 90;
         public int ScrollSpeed = 50;
         public int MoveSpeed = 50;
-        public int Hp = 3;
+        private int hp;
+        public int maxHp = 3;
+        public int zombieNum = 3;
 
+        private Camera _camera;
+        private GameObject player;
+        private GameObject currentUI;
+        public Button nextDayButton;
         private bool isSelected;
         private bool isPlayerMove;
         private bool isUIOn;
         private bool playerCanMove;
-
-        public GameObject currentUI;
+        #endregion
 
         void Start()
         {
             _camera = Camera.main;
             generateMap();
+            hp = maxHp;
         }
 
         void Update()
         {
-            TextHealth.text = "체력: " + Hp;
+            TextHealth.text = "체력: " + hp;
             // -- Regenerate
             if (Input.GetKeyDown(KeyCode.R))
             {
                 Destroy(player);
+
+                foreach (var item in zombies)
+                {
+                    Destroy(item.gameObject);
+                }
+
                 generateMap();
             }
 
@@ -106,6 +103,7 @@ namespace Hexamap
             Debug.Log($"Seed : { Hexamap.Map.Seed }");
 
             SpawnPlayer();
+            SpawnZombies(zombieNum);
             unselectAllTile();
         }
 
@@ -129,6 +127,40 @@ namespace Hexamap
             spawnPos.y += 0.7f;
 
             player = Instantiate(playerPrefab, spawnPos, Quaternion.identity);
+        }
+
+        private void SpawnZombies(int zombiesNumber)
+        {
+            int randomInt;
+            var tileList = Hexamap.Map.Tiles;
+            List<int> selectTileNumber = new List<int>();
+
+            while (true)
+            {
+                randomInt = UnityEngine.Random.Range(0, tileList.Count);
+
+                if (tileList[randomInt].Landform.GetType().Name == "LandformPlain"
+                    && playerLocationTile != tileList[randomInt])
+                {
+                    if (!selectTileNumber.Contains(randomInt))
+                        selectTileNumber.Add(randomInt);
+
+                    if (selectTileNumber.Count == zombiesNumber)
+                        break;
+                }
+            }
+
+            foreach (var num in selectTileNumber)
+            {
+                var rand = UnityEngine.Random.Range(0, 5);
+                var spawnPos = ((GameObject)tileList[num].GameEntity).transform.position;
+                spawnPos.y += 0.7f;
+                var zombie = Instantiate(zombiePrefab, spawnPos, Quaternion.identity, zombieSpawnPoint);
+                zombie.name = "Zombie" + rand;
+                zombie.GetComponent<ZombieSwarm>().Init(rand, tileList[num]);
+                zombies.Add(zombie);
+            }
+
         }
 
         private void CameraMoveInputKey()
@@ -199,21 +231,16 @@ namespace Hexamap
                 if (tile != null && !selectedTiles.Contains(tile))
                 {
                     // If the landform is a filler, just select the tile
-                    if (tile.Model.Landform.GetType().IsSubclassOf(typeof(LandformFiller)))
-                    {        
-                        unselectAllTile();
-                        selectTile(tile, "BorderNo");
 
-                        if (isUIOn)
-                        {
-                            currentUI.SetActive(false);
-                            isUIOn = false;
-                        }
-                    }
-                    else // If not, select the whole metalandform
+                    unselectAllTile();
+                    selectTile(tile, "BorderNo");
+
+                    if (isUIOn)
                     {
-                        selectMetaLandform(tile);
+                        currentUI.SetActive(false);
+                        isUIOn = false;
                     }
+
                 }
             }
             else if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMaskTile) && playerCanMove)
@@ -231,7 +258,7 @@ namespace Hexamap
 
                     foreach (var item in selectPath)
                     {
-                        if (hpCount == Hp)
+                        if (hpCount == hp)
                             break;
 
                         Tile targetTile = Hexamap.Map.GetTileFromCoords(item);
@@ -241,13 +268,18 @@ namespace Hexamap
                     }
                 }
 
-                if (hpCount == Hp)
+                if (hpCount == hp)
                     selectTile(tile, "BorderNo");
                 else
                     selectTile(tile, "BorderYes");
             }
             else
             {
+                if (isUIOn)
+                {
+                    currentUI.SetActive(false);
+                    isUIOn = false;
+                }
                 unselectAllTile();
                 unselectAllPathTile();
             }
@@ -256,13 +288,13 @@ namespace Hexamap
             {
                 Ray ray2 = _camera.ScreenPointToRay(Input.mousePosition);
 
-                if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMaskPlayer) && !playerCanMove)
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMaskPlayer) && !playerCanMove && hp != 0)
                 {
                     isSelected = true;
                     playerCanMove = true;
 
                     // 플레이어 주변 보더 활성화
-                    Debug.Log("플레이어의 좌표 : " + playerLocationTile.Coords);
+                    //Debug.Log("플레이어의 좌표 : " + playerLocationTile.Coords);
                 }
                 else if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMaskTile) && !isSelected)
                 {
@@ -276,8 +308,8 @@ namespace Hexamap
 
                     currentUI = GetUi(tile);
                     currentUI.transform.position = Camera.main.WorldToScreenPoint(objectHit.position);
-                    currentUI.transform.position += Vector3.right*300;
-                    currentUI.transform.position += Vector3.up*200;
+                    currentUI.transform.position += Vector3.right * 300;
+                    currentUI.transform.position += Vector3.up * 200;
                     currentUI.SetActive(true);
 
                     isUIOn = true;
@@ -288,7 +320,6 @@ namespace Hexamap
                     TileController tile = objectHit.parent.GetComponent<TileController>();
                     if (getTileControllerBorder(tile, "BorderYes").activeInHierarchy)
                     {
-
                         movePath = AStar.FindPath(playerLocationTile.Coords, tile.Model.Coords);
                         // 플레이어 선택한 칸으로 이동
                         StartCoroutine(PlayerMove(tile.transform.position));
@@ -390,11 +421,21 @@ namespace Hexamap
             return null;
         }
 
-        private GameObject GetUi(TileController tile)
+        public GameObject GetUi(TileController tile)
         {
             GameObject tileGO = (GameObject)tile.Model.GameEntity;
 
             if (tileGO != null && tile.Model.Landform.GetType().Name != "LandformWorldLimit")
+                return tileGO.transform.Find("Canvas").Find("TileInfo").gameObject;
+
+            return null;
+        }
+
+        public GameObject GetUi(Tile tile)
+        {
+            GameObject tileGO = (GameObject)tile.GameEntity;
+
+            if (tileGO != null && tile.Landform.GetType().Name != "LandformWorldLimit")
                 return tileGO.transform.Find("Canvas").Find("TileInfo").gameObject;
 
             return null;
@@ -447,6 +488,68 @@ namespace Hexamap
             isPlayerMove = false;
             unselectAllPathTile();
             movePath.Clear();
+            hp = 0;
+        }
+
+        public bool CalculateDistanceToPlayer(Tile tile, int range)
+        {
+            var searchTiles = Hexamap.Map.GetTilesInRange(tile, range);
+
+            foreach (var item in searchTiles)
+            {
+                if (playerLocationTile == item)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public Tile GetTileFromCoords(Coords coords)
+        {
+            return Hexamap.Map.GetTileFromCoords(coords);
+        }
+
+        public List<Tile> GetTilesInRange(Tile tile, int num)
+        {
+            return Hexamap.Map.GetTilesInRange(tile, num, false);
+        }
+
+        public List<ZombieSwarm> CheckSumZombies()
+        {
+            if (zombies.Count <= 1)
+                return null;
+
+            List<ZombieSwarm> sumZombie = new List<ZombieSwarm>();
+            var compareTile = zombies[0].GetComponent<ZombieSwarm>();
+            sumZombie.Add(compareTile);
+            for (int i = 1; i < zombies.Count; i++)
+            {
+                if (compareTile.curTile == zombies[i].GetComponent<ZombieSwarm>().curTile)
+                {
+                    sumZombie.Add(zombies[i].GetComponent<ZombieSwarm>());
+                    compareTile = zombies[i].GetComponent<ZombieSwarm>();
+                    zombies.RemoveAt(i);
+                }
+            }
+
+            return sumZombie;
+        }
+        public void NextDay()
+        {
+            hp = maxHp;
+            foreach (var item in zombies)
+            {
+                item.GetComponent<ZombieSwarm>().DetectionPlayer();
+            }
+            StartCoroutine(DelayDayButton());
+        }
+
+        public IEnumerator DelayDayButton()
+        {
+            nextDayButton.interactable = false;
+            yield return new WaitForSeconds(1.5f);
+            nextDayButton.interactable = true;
         }
     }
 }
