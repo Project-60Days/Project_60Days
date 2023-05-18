@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Yarn.Unity;
 using UnityEngine.SceneManagement;
+using static MapButtonClick;
+using static WeaponBoxClick;
 
 public class NotePage : MonoBehaviour
 {
@@ -31,6 +33,11 @@ public class NotePage : MonoBehaviour
     
     List<int> numbers = new List<int>() { 1, 2, 3, 4, 5 };
     int selectedNumber;
+
+    NoteAnim noteAnim;
+    public delegate void NotePageDelegate();
+    public static event NotePageDelegate ImplantOpenEvent;
+    public static event NotePageDelegate ImplantCloseEvent;
 
     void Start()
     {
@@ -63,9 +70,23 @@ public class NotePage : MonoBehaviour
 
         dialogueRunner.StartDialogue("Day1");
         variableStorage = GameObject.FindObjectOfType<InMemoryVariableStorage>();
+
+        MyEvent += HandleEvent;
+
+        noteAnim = GameObject.Find("Box_Back").GetComponent<NoteAnim>();
     }
 
-
+    public void HandleEvent()
+    {
+        if (noteAnim.isOpen)
+            ChangePage(2);
+        else
+        {
+            pageNum = 2;
+            noteAnim.Open_Anim();
+            Invoke("OpenBox", 1f);
+        }
+    }
     /// <summary>
     /// 상자 열릴 때 NoteAnim.cs에서 호출되는 함수
     /// </summary>
@@ -144,7 +165,14 @@ public class NotePage : MonoBehaviour
         {
             case 0:
                 nodeName = "Day" + dayCount; break;
+            case 1:
+                ImplantCloseEvent();
+                return;
+            case 2:
+                ImplantOpenEvent();
+                return;
             case 3:
+                ImplantCloseEvent();
                 nodeName = "Day" + dayCount + "ChooseEvent"; break;
             case 4:
                 nodeName = "specialEvent" + selectedNumber; break;

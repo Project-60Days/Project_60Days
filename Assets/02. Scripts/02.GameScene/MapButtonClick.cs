@@ -6,8 +6,16 @@ using UnityEngine.EventSystems;
 
 public class MapButtonClick : MonoBehaviour, IPointerClickHandler
 {
+    public delegate void MyEventDelegate();
+    public static event MyEventDelegate MyEvent;
+
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("맵이...... 클릭되었습니다...............");
+        if (MyEvent != null)
+        {
+            MyEvent();
+        }
     }
+    
+
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.UI;
+using static NotePage;
 
 public class MapInteraction : MonoBehaviour
 {
@@ -15,6 +16,9 @@ public class MapInteraction : MonoBehaviour
     void Start()
     {
         implantOriginalPos = implant.transform.position;
+
+        ImplantOpenEvent += ImplantOpenAnim;
+        ImplantCloseEvent += ImplantCloseAnim;
     }
 
 
