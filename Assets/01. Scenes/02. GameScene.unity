@@ -369,6 +369,7 @@ GameObject:
   - component: {fileID: 382212518}
   - component: {fileID: 382212517}
   - component: {fileID: 382212519}
+  - component: {fileID: 382212520}
   m_Layer: 5
   m_Name: Map_ShelterWeaponbox_Img
   m_TagString: Untagged
@@ -478,6 +479,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &382212520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 382212515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13ca01342777f3b469335a9c1b2997ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1268,7 +1281,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   implant: {fileID: 962186940}
-  weaponBox: {fileID: 382212519}
   batteryImages:
   - {fileID: 21300000, guid: b4b8a800368d5f3489a9663fc5817226, type: 3}
   - {fileID: 21300000, guid: 4c5b14f68ad5d0b41ad21b23670482e8, type: 3}
