@@ -85,13 +85,13 @@ public class ZombieSwarm : MonoBehaviour
             yield return new WaitForSeconds(time);
             curTile = targetTile;
         }
-        CheckSumOtherZombies();
+        DemoController.instance.CheckSumZombies();
         CurrentTileInfoUpdate(curTile);
         CurrentTileInfoUpdate(lastTile);
         lastTile = curTile;
     }
 
-    public IEnumerator MoveToRandom(int num = 1, float time = 1f)
+    public IEnumerator MoveToRandom(int num = 1, float time = 0.5f)
     {
         var candidate = DemoController.instance.GetTilesInRange(curTile, num);
         int rand = UnityEngine.Random.Range(0, candidate.Count);
@@ -108,7 +108,7 @@ public class ZombieSwarm : MonoBehaviour
         yield return gameObject.transform.DOMove(targetPos, time);
 
         curTile = candidate[rand];
-        CheckSumOtherZombies();
+        DemoController.instance.CheckSumZombies();
         CurrentTileInfoUpdate(curTile);
         CurrentTileInfoUpdate(lastTile);
         lastTile = curTile;
@@ -125,25 +125,11 @@ public class ZombieSwarm : MonoBehaviour
             text.text = "좀비 무리 : 알 수 없음";
     }
 
-    public void CheckSumOtherZombies()
+    public void SumZombies(ZombieSwarm zombie)
     {
-        var sumZombie = DemoController.instance.CheckSumZombies();
+        zombieCount += zombie.zombieCount;
+        foodCount += zombie.foodCount;
+        drinkCount += zombie.drinkCount;
 
-        if (sumZombie != null && sumZombie.Count >= 2)
-            SumVariables(sumZombie);
-        else
-            return;
-    }
-
-    public void SumVariables(List<ZombieSwarm> zombies)
-    {
-        for (int i = 1; i < zombies.Count; i++)
-        {
-            zombies[0].zombieCount += zombies[i].zombieCount;
-            zombies[0].foodCount += zombies[i].foodCount;
-            zombies[0].drinkCount += zombies[i].drinkCount;
-
-            Destroy(zombies[i].gameObject);
-        }
     }
 }

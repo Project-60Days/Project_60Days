@@ -66,6 +66,8 @@ namespace Hexamap
                     Destroy(item.gameObject);
                 }
 
+                zombies.Clear();
+
                 generateMap();
             }
 
@@ -515,29 +517,41 @@ namespace Hexamap
             return Hexamap.Map.GetTilesInRange(tile, num, false);
         }
 
-        public List<ZombieSwarm> CheckSumZombies()
+        public void CheckSumZombies()
         {
-            if (zombies.Count <= 1)
-                return null;
+            List<Tile> tiles = new List<Tile>();
 
-            List<ZombieSwarm> sumZombie = new List<ZombieSwarm>();
-            var compareTile = zombies[0].GetComponent<ZombieSwarm>();
-            sumZombie.Add(compareTile);
-            for (int i = 1; i < zombies.Count; i++)
+            foreach (var item in zombies)
             {
-                if (compareTile.curTile == zombies[i].GetComponent<ZombieSwarm>().curTile)
+                tiles.Add(item.GetComponent<ZombieSwarm>().curTile);
+            }
+
+            var result = tiles.GroupBy(x => x)
+                .Where(g => g.Count() > 1)
+                .Select(x => new { Element = x.Key, Count = x.Count() })
+                .ToList();
+
+            foreach (var item in result)
+            {
+                var num = tiles.IndexOf(item.Element);
+
+                for (int i = num+1; i < tiles.Count; i++)
                 {
-                    sumZombie.Add(zombies[i].GetComponent<ZombieSwarm>());
-                    compareTile = zombies[i].GetComponent<ZombieSwarm>();
-                    zombies.RemoveAt(i);
+                    if (tiles[num] == tiles[i])
+                    {
+                        zombies[num].GetComponent<ZombieSwarm>().SumZombies(zombies[i].GetComponent<ZombieSwarm>());
+                        StartCoroutine(DelayDestroy(i));
+                    }
                 }
             }
 
-            return sumZombie;
         }
+
         public void NextDay()
         {
             hp = maxHp;
+            CheckSumZombies();
+
             foreach (var item in zombies)
             {
                 item.GetComponent<ZombieSwarm>().DetectionPlayer();
@@ -548,8 +562,15 @@ namespace Hexamap
         public IEnumerator DelayDayButton()
         {
             nextDayButton.interactable = false;
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(1f);
             nextDayButton.interactable = true;
+        }
+
+        public IEnumerator DelayDestroy(int num)
+        {
+            yield return new WaitForSeconds(1f);
+            Destroy(zombies[num]);
+            zombies.RemoveAt(num);
         }
     }
 }
