@@ -28,11 +28,11 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     bool isOpen = false;
     int dayCount = 1;
 
-    NotePage notePage;
+    NoteController noteController;
 
     void Start()
     {
-        notePage = GameObject.Find("PageManager").GetComponent<NotePage>();
+        noteController = GameObject.Find("NoteController").GetComponent<NoteController>();
 
         topOriginalPos = boxTop.transform.position;
         bottomOriginalPos = boxBottom.transform.position;
@@ -102,7 +102,7 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         if (isOpen)
         {
-            notePage.CloseBox();
+            noteController.CloseBox();
             nextPage.SetActive(false);
             prevPage.SetActive(false);
             nextDay.SetActive(false);
@@ -152,7 +152,7 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         nextPage.SetActive(true);
         prevPage.SetActive(true);
         dayText.gameObject.SetActive(true);
-        notePage.OpenBox();
+        noteController.OpenBox();
     }
     /// <summary>
     /// »óÀÚ ´ÝÈû ÄÝ¹éÇÔ¼ö

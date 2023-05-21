@@ -3,9 +3,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using Yarn.Unity;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
-public class NotePage : MonoBehaviour
+public class NoteController : MonoBehaviour
 {
+    [SerializeField] RectTransform noteCenterPos;
+    [SerializeField] RectTransform noteRightPos;
+    [SerializeField] RectTransform notePos;
     [SerializeField] GameObject pageContainer;
     [SerializeField] GameObject dialogueBox;
     [SerializeField] GameObject nextDay;
@@ -43,10 +47,21 @@ public class NotePage : MonoBehaviour
                 targets.Add(page);
             }
         }
+
         notePages = targets.ToArray();
+
+        CameraMove cameraMove = FindObjectOfType<CameraMove>();
+
         for (int i = 0; i < notePages.Length; i++)
         {
             notePages[i].gameObject.SetActive(false);
+            var page = notePages[i].GetComponent<NotePage>();
+            page.Init(cameraMove);
+
+            if (page.isNoteMoveRight)
+                page.pageOnEvent += MoveNoteRight;
+            else
+                page.pageOnEvent += MoveNoteCenter;
         }
 
         dialogueBox.SetActive(false);
@@ -65,6 +80,15 @@ public class NotePage : MonoBehaviour
         variableStorage = GameObject.FindObjectOfType<InMemoryVariableStorage>();
     }
 
+    private void MoveNoteCenter()
+    {
+        notePos.DOAnchorPos(new Vector2(noteCenterPos.anchoredPosition.x, notePos.anchoredPosition.y), 1f);
+    }
+
+    private void MoveNoteRight()
+    {
+        notePos.DOAnchorPos(new Vector2(noteRightPos.anchoredPosition.x, notePos.anchoredPosition.y), 1f);
+    }
 
     /// <summary>
     /// 상자 열릴 때 NoteAnim.cs에서 호출되는 함수
@@ -143,14 +167,19 @@ public class NotePage : MonoBehaviour
         switch (index)
         {
             case 0:
-                nodeName = "Day" + dayCount; break;
+                nodeName = "Day" + dayCount; 
+                break;
             case 3:
-                nodeName = "Day" + dayCount + "ChooseEvent"; break;
+                nodeName = "Day" + dayCount + "ChooseEvent"; 
+                break;
             case 4:
-                nodeName = "specialEvent" + selectedNumber; break;
+                nodeName = "specialEvent" + selectedNumber; 
+                break;
             default:
                 return;
         }
+
+
         if (!isContinued)
         {
             dialogueBox.SetActive(true);
