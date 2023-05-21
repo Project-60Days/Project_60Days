@@ -5,6 +5,17 @@ public enum EUILayer
     Setting
 };
 
+public enum ENotePageType
+{
+    DayStart,
+    SelectEvent,
+    Resource,
+    Equipment,
+    SpecialEvent,
+    Map
+}
+
+
 #region Character
 
 public enum EHungerType
