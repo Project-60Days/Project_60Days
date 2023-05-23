@@ -17,8 +17,8 @@ public class MapInteraction : MonoBehaviour
     {
         implantOriginalPos = implant.transform.position;
 
-        ImplantOpenEvent += ImplantOpenAnim;
-        ImplantCloseEvent += ImplantCloseAnim;
+        //ImplantOpenEvent += ImplantOpenAnim;
+        //ImplantCloseEvent += ImplantCloseAnim;
     }
 
 
