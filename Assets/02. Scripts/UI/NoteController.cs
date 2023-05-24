@@ -114,19 +114,19 @@ public class NoteController : MonoBehaviour
         if (pageNum + 1 > notePages.Length - 1)
             return;
 
-        switch (pageNum)
-        {
-            case 0:
-                dialogueRunnerIndex = 0;
-                break;
-            case 1:
-                dialogueRunnerIndex = 1;
-                break;
-            case 4:
-                dialogueRunnerIndex = 2;
-                break;
-        }
-        dialogueRunner[dialogueRunnerIndex].Stop();
+        //switch (pageNum)
+        //{
+        //    case 0:
+        //        dialogueRunnerIndex = 0;
+        //        break;
+        //    case 1:
+        //        dialogueRunnerIndex = 1;
+        //        break;
+        //    case 4:
+        //        dialogueRunnerIndex = 2;
+        //        break;
+        //}
+        //dialogueRunner[dialogueRunnerIndex].Stop();
         ChangePage(pageNum + 1);
     }
     /// <summary>
@@ -137,19 +137,19 @@ public class NoteController : MonoBehaviour
         if (pageNum - 1 < 0)
             return;
 
-        switch (pageNum)
-        {
-            case 0:
-                dialogueRunnerIndex = 0;
-                break;
-            case 1:
-                dialogueRunnerIndex = 1;
-                break;
-            case 4:
-                dialogueRunnerIndex = 2;
-                break;
-        }
-        dialogueRunner[dialogueRunnerIndex].Stop();
+        //switch (pageNum)
+        //{
+        //    case 0:
+        //        dialogueRunnerIndex = 0;
+        //        break;
+        //    case 1:
+        //        dialogueRunnerIndex = 1;
+        //        break;
+        //    case 4:
+        //        dialogueRunnerIndex = 2;
+        //        break;
+        //}
+        //dialogueRunner[dialogueRunnerIndex].Stop();
         ChangePage(pageNum - 1);
     }
 
@@ -191,7 +191,8 @@ public class NoteController : MonoBehaviour
                 return;
         }
 
-        dialogueRunner[dialogueRunnerIndex].StartDialogue(nodeName);
+        if (!dialogueRunner[dialogueRunnerIndex].IsDialogueRunning)
+            dialogueRunner[dialogueRunnerIndex].StartDialogue(nodeName);
     }
 
 
@@ -226,6 +227,8 @@ public class NoteController : MonoBehaviour
     void NextDayEvent()
     {
         pageNum = 0;
+        for(int i = 0; i < dialogueRunner.Length; i++)
+            dialogueRunner[i].Stop();
         int randomIndex = UnityEngine.Random.Range(0, numbers.Count);
         selectedNumber = numbers[randomIndex];
         numbers.RemoveAt(randomIndex);
