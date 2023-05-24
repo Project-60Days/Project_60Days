@@ -14,6 +14,12 @@ public class ZombieSwarm : MonoBehaviour
     public bool isChasingPlayer;
     public int remainStunTime;
 
+    public float zombieMovePossibility;
+    public float zombieStayPossibility;
+    public float specailZombiePossibility;
+    public float zombieMinCount;
+    public float zombieMaxCount;
+
     public int moveCost = 1;
     public Tile curTile;
     public Tile lastTile;
@@ -23,7 +29,19 @@ public class ZombieSwarm : MonoBehaviour
 
     public void Init(int count, Tile tile)
     {
-        zombieCount = count;
+        DataManager.instance.gameData.TryGetValue("Data_Zombie_Move_Possibility", out GameData move);
+        DataManager.instance.gameData.TryGetValue("Data_Zombie_Stay_Possibility", out GameData stay);
+        DataManager.instance.gameData.TryGetValue("Data_SpecialZombie_Possibility", out GameData special);
+        DataManager.instance.gameData.TryGetValue("Data_MinCount_ZombieObject", out GameData min);
+        DataManager.instance.gameData.TryGetValue("Data_MaxCount_ZombieObject", out GameData max);
+
+        zombieMovePossibility = move.value;
+        zombieStayPossibility = stay.value;
+        specailZombiePossibility = special.value;
+        zombieMinCount = min.value;
+        zombieMaxCount = max.value;
+
+        zombieCount = (int)Random.Range(zombieMinCount, zombieMaxCount);
         curTile = tile;
         lastTile = curTile;
         CurrentTileInfoUpdate(curTile);
@@ -52,7 +70,7 @@ public class ZombieSwarm : MonoBehaviour
         }
         else
         {
-            var randomInt = UnityEngine.Random.Range(0, 2);
+            var randomInt = GetRandom();
             if (randomInt == 0)
             {
                 Debug.Log(gameObject.name + "은 정처없이 떠돌아 다니고 있다...");
@@ -130,6 +148,18 @@ public class ZombieSwarm : MonoBehaviour
         zombieCount += zombie.zombieCount;
         foodCount += zombie.foodCount;
         drinkCount += zombie.drinkCount;
+    }
 
+    public int GetRandom()
+    {
+        float num = zombieMinCount / (zombieMinCount + zombieMaxCount);
+        float rate = (zombieMinCount + zombieMaxCount) - ((zombieMinCount + zombieMaxCount) * zombieMinCount);
+        int tmp = (int)Random.Range(0, (zombieMinCount + zombieMaxCount));
+
+        if (tmp <= rate - 1)
+        {
+            return 0;
+        }
+        return 1;
     }
 }
