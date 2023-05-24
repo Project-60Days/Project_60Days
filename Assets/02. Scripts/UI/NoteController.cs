@@ -25,10 +25,11 @@ public class NoteController : MonoBehaviour
     [SerializeField] DialogueRunner dialogueRunner;
     InMemoryVariableStorage variableStorage;
     bool isEnd = false;
-    bool isContinued = false;
-    string nextNode;
+    string nextNode = "null";
+    string prevNode = "null";
+    string[] currentNode;
     string nodeName;
-
+    
     public int pageNum = 0;
     int dayCount = 1;
     
@@ -75,6 +76,10 @@ public class NoteController : MonoBehaviour
         prevPageBtn.onClick.AddListener(PrevPageEvent);
         nextDayBtn.onClick.AddListener(NextDayEvent);
 
+        currentNode = new string[6];
+        for (int i = 0; i < currentNode.Length; i++)
+            currentNode[i] = "null";
+
         dialogueRunner.StartDialogue("Day1");
         variableStorage = GameObject.FindObjectOfType<InMemoryVariableStorage>();
     }
@@ -118,12 +123,12 @@ public class NoteController : MonoBehaviour
         if (pageNum + 1 > notePages.Length - 1)
             return;
 
-        if(isEnd || pageNum == 2 || pageNum == 3 || pageNum == 5)
+        if(isEnd || pageNum == 2 || pageNum == 3)
         {
             dialogueBox.SetActive(false);
             ChangePage(pageNum + 1);
         }
-  
+
         PageOn(pageNum);
     }
     /// <summary>
@@ -136,10 +141,11 @@ public class NoteController : MonoBehaviour
 
         if (isEnd || pageNum == 2 || pageNum == 3 || pageNum == 5)
         {
-            dialogueBox.SetActive(false);
+            dialogueBox.SetActive(true);
             ChangePage(pageNum - 1);
+            ChangeNode(currentNode[pageNum - 1]);
         }
-        
+
         PageOn(pageNum);
     }
 
@@ -154,7 +160,6 @@ public class NoteController : MonoBehaviour
         notePages[index].gameObject.SetActive(true);
 
         pageNum = index;
-        isEnd = false;
         ChangePageButton();
     }
     /// <summary>
@@ -178,12 +183,10 @@ public class NoteController : MonoBehaviour
                 return;
         }
 
+        dialogueBox.SetActive(true);
 
-        if (!isContinued)
-        {
-            dialogueBox.SetActive(true);
+        if (nextNode == "null")
             ChangeNode(nodeName);
-        }
         else
         {
             nodeName = nextNode;
@@ -198,9 +201,12 @@ public class NoteController : MonoBehaviour
     {
         dialogueRunner.Stop();
         dialogueRunner.StartDialogue(nodeName);
+        currentNode[pageNum] = dialogueRunner.CurrentNodeName;
+        for(int i=0;i<currentNode.Length;i++)
+            Debug.Log(currentNode[i] + " ");
         variableStorage = GameObject.FindObjectOfType<InMemoryVariableStorage>();
-        variableStorage.TryGetValue("$isContinued", out isContinued);
         variableStorage.TryGetValue("$nextNode", out nextNode);
+        variableStorage.TryGetValue("$prevNode", out prevNode);
         variableStorage.TryGetValue("$isEnd", out isEnd);
     }
 
