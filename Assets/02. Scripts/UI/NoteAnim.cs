@@ -55,7 +55,7 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (!isOpen)
-            transform.DOMoveY(originalPos.y + 100f, 0.5f);
+            transform.DOMoveY(originalPos.y + 80f, 0.5f);
     }
     /// <summary>
     /// 상자 마우스 호버 해제
@@ -75,9 +75,9 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         if (!isOpen)
         {
             Sequence sequence = DOTween.Sequence();
-            sequence.Append(boxTop.transform.DOMoveY(950f, 0.5f))
-                .Join(boxBottom.transform.DOMoveY(105f, 0.5f))
-                .Join(transform.DOMoveY(originalPos.y, 0.5f))
+            sequence.Append(transform.DOMoveY(originalPos.y, 0.5f))
+                .Join(boxTop.transform.DOMoveY(960f, 0.5f))
+                .Join(boxBottom.transform.DOMoveY(115f, 0.5f))
                 .AppendCallback(() =>
                 {
                     for (int i = 0; i < notePanels.Length; i++)
@@ -114,8 +114,9 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                 for (int i = 0; i < notePanels.Length; i++)
                     notePanels[i].DOFade(0f, 0.5f);
             })
-                .Append(boxTop.transform.DOMoveY(0f, 0.5f))
-                .Join(boxBottom.transform.DOMoveY(0f, 0.5f))
+                .AppendInterval(0.5f)
+                .Append(boxTop.transform.DOMoveY(10f, 0.5f))
+                .Join(boxBottom.transform.DOMoveY(10f, 0.5f))
                 .OnComplete(() => CloseBox());
 
             DOTween.Kill(gameObject);
@@ -137,7 +138,7 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         Close_Anim();
         blackPanel.gameObject.SetActive(true);
         Sequence sequence = DOTween.Sequence();
-        sequence.Append(blackPanel.DOFade(1f, 1f)).SetEase(Ease.InQuint)
+        sequence.Append(blackPanel.DOFade(1f, 0.5f)).SetEase(Ease.InQuint)
             .AppendInterval(0.5f)
             .Append(blackPanel.DOFade(0f, 1f))
             .OnComplete(() => NewDay());
