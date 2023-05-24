@@ -173,6 +173,6 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     void NewDay()
     {
         blackPanel.gameObject.SetActive(false);
-        dayText.text = "Day" + ++dayCount;
+        dayText.text = "Day " + ++dayCount;
     }
 }

@@ -23,6 +23,12 @@ public class NoteController : MonoBehaviour
 
     [SerializeField] DialogueRunner[] dialogueRunner;
 
+    [SerializeField] GameObject[] optionButtons;
+
+    string[] options;
+
+    InMemoryVariableStorage variableStorage;
+
     bool newDay = true;
     int dialogueRunnerIndex = 0;
     string nodeName;
@@ -70,6 +76,11 @@ public class NoteController : MonoBehaviour
         nextPageBtn.onClick.AddListener(NextPageEvent);
         prevPageBtn.onClick.AddListener(PrevPageEvent);
         nextDayBtn.onClick.AddListener(NextDayEvent);
+
+        options = new string[4];
+        for (int i = 0; i < options.Length; i++)
+            optionButtons[i].SetActive(false);
+        ChooseEventSetOption();
     }
 
     private void MoveNoteCenter()
@@ -114,19 +125,6 @@ public class NoteController : MonoBehaviour
         if (pageNum + 1 > notePages.Length - 1)
             return;
 
-        switch (pageNum)
-        {
-            case 0:
-                dialogueRunnerIndex = 0;
-                break;
-            case 1:
-                dialogueRunnerIndex = 1;
-                break;
-            case 4:
-                dialogueRunnerIndex = 2;
-                break;
-        }
-        dialogueRunner[dialogueRunnerIndex].Stop();
         ChangePage(pageNum + 1);
     }
     /// <summary>
@@ -137,19 +135,6 @@ public class NoteController : MonoBehaviour
         if (pageNum - 1 < 0)
             return;
 
-        switch (pageNum)
-        {
-            case 0:
-                dialogueRunnerIndex = 0;
-                break;
-            case 1:
-                dialogueRunnerIndex = 1;
-                break;
-            case 4:
-                dialogueRunnerIndex = 2;
-                break;
-        }
-        dialogueRunner[dialogueRunnerIndex].Stop();
         ChangePage(pageNum - 1);
     }
 
@@ -191,7 +176,8 @@ public class NoteController : MonoBehaviour
                 return;
         }
 
-        dialogueRunner[dialogueRunnerIndex].StartDialogue(nodeName);
+        if (!dialogueRunner[dialogueRunnerIndex].IsDialogueRunning)
+            dialogueRunner[dialogueRunnerIndex].StartDialogue(nodeName);
     }
 
 
@@ -226,6 +212,8 @@ public class NoteController : MonoBehaviour
     void NextDayEvent()
     {
         pageNum = 0;
+        for(int i = 0; i < dialogueRunner.Length; i++)
+            dialogueRunner[i].Stop();
         int randomIndex = UnityEngine.Random.Range(0, numbers.Count);
         selectedNumber = numbers[randomIndex];
         numbers.RemoveAt(randomIndex);
@@ -233,6 +221,7 @@ public class NoteController : MonoBehaviour
         newDay = true;
         RemoveExistingNameCard();
         InstantiateNewNameCard();
+        ChooseEventSetOption();
     }
     /// <summary>
     /// 积己等 NameCard 橇府普 昏力
@@ -257,5 +246,23 @@ public class NoteController : MonoBehaviour
             GameObject nameCard = Instantiate(prefab, parent);
             nameCard.tag = "NameCardPrefab";
         }
+    }
+
+    public void ChooseEventSetOption()
+    {
+        dialogueRunner[2].StartDialogue("Day" + dayCount + "ChooseEvent");
+        variableStorage = GameObject.FindObjectOfType<InMemoryVariableStorage>();
+        for (int i = 0; i < options.Length; i++)
+        {
+            variableStorage.TryGetValue("$option" + (i + 1), out options[i]);
+            if (options[i] == "null")
+                return;
+            else
+            {
+                optionButtons[i].SetActive(true);
+                optionButtons[i].GetComponent<Text>().text = options[i];
+            }
+        }
+        dialogueRunner[2].Stop();
     }
 }
