@@ -11,7 +11,7 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     [SerializeField] GameObject boxTop;
     [SerializeField] GameObject boxBottom;
-    [SerializeField] GameObject notePanel;
+    [SerializeField] Image[] notePanels;
     
     [SerializeField] Image blackPanel;
     [SerializeField] Text dayText;
@@ -19,11 +19,7 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     [SerializeField] GameObject prevPage;
     [SerializeField] GameObject nextDay;
 
-    [SerializeField] Sprite[] btnImages;
-
     Vector2 originalPos;
-    Vector2 topOriginalPos;
-    Vector2 bottomOriginalPos;
 
     bool isOpen = false;
     int dayCount = 1;
@@ -34,12 +30,12 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         noteController = GameObject.Find("NoteController").GetComponent<NoteController>();
 
-        topOriginalPos = boxTop.transform.position;
-        bottomOriginalPos = boxBottom.transform.position;
         originalPos = transform.position;
 
-        notePanel.GetComponent<Image>().DOFade(0f, 0f);
+        for (int i = 0; i < notePanels.Length; i++) 
+            notePanels[i].DOFade(0f, 0f);
         blackPanel.DOFade(0f, 0f);
+        closeBtn.gameObject.SetActive(false);
         nextPage.SetActive(false);
         prevPage.SetActive(false);
         nextDay.SetActive(false);
@@ -79,10 +75,14 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         if (!isOpen)
         {
             Sequence sequence = DOTween.Sequence();
-            sequence.Append(boxTop.transform.DOMoveY(topOriginalPos.y + 900f, 0.5f))
-                .Join(boxBottom.transform.DOMoveY(bottomOriginalPos.y + 150f, 0.5f))
+            sequence.Append(boxTop.transform.DOMoveY(950f, 0.5f))
+                .Join(boxBottom.transform.DOMoveY(105f, 0.5f))
                 .Join(transform.DOMoveY(originalPos.y, 0.5f))
-                .Append(notePanel.GetComponent<Image>().DOFade(1f, 0.5f))
+                .AppendCallback(() =>
+                {
+                    for (int i = 0; i < notePanels.Length; i++)
+                        notePanels[i].DOFade(1f, 0.5f);
+                })
                 .OnComplete(() => OpenBox());
 
             DOTween.Kill(gameObject);
@@ -90,8 +90,8 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             openBtn.DOKill();
 
             isOpen = true;
-            openBtn.image.sprite = btnImages[0];
-            closeBtn.image.sprite = btnImages[0];
+            openBtn.gameObject.SetActive(false);
+            closeBtn.gameObject.SetActive(false);
             sequence.Play();
         }
     }
@@ -109,18 +109,21 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             dayText.gameObject.SetActive(false);
 
             Sequence sequence = DOTween.Sequence();
-            sequence.Append(notePanel.GetComponent<Image>().DOFade(0f, 0.5f))
-                .Append(boxTop.transform.DOMoveY(topOriginalPos.y, 0.5f))
-                .Join(boxBottom.transform.DOMoveY(bottomOriginalPos.y, 0.5f))
+            sequence.AppendCallback(() =>
+            {
+                for (int i = 0; i < notePanels.Length; i++)
+                    notePanels[i].DOFade(0f, 0.5f);
+            })
+                .Append(boxTop.transform.DOMoveY(0f, 0.5f))
+                .Join(boxBottom.transform.DOMoveY(0f, 0.5f))
                 .OnComplete(() => CloseBox());
 
             DOTween.Kill(gameObject);
             closeBtn.DOKill();
             openBtn.DOKill();
 
-            isOpen = false;
-            openBtn.image.sprite = btnImages[0];
-            closeBtn.image.sprite = btnImages[0];
+            openBtn.gameObject.SetActive(false);
+            closeBtn.gameObject.SetActive(false);
             sequence.Play();
         }
     }
@@ -147,8 +150,8 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     /// </summary>
     void OpenBox()
     {
-        openBtn.image.sprite = btnImages[0];
-        closeBtn.image.sprite = btnImages[1];
+        openBtn.gameObject.SetActive(false);
+        closeBtn.gameObject.SetActive(true);
         nextPage.SetActive(true);
         prevPage.SetActive(true);
         dayText.gameObject.SetActive(true);
@@ -159,8 +162,9 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     /// </summary>
     void CloseBox()
     {
-        openBtn.image.sprite = btnImages[1];
-        closeBtn.image.sprite = btnImages[0];
+        isOpen = false;
+        openBtn.gameObject.SetActive(true);
+        closeBtn.gameObject.SetActive(false);
     }
     /// <summary>
     /// 제출 버튼 콜백함수
