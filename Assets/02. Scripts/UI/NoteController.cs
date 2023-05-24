@@ -13,7 +13,6 @@ public class NoteController : MonoBehaviour
     [SerializeField] GameObject pageContainer;
     [SerializeField] GameObject dialogueBox;
     [SerializeField] GameObject nextDay;
-    [SerializeField] Sprite[] btnImages;
     [SerializeField] Transform[] notePages;
 
     [SerializeField] GameObject prefab;
@@ -106,8 +105,8 @@ public class NoteController : MonoBehaviour
     {
         notePages[pageNum].gameObject.SetActive(false);
         dialogueBox.SetActive(false);
-        nextPageBtn.image.sprite = btnImages[0];
-        prevPageBtn.image.sprite = btnImages[0];
+        nextPageBtn.gameObject.SetActive(false);
+        prevPageBtn.gameObject.SetActive(false);
     }
 
 
@@ -119,7 +118,7 @@ public class NoteController : MonoBehaviour
         if (pageNum + 1 > notePages.Length - 1)
             return;
 
-        if(isEnd || pageNum == 1 || pageNum == 2 || pageNum == 5)
+        if(isEnd || pageNum == 2 || pageNum == 3 || pageNum == 5)
         {
             dialogueBox.SetActive(false);
             ChangePage(pageNum + 1);
@@ -135,7 +134,7 @@ public class NoteController : MonoBehaviour
         if (pageNum - 1 < 0)
             return;
 
-        if (isEnd || pageNum == 1 || pageNum == 2 || pageNum == 5)
+        if (isEnd || pageNum == 2 || pageNum == 3 || pageNum == 5)
         {
             dialogueBox.SetActive(false);
             ChangePage(pageNum - 1);
@@ -169,7 +168,7 @@ public class NoteController : MonoBehaviour
             case 0:
                 nodeName = "Day" + dayCount; 
                 break;
-            case 3:
+            case 1:
                 nodeName = "Day" + dayCount + "ChooseEvent"; 
                 break;
             case 4:
@@ -213,19 +212,19 @@ public class NoteController : MonoBehaviour
     {
         if (pageNum == 0)
         {
-            nextPageBtn.image.sprite = btnImages[1];
-            prevPageBtn.image.sprite = btnImages[0];
+            nextPageBtn.gameObject.SetActive(true);
+            prevPageBtn.gameObject.SetActive(false);
         }
         else if (pageNum == notePages.Length - 1)
         {
-            nextPageBtn.image.sprite = btnImages[0];
-            prevPageBtn.image.sprite = btnImages[1];
+            nextPageBtn.gameObject.SetActive(false);
+            prevPageBtn.gameObject.SetActive(true);
             nextDay.SetActive(true);
         }
         else
         {
-            nextPageBtn.image.sprite = btnImages[1];
-            prevPageBtn.image.sprite = btnImages[1];
+            nextPageBtn.gameObject.SetActive(true);
+            prevPageBtn.gameObject.SetActive(true);
             nextDay.SetActive(false);
         }
     }
