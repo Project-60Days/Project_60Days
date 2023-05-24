@@ -27,7 +27,7 @@ public class DataManager : Singleton<DataManager>
     //    return JsonUtility.FromJson<Loader>(textAsset.text);
     //}
 
-    private void Start()
+    private void Awake()
     {
         InitStringData();
         InitGameData();

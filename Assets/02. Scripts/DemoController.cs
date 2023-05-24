@@ -34,7 +34,6 @@ namespace Hexamap
         public int MoveSpeed = 50;
         private int hp;
         public int maxHp = 3;
-        public int zombieNum = 3;
 
         private Camera _camera;
         private GameObject player;
@@ -71,7 +70,7 @@ namespace Hexamap
                 generateMap();
             }
 
-            CameraMoveInputKey();
+            //CameraMoveInputKey();
 
             if (!isPlayerMove)
                 TileSelectWithRaycast();
@@ -102,10 +101,15 @@ namespace Hexamap
 
             // Output stats
             TextStats.text = $"Map generated in {timeSpent.ToString("0.000")} seconds.";
-            Debug.Log($"Seed : { Hexamap.Map.Seed }");
+            //Debug.Log($"Seed : { Hexamap.Map.Seed }");
+
+            DataManager.instance.gameData.TryGetValue("Data_MinCount_ZombieSwarm", out GameData min);
+            DataManager.instance.gameData.TryGetValue("Data_MaxCount_ZombieSwarm", out GameData max);
+
+            int rand = (int)UnityEngine.Random.Range(min.value,max.value);
 
             SpawnPlayer();
-            SpawnZombies(zombieNum);
+            SpawnZombies(rand);
             unselectAllTile();
         }
 
