@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using Yarn.Unity;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
+using System;
 
 public class NoteController : MonoBehaviour
 {
@@ -11,8 +12,6 @@ public class NoteController : MonoBehaviour
     [SerializeField] RectTransform noteRightPos;
     [SerializeField] RectTransform notePos;
     [SerializeField] GameObject pageContainer;
-    [SerializeField] GameObject dialogueBox;
-    [SerializeField] GameObject nextDay;
     [SerializeField] Transform[] notePages;
 
     [SerializeField] GameObject prefab;
@@ -22,12 +21,10 @@ public class NoteController : MonoBehaviour
     [SerializeField] Button prevPageBtn;
     [SerializeField] Button nextDayBtn;
 
-    [SerializeField] DialogueRunner dialogueRunner;
-    InMemoryVariableStorage variableStorage;
-    bool isEnd = false;
-    string nextNode = "null";
-    string prevNode = "null";
-    string[] currentNode;
+    [SerializeField] DialogueRunner[] dialogueRunner;
+
+    bool newDay = true;
+    int dialogueRunnerIndex = 0;
     string nodeName;
     
     public int pageNum = 0;
@@ -64,9 +61,7 @@ public class NoteController : MonoBehaviour
                 page.pageOnEvent += MoveNoteCenter;
         }
 
-        dialogueBox.SetActive(false);
-
-        int randomIndex = Random.Range(0, numbers.Count);
+        int randomIndex = UnityEngine.Random.Range(0, numbers.Count);
         selectedNumber = numbers[randomIndex];
         numbers.RemoveAt(randomIndex);
 
@@ -75,13 +70,6 @@ public class NoteController : MonoBehaviour
         nextPageBtn.onClick.AddListener(NextPageEvent);
         prevPageBtn.onClick.AddListener(PrevPageEvent);
         nextDayBtn.onClick.AddListener(NextDayEvent);
-
-        currentNode = new string[6];
-        for (int i = 0; i < currentNode.Length; i++)
-            currentNode[i] = "null";
-
-        dialogueRunner.StartDialogue("Day1");
-        variableStorage = GameObject.FindObjectOfType<InMemoryVariableStorage>();
     }
 
     private void MoveNoteCenter()
@@ -100,8 +88,12 @@ public class NoteController : MonoBehaviour
     public void OpenBox()
     {
         notePages[pageNum].gameObject.SetActive(true);
+        if (newDay)
+        {
+            PageOn(0);
+            newDay = false;
+        }
         ChangePageButton();
-        PageOn(pageNum);
     }
     /// <summary>
     /// 상자 닫힐 때 NoteAnim.cs에서 호출되는 함수 
@@ -109,7 +101,6 @@ public class NoteController : MonoBehaviour
     public void CloseBox()
     {
         notePages[pageNum].gameObject.SetActive(false);
-        dialogueBox.SetActive(false);
         nextPageBtn.gameObject.SetActive(false);
         prevPageBtn.gameObject.SetActive(false);
     }
@@ -123,13 +114,20 @@ public class NoteController : MonoBehaviour
         if (pageNum + 1 > notePages.Length - 1)
             return;
 
-        if(isEnd || pageNum == 2 || pageNum == 3)
+        switch (pageNum)
         {
-            dialogueBox.SetActive(false);
-            ChangePage(pageNum + 1);
+            case 0:
+                dialogueRunnerIndex = 0;
+                break;
+            case 1:
+                dialogueRunnerIndex = 1;
+                break;
+            case 4:
+                dialogueRunnerIndex = 2;
+                break;
         }
-
-        PageOn(pageNum);
+        dialogueRunner[dialogueRunnerIndex].Stop();
+        ChangePage(pageNum + 1);
     }
     /// <summary>
     /// 이전 페이지 버튼 클릭 시 호출
@@ -139,14 +137,20 @@ public class NoteController : MonoBehaviour
         if (pageNum - 1 < 0)
             return;
 
-        if (isEnd || pageNum == 2 || pageNum == 3 || pageNum == 5)
+        switch (pageNum)
         {
-            dialogueBox.SetActive(true);
-            ChangePage(pageNum - 1);
-            ChangeNode(currentNode[pageNum - 1]);
+            case 0:
+                dialogueRunnerIndex = 0;
+                break;
+            case 1:
+                dialogueRunnerIndex = 1;
+                break;
+            case 4:
+                dialogueRunnerIndex = 2;
+                break;
         }
-
-        PageOn(pageNum);
+        dialogueRunner[dialogueRunnerIndex].Stop();
+        ChangePage(pageNum - 1);
     }
 
 
@@ -159,6 +163,7 @@ public class NoteController : MonoBehaviour
         notePages[pageNum].gameObject.SetActive(false);
         notePages[index].gameObject.SetActive(true);
 
+        PageOn(index);
         pageNum = index;
         ChangePageButton();
     }
@@ -171,43 +176,22 @@ public class NoteController : MonoBehaviour
         switch (index)
         {
             case 0:
-                nodeName = "Day" + dayCount; 
+                dialogueRunnerIndex = 0;
+                nodeName = "Day" + dayCount;
                 break;
             case 1:
-                nodeName = "Day" + dayCount + "ChooseEvent"; 
+                dialogueRunnerIndex = 1;
+                nodeName = "Day" + dayCount + "ChooseEvent";
                 break;
             case 4:
-                nodeName = "specialEvent" + selectedNumber; 
+                dialogueRunnerIndex = 2;
+                nodeName = "specialEvent" + selectedNumber;
                 break;
             default:
                 return;
         }
 
-        dialogueBox.SetActive(true);
-
-        if (nextNode == "null")
-            ChangeNode(nodeName);
-        else
-        {
-            nodeName = nextNode;
-            ChangeNode(nodeName);
-        }
-    }
-    /// <summary>
-    /// PageOn 함수 내에 중복되는 부분 따로 뺀 함수. 구체적인 기능은 노드를 실행하고 해당 노드의 변수를 받아옴.
-    /// </summary>
-    /// <param name="nodeName"></param>
-    void ChangeNode(string nodeName)
-    {
-        dialogueRunner.Stop();
-        dialogueRunner.StartDialogue(nodeName);
-        currentNode[pageNum] = dialogueRunner.CurrentNodeName;
-        for(int i=0;i<currentNode.Length;i++)
-            Debug.Log(currentNode[i] + " ");
-        variableStorage = GameObject.FindObjectOfType<InMemoryVariableStorage>();
-        variableStorage.TryGetValue("$nextNode", out nextNode);
-        variableStorage.TryGetValue("$prevNode", out prevNode);
-        variableStorage.TryGetValue("$isEnd", out isEnd);
+        dialogueRunner[dialogueRunnerIndex].StartDialogue(nodeName);
     }
 
 
@@ -225,13 +209,13 @@ public class NoteController : MonoBehaviour
         {
             nextPageBtn.gameObject.SetActive(false);
             prevPageBtn.gameObject.SetActive(true);
-            nextDay.SetActive(true);
+            nextDayBtn.gameObject.SetActive(true);
         }
         else
         {
             nextPageBtn.gameObject.SetActive(true);
             prevPageBtn.gameObject.SetActive(true);
-            nextDay.SetActive(false);
+            nextDayBtn.gameObject.SetActive(false);
         }
     }
 
@@ -242,10 +226,11 @@ public class NoteController : MonoBehaviour
     void NextDayEvent()
     {
         pageNum = 0;
-        int randomIndex = Random.Range(0, numbers.Count);
+        int randomIndex = UnityEngine.Random.Range(0, numbers.Count);
         selectedNumber = numbers[randomIndex];
         numbers.RemoveAt(randomIndex);
         dayCount++;
+        newDay = true;
         RemoveExistingNameCard();
         InstantiateNewNameCard();
     }
