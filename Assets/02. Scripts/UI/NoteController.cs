@@ -80,7 +80,7 @@ public class NoteController : MonoBehaviour
         options = new string[4];
         for (int i = 0; i < options.Length; i++)
             optionButtons[i].SetActive(false);
-        ChooseEventSetOption();
+        //ChooseEventSetOption();
     }
 
     private void MoveNoteCenter()
@@ -221,7 +221,7 @@ public class NoteController : MonoBehaviour
         newDay = true;
         RemoveExistingNameCard();
         InstantiateNewNameCard();
-        ChooseEventSetOption();
+        //ChooseEventSetOption();
     }
     /// <summary>
     /// 积己等 NameCard 橇府普 昏力
