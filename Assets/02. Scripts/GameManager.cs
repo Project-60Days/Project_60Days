@@ -18,6 +18,9 @@ public class GameManager : Singleton<GameManager>
 {
     Controller controller;
 
+    [SerializeField]
+    MapCamera mapCamera;
+    
     void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
@@ -32,7 +35,10 @@ public class GameManager : Singleton<GameManager>
     {
         // 키 입력
         if (Input.GetKeyDown(KeyCode.Space))
-            Debug.Log("스페이스 바");
+        {
+            mapCamera.SetPrioryty(false);
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape))
             QuitGame();
 

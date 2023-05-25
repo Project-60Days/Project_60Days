@@ -7,12 +7,17 @@ public class Scene : MonoBehaviour
 {
     void Start()
     {
-        LoadSceneAdditive();
+        LoadUISceneAdditive();
+        LoadMapSceneAdditive();
     }
 
-    void LoadSceneAdditive()
+    void LoadUISceneAdditive()
     {
         SceneManager.LoadScene("UI Scene", LoadSceneMode.Additive);
+    }
+
+    void LoadMapSceneAdditive()
+    {
         SceneManager.LoadScene("03. Map", LoadSceneMode.Additive);
     }
 }
