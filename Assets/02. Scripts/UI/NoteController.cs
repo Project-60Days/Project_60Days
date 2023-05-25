@@ -222,6 +222,7 @@ public class NoteController : MonoBehaviour
         RemoveExistingNameCard();
         InstantiateNewNameCard();
         ChooseEventSetOption();
+        Hexamap.DemoController.instance.NextDay();
     }
     /// <summary>
     /// 积己等 NameCard 橇府普 昏力

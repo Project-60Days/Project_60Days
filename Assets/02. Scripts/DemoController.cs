@@ -42,7 +42,9 @@ namespace Hexamap
         private bool isSelected;
         private bool isPlayerMove;
         private bool isUIOn;
+        public bool isBaseOn;
         private bool playerCanMove;
+        public Transform hexamapTr;
         #endregion
 
         void Start()
@@ -72,7 +74,7 @@ namespace Hexamap
 
             //CameraMoveInputKey();
 
-            if (!isPlayerMove)
+            if (!isPlayerMove && !isBaseOn)
                 TileSelectWithRaycast();
         }
 
@@ -106,11 +108,13 @@ namespace Hexamap
             DataManager.instance.gameData.TryGetValue("Data_MinCount_ZombieSwarm", out GameData min);
             DataManager.instance.gameData.TryGetValue("Data_MaxCount_ZombieSwarm", out GameData max);
 
-            int rand = (int)UnityEngine.Random.Range(min.value,max.value);
+            int rand = (int)UnityEngine.Random.Range(min.value, max.value);
 
             SpawnPlayer();
             SpawnZombies(rand);
             unselectAllTile();
+
+            hexamapTr.position += new Vector3(0, 0, 200);
         }
 
         private void SpawnPlayer()
@@ -133,6 +137,7 @@ namespace Hexamap
             spawnPos.y += 0.7f;
 
             player = Instantiate(playerPrefab, spawnPos, Quaternion.identity);
+            player.transform.parent = hexamapTr;
         }
 
         private void SpawnZombies(int zombiesNumber)
@@ -315,7 +320,7 @@ namespace Hexamap
                     currentUI = GetUi(tile);
                     currentUI.transform.position = Camera.main.WorldToScreenPoint(objectHit.position);
                     currentUI.transform.position += Vector3.right * 300;
-                    currentUI.transform.position += Vector3.up * 200;
+                    currentUI.transform.position += Vector3.up * 300;
                     currentUI.SetActive(true);
 
                     isUIOn = true;
@@ -539,7 +544,7 @@ namespace Hexamap
             {
                 var num = tiles.IndexOf(item.Element);
 
-                for (int i = num+1; i < tiles.Count; i++)
+                for (int i = num + 1; i < tiles.Count; i++)
                 {
                     if (tiles[num] == tiles[i])
                     {
@@ -560,7 +565,8 @@ namespace Hexamap
             {
                 item.GetComponent<ZombieSwarm>().DetectionPlayer();
             }
-            StartCoroutine(DelayDayButton());
+
+            //StartCoroutine(DelayDayButton());
         }
 
         public IEnumerator DelayDayButton()
@@ -575,6 +581,17 @@ namespace Hexamap
             yield return new WaitForSeconds(1f);
             Destroy(zombies[num]);
             zombies.RemoveAt(num);
+        }
+
+        public void BaseOnOff(bool isbool)
+        {
+            isBaseOn = isbool;
+
+            if (isUIOn)
+            {
+                currentUI.SetActive(false);
+                isUIOn = false;
+            }
         }
     }
 }
