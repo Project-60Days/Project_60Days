@@ -7,14 +7,15 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Title_Menu_UI_Deco
+  m_Name: UI_NoteBackground
   m_Shader: {fileID: 4800000, guid: a36b7719ff0465b42ab1407d67672c5f, type: 3}
   m_ValidKeywords:
+  - DOODLE_ON
   - FLICKER_ON
-  - GLITCH_ON
+  - HOLOGRAM_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3000
   stringTagMap: {}
@@ -105,7 +106,7 @@ Material:
     - _DistortAmount: 0.5
     - _DistortTexXSpeed: 5
     - _DistortTexYSpeed: 5
-    - _EditorDrawers: 6
+    - _EditorDrawers: 7
     - _FadeAmount: -0.1
     - _FadeBurnGlow: 2
     - _FadeBurnTransition: 0.075
@@ -113,12 +114,12 @@ Material:
     - _FishEyeUvAmount: 0.35
     - _FlickerAlpha: 0.5
     - _FlickerFreq: 0.1
-    - _FlickerPercent: 0.1
+    - _FlickerPercent: 0
     - _GhostBlend: 1
     - _GhostColorBoost: 1
     - _GhostTransparency: 0
-    - _GlitchAmount: 3
-    - _GlitchSize: 0.5
+    - _GlitchAmount: 0.05
+    - _GlitchSize: 5
     - _Glow: 10
     - _GlowGlobal: 1
     - _GradBlend: 1
@@ -133,8 +134,8 @@ Material:
     - _GreyscaleBlend: 1
     - _GreyscaleLuminosity: 0
     - _GreyscaleOutline: 0
-    - _HandDrawnAmount: 10
-    - _HandDrawnSpeed: 5
+    - _HandDrawnAmount: 1
+    - _HandDrawnSpeed: 1
     - _HitEffectBlend: 1
     - _HitEffectGlow: 5
     - _HologramBlend: 0.1
