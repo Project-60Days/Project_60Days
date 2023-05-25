@@ -2624,7 +2624,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: e395757dab1c653458384a752086325e, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -3342,6 +3342,8 @@ GameObject:
   - component: {fileID: 1527433686}
   - component: {fileID: 1527433685}
   - component: {fileID: 1527433684}
+  - component: {fileID: 1527433688}
+  - component: {fileID: 1527433687}
   m_Layer: 5
   m_Name: NoteBackground_Img
   m_TagString: Untagged
@@ -3361,7 +3363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 54f0fef84cf054d44ae8863ae892815e, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -3407,6 +3409,37 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 777, y: 1029}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1527433687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1527433683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee158225ee1e59f4791627785501d950, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shaderTypes: 0
+  normalStrength: 5
+  normalSmoothing: 1
+  computingNormal: 0
+--- !u!114 &1527433688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1527433683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b08b78b2b333094dabba375a30110ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minActiveTime: 30
+  maxActiveTime: 60
+  effectRemainTime: 1
 --- !u!1 &1577581242
 GameObject:
   m_ObjectHideFlags: 0
@@ -3418,6 +3451,7 @@ GameObject:
   - component: {fileID: 1577581243}
   - component: {fileID: 1577581245}
   - component: {fileID: 1577581244}
+  - component: {fileID: 1577581246}
   m_Layer: 5
   m_Name: NoteBackgroundPatternEmission_Img
   m_TagString: Untagged
@@ -3457,7 +3491,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 9276c127cfb6e7a4eb468951ec3d03bf, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -3483,6 +3517,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1577581242}
   m_CullTransparentMesh: 1
+--- !u!114 &1577581246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1577581242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b08b78b2b333094dabba375a30110ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minActiveTime: 30
+  maxActiveTime: 60
+  effectRemainTime: 1
 --- !u!1 &1579344591
 GameObject:
   m_ObjectHideFlags: 0
@@ -4037,6 +4086,7 @@ GameObject:
   - component: {fileID: 1670787410}
   - component: {fileID: 1670787412}
   - component: {fileID: 1670787411}
+  - component: {fileID: 1670787413}
   m_Layer: 5
   m_Name: NoteBackgroundPattern_Img
   m_TagString: Untagged
@@ -4076,7 +4126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 9276c127cfb6e7a4eb468951ec3d03bf, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -4102,6 +4152,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1670787409}
   m_CullTransparentMesh: 1
+--- !u!114 &1670787413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1670787409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b08b78b2b333094dabba375a30110ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minActiveTime: 30
+  maxActiveTime: 60
+  effectRemainTime: 1
 --- !u!1 &1785277190
 GameObject:
   m_ObjectHideFlags: 0
