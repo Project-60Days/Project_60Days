@@ -80,7 +80,7 @@ public class NoteController : MonoBehaviour
         options = new string[4];
         for (int i = 0; i < options.Length; i++)
             optionButtons[i].SetActive(false);
-        ChooseEventSetOption();
+        //ChooseEventSetOption();
     }
 
     private void MoveNoteCenter()
