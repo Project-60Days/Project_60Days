@@ -74,6 +74,15 @@ public class GameManager : Singleton<GameManager>
 
         // æ¿ ¿Ãµø
         SceneLoader.instance.LoadScene(1);
+        SceneLoader.instance.LoadSceneAddtive(2);
+        SceneLoader.instance.LoadSceneAddtive(3);
+        StartCoroutine(GetMapCamera());
+    }
+
+    private IEnumerator GetMapCamera()
+    {
+        yield return new WaitForSeconds(1f);
+        mapCamera = GameObject.FindGameObjectWithTag("MapCamera").GetComponent<MapCamera>();
     }
 
     public void Settings()

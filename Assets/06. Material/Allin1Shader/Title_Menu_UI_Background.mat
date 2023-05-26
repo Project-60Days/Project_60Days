@@ -13,6 +13,7 @@ Material:
   - CHROMABERR_ON
   - DOODLE_ON
   - FLICKER_ON
+  - GLITCH_ON
   - HOLOGRAM_ON
   - SHINE_ON
   m_InvalidKeywords: []

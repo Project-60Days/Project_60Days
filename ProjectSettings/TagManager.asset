@@ -6,6 +6,10 @@ TagManager:
   tags:
   - NotePage
   - NameCardPrefab
+  - MapCamera
+  - UiCanvas
+  - MapUi
+  - NoteUi
   layers:
   - Default
   - TransparentFX
