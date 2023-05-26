@@ -211,6 +211,7 @@ public class NoteController : MonoBehaviour
     /// </summary>
     void NextDayEvent()
     {
+        Hexamap.DemoController.instance.NextDay();
         pageNum = 0;
         for(int i = 0; i < dialogueRunner.Length; i++)
             dialogueRunner[i].Stop();
@@ -222,7 +223,6 @@ public class NoteController : MonoBehaviour
         RemoveExistingNameCard();
         InstantiateNewNameCard();
         ChooseEventSetOption();
-        Hexamap.DemoController.instance.NextDay();
     }
     /// <summary>
     /// 积己等 NameCard 橇府普 昏力
