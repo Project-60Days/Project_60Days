@@ -1,10 +1,7 @@
 ﻿title: Day1ChooseEvent
 tags:
 ---
-1일차 선택 이벤트입니다.
-<<set $option1 to "선택지1">>
-<<set $option2 to "선택지2">>
-<<set $option3 to "선택지3">>
+NPC 만남 스토리입니다. <br>.<br>.<br>.<br>스크롤 보여드려야해서 길게 적어야합니다. <br>.<br>.<br>.<br>.<br>.<br>.<br>여기까지 만남 스토리 입니다.<br>----------------------------------
 ===
 title: Day2ChooseEvent
 tags:
@@ -13,6 +10,9 @@ tags:
 ->선택지1
 ->선택지2
 ->선택지3
+<<set $option1 to "선택지1">>
+<<set $option2 to "선택지2">>
+<<set $option3 to "선택지3">>
 ===
 title: Day3ChooseEvent
 tags:

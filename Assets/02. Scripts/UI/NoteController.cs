@@ -5,6 +5,7 @@ using Yarn.Unity;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
 using System;
+using UnityEditor.Search;
 
 public class NoteController : MonoBehaviour
 {
@@ -13,9 +14,6 @@ public class NoteController : MonoBehaviour
     [SerializeField] RectTransform notePos;
     [SerializeField] GameObject pageContainer;
     [SerializeField] Transform[] notePages;
-
-    [SerializeField] GameObject prefab;
-    [SerializeField] Transform parent;
 
     [SerializeField] Button nextPageBtn;
     [SerializeField] Button prevPageBtn;
@@ -39,12 +37,18 @@ public class NoteController : MonoBehaviour
     List<int> numbers = new List<int>() { 1, 2, 3, 4, 5 };
     int selectedNumber;
 
+    NoteAnim noteAnim;
+
+    [SerializeField] VerticalLayoutGroup[] contents;
+    [SerializeField] VerticalLayoutGroup[] lineViews;
     void Start()
     {
+        noteAnim = GameObject.Find("Box_Back").GetComponent<NoteAnim>();
+
         Transform[] pages = pageContainer.GetComponentsInChildren<Transform>();
         List<Transform> targets = new List<Transform>();
         foreach (Transform page in pages)
-        {
+        { 
             if (page.CompareTag("NotePage"))
             {
                 targets.Add(page);
@@ -70,8 +74,6 @@ public class NoteController : MonoBehaviour
         int randomIndex = UnityEngine.Random.Range(0, numbers.Count);
         selectedNumber = numbers[randomIndex];
         numbers.RemoveAt(randomIndex);
-
-        InstantiateNewNameCard();
 
         nextPageBtn.onClick.AddListener(NextPageEvent);
         prevPageBtn.onClick.AddListener(PrevPageEvent);
@@ -168,18 +170,24 @@ public class NoteController : MonoBehaviour
                 dialogueRunnerIndex = 1;
                 nodeName = "Day" + dayCount + "ChooseEvent";
                 break;
-            case 4:
+            case 2:
                 dialogueRunnerIndex = 2;
-                nodeName = "specialEvent" + selectedNumber;
+                nodeName = "d" + selectedNumber;
                 break;
+            case 5:
+                noteAnim.Close_Anim();
+                return;
             default:
                 return;
         }
 
         if (!dialogueRunner[dialogueRunnerIndex].IsDialogueRunning)
+        {
             dialogueRunner[dialogueRunnerIndex].StartDialogue(nodeName);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(contents[dialogueRunnerIndex].GetComponent<RectTransform>());
+            LayoutRebuilder.ForceRebuildLayoutImmediate(lineViews[dialogueRunnerIndex].GetComponent<RectTransform>());
+        }
     }
-
 
     /// <summary>
     /// 페이지 이동 버튼 이미지 변경
@@ -194,8 +202,9 @@ public class NoteController : MonoBehaviour
         else if (pageNum == notePages.Length - 1)
         {
             nextPageBtn.gameObject.SetActive(false);
-            prevPageBtn.gameObject.SetActive(true);
-            nextDayBtn.gameObject.SetActive(true);
+            prevPageBtn.gameObject.SetActive(false);
+            nextDayBtn.gameObject.SetActive(false);
+            pageNum--;
         }
         else
         {
@@ -220,50 +229,25 @@ public class NoteController : MonoBehaviour
         numbers.RemoveAt(randomIndex);
         dayCount++;
         newDay = true;
-        RemoveExistingNameCard();
-        InstantiateNewNameCard();
-        ChooseEventSetOption();
-    }
-    /// <summary>
-    /// 생성된 NameCard 프리팹 삭제
-    /// </summary>
-    void RemoveExistingNameCard()
-    {
-        notePages[1].gameObject.SetActive(true);
-        GameObject[] existingPrefabs = GameObject.FindGameObjectsWithTag("NameCardPrefab");
-        foreach (GameObject prefab in existingPrefabs)
-        {
-            Destroy(prefab);
-        }
-        notePages[1].gameObject.SetActive(false);
-    }
-    /// <summary>
-    /// NameCard 프리팹 생성
-    /// </summary>
-    void InstantiateNewNameCard()
-    {
-        for (int i = 0; i < selectedNumber; i++)
-        {
-            GameObject nameCard = Instantiate(prefab, parent);
-            nameCard.tag = "NameCardPrefab";
-        }
+        //ChooseEventSetOption();
     }
 
-    public void ChooseEventSetOption()
-    {
-        dialogueRunner[2].StartDialogue("Day" + dayCount + "ChooseEvent");
-        variableStorage = GameObject.FindObjectOfType<InMemoryVariableStorage>();
-        for (int i = 0; i < options.Length; i++)
-        {
-            variableStorage.TryGetValue("$option" + (i + 1), out options[i]);
-            if (options[i] == "null")
-                return;
-            else
-            {
-                optionButtons[i].SetActive(true);
-                optionButtons[i].GetComponent<Text>().text = options[i];
-            }
-        }
-        dialogueRunner[2].Stop();
-    }
+
+    //public void ChooseEventSetOption()
+    //{
+    //    dialogueRunner[2].StartDialogue("Day" + dayCount + "ChooseEvent");
+    //    variableStorage = GameObject.FindObjectOfType<InMemoryVariableStorage>();
+    //    for (int i = 0; i < options.Length; i++)
+    //    {
+    //        variableStorage.TryGetValue("$option" + (i + 1), out options[i]);
+    //        if (options[i] == "null")
+    //            return;
+    //        else
+    //        {
+    //            optionButtons[i].SetActive(true);
+    //            optionButtons[i].GetComponent<Text>().text = options[i];
+    //        }
+    //    }
+    //    dialogueRunner[2].Stop();
+    //}
 }
