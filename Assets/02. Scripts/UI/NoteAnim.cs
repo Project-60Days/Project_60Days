@@ -98,7 +98,7 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     /// <summary>
     /// 상자 닫힘 애니메이션
     /// </summary>
-    void Close_Anim()
+    public void Close_Anim()
     {
         if (isOpen)
         {
