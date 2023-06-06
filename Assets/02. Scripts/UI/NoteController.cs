@@ -83,8 +83,6 @@ public class NoteController : MonoBehaviour
         for (int i = 0; i < options.Length; i++)
             optionButtons[i].SetActive(false);
         //ChooseEventSetOption();
-
-        dialogueRunner[1].onDialogueComplete.AddListener(RecalculateLayout);
     }
 
     private void MoveNoteCenter()
@@ -183,15 +181,12 @@ public class NoteController : MonoBehaviour
                 return;
         }
 
-        dialogueRunner[dialogueRunnerIndex].StartDialogue(nodeName);
-        dialogueRunner[dialogueRunnerIndex].Stop();
-        LayoutRebuilder.ForceRebuildLayoutImmediate(contents[dialogueRunnerIndex].GetComponent<RectTransform>());
-        LayoutRebuilder.ForceRebuildLayoutImmediate(lineViews[dialogueRunnerIndex].GetComponent<RectTransform>());
-    }
-    void RecalculateLayout()
-    {
-        Debug.Log("이벤트 함수 실행");
-        //
+        if (!dialogueRunner[dialogueRunnerIndex].IsDialogueRunning)
+        {
+            dialogueRunner[dialogueRunnerIndex].StartDialogue(nodeName);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(contents[dialogueRunnerIndex].GetComponent<RectTransform>());
+            LayoutRebuilder.ForceRebuildLayoutImmediate(lineViews[dialogueRunnerIndex].GetComponent<RectTransform>());
+        }
     }
 
     /// <summary>
