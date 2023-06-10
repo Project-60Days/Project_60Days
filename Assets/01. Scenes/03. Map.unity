@@ -155,7 +155,7 @@ RectTransform:
   m_Children:
   - {fileID: 255100486}
   m_Father: {fileID: 2146077976}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -210,10 +210,10 @@ GameObject:
   m_Component:
   - component: {fileID: 35908272}
   - component: {fileID: 35908273}
-  - component: {fileID: 35908275}
+  - component: {fileID: 35908274}
   m_Layer: 0
   m_Name: Controllers
-  m_TagString: Untagged
+  m_TagString: MapController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -248,7 +248,7 @@ MonoBehaviour:
   GenerateOnStartup: 1
   Settings: {fileID: 11400000, guid: 690a6be2bc3fe0645871bdab96c1b917, type: 2}
   Parent: {fileID: 270035657}
---- !u!114 &35908275
+--- !u!114 &35908274
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -257,25 +257,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 35908271}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c36c401bebaf5844ba759208e328e962, type: 3}
+  m_Script: {fileID: 11500000, guid: 25780014b375d3847aae732c64cc05ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Hexamap: {fileID: 35908273}
   TextStats: {fileID: 1221586099}
-  TextHealth: {fileID: 1400950518}
   playerPrefab: {fileID: 6314717740676103250, guid: 303886a44e740944493ee594d856f8af, type: 3}
   zombiePrefab: {fileID: 6314717740676103250, guid: 29bed00a597eb3044ac9e986cee602f5, type: 3}
+  distrubtorPrefab: {fileID: 2141712199585254430, guid: fbea53f2c0e7cdc49a173ebc909cc565, type: 3}
   zombieSpawnPoint: {fileID: 706894744}
-  zombies: []
+  hexamapTr: {fileID: 2032613207}
   MaxYPosition: 70
   MinYPosition: 5
   MinXRotation: 30
   MaxXRotation: 90
-  ScrollSpeed: 200
+  ScrollSpeed: 50
   MoveSpeed: 50
-  maxHp: 3
-  nextDayButton: {fileID: 218333884}
-  hexamapTr: {fileID: 2032613207}
+  isBaseOn: 0
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -424,7 +422,7 @@ RectTransform:
   m_Children:
   - {fileID: 711774627}
   m_Father: {fileID: 2146077976}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -475,7 +473,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 35908275}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Hexamap.DemoController, Assembly-CSharp
         m_MethodName: NextDay
         m_Mode: 1
@@ -672,7 +670,7 @@ RectTransform:
   m_Children:
   - {fileID: 1221586098}
   m_Father: {fileID: 2146077976}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -734,7 +732,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!20 &534669904
 Camera:
   m_ObjectHideFlags: 0
@@ -760,7 +758,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 32
   orthographic: 0
   orthographic size: 20
   m_Depth: 3
@@ -786,7 +784,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 534669902}
   m_LocalRotation: {x: 0.42261827, y: 0, z: 0, w: 0.9063079}
-  m_LocalPosition: {x: 0, y: 20, z: -28}
+  m_LocalPosition: {x: 0, y: 20, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1134,86 +1132,6 @@ LightingSettings:
   m_PVRFilteringAtrousPositionSigmaIndirect: 2
   m_PVRFilteringAtrousPositionSigmaAO: 1
   m_PVRTiledBaking: 0
---- !u!1 &1400950516
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1400950517}
-  - component: {fileID: 1400950519}
-  - component: {fileID: 1400950518}
-  m_Layer: 5
-  m_Name: TextHp
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1400950517
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1400950516}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.0001254345}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2146077976}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -800, y: 296.14075}
-  m_SizeDelta: {x: -1635, y: -960.29}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1400950518
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1400950516}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 50
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 5
-    m_MaxSize: 300
-    m_Alignment: 3
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: "\uCCB4\uB825 : "
---- !u!222 &1400950519
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1400950516}
-  m_CullTransparentMesh: 0
 --- !u!1 &2032613206
 GameObject:
   m_ObjectHideFlags: 0
@@ -1264,7 +1182,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2057808929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1333,7 +1251,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2146077973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1407,7 +1325,6 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1400950517}
   - {fileID: 368694955}
   - {fileID: 13844135}
   - {fileID: 218333883}
