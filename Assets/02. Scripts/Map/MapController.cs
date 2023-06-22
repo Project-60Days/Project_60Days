@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
 using Hexamap;
+using UnityEngine.EventSystems;
 
 public class MapController : Singleton<MapController>
 {
@@ -16,13 +17,13 @@ public class MapController : Singleton<MapController>
     [SerializeField] GameObject playerPrefab;
     [SerializeField] GameObject zombiePrefab;
     [SerializeField] GameObject distrubtorPrefab;
-    [SerializeField] Transform zombieSpawnPoint;
+    [SerializeField] Transform zombiesTr;
     [SerializeField] Transform hexamapTr;
     public Tile playerLocationTile;
 
 
-    [Header ("카메라 설정")]
-    [Space (5f)]
+    [Header("카메라 설정")]
+    [Space(5f)]
     [SerializeField] int MaxYPosition = 70;
     [SerializeField] int MinYPosition = 5;
     [SerializeField] int MinXRotation = 30;
@@ -36,13 +37,13 @@ public class MapController : Singleton<MapController>
 
     List<TileController> selectedTiles = new List<TileController>();
     List<GameObject> disrubtorBorders = new List<GameObject>();
-    List<GameObject> zombiesList;
+    List<GameObject> zombiesList = new List<GameObject>();
     List<Coords> selectPath;
     List<Coords> movePath;
 
     TMP_Text textHealth;
-    Camera mapCamera;
-    GameObject player;
+    [SerializeField] Camera mapCamera;
+    public GameObject player;
     GameObject distrubtorObject;
     GameObject currentUI;
 
@@ -50,7 +51,6 @@ public class MapController : Singleton<MapController>
     int maxHealth = 3;
 
     bool isSelected;
-    bool isPlayerMove;
     bool isUIOn;
     bool isDisturbance;
     bool playerCanMove;
@@ -62,8 +62,6 @@ public class MapController : Singleton<MapController>
 
         GenerateMap();
         BaseActiveSet(true);
-
-        mapCamera = Camera.main;
         health = maxHealth;
     }
 
@@ -140,14 +138,23 @@ public class MapController : Singleton<MapController>
         TextStats.text = $"Map generated in {timeSpent.ToString("0.000")} seconds.";
         //Debug.Log($"Seed : { Hexamap.Map.Seed }");
 
-        DataManager.instance.gameData.TryGetValue("Data_MinCount_ZombieSwarm", out GameData min);
-        DataManager.instance.gameData.TryGetValue("Data_MaxCount_ZombieSwarm", out GameData max);
+        DataManager.instance.gameData.TryGetValue("Data_MinCount_ZombieObject", out GameData min);
+        DataManager.instance.gameData.TryGetValue("Data_MaxCount_ZombieObject", out GameData max);
 
         int rand = (int)UnityEngine.Random.Range(min.value, max.value);
+
+        rand = 5;
+        Debug.Log("좀비의 수: " + rand);
 
         SpawnPlayer();
         SpawnZombies(rand);
         unselectAllTile();
+        FischlWorks_FogWar.csFogWar.instance.InitializeMapControllerObjects(player, 5);
+
+        var mapCameraPos = mapCamera.transform.position;
+
+        mapCamera.transform.position = new Vector3(player.transform.position.x, mapCameraPos.y, player.transform.position.z - 12f);
+        mapCamera.transform.parent = player.transform;
 
         // 게임 씬 연결 시
         //hexamapTr.position += new Vector3(0, 0, 200);
@@ -182,7 +189,7 @@ public class MapController : Singleton<MapController>
         var tileList = Hexamap.Map.Tiles;
         List<int> selectTileNumber = new List<int>();
 
-        while (true)
+        while (selectTileNumber.Count != zombiesNumber)
         {
             randomInt = UnityEngine.Random.Range(0, tileList.Count);
 
@@ -191,21 +198,20 @@ public class MapController : Singleton<MapController>
             {
                 if (!selectTileNumber.Contains(randomInt))
                     selectTileNumber.Add(randomInt);
-
-                if (selectTileNumber.Count == zombiesNumber)
-                    break;
             }
         }
 
         for (int i = 0; i < selectTileNumber.Count; i++)
         {
-            var rand = UnityEngine.Random.Range(0, 5);
-            var spawnPos = ((GameObject)tileList[i].GameEntity).transform.position;
-            spawnPos.y += 0.7f;
-            var zombie = Instantiate(zombiePrefab, spawnPos, Quaternion.identity, zombieSpawnPoint);
+            var tile = tileList[selectTileNumber[i]];
 
-            zombie.name = "Zombie " + i;
-            zombie.GetComponent<ZombieSwarm>().Init(rand, tileList[i]);
+            var spawnPos = ((GameObject)tile.GameEntity).transform.position;
+            spawnPos.y += 0.7f;
+
+            var zombie = Instantiate(zombiePrefab, spawnPos, Quaternion.identity, zombiesTr);
+            zombie.name = "Zombie " + (i + 1);
+            zombie.GetComponent<ZombieSwarm>().Init(tile);
+
             zombiesList.Add(zombie);
         }
     }
@@ -352,62 +358,67 @@ public class MapController : Singleton<MapController>
 
         if (Input.GetMouseButtonDown(0))
         {
-            Ray ray2 = mapCamera.ScreenPointToRay(Input.mousePosition);
-
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskPlayer) && !playerCanMove && health != 0)
+            if (!EventSystem.current.IsPointerOverGameObject())
             {
-                isSelected = true;
-                playerCanMove = true;
-            }
-            else if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile) && !isSelected)
-            {
-                Transform objectHit = hit.transform;
-                TileController tile = objectHit.parent.GetComponent<TileController>();
+                Ray ray2 = mapCamera.ScreenPointToRay(Input.mousePosition);
 
-                currentUI = GetUi(tile);
-                currentUI.transform.position = Camera.main.WorldToScreenPoint(objectHit.position);
-                currentUI.transform.position += Vector3.right * 300;
-                currentUI.transform.position += Vector3.up * 300;
-                currentUI.SetActive(true);
-
-                isUIOn = true;
-            }
-            else if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile) && playerCanMove)
-            {
-                Transform objectHit = hit.transform;
-                TileController tile = objectHit.parent.GetComponent<TileController>();
-                if (getTileBorder(tile, "BorderYes").activeInHierarchy)
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskPlayer) && !playerCanMove && health != 0)
                 {
-                    movePath = AStar.FindPath(playerLocationTile.Coords, tile.Model.Coords);
-                    // 플레이어 선택한 칸으로 이동
-                    StartCoroutine(PlayerMove(tile.transform.position));
-                    playerLocationTile = tile.Model;
+                    isSelected = true;
+                    playerCanMove = true;
                 }
-                else
+                else if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile) && !isSelected)
                 {
-                    return;
+                    Transform objectHit = hit.transform;
+                    TileController tile = objectHit.parent.GetComponent<TileController>();
+
+                    currentUI = GetUi(tile);
+                    currentUI.transform.position = mapCamera.WorldToScreenPoint(objectHit.position);
+
+                    currentUI.transform.position += new Vector3(300, 150, 0);
+
+                    currentUI.SetActive(true);
+
+                    isUIOn = true;
                 }
-            }
-            else if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile) && isDisturbance)
-            {
-                Transform objectHit = hit.transform;
-                TileController tile = objectHit.parent.GetComponent<TileController>();
-                if (Hexamap.Map.GetTilesInRange(playerLocationTile, 1).Contains(tile.Model) && getTileBorder(tile, "BorderYes").activeInHierarchy)
+                else if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile) && playerCanMove)
                 {
-                    // 교란기 설치
-                    foreach (var item in playerLocationTile.Neighbours)
+                    Transform objectHit = hit.transform;
+                    TileController tile = objectHit.parent.GetComponent<TileController>();
+                    if (getTileBorder(tile, "BorderYes").activeInHierarchy)
                     {
-                        if (item.Value == tile.Model)
-                        {
-                            distrubtorObject.GetComponent<Distrubtor>().Set(tile.Model, item.Key);
-                            DistrubtorSettingSuccess();
-                        }
+                        movePath = AStar.FindPath(playerLocationTile.Coords, tile.Model.Coords);
+                        // 플레이어 선택한 칸으로 이동
+                        StartCoroutine(PlayerMove(tile.transform.position));
+                        playerLocationTile = tile.Model;
+                    }
+                    else
+                    {
+                        return;
                     }
                 }
-                else
+                else if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile) && isDisturbance)
                 {
-                    // 클릭 불가
+                    Transform objectHit = hit.transform;
+                    TileController tile = objectHit.parent.GetComponent<TileController>();
+                    if (Hexamap.Map.GetTilesInRange(playerLocationTile, 1).Contains(tile.Model) && getTileBorder(tile, "BorderYes").activeInHierarchy)
+                    {
+                        // 교란기 설치
+                        foreach (var item in playerLocationTile.Neighbours)
+                        {
+                            if (item.Value == tile.Model)
+                            {
+                                distrubtorObject.GetComponent<Distrubtor>().Set(tile.Model, item.Key);
+                                DistrubtorSettingSuccess();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // 클릭 불가
+                    }
                 }
+
             }
         }
 
@@ -443,7 +454,6 @@ public class MapController : Singleton<MapController>
 
     IEnumerator PlayerMove(Vector3 lastTargetPos, float time = 0.5f)
     {
-        isPlayerMove = true;
         Tile targetTile;
         Vector3 targetPos;
 
@@ -466,7 +476,6 @@ public class MapController : Singleton<MapController>
 
         isSelected = false;
         playerCanMove = false;
-        isPlayerMove = false;
         unselectAllPathTile();
         movePath.Clear();
         health = 0;
@@ -486,18 +495,21 @@ public class MapController : Singleton<MapController>
         return false;
     }
 
-    public bool CalculateDistanceToDistrubtor(Tile tile, int range)
+    public Distrubtor CalculateDistanceToDistrubtor(Tile tile, int range)
     {
         var searchTiles = Hexamap.Map.GetTilesInRange(tile, range);
+
+        if (distrubtorObject == null)
+            return null;
 
         foreach (var item in searchTiles)
         {
             if (distrubtorObject.GetComponent<Distrubtor>().curTile == item)
             {
-                return true;
+                return distrubtorObject.GetComponent<Distrubtor>();
             }
         }
-        return false;
+        return null;
     }
 
     public void CheckSumZombies()
@@ -505,29 +517,28 @@ public class MapController : Singleton<MapController>
         List<Tile> tiles = new List<Tile>();
 
         foreach (var item in zombiesList)
-        {
             tiles.Add(item.GetComponent<ZombieSwarm>().curTile);
-        }
 
         var result = tiles.GroupBy(x => x)
             .Where(g => g.Count() > 1)
-            .Select(x => new { Element = x.Key, Count = x.Count() })
+            .Select(x => x.Key)
+            .Distinct()
             .ToList();
 
         foreach (var item in result)
         {
-            var num = tiles.IndexOf(item.Element);
-
+            var num = tiles.IndexOf(item);
             for (int i = num + 1; i < tiles.Count; i++)
             {
                 if (tiles[num] == tiles[i])
                 {
-                    zombiesList[num].GetComponent<ZombieSwarm>().SumZombies(zombiesList[i].GetComponent<ZombieSwarm>());
-                    StartCoroutine(DelayDestroy(i));
+                    var secondZombieSwarm = zombiesList[i].GetComponent<ZombieSwarm>();
+                    zombiesList[num].GetComponent<ZombieSwarm>().SumZombies(secondZombieSwarm);
+                    zombiesList.RemoveAt(i);
+                    Destroy(secondZombieSwarm.gameObject, 0.5f);
                 }
             }
         }
-
     }
 
     public void NextDay()
@@ -535,21 +546,13 @@ public class MapController : Singleton<MapController>
         health = maxHealth;
         CheckSumZombies();
 
-        distrubtorObject.GetComponent<Distrubtor>().Move();
+        if (distrubtorObject != null)
+            distrubtorObject.GetComponent<Distrubtor>().Move();
 
         foreach (var item in zombiesList)
         {
-            item.GetComponent<ZombieSwarm>().DetectionPlayer();
+            item.GetComponent<ZombieSwarm>().Detection();
         }
-
-        //StartCoroutine(DelayDayButton());
-    }
-
-    public IEnumerator DelayDestroy(int num)
-    {
-        yield return new WaitForSeconds(0.5f);
-        Destroy(zombiesList[num]);
-        zombiesList.RemoveAt(num);
     }
 
     #region 선택 타일 관련

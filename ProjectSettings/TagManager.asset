@@ -12,6 +12,7 @@ TagManager:
   - NoteUi
   - MapController
   - Distrubtor
+  - FogWar
   layers:
   - Default
   - TransparentFX

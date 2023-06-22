@@ -22,12 +22,23 @@ public class Distrubtor : MonoBehaviour
 
     public void Move()
     {
+        curTile.Neighbours.TryGetValue(direction, out Tile nextTile);
+
+
+
         if (lifeTime > 0)
         {
-            curTile.Neighbours.TryGetValue(direction, out Tile nextTile);
-            transform.DOMove(((GameObject)nextTile.GameEntity).transform.position + Vector3.up, 1f);
-            curTile = nextTile;
-            lifeTime -= 1;
+            if (nextTile.Landform.GetType().Name == "LandformWorldLimit")
+            {
+                lifeTime -= 1;
+                return;
+            }
+            else
+            {
+                transform.DOMove(((GameObject)nextTile.GameEntity).transform.position + Vector3.up, 0.5f);
+                curTile = nextTile;
+                lifeTime -= 1;
+            }
         }
         else
         {

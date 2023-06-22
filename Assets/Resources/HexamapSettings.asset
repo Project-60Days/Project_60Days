@@ -23,9 +23,9 @@ MonoBehaviour:
   WorldLimitsPrefabs:
   - {fileID: 307140750319210593, guid: 107bb55c1e1843644a01198b3d714853, type: 3}
   BiomeSettings:
-  - UUID: f0544517-0125-4a7a-83d0-513b0dd461f5
+  - UUID: f8015e56-cfb3-41e5-9ded-d41225cf5996
     Name: HUMID
-    MinimumTilesCount: 100
+    MinimumTilesCount: 500
     Landforms:
     - TypeAsString: Hexamap.LandformRoad
       IsSelected: 0
