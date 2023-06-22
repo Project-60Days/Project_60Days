@@ -31,14 +31,14 @@ public class MapCamera : MonoBehaviour
         if (isOn)
         {
             mapCamera.Priority = 11;
-            Hexamap.DemoController.instance.BaseOnOff(false);
+            MapController.instance.BaseActiveSet(false);
             noteUi.SetActive(false);
             hpText.SetActive(true);
         }
         else
         {
             mapCamera.Priority = 9;
-            Hexamap.DemoController.instance.BaseOnOff(true);
+            MapController.instance.BaseActiveSet(true);
             noteUi.SetActive(true);
             hpText.SetActive(false);
         }
