@@ -220,7 +220,7 @@ public class NoteController : MonoBehaviour
     /// </summary>
     void NextDayEvent()
     {
-        Hexamap.DemoController.instance.NextDay();
+        MapController.instance.NextDay();
         pageNum = 0;
         for(int i = 0; i < dialogueRunner.Length; i++)
             dialogueRunner[i].Stop();
