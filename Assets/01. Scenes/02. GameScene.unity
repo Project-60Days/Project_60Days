@@ -728,7 +728,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89742477c78f1cb41b6ad9603c9e14bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapCamera: {fileID: 924580828}
   currCam: {fileID: 1184953810}
   cameraInfos:
   - vCam: {fileID: 1184953810}

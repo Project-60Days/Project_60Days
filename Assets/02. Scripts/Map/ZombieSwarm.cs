@@ -12,6 +12,7 @@ public class ZombieSwarm : MonoBehaviour
     public int drinkCount;
     public GameObject equipment;
     public bool isChasingPlayer;
+    public Distrubtor nearthDistrubtor;
     public int remainStunTime;
 
     public float zombieMovePossibility;
@@ -23,17 +24,18 @@ public class ZombieSwarm : MonoBehaviour
     public int moveCost = 1;
     public Tile curTile;
     public Tile lastTile;
+    public Tile targetTile;
     List<Coords> movePath;
 
     //public SpecialZombie[] specialZombies;
 
-    public void Init(int count, Tile tile)
+    public void Init(Tile tile)
     {
         DataManager.instance.gameData.TryGetValue("Data_Zombie_Move_Possibility", out GameData move);
         DataManager.instance.gameData.TryGetValue("Data_Zombie_Stay_Possibility", out GameData stay);
         DataManager.instance.gameData.TryGetValue("Data_SpecialZombie_Possibility", out GameData special);
-        DataManager.instance.gameData.TryGetValue("Data_MinCount_ZombieObject", out GameData min);
-        DataManager.instance.gameData.TryGetValue("Data_MaxCount_ZombieObject", out GameData max);
+        DataManager.instance.gameData.TryGetValue("Data_MinCount_ZombieSwarm", out GameData min);
+        DataManager.instance.gameData.TryGetValue("Data_MaxCount_ZombieSwarm", out GameData max);
 
         zombieMovePossibility = move.value;
         zombieStayPossibility = stay.value;
@@ -47,10 +49,11 @@ public class ZombieSwarm : MonoBehaviour
         CurrentTileInfoUpdate(curTile);
     }
 
-    public void DetectionPlayer()
+    public void Detection()
     {
         // 데모 컨트롤러에서 범위 가져옴.
-        isChasingPlayer = DemoController.instance.CalculateDistanceToPlayer(curTile, 2);
+        isChasingPlayer = MapController.instance.CalculateDistanceToPlayer(curTile, 2);
+        nearthDistrubtor = MapController.instance.CalculateDistanceToDistrubtor(curTile, 2);
         ActionDecision();
     }
 
@@ -58,52 +61,59 @@ public class ZombieSwarm : MonoBehaviour
     {
         if (remainStunTime > 0)
         {
-            Debug.Log(gameObject.name + "은 정신을 차리지 못하고 있다.");
+            //Debug.Log(gameObject.name + "은 정신을 차리지 못하고 있다.");
             remainStunTime--;
+            return;
+        }
+
+        if (nearthDistrubtor != null)
+        {
+            Debug.Log(gameObject.name + "이 플레이어를 발견!");
+            StartCoroutine(MoveToTarget(nearthDistrubtor.curTile));
+
             return;
         }
 
         if (isChasingPlayer)
         {
             Debug.Log(gameObject.name + "이 플레이어를 발견!");
-            StartCoroutine(MoveToPlayer());
+            StartCoroutine(MoveToTarget(MapController.instance.playerLocationTile));
         }
         else
         {
             var randomInt = GetRandom();
             if (randomInt == 0)
             {
-                Debug.Log(gameObject.name + "은 정처없이 떠돌아 다니고 있다...");
+                //Debug.Log(gameObject.name + "은 정처없이 떠돌아 다니고 있다...");
                 StartCoroutine(MoveToRandom());
             }
             else
             {
-                Debug.Log(gameObject.name + "은 움직임을 보이지 않는다...");
+                //Debug.Log(gameObject.name + "은 움직임을 보이지 않는다...");
             }
         }
     }
 
-    public IEnumerator MoveToPlayer(int num = 1, float time = 0.5f)
+    public IEnumerator MoveToTarget(Tile target, int walkCount = 1, float time = 0.5f)
     {
-        movePath = AStar.FindPath(curTile.Coords, DemoController.instance.playerLocationTile.Coords);
-
+        movePath = AStar.FindPath(curTile.Coords, target.Coords);
 
         Tile targetTile;
         Vector3 targetPos;
 
-        for (int i = 0; i < num; i++)
+        for (int i = 0; i < walkCount; i++)
         {
             if (movePath.Count <= 0)
                 break;
 
-            targetTile = DemoController.instance.GetTileFromCoords(movePath[i]);
+            targetTile = MapController.instance.GetTileFromCoords(movePath[i]);
             targetPos = ((GameObject)targetTile.GameEntity).transform.position;
             targetPos.y += 1;
             gameObject.transform.DOMove(targetPos, time);
             yield return new WaitForSeconds(time);
             curTile = targetTile;
         }
-        DemoController.instance.CheckSumZombies();
+        MapController.instance.CheckSumZombies();
         CurrentTileInfoUpdate(curTile);
         CurrentTileInfoUpdate(lastTile);
         lastTile = curTile;
@@ -111,7 +121,7 @@ public class ZombieSwarm : MonoBehaviour
 
     public IEnumerator MoveToRandom(int num = 1, float time = 0.5f)
     {
-        var candidate = DemoController.instance.GetTilesInRange(curTile, num);
+        var candidate = MapController.instance.GetTilesInRange(curTile, num);
         int rand = UnityEngine.Random.Range(0, candidate.Count);
 
         while (((GameObject)candidate[rand].GameEntity).gameObject.layer == 8)
@@ -126,7 +136,7 @@ public class ZombieSwarm : MonoBehaviour
         yield return gameObject.transform.DOMove(targetPos, time);
 
         curTile = candidate[rand];
-        DemoController.instance.CheckSumZombies();
+        MapController.instance.CheckSumZombies();
         CurrentTileInfoUpdate(curTile);
         CurrentTileInfoUpdate(lastTile);
         lastTile = curTile;
@@ -134,13 +144,13 @@ public class ZombieSwarm : MonoBehaviour
 
     public void CurrentTileInfoUpdate(Tile tile)
     {
-        var uiObject = DemoController.instance.GetUi(tile);
-        var text = uiObject.transform.Find("TMPs").Find("ZombieSwarmTMP").GetComponent<TMP_Text>();
+        var uiObject = MapController.instance.GetUi(tile);
+        var zombieCountText = uiObject.transform.Find("TMPs").Find("ZombieSwarmTMP").GetComponent<TMP_Text>();
 
         if (tile == curTile)
-            text.text = "좀비 무리 : 약 " + zombieCount + "체 이상";
+            zombieCountText.text = "좀비 무리 : 약 " + zombieCount + "체 이상";
         else
-            text.text = "좀비 무리 : 알 수 없음";
+            zombieCountText.text = "좀비 무리 : 알 수 없음";
     }
 
     public void SumZombies(ZombieSwarm zombie)
@@ -152,9 +162,10 @@ public class ZombieSwarm : MonoBehaviour
 
     public int GetRandom()
     {
-        float num = zombieMinCount / (zombieMinCount + zombieMaxCount);
-        float rate = (zombieMinCount + zombieMaxCount) - ((zombieMinCount + zombieMaxCount) * zombieMinCount);
-        int tmp = (int)Random.Range(0, (zombieMinCount + zombieMaxCount));
+        float percentage = zombieMovePossibility + zombieStayPossibility;
+        float probability = zombieMovePossibility / percentage;
+        float rate = percentage - (percentage * probability);
+        int tmp = (int)Random.Range(0, percentage);
 
         if (tmp <= rate - 1)
         {
