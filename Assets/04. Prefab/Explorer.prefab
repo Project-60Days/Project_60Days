@@ -203,10 +203,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6687502598344762634}
-  - component: {fileID: -9178913118835124496}
-  - component: {fileID: 6313639618506749780}
+  - component: {fileID: 1575059404893761347}
+  - component: {fileID: 7248033671075416207}
   m_Layer: 0
-  m_Name: Disturbance
+  m_Name: Explorer
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -229,19 +229,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-9178913118835124496
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2141712199585254430}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ce403c37306fc74782595c6a41b7031, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6313639618506749780
+--- !u!114 &1575059404893761347
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -256,6 +244,18 @@ MonoBehaviour:
   fogWar: {fileID: 0}
   visibility: 0
   additionalRadius: 0
+--- !u!114 &7248033671075416207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2141712199585254430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f52745d62633a346a7e90dc66642a5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2685795916529070903
 GameObject:
   m_ObjectHideFlags: 0
@@ -748,6 +748,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: fdacff01bcd13a04aacbfda20abf3499, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1e61c028ff3268d48898533862f445b5, type: 2}
     - target: {fileID: 919132149155446097, guid: fdacff01bcd13a04aacbfda20abf3499, type: 3}
       propertyPath: m_Name
       value: Object_Worldmap_Drone
