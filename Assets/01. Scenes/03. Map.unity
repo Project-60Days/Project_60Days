@@ -265,6 +265,7 @@ MonoBehaviour:
   playerPrefab: {fileID: 6314717740676103250, guid: 303886a44e740944493ee594d856f8af, type: 3}
   zombiePrefab: {fileID: 6314717740676103250, guid: 29bed00a597eb3044ac9e986cee602f5, type: 3}
   distrubtorPrefab: {fileID: 2141712199585254430, guid: fbea53f2c0e7cdc49a173ebc909cc565, type: 3}
+  explorerPrefab: {fileID: 2141712199585254430, guid: 5fede54bddf76ae4fb17561eb5cb324f, type: 3}
   zombiesTr: {fileID: 706894744}
   hexamapTr: {fileID: 2032613207}
   MaxYPosition: 70

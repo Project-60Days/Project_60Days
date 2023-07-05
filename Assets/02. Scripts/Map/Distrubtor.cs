@@ -17,7 +17,7 @@ public class Distrubtor : MonoBehaviour
         curTile = tile;
         direction = cp;
 
-        GetComponent<MeshRenderer>().material.DOColor(Color.black, 1f);
+        GetComponentInChildren<MeshRenderer>().material.DOFade(100, 1f);
     }
 
     public void Move()

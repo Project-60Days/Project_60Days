@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DisturbanceButton : MonoBehaviour
+public class ExplorerButton : MonoBehaviour
 {
     MapController controller;
     void Start()
@@ -15,11 +15,12 @@ public class DisturbanceButton : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
         controller = GameObject.FindGameObjectWithTag("MapController").GetComponent<MapController>();
-        gameObject.GetComponent<Button>().onClick.AddListener(Disturbance);
+        gameObject.GetComponent<Button>().onClick.AddListener(Explorer);
     }
 
-    public void Disturbance()
+    public void Explorer()
     {
-        controller.DistrubtorBorderActiveOn();
+        Debug.Log("탐색기 버튼 눌림!");
+        controller.ExplorerBorderActiveOn();
     }
 }
