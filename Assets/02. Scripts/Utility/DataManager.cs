@@ -13,6 +13,7 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<string, StringData> stringData = new Dictionary<string, StringData>();
     public Dictionary<string, CharData> charData = new Dictionary<string, CharData>();
     public Dictionary<string, GameData> gameData = new Dictionary<string, GameData>();
+    //public Dictionary<string, ItemData> itemData = new Dictionary<string, ItemData>();
 
     //public Dictionary<int, Stat> StatDict { get; private set; } = new Dictionary<int, Stat>();
 
@@ -112,7 +113,6 @@ public class GameData
 }
 
 
-
 [Serializable]
 public class CharData
 {
@@ -141,6 +141,16 @@ public class CharData
     public string relationshipCode2;
 }
 
+//public class ItemData
+//{
+//    public int ID;
+//    public string Name;
+//    public string ToolTip;
+//    public Sprite IconSprite;
+//    public int maxAmount;
+//    public int minAmount;
+
+//}
 
 public class JsonUtilityHelper
 {

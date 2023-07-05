@@ -5,6 +5,13 @@ public enum EUILayer
     Setting
 };
 
+public enum ItemType
+{
+    Material,
+    Equipment,
+    Consumption
+}
+
 public enum ENotePageType
 {
     DayStart,
