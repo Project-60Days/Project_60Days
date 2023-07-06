@@ -12,18 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a8bc5409a7c8bf489b043e59d85331b, type: 3}
   m_Name: HexamapSettings
   m_EditorClassIdentifier: 
-  ShapeAsString: Hexamap.MapSquare
-  ShapePopupIndex: 3
+  ShapeAsString: Hexamap.MapHexagonal
+  ShapePopupIndex: 2
   Seed: 0
   Padding: 0
-  WorldLimitsSize: 1
+  WorldLimitsSize: 5
   WorldLimitsPrefabPickingMethodAsString: Hexamap.PickingMethodFirst
   WorldLimitsPrefabPickingMethodPopupIndex: 2
   WorldLimitsPrefabOrientationMethod: 0
   WorldLimitsPrefabs:
-  - {fileID: 307140750319210593, guid: 107bb55c1e1843644a01198b3d714853, type: 3}
+  - {fileID: 307140750319210593, guid: ac48f32bd8226654e8066c1c6f86b3c1, type: 3}
   BiomeSettings:
-  - UUID: f8015e56-cfb3-41e5-9ded-d41225cf5996
+  - UUID: 8972ea39-0e8d-4411-b002-e7a17344b32f
     Name: HUMID
     MinimumTilesCount: 500
     Landforms:

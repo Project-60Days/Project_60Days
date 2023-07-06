@@ -11,6 +11,9 @@ public class Explorer : MonoBehaviour
     public Tile targetTile;
     List<Coords> movePath;
 
+    WaitForSeconds delay05 = new WaitForSeconds(0.5f);
+    WaitForSeconds delay1 = new WaitForSeconds(1f);
+
     public void Set(Tile tile)
     {
         lifeTime = 1f;
@@ -25,31 +28,25 @@ public class Explorer : MonoBehaviour
 
     public IEnumerator Move(int walkCount = 2)
     {
-        if(curTile != targetTile)
-            movePath = AStar.FindPath(curTile.Coords, targetTile.Coords);
-
         Tile nextTile;
         Vector3 targetPos;
 
+        if (curTile != targetTile)
+            movePath = AStar.FindPath(curTile.Coords, targetTile.Coords);
+
         if (lifeTime > 0)
         {
-            if (curTile == targetTile)
-            {
-                Debug.Log("작동");
-                FischlWorks_FogWar.csFogWar.instance.InitializeMapControllerObjects(gameObject, 2);
-                lifeTime -= 1;
-                yield break;
-            }
-            else if (movePath.Count < walkCount)
+
+            if (movePath.Count < walkCount)
             {
                 nextTile = MapController.instance.GetTileFromCoords(targetTile.Coords);
                 targetPos = ((GameObject)nextTile.GameEntity).transform.position;
                 targetPos.y += 0.5f;
                 gameObject.transform.DOMove(targetPos, 0.5f);
-                yield return new WaitForSeconds(0.5f);
+                yield return delay05;
                 curTile = nextTile;
             }
-            else
+            else if (curTile != targetTile)
             {
                 for (int i = 0; i < walkCount; i++)
                 {
@@ -57,17 +54,27 @@ public class Explorer : MonoBehaviour
                     targetPos = ((GameObject)nextTile.GameEntity).transform.position;
                     targetPos.y += 0.5f;
                     gameObject.transform.DOMove(targetPos, 0.5f);
-                    yield return new WaitForSeconds(0.5f);
+                    yield return delay05;
                     curTile = nextTile;
                 }
             }
+
+            if (curTile == targetTile)
+            {
+                Debug.Log("작동");
+                FischlWorks_FogWar.csFogWar.instance.AddFogRevealer(new FischlWorks_FogWar.csFogWar.FogRevealer(gameObject.transform, 2, false));
+                lifeTime -= 1;
+            }
+
         }
         else
         {
-            movePath.Clear();
-            
+            // 삭제
+            FischlWorks_FogWar.csFogWar.instance._FogRevealers[FischlWorks_FogWar.csFogWar.instance._FogRevealers.Count - 1].sightRange = 0;
+            yield return delay1;
             FischlWorks_FogWar.csFogWar.instance.RemoveFogRevealer(1);
             Destroy(gameObject);
+
         }
         movePath.Clear();
     }
