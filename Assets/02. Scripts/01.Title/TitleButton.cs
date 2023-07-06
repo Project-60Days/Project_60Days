@@ -3,14 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Unity.VisualScripting;
 
-public class OpenedButton_Anim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class TitleButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private Text buttonText;
     private Image buttonImage;
 
-    private Color normalTextColor = Color.cyan;
-    private Color highlightTextColor = Color.white;
+    private Color normalTextColor = Color.white;
+    private Color highlightTextColor = Color.black;
+
+    [SerializeField] int flag;
+
+    [SerializeField] GameObject titlePanel;
+    [SerializeField] GameObject optionPanel;
+    [SerializeField] GameObject soundPanel;
 
     private void Start()
     {
@@ -39,5 +46,22 @@ public class OpenedButton_Anim : MonoBehaviour, IPointerEnterHandler, IPointerEx
     {
         buttonText.color = normalTextColor;
         buttonImage.enabled = false;
+    }
+
+    public void OpenOptionPanel()
+    {
+        titlePanel.SetActive(false);
+        optionPanel.SetActive(true);
+    }
+
+    public void OpenTitlePanel()
+    {
+        titlePanel.SetActive(true);
+        optionPanel.SetActive(false);
+    }
+
+    public void OpenSoundPanel()
+    {
+        soundPanel.SetActive(true);
     }
 }

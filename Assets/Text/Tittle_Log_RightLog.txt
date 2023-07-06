@@ -1,0 +1,15 @@
+ - target: {fileID: 3030132429962314220, guid: d1fc68b1b8c32bd41841fcd342ed2030, type: 3} propertyPath: m_AnchorMin.y value: 0 objectReference: {fileID: 0}
+ - target: {fileID: 3030132429962314220, guid: d1fc68b1b8c32bd41841fcd342ed2030, type: 3} propertyPath: m_AnchoredPosition.x value: 0 objectReference: {fileID: 0}
+ - target: {fileID: 3030132429962314220, guid: d1fc68b1b8c32bd41841fcd342ed2030, type: 3} propertyPath: m_AnchoredPosition.y value: 0 objectReference: {fileID: 0}
+ - target: {fileID: 3030132430069157147, guid: d1fc68b1b8c32bd41841fcd342ed2030, type: 3} propertyPath: m_AnchorMax.y
+- Caution : YOU ENTERING TO DEAD.NET
+- Caution : YOU ENTERING TO DEAD.NET
+- Caution : YOU ENTERING TO DEAD.NET
+- Caution : YOU ENTERING TO DEAD.NET
+- Caution : YOU ENTERING TO DEAD.NET
+- Caution : YOU ENTERING TO DEAD.NET
+- Caution : YOU ENTERING TO DEAD.NET
+- Caution : YOU ENTERING TO DEAD.NET
+- Caution : YOU ENTERING TO DEAD.NET
+- Caution : YOU ENTERING TO DEAD.NET
+- Caution : YOU ENTERING TO DEAD.NET
