@@ -189,7 +189,7 @@ public class MapController : Singleton<MapController>
         Vector3 spawnPos = ((GameObject)playerLocationTile.GameEntity).transform.position;
         spawnPos.y += 0.5f;
 
-        player = Instantiate(playerPrefab, spawnPos, Quaternion.identity);
+        player = Instantiate(playerPrefab, spawnPos, Quaternion.Euler(0,-90,0));
         player.transform.parent = hexamapTr;
     }
 
@@ -218,7 +218,7 @@ public class MapController : Singleton<MapController>
             var spawnPos = ((GameObject)tile.GameEntity).transform.position;
             spawnPos.y += 0.7f;
 
-            var zombie = Instantiate(zombiePrefab, spawnPos, Quaternion.identity, zombiesTr);
+            var zombie = Instantiate(zombiePrefab, spawnPos, Quaternion.Euler(0, -90, 0), zombiesTr);
             zombie.name = "Zombie " + (i + 1);
             zombie.GetComponent<ZombieSwarm>().Init(tile);
 
@@ -236,20 +236,26 @@ public class MapController : Singleton<MapController>
 
         if (vertical > 0) // Top
         {
-            movement += Vector3.forward * MoveSpeed * Time.deltaTime;
+            movement += Vector3.left * MoveSpeed * Time.deltaTime;
+
         }
         else if (vertical < 0) // Bottom
         {
-            movement += Vector3.back * MoveSpeed * Time.deltaTime;
+            movement += Vector3.right * MoveSpeed * Time.deltaTime;
+
         }
 
         if (horizontal > 0) // Right
         {
-            movement += Vector3.right * MoveSpeed * Time.deltaTime;
+            //
+
+            movement += Vector3.forward * MoveSpeed * Time.deltaTime;
         }
         else if (horizontal < 0) // Left
         {
-            movement += Vector3.left * MoveSpeed * Time.deltaTime;
+            //
+            movement += Vector3.back * MoveSpeed * Time.deltaTime;
+
         }
 
 
@@ -270,7 +276,7 @@ public class MapController : Singleton<MapController>
         float newXRot = (MaxXRotation - MinXRotation) * relativeY + MinXRotation;
 
         if (newXRot < MaxXRotation && newXRot > MinXRotation)
-            mapCamera.transform.eulerAngles = new Vector3(newXRot, 0, 0);
+            mapCamera.transform.eulerAngles = new Vector3(newXRot, -90, 0);
 
         mapCamera.transform.position = movement;
 
@@ -416,9 +422,6 @@ public class MapController : Singleton<MapController>
                     TileController tile = objectHit.parent.GetComponent<TileController>();
 
                     currentUI = GetUi(tile);
-                    currentUI.transform.position = mapCamera.WorldToScreenPoint(objectHit.position);
-
-                    currentUI.transform.position += new Vector3(300, 150, 0);
 
                     currentUI.SetActive(true);
 
@@ -504,13 +507,12 @@ public class MapController : Singleton<MapController>
             border?.SetActive(true);
         }
 
-        distrubtorObject = Instantiate(distrubtorPrefab, player.transform.position + Vector3.up * 1.5f, Quaternion.identity);
+        distrubtorObject = Instantiate(distrubtorPrefab, player.transform.position + Vector3.up * 1.5f, Quaternion.Euler(0, -90, 0));
         distrubtorObject.transform.parent = hexamapTr;
         distrubtorObject.GetComponentInChildren<MeshRenderer>().material.DOFade(50, 0);
         isDisturbance = true;
         isSelected = true;
     }
-
 
     public void ExplorerBorderActiveOn()
     {
