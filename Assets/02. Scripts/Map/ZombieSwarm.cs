@@ -68,7 +68,7 @@ public class ZombieSwarm : MonoBehaviour
 
         if (nearthDistrubtor != null)
         {
-            Debug.Log(gameObject.name + "이 플레이어를 발견!");
+            Debug.Log(gameObject.name + "이 교란기를 발견!");
             StartCoroutine(MoveToTarget(nearthDistrubtor.curTile));
 
             return;

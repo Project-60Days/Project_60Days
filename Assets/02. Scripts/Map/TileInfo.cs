@@ -6,15 +6,15 @@ using TMPro;
 
 public class TileInfo : MonoBehaviour
 {
-    /*    ETileType tileType;
-        EWeatherType weatherType;
-        TileInfo[] aroundTiles;
-        string buildingID;
-        int resourceID;
-        string specialID;
-        bool isCanMove;*/
+    ETileType tileType;
+    EWeatherType weatherType;
+    TileInfo[] aroundTiles;
+    string buildingID;
+    int resourceID;
+    string specialID;
+    bool isCanMove;
     bool isDistrubtorOn;
-    [SerializeField]TMP_Text resourceText;
+    [SerializeField] TMP_Text resourceText;
     List<Resource> owendResources;
 
     public class Resource
@@ -29,7 +29,17 @@ public class TileInfo : MonoBehaviour
         public int count;
     }
 
-    private void Start()
+    public void ActiveControl(bool isActive)
+    {
+        gameObject.SetActive(isActive);
+    }
+
+    public void DistrubtorOnOff(bool onoff)
+    {
+        isDistrubtorOn = onoff;
+    }
+
+    void Start()
     {
         owendResources = new List<Resource>();
 
@@ -42,6 +52,7 @@ public class TileInfo : MonoBehaviour
     {
         string type = "";
         var random = Random.Range(1, 3);
+
         for (int i = 0; i < random; i++)
         {
             var randomType = Random.Range(1, 5);
@@ -63,23 +74,15 @@ public class TileInfo : MonoBehaviour
             }
 
             var randomInt = Random.Range(1, 15);
-
             owendResources.Add(new Resource(type, randomInt));
         }
-
-
     }
 
     void TextUpdate()
     {
         if (owendResources.Count == 2)
-            resourceText.text = "자원 : " + owendResources[0].type + " " + owendResources[0].count + ", " + owendResources[1]?.type + " " + owendResources[1]?.count;
+            resourceText.text = "자원 : " + owendResources[0].type + " " + owendResources[0].count + ", " + owendResources[1].type + " " + owendResources[1].count;
         else
             resourceText.text = "자원 : " + owendResources[0].type + " " + owendResources[0].count;
-    }
-
-    public void DistrubtorOnOff(bool onoff)
-    {
-        isDistrubtorOn = onoff;
     }
 }

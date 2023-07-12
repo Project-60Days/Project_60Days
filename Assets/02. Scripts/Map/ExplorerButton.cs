@@ -20,7 +20,7 @@ public class ExplorerButton : MonoBehaviour
 
     public void Explorer()
     {
-        Debug.Log("탐색기 버튼 눌림!");
-        controller.ExplorerBorderActiveOn();
+        if(controller.CheckSelected())
+            controller.ExplorerBorderActiveSet(true);
     }
 }

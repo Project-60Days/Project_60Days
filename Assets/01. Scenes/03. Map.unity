@@ -277,6 +277,7 @@ MonoBehaviour:
   isBaseOn: 0
   mapCamera: {fileID: 534669904}
   player: {fileID: 0}
+  fog: {fileID: 1982854165}
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,7 +308,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 0.972549, g: 0.84199053, b: 0.6627451, a: 1}
-  m_Intensity: 1.25
+  m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -652,14 +653,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 534669902}
-  m_LocalRotation: {x: 0.4983961, y: -0.5015988, z: 0.4983961, w: 0.5015988}
-  m_LocalPosition: {x: 0, y: 9.619717, z: 0}
+  m_LocalRotation: {x: 0.28506166, y: -0.64710116, z: 0.28506166, w: 0.64710116}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 89.633, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 47.549, y: -90, z: 0}
 --- !u!114 &534669906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -898,18 +899,18 @@ MonoBehaviour:
   fogRevealers: []
   levelMidPoint: {fileID: 1982854166}
   FogRefreshRate: 5
-  fogPlaneHeight: 0
+  fogPlaneHeight: 1
   fogPlaneMaterial: {fileID: 2100000, guid: 36b93ac6fcf129c449491654e397fe4a, type: 2}
   fogColor: {r: 0.019607844, g: 0.05882353, b: 0.09803922, a: 1}
-  fogPlaneAlpha: 0.9
+  fogPlaneAlpha: 1
   fogLerpSpeed: 1
   fogPlaneTextureLerpTarget: {fileID: 0}
   fogPlaneTextureLerpBuffer: {fileID: 0}
   LevelDataToLoad: {fileID: 0}
   saveDataOnScan: 1
   levelNameToSave: Default
-  levelDimensionX: 110
-  levelDimensionY: 110
+  levelDimensionX: 200
+  levelDimensionY: 200
   unitScale: 0.5
   scanSpacingPerUnit: 0.25
   rayStartHeight: 5

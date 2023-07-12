@@ -20,6 +20,7 @@ public class DisturbanceButton : MonoBehaviour
 
     public void Disturbance()
     {
-        controller.DistrubtorBorderActiveOn();
+        if(controller.CheckSelected())
+            controller.DistrubtorBorderActiveSet(true);
     }
 }
