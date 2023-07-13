@@ -23,7 +23,9 @@ public class MapController : Singleton<MapController>
     [SerializeField] Camera mapCamera;
     [SerializeField] GameObject player;
     [SerializeField] GameObject fog;
+    [SerializeField] ResourceManager resourceManager;
     public Tile playerLocationTile;
+    public Tile prevTile;
 
 
     [Header("카메라 설정")]
@@ -59,6 +61,8 @@ public class MapController : Singleton<MapController>
     bool isDisturbanceSet;
     bool isExplorerSet;
     bool isPlayerMoving;
+
+    public static Action<Tile> PlayerBehavior;
     #endregion
 
     void Start()
@@ -91,12 +95,6 @@ public class MapController : Singleton<MapController>
 
         if (!isPlayerMoving)
             MouseOverTile();
-
-        /*
-        // 일과 노트 열려 있지 않을 때만 레이캐스트 작동
-        if (!isPlayerMove && !isBaseOn)
-            TileSelectWithRaycast();
-        */
     }
 
     IEnumerator GetUISceneObjects()
@@ -158,10 +156,6 @@ public class MapController : Singleton<MapController>
         fog.transform.position = player.transform.position;
         unselectAllTile();
         FischlWorks_FogWar.csFogWar.instance.InitializeMapControllerObjects(player, 5);
-
-        var mapCameraPos = mapCamera.transform.position;
-        mapCamera.transform.position = new Vector3(16.93333f, 19, -0.2900009f);
-        mapCamera.transform.parent = player.transform;
     }
 
     void SpawnPlayer()
@@ -187,6 +181,10 @@ public class MapController : Singleton<MapController>
 
         // 정가운데 좌표 고정
         playerLocationTile = Hexamap.Map.GetTileFromCoords(new Coords(0, 0));
+        prevTile = playerLocationTile;
+        resourceManager.SetTile(playerLocationTile);
+        PlayerBehavior?.Invoke(playerLocationTile);
+
 
         Vector3 spawnPos = ((GameObject)playerLocationTile.GameEntity).transform.position;
         spawnPos.y += 0.5f;
@@ -449,11 +447,13 @@ public class MapController : Singleton<MapController>
                 {
                     Transform objectHit = hit.transform;
                     TileController tile = objectHit.parent.GetComponent<TileController>();
-                    if (getTileBorder(tile, "BorderYes").activeInHierarchy)
+                    if (getTileBorder(tile, "BorderYes").activeInHierarchy && playerLocationTile != tile.Model)
                     {
                         // 선택한 칸으로 이동
+                        resourceManager.SetTile(tile.Model);
                         movePath = AStar.FindPath(playerLocationTile.Coords, tile.Model.Coords);
                         StartCoroutine(MovePlayer(tile.transform.position));
+                        prevTile = playerLocationTile;
                         playerLocationTile = tile.Model;
                     }
                     else
@@ -562,6 +562,8 @@ public class MapController : Singleton<MapController>
         movePath.Clear();
         health = 0;
         isPlayerMoving = false;
+        PlayerBehavior?.Invoke(playerLocationTile);
+        resourceManager.GetResource();
     }
 
     void DistrubtorSettingSuccess()
@@ -735,6 +737,9 @@ public class MapController : Singleton<MapController>
         {
             item.GetComponent<ZombieSwarm>().Detection();
         }
+
+        if (prevTile == playerLocationTile)
+            resourceManager.GetResource();
     }
     #endregion
 

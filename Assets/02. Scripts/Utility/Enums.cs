@@ -101,4 +101,13 @@ public enum EWeatherType
     Fog
 }
 
+public enum EResourceType
+{
+    Food,
+    Water,
+    Iron,
+    Wood,
+    Battery
+}
+
 #endregion
