@@ -9,5 +9,6 @@ public class ItemBase : ScriptableObject
     public int maxAmount;
     public int minAmount;
     public string itemTip;
+    public int itemCount;
     protected ItemType itemType;
 }
