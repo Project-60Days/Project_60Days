@@ -21,12 +21,6 @@ public class NoteController : MonoBehaviour
 
     [SerializeField] DialogueRunner[] dialogueRunner;
 
-    [SerializeField] GameObject[] optionButtons;
-
-    string[] options;
-
-    InMemoryVariableStorage variableStorage;
-
     bool newDay = true;
     int dialogueRunnerIndex = 0;
     string nodeName;
@@ -78,11 +72,6 @@ public class NoteController : MonoBehaviour
         nextPageBtn.onClick.AddListener(NextPageEvent);
         prevPageBtn.onClick.AddListener(PrevPageEvent);
         nextDayBtn.onClick.AddListener(NextDayEvent);
-
-        options = new string[4];
-        for (int i = 0; i < options.Length; i++)
-            optionButtons[i].SetActive(false);
-        //ChooseEventSetOption();
     }
 
     private void MoveNoteCenter()
@@ -174,9 +163,9 @@ public class NoteController : MonoBehaviour
                 dialogueRunnerIndex = 2;
                 nodeName = "d" + selectedNumber;
                 break;
-            case 5:
-                noteAnim.Close_Anim();
-                return;
+            //case 5:
+            //    noteAnim.Close_Anim();
+            //    return;
             default:
                 return;
         }
@@ -198,13 +187,13 @@ public class NoteController : MonoBehaviour
         {
             nextPageBtn.gameObject.SetActive(true);
             prevPageBtn.gameObject.SetActive(false);
+            nextDayBtn.gameObject.SetActive(false);
         }
         else if (pageNum == notePages.Length - 1)
         {
             nextPageBtn.gameObject.SetActive(false);
-            prevPageBtn.gameObject.SetActive(false);
-            nextDayBtn.gameObject.SetActive(false);
-            pageNum--;
+            prevPageBtn.gameObject.SetActive(true);
+            nextDayBtn.gameObject.SetActive(true);
         }
         else
         {
@@ -229,25 +218,5 @@ public class NoteController : MonoBehaviour
         numbers.RemoveAt(randomIndex);
         dayCount++;
         newDay = true;
-        //ChooseEventSetOption();
     }
-
-
-    //public void ChooseEventSetOption()
-    //{
-    //    dialogueRunner[2].StartDialogue("Day" + dayCount + "ChooseEvent");
-    //    variableStorage = GameObject.FindObjectOfType<InMemoryVariableStorage>();
-    //    for (int i = 0; i < options.Length; i++)
-    //    {
-    //        variableStorage.TryGetValue("$option" + (i + 1), out options[i]);
-    //        if (options[i] == "null")
-    //            return;
-    //        else
-    //        {
-    //            optionButtons[i].SetActive(true);
-    //            optionButtons[i].GetComponent<Text>().text = options[i];
-    //        }
-    //    }
-    //    dialogueRunner[2].Stop();
-    //}
 }
