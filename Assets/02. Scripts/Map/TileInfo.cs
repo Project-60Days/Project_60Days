@@ -28,9 +28,13 @@ public class Resource
 public class TileInfo : MonoBehaviour
 {
     [SerializeField] TMP_Text resourceText;
+    [SerializeField] ItemSO itemSO;
+    [SerializeField] GameObject player;
+    [SerializeField] GameObject ui;
 
     ETileType tileType;
     EWeatherType weatherType;
+    List<EResourceType> eResourceTypes;
     List<Resource> appearanceResources;
     Tile myTile;
 
@@ -38,12 +42,7 @@ public class TileInfo : MonoBehaviour
     string specialID;
     int resourceID;
     bool isCanMove;
-    bool inPlayerSight= false;
-
-    public void ActiveSet(bool set)
-    {
-        gameObject.SetActive(set);
-    }
+    bool inPlayerSight = false;
 
     public List<Resource> GetResources(int count)
     {
@@ -74,10 +73,9 @@ public class TileInfo : MonoBehaviour
     {
         MapController.PlayerBehavior += CheckPlayerTIle;
         appearanceResources = new List<Resource>();
-        myTile = gameObject.transform.parent.parent.GetComponent<TileController>().Model;
+        eResourceTypes = new List<EResourceType>() { EResourceType.Food, EResourceType.Water, EResourceType.Iron };
+        myTile = gameObject.transform.GetComponent<TileController>().Model;
         RandomResourceUpdate();
-        TextUpdate(true);
-
     }
 
     void OnDestroy()
@@ -88,27 +86,18 @@ public class TileInfo : MonoBehaviour
     void RandomResourceUpdate()
     {
         EResourceType type = 0;
-        int random = Random.Range(1, 3);
+        var random = Random.Range(1, 3);
+        
 
         for (int i = 0; i < random; i++)
         {
-            int randomType = Random.Range(1, 4);
+            var randomPick = Random.Range(0, eResourceTypes.Count);
 
-            switch (randomType)
-            {
-                case 1:
-                    type = EResourceType.Food;
-                    break;
-                case 2:
-                    type = EResourceType.Water;
-                    break;
-                case 3:
-                    type = EResourceType.Iron;
-                    break;
-            }
+            type = eResourceTypes[randomPick];
+            eResourceTypes.RemoveAt(randomPick);
 
-            int randomInt = Random.Range(1, 16);
-            appearanceResources.Add(new Resource(type, randomInt));
+            var randomCount = Random.Range(1, 16);
+            appearanceResources.Add(new Resource(type, randomCount));
         }
     }
 
@@ -131,8 +120,7 @@ public class TileInfo : MonoBehaviour
 
     void CheckPlayerTIle(Tile tile)
     {
-        Debug.Log("½ÇÇàµÊ");
-        if (MapController.instance.GetTilesInRange(tile, 3).Contains(myTile) || myTile==tile)
+        if (MapController.instance.GetTilesInRange(tile, 3).Contains(myTile) || myTile == tile)
         {
             TextUpdate(true);
             inPlayerSight = true;
@@ -143,4 +131,5 @@ public class TileInfo : MonoBehaviour
             inPlayerSight = false;
         }
     }
+
 }

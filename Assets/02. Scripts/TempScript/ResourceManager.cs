@@ -29,7 +29,7 @@ public class ResourceManager : MonoBehaviour
     public void SetTile(Tile tile)
     {
         currenTile = tile;
-        currenTileInfo = ((GameObject)(currenTile.GameEntity)).transform.Find("Canvas").Find("TileInfo").GetComponent<TileInfo>();
+        currenTileInfo = ((GameObject)(currenTile.GameEntity)).GetComponent<TileInfo>();
     }
 
     public void GetResource()
@@ -44,13 +44,19 @@ public class ResourceManager : MonoBehaviour
             {
                 if (owendResources.Exists(x => x.type == list[i].type))
                 {
-                    owendResources.Find(x => x.type == list[i].type).count += list[i].count;
-                    Debug.Log(owendResources.Find(x => x.type == list[i].type).type.ToString() + "자원 스택 쌓임");
+                    var resource = owendResources.Find(x => x.type == list[i].type);
+
+                    if (resource.count <= 0)
+                        return;
+                    else
+                        resource.count += list[i].count;
+
+                    Debug.LogFormat("{0} 자원, {1}개 획득!", resource.type.ToString(), list[i].count);
                 }
                 else
                 {
                     owendResources.Add(list[i]);
-                    Debug.Log(owendResources[owendResources.Count - 1].type.ToString() + "자원 추가");
+                    Debug.Log(owendResources[owendResources.Count - 1].type.ToString() + " 자원 종류 추가");
                 }
             }
         }

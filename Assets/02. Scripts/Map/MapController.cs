@@ -156,6 +156,14 @@ public class MapController : Singleton<MapController>
         fog.transform.position = player.transform.position;
         unselectAllTile();
         FischlWorks_FogWar.csFogWar.instance.InitializeMapControllerObjects(player, 5);
+        resourceManager.SetTile(playerLocationTile);
+        StartCoroutine(DelaySightGetInfo());
+    }
+
+    IEnumerator DelaySightGetInfo()
+    {
+        yield return new WaitForEndOfFrame();
+        PlayerBehavior?.Invoke(playerLocationTile);
     }
 
     void SpawnPlayer()
@@ -182,9 +190,6 @@ public class MapController : Singleton<MapController>
         // 정가운데 좌표 고정
         playerLocationTile = Hexamap.Map.GetTileFromCoords(new Coords(0, 0));
         prevTile = playerLocationTile;
-        resourceManager.SetTile(playerLocationTile);
-        PlayerBehavior?.Invoke(playerLocationTile);
-
 
         Vector3 spawnPos = ((GameObject)playerLocationTile.GameEntity).transform.position;
         spawnPos.y += 0.5f;
@@ -452,9 +457,9 @@ public class MapController : Singleton<MapController>
                         // 선택한 칸으로 이동
                         resourceManager.SetTile(tile.Model);
                         movePath = AStar.FindPath(playerLocationTile.Coords, tile.Model.Coords);
-                        StartCoroutine(MovePlayer(tile.transform.position));
                         prevTile = playerLocationTile;
                         playerLocationTile = tile.Model;
+                        StartCoroutine(MovePlayer(tile.transform.position));
                     }
                     else
                     {
@@ -725,6 +730,9 @@ public class MapController : Singleton<MapController>
 
     public void NextDay()
     {
+        if (health == maxHealth)
+            prevTile = playerLocationTile;
+
         health = maxHealth;
 
         if (distrubtorObject != null)
