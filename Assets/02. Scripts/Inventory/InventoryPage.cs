@@ -1,21 +1,23 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
-using static UnityEditor.Progress;
+using UnityEngine.UI;
 
 public class InventoryPage : MonoBehaviour
 {
-    [SerializeField]
-    private Transform slotParent;
-    [SerializeField]
-    private ItemSlot[] slots;
+    [SerializeField] Transform slotParent;
+    [SerializeField] Transform tipParent;
+    [SerializeField] private ItemSlot[] slots;
+    [SerializeField] private Text[] itemTips;
+    [SerializeField] private Text[] itemCounts;
 
     public List<ItemBase> items;
+    int slotCount = 0;
 
     private void OnValidate()
     {
         slots = slotParent.GetComponentsInChildren<ItemSlot>();
+        itemCounts = slotParent.GetComponentsInChildren<Text>();
+        itemTips = tipParent.GetComponentsInChildren<Text>();
     }
     void Awake()
     {
@@ -24,20 +26,48 @@ public class InventoryPage : MonoBehaviour
 
     public void FreshSlot()
     {
-        int i = 0;
-        for (; i < items.Count && i < slots.Length; i++)
+        int flag;
+  
+        for (int i = 0; i < items.Count;  i++)
         {
-            slots[i].item = items[i];
+            flag = 0;
+
+            if (i < slots.Length && slots[i].item != null)
+                slots[i].item.itemCount = 0;
+
+            for (int j = 0; j < slotCount; j++)
+            {
+                if (slots[j].item == items[i])
+                {
+                    items[i].itemCount++;
+                    itemCounts[j].text = items[i].itemCount.ToString();
+                    flag = 1;
+                    break;
+                }
+            }
+
+            if (flag == 1)
+                continue;
+
+            slots[slotCount].item = items[i];
+            slots[slotCount].item.itemCount = 1;
+            itemCounts[slotCount].gameObject.SetActive(true);
+            itemCounts[slotCount].text = items[i].itemCount.ToString();
+            //string itemDiscription = items[i].itemName + "\n" + items[i].itemTip;
+            //itemTips[slotCount].text = itemDiscription;
+            if (slots[slotCount].item != null)
+                slotCount++;
         }
-        for (; i < slots.Length; i++)
+        for (int i = slotCount; i < slots.Length; i++)
         {
             slots[i].item = null;
+            itemCounts[i].gameObject.SetActive(false);
         }
     }
 
     public void AddItem(ItemBase _item)
     {
-        if (items.Count < slots.Length)
+        if (slotCount < slots.Length)
         {
             items.Add(_item);
             FreshSlot();
