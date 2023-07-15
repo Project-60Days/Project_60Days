@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ItemBase : ScriptableObject
 {
+    public string itemCode;
     public string itemName;
     public Sprite itemImage;
     public int maxAmount;
