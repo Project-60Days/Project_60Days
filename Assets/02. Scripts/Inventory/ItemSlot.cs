@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] Image image;
-    [SerializeField] GameObject hoverImage;
 
     private ItemBase _item;
     public ItemBase item
@@ -30,17 +29,17 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     void Start()
     {
-        hoverImage.SetActive(false);
+        //hoverImage.SetActive(false);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (_item != null)
-            hoverImage.SetActive(true);
+        //if (_item != null)
+          //  hoverImage.SetActive(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        hoverImage.SetActive(false);
+        //hoverImage.SetActive(false);
     }
 }
