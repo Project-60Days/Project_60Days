@@ -6,7 +6,7 @@ using UnityEngine;
 [CreateAssetMenu]
 public class EquipmentItem : ItemBase
 {
-    ItemType thisType = ItemType.Consumption;
+    ItemType thisType = ItemType.Equipment;
 
     public EquipmentItem()
     {
