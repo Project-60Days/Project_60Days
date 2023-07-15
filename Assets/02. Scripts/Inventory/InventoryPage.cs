@@ -1,14 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class InventoryPage : MonoBehaviour
 {
     [SerializeField] Transform slotParent;
     [SerializeField] Sprite[] itemTypeImage;
     private ItemSlot[] slots;
-    [SerializeField] private GameObject[] slotImages;
-    private Text[] itemCounts;
+    private Temp[] slotImages;
+    private TextMeshProUGUI[] itemCounts;
 
     public List<ItemBase> items;
     int slotCount = 0;
@@ -16,8 +17,8 @@ public class InventoryPage : MonoBehaviour
     private void OnValidate()
     {
         slots = slotParent.GetComponentsInChildren<ItemSlot>();
-        slotImages = GameObject.FindGameObjectsWithTag("Slot");
-        itemCounts = slotParent.GetComponentsInChildren<Text>();
+        slotImages = slotParent.GetComponentsInChildren<Temp>();
+        itemCounts = slotParent.GetComponentsInChildren<TextMeshProUGUI>();
     }
     void Awake()
     {

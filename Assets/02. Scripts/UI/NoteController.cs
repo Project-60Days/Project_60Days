@@ -14,6 +14,7 @@ public class NoteController : MonoBehaviour
     [SerializeField] RectTransform notePos;
     [SerializeField] GameObject pageContainer;
     [SerializeField] Transform[] notePages;
+    [SerializeField] GameObject inventory;
 
     [SerializeField] Button nextPageBtn;
     [SerializeField] Button prevPageBtn;
@@ -72,6 +73,8 @@ public class NoteController : MonoBehaviour
         nextPageBtn.onClick.AddListener(NextPageEvent);
         prevPageBtn.onClick.AddListener(PrevPageEvent);
         nextDayBtn.onClick.AddListener(NextDayEvent);
+
+        inventory.SetActive(false);
     }
 
     private void MoveNoteCenter()
@@ -154,14 +157,23 @@ public class NoteController : MonoBehaviour
             case 0:
                 dialogueRunnerIndex = 0;
                 nodeName = "Day" + dayCount;
+                inventory.SetActive(false);
                 break;
             case 1:
                 dialogueRunnerIndex = 1;
                 nodeName = "Day" + dayCount + "ChooseEvent";
+                inventory.SetActive(false);
                 break;
             case 2:
                 dialogueRunnerIndex = 2;
                 nodeName = "d" + selectedNumber;
+                inventory.SetActive(false);
+                break;
+            case 3:
+                inventory.SetActive(true);
+                break;
+            case 4:
+                inventory.SetActive(false);
                 break;
             //case 5:
             //    noteAnim.Close_Anim();
