@@ -10,56 +10,48 @@ public interface ILoader<Key, Value>
 
 public class DataManager : Singleton<DataManager>
 {
+    [SerializeField] public ItemSO itemSO;
+
     public Dictionary<string, StringData> stringData = new Dictionary<string, StringData>();
-    public Dictionary<string, CharData> charData = new Dictionary<string, CharData>();
     public Dictionary<string, GameData> gameData = new Dictionary<string, GameData>();
-    //public Dictionary<string, ItemData> itemData = new Dictionary<string, ItemData>();
-
-    //public Dictionary<int, Stat> StatDict { get; private set; } = new Dictionary<int, Stat>();
-
-    //public void InitDict()
-    //{
-    //    StatDict = LoadJson<StatData, int, Stat>("StatData").MakeDict();
-    //}
-
-    //Loader LoadJson<Loader, Key, Value>(string path) where Loader : ILoader<Key, Value>
-    //{
-    //    TextAsset textAsset = Resources.Load<TextAsset>($"Data/{path}"); // text 파일이 textAsset에 담긴다. TextAsset 타입은 텍스트파일 에셋이라고 생각하면 됨!
-    //    return JsonUtility.FromJson<Loader>(textAsset.text);
-    //}
+    public Dictionary<string, ItemData> itemData = new Dictionary<string, ItemData>();
+    public Dictionary<int, ItemCombineData> itemCombineData = new Dictionary<int, ItemCombineData>();
 
     private void Awake()
     {
-        InitStringData();
-        InitGameData();
-        //InitDict();
+        LoadData();
+        InitItemSO();
     }
 
-    public void InitGameData()
-    {
-        charData.Clear();
-        gameData.Clear();
-
-        var jsonGameData = Resources.Load<TextAsset>(StringUtility.gameDataPath);
-        var stringDataList = JsonUtilityHelper.FromJson<GameData>(jsonGameData.ToString());
-
-        foreach(var data in stringDataList)
-        {
-            gameData.Add(data.Code, data);
-        }
-
-    }
-
-    public void InitStringData()
+    public void LoadData()
     {
         stringData.Clear();
+        gameData.Clear();
+        itemData.Clear();
 
-        var json = Resources.Load<TextAsset>(StringUtility.stringDataPath);
-        var stringDataList = JsonUtilityHelper.FromJson<StringData>(json.ToString());
+        var stringDataRaw = DataLoader.LoadData<StringData>(StringUtility.stringDataPath);
+        var gameDataRaw = DataLoader.LoadData<GameData>(StringUtility.gameDataPath);
+        var itemDataRaw = DataLoader.LoadData<ItemData>(StringUtility.itemDataPath);
+        var itemCombineDataRaw = DataLoader.LoadData<ItemCombineData>(StringUtility.itemCombineDataPath);
 
-        foreach(var data in stringDataList)
-        {
+        foreach (var data in stringDataRaw)
             stringData.Add(data.Code, data);
+
+        foreach (var data in gameDataRaw)
+            gameData.Add(data.Code, data);
+
+        foreach (var data in itemDataRaw)
+            itemData.Add(data.Code, data);
+
+        foreach (var data in itemCombineDataRaw)
+            itemCombineData.Add(data.Index, data);
+    }
+
+    private void InitItemSO()
+    {
+        foreach(var item in itemSO.items)
+        {
+            item.data = itemData[item.itemCode];
         }
     }
 
@@ -112,45 +104,54 @@ public class GameData
     public float value;
 }
 
-
 [Serializable]
-public class CharData
+public class ItemData
 {
-    public int index;
-    public string code;
-    public string nameCode;
-    public string storyCode;
-    public int minHP;
-    public int maxHp;
-    public int minFood;
-    public int maxFood;
-    public int minWater;
-    public int maxWater;
-    public int minBattery;
-    public int maxBattery;
-    public int dayFoodCost;
-    public int dayWaterCost;
-    public EBodyHealthType health;
-    public int immunity;
-    public int mental;
-    public int mentalEffectType;
-    public string equipmentCode;
-    public int power;
-    public string buttCode;
-    public string relationshipCode1;
-    public string relationshipCode2;
+    public int Index;
+    public int Tier;
+    public string Code;
+    public int Rarity;
+    public float TileIncludePossibility;
+    public int Type;
+    public int isCanBase;
+    public int CombineSlotCount;
+    public string Description;
+    public string Korean;
+    public string English;
+    public string Japanese;
+    public string Chinese;
 }
 
-//public class ItemData
-//{
-//    public int ID;
-//    public string Name;
-//    public string ToolTip;
-//    public Sprite IconSprite;
-//    public int maxAmount;
-//    public int minAmount;
+[Serializable]
+public class ItemCombineData
+{
+    public int Index;
+    public string Material_1;
+    public string Material_2;
+    public string Material_3;
+    public string Material_4;
+    public string Material_5;
+    public string Material_6;
+    public string Material_7;
+    public string Material_8;
+    public string Result;
+}
+public class DataLoader
+{
+    public static T[] LoadData<T>(string dataPath)
+    {
+        var json = Resources.Load<TextAsset>(dataPath);
 
-//}
+        if (json)
+        {
+            var stringDataList = JsonUtilityHelper.FromJson<T>(json.ToString());
+
+            return stringDataList;
+        }
+
+        return null;
+    }
+}
 
 public class JsonUtilityHelper
 {
