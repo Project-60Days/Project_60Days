@@ -1,9 +1,14 @@
 using UnityEngine;
+using UnityEngine.UI;
+using System.Collections;
+using System.Collections.Generic;
 using Cinemachine;
+using UnityEngine.EventSystems;
 
-public class CVCCamera : MonoBehaviour
+
+public class CVCCamera : MonoBehaviour, IDragHandler
 {
-    [SerializeField] public CinemachineVirtualCamera CVCamera;
+    [SerializeField] public Camera renderCamera;
     [SerializeField] private Transform target;
 
     [Header("Speed")]
@@ -20,11 +25,19 @@ public class CVCCamera : MonoBehaviour
     private float camVelocity = 0.0F;
     private float camTargetSize = 0.0f;
     bool isControlKeyPushed;
-    bool canRotate=true;
+    bool canRotate;
 
-    private void Awake()
+    private void Start()
     {
-        camTargetSize = CVCamera.m_Lens.OrthographicSize;
+        StartCoroutine(VariablesConnect());
+    }
+
+    IEnumerator VariablesConnect()
+    {
+        yield return new WaitForEndOfFrame();
+        renderCamera = GameObject.FindGameObjectWithTag("RenderTextureCamera").GetComponent<Camera>();
+        target = GameObject.FindGameObjectWithTag("RenderTextureObject").GetComponent<Transform>();
+        camTargetSize = renderCamera.orthographicSize;
     }
 
     private void Update()
@@ -32,33 +45,29 @@ public class CVCCamera : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftControl)) isControlKeyPushed = true;
         if (Input.GetKeyUp(KeyCode.LeftControl)) isControlKeyPushed = false;
 
+        if (Input.GetMouseButtonDown(0)) canRotate = true;
+        if (Input.GetMouseButtonUp(0)) canRotate = false;
+
         if (isControlKeyPushed)
         {
             // -- Mouse scrolling
             float scrollWheel = (Input.GetAxis("Mouse ScrollWheel") * 5000 * Time.deltaTime);
             Zoom(scrollWheel);
         }
-
-        if (canRotate && !isControlKeyPushed)
-        {
-            float x = Input.GetAxis("Mouse X") * rotateSpeed;
-            float y = Input.GetAxis("Mouse Y") * rotateSpeed;
-            Rotate(x, y);
-        }
     }
 
     private void Zoom(float inputValue)
     {
-        float currentSize = CVCamera.m_Lens.OrthographicSize;
+        float currentSize = renderCamera.orthographicSize;
         camTargetSize = Mathf.Clamp(camTargetSize - (inputValue * zoomSpeed * Time.deltaTime), minCameraSize, maxCameraSize);
 
-        CVCamera.m_Lens.OrthographicSize = Mathf.SmoothDamp(currentSize, camTargetSize, ref camVelocity, 0.15f);
+        renderCamera.orthographicSize = Mathf.SmoothDamp(currentSize, camTargetSize, ref camVelocity, 0.15f);
     }
 
     public float Zoom(float _targetSize, float _lastZoomSpeed)
     {
-        camTargetSize = Mathf.SmoothDamp(CVCamera.m_Lens.OrthographicSize, _targetSize, ref _lastZoomSpeed, 0.3f);
-        CVCamera.m_Lens.OrthographicSize = camTargetSize;
+        camTargetSize = Mathf.SmoothDamp(renderCamera.orthographicSize, _targetSize, ref _lastZoomSpeed, 0.3f);
+        renderCamera.orthographicSize = camTargetSize;
 
         return _lastZoomSpeed;
     }
@@ -85,7 +94,18 @@ public class CVCCamera : MonoBehaviour
 
     public void Rotate(float mouseX, float mouseY)
     {
-        transform.Rotate(Vector3.down, mouseX);
-        transform.Rotate(Vector3.right, mouseY);
+        target.Rotate(Vector3.down, mouseX);
+        target.Rotate(Vector3.right, mouseY);
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        if (isControlKeyPushed)
+            return;
+
+        float x = eventData.delta.x * Time.deltaTime * rotateSpeed;
+        float y = eventData.delta.y * Time.deltaTime * rotateSpeed;
+
+        target.Rotate(0, -x, y, Space.World);
     }
 }

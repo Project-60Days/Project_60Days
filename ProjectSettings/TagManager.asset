@@ -14,6 +14,8 @@ TagManager:
   - Distrubtor
   - FogWar
   - Slot
+  - RenderTextureCamera
+  - RenderTextureObject
   layers:
   - Default
   - TransparentFX
