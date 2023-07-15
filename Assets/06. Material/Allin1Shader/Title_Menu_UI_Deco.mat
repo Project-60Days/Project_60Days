@@ -11,6 +11,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: a36b7719ff0465b42ab1407d67672c5f, type: 3}
   m_ValidKeywords:
   - FLICKER_ON
+  - GLITCH_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -116,8 +117,8 @@ Material:
     - _GhostBlend: 1
     - _GhostColorBoost: 1
     - _GhostTransparency: 0
-    - _GlitchAmount: 3
-    - _GlitchSize: 0.5
+    - _GlitchAmount: 1.5
+    - _GlitchSize: 0.25
     - _Glow: 10
     - _GlowGlobal: 1
     - _GradBlend: 1

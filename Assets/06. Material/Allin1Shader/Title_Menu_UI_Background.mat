@@ -87,8 +87,8 @@ Material:
     - _BlurHD: 0
     - _BlurIntensity: 10
     - _Brightness: 0
-    - _ChromAberrAlpha: 1
-    - _ChromAberrAmount: 0.1
+    - _ChromAberrAlpha: 0.1
+    - _ChromAberrAmount: 0
     - _ClipUvDown: 0
     - _ClipUvLeft: 0
     - _ClipUvRight: 0
@@ -121,8 +121,8 @@ Material:
     - _GhostBlend: 1
     - _GhostColorBoost: 1
     - _GhostTransparency: 0
-    - _GlitchAmount: 20
-    - _GlitchSize: 5
+    - _GlitchAmount: 2
+    - _GlitchSize: 0.89
     - _Glow: 10
     - _GlowGlobal: 1
     - _GradBlend: 1
