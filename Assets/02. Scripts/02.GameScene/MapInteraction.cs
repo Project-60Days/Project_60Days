@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using static NotePage;
 
 public class MapInteraction : MonoBehaviour
@@ -19,6 +20,7 @@ public class MapInteraction : MonoBehaviour
 
         //ImplantOpenEvent += ImplantOpenAnim;
         //ImplantCloseEvent += ImplantCloseAnim;
+        SoundManager.instance.PlayBGM("BGM_InGameTheme");
     }
 
 

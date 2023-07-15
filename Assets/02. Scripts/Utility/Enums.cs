@@ -1,3 +1,12 @@
+public enum ESceneType
+{
+    Title,
+    Game,
+    UI,
+    Map,
+    Crafting
+}
+
 public enum EUILayer
 {
     Base,
