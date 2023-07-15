@@ -10,6 +10,8 @@ public interface ILoader<Key, Value>
 
 public class DataManager : Singleton<DataManager>
 {
+    [SerializeField] public ItemSO itemSO;
+
     public Dictionary<string, StringData> stringData = new Dictionary<string, StringData>();
     public Dictionary<string, GameData> gameData = new Dictionary<string, GameData>();
     public Dictionary<string, ItemData> itemData = new Dictionary<string, ItemData>();
@@ -17,10 +19,11 @@ public class DataManager : Singleton<DataManager>
 
     private void Awake()
     {
-        InitData();
+        LoadData();
+        InitItemSO();
     }
 
-    public void InitData()
+    public void LoadData()
     {
         stringData.Clear();
         gameData.Clear();
@@ -42,6 +45,14 @@ public class DataManager : Singleton<DataManager>
 
         foreach (var data in itemCombineDataRaw)
             itemCombineData.Add(data.Index, data);
+    }
+
+    private void InitItemSO()
+    {
+        foreach(var item in itemSO.items)
+        {
+            item.data = itemData[item.itemCode];
+        }
     }
 
     public string GetString(string _code)

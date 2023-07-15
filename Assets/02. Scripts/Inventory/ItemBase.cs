@@ -5,11 +5,8 @@ using UnityEngine;
 public class ItemBase : ScriptableObject
 {
     public string itemCode;
-    public string itemName;
+    public ItemData data;
     public Sprite itemImage;
-    public int maxAmount;
-    public int minAmount;
-    public string itemTip;
     public int itemCount;
     protected ItemType itemType;
 }

@@ -13,12 +13,6 @@ MonoBehaviour:
   m_Name: ItemSO
   m_EditorClassIdentifier: 
   items:
-  - id: 1
-    name: Food
-    sprite: {fileID: 21300000, guid: 18426c92539897246bc8e6d00423d93f, type: 3}
-  - id: 2
-    name: Water
-    sprite: {fileID: 21300000, guid: 71aa2d34555f6574d8a59ecf58e9f50c, type: 3}
-  - id: 3
-    name: Iron
-    sprite: {fileID: 21300000, guid: 0e82618d34e6d8e48b8cb57728934c69, type: 3}
+  - {fileID: 11400000, guid: 2a85c175061996a48825efdfa53582a7, type: 2}
+  - {fileID: 11400000, guid: 71351f7eeccb8eb49a3e81292432e9dd, type: 2}
+  - {fileID: 11400000, guid: 88b042f9680965c47895325ecde6a663, type: 2}
