@@ -2,22 +2,28 @@ using System.Collections;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
 using UnityEngine.Video;
+using DG.Tweening;
+using TMPro;
 
 public class TitleLoad : MonoBehaviour
 {
+    [Header("Settings")]
     [SerializeField] GameObject rawImage;
     VideoPlayer videoPlayer;
 
-    [SerializeField] Text leftLogField;
+    [SerializeField] TextMeshProUGUI leftLogField;
     string leftFileText;
+    [SerializeField] TextMeshProUGUI rightLogField;
+    string rightFileText;
 
     [SerializeField] ScrollRect scrollRect;
     [SerializeField] RectTransform contentRect;
-    [SerializeField] Text rightLogField;
-    string rightFileText;
 
+    [SerializeField] float leftLogShowInterval;
+    [SerializeField] float rightLogShowInterval;
+
+    [Header("Objects")]
     [SerializeField] GameObject titleText;
     [SerializeField] GameObject titleImage;
 
@@ -75,7 +81,7 @@ public class TitleLoad : MonoBehaviour
 
             if (currentChar != '=')
             {
-                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForSeconds(leftLogShowInterval);
             }
             
             currentIndex++;
@@ -99,7 +105,7 @@ public class TitleLoad : MonoBehaviour
 
             scrollRect.verticalNormalizedPosition = 0.0f;
 
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(rightLogShowInterval);
         }
 
         StartCoroutine(Title());
@@ -111,6 +117,16 @@ public class TitleLoad : MonoBehaviour
 
         titleText.SetActive(true);
         titleImage.SetActive(true);
+
+        TextMeshProUGUI text = titleText.GetComponent<TextMeshProUGUI>();
+
+        text.alpha = 0f;
+        text.DOFade(1f, 2f).SetEase(Ease.InOutBounce);
+
+        Image title = titleImage.GetComponent<Image>();
+
+        title.color = new Color(1f, 1f, 1f, 0f);
+        title.DOFade(1f, 2f).SetEase(Ease.InOutBounce);
 
         yield return new WaitForSeconds(0.1f);
 
