@@ -27,5 +27,6 @@ MonoBehaviour:
     English: 
     Japanese: 
     Chinese: 
-  itemImage: {fileID: 21300000, guid: 07103c52b3aaeca4da8a83361edd059f, type: 3}
+  itemImage: {fileID: 21300000, guid: 903743215b83aa34d936fe1e8fef8680, type: 3}
   itemCount: 0
+  itemType: 0

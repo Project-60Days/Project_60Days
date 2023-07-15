@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42165cb51ef0e8d4099b71eaf4f478c1, type: 3}
   m_Name: POWDER
   m_EditorClassIdentifier: 
-  itemCode: 
+  itemCode: ITEM_TIER_3_POWDER
   data:
     Index: 0
     Tier: 0
@@ -27,6 +27,6 @@ MonoBehaviour:
     English: 
     Japanese: 
     Chinese: 
-  itemImage: {fileID: 0}
+  itemImage: {fileID: 21300000, guid: 240cd570e330c384b9e7efd555db2a9f, type: 3}
   itemCount: 0
   itemType: 0
