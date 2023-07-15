@@ -18,6 +18,7 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     [SerializeField] GameObject nextPage;
     [SerializeField] GameObject prevPage;
     [SerializeField] GameObject nextDay;
+    [SerializeField] GameObject inventoryUI;
 
     Vector2 originalPos;
 
@@ -25,6 +26,7 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     int dayCount = 1;
 
     NoteController noteController;
+
 
     void Start()
     {
@@ -125,6 +127,7 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
             openBtn.gameObject.SetActive(false);
             closeBtn.gameObject.SetActive(false);
+            inventoryUI.gameObject.SetActive(false);
             sequence.Play();
         }
     }
