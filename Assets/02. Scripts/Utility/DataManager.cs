@@ -19,6 +19,7 @@ public class DataManager : Singleton<DataManager>
 
     private void Awake()
     {
+        DontDestroyOnLoad(this);
         LoadData();
         InitItemSO();
     }
