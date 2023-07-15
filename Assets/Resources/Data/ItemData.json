@@ -1,0 +1,74 @@
+[
+  {
+    "Index": 1001,
+    "Tier": 1,
+    "Code": "ITEM_TIER_1_METAL",
+    "Type": 0,
+    "TileIncludePossibility": 50,
+    "Type__1": "",
+    "Korean": "강철",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 1002,
+    "Tier": "",
+    "Code": "",
+    "Type": "",
+    "TileIncludePossibility": "",
+    "Type__1": "",
+    "Korean": "",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 1003,
+    "Tier": "",
+    "Code": "",
+    "Type": "",
+    "TileIncludePossibility": "",
+    "Type__1": "",
+    "Korean": "",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 1004,
+    "Tier": "",
+    "Code": "",
+    "Type": "",
+    "TileIncludePossibility": "",
+    "Type__1": "",
+    "Korean": "",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 1005,
+    "Tier": "",
+    "Code": "",
+    "Type": "",
+    "TileIncludePossibility": "",
+    "Type__1": "",
+    "Korean": "",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 1006,
+    "Tier": "",
+    "Code": "",
+    "Type": "",
+    "TileIncludePossibility": "",
+    "Type__1": "",
+    "Korean": "",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  }
+]
