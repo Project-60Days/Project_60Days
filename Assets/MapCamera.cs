@@ -12,7 +12,7 @@ public class MapCamera : MonoBehaviour
 
     private void Start()
     {
-        //StartCoroutine(GetCamera());
+        StartCoroutine(GetCamera());
         mapCamera = gameObject.GetComponent<CinemachineVirtualCamera>();
     }
 
