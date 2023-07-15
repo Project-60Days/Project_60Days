@@ -5,10 +5,10 @@ using UnityEngine.UI;
 public class InventoryPage : MonoBehaviour
 {
     [SerializeField] Transform slotParent;
-    [SerializeField] Transform tipParent;
-    [SerializeField] private ItemSlot[] slots;
-    [SerializeField] private Text[] itemTips;
-    [SerializeField] private Text[] itemCounts;
+    [SerializeField] Sprite[] itemTypeImage;
+    private ItemSlot[] slots;
+    [SerializeField] private GameObject[] slotImages;
+    private Text[] itemCounts;
 
     public List<ItemBase> items;
     int slotCount = 0;
@@ -16,8 +16,8 @@ public class InventoryPage : MonoBehaviour
     private void OnValidate()
     {
         slots = slotParent.GetComponentsInChildren<ItemSlot>();
+        slotImages = GameObject.FindGameObjectsWithTag("Slot");
         itemCounts = slotParent.GetComponentsInChildren<Text>();
-        itemTips = tipParent.GetComponentsInChildren<Text>();
     }
     void Awake()
     {
@@ -53,10 +53,16 @@ public class InventoryPage : MonoBehaviour
             slots[slotCount].item.itemCount = 1;
             itemCounts[slotCount].gameObject.SetActive(true);
             itemCounts[slotCount].text = items[i].itemCount.ToString();
+            if (items[i].itemType == ItemType.Consumption)
+                slotImages[slotCount].GetComponent<Image>().sprite = itemTypeImage[0];
+            else if (items[i].itemType == ItemType.Equipment)
+                slotImages[slotCount].GetComponent<Image>().sprite = itemTypeImage[1];
+            else if(items[i].itemType == ItemType.Material)
+                slotImages[slotCount].GetComponent<Image>().sprite = itemTypeImage[2];
             //string itemDiscription = items[i].itemName + "\n" + items[i].itemTip;
             //itemTips[slotCount].text = itemDiscription;
             if (slots[slotCount].item != null)
-                slotCount++;
+                    slotCount++;
         }
         for (int i = slotCount; i < slots.Length; i++)
         {
