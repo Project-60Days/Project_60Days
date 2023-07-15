@@ -7,7 +7,7 @@ public class InventoryPage : MonoBehaviour
     [SerializeField] Transform slotParent;
     [SerializeField] Sprite[] itemTypeImage;
     private ItemSlot[] slots;
-    [SerializeField] private Temp[] slotImages;
+    [SerializeField] private GameObject[] slotImages;
     private Text[] itemCounts;
 
     public List<ItemBase> items;
@@ -16,7 +16,7 @@ public class InventoryPage : MonoBehaviour
     private void OnValidate()
     {
         slots = slotParent.GetComponentsInChildren<ItemSlot>();
-        slotImages = slotParent.GetComponentsInChildren<Temp>();
+        slotImages = GameObject.FindGameObjectsWithTag("Slot");
         itemCounts = slotParent.GetComponentsInChildren<Text>();
     }
     void Awake()
