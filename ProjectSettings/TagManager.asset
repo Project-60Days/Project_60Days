@@ -16,6 +16,8 @@ TagManager:
   - Slot
   - RenderTextureCamera
   - RenderTextureObject
+  - InventoryUi
+  - CraftingUi
   layers:
   - Default
   - TransparentFX
