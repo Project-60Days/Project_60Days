@@ -132,5 +132,7 @@ public class TitleLoad : MonoBehaviour
 
         buttonText.SetActive(true);
         buttonBack.SetActive(true);
+
+        SoundManager.instance.PlayBGM("BGM_TitleTheme");
     }
 }

@@ -73,10 +73,11 @@ public class GameManager : Singleton<GameManager>
         // 데이터 초기화
 
         // 씬 이동
-        SceneLoader.instance.LoadScene(1);
-        SceneLoader.instance.LoadSceneAddtive(2);
-        SceneLoader.instance.LoadSceneAddtive(3);
+        SceneLoader.instance.LoadScene((int)ESceneType.Game);
+        SceneLoader.instance.LoadSceneAddtive((int)ESceneType.UI);
+        SceneLoader.instance.LoadSceneAddtive((int)ESceneType.Map);
         StartCoroutine(GetMapCamera());
+        
     }
 
     private IEnumerator GetMapCamera()
