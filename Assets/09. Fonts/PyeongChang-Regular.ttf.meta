@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 8843f9f7ec698f245875a157560cdf2e
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - PyeongChang
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: b4acb7f06fbead547a32128e2809bb82, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

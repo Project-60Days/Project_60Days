@@ -26,6 +26,7 @@ public class ZombieSwarm : MonoBehaviour
     public Tile lastTile;
     public Tile targetTile;
     List<Coords> movePath;
+    TMP_Text zombieCountTMP;
 
     //public SpecialZombie[] specialZombies;
 
@@ -46,6 +47,7 @@ public class ZombieSwarm : MonoBehaviour
         zombieCount = (int)Random.Range(zombieMinCount, zombieMaxCount);
         curTile = tile;
         lastTile = curTile;
+        zombieCountTMP = ((GameObject)curTile.GameEntity).GetComponent<TileInfo>().GetZombieText();
         CurrentTileInfoUpdate(curTile);
     }
 
@@ -144,12 +146,10 @@ public class ZombieSwarm : MonoBehaviour
 
     public void CurrentTileInfoUpdate(Tile tile)
     {
-        var zombieCountText = ((GameObject)curTile.GameEntity).GetComponent<TileInfo>().GetZombieText();
-
         if (tile == curTile)
-            zombieCountText.text = "좀비 무리 : 약 " + zombieCount + "체 이상";
+            zombieCountTMP.text = "좀비 약 " + zombieCount + "체";
         else
-            zombieCountText.text = "좀비 무리 : 알 수 없음";
+            zombieCountTMP.text = "알 수 없음";
     }
 
     public void SumZombies(ZombieSwarm zombie)
