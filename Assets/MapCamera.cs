@@ -6,24 +6,24 @@ using Cinemachine;
 public class MapCamera : MonoBehaviour
 {
     GameObject player;
-    CinemachineVirtualCamera mapCamera;
     GameObject noteUi;
     GameObject hpText;
+    public CinemachineVirtualCamera mapCamera;
 
     private void Start()
     {
-        //StartCoroutine(GetCamera());
-        mapCamera = gameObject.GetComponent<CinemachineVirtualCamera>();
+        StartCoroutine(GetCamera());
+        mapCamera = GetComponent<CinemachineVirtualCamera>();
     }
 
     public IEnumerator GetCamera()
     {
         yield return new WaitForEndOfFrame();
-        yield return new WaitForEndOfFrame();
         player = GameObject.FindGameObjectWithTag("Player");
-        noteUi = GameObject.FindGameObjectWithTag("NoteUi");
-        hpText = GameObject.FindGameObjectWithTag("MapUi").transform.Find("Hp_Text").gameObject;
+/*        noteUi = GameObject.FindGameObjectWithTag("NoteUi");
+        hpText = GameObject.FindGameObjectWithTag("MapUi").transform.Find("Hp_Text").gameObject;*/
         mapCamera.Follow = player.transform;
+        mapCamera.m_Lens.OrthographicSize = 6;
     }
 
     public void SetPrioryty(bool isOn)
