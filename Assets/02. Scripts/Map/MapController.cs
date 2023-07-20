@@ -24,6 +24,7 @@ public class MapController : Singleton<MapController>
     [SerializeField] GameObject player;
     [SerializeField] GameObject fog;
     [SerializeField] ResourceManager resourceManager;
+
     public Tile playerLocationTile;
     public Tile prevTile;
 
@@ -61,6 +62,7 @@ public class MapController : Singleton<MapController>
     bool isDisturbanceSet;
     bool isExplorerSet;
     bool isPlayerMoving;
+    NoteAnim noteAnim;
 
     public static Action<Tile> PlayerBehavior;
     #endregion
@@ -93,10 +95,9 @@ public class MapController : Singleton<MapController>
             GenerateMap();
         }
 
-
-        if (!isPlayerMoving && !isBaseOn)
+        if (!isPlayerMoving && !isBaseOn && !noteAnim.GetIsOpen())
         {
-            CameraMoveInputKey();
+            //CameraMoveInputKey();
             MouseOverTile();
         }
     }
@@ -105,7 +106,8 @@ public class MapController : Singleton<MapController>
     {
         yield return new WaitForEndOfFrame();
         mapCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        //textHealth = GameObject.FindGameObjectWithTag("MapUi").transform.Find("Hp_Text").GetComponent<TMP_Text>();
+        noteAnim = GameObject.FindGameObjectWithTag("NoteAnim").GetComponent<NoteAnim>();
+        textHealth = GameObject.FindGameObjectWithTag("MapUi").transform.GetChild(0).transform.Find("Hp_Text").GetComponent<TMP_Text>();
     }
 
     public void BaseActiveSet(bool isbool)
@@ -429,6 +431,11 @@ public class MapController : Singleton<MapController>
 
     void MouseClickTile()
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
+
         RaycastHit hit;
         Ray ray = mapCamera.ScreenPointToRay(Input.mousePosition);
         int onlyLayerMaskPlayer = 1 << LayerMask.NameToLayer("Player");
@@ -437,78 +444,77 @@ public class MapController : Singleton<MapController>
         if (Input.GetMouseButtonDown(0))
         {
             // UI 너머로 타일 클릭 방지
-            if (!EventSystem.current.IsPointerOverGameObject())
-            {
-                if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskPlayer) && !isPlayerCanMove && health != 0 && !isDisturbanceSet && !isExplorerSet)
-                {
-                    isPlayerSelected = true;
-                    isPlayerCanMove = true;
-                }
-                else if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile) && !isPlayerSelected)
-                {
-                    Transform objectHit = hit.transform;
-                    TileController tile = objectHit.parent.GetComponent<TileController>();
 
-                    currentUI = GetUi(tile);
-                    currentUI.SetActive(true);
-                    isUIOn = true;
-                }
-                else if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile) && isPlayerCanMove)
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskPlayer) && !isPlayerCanMove && health != 0 && !isDisturbanceSet && !isExplorerSet)
+            {
+                isPlayerSelected = true;
+                isPlayerCanMove = true;
+            }
+            else if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile) && !isPlayerSelected)
+            {
+                Transform objectHit = hit.transform;
+                TileController tile = objectHit.parent.GetComponent<TileController>();
+
+                currentUI = GetUi(tile);
+                currentUI.SetActive(true);
+                isUIOn = true;
+            }
+            else if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile) && isPlayerCanMove)
+            {
+                Transform objectHit = hit.transform;
+                TileController tile = objectHit.parent.GetComponent<TileController>();
+                if (getTileBorder(tile, "BorderYes").activeInHierarchy && playerLocationTile != tile.Model)
                 {
-                    Transform objectHit = hit.transform;
-                    TileController tile = objectHit.parent.GetComponent<TileController>();
-                    if (getTileBorder(tile, "BorderYes").activeInHierarchy && playerLocationTile != tile.Model)
-                    {
-                        // 선택한 칸으로 이동
-                        resourceManager.SetTile(tile.Model);
-                        movePath = AStar.FindPath(playerLocationTile.Coords, tile.Model.Coords);
-                        prevTile = playerLocationTile;
-                        playerLocationTile = tile.Model;
-                        StartCoroutine(MovePlayer(tile.transform.position));
-                    }
-                    else
-                    {
-                        return;
-                    }
+                    // 선택한 칸으로 이동
+                    resourceManager.SetTile(tile.Model);
+                    movePath = AStar.FindPath(playerLocationTile.Coords, tile.Model.Coords);
+                    prevTile = playerLocationTile;
+                    playerLocationTile = tile.Model;
+                    StartCoroutine(MovePlayer(tile.transform.position));
                 }
-                else if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile) && isDisturbanceSet)
+                else
                 {
-                    Transform objectHit = hit.transform;
-                    TileController tile = objectHit.parent.GetComponent<TileController>();
-                    if (Hexamap.Map.GetTilesInRange(playerLocationTile, 1).Contains(tile.Model) && getTileBorder(tile, "BorderYes").activeInHierarchy)
-                    {
-                        // 교란기 설치
-                        foreach (var item in playerLocationTile.Neighbours)
-                        {
-                            if (item.Value == tile.Model)
-                            {
-                                distrubtorObject.GetComponent<Distrubtor>().Set(tile.Model, item.Key);
-                                DistrubtorSettingSuccess();
-                            }
-                        }
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }
-                else if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile) && isExplorerSet)
-                {
-                    Transform objectHit = hit.transform;
-                    TileController tile = objectHit.parent.GetComponent<TileController>();
-                    if (getTileBorder(tile, "BorderYes").activeInHierarchy && playerLocationTile != tile.Model)
-                    {
-                        explorerObject.GetComponent<Explorer>().Targetting(tile.Model);
-                        explorerObject.GetComponent<Explorer>().Move();
-                        ExplorerSettingSuccess();
-                        unselectAllPathTile();
-                    }
-                    else
-                    {
-                        return;
-                    }
+                    return;
                 }
             }
+            else if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile) && isDisturbanceSet)
+            {
+                Transform objectHit = hit.transform;
+                TileController tile = objectHit.parent.GetComponent<TileController>();
+                if (Hexamap.Map.GetTilesInRange(playerLocationTile, 1).Contains(tile.Model) && getTileBorder(tile, "BorderYes").activeInHierarchy)
+                {
+                    // 교란기 설치
+                    foreach (var item in playerLocationTile.Neighbours)
+                    {
+                        if (item.Value == tile.Model)
+                        {
+                            distrubtorObject.GetComponent<Distrubtor>().Set(tile.Model, item.Key);
+                            DistrubtorSettingSuccess();
+                        }
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile) && isExplorerSet)
+            {
+                Transform objectHit = hit.transform;
+                TileController tile = objectHit.parent.GetComponent<TileController>();
+                if (getTileBorder(tile, "BorderYes").activeInHierarchy && playerLocationTile != tile.Model)
+                {
+                    explorerObject.GetComponent<Explorer>().Targetting(tile.Model);
+                    explorerObject.GetComponent<Explorer>().Move();
+                    ExplorerSettingSuccess();
+                    unselectAllPathTile();
+                }
+                else
+                {
+                    return;
+                }
+            }
+
         }
 
         // 우클릭 시 선택 취소
@@ -822,12 +828,12 @@ public class MapController : Singleton<MapController>
         GameObject border1 = getTileBorder(tile, "Border");
         GameObject border2 = getTileBorder(tile, "BorderYes");
         GameObject border3 = getTileBorder(tile, "BorderNo");
-        GameObject border4 = getTileBorder(tile, "BorderTarget");
+        //GameObject border4 = getTileBorder(tile, "BorderTarget");
 
         border1?.SetActive(false);
         border2?.SetActive(false);
         border3?.SetActive(false);
-        border4?.SetActive(false);
+        //border4?.SetActive(false);
     }
 
     void BordersOff(Tile tile)
@@ -835,12 +841,12 @@ public class MapController : Singleton<MapController>
         GameObject border1 = getTileBorder(tile, "Border");
         GameObject border2 = getTileBorder(tile, "BorderYes");
         GameObject border3 = getTileBorder(tile, "BorderNo");
-        GameObject border4 = getTileBorder(tile, "BorderTarget");
+        //GameObject border4 = getTileBorder(tile, "BorderTarget");
 
         border1?.SetActive(false);
         border2?.SetActive(false);
         border3?.SetActive(false);
-        border4?.SetActive(false);
+        //border4?.SetActive(false);
     }
 
     public GameObject GetUi(TileController tile)

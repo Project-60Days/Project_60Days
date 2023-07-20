@@ -39,7 +39,7 @@ MonoBehaviour:
     m_To: ResourceViewCamera
     m_Blend:
       m_Style: 1
-      m_Time: 1
+      m_Time: 0.5
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
@@ -50,7 +50,7 @@ MonoBehaviour:
     m_To: EquipmentViewCamera
     m_Blend:
       m_Style: 1
-      m_Time: 1
+      m_Time: 0.5
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
@@ -61,7 +61,7 @@ MonoBehaviour:
     m_To: NormalViewCamera
     m_Blend:
       m_Style: 1
-      m_Time: 1
+      m_Time: 0.5
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
@@ -72,7 +72,7 @@ MonoBehaviour:
     m_To: EquipmentViewCamera
     m_Blend:
       m_Style: 1
-      m_Time: 1
+      m_Time: 0.5
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
@@ -83,7 +83,7 @@ MonoBehaviour:
     m_To: NormalViewCamera
     m_Blend:
       m_Style: 1
-      m_Time: 1
+      m_Time: 0.5
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
@@ -94,7 +94,7 @@ MonoBehaviour:
     m_To: ResourceViewCamera
     m_Blend:
       m_Style: 1
-      m_Time: 1
+      m_Time: 0.5
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []

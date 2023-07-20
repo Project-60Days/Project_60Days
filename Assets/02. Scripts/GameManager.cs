@@ -17,8 +17,6 @@ public struct Controller
 public class GameManager : Singleton<GameManager>
 {
     Controller controller;
-
-    [SerializeField]
     MapCamera mapCamera;
     
     void Awake()
@@ -33,15 +31,8 @@ public class GameManager : Singleton<GameManager>
 
     public void InputKey()
     {
-        // 키 입력
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            mapCamera.SetPrioryty(false);
-        }
-
         if (Input.GetKeyDown(KeyCode.Escape))
             QuitGame();
-
     }
 
     public void UpdateAllState()
@@ -90,6 +81,11 @@ public class GameManager : Singleton<GameManager>
     {
         // 설정 창
         Debug.Log("설정");
+    }
+
+    public void SetPrioryty(bool set)
+    {
+        mapCamera.SetPrioryty(set);
     }
 
     public void QuitGame()

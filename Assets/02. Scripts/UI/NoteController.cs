@@ -173,9 +173,12 @@ public class NoteController : MonoBehaviour
                 inventory.SetActive(true);
                 break;
             case 4:
+                GameManager.instance.SetPrioryty(false);
                 inventory.SetActive(false);
                 break;
-            //case 5:
+            case 5:
+                GameManager.instance.SetPrioryty(true);
+                break;
             //    noteAnim.Close_Anim();
             //    return;
             default:
