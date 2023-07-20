@@ -10,8 +10,25 @@ public class CameraMove : MonoBehaviour
     [Serializable]
     public class CameraInfo
     {
+        public CameraInfo(Cinemachine.CinemachineVirtualCamera vCam, ENotePageType notePageType)
+        {
+            this.vCam = vCam;
+            this.notePageType = notePageType;
+        }
+
         [SerializeField] public Cinemachine.CinemachineVirtualCamera vCam;
         [SerializeField] public ENotePageType notePageType;
+    }
+
+    private void Start()
+    {
+        StartCoroutine(GetMapCamera());
+    }
+
+    private IEnumerator GetMapCamera()
+    {
+        yield return new WaitForSeconds(1f);
+        cameraInfos.Add(new CameraInfo(GameObject.FindGameObjectWithTag("MapCamera").GetComponent<MapCamera>().mapCamera, ENotePageType.Map)); 
     }
 
 

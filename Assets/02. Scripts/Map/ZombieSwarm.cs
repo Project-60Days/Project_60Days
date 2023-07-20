@@ -144,8 +144,7 @@ public class ZombieSwarm : MonoBehaviour
 
     public void CurrentTileInfoUpdate(Tile tile)
     {
-        var uiObject = MapController.instance.GetUi(tile);
-        var zombieCountText = uiObject.transform.Find("TMPs").Find("ZombieSwarmTMP").GetComponent<TMP_Text>();
+        var zombieCountText = ((GameObject)curTile.GameEntity).GetComponent<TileInfo>().GetZombieText();
 
         if (tile == curTile)
             zombieCountText.text = "좀비 무리 : 약 " + zombieCount + "체 이상";

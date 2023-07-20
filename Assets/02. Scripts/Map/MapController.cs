@@ -70,7 +70,7 @@ public class MapController : Singleton<MapController>
         StartCoroutine(GetUISceneObjects());
         GenerateMap();
         health = maxHealth;
-        //BaseActiveSet(true);
+        BaseActiveSet(true);
     }
 
     void Update()
@@ -91,16 +91,18 @@ public class MapController : Singleton<MapController>
             GenerateMap();
         }
 
-        CameraMoveInputKey();
 
-        if (!isPlayerMoving)
+        if (!isPlayerMoving && !isBaseOn)
+        {
+            CameraMoveInputKey();
             MouseOverTile();
+        }
     }
 
     IEnumerator GetUISceneObjects()
     {
         yield return new WaitForEndOfFrame();
-        textHealth = GameObject.FindGameObjectWithTag("MapUi").transform.Find("Hp_Text").GetComponent<TMP_Text>();
+        //textHealth = GameObject.FindGameObjectWithTag("MapUi").transform.Find("Hp_Text").GetComponent<TMP_Text>();
     }
 
     public void BaseActiveSet(bool isbool)

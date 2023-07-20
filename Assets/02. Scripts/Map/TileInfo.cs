@@ -28,6 +28,7 @@ public class Resource
 public class TileInfo : MonoBehaviour
 {
     [SerializeField] TMP_Text resourceText;
+    [SerializeField] TMP_Text zombieText;
     [SerializeField] ItemSO itemSO;
     [SerializeField] GameObject player;
     [SerializeField] GameObject ui;
@@ -132,4 +133,8 @@ public class TileInfo : MonoBehaviour
         }
     }
 
+    public TMP_Text GetZombieText()
+    {
+        return zombieText;
+    }
 }
