@@ -1,18 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SparkAnim : MonoBehaviour
 {
     [SerializeField] string animName;
-    Animation sparkAnimation;
+    Animator animator;
+    Image image;
+
+    public float minInterval = 5f;
+    public float maxInterval = 15f;
 
     float timer = 0;
     float interval = 5f;
 
     void Start()
     {
-        sparkAnimation = GetComponent<Animation>();
+        animator = GetComponent<Animator>();
+        image = GetComponent<Image>();
+        GenerateNextInterval();
+
+        Color imageColor = image.color;
+        imageColor.a = 0f;
+        image.color = imageColor;
     }
 
     void Update()
@@ -23,11 +34,20 @@ public class SparkAnim : MonoBehaviour
         {
             timer = 0f;
             PlayAnimation();
+            GenerateNextInterval();
         }
     }
 
     private void PlayAnimation()
     {
-        sparkAnimation.Play(animName);
+        Color imageColor = image.color;
+        imageColor.a = 1f;
+        image.color = imageColor;
+        animator.SetTrigger(animName);
+    }
+
+    private void GenerateNextInterval()
+    {
+        interval = Random.Range(minInterval, maxInterval);
     }
 }
