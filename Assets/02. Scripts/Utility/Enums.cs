@@ -112,11 +112,10 @@ public enum EWeatherType
 
 public enum EResourceType
 {
-    Food,
-    Water,
-    Iron,
-    Wood,
-    Battery
+    배터리,
+    강철,
+    나무,
+    기름,
 }
 
 #endregion

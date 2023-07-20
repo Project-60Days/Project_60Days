@@ -74,7 +74,7 @@ public class TileInfo : MonoBehaviour
     {
         MapController.PlayerBehavior += CheckPlayerTIle;
         appearanceResources = new List<Resource>();
-        eResourceTypes = new List<EResourceType>() { EResourceType.Food, EResourceType.Water, EResourceType.Iron };
+        eResourceTypes = new List<EResourceType>() { EResourceType.배터리, EResourceType.강철, EResourceType.나무 };
         myTile = gameObject.transform.GetComponent<TileController>().Model;
         RandomResourceUpdate();
     }
@@ -107,10 +107,10 @@ public class TileInfo : MonoBehaviour
         if (isNearth)
         {
             if (appearanceResources.Count == 2)
-                resourceText.text = "자원 : " + appearanceResources[0].type.ToString() + " " + appearanceResources[0].count + ", "
+                resourceText.text = appearanceResources[0].type.ToString() + " " + appearanceResources[0].count + "\n"
                     + appearanceResources[1].type.ToString() + " " + appearanceResources[1].count;
             else
-                resourceText.text = "자원 : " + appearanceResources[0].type.ToString() + " " + appearanceResources[0].count;
+                resourceText.text = appearanceResources[0].type.ToString() + " " + appearanceResources[0].count;
         }
         else
         {
