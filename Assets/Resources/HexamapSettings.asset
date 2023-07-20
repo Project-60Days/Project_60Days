@@ -23,7 +23,7 @@ MonoBehaviour:
   WorldLimitsPrefabs:
   - {fileID: 307140750319210593, guid: ac48f32bd8226654e8066c1c6f86b3c1, type: 3}
   BiomeSettings:
-  - UUID: 8972ea39-0e8d-4411-b002-e7a17344b32f
+  - UUID: 8e45f970-50f9-475c-92aa-2a26076ab03c
     Name: HUMID
     MinimumTilesCount: 500
     Landforms:
@@ -78,21 +78,17 @@ MonoBehaviour:
       Distribution: 0
       Quantity: 0
       Order: 0
-      PrefabsArraySize: 9
+      PrefabsArraySize: 5
       PrefabsIsExpanded: 1
       PrefabPickingMethodTypeAsString: Hexamap.PickingMethodRandom
       PrefabPickingMethodPopupIndex: 3
       PrefabOrientationMethod: -1
       Prefabs:
-      - {fileID: 6778166872818351884, guid: 9f638a7518e5bb54f9864b858d29700a, type: 3}
-      - {fileID: 6778166872818351884, guid: 9f638a7518e5bb54f9864b858d29700a, type: 3}
-      - {fileID: 6778166872818351884, guid: 9f638a7518e5bb54f9864b858d29700a, type: 3}
-      - {fileID: 6778166872818351884, guid: a9b0914b38cc9b84b9102eb7ee309550, type: 3}
-      - {fileID: 6778166872818351884, guid: a9b0914b38cc9b84b9102eb7ee309550, type: 3}
       - {fileID: 6778166872818351884, guid: 7366e02d08953c04688711101e3862a6, type: 3}
       - {fileID: 6778166872818351884, guid: 7366e02d08953c04688711101e3862a6, type: 3}
-      - {fileID: 6778166872818351884, guid: 5bab5144afa671f4cad5e447e898b634, type: 3}
-      - {fileID: 6778166872818351884, guid: 5bab5144afa671f4cad5e447e898b634, type: 3}
+      - {fileID: 6778166872818351884, guid: 7366e02d08953c04688711101e3862a6, type: 3}
+      - {fileID: 6778166872818351884, guid: 9f638a7518e5bb54f9864b858d29700a, type: 3}
+      - {fileID: 6778166872818351884, guid: a9b0914b38cc9b84b9102eb7ee309550, type: 3}
     - TypeAsString: Hexamap.LandformMountains
       IsSelected: 0
       Distribution: 0
@@ -121,8 +117,8 @@ MonoBehaviour:
       Prefabs:
       - {fileID: 2788441876337456543, guid: 622f6f47da177424d80811c8e3fb7762, type: 3}
     - TypeAsString: Hexamap.LandformForest
-      IsSelected: 1
-      Distribution: 9
+      IsSelected: 0
+      Distribution: 0
       Quantity: 0
       Order: 10
       PrefabsArraySize: 6

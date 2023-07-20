@@ -19,6 +19,7 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     [SerializeField] GameObject prevPage;
     [SerializeField] GameObject nextDay;
     [SerializeField] GameObject inventoryUI;
+    [SerializeField] GameObject noteBackground_Back;
 
     Vector2 originalPos;
 
@@ -43,6 +44,7 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         nextDay.SetActive(false);
         blackPanel.gameObject.SetActive(false);
         dayText.gameObject.SetActive(false);
+        noteBackground_Back.SetActive(false);
 
         openBtn.onClick.AddListener(Open_Anim);
         closeBtn.onClick.AddListener(Close_Anim);
@@ -82,6 +84,7 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                 .Join(boxBottom.transform.DOMoveY(115f, 0.5f))
                 .AppendCallback(() =>
                 {
+                    noteBackground_Back.SetActive(true);
                     for (int i = 0; i < notePanels.Length; i++)
                         notePanels[i].DOFade(1f, 0.5f);
                 })
@@ -169,6 +172,7 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         isOpen = false;
         openBtn.gameObject.SetActive(true);
         closeBtn.gameObject.SetActive(false);
+        noteBackground_Back.SetActive(false);
     }
     /// <summary>
     /// 제출 버튼 콜백함수
@@ -177,5 +181,10 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         blackPanel.gameObject.SetActive(false);
         dayText.text = "Day " + ++dayCount;
+    }
+
+    public bool GetIsOpen()
+    {
+        return isOpen;
     }
 }

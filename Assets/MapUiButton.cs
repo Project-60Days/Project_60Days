@@ -18,8 +18,8 @@ public class MapUiButton : MonoBehaviour
     }
 
     // Update is called once per frame
-    public void ChangeMapCamera(bool button)
+/*    public void ChangeMapCamera(bool button)
     {
         mapCamera.SetPrioryty(button);
-    }
+    }*/
 }

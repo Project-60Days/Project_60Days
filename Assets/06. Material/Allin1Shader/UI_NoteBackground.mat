@@ -12,7 +12,6 @@ Material:
   m_ValidKeywords:
   - DOODLE_ON
   - FLICKER_ON
-  - GLITCH_ON
   - HOLOGRAM_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 4

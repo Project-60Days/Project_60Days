@@ -17,7 +17,6 @@ public class BlinkEffect : MonoBehaviour
         mesh = GetComponent<MeshRenderer>();
         material = mesh.material;
         Renderer renderer = mesh;
-        renderer.sortingOrder = -10;
     }
 
     private void OnEnable()
