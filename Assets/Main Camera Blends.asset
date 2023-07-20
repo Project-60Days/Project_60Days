@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CustomBlends:
   - m_From: NormalViewCamera
-    m_To: MapViewCamera
+    m_To: MapCamera
     m_Blend:
       m_Style: 0
       m_Time: 1
@@ -24,11 +24,11 @@ MonoBehaviour:
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 0
-  - m_From: MapViewCamera
+  - m_From: MapCamera
     m_To: NormalViewCamera
     m_Blend:
       m_Style: 0
-      m_Time: 2
+      m_Time: 0
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []

@@ -67,10 +67,12 @@ public class MapController : Singleton<MapController>
 
     void Start()
     {
-        StartCoroutine(GetUISceneObjects());
+        StartCoroutine(GetAddativeSceneObjects());
         GenerateMap();
         health = maxHealth;
         BaseActiveSet(true);
+
+        hexamapTr.position = Vector3.forward * 200f;
     }
 
     void Update()
@@ -99,9 +101,10 @@ public class MapController : Singleton<MapController>
         }
     }
 
-    IEnumerator GetUISceneObjects()
+    IEnumerator GetAddativeSceneObjects()
     {
         yield return new WaitForEndOfFrame();
+        mapCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         //textHealth = GameObject.FindGameObjectWithTag("MapUi").transform.Find("Hp_Text").GetComponent<TMP_Text>();
     }
 

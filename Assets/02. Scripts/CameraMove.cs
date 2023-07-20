@@ -6,6 +6,7 @@ using UnityEngine;
 public class CameraMove : MonoBehaviour
 {
     [SerializeField] private Cinemachine.CinemachineVirtualCamera currCam;
+    [SerializeField] private Cinemachine.CinemachineBrain brain;
 
     [Serializable]
     public class CameraInfo
@@ -28,9 +29,9 @@ public class CameraMove : MonoBehaviour
     private IEnumerator GetMapCamera()
     {
         yield return new WaitForSeconds(1f);
-        cameraInfos.Add(new CameraInfo(GameObject.FindGameObjectWithTag("MapCamera").GetComponent<MapCamera>().mapCamera, ENotePageType.Map)); 
+        cameraInfos.Add(new CameraInfo(GameObject.FindGameObjectWithTag("MapCamera").GetComponent<MapCamera>().mapCamera, ENotePageType.Map));
+        ChangeCamera(ENotePageType.DayStart);
     }
-
 
     [SerializeField] public List<CameraInfo> cameraInfos;
 

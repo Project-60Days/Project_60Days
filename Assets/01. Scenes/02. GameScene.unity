@@ -573,7 +573,7 @@ MonoBehaviour:
   m_UpdateMethod: 2
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
-    m_Style: 1
+    m_Style: 0
     m_Time: 1
     m_CustomCurve:
       serializedVersion: 2
@@ -601,6 +601,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currCam: {fileID: 1184953810}
+  brain: {fileID: 519420033}
   cameraInfos:
   - vCam: {fileID: 1184953810}
     notePageType: 0

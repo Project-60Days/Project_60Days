@@ -18,6 +18,8 @@ TagManager:
   - RenderTextureObject
   - InventoryUi
   - CraftingUi
+  - NoteAnim
+  - Camera
   layers:
   - Default
   - TransparentFX
