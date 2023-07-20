@@ -1373,6 +1373,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animName: RightDown
+  minInterval: 5
+  maxInterval: 15
 --- !u!114 &1223927653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1411,22 +1413,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1223927649}
   m_CullTransparentMesh: 1
---- !u!111 &1223927655
-Animation:
+--- !u!95 &1223927655
+Animator:
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1223927649}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 4819215af8b359a4aa282448b4904ab6, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 4819215af8b359a4aa282448b4904ab6, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 75855f49b055abf4ab23baae6f42410a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1271047158
 GameObject:
   m_ObjectHideFlags: 0
@@ -1747,6 +1753,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animName: LeftDown
+  minInterval: 5
+  maxInterval: 15
 --- !u!114 &1510769294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1785,22 +1793,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1510769290}
   m_CullTransparentMesh: 1
---- !u!111 &1510769296
-Animation:
+--- !u!95 &1510769296
+Animator:
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1510769290}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 7ef6d1a966c9785488c8016105bd41ae, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 7ef6d1a966c9785488c8016105bd41ae, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 59d9c19a6841e524b940fe9c4db396db, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1615230603
 GameObject:
   m_ObjectHideFlags: 3
@@ -1896,58 +1908,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1615425800
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1615425802}
-  - component: {fileID: 1615425801}
-  m_Layer: 0
-  m_Name: MapInteraction
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1615425801
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1615425800}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81ac50064d79aba4691905547f7b94e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  implant: {fileID: 0}
-  batteryImages:
-  - {fileID: 21300000, guid: b4b8a800368d5f3489a9663fc5817226, type: 3}
-  - {fileID: 21300000, guid: 4c5b14f68ad5d0b41ad21b23670482e8, type: 3}
-  - {fileID: 21300000, guid: f14d627dab3a60841ade57e4323fd293, type: 3}
-  - {fileID: 21300000, guid: 06da11f1e56c2f843b9295dd386063ac, type: 3}
-  - {fileID: 21300000, guid: dd8f1c5169291634da03ba121fd33ffa, type: 3}
-  - {fileID: 21300000, guid: eea2d0f21e7692043b72920d24a04b68, type: 3}
---- !u!4 &1615425802
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1615425800}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1681460522
 GameObject:
   m_ObjectHideFlags: 3
@@ -2096,6 +2056,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animName: LeftUp
+  minInterval: 5
+  maxInterval: 15
 --- !u!114 &1688269676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2144,7 +2106,7 @@ Animator:
   m_GameObject: {fileID: 1688269672}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a976471294eba84429f5d2a6870446f5, type: 2}
+  m_Controller: {fileID: 9100000, guid: 42acf40c5a02c5440aad5d9fa85e8443, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2716,6 +2678,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animName: RightUp
+  minInterval: 5
+  maxInterval: 15
 --- !u!114 &2091045662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2754,19 +2718,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2091045658}
   m_CullTransparentMesh: 1
---- !u!111 &2091045664
-Animation:
+--- !u!95 &2091045664
+Animator:
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2091045658}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: f307cb318b5167a45a594861c4fe067c, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: f307cb318b5167a45a594861c4fe067c, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1e37635c780bcbb4dac3b637d7fb8f88, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
