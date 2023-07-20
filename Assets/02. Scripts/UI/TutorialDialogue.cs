@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using Yarn.Unity;
 using static Yarn.Unity.Effects;
 
-public class TutorialController : MonoBehaviour, IPointerClickHandler
+public class TutorialDialogue : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] DialogueRunner dialogueRunner;
     [SerializeField] VerticalLayoutGroup content;
