@@ -114,7 +114,7 @@ public class NoteController : MonoBehaviour
     /// <summary>
     /// 다음 페이지 버튼 클릭 시 호출
     /// </summary>
-    void NextPageEvent()
+    public void NextPageEvent()
     {
         if (pageNum + 1 > notePages.Length - 1)
             return;
@@ -124,7 +124,7 @@ public class NoteController : MonoBehaviour
     /// <summary>
     /// 이전 페이지 버튼 클릭 시 호출
     /// </summary>
-    void PrevPageEvent()
+    public void PrevPageEvent()
     {
         if (pageNum - 1 < 0)
             return;
@@ -234,4 +234,26 @@ public class NoteController : MonoBehaviour
         dayCount++;
         newDay = true;
     }
+
+    public void SetTutorialDiary()
+    {
+        int idx = 1;
+        string nodeName = "Diary_Page_" + idx.ToString();
+
+        nextPageBtn.onClick.RemoveAllListeners();
+        prevPageBtn.onClick.RemoveAllListeners();
+
+        if (!dialogueRunner[dialogueRunnerIndex].IsDialogueRunning)
+        {
+            dialogueRunner[dialogueRunnerIndex].StartDialogue(nodeName);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(contents[dialogueRunnerIndex].GetComponent<RectTransform>());
+            LayoutRebuilder.ForceRebuildLayoutImmediate(lineViews[dialogueRunnerIndex].GetComponent<RectTransform>());
+        }
+    }
+
+    public void EndTutorialDiary()
+    {
+        Start();
+    }
 }
+
