@@ -64,6 +64,6 @@ public class TutorialDialog : TutorialBase
 
     public override void Init()
     {
-
+        throw new System.NotImplementedException();
     }
 }

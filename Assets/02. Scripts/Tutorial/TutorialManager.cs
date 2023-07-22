@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TutorialManager : MonoBehaviour
+public class TutorialManager : Singleton<TutorialManager>
 {
     // 튜토리얼 씬 관리 스크립트
 
     [Header("Prefabs")]
 
     [Header("Tutorial")]
-    [SerializeField] TutorialController tutorialController;
+    [SerializeField] public TutorialController tutorialController;
 
     private void Start()
     {
