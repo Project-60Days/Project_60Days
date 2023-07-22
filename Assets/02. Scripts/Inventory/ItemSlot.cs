@@ -4,10 +4,11 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class ItemSlot : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] Image image;
 
+    Craft craft;
     private ItemBase _item;
     public ItemBase item
     {
@@ -29,13 +30,13 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     void Start()
     {
-        //hoverImage.SetActive(false);
+        craft = GameObject.Find("CraftingUi").GetComponent<Craft>();
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    public void OnPointerClick(PointerEventData eventData)
     {
-        //if (_item != null)
-          //  hoverImage.SetActive(true);
+        if (_item != null)
+            craft.CraftItem(_item);
     }
 
     public void OnPointerExit(PointerEventData eventData)
