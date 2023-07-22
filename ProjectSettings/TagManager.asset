@@ -20,7 +20,6 @@ TagManager:
   - CraftingUi
   - NoteAnim
   - Camera
-  - WorkBench
   layers:
   - Default
   - TransparentFX
