@@ -76,6 +76,9 @@ public class InventoryPage : MonoBehaviour
     {
         if (slotCount < slots.Length)
         {
+            //string code = _item.itemCode;
+            //DataManager.instance.itemData.TryGetValue(code, out ItemData data);
+            //Debug.Log(data);
             items.Add(_item);
             FreshSlot();
         }
