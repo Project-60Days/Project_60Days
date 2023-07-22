@@ -2,18 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Temp : MonoBehaviour
+public class Craft : MonoBehaviour
 {
+    [SerializeField] GameObject slot;
+    [SerializeField] Transform parent;
+
     // Start is called before the first frame update
     void Start()
     {
         DataManager.instance.itemCombineData.TryGetValue(1001, out ItemCombineData itemData);
-        Debug.Log(itemData.Material_1);
+        Debug.Log(itemData);
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void CraftItem(ItemBase _item)
+    {
+        Instantiate(slot, parent);
+        //slot.item = _item;
     }
 }
