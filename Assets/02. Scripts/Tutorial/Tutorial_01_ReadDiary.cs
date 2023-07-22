@@ -17,18 +17,18 @@ public class Tutorial_01_ReadDiary : TutorialBase
 
     public override void Enter()
     {
-
-
+        noteController = FindObjectOfType<NoteController>();
+        noteController.SetTutorialDiary();
     }
 
     public override void Execute(TutorialController _controller)
     {
-        throw new System.NotImplementedException();
+
     }
 
     public override void Exit()
     {
-        throw new System.NotImplementedException();
+
     }
 
 }

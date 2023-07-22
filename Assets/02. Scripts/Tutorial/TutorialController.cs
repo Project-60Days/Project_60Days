@@ -6,7 +6,7 @@ public class TutorialController : MonoBehaviour
 {
     List<TutorialBase> tutorialList;
 
-    TutorialBase currentTutorial;
+    public TutorialBase currentTutorial;
     int TutorialIndex = -1;
 
     public void Init()
@@ -41,6 +41,6 @@ public class TutorialController : MonoBehaviour
     {
         currentTutorial = null;
 
-        SceneManager.LoadScene("Scene_01_Lobby");
+        // 모든 튜토리얼 종료
     }
 }
