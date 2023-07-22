@@ -25,7 +25,12 @@ public class NoteController : MonoBehaviour
     bool newDay = true;
     int dialogueRunnerIndex = 0;
     string nodeName;
-    
+
+    [SerializeField] DialogueRunner diaryDialogue;
+    [SerializeField] VerticalLayoutGroup diaryContent;
+    [SerializeField] VerticalLayoutGroup diaryLineView;
+    int DiaryPageNum = 1;
+
     public int pageNum = 0;
     int dayCount = 1;
     
@@ -237,11 +242,14 @@ public class NoteController : MonoBehaviour
 
     public void SetTutorialDiary()
     {
-        int idx = 1;
-        string nodeName = "Diary_Page_" + idx.ToString();
+        DiaryPageNum = 1;
+        LoadDiaryPage(1);
 
         nextPageBtn.onClick.RemoveAllListeners();
         prevPageBtn.onClick.RemoveAllListeners();
+
+        nextPageBtn.onClick.AddListener(() => { DiaryPageNum++; LoadDiaryPage(DiaryPageNum); });
+        prevPageBtn.onClick.AddListener(() => { DiaryPageNum--; LoadDiaryPage(DiaryPageNum); });
 
         if (!dialogueRunner[dialogueRunnerIndex].IsDialogueRunning)
         {
@@ -251,9 +259,31 @@ public class NoteController : MonoBehaviour
         }
     }
 
+    public void LoadDiaryPage(int _idx)
+    {
+        if(_idx == 5)
+        {
+            EndTutorialDiary();
+            return;
+        }
+
+        string nodeName = "Diary_Page_" + _idx.ToString();
+
+        if (!diaryDialogue.IsDialogueRunning)
+        {
+            diaryDialogue.StartDialogue(nodeName);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(diaryContent.GetComponent<RectTransform>());
+            LayoutRebuilder.ForceRebuildLayoutImmediate(diaryLineView.GetComponent<RectTransform>());
+        }
+    }
+
+    /// <summary>
+    /// 일기 읽기 튜토리얼 종료
+    /// </summary>
     public void EndTutorialDiary()
     {
         Start();
+        TutorialManager.instance.tutorialController.SetNextTutorial();
     }
 }
 
