@@ -250,13 +250,6 @@ public class NoteController : MonoBehaviour
 
         nextPageBtn.onClick.AddListener(() => { DiaryPageNum++; LoadDiaryPage(DiaryPageNum); });
         prevPageBtn.onClick.AddListener(() => { DiaryPageNum--; LoadDiaryPage(DiaryPageNum); });
-
-        if (!dialogueRunner[dialogueRunnerIndex].IsDialogueRunning)
-        {
-            dialogueRunner[dialogueRunnerIndex].StartDialogue(nodeName);
-            LayoutRebuilder.ForceRebuildLayoutImmediate(contents[dialogueRunnerIndex].GetComponent<RectTransform>());
-            LayoutRebuilder.ForceRebuildLayoutImmediate(lineViews[dialogueRunnerIndex].GetComponent<RectTransform>());
-        }
     }
 
     public void LoadDiaryPage(int _idx)
