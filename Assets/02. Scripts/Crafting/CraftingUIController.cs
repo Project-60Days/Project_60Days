@@ -8,16 +8,16 @@ using UnityEngine.UI;
 public class CraftingUIController : MonoBehaviour
 {
     [SerializeField] Transform slotParent;
-    [SerializeField] Sprite[] craftTypeImage;
+    //[SerializeField] Sprite[] craftTypeImage;
     [SerializeField] GameObject inventoryUi;
 
     private ItemSlot[] slots;
-    private List<Transform> slotTransforms;
+    public List<Transform> slotTransforms;
 
     InventoryPage inventoryPage;
 
     public List<ItemBase> items;
-    private List<Image> craftTypeImages;
+    //private List<Image> craftTypeImages;
     public List<ItemCombineData> itemCombines;
 
     void Awake()
@@ -25,13 +25,11 @@ public class CraftingUIController : MonoBehaviour
         inventoryPage = GameObject.Find("Inventory").GetComponent<InventoryPage>();
 
         slots = slotParent.GetComponentsInChildren<ItemSlot>();
-        for (int i = 0; i < slotParent.childCount; i++) 
+        for (int i = 0; i < slotParent.childCount; i++)
         {
-            slotTransforms.Add(slotParent.GetChild(i));
-        }
-        for(int i = 0; i < slotTransforms.Count; i++)
-        {
-            craftTypeImages.Add(slotTransforms[i].GetChild(1).GetComponent<Image>());
+            if (slotParent.GetChild(i))
+                slotTransforms.Add(slotParent.GetChild(i));
+            //craftTypeImages.Add(slotTransforms[i].GetChild(1).GetComponent<Image>());
         }
     }
 
@@ -52,11 +50,11 @@ public class CraftingUIController : MonoBehaviour
        
         gameObject.SetActive(false);
 
-        for(int i = 0; i < slots.Length; i++)
+        for (int i = 0; i < slots.Length; i++)
         {
             slotTransforms[i].gameObject.SetActive(false);
             slots[i].item = null;
-            craftTypeImages[i].GetComponent<Image>().sprite = craftTypeImage[0];
+            //craftTypeImages[i].GetComponent<Image>().sprite = craftTypeImage[0];
         }
     }
 
@@ -66,7 +64,7 @@ public class CraftingUIController : MonoBehaviour
         {
             slotTransforms[i].gameObject.SetActive(false);
             slots[i].item = null;
-            craftTypeImages[i].GetComponent<Image>().sprite = craftTypeImage[0];
+            //craftTypeImages[i].GetComponent<Image>().sprite = craftTypeImage[0];
         }
 
         int j = 0;
@@ -102,10 +100,13 @@ public class CraftingUIController : MonoBehaviour
             inventoryPage.AddItem(items[i]);
             slotTransforms[i].gameObject.SetActive(false);
             slots[i].item = null;
-            craftTypeImages[i].GetComponent<Image>().sprite = craftTypeImage[0];
+            //craftTypeImages[i].GetComponent<Image>().sprite = craftTypeImage[0];
         }
     }
 
+    /// <summary>
+    /// 조합 초안티비.. 진짜 지저분하고 마음에 안들지만,, 일단.. 자러가기위해 머지해놓은것입니다,, 기다려주새요,, 흑흑티비
+    /// </summary>
     public void CombineItem()
     {
         int flag = 0;
