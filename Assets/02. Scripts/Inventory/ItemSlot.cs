@@ -10,6 +10,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 
     CraftingUIController craft;
     private ItemBase _item;
+
     public ItemBase item
     {
         get { return _item; }
@@ -23,12 +24,13 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
             }
             else
             {
+                image.sprite = null;
                 image.color = new Color(1, 1, 1, 0);
             }
         }
     }
 
-    void Start()
+    void Awake()
     {
         craft = GameObject.Find("CraftingUi").GetComponent<CraftingUIController>();
     }
@@ -36,11 +38,8 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         if (_item != null)
+        {
             craft.CraftItem(_item);
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        //hoverImage.SetActive(false);
+        } 
     }
 }

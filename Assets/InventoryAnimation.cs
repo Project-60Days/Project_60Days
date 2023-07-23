@@ -8,6 +8,7 @@ public class InventoryAnimation : MonoBehaviour
 {
     Sequence sequence;
     Vector3 pos;
+    [SerializeField] GameObject craftingUi;
 
     private void Start()
     {

@@ -7,8 +7,7 @@ public class Temp : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        DataManager.instance.itemCombineData.TryGetValue(1001, out ItemCombineData itemData);
-        Debug.Log(itemData.Material_1);
+      
     }
 
     // Update is called once per frame
