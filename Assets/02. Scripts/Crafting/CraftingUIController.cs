@@ -9,15 +9,15 @@ public class CraftingUIController : MonoBehaviour
 {
     [SerializeField] Transform slotParent;
     [SerializeField] Sprite[] craftTypeImage;
+    [SerializeField] GameObject inventoryUi;
+
     private ItemSlot[] slots;
-    public List<Transform> slotTransforms;
+    private List<Transform> slotTransforms;
 
     InventoryPage inventoryPage;
 
     public List<ItemBase> items;
-    public List<Image> craftTypeImages;
-
-    int craftBagCount = 0;
+    private List<Image> craftTypeImages;
 
     void Awake()
     {
@@ -38,7 +38,7 @@ public class CraftingUIController : MonoBehaviour
     {
         DataManager.instance.itemCombineData.TryGetValue(1001, out ItemCombineData itemData);
 
-        this.gameObject.SetActive(false);
+        gameObject.SetActive(false);
 
         for(int i = 0; i < slots.Length; i++)
         {
@@ -50,26 +50,25 @@ public class CraftingUIController : MonoBehaviour
 
     public void FreshCraftingBag()
     {
-        for (int i = 0; i < craftBagCount; i++)
+        for (int i = 0; i < items.Count; i++)
         {
             slotTransforms[i].gameObject.SetActive(false);
             slots[i].item = null;
             craftTypeImages[i].GetComponent<Image>().sprite = craftTypeImage[0];
         }
 
-        craftBagCount = 0;
+        int j = 0;
 
-        for (int i = 0; i < items.Count; i++)
+        for (; j < items.Count; j++)
         {
-            slotTransforms[i].gameObject.SetActive(true);
-            slots[i].item = items[i];
-            craftBagCount++;
+            slotTransforms[j].gameObject.SetActive(true);
+            slots[j].item = items[j];
         }
 
-        for (int i = craftBagCount; i < slots.Length; i++)
+        for (; j < slots.Length; j++)
         {
-            slotTransforms[i].gameObject.SetActive(false);
-            slots[i].item = null;
+            slotTransforms[j].gameObject.SetActive(false);
+            slots[j].item = null;
         }
     }
 
@@ -78,5 +77,19 @@ public class CraftingUIController : MonoBehaviour
         items.Add(_item);
         FreshCraftingBag();
         inventoryPage.RemoveItem(_item);
+    }
+
+    public void ReturnItem()
+    {
+        gameObject.SetActive(false);
+        inventoryUi.SetActive(false);
+
+        for (int i = 0; i < items.Count; i++)
+        {
+            inventoryPage.AddItem(items[i]);
+            slotTransforms[i].gameObject.SetActive(false);
+            slots[i].item = null;
+            craftTypeImages[i].GetComponent<Image>().sprite = craftTypeImage[0];
+        }
     }
 }

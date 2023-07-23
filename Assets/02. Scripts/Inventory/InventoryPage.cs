@@ -7,6 +7,7 @@ public class InventoryPage : MonoBehaviour
 {
     [SerializeField] Transform slotParent;
     [SerializeField] Sprite[] itemTypeImage;
+
     private ItemSlot[] slots;
     private Temp[] slotImages;
     private TextMeshProUGUI[] itemCounts;
@@ -66,9 +67,6 @@ public class InventoryPage : MonoBehaviour
                 slotImages[slotCount].GetComponent<Image>().sprite = itemTypeImage[1];
             else if(items[i].itemType == ItemType.Material)
                 slotImages[slotCount].GetComponent<Image>().sprite = itemTypeImage[2];
-
-            //string itemDiscription = items[i].itemName + "\n" + items[i].itemTip;
-            //itemTips[slotCount].text = itemDiscription;
 
             if (slots[slotCount].item != null)
                 slotCount++;
