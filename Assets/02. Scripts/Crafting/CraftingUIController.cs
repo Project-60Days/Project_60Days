@@ -18,6 +18,7 @@ public class CraftingUIController : MonoBehaviour
 
     public List<ItemBase> items;
     private List<Image> craftTypeImages;
+    public List<ItemCombineData> itemCombines;
 
     void Awake()
     {
@@ -36,8 +37,19 @@ public class CraftingUIController : MonoBehaviour
 
     void Start()
     {
-        DataManager.instance.itemCombineData.TryGetValue(1001, out ItemCombineData itemData);
+        for(int i = 0; i < 1050; i++)
+        {
+            DataManager.instance.itemCombineData.TryGetValue(i + 1001, out ItemCombineData itemData);
 
+            if (itemData != null)
+            {
+                itemCombines.Add(itemData);
+                Debug.Log(itemData.Result);
+            }
+            else
+                break;
+        }
+       
         gameObject.SetActive(false);
 
         for(int i = 0; i < slots.Length; i++)
@@ -63,6 +75,7 @@ public class CraftingUIController : MonoBehaviour
         {
             slotTransforms[j].gameObject.SetActive(true);
             slots[j].item = items[j];
+            CombineItem();
         }
 
         for (; j < slots.Length; j++)
@@ -90,6 +103,62 @@ public class CraftingUIController : MonoBehaviour
             slotTransforms[i].gameObject.SetActive(false);
             slots[i].item = null;
             craftTypeImages[i].GetComponent<Image>().sprite = craftTypeImage[0];
+        }
+    }
+
+    public void CombineItem()
+    {
+        int flag = 0;
+        int j = 0;
+        for (int i = 0; i < items.Count; i++) 
+        {
+            if (flag == 1)
+            {
+                break;
+            }
+
+            for (; i < itemCombines.Count; j++) 
+            {
+                flag = 0;
+
+                if (itemCombines[j].Material_1 != "-1" && itemCombines[j].Material_1 == items[i].itemCode)
+                {
+                    flag = 1; break;
+                }
+                else if (itemCombines[j].Material_2 != "-1" && itemCombines[j].Material_2 == items[i].itemCode)
+                {
+                    flag = 1; break;
+                }
+                else if (itemCombines[j].Material_3 != "-1" && itemCombines[j].Material_3 == items[i].itemCode)
+                {
+                    flag = 1; break;
+                }
+                else if (itemCombines[j].Material_4 != "-1" && itemCombines[j].Material_4 == items[i].itemCode)
+                {
+                    flag = 1; break;
+                }
+                else if (itemCombines[j].Material_5 != "-1" && itemCombines[j].Material_5 == items[i].itemCode)
+                {
+                    flag = 1; break;
+                }
+                else if (itemCombines[j].Material_6 != "-1" && itemCombines[j].Material_6 == items[i].itemCode)
+                {
+                    flag = 1; break;
+                }
+                else if (itemCombines[j].Material_7 != "-1" && itemCombines[j].Material_7 == items[i].itemCode)
+                {
+                    flag = 1; break;
+                }
+                else if (itemCombines[j].Material_8 != "-1" && itemCombines[j].Material_8 == items[i].itemCode)
+                {
+                    flag = 1; break;
+                }
+            }
+        }
+        
+        if (flag == 1)
+        {
+            Debug.Log(itemCombines[j].Result);
         }
     }
 }
