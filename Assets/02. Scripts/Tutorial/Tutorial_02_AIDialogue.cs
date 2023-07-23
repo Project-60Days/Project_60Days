@@ -1,14 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Yarn;
-using Yarn.Unity;
 
-public class Tutorial_01_ReadDiary : TutorialBase
+public class Tutorial_02_AIDialogue : TutorialBase
 {
     public override void Enter()
     {
-        UIManager.instance.GetNoteController().SetTutorialDiary();
+        UIManager.instance.GetTutorialDialogue().StartDialogue();
     }
 
     public override void Execute(TutorialController _controller)
@@ -18,7 +16,6 @@ public class Tutorial_01_ReadDiary : TutorialBase
 
     public override void Exit()
     {
-
+        UIManager.instance.GetTutorialDialogue().EndDialogue();
     }
-
 }

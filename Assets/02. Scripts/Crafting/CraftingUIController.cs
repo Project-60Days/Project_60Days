@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Craft : MonoBehaviour
+public class CraftingUIController : MonoBehaviour
 {
     [SerializeField] GameObject slot;
     [SerializeField] Transform parent;
@@ -12,6 +12,8 @@ public class Craft : MonoBehaviour
     {
         DataManager.instance.itemCombineData.TryGetValue(1001, out ItemCombineData itemData);
         Debug.Log(itemData);
+
+        this.gameObject.SetActive(false);
     }
 
     // Update is called once per frame

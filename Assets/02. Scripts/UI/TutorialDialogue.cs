@@ -15,15 +15,16 @@ public class TutorialDialogue : MonoBehaviour, IPointerClickHandler
     private Coroutine runningCoroutine;
     private CoroutineInterruptToken interruptToken;
 
-    void Start()
+    public void StartDialogue()
     {
+        this.gameObject.SetActive(true);
+
         if (!dialogueRunner.IsDialogueRunning)
         {
             dialogueRunner.StartDialogue("Tutorial");
             LayoutRebuilder.ForceRebuildLayoutImmediate(content.GetComponent<RectTransform>());
             LayoutRebuilder.ForceRebuildLayoutImmediate(lineView.GetComponent<RectTransform>());
         }
-        
 
         interruptToken = new CoroutineInterruptToken();
     }
@@ -31,5 +32,10 @@ public class TutorialDialogue : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         
+    }
+
+    public void EndDialogue()
+    {
+        this.gameObject.SetActive(false);
     }
 }

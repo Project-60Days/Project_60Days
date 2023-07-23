@@ -8,7 +8,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] Image image;
 
-    Craft craft;
+    CraftingUIController craft;
     private ItemBase _item;
     public ItemBase item
     {
@@ -30,7 +30,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 
     void Start()
     {
-        craft = GameObject.Find("CraftingUi").GetComponent<Craft>();
+        craft = GameObject.Find("CraftingUi").GetComponent<CraftingUIController>();
     }
 
     public void OnPointerClick(PointerEventData eventData)

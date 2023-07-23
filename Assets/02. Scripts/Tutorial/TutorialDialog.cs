@@ -62,8 +62,4 @@ public class TutorialDialog : TutorialBase
         DialogPanel.SetActive(false);
     }
 
-    public override void Init()
-    {
-        throw new System.NotImplementedException();
-    }
 }
