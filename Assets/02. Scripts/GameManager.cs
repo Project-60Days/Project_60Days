@@ -18,6 +18,8 @@ public class GameManager : Singleton<GameManager>
 {
     Controller controller;
     MapCamera mapCamera;
+
+    [SerializeField] GameObject tutorialManager;
     
     void Awake()
     {
@@ -67,6 +69,9 @@ public class GameManager : Singleton<GameManager>
         SceneLoader.instance.LoadScene((int)ESceneType.Game);
         SceneLoader.instance.LoadSceneAddtive((int)ESceneType.UI);
         SceneLoader.instance.LoadSceneAddtive((int)ESceneType.Map);
+
+        SceneLoader.instance.onSceneLoaded += StartTutorial;
+
         StartCoroutine(GetMapCamera());
         
     }
@@ -86,6 +91,14 @@ public class GameManager : Singleton<GameManager>
     public void SetPrioryty(bool set)
     {
         mapCamera.SetPrioryty(set);
+    }
+
+    public void StartTutorial()
+    {
+        TutorialManager tm = Instantiate(tutorialManager).GetComponent<TutorialManager>();
+        DontDestroyOnLoad(tm.gameObject);
+        tm.Init();
+        Debug.LogError("start Tutorial" + tm);
     }
 
     public void QuitGame()

@@ -26,6 +26,8 @@ public class NoteController : MonoBehaviour
     int dialogueRunnerIndex = 0;
     string nodeName;
 
+    bool isTutorial = false;
+    [SerializeField] GameObject page_Diary_Back;
     [SerializeField] DialogueRunner diaryDialogue;
     [SerializeField] VerticalLayoutGroup diaryContent;
     [SerializeField] VerticalLayoutGroup diaryLineView;
@@ -33,22 +35,26 @@ public class NoteController : MonoBehaviour
 
     public int pageNum = 0;
     int dayCount = 1;
-    
+
     List<int> numbers = new List<int>() { 1, 2, 3, 4, 5 };
     int selectedNumber;
 
-    NoteAnim noteAnim;
+    [SerializeField] NoteAnim noteAnim;
 
     [SerializeField] VerticalLayoutGroup[] contents;
     [SerializeField] VerticalLayoutGroup[] lineViews;
-    void Start()
-    {
-        noteAnim = GameObject.Find("Box_Back").GetComponent<NoteAnim>();
 
+    private void Start()
+    {
+        Init();
+    }
+
+    public void Init()
+    {
         Transform[] pages = pageContainer.GetComponentsInChildren<Transform>();
         List<Transform> targets = new List<Transform>();
         foreach (Transform page in pages)
-        { 
+        {
             if (page.CompareTag("NotePage"))
             {
                 targets.Add(page);
@@ -75,11 +81,9 @@ public class NoteController : MonoBehaviour
         selectedNumber = numbers[randomIndex];
         numbers.RemoveAt(randomIndex);
 
-        nextPageBtn.onClick.AddListener(NextPageEvent);
-        prevPageBtn.onClick.AddListener(PrevPageEvent);
-        nextDayBtn.onClick.AddListener(NextDayEvent);
-
         inventory.SetActive(false);
+
+        Debug.LogError("init End");
     }
 
     private void MoveNoteCenter()
@@ -97,13 +101,23 @@ public class NoteController : MonoBehaviour
     /// </summary>
     public void OpenBox()
     {
-        notePages[pageNum].gameObject.SetActive(true);
-        if (newDay)
+        Debug.Log(isTutorial);
+        if (isTutorial)
         {
-            PageOn(0);
-            newDay = false;
+            page_Diary_Back.SetActive(true);
+            DiaryPageNum = 1;
+            LoadDiaryPage(DiaryPageNum);
         }
-        ChangePageButton();
+        else
+        {
+            notePages[pageNum].gameObject.SetActive(true);
+            if (newDay)
+            {
+                PageOn(0);
+                newDay = false;
+            }
+            ChangePageButton();
+        }
     }
     /// <summary>
     /// 상자 닫힐 때 NoteAnim.cs에서 호출되는 함수 
@@ -223,6 +237,15 @@ public class NoteController : MonoBehaviour
         }
     }
 
+    private void SetBtnNormal()
+    {
+        nextPageBtn.onClick.RemoveAllListeners();
+        prevPageBtn.onClick.RemoveAllListeners();
+
+        nextPageBtn.onClick.AddListener(NextPageEvent);
+        prevPageBtn.onClick.AddListener(PrevPageEvent);
+        nextDayBtn.onClick.AddListener(NextDayEvent);
+    }
 
     /// <summary>
     /// 제출 버튼 클릭 시 일과 노트 내용 초기화
@@ -231,7 +254,7 @@ public class NoteController : MonoBehaviour
     {
         MapController.instance.NextDay();
         pageNum = 0;
-        for(int i = 0; i < dialogueRunner.Length; i++)
+        for (int i = 0; i < dialogueRunner.Length; i++)
             dialogueRunner[i].Stop();
         int randomIndex = UnityEngine.Random.Range(0, numbers.Count);
         selectedNumber = numbers[randomIndex];
@@ -242,8 +265,8 @@ public class NoteController : MonoBehaviour
 
     public void SetTutorialDiary()
     {
-        DiaryPageNum = 1;
-        LoadDiaryPage(1);
+        Debug.Log("SetTutorialDiary");
+        isTutorial = true;
 
         nextPageBtn.onClick.RemoveAllListeners();
         prevPageBtn.onClick.RemoveAllListeners();
@@ -254,20 +277,28 @@ public class NoteController : MonoBehaviour
 
     public void LoadDiaryPage(int _idx)
     {
-        if(_idx == 5)
+        if (_idx < 1)
+            return;
+
+        Debug.LogError("LoadDiaryPage " + _idx);
+        if (_idx == 5)
         {
             EndTutorialDiary();
             return;
         }
 
+        if (_idx == 1)
+            prevPageBtn.gameObject.SetActive(false);
+        else
+            prevPageBtn.gameObject.SetActive(true);
+
         string nodeName = "Diary_Page_" + _idx.ToString();
 
-        if (!diaryDialogue.IsDialogueRunning)
-        {
-            diaryDialogue.StartDialogue(nodeName);
-            LayoutRebuilder.ForceRebuildLayoutImmediate(diaryContent.GetComponent<RectTransform>());
-            LayoutRebuilder.ForceRebuildLayoutImmediate(diaryLineView.GetComponent<RectTransform>());
-        }
+        diaryDialogue.Stop();
+        diaryDialogue.StartDialogue(nodeName);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(diaryContent.GetComponent<RectTransform>());
+        LayoutRebuilder.ForceRebuildLayoutImmediate(diaryLineView.GetComponent<RectTransform>());
+
     }
 
     /// <summary>
@@ -275,7 +306,10 @@ public class NoteController : MonoBehaviour
     /// </summary>
     public void EndTutorialDiary()
     {
-        Start();
+        isTutorial = false;
+        noteAnim.Close_Anim();
+        page_Diary_Back.SetActive(false);
+        SetBtnNormal();
         TutorialManager.instance.tutorialController.SetNextTutorial();
     }
 }
