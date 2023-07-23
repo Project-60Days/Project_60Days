@@ -27,15 +27,20 @@ public class InventoryPage : MonoBehaviour
 
     public void FreshSlot()
     {
-        int flag;
-  
+        for (int i = 0; i < slotCount; i++)
+        {
+            slots[i].item = null;
+            slotImages[i].GetComponent<Image>().sprite = itemTypeImage[0];
+            itemCounts[i].text = "0";
+            itemCounts[i].gameObject.SetActive(false);
+        }
+
+        slotCount = 0;
+
         for (int i = 0; i < items.Count;  i++)
         {
-            flag = 0;
-
-            if (i < slots.Length && slots[i].item != null)
-                slots[i].item.itemCount = 0;
-
+            int flag = 0;
+                
             for (int j = 0; j < slotCount; j++)
             {
                 if (slots[j].item == items[i])
@@ -54,17 +59,21 @@ public class InventoryPage : MonoBehaviour
             slots[slotCount].item.itemCount = 1;
             itemCounts[slotCount].gameObject.SetActive(true);
             itemCounts[slotCount].text = items[i].itemCount.ToString();
+
             if (items[i].itemType == ItemType.Consumption)
                 slotImages[slotCount].GetComponent<Image>().sprite = itemTypeImage[0];
             else if (items[i].itemType == ItemType.Equipment)
                 slotImages[slotCount].GetComponent<Image>().sprite = itemTypeImage[1];
             else if(items[i].itemType == ItemType.Material)
                 slotImages[slotCount].GetComponent<Image>().sprite = itemTypeImage[2];
+
             //string itemDiscription = items[i].itemName + "\n" + items[i].itemTip;
             //itemTips[slotCount].text = itemDiscription;
+
             if (slots[slotCount].item != null)
-                    slotCount++;
+                slotCount++;
         }
+
         for (int i = slotCount; i < slots.Length; i++)
         {
             slots[i].item = null;
@@ -86,5 +95,19 @@ public class InventoryPage : MonoBehaviour
         {
             Debug.Log("½½·ÔÀÌ °¡µæ Â÷ ÀÖ½À´Ï´Ù.");
         }
+    }
+
+    public void RemoveItem(ItemBase _item)
+    {
+        _item.itemCount--;
+        for(int i = 0; i < items.Count; i++)
+        {
+            if (items[i] == _item)
+            {
+                items.RemoveAt(i);
+                break;
+            }
+        }
+        FreshSlot();
     }
 }
