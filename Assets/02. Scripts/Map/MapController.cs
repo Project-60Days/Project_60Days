@@ -27,6 +27,7 @@ public class MapController : Singleton<MapController>
 
     public Tile playerLocationTile;
     public Tile prevTile;
+    public TileController targetTile;
 
 
     [Header("카메라 설정")]
@@ -37,6 +38,7 @@ public class MapController : Singleton<MapController>
     [SerializeField] int MaxXRotation = 90;
     [SerializeField] int ScrollSpeed = 50;
     [SerializeField] int MoveSpeed = 50;
+    ArrowToMove arrow;
 
     [Header("게임 씬")]
     [Space(5f)]
@@ -54,7 +56,7 @@ public class MapController : Singleton<MapController>
     GameObject currentUI;
 
     int health;
-    int maxHealth = 3;
+    int maxHealth = 1;
 
     bool isPlayerSelected;
     bool isPlayerCanMove;
@@ -69,7 +71,7 @@ public class MapController : Singleton<MapController>
 
     void Start()
     {
-        StartCoroutine(GetAddativeSceneObjects());
+        StartCoroutine(GetAdditiveSceneObjects());
         GenerateMap();
         health = maxHealth;
         BaseActiveSet(true);
@@ -79,8 +81,8 @@ public class MapController : Singleton<MapController>
 
     void Update()
     {
-        if (textHealth != null)
-            textHealth.text = "체력: " + health;
+        /*        if (textHealth != null)
+                    textHealth.text = "체력: " + health;*/
 
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -102,12 +104,13 @@ public class MapController : Singleton<MapController>
         }
     }
 
-    IEnumerator GetAddativeSceneObjects()
+    IEnumerator GetAdditiveSceneObjects()
     {
         yield return new WaitForEndOfFrame();
         mapCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         noteAnim = GameObject.FindGameObjectWithTag("NoteAnim").GetComponent<NoteAnim>();
-        textHealth = GameObject.FindGameObjectWithTag("MapUi").transform.GetChild(0).transform.Find("Hp_Text").GetComponent<TMP_Text>();
+        //textHealth = GameObject.FindGameObjectWithTag("MapUi").transform.GetChild(0).transform.Find("Hp_Text").GetComponent<TMP_Text>();
+        arrow = GameObject.FindGameObjectWithTag("NoteUi").transform.Find("Map_Arrow").GetComponent<ArrowToMove>();
     }
 
     public void BaseActiveSet(bool isbool)
@@ -466,11 +469,17 @@ public class MapController : Singleton<MapController>
                 if (getTileBorder(tile, "BorderYes").activeInHierarchy && playerLocationTile != tile.Model)
                 {
                     // 선택한 칸으로 이동
-                    resourceManager.SetTile(tile.Model);
                     movePath = AStar.FindPath(playerLocationTile.Coords, tile.Model.Coords);
-                    prevTile = playerLocationTile;
-                    playerLocationTile = tile.Model;
-                    StartCoroutine(MovePlayer(tile.transform.position));
+
+                    isPlayerSelected = false;
+                    isPlayerCanMove = false;
+                    isPlayerMoving = true;
+                    targetTile = tile;
+
+                    unselectAllTile();
+                    unselectAllPathTile();
+
+                    arrow.OnEffect(tile.transform);
                 }
                 else
                 {
@@ -546,10 +555,6 @@ public class MapController : Singleton<MapController>
 
     IEnumerator MovePlayer(Vector3 lastTargetPos, float time = 0.4f)
     {
-        isPlayerSelected = false;
-        isPlayerCanMove = false;
-        isPlayerMoving = true;
-
         unselectAllTile();
         unselectAllPathTile();
 
@@ -567,7 +572,7 @@ public class MapController : Singleton<MapController>
                 ;
             player.transform.DOMove(targetPos, time);
             health--;
-            textHealth.text = "체력: " + health;
+            //textHealth.text = "체력: " + health;
             yield return new WaitForSeconds(time);
         }
 
@@ -580,6 +585,7 @@ public class MapController : Singleton<MapController>
         isPlayerMoving = false;
         PlayerBehavior?.Invoke(playerLocationTile);
         resourceManager.GetResource();
+        arrow.OffEffect();
     }
 
     void DistrubtorSettingSuccess()
@@ -741,6 +747,11 @@ public class MapController : Singleton<MapController>
 
     public void NextDay()
     {
+        resourceManager.SetTile(targetTile.Model);
+        prevTile = playerLocationTile;
+        playerLocationTile = targetTile.Model;
+        StartCoroutine(MovePlayer(targetTile.transform.position));
+
         if (health == maxHealth)
             prevTile = playerLocationTile;
 

@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &13844135
 RectTransform:
   m_ObjectHideFlags: 0
@@ -272,12 +272,14 @@ MonoBehaviour:
   player: {fileID: 0}
   fog: {fileID: 1982854165}
   resourceManager: {fileID: 1926141685}
+  targetTile: {fileID: 0}
   MaxYPosition: 70
   MinYPosition: 5
   MinXRotation: 30
   MaxXRotation: 90
   ScrollSpeed: 100
   MoveSpeed: 50
+  arrow: {fileID: 0}
   isBaseOn: 0
 --- !u!1 &70614907
 GameObject:
@@ -611,7 +613,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &368694955
 RectTransform:
   m_ObjectHideFlags: 0
@@ -688,7 +690,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!20 &534669904
 Camera:
   m_ObjectHideFlags: 0
