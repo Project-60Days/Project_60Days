@@ -19,6 +19,7 @@ public class CraftingUIController : MonoBehaviour
     public List<ItemBase> items;
     //private List<Image> craftTypeImages;
     public List<ItemCombineData> itemCombines;
+    string[] combinationCodes = new string[9];
 
     void Awake()
     {
@@ -35,15 +36,12 @@ public class CraftingUIController : MonoBehaviour
 
     void Start()
     {
-        for(int i = 0; i < 1050; i++)
+        for(int i = 1001; i < 2000; i++)
         {
-            DataManager.instance.itemCombineData.TryGetValue(i + 1001, out ItemCombineData itemData);
+            DataManager.instance.itemCombineData.TryGetValue(i, out ItemCombineData itemData);
 
             if (itemData != null)
-            {
                 itemCombines.Add(itemData);
-                Debug.Log(itemData.Result);
-            }
             else
                 break;
         }
@@ -58,6 +56,9 @@ public class CraftingUIController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// CraftBag 새로고침(?)
+    /// </summary>
     public void FreshCraftingBag()
     {
         for (int i = 0; i < items.Count; i++)
@@ -73,7 +74,6 @@ public class CraftingUIController : MonoBehaviour
         {
             slotTransforms[j].gameObject.SetActive(true);
             slots[j].item = items[j];
-            CombineItem();
         }
 
         for (; j < slots.Length; j++)
@@ -83,13 +83,21 @@ public class CraftingUIController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// CraftBag에 아이템 추가
+    /// </summary>
+    /// <param name="_item"></param>
     public void CraftItem(ItemBase _item)
     {
         items.Add(_item);
         FreshCraftingBag();
+        CombineItem();
         inventoryPage.RemoveItem(_item);
     }
 
+    /// <summary>
+    /// Exit 버튼 눌렀을 때 인벤토리로 아이템 반환
+    /// </summary>
     public void ReturnItem()
     {
         gameObject.SetActive(false);
@@ -105,61 +113,67 @@ public class CraftingUIController : MonoBehaviour
     }
 
     /// <summary>
-    /// 조합 초안티비.. 진짜 지저분하고 마음에 안들지만,, 일단.. 자러가기위해 머지해놓은것입니다,, 기다려주새요,, 흑흑티비
+    /// 조합표 비교
     /// </summary>
     public void CombineItem()
     {
-        int flag = 0;
-        int j = 0;
-        for (int i = 0; i < items.Count; i++) 
+        int flag = 0; // 0: 일치, 1: 불일치
+        for (int i = 0; i < itemCombines.Count; i++)
         {
-            if (flag == 1)
+            flag = 0;
+
+            combinationCodes[0] = itemCombines[i].Material_1;
+            combinationCodes[1] = itemCombines[i].Material_2;
+            combinationCodes[2] = itemCombines[i].Material_3;
+            combinationCodes[3] = itemCombines[i].Material_4;
+            combinationCodes[4] = itemCombines[i].Material_5;
+            combinationCodes[5] = itemCombines[i].Material_6;
+            combinationCodes[6] = itemCombines[i].Material_7;
+            combinationCodes[7] = itemCombines[i].Material_8;
+            combinationCodes[8] = itemCombines[i].Result;
+
+            for (int j = 0; j < items.Count; j++)
             {
+                if (flag == 1) break;
+
+                for (int k = 0; k < 8; k++)
+                {
+                    if (combinationCodes[k] == "1") continue;
+                    if (combinationCodes[k] != items[j].itemCode)
+                    {
+                        flag = 1;
+                        break;
+                    }
+                    else
+                    {
+                        combinationCodes[k] = "1";
+                        break;
+                    }
+                }
+            }
+            
+            for (int k = 0; k < 8; k++)
+            {
+                if (combinationCodes[k] == "1" || combinationCodes[k] == "-1") continue;
+                else
+                {
+                    flag = 1; break;
+                }
+            }
+
+            if (flag == 0)
+            {
+                AddCombineResult(combinationCodes[8]);
                 break;
             }
-
-            for (; i < itemCombines.Count; j++) 
-            {
-                flag = 0;
-
-                if (itemCombines[j].Material_1 != "-1" && itemCombines[j].Material_1 == items[i].itemCode)
-                {
-                    flag = 1; break;
-                }
-                else if (itemCombines[j].Material_2 != "-1" && itemCombines[j].Material_2 == items[i].itemCode)
-                {
-                    flag = 1; break;
-                }
-                else if (itemCombines[j].Material_3 != "-1" && itemCombines[j].Material_3 == items[i].itemCode)
-                {
-                    flag = 1; break;
-                }
-                else if (itemCombines[j].Material_4 != "-1" && itemCombines[j].Material_4 == items[i].itemCode)
-                {
-                    flag = 1; break;
-                }
-                else if (itemCombines[j].Material_5 != "-1" && itemCombines[j].Material_5 == items[i].itemCode)
-                {
-                    flag = 1; break;
-                }
-                else if (itemCombines[j].Material_6 != "-1" && itemCombines[j].Material_6 == items[i].itemCode)
-                {
-                    flag = 1; break;
-                }
-                else if (itemCombines[j].Material_7 != "-1" && itemCombines[j].Material_7 == items[i].itemCode)
-                {
-                    flag = 1; break;
-                }
-                else if (itemCombines[j].Material_8 != "-1" && itemCombines[j].Material_8 == items[i].itemCode)
-                {
-                    flag = 1; break;
-                }
-            }
         }
-        
-        if (flag == 1)
-        {
-            Debug.Log(itemCombines[j].Result);
-        }
+    }
+
+    /// <summary>
+    /// 조합 결과 아이템 CraftBag에 표시
+    /// </summary>
+    public void AddCombineResult(string resultItemCode)
+    {
+
     }
 }
