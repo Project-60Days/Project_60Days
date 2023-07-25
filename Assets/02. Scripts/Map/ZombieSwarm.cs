@@ -172,4 +172,9 @@ public class ZombieSwarm : MonoBehaviour
         }
         return 1;
     }
+
+    public void MoveTargetCoroutine(Tile tile)
+    {
+        StartCoroutine(MoveToTarget(tile));
+    }
 }

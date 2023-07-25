@@ -7,14 +7,16 @@ using Hexamap;
 
 public class Resource
 {
-    public Resource(EResourceType type, int count)
+    public Resource(EResourceType type, int count, Sprite sprite)
     {
         this.type = type;
         this.count = count;
+        this.sprite = sprite;
     }
 
     public EResourceType type;
     public int count;
+    public Sprite sprite;
 
     public void IncreaseDecrease(int count)
     {
@@ -32,6 +34,7 @@ public class TileInfo : MonoBehaviour
     [SerializeField] ItemSO itemSO;
     [SerializeField] GameObject player;
     [SerializeField] GameObject ui;
+    [SerializeField] SpriteRenderer[] resourceIcons;
 
     ETileType tileType;
     EWeatherType weatherType;
@@ -57,16 +60,16 @@ public class TileInfo : MonoBehaviour
             Resource item = appearanceResources[i];
             if (item.count - count >= 0)
             {
-                list.Add(new Resource(item.type, count));
+                list.Add(new Resource(item.type, count, item.sprite));
                 item.IncreaseDecrease(-count);
             }
             else
             {
-                list.Add(new Resource(item.type, item.count));
+                list.Add(new Resource(item.type, item.count, item.sprite));
                 item.IncreaseDecrease(-count);
             }
         }
-        TextUpdate(true);
+        ResourceUpdate(true);
         return list;
     }
 
@@ -74,7 +77,7 @@ public class TileInfo : MonoBehaviour
     {
         MapController.PlayerBehavior += CheckPlayerTIle;
         appearanceResources = new List<Resource>();
-        eResourceTypes = new List<EResourceType>() { EResourceType.배터리, EResourceType.강철, EResourceType.나무 };
+        eResourceTypes = new List<EResourceType>() { EResourceType.PLASTIC, EResourceType.STEEL, EResourceType.PLAZMA };
         myTile = gameObject.transform.GetComponent<TileController>().Model;
         RandomResourceUpdate();
     }
@@ -88,47 +91,98 @@ public class TileInfo : MonoBehaviour
     {
         EResourceType type = 0;
         var random = Random.Range(1, 3);
-        
+
 
         for (int i = 0; i < random; i++)
         {
             var randomPick = Random.Range(0, eResourceTypes.Count);
-
+            var randomSprite = itemSO.items[randomPick].itemImage;
             type = eResourceTypes[randomPick];
             eResourceTypes.RemoveAt(randomPick);
 
             var randomCount = Random.Range(1, 16);
-            appearanceResources.Add(new Resource(type, randomCount));
+            appearanceResources.Add(new Resource(type, randomCount, randomSprite));
         }
     }
 
-    void TextUpdate(bool isNearth)
+    void ResourceUpdate(bool isNearth)
     {
+        RotationCheck(transform.rotation.eulerAngles);
         if (isNearth)
         {
             if (appearanceResources.Count == 2)
+            {
+                for (int i = 0; i < appearanceResources.Count; i++)
+                {
+                    SpriteRenderer item = resourceIcons[i + 1];
+                    item.sprite = appearanceResources[i].sprite;
+                    item.gameObject.SetActive(true);
+                }
+
                 resourceText.text = appearanceResources[0].type.ToString() + " " + appearanceResources[0].count + "\n"
                     + appearanceResources[1].type.ToString() + " " + appearanceResources[1].count;
+            }
             else
+            {
+                resourceIcons[0].sprite = appearanceResources[0].sprite;
+                resourceIcons[0].gameObject.SetActive(true);
                 resourceText.text = appearanceResources[0].type.ToString() + " " + appearanceResources[0].count;
+            }
         }
         else
         {
             resourceText.text = "자원 : ???";
+            for (int i = 0; i < resourceIcons.Length; i++)
+            {
+                SpriteRenderer item = resourceIcons[i];
+                item.gameObject.SetActive(false);
+            }
         }
+    }
 
+    void RotationCheck(Vector3 rotationValue)
+    {
+        if (appearanceResources.Count == 1)
+        {
+            for (int i = 0; i < resourceIcons.Length; i++)
+            {
+                SpriteRenderer item = resourceIcons[i];
+                item.gameObject.transform.Rotate(0, 0, rotationValue.y + 90);
+            }
+        }
+        else
+        {
+            if (Mathf.Abs(rotationValue.y) == 0 || Mathf.Abs(rotationValue.y) == 180)
+            {
+                for (int i = 0; i < resourceIcons.Length; i++)
+                {
+                    SpriteRenderer item = resourceIcons[i];
+                    item.gameObject.transform.Rotate(0, 0, rotationValue.y + 90);
+                }
+            }
+            else
+            {
+                resourceIcons[resourceIcons.Length-1].transform.parent.transform.localEulerAngles = new Vector3(90,-rotationValue.y,0);
+
+                for (int i = 0; i < resourceIcons.Length; i++)
+                {
+                    SpriteRenderer item = resourceIcons[i];
+                    item.gameObject.transform.Rotate(0, 0, 90);
+                }
+            }
+        }
     }
 
     void CheckPlayerTIle(Tile tile)
     {
         if (MapController.instance.GetTilesInRange(tile, 3).Contains(myTile) || myTile == tile)
         {
-            TextUpdate(true);
+            ResourceUpdate(true);
             inPlayerSight = true;
         }
         else
         {
-            TextUpdate(false);
+            ResourceUpdate(false);
             inPlayerSight = false;
         }
     }

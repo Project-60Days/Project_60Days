@@ -69,13 +69,136 @@ public class MapController : Singleton<MapController>
     public static Action<Tile> PlayerBehavior;
     #endregion
 
+    #region 외부 호출 함수들
+    public void BaseActiveSet(bool isbool)
+    {
+        isBaseOn = isbool;
+
+        if (isUIOn)
+        {
+            currentUI.SetActive(false);
+            isUIOn = false;
+        }
+    }
+
+    public bool CalculateDistanceToPlayer(Tile tile, int range)
+    {
+        var searchTiles = Hexamap.Map.GetTilesInRange(tile, range);
+
+        foreach (var item in searchTiles)
+        {
+            if (playerLocationTile == item)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Distrubtor CalculateDistanceToDistrubtor(Tile tile, int range)
+    {
+        var searchTiles = Hexamap.Map.GetTilesInRange(tile, range);
+
+        if (distrubtorObject == null)
+            return null;
+
+        foreach (var item in searchTiles)
+        {
+            if (distrubtorObject.GetComponent<Distrubtor>().curTile == item)
+            {
+                return distrubtorObject.GetComponent<Distrubtor>();
+            }
+        }
+        return null;
+    }
+
+    public void CheckSumZombies()
+    {
+        List<Tile> tiles = new List<Tile>();
+
+        foreach (var item in zombiesList)
+            tiles.Add(item.GetComponent<ZombieSwarm>().curTile);
+
+        var result = tiles.GroupBy(x => x)
+            .Where(g => g.Count() > 1)
+            .Select(x => x.Key)
+            .Distinct()
+            .ToList();
+
+        foreach (var item in result)
+        {
+            var num = tiles.IndexOf(item);
+            for (int i = num + 1; i < tiles.Count; i++)
+            {
+                if (tiles[num] == tiles[i])
+                {
+                    var secondZombieSwarm = zombiesList[i].GetComponent<ZombieSwarm>();
+                    zombiesList[num].GetComponent<ZombieSwarm>().SumZombies(secondZombieSwarm);
+                    zombiesList.RemoveAt(i);
+                    Destroy(secondZombieSwarm.gameObject, 0.5f);
+                }
+            }
+        }
+    }
+
+    public bool CheckSelected()
+    {
+        if (isPlayerSelected || isPlayerMoving || isDisturbanceSet || isExplorerSet)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public void AllowMouseEvent()
+    {
+        isPlayerMoving = false;
+    }
+
+    public void SpawnTutorialZombie()
+    {
+        List<Tile> result = new List<Tile>();
+
+        var tileList1 = GetTilesInRange(playerLocationTile, 5);
+        var tileList2 = GetTilesInRange(playerLocationTile, 4);
+
+        result.AddRange(tileList1);
+        result.AddRange(tileList2);
+        result = result.Distinct().ToList();
+
+        int randomInt = UnityEngine.Random.Range(0, result.Count);
+
+        var tile = result[randomInt];
+        var spawnPos = ((GameObject)tile.GameEntity).transform.position;
+        spawnPos.y += 0.7f;
+
+        var zombie = Instantiate(zombiePrefab, spawnPos, Quaternion.Euler(0, -90, 0), zombiesTr);
+        zombie.name = "Zombie " + 1;
+        zombie.GetComponent<ZombieSwarm>().Init(tile);
+
+        zombiesList.Add(zombie);
+
+        zombie.GetComponent<ZombieSwarm>().MoveTargetCoroutine(playerLocationTile);
+    }
+
+    public Tile GetTileFromCoords(Coords coords)
+    {
+        return Hexamap.Map.GetTileFromCoords(coords);
+    }
+
+    public List<Tile> GetTilesInRange(Tile tile, int num)
+    {
+        return Hexamap.Map.GetTilesInRange(tile, num);
+    }
+    #endregion
+
     void Start()
     {
         StartCoroutine(GetAdditiveSceneObjects());
         GenerateMap();
-        health = maxHealth;
         BaseActiveSet(true);
 
+        health = maxHealth;
         hexamapTr.position = Vector3.forward * 200f;
     }
 
@@ -110,18 +233,7 @@ public class MapController : Singleton<MapController>
         mapCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         noteAnim = GameObject.FindGameObjectWithTag("NoteAnim").GetComponent<NoteAnim>();
         //textHealth = GameObject.FindGameObjectWithTag("MapUi").transform.GetChild(0).transform.Find("Hp_Text").GetComponent<TMP_Text>();
-        arrow = GameObject.FindGameObjectWithTag("NoteUi").transform.Find("Map_Arrow").GetComponent<ArrowToMove>();
-    }
-
-    public void BaseActiveSet(bool isbool)
-    {
-        isBaseOn = isbool;
-
-        if (isUIOn)
-        {
-            currentUI.SetActive(false);
-            isUIOn = false;
-        }
+        arrow = GameObject.FindGameObjectWithTag("MapUi").transform.GetChild(0).transform.Find("Map_Arrow").GetComponent<ArrowToMove>();
     }
 
     void GenerateMap()
@@ -162,7 +274,7 @@ public class MapController : Singleton<MapController>
         // rand = 5;
 
         SpawnPlayer();
-        SpawnZombies(rand);
+        //SpawnZombies(rand);
         fog.transform.position = player.transform.position;
         unselectAllTile();
         FischlWorks_FogWar.csFogWar.instance.InitializeMapControllerObjects(player, 5);
@@ -473,7 +585,6 @@ public class MapController : Singleton<MapController>
 
                     isPlayerSelected = false;
                     isPlayerCanMove = false;
-                    isPlayerMoving = true;
                     targetTile = tile;
 
                     unselectAllTile();
@@ -555,6 +666,7 @@ public class MapController : Singleton<MapController>
 
     IEnumerator MovePlayer(Vector3 lastTargetPos, float time = 0.4f)
     {
+        isPlayerMoving = true;
         unselectAllTile();
         unselectAllPathTile();
 
@@ -582,7 +694,7 @@ public class MapController : Singleton<MapController>
 
         movePath.Clear();
         health = 0;
-        isPlayerMoving = false;
+        //isPlayerMoving = false;
         PlayerBehavior?.Invoke(playerLocationTile);
         resourceManager.GetResource();
         arrow.OffEffect();
@@ -609,87 +721,6 @@ public class MapController : Singleton<MapController>
         isPlayerSelected = false;
         isExplorerSet = false;
     }
-
-    #region 외부 호출 함수들
-    public bool CalculateDistanceToPlayer(Tile tile, int range)
-    {
-        var searchTiles = Hexamap.Map.GetTilesInRange(tile, range);
-
-        foreach (var item in searchTiles)
-        {
-            if (playerLocationTile == item)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public Distrubtor CalculateDistanceToDistrubtor(Tile tile, int range)
-    {
-        var searchTiles = Hexamap.Map.GetTilesInRange(tile, range);
-
-        if (distrubtorObject == null)
-            return null;
-
-        foreach (var item in searchTiles)
-        {
-            if (distrubtorObject.GetComponent<Distrubtor>().curTile == item)
-            {
-                return distrubtorObject.GetComponent<Distrubtor>();
-            }
-        }
-        return null;
-    }
-
-    public void CheckSumZombies()
-    {
-        List<Tile> tiles = new List<Tile>();
-
-        foreach (var item in zombiesList)
-            tiles.Add(item.GetComponent<ZombieSwarm>().curTile);
-
-        var result = tiles.GroupBy(x => x)
-            .Where(g => g.Count() > 1)
-            .Select(x => x.Key)
-            .Distinct()
-            .ToList();
-
-        foreach (var item in result)
-        {
-            var num = tiles.IndexOf(item);
-            for (int i = num + 1; i < tiles.Count; i++)
-            {
-                if (tiles[num] == tiles[i])
-                {
-                    var secondZombieSwarm = zombiesList[i].GetComponent<ZombieSwarm>();
-                    zombiesList[num].GetComponent<ZombieSwarm>().SumZombies(secondZombieSwarm);
-                    zombiesList.RemoveAt(i);
-                    Destroy(secondZombieSwarm.gameObject, 0.5f);
-                }
-            }
-        }
-    }
-
-    public bool CheckSelected()
-    {
-        if (isPlayerSelected || isPlayerMoving || isDisturbanceSet || isExplorerSet)
-        {
-            return false;
-        }
-        return true;
-    }
-
-    public Tile GetTileFromCoords(Coords coords)
-    {
-        return Hexamap.Map.GetTileFromCoords(coords);
-    }
-
-    public List<Tile> GetTilesInRange(Tile tile, int num)
-    {
-        return Hexamap.Map.GetTilesInRange(tile, num);
-    }
-    #endregion
 
     #region UI 씬 버튼 관련
     public void DistrubtorBorderActiveSet(bool set)
@@ -771,6 +802,27 @@ public class MapController : Singleton<MapController>
         if (prevTile == playerLocationTile)
             resourceManager.GetResource();
     }
+
+    public GameObject GetUi(TileController tile)
+    {
+        GameObject tileGO = (GameObject)tile.Model.GameEntity;
+
+        if (tileGO != null && tile.Model.Landform.GetType().Name != "LandformWorldLimit")
+            return tileGO.transform.Find("Canvas").Find("TileInfo").gameObject;
+
+        return null;
+    }
+
+    public GameObject GetUi(Tile tile)
+    {
+        GameObject tileGO = (GameObject)tile.GameEntity;
+
+        if (tileGO != null && tile.Landform.GetType().Name != "LandformWorldLimit")
+            return tileGO.transform.Find("Canvas").Find("TileInfo").gameObject;
+
+        return null;
+    }
+
     #endregion
 
     #region 선택 타일 관련
@@ -858,26 +910,6 @@ public class MapController : Singleton<MapController>
         border2?.SetActive(false);
         border3?.SetActive(false);
         //border4?.SetActive(false);
-    }
-
-    public GameObject GetUi(TileController tile)
-    {
-        GameObject tileGO = (GameObject)tile.Model.GameEntity;
-
-        if (tileGO != null && tile.Model.Landform.GetType().Name != "LandformWorldLimit")
-            return tileGO.transform.Find("Canvas").Find("TileInfo").gameObject;
-
-        return null;
-    }
-
-    public GameObject GetUi(Tile tile)
-    {
-        GameObject tileGO = (GameObject)tile.GameEntity;
-
-        if (tileGO != null && tile.Landform.GetType().Name != "LandformWorldLimit")
-            return tileGO.transform.Find("Canvas").Find("TileInfo").gameObject;
-
-        return null;
     }
 
     GameObject getTileBorder(TileController tile, string name)
