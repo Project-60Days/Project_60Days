@@ -80,6 +80,7 @@ public class TileInfo : MonoBehaviour
         eResourceTypes = new List<EResourceType>() { EResourceType.PLASTIC, EResourceType.STEEL, EResourceType.PLAZMA };
         myTile = gameObject.transform.GetComponent<TileController>().Model;
         RandomResourceUpdate();
+        RotationCheck(transform.rotation.eulerAngles);
     }
 
     void OnDestroy()
@@ -107,9 +108,25 @@ public class TileInfo : MonoBehaviour
 
     void ResourceUpdate(bool isNearth)
     {
-        RotationCheck(transform.rotation.eulerAngles);
         if (isNearth)
         {
+
+            for (int i = 0; i < appearanceResources.Count; i++)
+            {
+                Resource item = appearanceResources[i];
+                if (item.count == 0)
+                {
+                    appearanceResources.Remove(item);
+                }
+            }
+
+            for (int i = 0; i < resourceIcons.Length; i++)
+            {
+                SpriteRenderer item = resourceIcons[i];
+                item.sprite = null;
+                item.gameObject.SetActive(false);
+            }
+
             if (appearanceResources.Count == 2)
             {
                 for (int i = 0; i < appearanceResources.Count; i++)
@@ -122,11 +139,20 @@ public class TileInfo : MonoBehaviour
                 resourceText.text = appearanceResources[0].type.ToString() + " " + appearanceResources[0].count + "\n"
                     + appearanceResources[1].type.ToString() + " " + appearanceResources[1].count;
             }
-            else
+            else if(appearanceResources.Count == 1)
             {
                 resourceIcons[0].sprite = appearanceResources[0].sprite;
                 resourceIcons[0].gameObject.SetActive(true);
                 resourceText.text = appearanceResources[0].type.ToString() + " " + appearanceResources[0].count;
+            }
+            else
+            {
+                resourceText.text = "자원 : 없음";
+                for (int i = 0; i < resourceIcons.Length; i++)
+                {
+                    SpriteRenderer item = resourceIcons[i];
+                    item.gameObject.SetActive(false);
+                }
             }
         }
         else

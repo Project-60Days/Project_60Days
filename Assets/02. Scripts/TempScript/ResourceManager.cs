@@ -9,6 +9,7 @@ public class ResourceManager : MonoBehaviour
     Tile currenTile;
     TileInfo currenTileInfo;
     List<Resource> owendResources;
+    InventoryPage inventory;
 
     void Start()
     {
