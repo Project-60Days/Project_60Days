@@ -9,6 +9,7 @@ public class ResourceManager : MonoBehaviour
     Tile currenTile;
     TileInfo currenTileInfo;
     List<Resource> owendResources;
+    InventoryPage inventory;
 
     void Start()
     {
@@ -56,7 +57,7 @@ public class ResourceManager : MonoBehaviour
                 else
                 {
                     owendResources.Add(list[i]);
-                    Debug.Log(owendResources[owendResources.Count - 1].type.ToString() + " 자원 종류 추가");
+                    Debug.Log(owendResources[owendResources.Count - 1].type.ToString() + " 자원 2개 추가");
                 }
             }
         }

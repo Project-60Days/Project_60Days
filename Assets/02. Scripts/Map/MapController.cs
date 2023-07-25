@@ -312,6 +312,7 @@ public class MapController : Singleton<MapController>
         // 정가운데 좌표 고정
         playerLocationTile = Hexamap.Map.GetTileFromCoords(new Coords(0, 0));
         prevTile = playerLocationTile;
+        targetTile = ((GameObject)playerLocationTile.GameEntity).GetComponent<TileController>();
 
         Vector3 spawnPos = ((GameObject)playerLocationTile.GameEntity).transform.position;
         spawnPos.y += 0.5f;
@@ -781,7 +782,23 @@ public class MapController : Singleton<MapController>
         resourceManager.SetTile(targetTile.Model);
         prevTile = playerLocationTile;
         playerLocationTile = targetTile.Model;
-        StartCoroutine(MovePlayer(targetTile.transform.position));
+
+        if (movePath != null)
+        {
+            StartCoroutine(MovePlayer(targetTile.transform.position));
+        }
+        else
+        {
+            isPlayerMoving = true;
+            unselectAllTile();
+            unselectAllPathTile();
+
+            health = 0;
+            PlayerBehavior?.Invoke(playerLocationTile);
+            arrow.OffEffect();
+            if (prevTile == playerLocationTile)
+                resourceManager.GetResource();
+        }
 
         if (health == maxHealth)
             prevTile = playerLocationTile;
@@ -798,9 +815,6 @@ public class MapController : Singleton<MapController>
         {
             item.GetComponent<ZombieSwarm>().Detection();
         }
-
-        if (prevTile == playerLocationTile)
-            resourceManager.GetResource();
     }
 
     public GameObject GetUi(TileController tile)
