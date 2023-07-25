@@ -8,18 +8,21 @@ using UnityEngine.UI;
 public class CraftingUIController : MonoBehaviour
 {
     [SerializeField] Transform slotParent;
-    //[SerializeField] Sprite[] craftTypeImage;
+    [SerializeField] Sprite[] craftTypeImage;
     [SerializeField] GameObject inventoryUi;
+    [SerializeField] ItemSO itemSO;
 
     private ItemSlot[] slots;
-    public List<Transform> slotTransforms;
+    private List<Transform> slotTransforms;
+    private List<Image> craftTypeImages;
 
     InventoryPage inventoryPage;
 
-    public List<ItemBase> items;
-    //private List<Image> craftTypeImages;
-    public List<ItemCombineData> itemCombines;
+    private List<ItemBase> items;
+    private List<ItemCombineData> itemCombines;
     string[] combinationCodes = new string[9];
+
+    [SerializeField] ItemBase tempItem;
 
     void Awake()
     {
@@ -29,8 +32,11 @@ public class CraftingUIController : MonoBehaviour
         for (int i = 0; i < slotParent.childCount; i++)
         {
             if (slotParent.GetChild(i))
+            {
                 slotTransforms.Add(slotParent.GetChild(i));
-            //craftTypeImages.Add(slotTransforms[i].GetChild(1).GetComponent<Image>());
+                craftTypeImages.Add(slotTransforms[i].GetChild(1).GetComponent<Image>());
+            }
+            
         }
     }
 
@@ -52,7 +58,7 @@ public class CraftingUIController : MonoBehaviour
         {
             slotTransforms[i].gameObject.SetActive(false);
             slots[i].item = null;
-            //craftTypeImages[i].GetComponent<Image>().sprite = craftTypeImage[0];
+            craftTypeImages[i].GetComponent<Image>().sprite = craftTypeImage[0];
         }
     }
 
@@ -65,10 +71,12 @@ public class CraftingUIController : MonoBehaviour
         {
             slotTransforms[i].gameObject.SetActive(false);
             slots[i].item = null;
-            //craftTypeImages[i].GetComponent<Image>().sprite = craftTypeImage[0];
+            craftTypeImages[i].GetComponent<Image>().sprite = craftTypeImage[0];
         }
 
         int j = 0;
+
+        craftTypeImages[j].gameObject.SetActive(false);
 
         for (; j < items.Count; j++)
         {
@@ -108,7 +116,7 @@ public class CraftingUIController : MonoBehaviour
             inventoryPage.AddItem(items[i]);
             slotTransforms[i].gameObject.SetActive(false);
             slots[i].item = null;
-            //craftTypeImages[i].GetComponent<Image>().sprite = craftTypeImage[0];
+            craftTypeImages[i].GetComponent<Image>().sprite = craftTypeImage[0];
         }
     }
 
@@ -138,7 +146,7 @@ public class CraftingUIController : MonoBehaviour
 
                 for (int k = 0; k < 8; k++)
                 {
-                    if (combinationCodes[k] == "1") continue;
+                    if (combinationCodes[k] == "1" || combinationCodes[k] == "-1") continue;
                     if (combinationCodes[k] != items[j].itemCode)
                     {
                         flag = 1;
@@ -151,7 +159,7 @@ public class CraftingUIController : MonoBehaviour
                     }
                 }
             }
-            
+
             for (int k = 0; k < 8; k++)
             {
                 if (combinationCodes[k] == "1" || combinationCodes[k] == "-1") continue;
@@ -163,7 +171,8 @@ public class CraftingUIController : MonoBehaviour
 
             if (flag == 0)
             {
-                AddCombineResult(combinationCodes[8]);
+                ItemBase item = CombineResultItem(combinationCodes[8]);
+                AddCombineItem(item);
                 break;
             }
         }
@@ -172,8 +181,29 @@ public class CraftingUIController : MonoBehaviour
     /// <summary>
     /// 조합 결과 아이템 CraftBag에 표시
     /// </summary>
-    public void AddCombineResult(string resultItemCode)
+    public ItemBase CombineResultItem(string resultItemCode)
     {
+        ItemBase resultItem = null;
 
+        for (int i = 0; i < itemSO.items.Length; i++)
+        {
+            if (itemSO.items[i].itemCode == resultItemCode)
+            {
+                resultItem = itemSO.items[i];
+                DataManager.instance.itemData.TryGetValue(resultItemCode, out ItemData itemData);
+                resultItem.data = itemData;
+                return resultItem;
+            }
+        }
+
+        Debug.Log("아직 추가되지 않은 아이템");
+        return tempItem;
+    }
+
+    public void AddCombineItem(ItemBase _item)
+    {
+        slotTransforms[items.Count + 1].gameObject.SetActive(true);
+        slots[items.Count + 1].item = _item;
+        craftTypeImages[items.Count + 1].GetComponent<Image>().sprite = craftTypeImage[1];
     }
 }
