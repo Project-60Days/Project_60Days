@@ -14,19 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemCode: ITEM_TIER_1_PLASTIC
   data:
-    Index: 0
-    Tier: 0
-    Code: 
+    Index: 1002
+    Tier: 1
+    Code: ITEM_TIER_1_PLASTIC
     Rarity: 0
-    TileIncludePossibility: 0
+    TileIncludePossibility: 30
     Type: 0
-    isCanBase: 0
-    CombineSlotCount: 0
-    Description: 
-    Korean: 
-    English: 
-    Japanese: 
-    Chinese: 
+    isCanBase: 1
+    CombineSlotCount: 2
+    Description: "\uD50C\uB77C\uC2A4\uD2F1"
+    Korean: "\uD50C\uB77C\uC2A4\uD2F1"
+    English: -1
+    Japanese: -1
+    Chinese: -1
   itemImage: {fileID: 21300000, guid: 9f94b0cc04b986d4680d15d2b1a5d4da, type: 3}
-  itemCount: 0
+  itemCount: 15
   itemType: 0
+  resourceType: 0

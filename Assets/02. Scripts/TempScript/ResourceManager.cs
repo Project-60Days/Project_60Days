@@ -8,12 +8,19 @@ public class ResourceManager : MonoBehaviour
     [SerializeField] int collectiveAbility;
     Tile currenTile;
     TileInfo currenTileInfo;
-    List<Resource> owendResources;
+    List<ItemBase> owendResources;
     InventoryPage inventory;
 
     void Start()
     {
-        owendResources = new List<Resource>();
+        StartCoroutine(GetInventoryPage());
+        owendResources = new List<ItemBase>();
+    }
+
+    IEnumerator GetInventoryPage()
+    {
+        yield return new WaitForEndOfFrame();
+        inventory = GameObject.FindGameObjectWithTag("UiCanvas").transform.Find("InventoryUi").transform.Find("Inventory").GetComponent<InventoryPage>();
     }
 
     private void Update()
@@ -22,7 +29,7 @@ public class ResourceManager : MonoBehaviour
         {
             foreach (var item in owendResources)
             {
-                Debug.LogFormat("자원 이름 : {0}, 자원 갯수 : {1}", item.type.ToString(), item.count);
+                Debug.LogFormat("자원 이름 : {0}, 자원 갯수 : {1}", item.resourceType.ToString(), item.itemType);
             }
         }
     }
@@ -43,23 +50,29 @@ public class ResourceManager : MonoBehaviour
         {
             for (int i = 0; i < list.Count; i++)
             {
-                if (owendResources.Exists(x => x.type == list[i].type))
+                if (owendResources.Exists(x => x.resourceType == list[i].resourceType))
                 {
-                    var resource = owendResources.Find(x => x.type == list[i].type);
+                    var resource = owendResources.Find(x => x.resourceType == list[i].resourceType);
 
-                    if (resource.count <= 0)
+                    if (resource.itemCount <= 0)
                         return;
                     else
-                        resource.count += list[i].count;
+                        resource.itemCount += list[i].itemCount;
 
-                    Debug.LogFormat("{0} 자원, {1}개 획득!", resource.type.ToString(), list[i].count);
+                    Debug.LogFormat("{0} 자원, {1}개 획득!", resource.resourceType.ToString(), list[i].resourceType);
                 }
                 else
                 {
                     owendResources.Add(list[i]);
-                    Debug.Log(owendResources[owendResources.Count - 1].type.ToString() + " 자원 2개 추가");
+                    Debug.Log(owendResources[owendResources.Count - 1].resourceType.ToString() + " 자원 2개 추가");
                 }
             }
+        }
+
+        for (int i = 0; i < owendResources.Count; i++)
+        {
+            ItemBase item = owendResources[i];
+            inventory.AddItem(item);
         }
     }
 }

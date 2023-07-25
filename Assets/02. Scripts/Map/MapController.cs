@@ -70,6 +70,20 @@ public class MapController : Singleton<MapController>
     #endregion
 
     #region 외부 호출 함수들
+
+    public bool IsUiOn()
+    {
+        return isUIOn;
+    }
+
+    public bool IsDisturbanceOn()
+    {
+        if (distrubtorObject != null)
+            return true;
+        else
+            return false;
+    }
+
     public void BaseActiveSet(bool isbool)
     {
         isBaseOn = isbool;
