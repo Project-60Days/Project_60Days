@@ -63,13 +63,13 @@ public class NoteController : MonoBehaviour
 
         notePages = targets.ToArray();
 
-        CameraMove cameraMove = FindObjectOfType<CameraMove>();
+        //CameraMove cameraMove = FindObjectOfType<CameraMove>();
 
         for (int i = 0; i < notePages.Length; i++)
         {
             notePages[i].gameObject.SetActive(false);
             var page = notePages[i].GetComponent<NotePage>();
-            page.Init(cameraMove);
+            //page.Init(cameraMove);
 
             if (page.isNoteMoveRight)
                 page.pageOnEvent += MoveNoteRight;
@@ -191,6 +191,9 @@ public class NoteController : MonoBehaviour
                 inventory.SetActive(false);
                 break;
             case 3:
+                var pos = inventory.transform.position;
+                pos.x = 450;
+                inventory.transform.position = pos;
                 inventory.SetActive(true);
                 break;
             case 4:
