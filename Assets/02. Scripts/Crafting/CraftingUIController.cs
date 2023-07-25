@@ -13,13 +13,13 @@ public class CraftingUIController : MonoBehaviour
     [SerializeField] ItemSO itemSO;
 
     private ItemSlot[] slots;
-    private List<Transform> slotTransforms;
-    private List<Image> craftTypeImages;
+    public List<Transform> slotTransforms;
+    public List<Image> craftTypeImages;
 
     InventoryPage inventoryPage;
 
-    private List<ItemBase> items;
-    private List<ItemCombineData> itemCombines;
+    public List<ItemBase> items;
+    public List<ItemCombineData> itemCombines;
     string[] combinationCodes = new string[9];
 
     [SerializeField] ItemBase tempItem;
