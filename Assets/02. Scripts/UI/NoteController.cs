@@ -127,6 +127,8 @@ public class NoteController : MonoBehaviour
         notePages[pageNum].gameObject.SetActive(false);
         nextPageBtn.gameObject.SetActive(false);
         prevPageBtn.gameObject.SetActive(false);
+
+        UIManager.instance.PopCurrUI();
     }
 
 
@@ -197,6 +199,7 @@ public class NoteController : MonoBehaviour
                 break;
             case 5:
                 GameManager.instance.SetPrioryty(true);
+                //UIManager.instance.AddCurrUIName(StringUtility.UI_MAP);
                 break;
             //    noteAnim.Close_Anim();
             //    return;
