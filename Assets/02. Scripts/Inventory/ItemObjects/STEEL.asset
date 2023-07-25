@@ -14,19 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemCode: ITEM_TIER_1_STEEL
   data:
-    Index: 0
-    Tier: 0
-    Code: 
+    Index: 1001
+    Tier: 1
+    Code: ITEM_TIER_1_STEEL
     Rarity: 0
-    TileIncludePossibility: 0
+    TileIncludePossibility: 30
     Type: 0
-    isCanBase: 0
-    CombineSlotCount: 0
-    Description: 
-    Korean: 
-    English: 
-    Japanese: 
-    Chinese: 
+    isCanBase: 1
+    CombineSlotCount: 2
+    Description: "\uAC15\uCCA0"
+    Korean: "\uAC15\uCCA0"
+    English: -1
+    Japanese: -1
+    Chinese: -1
   itemImage: {fileID: 21300000, guid: 903743215b83aa34d936fe1e8fef8680, type: 3}
-  itemCount: 0
+  itemCount: 15
   itemType: 0
+  resourceType: 1

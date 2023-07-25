@@ -21,6 +21,7 @@ TagManager:
   - NoteAnim
   - Camera
   - WorkBench
+  - Inventory
   layers:
   - Default
   - TransparentFX
