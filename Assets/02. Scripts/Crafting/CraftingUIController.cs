@@ -206,4 +206,15 @@ public class CraftingUIController : MonoBehaviour
         slots[items.Count + 1].item = _item;
         craftTypeImages[items.Count + 1].GetComponent<Image>().sprite = craftTypeImage[1];
     }
+
+    public bool CheckCraftingItem(string itemCode)
+    {
+        for (int i = 0; i < items.Count; i++)
+        {
+            if(items[i].itemCode == itemCode)
+                return true;
+        }
+
+        return false;
+    }
 }
