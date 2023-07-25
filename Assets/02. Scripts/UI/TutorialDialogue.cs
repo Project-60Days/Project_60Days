@@ -16,15 +16,17 @@ public class TutorialDialogue : MonoBehaviour, IPointerClickHandler
     private Coroutine runningCoroutine;
     private CoroutineInterruptToken interruptToken;
 
-    public void StartDialogue()
+    public void StartDialogue(string _nodeName)
     {
         this.gameObject.SetActive(true);
+
+        dialogueRunner.Stop();
 
         CloseBtn.onClick.AddListener(EndDialogue);
 
         if (!dialogueRunner.IsDialogueRunning)
         {
-            dialogueRunner.StartDialogue("Tutorial_02_AIDialogue");
+            dialogueRunner.StartDialogue(_nodeName);
             LayoutRebuilder.ForceRebuildLayoutImmediate(content.GetComponent<RectTransform>());
             LayoutRebuilder.ForceRebuildLayoutImmediate(lineView.GetComponent<RectTransform>());
         }
