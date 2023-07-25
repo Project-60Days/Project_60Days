@@ -65,8 +65,6 @@ public class SoundManager : Singleton<SoundManager>
     /// <param name="bgmName"></param>
     public void PlayBGM(string bgmName)
     {
-        Debug.Log("Playbgm : " + bgmName);
-
         if (!dic_BGM.ContainsKey(bgmName))
         {
             Debug.LogWarning("SoundManager - Sound not found: " + bgmName);
@@ -77,8 +75,6 @@ public class SoundManager : Singleton<SoundManager>
         bgmPlayer.volume = bgmVolume;
 
         bgmPlayer.Play();
-
-        Debug.Log(bgmPlayer.isPlaying);
     }
 
     /// <summary>

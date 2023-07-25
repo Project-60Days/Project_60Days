@@ -14,11 +14,30 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
     void Awake()
     {
+        dialogueRunner.AddCommandHandler<string>("waitUntil", WaitUntilUIState);
+        dialogueRunner.AddCommandHandler("hide", HideDialogue);
+        dialogueRunner.AddCommandHandler("show", ShowDialogue);
         dialogueRunner.AddCommandHandler("nextTutorial", SetNextTutorial);
         dialogueRunner.AddCommandHandler<string, string>("highlight", HighLightObject);
         dialogueRunner.AddCommandHandler<string>("play_bgm", PlayBGM);
         dialogueRunner.AddCommandHandler<string>("play_sfx", PlaySFX);
         dialogueRunner.AddCommandHandler<string>("stop_bgm", StopBGM);
+    }
+
+    private void HideDialogue()
+    {
+        UIManager.instance.GetTutorialDialogue().Hide();
+    }
+    private void ShowDialogue()
+    {
+        UIManager.instance.GetTutorialDialogue().Show();
+    }
+
+    private Coroutine WaitUntilUIState(string _UIName)
+    {
+        Debug.LogError(UIManager.instance.isUIStatus(_UIName));
+
+        return StartCoroutine(new WaitUntil(() => UIManager.instance.isUIStatus(_UIName))); 
     }
 
     private void SetNextTutorial()
