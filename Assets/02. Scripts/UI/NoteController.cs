@@ -83,7 +83,6 @@ public class NoteController : MonoBehaviour
 
         inventory.SetActive(false);
 
-        Debug.LogError("init End");
     }
 
     private void MoveNoteCenter()
@@ -101,7 +100,6 @@ public class NoteController : MonoBehaviour
     /// </summary>
     public void OpenBox()
     {
-        Debug.Log(isTutorial);
         if (isTutorial)
         {
             page_Diary_Back.SetActive(true);
@@ -118,6 +116,8 @@ public class NoteController : MonoBehaviour
             }
             ChangePageButton();
         }
+
+        UIManager.instance.AddCurrUIName(StringUtility.UI_NOTE);
     }
     /// <summary>
     /// 상자 닫힐 때 NoteAnim.cs에서 호출되는 함수 
@@ -280,7 +280,6 @@ public class NoteController : MonoBehaviour
         if (_idx < 1)
             return;
 
-        Debug.LogError("LoadDiaryPage " + _idx);
         if (_idx == 5)
         {
             EndTutorialDiary();

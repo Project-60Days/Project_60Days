@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tutorial_02_AIDialogue : TutorialBase
+public class Tutorial_03_GuideLab : TutorialBase
 {
     public override void Enter()
     {
@@ -16,6 +16,6 @@ public class Tutorial_02_AIDialogue : TutorialBase
 
     public override void Exit()
     {
-        //UIManager.instance.GetTutorialDialogue().EndDialogue();
+        UIManager.instance.GetTutorialDialogue().EndDialogue();
     }
 }

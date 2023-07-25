@@ -70,8 +70,6 @@ public class GameManager : Singleton<GameManager>
         SceneLoader.instance.LoadSceneAddtive((int)ESceneType.UI);
         SceneLoader.instance.LoadSceneAddtive((int)ESceneType.Map);
 
-        SceneLoader.instance.onSceneLoaded += StartTutorial;
-
         StartCoroutine(GetMapCamera());
         
     }
@@ -80,6 +78,8 @@ public class GameManager : Singleton<GameManager>
     {
         yield return new WaitForSeconds(1f);
         mapCamera = GameObject.FindGameObjectWithTag("MapCamera").GetComponent<MapCamera>();
+
+        StartTutorial();
     }
 
     public void Settings()
