@@ -207,14 +207,19 @@ public class CraftingUIController : MonoBehaviour
         craftTypeImages[items.Count + 1].GetComponent<Image>().sprite = craftTypeImage[1];
     }
 
-    public bool CheckCraftingItem(string itemCode)
+    public bool CheckCraftingItem(string itemCode, int count = 1)
     {
+        int _cnt = 0;
+
         for (int i = 0; i < items.Count; i++)
         {
-            if(items[i].itemCode == itemCode)
-                return true;
+            if (items[i].itemCode == itemCode)
+                _cnt++;
         }
 
-        return false;
+        if (_cnt == count)
+            return true;
+        else
+            return false;
     }
 }
