@@ -118,6 +118,8 @@ public class CraftingUIController : MonoBehaviour
             slots[i].item = null;
             craftTypeImages[i].GetComponent<Image>().sprite = craftTypeImage[0];
         }
+
+        items.Clear();
     }
 
     /// <summary>

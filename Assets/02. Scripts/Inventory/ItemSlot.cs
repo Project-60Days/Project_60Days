@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using TMPro;
+using Unity.VisualScripting;
 
 public class ItemSlot : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] Image image;
 
-    CraftingUIController craft;
+    TextMeshProUGUI itemDiscription;
+
+    GameObject craft;
+
     private ItemBase _item;
 
     public ItemBase item
@@ -32,14 +37,21 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 
     void Awake()
     {
-        craft = GameObject.Find("CraftingUi").GetComponent<CraftingUIController>();
+        craft = GameObject.Find("CraftingUi");
+        itemDiscription = GameObject.FindWithTag("ItemDiscription").GetComponent<TextMeshProUGUI>();
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (_item != null)
+        if (craft.activeSelf)
         {
-            craft.CraftItem(_item);
-        } 
+            if (_item != null)
+                craft.GetComponent<CraftingUIController>().CraftItem(_item);
+        }
+        else
+        {
+            itemDiscription.text = _item.data.Description.ToString();
+        }
+        
     }
 }
