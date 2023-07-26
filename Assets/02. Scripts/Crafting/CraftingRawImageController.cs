@@ -6,10 +6,10 @@ using Cinemachine;
 using UnityEngine.EventSystems;
 
 
-public class CVCCamera : MonoBehaviour, IDragHandler
+public class CraftingRawImageController : MonoBehaviour, IDragHandler
 {
-    [SerializeField] public Camera renderCamera;
-    [SerializeField] private Transform target;
+    [SerializeField] Camera renderCamera;
+    [SerializeField] Transform target;
 
     [Header("Speed")]
     [SerializeField] float rotateSpeed = 10f;
@@ -27,9 +27,9 @@ public class CVCCamera : MonoBehaviour, IDragHandler
     bool isControlKeyPushed;
     bool canRotate;
 
-    private void Start()
+    void Start()
     {
-        StartCoroutine(VariablesConnect());
+        
     }
 
     IEnumerator VariablesConnect()
@@ -42,11 +42,10 @@ public class CVCCamera : MonoBehaviour, IDragHandler
 
     private void Update()
     {
+        StartCoroutine(VariablesConnect());
+
         if (Input.GetKeyDown(KeyCode.LeftControl)) isControlKeyPushed = true;
         if (Input.GetKeyUp(KeyCode.LeftControl)) isControlKeyPushed = false;
-
-        if (Input.GetMouseButtonDown(0)) canRotate = true;
-        if (Input.GetMouseButtonUp(0)) canRotate = false;
 
         if (isControlKeyPushed)
         {

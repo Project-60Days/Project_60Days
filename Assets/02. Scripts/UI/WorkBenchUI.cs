@@ -7,17 +7,20 @@ public class WorkBenchUI : MonoBehaviour
 {
     [SerializeField] GameObject inventoryUi;
     [SerializeField] GameObject craftingUi;
+
+    [SerializeField] Transform craftingStartPos;
+    [SerializeField] Transform craftingPointPos;
+
+    [SerializeField] Transform inventoryStartPos;
+    [SerializeField] Transform inventoryPointPos;
+
     Sequence sequence;
-    Vector3 pos1;
-    Vector3 pos2;
 
     private void Start()
     {
-        pos1 = inventoryUi.transform.position;
-        pos1.x = 2400;
+        inventoryUi.transform.position = craftingStartPos.position;
+        craftingUi.transform.position = inventoryStartPos.position;
 
-        pos2 = craftingUi.transform.position;
-        pos2.x = -500;
     }
 
     private void OnEnable()
@@ -43,14 +46,14 @@ public class WorkBenchUI : MonoBehaviour
         sequence = DOTween.Sequence();
 
         sequence
-            .OnStart(() => {
+            .OnStart(() =>
+            {
                 inventoryUi.SetActive(true);
                 craftingUi.SetActive(true);
-                inventoryUi.transform.position = pos1;
-                craftingUi.transform.position = pos2;
+                inventoryUi.transform.position = inventoryStartPos.position;
+                craftingUi.transform.position = craftingStartPos.position;
             })
-            .AppendInterval(0.5f)
-            .Append(inventoryUi.transform.DOMoveX(pos1.x - 1000f, 1f))
-            .Join(craftingUi.transform.DOMoveX(pos2.x + 1000f, 1f));
+            .Append(inventoryUi.transform.DOMoveX(inventoryPointPos.position.x, 1f))
+            .Join(craftingUi.transform.DOMoveX(craftingPointPos.position.x, 1f));
     }
 }
