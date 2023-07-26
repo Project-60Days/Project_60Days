@@ -34,10 +34,10 @@ public class NoteController : MonoBehaviour
     int DiaryPageNum = 1;
 
     public int pageNum = 0;
-    int dayCount = 1;
+    //int dayCount = 1;
 
-    List<int> numbers = new List<int>() { 1, 2, 3, 4, 5 };
-    int selectedNumber;
+    //List<int> numbers = new List<int>() { 1, 2, 3, 4, 5 };
+    //int selectedNumber;
 
     [SerializeField] NoteAnim noteAnim;
 
@@ -68,18 +68,18 @@ public class NoteController : MonoBehaviour
         for (int i = 0; i < notePages.Length; i++)
         {
             notePages[i].gameObject.SetActive(false);
-            var page = notePages[i].GetComponent<NotePage>();
+            //var page = notePages[i].GetComponent<NotePage>();
             //page.Init(cameraMove);
 
-            if (page.isNoteMoveRight)
-                page.pageOnEvent += MoveNoteRight;
-            else
-                page.pageOnEvent += MoveNoteCenter;
+            //if (page.isNoteMoveRight)
+            //    page.pageOnEvent += MoveNoteRight;
+            //else
+            //    page.pageOnEvent += MoveNoteCenter;
         }
 
-        int randomIndex = UnityEngine.Random.Range(0, numbers.Count);
-        selectedNumber = numbers[randomIndex];
-        numbers.RemoveAt(randomIndex);
+        //int randomIndex = UnityEngine.Random.Range(0, numbers.Count);
+        //selectedNumber = numbers[randomIndex];
+        //numbers.RemoveAt(randomIndex);
 
         inventory.SetActive(false);
 
@@ -114,6 +114,9 @@ public class NoteController : MonoBehaviour
                 PageOn(0);
                 newDay = false;
             }
+            else
+                PageOn(pageNum);
+
             ChangePageButton();
         }
 
@@ -127,6 +130,8 @@ public class NoteController : MonoBehaviour
         notePages[pageNum].gameObject.SetActive(false);
         nextPageBtn.gameObject.SetActive(false);
         prevPageBtn.gameObject.SetActive(false);
+
+        notePos.DOAnchorPos(new Vector2(noteCenterPos.anchoredPosition.x, notePos.anchoredPosition.y), 1f);
 
         UIManager.instance.PopCurrUI();
     }
@@ -153,6 +158,29 @@ public class NoteController : MonoBehaviour
         ChangePage(pageNum - 1);
     }
 
+    public void ChangePageForce(int index)
+    {
+        pageNum = index;
+
+        Debug.Log("Ω««‡");
+        if (!noteAnim.GetIsOpen())
+        {
+            noteAnim.Open_Anim();
+            Debug.Log("ø≠∏≤");
+        }
+            
+
+        for (int i = 0; i < notePages.Length; i++) 
+        {
+            notePages[i].gameObject.SetActive(false);
+            Debug.Log(i+"¥›»˚");
+        }
+
+        notePages[index].gameObject.SetActive(true);
+        Debug.Log(index);
+        PageOn(index);
+        ChangePageButton();
+    }
 
     /// <summary>
     /// ¥Ÿ¿Ω/¿Ã¿¸ ∆‰¿Ã¡ˆ∑Œ ¿Ãµø
@@ -160,9 +188,6 @@ public class NoteController : MonoBehaviour
     /// <param name="index"></param>
     public void ChangePage(int index)
     {
-        if (!noteAnim.GetIsOpen())
-            noteAnim.Open_Anim();
-
         notePages[pageNum].gameObject.SetActive(false);
         notePages[index].gameObject.SetActive(true);
 
@@ -176,7 +201,6 @@ public class NoteController : MonoBehaviour
     /// <param name="index"></param>
     void PageOn(int index)
     {
-
         switch (index)
         {
             case 0:
@@ -184,12 +208,18 @@ public class NoteController : MonoBehaviour
                 pos.x = 450;
                 inventory.transform.position = pos;
                 inventory.SetActive(true);
+                GameManager.instance.SetPrioryty(false);
+                Debug.Log("¿Œµ¶Ω∫ 0");
+                MoveNoteRight();
                 break;
             case 1:
-                GameManager.instance.SetPrioryty(true);
                 inventory.SetActive(false);
+                GameManager.instance.SetPrioryty(true);
+                Debug.Log("¿Œµ¶Ω∫ 1");
+                MoveNoteCenter();
                 break;
             default:
+                Debug.Log("¿Œµ¶Ω∫ π¸¿ß π˛æÓ≥≤");
                 return;
                 //case 0:
                 //    dialogueRunnerIndex = 0;
@@ -244,18 +274,18 @@ public class NoteController : MonoBehaviour
             prevPageBtn.gameObject.SetActive(false);
             nextDayBtn.gameObject.SetActive(false);
         }
-        else if (pageNum == notePages.Length - 1)
+        else if (pageNum == 1) //pageNum == notePages.Length - 1
         {
             nextPageBtn.gameObject.SetActive(false);
             prevPageBtn.gameObject.SetActive(true);
             nextDayBtn.gameObject.SetActive(true);
         }
-        else
-        {
-            nextPageBtn.gameObject.SetActive(true);
-            prevPageBtn.gameObject.SetActive(true);
-            nextDayBtn.gameObject.SetActive(false);
-        }
+        //else
+        //{
+        //    nextPageBtn.gameObject.SetActive(true);
+        //    prevPageBtn.gameObject.SetActive(true);
+        //    nextDayBtn.gameObject.SetActive(false);
+        //}
     }
 
     private void SetBtnNormal()
@@ -277,10 +307,11 @@ public class NoteController : MonoBehaviour
         pageNum = 0;
         for (int i = 0; i < dialogueRunner.Length; i++)
             dialogueRunner[i].Stop();
-        int randomIndex = UnityEngine.Random.Range(0, numbers.Count);
-        selectedNumber = numbers[randomIndex];
-        numbers.RemoveAt(randomIndex);
-        dayCount++;
+        //int randomIndex = UnityEngine.Random.Range(0, numbers.Count);
+        //selectedNumber = numbers[randomIndex];
+        //numbers.RemoveAt(randomIndex);
+        GameManager.instance.SetPrioryty(false);
+        //dayCount++;
     }
 
     public void SetTutorialDiary()

@@ -745,7 +745,7 @@ MonoBehaviour:
     notePageType: 1
   - vCam: {fileID: 1013673679}
     notePageType: 2
-  - vCam: {fileID: 28647108}
+  - vCam: {fileID: 1184953810}
     notePageType: 3
 --- !u!1 &520362018
 GameObject:
