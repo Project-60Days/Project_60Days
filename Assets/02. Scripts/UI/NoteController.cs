@@ -160,6 +160,8 @@ public class NoteController : MonoBehaviour
 
     public void ChangePageForce(int index)
     {
+        pageNum = index;
+
         Debug.Log("½ÇÇà");
         if (!noteAnim.GetIsOpen())
         {
