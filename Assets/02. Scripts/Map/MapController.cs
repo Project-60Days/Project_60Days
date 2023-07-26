@@ -100,7 +100,10 @@ public class MapController : Singleton<MapController>
 
     public bool isTutorialUiOn()
     {
-        return currentUI.transform.parent.parent.GetComponent<TileInfo>().isTutorialTile;
+        if (IsUiOn())
+            return currentUI.transform.parent.parent.GetComponent<TileInfo>().isTutorialTile;
+
+        return false;
     }
 
     public void CurrentUIEmptying()

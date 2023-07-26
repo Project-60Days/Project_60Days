@@ -10,6 +10,7 @@ public class WorkBench : MonoBehaviour, IPointerClickHandler
    
     public void OnPointerClick(PointerEventData eventData)
     {
+        UIManager.instance.AddCurrUIName(StringUtility.UI_CRAFTING);
         onClickEvent.Invoke();
     }
 }
