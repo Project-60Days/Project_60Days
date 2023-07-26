@@ -26,10 +26,10 @@ public class CraftingRawImageController : MonoBehaviour, IDragHandler
     private float camTargetSize = 0.0f;
     bool isControlKeyPushed;
     bool canRotate;
+    bool isTargetOn;
 
     void Start()
     {
-        
     }
 
     IEnumerator VariablesConnect()
@@ -42,7 +42,10 @@ public class CraftingRawImageController : MonoBehaviour, IDragHandler
 
     private void Update()
     {
-        StartCoroutine(VariablesConnect());
+
+        if (target == null && isTargetOn)
+            StartCoroutine(VariablesConnect());
+
 
         if (Input.GetKeyDown(KeyCode.LeftControl)) isControlKeyPushed = true;
         if (Input.GetKeyUp(KeyCode.LeftControl)) isControlKeyPushed = false;

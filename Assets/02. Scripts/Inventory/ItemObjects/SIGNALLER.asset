@@ -30,3 +30,4 @@ MonoBehaviour:
   itemImage: {fileID: 21300000, guid: 59bf8fb908afd8c47b6efcdf3332fc68, type: 3}
   itemCount: 0
   itemType: 0
+  prefab: {fileID: 3978186304727112820, guid: 98bbcb743baf8a543a79573cddba25e2, type: 3}
