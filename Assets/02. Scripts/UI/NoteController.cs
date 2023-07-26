@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using DG.Tweening;
 using System;
 using UnityEditor.Search;
+using Unity.VisualScripting.Antlr3.Runtime;
 
 public class NoteController : MonoBehaviour
 {
@@ -120,7 +121,6 @@ public class NoteController : MonoBehaviour
             ChangePageButton();
         }
 
-        UIManager.instance.AddCurrUIName(StringUtility.UI_NOTE);
     }
     /// <summary>
     /// 상자 닫힐 때 NoteAnim.cs에서 호출되는 함수 
@@ -132,8 +132,6 @@ public class NoteController : MonoBehaviour
         prevPageBtn.gameObject.SetActive(false);
 
         notePos.DOAnchorPos(new Vector2(noteCenterPos.anchoredPosition.x, notePos.anchoredPosition.y), 1f);
-
-        UIManager.instance.PopCurrUI();
     }
 
 
@@ -357,10 +355,15 @@ public class NoteController : MonoBehaviour
     public void EndTutorialDiary()
     {
         isTutorial = false;
-        noteAnim.Close_Anim();
         page_Diary_Back.SetActive(false);
+        noteAnim.Close_Anim();
         SetBtnNormal();
         TutorialManager.instance.tutorialController.SetNextTutorial();
+    }
+
+    public bool GetNewDay()
+    {
+        return newDay;
     }
 }
 

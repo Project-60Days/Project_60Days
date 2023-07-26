@@ -9,7 +9,8 @@ using Unity.VisualScripting;
 public class ItemSlot : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] Image image;
-
+    //[SerializeField]
+    //ESlotType
     TextMeshProUGUI itemDiscription;
 
     GameObject craft;

@@ -26,13 +26,11 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     bool isOpen = false;
     int dayCount = 1;
 
-    NoteController noteController;
+    [SerializeField] NoteController noteController;
 
 
     void Start()
     {
-        noteController = GameObject.Find("NoteController").GetComponent<NoteController>();
-
         originalPos = transform.position;
 
         for (int i = 0; i < notePanels.Length; i++) 
@@ -78,6 +76,7 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         if (!isOpen)
         {
+            Debug.LogError("Open_Anim");
             Sequence sequence = DOTween.Sequence();
             sequence.Append(transform.DOMoveY(originalPos.y, 0.5f))
                 .Join(boxTop.transform.DOMoveY(960f, 0.5f))
@@ -162,6 +161,8 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         nextPage.SetActive(true);
         prevPage.SetActive(true);
         dayText.gameObject.SetActive(true);
+
+        UIManager.instance.AddCurrUIName(StringUtility.UI_NOTE);
         noteController.OpenBox();
     }
     /// <summary>
@@ -173,6 +174,8 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         openBtn.gameObject.SetActive(true);
         closeBtn.gameObject.SetActive(false);
         noteBackground_Back.SetActive(false);
+
+        UIManager.instance.PopCurrUI();
     }
     /// <summary>
     /// 제출 버튼 콜백함수
