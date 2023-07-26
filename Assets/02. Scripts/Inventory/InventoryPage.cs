@@ -2,11 +2,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using static UnityEditor.Progress;
 
 public class InventoryPage : MonoBehaviour
 {
     [SerializeField] Transform slotParent;
     [SerializeField] Sprite[] itemTypeImage;
+    [SerializeField] ItemSO itemSO;
 
     private ItemSlot[] slots;
     private Temp[] slotImages;
@@ -118,5 +120,22 @@ public class InventoryPage : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void AddItemByCode(string itemCode)
+    {
+        ItemBase item = null;
+
+        for (int i = 0; i < itemSO.items.Length; i++)
+        {
+            if (itemSO.items[i].itemCode == itemCode)
+            {
+                item = itemSO.items[i];
+                DataManager.instance.itemData.TryGetValue(itemCode, out ItemData itemData);
+                item.data = itemData;
+                items.Add(item);
+                FreshSlot();
+            }
+        }
     }
 }
