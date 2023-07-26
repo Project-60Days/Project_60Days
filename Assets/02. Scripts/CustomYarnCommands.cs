@@ -57,8 +57,10 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
     private void MoveNoteTap(int _idx)
     {
-        UIManager.instance.GetNoteController().ChangePage(_idx);
-    }
+        if (_idx == 0) GameManager.instance.SetPrioryty(false);
+        else GameManager.instance.SetPrioryty(true);
+        UIManager.instance.GetNoteController().ChangePageForce(_idx);
+    } 
 
     private void SpawnTutorialGlicher()
     {
