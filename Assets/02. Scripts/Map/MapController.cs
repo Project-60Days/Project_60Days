@@ -103,6 +103,13 @@ public class MapController : Singleton<MapController>
         return currentUI.transform.parent.parent.GetComponent<TileInfo>().isTutorialTile;
     }
 
+    public void CurrentUIEmptying()
+    {
+        currentUI.SetActive(false);
+        isUIOn = false;
+        currentUI = null;
+    }
+
     public void BaseActiveSet(bool isbool)
     {
         isBaseOn = isbool;
