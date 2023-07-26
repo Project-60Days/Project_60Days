@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4427358436177864811}
   - component: {fileID: 2086509002990607305}
   - component: {fileID: 1420258195725451744}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: StructureTMP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 7601804385899718837}
   - component: {fileID: 8846757708621500156}
   - component: {fileID: 2125116484783421364}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -246,7 +246,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6437548220370156990}
   - component: {fileID: 937891962464000853}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: TMPs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -302,7 +302,7 @@ GameObject:
   - component: {fileID: 6812974059369063864}
   - component: {fileID: 156747778613575725}
   - component: {fileID: 1580804025546087105}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: LandformTMP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -438,7 +438,7 @@ GameObject:
   - component: {fileID: 6690231863259569062}
   - component: {fileID: 2782993718218980394}
   - component: {fileID: 3243131714172653105}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: SubTitleTMP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -573,7 +573,7 @@ GameObject:
   - component: {fileID: 1671566204883496266}
   - component: {fileID: 5522931913250447381}
   - component: {fileID: 3747997852206031175}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: ResourceTMP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -707,7 +707,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8991272316586231987}
   - component: {fileID: 9193544093469343528}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: TileInfo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -802,7 +802,7 @@ GameObject:
   - component: {fileID: 2168621158263949097}
   - component: {fileID: 4239707216439502689}
   - component: {fileID: 5091120062613986315}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: NPCTMP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1138,7 +1138,7 @@ GameObject:
   - component: {fileID: 2596566895349061422}
   - component: {fileID: 6289455767565471792}
   - component: {fileID: 8822875607124665945}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6079,7 +6079,7 @@ GameObject:
   - component: {fileID: 8124439883681936341}
   - component: {fileID: 6681778087741108505}
   - component: {fileID: 7279255779948848638}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Illust
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6155,7 +6155,7 @@ GameObject:
   - component: {fileID: 7128493841253958699}
   - component: {fileID: 47516719495841180}
   - component: {fileID: 7777268800627148878}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6233,7 +6233,7 @@ GameObject:
   - component: {fileID: 897346255849661458}
   - component: {fileID: 3482940141753843134}
   - component: {fileID: 3452720646218151033}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: AreaIllustTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6495,10 +6495,18 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0.225
       objectReference: {fileID: 0}
+    - target: {fileID: 2070055698134008081, guid: 2a4d84312a74d1f46b8139342606115b, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 2568367244732534549, guid: 2a4d84312a74d1f46b8139342606115b, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 99ea7845fd7c0044493062cb27719d11, type: 2}
+    - target: {fileID: 2568367244734796245, guid: 2a4d84312a74d1f46b8139342606115b, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 5066086824897611883, guid: 2a4d84312a74d1f46b8139342606115b, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -6547,6 +6555,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tile City Base
       objectReference: {fileID: 0}
+    - target: {fileID: 6069308404498233822, guid: 2a4d84312a74d1f46b8139342606115b, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a4d84312a74d1f46b8139342606115b, type: 3}
 --- !u!4 &903146693727990540 stripped
@@ -6571,8 +6583,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 828700fcdcc3f2f4e8244b21499ede6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resourceText: {fileID: 3243131714172653105}
-  zombieText: {fileID: 3747997852206031175}
+  resourceText: {fileID: 3747997852206031175}
+  zombieText: {fileID: 3243131714172653105}
   itemSO: {fileID: 11400000, guid: 9fbd54ca786ce174891a63e9312d8ea6, type: 2}
   player: {fileID: 0}
   ui: {fileID: 0}
