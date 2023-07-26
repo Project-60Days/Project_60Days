@@ -50,6 +50,9 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         }
         else
         {
+            Debug.Log("´­¸²");
+            Debug.Log(itemDiscription);
+            Debug.Log(_item.data.Description.ToString());
             itemDiscription.text = _item.data.Description.ToString();
         }
         

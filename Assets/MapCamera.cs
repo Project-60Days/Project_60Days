@@ -36,7 +36,7 @@ public class MapCamera : MonoBehaviour
         else
         {
             mapCamera.Priority = 8;
-            UIManager.instance.PopCurrUI();
+            //UIManager.instance.PopCurrUI();
         }
         mapUi.SetActive(isOn);
         MapController.instance.BaseActiveSet(!isOn);
