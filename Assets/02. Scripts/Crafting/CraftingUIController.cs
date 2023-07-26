@@ -4,6 +4,7 @@ using TMPro.EditorUtilities;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class CraftingUIController : MonoBehaviour
 {
@@ -71,6 +72,7 @@ public class CraftingUIController : MonoBehaviour
         {
             slotTransforms[i].gameObject.SetActive(false);
             slots[i].item = null;
+            slots[i].eSlotType = ESlotType.CraftingSlot;
             craftTypeImages[i].GetComponent<Image>().sprite = craftTypeImage[0];
         }
 
@@ -116,7 +118,6 @@ public class CraftingUIController : MonoBehaviour
             inventoryPage.AddItem(items[i]);
             slotTransforms[i].gameObject.SetActive(false);
             slots[i].item = null;
-            craftTypeImages[i].GetComponent<Image>().sprite = craftTypeImage[0];
         }
 
         items.Clear();
@@ -127,7 +128,7 @@ public class CraftingUIController : MonoBehaviour
     /// </summary>
     public void CombineItem()
     {
-        int flag = 0; // 0: 일치, 1: 불일치
+        int flag; // 0: 일치, 1: 불일치
         for (int i = 0; i < itemCombines.Count; i++)
         {
             flag = 0;
@@ -185,7 +186,7 @@ public class CraftingUIController : MonoBehaviour
     /// </summary>
     public ItemBase CombineResultItem(string resultItemCode)
     {
-        ItemBase resultItem = null;
+        ItemBase resultItem;
 
         for (int i = 0; i < itemSO.items.Length; i++)
         {
@@ -194,6 +195,7 @@ public class CraftingUIController : MonoBehaviour
                 resultItem = itemSO.items[i];
                 DataManager.instance.itemData.TryGetValue(resultItemCode, out ItemData itemData);
                 resultItem.data = itemData;
+                
                 return resultItem;
             }
         }
@@ -207,6 +209,7 @@ public class CraftingUIController : MonoBehaviour
         slotTransforms[items.Count + 1].gameObject.SetActive(true);
         slots[items.Count + 1].item = _item;
         craftTypeImages[items.Count + 1].GetComponent<Image>().sprite = craftTypeImage[1];
+        slots[items.Count + 1].eSlotType = ESlotType.ResultSlot;
     }
 
     public bool CheckCraftingItem(string itemCode, int count = 1)
@@ -223,5 +226,19 @@ public class CraftingUIController : MonoBehaviour
             return true;
         else
             return false;
+    }
+
+    public void CraftToInventory(ItemSlot itemSlot)
+    {
+        
+    }
+
+    public void ResultToInventory()
+    {
+        inventoryPage.AddItem(slots[items.Count + 1].item);
+        slotTransforms[items.Count + 1].gameObject.SetActive(false);
+        slots[items.Count + 1].item = null;
+        items.Clear();
+        FreshCraftingBag();
     }
 }
