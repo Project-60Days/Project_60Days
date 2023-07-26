@@ -2431,6 +2431,7 @@ MonoBehaviour:
   nextDay: {fileID: 1811381966}
   inventoryUI: {fileID: 808010571}
   noteBackground_Back: {fileID: 1668064579}
+  noteController: {fileID: 592508145}
 --- !u!1 &264015176
 GameObject:
   m_ObjectHideFlags: 0
