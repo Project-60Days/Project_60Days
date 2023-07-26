@@ -10,7 +10,12 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] CraftingUIController craftingUIController;
     [SerializeField] UIHighLightController uiHighLightController;
 
-    public Stack<string> currUIStack;
+    public Stack<string> currUIStack = new Stack<string>();
+
+    private void Awake()
+    {
+        currUIStack.Push(StringUtility.UI_NORMAL);
+    }
 
     public void AddCurrUIName(string _uiName)
     {

@@ -28,6 +28,10 @@ public class UIHighLightController : MonoBehaviour
 
             StartCoroutine(HideHighLightWhenAction(h, _waitUntilStatusName));
         }
+        else
+        {
+            Debug.LogError($"invalid highlight object name : {_objectID}");
+        }
     }
 
     IEnumerator WaitForPositionUpdate(HighLight h)

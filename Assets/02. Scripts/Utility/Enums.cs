@@ -116,7 +116,8 @@ public enum EResourceType
     STEEL,
     PLAZMA,
     POWDER,
-    GAS
+    GAS,
+    PLATE
 }
 
 #endregion

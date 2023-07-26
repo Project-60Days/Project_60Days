@@ -108,4 +108,15 @@ public class InventoryPage : MonoBehaviour
         }
         FreshSlot();
     }
+
+    public bool CheckInventoryItem(string itemCode)
+    {
+        for(int i = 0; i < items.Count; i++)
+        {
+            if (items[i].itemCode == itemCode)
+                return true;
+        }
+
+        return false;
+    }
 }
