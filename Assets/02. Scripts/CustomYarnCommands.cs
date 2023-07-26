@@ -49,6 +49,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
     private Coroutine WaitTutorialTileUiOpen()
     {
+        MapController.instance.CurrentUIEmptying();
         return StartCoroutine(new WaitUntil(() => MapController.instance.isTutorialUiOn()));
     }
 
