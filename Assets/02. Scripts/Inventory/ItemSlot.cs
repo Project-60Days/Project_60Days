@@ -49,7 +49,6 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
             case ESlotType.InventorySlot:
                 if (craft.activeSelf)
                 {
-                    Debug.Log(_item.name);
                     if (_item != null)
                         craft.GetComponent<CraftingUIController>().CraftItem(_item);
                 }

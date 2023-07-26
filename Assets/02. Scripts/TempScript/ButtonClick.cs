@@ -6,6 +6,7 @@ public class ButtonClick : MonoBehaviour
 {
     [SerializeField] ItemBase steel;
     [SerializeField] ItemBase plastic;
+    [SerializeField] ItemBase gear;
     [SerializeField] InventoryPage inventoryPage;
 
     public void buttonClick()
@@ -20,5 +21,10 @@ public class ButtonClick : MonoBehaviour
     public void CreatePlastic()
     {
         inventoryPage.AddItem(plastic);
+    }
+
+    public void CreateGear()
+    {
+        inventoryPage.AddItem(gear);
     }
 }

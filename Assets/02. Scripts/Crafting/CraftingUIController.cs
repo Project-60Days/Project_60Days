@@ -100,8 +100,6 @@ public class CraftingUIController : MonoBehaviour
     /// <param name="_item"></param>
     public void CraftItem(ItemBase _item)
     {
-        Debug.Log("아이템추가");
-
         items.Add(_item);
         FreshCraftingBag();
         CombineItem();
@@ -132,10 +130,11 @@ public class CraftingUIController : MonoBehaviour
     public void CombineItem()
     {
         int flag; // 0: 일치, 1: 불일치
+
         for (int i = 0; i < itemCombines.Count; i++)
         {
             flag = 0;
-
+ 
             combinationCodes[0] = itemCombines[i].Material_1;
             combinationCodes[1] = itemCombines[i].Material_2;
             combinationCodes[2] = itemCombines[i].Material_3;
@@ -148,17 +147,10 @@ public class CraftingUIController : MonoBehaviour
 
             for (int j = 0; j < items.Count; j++)
             {
-                if (flag == 1) break;
-
                 for (int k = 0; k < 8; k++)
                 {
                     if (combinationCodes[k] == "1" || combinationCodes[k] == "-1") continue;
-                    if (combinationCodes[k] != items[j].itemCode)
-                    {
-                        flag = 1;
-                        break;
-                    }
-                    else
+                    if (combinationCodes[k] == items[j].itemCode)
                     {
                         combinationCodes[k] = "1";
                         break;
@@ -177,6 +169,8 @@ public class CraftingUIController : MonoBehaviour
 
             if (flag == 0)
             {
+                if (combinationCodes[8] == "ITEM_TIER_2_SIGNALLER" || combinationCodes[8] == "ITEM_TIER_2_RISISTOR") continue;
+                Debug.Log(combinationCodes[8]);
                 ItemBase item = CombineResultItem(combinationCodes[8]);
                 AddCombineItem(item);
                 break;
