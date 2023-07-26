@@ -9,8 +9,8 @@ using Unity.VisualScripting;
 public class ItemSlot : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] Image image;
-    //[SerializeField]
-    //ESlotType
+    [SerializeField] public ESlotType eSlotType;
+
     TextMeshProUGUI itemDiscription;
 
     GameObject craft;
@@ -44,6 +44,26 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        switch (eSlotType)
+        {
+            case ESlotType.InventorySlot:
+                if (craft.activeSelf)
+                {
+                    if (_item != null)
+                        craft.GetComponent<CraftingUIController>().CraftItem(_item);
+                }
+                else
+                {
+                    Debug.Log(itemDiscription);
+                    Debug.Log(_item.data.Description.ToString());
+                    itemDiscription.text = _item.data.Description.ToString();
+                }
+                break;
+            case ESlotType.CraftingSlot:
+                return;//craft.GetComponent<CraftingUIController>().CraftToInventory(this); break;
+            case ESlotType.ResultSlot:
+                craft.GetComponent<CraftingUIController>().ResultToInventory(); break;
+        }
         if (craft.activeSelf)
         {
             if (_item != null)
