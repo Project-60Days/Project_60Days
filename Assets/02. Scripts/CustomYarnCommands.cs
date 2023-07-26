@@ -20,6 +20,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         dialogueRunner.AddCommandHandler<string, int>("waitSetCraftingItem", WaitSetCraftingItem);
         dialogueRunner.AddCommandHandler("waitNewDay", WaitNewDay);
         dialogueRunner.AddCommandHandler("waitTileUIOpen", WaitTileUIOpen);
+        dialogueRunner.AddCommandHandler("waitTutorialTileUIOpen", WaitTutorialTileUiOpen);
         dialogueRunner.AddCommandHandler("waitSetDisturbance", WaitSetDisturbance);
         dialogueRunner.AddCommandHandler("spawnTutorialGlicher", SpawnTutorialGlicher);
         dialogueRunner.AddCommandHandler<string>("waitUntil", WaitUntilUIState);
@@ -44,6 +45,11 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     private void ShowDialogue()
     {
         UIManager.instance.GetTutorialDialogue().Show();
+    }
+
+    private Coroutine WaitTutorialTileUiOpen()
+    {
+        return StartCoroutine(new WaitUntil(() => MapController.instance.isTutorialUiOn()));
     }
 
     private Coroutine WaitGetItem(string _itemCode)

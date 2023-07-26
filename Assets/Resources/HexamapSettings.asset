@@ -25,7 +25,7 @@ MonoBehaviour:
   BiomeSettings:
   - UUID: 8e45f970-50f9-475c-92aa-2a26076ab03c
     Name: HUMID
-    MinimumTilesCount: 500
+    MinimumTilesCount: 250
     Landforms:
     - TypeAsString: Hexamap.LandformRoad
       IsSelected: 0
@@ -105,8 +105,132 @@ MonoBehaviour:
       - {fileID: 9115632129009818761, guid: bbebe9be99da51345845c3fce2221ec3, type: 3}
       - {fileID: 9115632129009818761, guid: 0200039a52dd11d42ad26243a78362cf, type: 3}
     - TypeAsString: Hexamap.LandformLake
+      IsSelected: 0
+      Distribution: 0
+      Quantity: 0
+      Order: 15
+      PrefabsArraySize: 1
+      PrefabsIsExpanded: 1
+      PrefabPickingMethodTypeAsString: Hexamap.PickingMethodFirst
+      PrefabPickingMethodPopupIndex: 2
+      PrefabOrientationMethod: 0
+      Prefabs:
+      - {fileID: 2788441876337456543, guid: 622f6f47da177424d80811c8e3fb7762, type: 3}
+    - TypeAsString: Hexamap.LandformForest
+      IsSelected: 0
+      Distribution: 0
+      Quantity: 0
+      Order: 10
+      PrefabsArraySize: 6
+      PrefabsIsExpanded: 1
+      PrefabPickingMethodTypeAsString: Hexamap.PickingMethodRandom
+      PrefabPickingMethodPopupIndex: 3
+      PrefabOrientationMethod: -1
+      Prefabs:
+      - {fileID: 5174415870590476125, guid: a4efc3d3d64e33b47a3884d2f6f8e14e, type: 3}
+      - {fileID: 5174415870590476125, guid: 0bee7631f4c0a604badfcf37cff7e4bd, type: 3}
+      - {fileID: 5174415870590476125, guid: 020304d8d30893c489156c1e64d66f32, type: 3}
+      - {fileID: 5174415870590476125, guid: 1669c23f9226d634c84a74ab0cdd60bd, type: 3}
+      - {fileID: 5174415870590476125, guid: ddbd4c7e3699df746bef51d7ca0920b2, type: 3}
+      - {fileID: 5174415870590476125, guid: c424726def79eee4d99f14258795fcb4, type: 3}
+    - TypeAsString: Hexamap.LandformCity
+      IsSelected: 0
+      Distribution: 0
+      Quantity: 2
+      Order: 5
+      PrefabsArraySize: 2
+      PrefabsIsExpanded: 0
+      PrefabPickingMethodTypeAsString: Hexamap.PickingMethodRandom
+      PrefabPickingMethodPopupIndex: 2
+      PrefabOrientationMethod: 60
+      Prefabs:
+      - {fileID: 6999840904034914940, guid: 39bb7c4d0064ca845b366aa9f451713c, type: 3}
+      - {fileID: 5130638035095197332, guid: 3b7607647ed6f4e418cb2566d7dd9d2d, type: 3}
+    IsExpanded: 0
+  - UUID: 8e45f970-50f9-475c-92aa-2a26076ab03c
+    Name: City
+    MinimumTilesCount: 250
+    Landforms:
+    - TypeAsString: Hexamap.LandformRoad
+      IsSelected: 0
+      Distribution: 0
+      Quantity: 0
+      Order: 0
+      PrefabsArraySize: 12
+      PrefabsIsExpanded: 1
+      PrefabPickingMethodTypeAsString: Hexamap.PickingMethodConnections
+      PrefabPickingMethodPopupIndex: 1
+      PrefabOrientationMethod: 0
+      Prefabs:
+      - {fileID: 4253334034655199456, guid: 7021766c6894d8d4fb0a33637e68ea27, type: 3}
+      - {fileID: 4253334034655199456, guid: 5facfc36bca96ed458c09f811593b8b7, type: 3}
+      - {fileID: 4253334034655199456, guid: bb3eeb06df7bed5458b18a9e1846e605, type: 3}
+      - {fileID: 4253334034655199456, guid: 4b3a03a5537feda429750ca57c3e0643, type: 3}
+      - {fileID: 4253334034655199456, guid: bd04da5835fe0ec4fafc162d1676c47b, type: 3}
+      - {fileID: 4253334034655199456, guid: 596b2b1b4bfb3494f999093d67e3ccb7, type: 3}
+      - {fileID: 4253334034655199456, guid: 595a035761adfdd4f9f202b3a84d6bf5, type: 3}
+      - {fileID: 4253334034655199456, guid: d56e8ffd1ceb6084b83acbdf42bd54b7, type: 3}
+      - {fileID: 4253334034655199456, guid: 8d4b039416a824846a6b33e42e806426, type: 3}
+      - {fileID: 4253334034655199456, guid: d5ba7ddaf87f5a04c8dabc8ddc2aadf1, type: 3}
+      - {fileID: 4253334034655199456, guid: 0831380ff340a3147b133121931df54c, type: 3}
+      - {fileID: 4253334034655199456, guid: 2312fbb1e506548498c0df856e93c9b2, type: 3}
+    - TypeAsString: Hexamap.LandformRiver
+      IsSelected: 0
+      Distribution: 0
+      Quantity: 0
+      Order: 25
+      PrefabsArraySize: 12
+      PrefabsIsExpanded: 1
+      PrefabPickingMethodTypeAsString: Hexamap.PickingMethodConnections
+      PrefabPickingMethodPopupIndex: 1
+      PrefabOrientationMethod: 0
+      Prefabs:
+      - {fileID: 1391780005407635719, guid: 5afb71095e6b92849a205824ecd06c10, type: 3}
+      - {fileID: 1391780005407635719, guid: e1a034fb7f39f934d9f36744e71b3a8f, type: 3}
+      - {fileID: 1391780005407635719, guid: f3b6bdd8de0ef4e49a82db5905b61b3f, type: 3}
+      - {fileID: 1391780005407635719, guid: 5181626a6b449ad43b54d5ad1d175f1e, type: 3}
+      - {fileID: 1391780005407635719, guid: bba0cd842717d854285aa9cb735a713b, type: 3}
+      - {fileID: 1391780005407635719, guid: a8611a5efff2cd743bdc64ad80ac5877, type: 3}
+      - {fileID: 1391780005407635719, guid: 442d70eff5b35ab49a1df42b46d84978, type: 3}
+      - {fileID: 1391780005407635719, guid: adc9e1325bb78584e8b317d5bac0c152, type: 3}
+      - {fileID: 1391780005407635719, guid: b21b32b89bc13b44bb0116b220839240, type: 3}
+      - {fileID: 1391780005407635719, guid: 3e213c638285175469174a008f5c120f, type: 3}
+      - {fileID: 1391780005407635719, guid: bd1b17e68235bc34195ebd6d102c3cbe, type: 3}
+      - {fileID: 1391780005407635719, guid: ef2fca65c1491354982edd06d73324f4, type: 3}
+    - TypeAsString: Hexamap.LandformPlain
       IsSelected: 1
-      Distribution: 4
+      Distribution: 0
+      Quantity: 0
+      Order: 0
+      PrefabsArraySize: 5
+      PrefabsIsExpanded: 1
+      PrefabPickingMethodTypeAsString: Hexamap.PickingMethodRandom
+      PrefabPickingMethodPopupIndex: 3
+      PrefabOrientationMethod: -1
+      Prefabs:
+      - {fileID: 9064940204541529660, guid: a7b0012c49adb8c4b9463b3fa4c30a9b, type: 3}
+      - {fileID: 9064940204541529660, guid: 0636d4e4287eb2e49aa8c854109bb2d9, type: 3}
+      - {fileID: 9064940204541529660, guid: 2c30705e8872cc940bc022f8849c307b, type: 3}
+      - {fileID: 9064940204541529660, guid: 0636d4e4287eb2e49aa8c854109bb2d9, type: 3}
+      - {fileID: 9064940204541529660, guid: 0636d4e4287eb2e49aa8c854109bb2d9, type: 3}
+    - TypeAsString: Hexamap.LandformMountains
+      IsSelected: 0
+      Distribution: 0
+      Quantity: 0
+      Order: 15
+      PrefabsArraySize: 4
+      PrefabsIsExpanded: 1
+      PrefabPickingMethodTypeAsString: Hexamap.PickingMethodRandom
+      PrefabPickingMethodPopupIndex: 3
+      PrefabOrientationMethod: -1
+      Prefabs:
+      - {fileID: 9115632129009818761, guid: 8d3cabb51d531e9488127224229dc8f8, type: 3}
+      - {fileID: 9115632129009818761, guid: d04f15b379fa8d74e991725752aee495, type: 3}
+      - {fileID: 9115632129009818761, guid: bbebe9be99da51345845c3fce2221ec3, type: 3}
+      - {fileID: 9115632129009818761, guid: 0200039a52dd11d42ad26243a78362cf, type: 3}
+    - TypeAsString: Hexamap.LandformLake
+      IsSelected: 0
+      Distribution: 0
       Quantity: 0
       Order: 15
       PrefabsArraySize: 1

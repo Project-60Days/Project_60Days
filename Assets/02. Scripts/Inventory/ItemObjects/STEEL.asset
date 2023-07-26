@@ -33,3 +33,4 @@ MonoBehaviour:
   itemImage: {fileID: 21300000, guid: 903743215b83aa34d936fe1e8fef8680, type: 3}
   itemCount: 0
   itemType: 0
+  prefab: {fileID: 5291711458905113346, guid: 03f13903e83b61e48b34af8e95fd217f, type: 3}
