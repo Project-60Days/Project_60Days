@@ -59,6 +59,7 @@ public class CraftingUIController : MonoBehaviour
         {
             slotTransforms[i].gameObject.SetActive(false);
             slots[i].item = null;
+            slots[i].eSlotType = ESlotType.CraftingSlot;
             craftTypeImages[i].GetComponent<Image>().sprite = craftTypeImage[0];
         }
     }
@@ -68,7 +69,7 @@ public class CraftingUIController : MonoBehaviour
     /// </summary>
     public void FreshCraftingBag()
     {
-        for (int i = 0; i < items.Count; i++)
+        for (int i = 0; i < items.Count + 1; i++)
         {
             slotTransforms[i].gameObject.SetActive(false);
             slots[i].item = null;
@@ -129,10 +130,11 @@ public class CraftingUIController : MonoBehaviour
     public void CombineItem()
     {
         int flag; // 0: 일치, 1: 불일치
+
         for (int i = 0; i < itemCombines.Count; i++)
         {
             flag = 0;
-
+ 
             combinationCodes[0] = itemCombines[i].Material_1;
             combinationCodes[1] = itemCombines[i].Material_2;
             combinationCodes[2] = itemCombines[i].Material_3;
@@ -145,17 +147,10 @@ public class CraftingUIController : MonoBehaviour
 
             for (int j = 0; j < items.Count; j++)
             {
-                if (flag == 1) break;
-
                 for (int k = 0; k < 8; k++)
                 {
                     if (combinationCodes[k] == "1" || combinationCodes[k] == "-1") continue;
-                    if (combinationCodes[k] != items[j].itemCode)
-                    {
-                        flag = 1;
-                        break;
-                    }
-                    else
+                    if (combinationCodes[k] == items[j].itemCode)
                     {
                         combinationCodes[k] = "1";
                         break;
@@ -174,6 +169,8 @@ public class CraftingUIController : MonoBehaviour
 
             if (flag == 0)
             {
+                if (combinationCodes[8] == "ITEM_TIER_2_SIGNALLER" || combinationCodes[8] == "ITEM_TIER_2_RISISTOR") continue;
+                Debug.Log(combinationCodes[8]);
                 ItemBase item = CombineResultItem(combinationCodes[8]);
                 AddCombineItem(item);
                 break;
@@ -206,10 +203,10 @@ public class CraftingUIController : MonoBehaviour
 
     public void AddCombineItem(ItemBase _item)
     {
-        slotTransforms[items.Count + 1].gameObject.SetActive(true);
-        slots[items.Count + 1].item = _item;
-        craftTypeImages[items.Count + 1].GetComponent<Image>().sprite = craftTypeImage[1];
-        slots[items.Count + 1].eSlotType = ESlotType.ResultSlot;
+        slotTransforms[items.Count].gameObject.SetActive(true);
+        slots[items.Count].item = _item;
+        craftTypeImages[items.Count].GetComponent<Image>().sprite = craftTypeImage[1];
+        slots[items.Count].eSlotType = ESlotType.ResultSlot;
     }
 
     public bool CheckCraftingItem(string itemCode, int count = 1)
@@ -230,15 +227,19 @@ public class CraftingUIController : MonoBehaviour
 
     public void CraftToInventory(ItemSlot itemSlot)
     {
-        
+        items.Remove(itemSlot.item);
+        inventoryPage.AddItem(slots[items.Count].item);
+        FreshCraftingBag();
+        CombineItem();
     }
 
     public void ResultToInventory()
     {
-        inventoryPage.AddItem(slots[items.Count + 1].item);
-        slotTransforms[items.Count + 1].gameObject.SetActive(false);
-        slots[items.Count + 1].item = null;
+        inventoryPage.AddItem(slots[items.Count].item);
+        slotTransforms[items.Count].gameObject.SetActive(false);
+        slots[items.Count].item = null;
         items.Clear();
         FreshCraftingBag();
+        CombineItem();
     }
 }
