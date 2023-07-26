@@ -9,4 +9,5 @@ public class ItemBase : ScriptableObject
     public Sprite itemImage;
     public int itemCount;
     public ItemType itemType;
+    public GameObject prefab;
 }
