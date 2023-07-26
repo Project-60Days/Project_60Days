@@ -279,7 +279,6 @@ MonoBehaviour:
   MaxXRotation: 90
   ScrollSpeed: 100
   MoveSpeed: 50
-  arrow: {fileID: 0}
   isBaseOn: 0
 --- !u!1 &70614907
 GameObject:
@@ -1142,6 +1141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collectiveAbility: 2
+  itemSO: {fileID: 11400000, guid: 9fbd54ca786ce174891a63e9312d8ea6, type: 2}
 --- !u!4 &1926141686
 Transform:
   m_ObjectHideFlags: 0
