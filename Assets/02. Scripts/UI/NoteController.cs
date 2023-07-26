@@ -160,6 +160,9 @@ public class NoteController : MonoBehaviour
     /// <param name="index"></param>
     public void ChangePage(int index)
     {
+        if (!noteAnim.GetIsOpen())
+            noteAnim.Open_Anim();
+
         notePages[pageNum].gameObject.SetActive(false);
         notePages[index].gameObject.SetActive(true);
 
@@ -173,6 +176,7 @@ public class NoteController : MonoBehaviour
     /// <param name="index"></param>
     void PageOn(int index)
     {
+
         switch (index)
         {
             case 0:
@@ -202,7 +206,6 @@ public class NoteController : MonoBehaviour
                 break;
             case 5:
                 GameManager.instance.SetPrioryty(true);
-                //UIManager.instance.AddCurrUIName(StringUtility.UI_MAP);
                 break;
             //    noteAnim.Close_Anim();
             //    return;

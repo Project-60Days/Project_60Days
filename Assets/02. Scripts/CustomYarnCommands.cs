@@ -14,6 +14,13 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
     void Awake()
     {
+        dialogueRunner.AddCommandHandler("endTutorial", EndTutorial);
+        dialogueRunner.AddCommandHandler<int>("moveNoteTap", MoveNoteTap);
+        dialogueRunner.AddCommandHandler<string>("waitGetItem", WaitGetItem);
+        dialogueRunner.AddCommandHandler<string, int>("waitSetCraftingItem", WaitSetCraftingItem);
+        dialogueRunner.AddCommandHandler("waitTileUIOpen", WaitTileUIOpen);
+        dialogueRunner.AddCommandHandler("waitSetDisturbance", WaitSetDisturbance);
+        dialogueRunner.AddCommandHandler("spawnTutorialGlicher", SpawnTutorialGlicher);
         dialogueRunner.AddCommandHandler<string>("waitUntil", WaitUntilUIState);
         dialogueRunner.AddCommandHandler("hide", HideDialogue);
         dialogueRunner.AddCommandHandler("show", ShowDialogue);
@@ -22,6 +29,11 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         dialogueRunner.AddCommandHandler<string>("play_bgm", PlayBGM);
         dialogueRunner.AddCommandHandler<string>("play_sfx", PlaySFX);
         dialogueRunner.AddCommandHandler<string>("stop_bgm", StopBGM);
+    }
+
+    private void EndTutorial()
+    {
+        TutorialManager.instance.EndTutorial();
     }
 
     private void HideDialogue()
@@ -33,10 +45,38 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         UIManager.instance.GetTutorialDialogue().Show();
     }
 
+    private Coroutine WaitGetItem(string _itemCode)
+    {
+        return StartCoroutine(new WaitUntil(() => UIManager.instance.GetInventoryManager().inventoryPage.CheckInventoryItem(_itemCode)));
+    }
+
+    private Coroutine WaitSetCraftingItem(string _itemCode, int _count = 1)
+    {
+        return StartCoroutine(new WaitUntil(() => UIManager.instance.GetCraftingUIController().CheckCraftingItem(_itemCode, _count)));
+    }
+
+    private void MoveNoteTap(int _idx)
+    {
+        UIManager.instance.GetNoteController().ChangePage(_idx);
+    }
+
+    private void SpawnTutorialGlicher()
+    {
+        MapController.instance.SpawnTutorialZombie();
+    }
+
+    private Coroutine WaitSetDisturbance()
+    {
+        return StartCoroutine(new WaitUntil(() => MapController.instance.IsDisturbanceOn()));
+    }
+
+    private Coroutine WaitTileUIOpen()
+    {
+        return StartCoroutine(new WaitUntil(() => MapController.instance.IsUiOn()));
+    }
+
     private Coroutine WaitUntilUIState(string _UIName)
     {
-        Debug.LogError(UIManager.instance.isUIStatus(_UIName));
-
         return StartCoroutine(new WaitUntil(() => UIManager.instance.isUIStatus(_UIName))); 
     }
 

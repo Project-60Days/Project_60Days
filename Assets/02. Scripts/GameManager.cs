@@ -69,6 +69,7 @@ public class GameManager : Singleton<GameManager>
         SceneLoader.instance.LoadScene((int)ESceneType.Game);
         SceneLoader.instance.LoadSceneAddtive((int)ESceneType.UI);
         SceneLoader.instance.LoadSceneAddtive((int)ESceneType.Map);
+        SceneLoader.instance.LoadSceneAddtive((int)ESceneType.Crafting);
 
         StartCoroutine(GetMapCamera());
         
@@ -98,7 +99,6 @@ public class GameManager : Singleton<GameManager>
         TutorialManager tm = Instantiate(tutorialManager).GetComponent<TutorialManager>();
         DontDestroyOnLoad(tm.gameObject);
         tm.Init();
-        Debug.LogError("start Tutorial" + tm);
     }
 
     public void QuitGame()

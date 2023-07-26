@@ -20,4 +20,9 @@ public class TutorialManager : Singleton<TutorialManager>
     {
         tutorialController.Init();
     }
+
+    public void EndTutorial()
+    {
+        // 튜토리얼 끝
+    }
 }

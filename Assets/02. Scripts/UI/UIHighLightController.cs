@@ -14,7 +14,6 @@ public class UIHighLightController : MonoBehaviour
         foreach(var h in hightLights)
         {
             dic_highLights.Add(h.objectID, h);
-            Debug.LogError(h.objectID, h);
         }
     }
 
