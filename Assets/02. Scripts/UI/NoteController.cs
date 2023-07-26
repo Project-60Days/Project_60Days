@@ -22,7 +22,7 @@ public class NoteController : MonoBehaviour
 
     [SerializeField] DialogueRunner[] dialogueRunner;
 
-    bool newDay = true;
+    public bool newDay = true;
     int dialogueRunnerIndex = 0;
     string nodeName;
 
@@ -180,37 +180,49 @@ public class NoteController : MonoBehaviour
         switch (index)
         {
             case 0:
-                dialogueRunnerIndex = 0;
-                nodeName = "Day" + dayCount;
-                inventory.SetActive(false);
-                break;
-            case 1:
-                dialogueRunnerIndex = 1;
-                nodeName = "Day" + dayCount + "ChooseEvent";
-                inventory.SetActive(false);
-                break;
-            case 2:
-                dialogueRunnerIndex = 2;
-                nodeName = "d" + selectedNumber;
-                inventory.SetActive(false);
-                break;
-            case 3:
                 var pos = inventory.transform.position;
                 pos.x = 450;
                 inventory.transform.position = pos;
                 inventory.SetActive(true);
                 break;
-            case 4:
-                GameManager.instance.SetPrioryty(false);
+            case 1:
+                GameManager.instance.SetPrioryty(true);
                 inventory.SetActive(false);
                 break;
-            case 5:
-                GameManager.instance.SetPrioryty(true);
-                break;
-            //    noteAnim.Close_Anim();
-            //    return;
             default:
                 return;
+                //case 0:
+                //    dialogueRunnerIndex = 0;
+                //    nodeName = "Day" + dayCount;
+                //    inventory.SetActive(false);
+                //    break;
+                //case 1:
+                //    dialogueRunnerIndex = 1;
+                //    nodeName = "Day" + dayCount + "ChooseEvent";
+                //    inventory.SetActive(false);
+                //    break;
+                //case 2:
+                //    dialogueRunnerIndex = 2;
+                //    nodeName = "d" + selectedNumber;
+                //    inventory.SetActive(false);
+                //    break;
+                //case 3:
+                //    var pos = inventory.transform.position;
+                //    pos.x = 450;
+                //    inventory.transform.position = pos;
+                //    inventory.SetActive(true);
+                //    break;
+                //case 4:
+                //    GameManager.instance.SetPrioryty(false);
+                //    inventory.SetActive(false);
+                //    break;
+                //case 5:
+                //    GameManager.instance.SetPrioryty(true);
+                //    break;
+                ////    noteAnim.Close_Anim();
+                ////    return;
+                //default:
+                //    return;
         }
 
         if (!dialogueRunner[dialogueRunnerIndex].IsDialogueRunning)
@@ -269,7 +281,6 @@ public class NoteController : MonoBehaviour
         selectedNumber = numbers[randomIndex];
         numbers.RemoveAt(randomIndex);
         dayCount++;
-        newDay = true;
     }
 
     public void SetTutorialDiary()
