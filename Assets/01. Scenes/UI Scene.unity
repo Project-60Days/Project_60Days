@@ -11788,7 +11788,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 783848027}
   m_OnClick:
     m_PersistentCalls:
@@ -12018,7 +12018,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &794187812
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18163,7 +18163,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1270911137
 RectTransform:
   m_ObjectHideFlags: 0
@@ -23603,8 +23603,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttons:
-  - {fileID: 794187812}
-  - {fileID: 1270911137}
   - {fileID: 1499550762}
 --- !u!114 &1648494669
 MonoBehaviour:

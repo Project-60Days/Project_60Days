@@ -53,6 +53,7 @@ public class TileInfo : MonoBehaviour
     int resourceID;
     bool isCanMove;
     bool inPlayerSight;
+    public bool isTutorialTile;
 
     // 수정 필요
     public List<Resource> GetResources(int count)
@@ -90,7 +91,14 @@ public class TileInfo : MonoBehaviour
         {
             gachaList.Add(itemSO.items[i]);
         }
-        RandomResourceUpdate();
+        if (CheckTutorial(MapController.instance.playerLocationTile))
+        {
+            TutorialResourceUpdate();
+        }
+        else
+        {
+            RandomResourceUpdate();
+        }
         RotationCheck(transform.rotation.eulerAngles);
     }
 
@@ -114,6 +122,30 @@ public class TileInfo : MonoBehaviour
             appearanceResources.Add(resource);
             gachaList.RemoveAt(randomPick);
         }
+    }
+
+    public void TutorialResourceUpdate()
+    {
+
+        List<ItemBase> list = new List<ItemBase>();
+
+        for (int i = 0; i < 2; i++)
+        {
+            list.Add(itemSO.items[i]);
+        }
+
+        for (int i = 0; i < 2; i++)
+        {
+            var randomPick = Random.Range(0, list.Count);
+            var item = list[randomPick];
+
+            var randomCount = Random.Range(1, 16);
+            var resource = new Resource(item.itemCode, randomCount);
+
+            appearanceResources.Add(resource);
+            list.RemoveAt(randomPick);
+        }
+        ResourceUpdate(true);
     }
 
     void ResourceUpdate(bool isNearth)
@@ -226,6 +258,20 @@ public class TileInfo : MonoBehaviour
         {
             ResourceUpdate(false);
             inPlayerSight = false;
+        }
+    }
+
+    bool CheckTutorial(Tile tile)
+    {
+        if (MapController.instance.GetTilesInRange(tile, 1).Contains(myTile) || myTile == tile)
+        {
+            isTutorialTile = true;
+            return true;
+        }
+        else
+        {
+            isTutorialTile = false;
+            return false;
         }
     }
 

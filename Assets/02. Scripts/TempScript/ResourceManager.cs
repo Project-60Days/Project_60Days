@@ -35,6 +35,10 @@ public class ResourceManager : MonoBehaviour
                 Debug.LogFormat("자원 이름 : {0}, 자원 갯수 : {1}", itemName, item.itemCount);
             }
         }
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            Debug.Log(MapController.instance.isTutorialUiOn());
+        }
     }
 
     public void SetTile(Tile tile)

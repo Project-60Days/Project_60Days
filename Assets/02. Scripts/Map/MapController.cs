@@ -84,17 +84,6 @@ public class MapController : Singleton<MapController>
             return false;
     }
 
-    public void BaseActiveSet(bool isbool)
-    {
-        isBaseOn = isbool;
-
-        if (isUIOn)
-        {
-            currentUI.SetActive(false);
-            isUIOn = false;
-        }
-    }
-
     public bool CalculateDistanceToPlayer(Tile tile, int range)
     {
         var searchTiles = Hexamap.Map.GetTilesInRange(tile, range);
@@ -107,6 +96,22 @@ public class MapController : Singleton<MapController>
             }
         }
         return false;
+    }
+
+    public bool isTutorialUiOn()
+    {
+        return currentUI.transform.parent.parent.GetComponent<TileInfo>().isTutorialTile;
+    }
+
+    public void BaseActiveSet(bool isbool)
+    {
+        isBaseOn = isbool;
+
+        if (isUIOn)
+        {
+            currentUI.SetActive(false);
+            isUIOn = false;
+        }
     }
 
     public Distrubtor CalculateDistanceToDistrubtor(Tile tile, int range)
