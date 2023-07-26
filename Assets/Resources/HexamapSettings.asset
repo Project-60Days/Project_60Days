@@ -25,7 +25,7 @@ MonoBehaviour:
   BiomeSettings:
   - UUID: 8e45f970-50f9-475c-92aa-2a26076ab03c
     Name: HUMID
-    MinimumTilesCount: 500
+    MinimumTilesCount: 250
     Landforms:
     - TypeAsString: Hexamap.LandformRoad
       IsSelected: 0
@@ -148,8 +148,8 @@ MonoBehaviour:
       - {fileID: 5130638035095197332, guid: 3b7607647ed6f4e418cb2566d7dd9d2d, type: 3}
     IsExpanded: 0
   - UUID: 8e45f970-50f9-475c-92aa-2a26076ab03c
-    Name: Desert
-    MinimumTilesCount: 100
+    Name: City
+    MinimumTilesCount: 250
     Landforms:
     - TypeAsString: Hexamap.LandformRoad
       IsSelected: 0
@@ -208,11 +208,11 @@ MonoBehaviour:
       PrefabPickingMethodPopupIndex: 3
       PrefabOrientationMethod: -1
       Prefabs:
-      - {fileID: 6778166872818351884, guid: 7366e02d08953c04688711101e3862a6, type: 3}
-      - {fileID: 6778166872818351884, guid: 7366e02d08953c04688711101e3862a6, type: 3}
-      - {fileID: 6778166872818351884, guid: 7366e02d08953c04688711101e3862a6, type: 3}
-      - {fileID: 6778166872818351884, guid: 9f638a7518e5bb54f9864b858d29700a, type: 3}
-      - {fileID: 6778166872818351884, guid: a9b0914b38cc9b84b9102eb7ee309550, type: 3}
+      - {fileID: 9064940204541529660, guid: a7b0012c49adb8c4b9463b3fa4c30a9b, type: 3}
+      - {fileID: 9064940204541529660, guid: 0636d4e4287eb2e49aa8c854109bb2d9, type: 3}
+      - {fileID: 9064940204541529660, guid: 2c30705e8872cc940bc022f8849c307b, type: 3}
+      - {fileID: 9064940204541529660, guid: 0636d4e4287eb2e49aa8c854109bb2d9, type: 3}
+      - {fileID: 9064940204541529660, guid: 0636d4e4287eb2e49aa8c854109bb2d9, type: 3}
     - TypeAsString: Hexamap.LandformMountains
       IsSelected: 0
       Distribution: 0
