@@ -59,6 +59,7 @@ public class CraftingUIController : MonoBehaviour
         {
             slotTransforms[i].gameObject.SetActive(false);
             slots[i].item = null;
+            slots[i].eSlotType = ESlotType.CraftingSlot;
             craftTypeImages[i].GetComponent<Image>().sprite = craftTypeImage[0];
         }
     }
@@ -68,7 +69,7 @@ public class CraftingUIController : MonoBehaviour
     /// </summary>
     public void FreshCraftingBag()
     {
-        for (int i = 0; i < items.Count; i++)
+        for (int i = 0; i < items.Count + 1; i++)
         {
             slotTransforms[i].gameObject.SetActive(false);
             slots[i].item = null;
@@ -99,6 +100,8 @@ public class CraftingUIController : MonoBehaviour
     /// <param name="_item"></param>
     public void CraftItem(ItemBase _item)
     {
+        Debug.Log("아이템추가");
+
         items.Add(_item);
         FreshCraftingBag();
         CombineItem();
@@ -206,10 +209,10 @@ public class CraftingUIController : MonoBehaviour
 
     public void AddCombineItem(ItemBase _item)
     {
-        slotTransforms[items.Count + 1].gameObject.SetActive(true);
-        slots[items.Count + 1].item = _item;
-        craftTypeImages[items.Count + 1].GetComponent<Image>().sprite = craftTypeImage[1];
-        slots[items.Count + 1].eSlotType = ESlotType.ResultSlot;
+        slotTransforms[items.Count].gameObject.SetActive(true);
+        slots[items.Count].item = _item;
+        craftTypeImages[items.Count].GetComponent<Image>().sprite = craftTypeImage[1];
+        slots[items.Count].eSlotType = ESlotType.ResultSlot;
     }
 
     public bool CheckCraftingItem(string itemCode, int count = 1)
@@ -230,15 +233,19 @@ public class CraftingUIController : MonoBehaviour
 
     public void CraftToInventory(ItemSlot itemSlot)
     {
-        
+        items.Remove(itemSlot.item);
+        inventoryPage.AddItem(slots[items.Count].item);
+        FreshCraftingBag();
+        CombineItem();
     }
 
     public void ResultToInventory()
     {
-        inventoryPage.AddItem(slots[items.Count + 1].item);
-        slotTransforms[items.Count + 1].gameObject.SetActive(false);
-        slots[items.Count + 1].item = null;
+        inventoryPage.AddItem(slots[items.Count].item);
+        slotTransforms[items.Count].gameObject.SetActive(false);
+        slots[items.Count].item = null;
         items.Clear();
         FreshCraftingBag();
+        CombineItem();
     }
 }

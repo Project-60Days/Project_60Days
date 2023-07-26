@@ -49,33 +49,17 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
             case ESlotType.InventorySlot:
                 if (craft.activeSelf)
                 {
+                    Debug.Log(_item.name);
                     if (_item != null)
                         craft.GetComponent<CraftingUIController>().CraftItem(_item);
                 }
                 else
-                {
-                    Debug.Log(itemDiscription);
-                    Debug.Log(_item.data.Description.ToString());
                     itemDiscription.text = _item.data.Description.ToString();
-                }
                 break;
             case ESlotType.CraftingSlot:
-                return;//craft.GetComponent<CraftingUIController>().CraftToInventory(this); break;
+                craft.GetComponent<CraftingUIController>().CraftToInventory(this); break;
             case ESlotType.ResultSlot:
                 craft.GetComponent<CraftingUIController>().ResultToInventory(); break;
         }
-        if (craft.activeSelf)
-        {
-            if (_item != null)
-                craft.GetComponent<CraftingUIController>().CraftItem(_item);
-        }
-        else
-        {
-            Debug.Log("´­¸²");
-            Debug.Log(itemDiscription);
-            Debug.Log(_item.data.Description.ToString());
-            itemDiscription.text = _item.data.Description.ToString();
-        }
-        
     }
 }
