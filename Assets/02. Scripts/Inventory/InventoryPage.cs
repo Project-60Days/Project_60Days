@@ -25,7 +25,10 @@ public class InventoryPage : MonoBehaviour
     }
     void Awake()
     {
-        FreshSlot();
+        AddItemByCode("ITEM_TIER_2_SIGNALLER");
+        AddItemByCode("ITEM_TIER_2_PLASMA");
+        AddItemByCode("ITEM_TIER_1_STEEL");
+        //FreshSlot();
     }
 
     public void FreshSlot()
