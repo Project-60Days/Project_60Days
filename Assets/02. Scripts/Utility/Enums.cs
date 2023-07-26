@@ -31,6 +31,12 @@ public enum ENotePageType
     Map
 }
 
+public enum ESlotType
+{
+    InventorySlot,
+    CraftingSlot,
+    ResultSlot
+}
 
 #region Character
 

@@ -27,7 +27,7 @@ public class InventoryPage : MonoBehaviour
     {
         AddItemByCode("ITEM_TIER_2_SIGNALLER");
         AddItemByCode("ITEM_TIER_2_PLASMA");
-        AddItemByCode("ITEM_TIER_1_STEEL");
+        AddItemByCode("ITEM_TIER_1_PLASTIC");
         //FreshSlot();
     }
 

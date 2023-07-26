@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using DG.Tweening;
 using System;
 using UnityEditor.Search;
+using Unity.VisualScripting.Antlr3.Runtime;
 
 public class NoteController : MonoBehaviour
 {
@@ -361,6 +362,11 @@ public class NoteController : MonoBehaviour
         page_Diary_Back.SetActive(false);
         SetBtnNormal();
         TutorialManager.instance.tutorialController.SetNextTutorial();
+    }
+
+    public bool GetNewDay()
+    {
+        return newDay;
     }
 }
 

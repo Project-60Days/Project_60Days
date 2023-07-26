@@ -18,6 +18,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         dialogueRunner.AddCommandHandler<int>("moveNoteTap", MoveNoteTap);
         dialogueRunner.AddCommandHandler<string>("waitGetItem", WaitGetItem);
         dialogueRunner.AddCommandHandler<string, int>("waitSetCraftingItem", WaitSetCraftingItem);
+        dialogueRunner.AddCommandHandler("waitNewDay", WaitNewDay);
         dialogueRunner.AddCommandHandler("waitTileUIOpen", WaitTileUIOpen);
         dialogueRunner.AddCommandHandler("waitSetDisturbance", WaitSetDisturbance);
         dialogueRunner.AddCommandHandler("spawnTutorialGlicher", SpawnTutorialGlicher);
@@ -53,6 +54,11 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     private Coroutine WaitSetCraftingItem(string _itemCode, int _count = 1)
     {
         return StartCoroutine(new WaitUntil(() => UIManager.instance.GetCraftingUIController().CheckCraftingItem(_itemCode, _count)));
+    }
+
+    private Coroutine WaitNewDay()
+    {
+        return StartCoroutine(new WaitUntil(() => UIManager.instance.GetNoteController().GetNewDay()));
     }
 
     private void MoveNoteTap(int _idx)
