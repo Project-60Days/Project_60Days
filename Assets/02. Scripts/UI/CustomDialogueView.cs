@@ -34,8 +34,6 @@ public class CustomDialogueView : DialogueViewBase
     // 유저가 스킵 버튼 눌렀을 때 호출되는 함수
     public override void UserRequestedViewAdvancement()
     {
-        Debug.Log("skip request");
-
         if (!doesUserSkipRequest)
         {
             doesUserSkipRequest = true;
@@ -53,8 +51,6 @@ public class CustomDialogueView : DialogueViewBase
 
     public override void DialogueStarted()
     {
-        Debug.LogError("started");
-
         skipButton.onClick.RemoveAllListeners();
         skipButton.onClick.AddListener(UserRequestedViewAdvancement);
 
@@ -68,7 +64,6 @@ public class CustomDialogueView : DialogueViewBase
 
     public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)
     {
-        Debug.LogError("Line started");
         isRunningLine = true;
 
         StartCoroutine(UpdateLine(dialogueLine, onDialogueLineFinished));
@@ -85,7 +80,6 @@ public class CustomDialogueView : DialogueViewBase
         //    }
         //}
 
-        Debug.LogError("update Line started");
         skipButton.gameObject.SetActive(true);
 
         doesUserSkipRequest = false;
@@ -95,17 +89,14 @@ public class CustomDialogueView : DialogueViewBase
 
         typingCoroutineStopToken = new Effects.CoroutineInterruptToken();
 
-        Debug.LogError("Effect Start");
 
         yield return StartCoroutine(Effects.Typewriter(lineText, 30f, null, typingCoroutineStopToken)); // 타이핑 이펙트
 
-        Debug.LogError("Effect End");
 
         doesUserSkipRequest = true; // 유저 스킵 요청 불가(타이핑이 모두 완료되었으므로)
 
         yield return new WaitUntil(() => doesUserContinueRequest); // 유저가 다음으로 버튼 클릭할 때 까지 대기
 
-        Debug.LogError("Detect UserRequest");
 
         _onDialogueLineFinished?.Invoke();
 
