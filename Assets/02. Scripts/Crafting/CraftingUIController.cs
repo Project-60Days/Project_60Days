@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro.EditorUtilities;
@@ -38,6 +39,21 @@ public class CraftingUIController : MonoBehaviour
                 craftTypeImages.Add(slotTransforms[i].GetChild(1).GetComponent<Image>());
             }
             
+        }
+    }
+
+    void Update()
+    {
+        InputKey();
+    }
+
+    private void InputKey()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            inventoryPage.AddItem(itemSO.items[0]);
+            inventoryPage.AddItem(itemSO.items[1]);
+            inventoryPage.AddItem(itemSO.items[4]);
         }
     }
 
@@ -114,6 +130,18 @@ public class CraftingUIController : MonoBehaviour
         gameObject.SetActive(false);
         inventoryUi.SetActive(false);
 
+        for (int i = 0; i < items.Count; i++)
+        {
+            inventoryPage.AddItem(items[i]);
+            slotTransforms[i].gameObject.SetActive(false);
+            slots[i].item = null;
+        }
+
+        items.Clear();
+    }
+
+    public void ReturnItemWithOutExit()
+    {
         for (int i = 0; i < items.Count; i++)
         {
             inventoryPage.AddItem(items[i]);

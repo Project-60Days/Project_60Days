@@ -46,6 +46,7 @@ public class CraftingRawImageController : MonoBehaviour, IDragHandler
         yield return new WaitForEndOfFrame();
         renderCamera = GameObject.FindGameObjectWithTag("RenderTextureCamera").GetComponent<Camera>();
         targetObject = GameObject.FindGameObjectWithTag("RenderTextureObject");
+        targetTr = targetObject.transform;
         camTargetSize = renderCamera.orthographicSize;
     }
 
@@ -124,5 +125,10 @@ public class CraftingRawImageController : MonoBehaviour, IDragHandler
         targetObject = newTargetObject;
         targetTr = targetObject.transform;
         StartCoroutine(VariablesConnect());
+    }
+
+    public void DestroyObject()
+    {
+        Destroy(targetObject);
     }
 }
