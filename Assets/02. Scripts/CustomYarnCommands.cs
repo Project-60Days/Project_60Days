@@ -14,6 +14,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
     void Awake()
     {
+        dialogueRunner.AddCommandHandler("mapNextDay", MapNextDay);
         dialogueRunner.AddCommandHandler("waitLightDown", WaitLightDown);
         dialogueRunner.AddCommandHandler("waitLightUp", WaitLightUp);
         dialogueRunner.AddCommandHandler("endTutorial", EndTutorial);
@@ -95,6 +96,12 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     private void SpawnTutorialGlicher()
     {
         MapController.instance.SpawnTutorialZombie();
+    }
+
+    private void MapNextDay()
+    {
+        MapController.instance.NextDay();
+        MapController.instance.NextDay();
     }
 
     private Coroutine WaitSetDisturbance()
