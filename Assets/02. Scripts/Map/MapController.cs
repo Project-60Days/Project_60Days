@@ -64,6 +64,7 @@ public class MapController : Singleton<MapController>
     bool isDisturbanceSet;
     bool isExplorerSet;
     bool isPlayerMoving;
+    bool isDisturbanceInstall;
     NoteAnim noteAnim;
 
     public static Action<Tile> PlayerBehavior;
@@ -78,10 +79,7 @@ public class MapController : Singleton<MapController>
 
     public bool IsDisturbanceOn()
     {
-        if (distrubtorObject != null)
-            return true;
-        else
-            return false;
+        return isDisturbanceInstall;
     }
 
     public bool CalculateDistanceToPlayer(Tile tile, int range)
@@ -186,18 +184,20 @@ public class MapController : Singleton<MapController>
 
     public void SpawnTutorialZombie()
     {
-        List<Tile> result = new List<Tile>();
+        /*        List<Tile> result = new List<Tile>();
 
-        var tileList1 = GetTilesInRange(playerLocationTile, 5);
-        var tileList2 = GetTilesInRange(playerLocationTile, 4);
+                var tileList1 = GetTilesInRange(playerLocationTile, 5);
+                var tileList2 = GetTilesInRange(playerLocationTile, 4);
 
-        result.AddRange(tileList1);
-        result.AddRange(tileList2);
-        result = result.Distinct().ToList();
+                result.AddRange(tileList1);
+                result.AddRange(tileList2);
+                result = result.Distinct().ToList();
 
-        int randomInt = UnityEngine.Random.Range(0, result.Count);
+                int randomInt = UnityEngine.Random.Range(0, result.Count);
 
-        var tile = result[randomInt];
+                var tile = result[randomInt];*/
+
+        var tile = GetTileFromCoords(new Coords(3, -1));
         var spawnPos = ((GameObject)tile.GameEntity).transform.position;
         spawnPos.y += 0.7f;
 
@@ -744,6 +744,7 @@ public class MapController : Singleton<MapController>
 
         isPlayerSelected = false;
         isDisturbanceSet = false;
+        isDisturbanceInstall = true;
     }
 
     void ExplorerSettingSuccess()
