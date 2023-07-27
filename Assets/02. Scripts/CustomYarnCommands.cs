@@ -14,6 +14,8 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
     void Awake()
     {
+        dialogueRunner.AddCommandHandler("waitLightDown", WaitLightDown);
+        dialogueRunner.AddCommandHandler("waitLightUp", WaitLightUp);
         dialogueRunner.AddCommandHandler("endTutorial", EndTutorial);
         dialogueRunner.AddCommandHandler<int>("moveNoteTap", MoveNoteTap);
         dialogueRunner.AddCommandHandler<string>("waitGetItem", WaitGetItem);
@@ -36,6 +38,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     private void EndTutorial()
     {
         TutorialManager.instance.EndTutorial();
+        UIManager.instance.GetEndUIController().Show();
     }
 
     private void HideDialogue()
@@ -45,6 +48,18 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     private void ShowDialogue()
     {
         UIManager.instance.GetTutorialDialogue().Show();
+    }
+
+    private Coroutine WaitLightDown()
+    {
+        TutorialManager.instance.LightDownBackground();
+        return StartCoroutine(new WaitUntil(() => !TutorialManager.instance.isLightUp));
+    }
+
+    private Coroutine WaitLightUp()
+    {
+        TutorialManager.instance.LightUpBackground();
+        return StartCoroutine(new WaitUntil(() => TutorialManager.instance.isLightUp));
     }
 
     private Coroutine WaitTutorialTileUiOpen()
