@@ -9,6 +9,7 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] InventoryManager inventoryManager;
     [SerializeField] CraftingUIController craftingUIController;
     [SerializeField] UIHighLightController uiHighLightController;
+    [SerializeField] EndUIController endUIController;
 
     public Stack<string> currUIStack = new Stack<string>();
 
@@ -58,5 +59,10 @@ public class UIManager : Singleton<UIManager>
     public UIHighLightController GetUIHighLightController()
     {
         return uiHighLightController;
+    }
+
+    public EndUIController GetEndUIController()
+    {
+        return endUIController;
     }
 }
