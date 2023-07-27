@@ -99,6 +99,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
     private Coroutine WaitSetDisturbance()
     {
+        MapUiController.instance.InteractableOn();
         return StartCoroutine(new WaitUntil(() => MapController.instance.IsDisturbanceOn()));
     }
 
