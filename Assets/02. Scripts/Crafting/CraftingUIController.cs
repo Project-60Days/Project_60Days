@@ -4,21 +4,26 @@ using TMPro.EditorUtilities;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class CraftingUIController : MonoBehaviour
 {
     [SerializeField] Transform slotParent;
-    //[SerializeField] Sprite[] craftTypeImage;
+    [SerializeField] Sprite[] craftTypeImage;
     [SerializeField] GameObject inventoryUi;
+    [SerializeField] ItemSO itemSO;
 
     private ItemSlot[] slots;
     public List<Transform> slotTransforms;
+    public List<Image> craftTypeImages;
 
     InventoryPage inventoryPage;
 
     public List<ItemBase> items;
-    //private List<Image> craftTypeImages;
     public List<ItemCombineData> itemCombines;
+    string[] combinationCodes = new string[9];
+
+    [SerializeField] ItemBase tempItem;
 
     void Awake()
     {
@@ -28,22 +33,22 @@ public class CraftingUIController : MonoBehaviour
         for (int i = 0; i < slotParent.childCount; i++)
         {
             if (slotParent.GetChild(i))
+            {
                 slotTransforms.Add(slotParent.GetChild(i));
-            //craftTypeImages.Add(slotTransforms[i].GetChild(1).GetComponent<Image>());
+                craftTypeImages.Add(slotTransforms[i].GetChild(1).GetComponent<Image>());
+            }
+            
         }
     }
 
     void Start()
     {
-        for(int i = 0; i < 1050; i++)
+        for(int i = 1001; i < 2000; i++)
         {
-            DataManager.instance.itemCombineData.TryGetValue(i + 1001, out ItemCombineData itemData);
+            DataManager.instance.itemCombineData.TryGetValue(i, out ItemCombineData itemData);
 
             if (itemData != null)
-            {
                 itemCombines.Add(itemData);
-                Debug.Log(itemData.Result);
-            }
             else
                 break;
         }
@@ -54,26 +59,32 @@ public class CraftingUIController : MonoBehaviour
         {
             slotTransforms[i].gameObject.SetActive(false);
             slots[i].item = null;
-            //craftTypeImages[i].GetComponent<Image>().sprite = craftTypeImage[0];
+            slots[i].eSlotType = ESlotType.CraftingSlot;
+            craftTypeImages[i].GetComponent<Image>().sprite = craftTypeImage[0];
         }
     }
 
+    /// <summary>
+    /// CraftBag 새로고침(?)
+    /// </summary>
     public void FreshCraftingBag()
     {
-        for (int i = 0; i < items.Count; i++)
+        for (int i = 0; i < items.Count + 1; i++)
         {
             slotTransforms[i].gameObject.SetActive(false);
             slots[i].item = null;
-            //craftTypeImages[i].GetComponent<Image>().sprite = craftTypeImage[0];
+            slots[i].eSlotType = ESlotType.CraftingSlot;
+            craftTypeImages[i].GetComponent<Image>().sprite = craftTypeImage[0];
         }
 
         int j = 0;
+
+        craftTypeImages[j].gameObject.SetActive(false);
 
         for (; j < items.Count; j++)
         {
             slotTransforms[j].gameObject.SetActive(true);
             slots[j].item = items[j];
-            CombineItem();
         }
 
         for (; j < slots.Length; j++)
@@ -83,13 +94,21 @@ public class CraftingUIController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// CraftBag에 아이템 추가
+    /// </summary>
+    /// <param name="_item"></param>
     public void CraftItem(ItemBase _item)
     {
         items.Add(_item);
         FreshCraftingBag();
+        CombineItem();
         inventoryPage.RemoveItem(_item);
     }
 
+    /// <summary>
+    /// Exit 버튼 눌렀을 때 인벤토리로 아이템 반환
+    /// </summary>
     public void ReturnItem()
     {
         gameObject.SetActive(false);
@@ -100,66 +119,127 @@ public class CraftingUIController : MonoBehaviour
             inventoryPage.AddItem(items[i]);
             slotTransforms[i].gameObject.SetActive(false);
             slots[i].item = null;
-            //craftTypeImages[i].GetComponent<Image>().sprite = craftTypeImage[0];
+        }
+
+        items.Clear();
+    }
+
+    /// <summary>
+    /// 조합표 비교
+    /// </summary>
+    public void CombineItem()
+    {
+        int flag; // 0: 일치, 1: 불일치
+
+        for (int i = 0; i < itemCombines.Count; i++)
+        {
+            flag = 0;
+ 
+            combinationCodes[0] = itemCombines[i].Material_1;
+            combinationCodes[1] = itemCombines[i].Material_2;
+            combinationCodes[2] = itemCombines[i].Material_3;
+            combinationCodes[3] = itemCombines[i].Material_4;
+            combinationCodes[4] = itemCombines[i].Material_5;
+            combinationCodes[5] = itemCombines[i].Material_6;
+            combinationCodes[6] = itemCombines[i].Material_7;
+            combinationCodes[7] = itemCombines[i].Material_8;
+            combinationCodes[8] = itemCombines[i].Result;
+
+            for (int j = 0; j < items.Count; j++)
+            {
+                for (int k = 0; k < 8; k++)
+                {
+                    if (combinationCodes[k] == "1" || combinationCodes[k] == "-1") continue;
+                    if (combinationCodes[k] == items[j].itemCode)
+                    {
+                        combinationCodes[k] = "1";
+                        break;
+                    }
+                }
+            }
+
+            for (int k = 0; k < 8; k++)
+            {
+                if (combinationCodes[k] == "1" || combinationCodes[k] == "-1") continue;
+                else
+                {
+                    flag = 1; break;
+                }
+            }
+
+            if (flag == 0)
+            {
+                if (combinationCodes[8] == "ITEM_TIER_2_SIGNALLER" || combinationCodes[8] == "ITEM_TIER_2_RISISTOR") continue;
+                Debug.Log(combinationCodes[8]);
+                ItemBase item = CombineResultItem(combinationCodes[8]);
+                AddCombineItem(item);
+                break;
+            }
         }
     }
 
     /// <summary>
-    /// 조합 초안티비.. 진짜 지저분하고 마음에 안들지만,, 일단.. 자러가기위해 머지해놓은것입니다,, 기다려주새요,, 흑흑티비
+    /// 조합 결과 아이템 CraftBag에 표시
     /// </summary>
-    public void CombineItem()
+    public ItemBase CombineResultItem(string resultItemCode)
     {
-        int flag = 0;
-        int j = 0;
-        for (int i = 0; i < items.Count; i++) 
+        ItemBase resultItem;
+
+        for (int i = 0; i < itemSO.items.Length; i++)
         {
-            if (flag == 1)
+            if (itemSO.items[i].itemCode == resultItemCode)
             {
-                break;
-            }
-
-            for (; i < itemCombines.Count; j++) 
-            {
-                flag = 0;
-
-                if (itemCombines[j].Material_1 != "-1" && itemCombines[j].Material_1 == items[i].itemCode)
-                {
-                    flag = 1; break;
-                }
-                else if (itemCombines[j].Material_2 != "-1" && itemCombines[j].Material_2 == items[i].itemCode)
-                {
-                    flag = 1; break;
-                }
-                else if (itemCombines[j].Material_3 != "-1" && itemCombines[j].Material_3 == items[i].itemCode)
-                {
-                    flag = 1; break;
-                }
-                else if (itemCombines[j].Material_4 != "-1" && itemCombines[j].Material_4 == items[i].itemCode)
-                {
-                    flag = 1; break;
-                }
-                else if (itemCombines[j].Material_5 != "-1" && itemCombines[j].Material_5 == items[i].itemCode)
-                {
-                    flag = 1; break;
-                }
-                else if (itemCombines[j].Material_6 != "-1" && itemCombines[j].Material_6 == items[i].itemCode)
-                {
-                    flag = 1; break;
-                }
-                else if (itemCombines[j].Material_7 != "-1" && itemCombines[j].Material_7 == items[i].itemCode)
-                {
-                    flag = 1; break;
-                }
-                else if (itemCombines[j].Material_8 != "-1" && itemCombines[j].Material_8 == items[i].itemCode)
-                {
-                    flag = 1; break;
-                }
+                resultItem = itemSO.items[i];
+                DataManager.instance.itemData.TryGetValue(resultItemCode, out ItemData itemData);
+                resultItem.data = itemData;
+                
+                return resultItem;
             }
         }
-        
-        if (flag == 1)
+
+        Debug.Log("아직 추가되지 않은 아이템");
+        return tempItem;
+    }
+
+    public void AddCombineItem(ItemBase _item)
+    {
+        slotTransforms[items.Count].gameObject.SetActive(true);
+        slots[items.Count].item = _item;
+        craftTypeImages[items.Count].GetComponent<Image>().sprite = craftTypeImage[1];
+        slots[items.Count].eSlotType = ESlotType.ResultSlot;
+    }
+
+    public bool CheckCraftingItem(string itemCode, int count = 1)
+    {
+        int _cnt = 0;
+
+        for (int i = 0; i < items.Count; i++)
         {
-            Debug.Log(itemCombines[j].Result);
+            if (items[i].itemCode == itemCode)
+                _cnt++;
         }
+
+        if (_cnt == count)
+            return true;
+        else
+            return false;
+    }
+
+    public void CraftToInventory(ItemSlot itemSlot)
+    {
+        items.Remove(itemSlot.item);
+        inventoryPage.AddItem(slots[items.Count].item);
+        FreshCraftingBag();
+        CombineItem();
+    }
+
+    public void ResultToInventory()
+    {
+        inventoryPage.AddItem(slots[items.Count].item);
+        slotTransforms[items.Count].gameObject.SetActive(false);
+        slots[items.Count].item = null;
+        items.Clear();
+        FreshCraftingBag();
+        CombineItem();
     }
 }

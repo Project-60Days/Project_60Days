@@ -27,6 +27,17 @@ public class MapCamera : MonoBehaviour
 
     public void SetPrioryty(bool isOn)
     {
+        // 230726 JHJ 임시로 카메라 priority 수정 향후 수정 필요
+        if (isOn)
+        {
+            mapCamera.Priority = 11;
+            UIManager.instance.AddCurrUIName(StringUtility.UI_MAP);
+        }
+        else
+        {
+            mapCamera.Priority = 8;
+            //UIManager.instance.PopCurrUI();
+        }
         mapUi.SetActive(isOn);
         MapController.instance.BaseActiveSet(!isOn);
     }

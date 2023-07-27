@@ -109,7 +109,7 @@ Transform:
   m_GameObject: {fileID: 501034001768329836}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0.35, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.35, y: 0.35, z: 0.35}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3896172183072766394}
@@ -754,7 +754,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f3c7a8c0700b6854bba22b4dde59175b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f67ab2525a9473940b3b0bbb8d8546ce, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1204,7 +1204,7 @@ Transform:
   m_GameObject: {fileID: 5726436824950593488}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0.35, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.35, y: 0.35, z: 0.35}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8170154760419046543}
@@ -1406,7 +1406,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uD3D0\uB3C4\uC2DC"
+  m_text: "\uCD08\uC6D0"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c47e822abfb77e7468a4f8e8b892620c, type: 2}
   m_sharedMaterial: {fileID: -8346866173342420912, guid: c47e822abfb77e7468a4f8e8b892620c, type: 2}
@@ -1772,6 +1772,7 @@ MonoBehaviour:
   - {fileID: 4480861642612386862}
   - {fileID: 2074347082223530886}
   - {fileID: 7726622493431943881}
+  isTutorialTile: 0
 --- !u!1001 &7911993655345250993
 PrefabInstance:
   m_ObjectHideFlags: 0

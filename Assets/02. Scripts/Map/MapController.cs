@@ -70,15 +70,18 @@ public class MapController : Singleton<MapController>
     #endregion
 
     #region 외부 호출 함수들
-    public void BaseActiveSet(bool isbool)
-    {
-        isBaseOn = isbool;
 
-        if (isUIOn)
-        {
-            currentUI.SetActive(false);
-            isUIOn = false;
-        }
+    public bool IsUiOn()
+    {
+        return isUIOn;
+    }
+
+    public bool IsDisturbanceOn()
+    {
+        if (distrubtorObject != null)
+            return true;
+        else
+            return false;
     }
 
     public bool CalculateDistanceToPlayer(Tile tile, int range)
@@ -93,6 +96,32 @@ public class MapController : Singleton<MapController>
             }
         }
         return false;
+    }
+
+    public bool isTutorialUiOn()
+    {
+        if (IsUiOn())
+            return currentUI.transform.parent.parent.GetComponent<TileInfo>().isTutorialTile;
+
+        return false;
+    }
+
+    public void CurrentUIEmptying()
+    {
+        currentUI.SetActive(false);
+        isUIOn = false;
+        currentUI = null;
+    }
+
+    public void BaseActiveSet(bool isbool)
+    {
+        isBaseOn = isbool;
+
+        if (isUIOn)
+        {
+            currentUI.SetActive(false);
+            isUIOn = false;
+        }
     }
 
     public Distrubtor CalculateDistanceToDistrubtor(Tile tile, int range)

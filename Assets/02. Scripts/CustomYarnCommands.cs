@@ -5,87 +5,106 @@ using Yarn.Unity;
 using DG.Tweening;
 using Yarn;
 using UnityEngine.UIElements;
-
-[System.Serializable]
-public class Images
-{
-    public string name;
-    public Sprite sprite;
-}
+using System;
 
 public class CustomYarnCommands : Singleton<CustomYarnCommands>
 {
-    [SerializeField] SpriteRenderer[] bgRenderers;
-    [SerializeField] Images[] img = null;
-
-    public LineView lineView;
-    public DialogueRunner dialogueRunner;
-    public bool imgOrder = false;
-
-    Dictionary<string, Sprite> dic_IMG;
-    Sequence sequence;
+    [SerializeField] DialogueRunner dialogueRunner;
+    [SerializeField] CustomDialogueView dialogueView;
 
     void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
-        dic_IMG = new Dictionary<string, Sprite>();
-        dialogueRunner.AddCommandHandler<string>("change_img", ChageImages);
+        dialogueRunner.AddCommandHandler("endTutorial", EndTutorial);
+        dialogueRunner.AddCommandHandler<int>("moveNoteTap", MoveNoteTap);
+        dialogueRunner.AddCommandHandler<string>("waitGetItem", WaitGetItem);
+        dialogueRunner.AddCommandHandler<string, int>("waitSetCraftingItem", WaitSetCraftingItem);
+        dialogueRunner.AddCommandHandler("waitNewDay", WaitNewDay);
+        dialogueRunner.AddCommandHandler("waitTileUIOpen", WaitTileUIOpen);
+        dialogueRunner.AddCommandHandler("waitTutorialTileUIOpen", WaitTutorialTileUiOpen);
+        dialogueRunner.AddCommandHandler("waitSetDisturbance", WaitSetDisturbance);
+        dialogueRunner.AddCommandHandler("spawnTutorialGlicher", SpawnTutorialGlicher);
+        dialogueRunner.AddCommandHandler<string>("waitUntil", WaitUntilUIState);
+        dialogueRunner.AddCommandHandler("hide", HideDialogue);
+        dialogueRunner.AddCommandHandler("show", ShowDialogue);
+        dialogueRunner.AddCommandHandler("nextTutorial", SetNextTutorial);
+        dialogueRunner.AddCommandHandler<string, string>("highlight", HighLightObject);
         dialogueRunner.AddCommandHandler<string>("play_bgm", PlayBGM);
         dialogueRunner.AddCommandHandler<string>("play_sfx", PlaySFX);
         dialogueRunner.AddCommandHandler<string>("stop_bgm", StopBGM);
     }
 
-    void Start()
+    private void EndTutorial()
     {
-        foreach (Images images in img)
-        {
-            dic_IMG.Add(images.name, images.sprite);
-        }
+        TutorialManager.instance.EndTutorial();
     }
 
-    private void Update()
+    private void HideDialogue()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            lineView.UserRequestedViewAdvancement();
-        }
-
-        if (dialogueRunner.runSelectedOptionAsLine)
-        {
-            Debug.Log("¼±ÅÃµÊ");
-        }
+        UIManager.instance.GetTutorialDialogue().Hide();
+    }
+    private void ShowDialogue()
+    {
+        UIManager.instance.GetTutorialDialogue().Show();
     }
 
-    private void ChageImages(string imgName)
+    private Coroutine WaitTutorialTileUiOpen()
     {
-        var target = imgOrder ? bgRenderers[0] : bgRenderers[1];
-        var prev = imgOrder ? bgRenderers[1] : bgRenderers[0];
+        MapController.instance.CurrentUIEmptying();
+        return StartCoroutine(new WaitUntil(() => MapController.instance.isTutorialUiOn()));
+    }
 
-        imgOrder = !imgOrder;
+    private Coroutine WaitGetItem(string _itemCode)
+    {
+        return StartCoroutine(new WaitUntil(() => UIManager.instance.GetInventoryManager().inventoryPage.CheckInventoryItem(_itemCode)));
+    }
 
-        if (target == null || prev == null)
-        {
-            Debug.Log("Can't find the target!");
-        }
+    private Coroutine WaitSetCraftingItem(string _itemCode, int _count = 1)
+    {
+        return StartCoroutine(new WaitUntil(() => UIManager.instance.GetCraftingUIController().CheckCraftingItem(_itemCode, _count)));
+    }
 
-        target.gameObject.SetActive(false);
+    private Coroutine WaitNewDay()
+    {
+        return StartCoroutine(new WaitUntil(() => UIManager.instance.GetNoteController().GetNewDay()));
+    }
 
-        prev.sortingOrder -= 1;
-        target.sortingOrder += 1;
+    private void MoveNoteTap(int _idx)
+    {
+        Debug.Log("MovenoteTap" + _idx.ToString());
 
-        target.sprite = dic_IMG[imgName];
+        if (_idx == 0) GameManager.instance.SetPrioryty(false);
+        else GameManager.instance.SetPrioryty(true);
+        UIManager.instance.GetNoteController().ChangePageForce(_idx);
+    } 
 
-        sequence = DOTween.Sequence()
-            .OnStart(() =>
-            {
-                target.color = new Color32(255, 255, 255, 0);
-                target.gameObject.SetActive(true);
-            })
-            .Append(target.DOFade(1, 1f))
-            .OnComplete(() =>
-            {
-                prev.gameObject.SetActive(false);
-            });
+    private void SpawnTutorialGlicher()
+    {
+        MapController.instance.SpawnTutorialZombie();
+    }
+
+    private Coroutine WaitSetDisturbance()
+    {
+        return StartCoroutine(new WaitUntil(() => MapController.instance.IsDisturbanceOn()));
+    }
+
+    private Coroutine WaitTileUIOpen()
+    {
+        return StartCoroutine(new WaitUntil(() => MapController.instance.IsUiOn()));
+    }
+
+    private Coroutine WaitUntilUIState(string _UIName)
+    {
+        return StartCoroutine(new WaitUntil(() => UIManager.instance.isUIStatus(_UIName))); 
+    }
+
+    private void SetNextTutorial()
+    {
+        TutorialManager.instance.tutorialController.SetNextTutorial();
+    }
+
+    private void HighLightObject(string _objectID, string _waitStatusName)
+    {
+        UIManager.instance.GetUIHighLightController().ShowHighLight(_objectID, _waitStatusName);
     }
 
     private void PlayBGM(string bgmName)

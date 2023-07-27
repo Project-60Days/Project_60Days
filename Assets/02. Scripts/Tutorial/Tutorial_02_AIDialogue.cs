@@ -6,7 +6,7 @@ public class Tutorial_02_AIDialogue : TutorialBase
 {
     public override void Enter()
     {
-        UIManager.instance.GetTutorialDialogue().StartDialogue();
+        UIManager.instance.GetTutorialDialogue().StartDialogue(this.name);
     }
 
     public override void Execute(TutorialController _controller)
@@ -16,6 +16,6 @@ public class Tutorial_02_AIDialogue : TutorialBase
 
     public override void Exit()
     {
-        UIManager.instance.GetTutorialDialogue().EndDialogue();
+        //UIManager.instance.GetTutorialDialogue().EndDialogue();
     }
 }

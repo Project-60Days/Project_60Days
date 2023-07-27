@@ -4,28 +4,34 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Hexamap;
+using System.Linq;
 
 public class Resource
 {
-    public Resource(EResourceType type, int count, Sprite sprite)
+    public string itemCode;
+    public int itemCount;
+
+    public Resource(string itemCode, int itemCount)
     {
-        this.type = type;
-        this.count = count;
-        this.sprite = sprite;
+        this.itemCode = itemCode;
+        this.itemCount = itemCount;
     }
 
-    public EResourceType type;
-    public int count;
-    public Sprite sprite;
-
-    public void IncreaseDecrease(int count)
+    public void SetCount(int count)
     {
-        this.count += count;
+        itemCount = count;
+    }
 
-        if (this.count < 0)
-            this.count = 0;
+    public void IncreaseDecreaseCount(int count)
+    {
+        itemCount += count;
+
+        if (itemCount < 0)
+            itemCount = 0;
     }
 }
+
+
 
 public class TileInfo : MonoBehaviour
 {
@@ -38,7 +44,7 @@ public class TileInfo : MonoBehaviour
 
     ETileType tileType;
     EWeatherType weatherType;
-    List<EResourceType> eResourceTypes;
+    List<ItemBase> gachaList;
     List<Resource> appearanceResources;
     Tile myTile;
 
@@ -46,8 +52,10 @@ public class TileInfo : MonoBehaviour
     string specialID;
     int resourceID;
     bool isCanMove;
-    bool inPlayerSight = false;
+    bool inPlayerSight;
+    public bool isTutorialTile;
 
+    // 수정 필요
     public List<Resource> GetResources(int count)
     {
         List<Resource> list = new List<Resource>();
@@ -58,15 +66,15 @@ public class TileInfo : MonoBehaviour
         for (int i = 0; i < appearanceResources.Count; i++)
         {
             Resource item = appearanceResources[i];
-            if (item.count - count >= 0)
+            if (item.itemCount - count >= 0)
             {
-                list.Add(new Resource(item.type, count, item.sprite));
-                item.IncreaseDecrease(-count);
+                list.Add(new Resource(item.itemCode, count));
+                item.IncreaseDecreaseCount(-count);
             }
             else
             {
-                list.Add(new Resource(item.type, item.count, item.sprite));
-                item.IncreaseDecrease(-count);
+                list.Add(new Resource(item.itemCode, item.itemCount));
+                item.IncreaseDecreaseCount(-count);
             }
         }
         ResourceUpdate(true);
@@ -76,10 +84,22 @@ public class TileInfo : MonoBehaviour
     void Start()
     {
         MapController.PlayerBehavior += CheckPlayerTIle;
-        appearanceResources = new List<Resource>();
-        eResourceTypes = new List<EResourceType>() { EResourceType.PLASTIC, EResourceType.STEEL, EResourceType.PLAZMA };
         myTile = gameObject.transform.GetComponent<TileController>().Model;
-        RandomResourceUpdate();
+        appearanceResources = new List<Resource>();
+        gachaList = new List<ItemBase>();
+        for (int i = 0; i < itemSO.items.Length; i++)
+        {
+            gachaList.Add(itemSO.items[i]);
+        }
+        if (CheckTutorial(MapController.instance.playerLocationTile))
+        {
+            TutorialResourceUpdate();
+        }
+        else
+        {
+            RandomResourceUpdate();
+        }
+        RotationCheck(transform.rotation.eulerAngles);
     }
 
     void OnDestroy()
@@ -89,44 +109,98 @@ public class TileInfo : MonoBehaviour
 
     void RandomResourceUpdate()
     {
-        EResourceType type = 0;
         var random = Random.Range(1, 3);
-
 
         for (int i = 0; i < random; i++)
         {
-            var randomPick = Random.Range(0, eResourceTypes.Count);
-            var randomSprite = itemSO.items[randomPick].itemImage;
-            type = eResourceTypes[randomPick];
-            eResourceTypes.RemoveAt(randomPick);
+            var randomPick = Random.Range(0, gachaList.Count);
+            var item = gachaList[randomPick];
 
             var randomCount = Random.Range(1, 16);
-            appearanceResources.Add(new Resource(type, randomCount, randomSprite));
+            var resource = new Resource(item.itemCode, randomCount);
+
+            appearanceResources.Add(resource);
+            gachaList.RemoveAt(randomPick);
         }
+    }
+
+    public void TutorialResourceUpdate()
+    {
+
+        List<ItemBase> list = new List<ItemBase>();
+
+        for (int i = 0; i < 2; i++)
+        {
+            list.Add(itemSO.items[i]);
+        }
+
+        for (int i = 0; i < 2; i++)
+        {
+            var randomPick = Random.Range(0, list.Count);
+            var item = list[randomPick];
+
+            var randomCount = Random.Range(1, 16);
+            var resource = new Resource(item.itemCode, randomCount);
+
+            appearanceResources.Add(resource);
+            list.RemoveAt(randomPick);
+        }
+        ResourceUpdate(true);
     }
 
     void ResourceUpdate(bool isNearth)
     {
-        RotationCheck(transform.rotation.eulerAngles);
         if (isNearth)
         {
+
+            for (int i = 0; i < appearanceResources.Count; i++)
+            {
+                Resource item = appearanceResources[i];
+                if (item.itemCount == 0)
+                {
+                    appearanceResources.Remove(item);
+                }
+            }
+
+            for (int i = 0; i < resourceIcons.Length; i++)
+            {
+                SpriteRenderer item = resourceIcons[i];
+                item.sprite = null;
+                item.gameObject.SetActive(false);
+            }
+
             if (appearanceResources.Count == 2)
             {
                 for (int i = 0; i < appearanceResources.Count; i++)
                 {
                     SpriteRenderer item = resourceIcons[i + 1];
-                    item.sprite = appearanceResources[i].sprite;
+                    var itemImage = itemSO.items.ToList().Find(x => x.itemCode == appearanceResources[i].itemCode).itemImage;
+                    item.sprite = itemImage;
                     item.gameObject.SetActive(true);
                 }
 
-                resourceText.text = appearanceResources[0].type.ToString() + " " + appearanceResources[0].count + "\n"
-                    + appearanceResources[1].type.ToString() + " " + appearanceResources[1].count;
+                var itemName1 = itemSO.items.ToList().Find(x => x.itemCode == appearanceResources[0].itemCode).data.Korean;
+                var itemName2 = itemSO.items.ToList().Find(x => x.itemCode == appearanceResources[1].itemCode).data.Korean;
+
+                resourceText.text = itemName1 + " " + appearanceResources[0].itemCount + "\n"
+                    + itemName2 + " " + appearanceResources[1].itemCount;
+            }
+            else if (appearanceResources.Count == 1)
+            {
+                var itemName1 = itemSO.items.ToList().Find(x => x.itemCode == appearanceResources[0].itemCode).data.Korean;
+
+                resourceIcons[0].sprite = itemSO.items.ToList().Find(x => x.itemCode == appearanceResources[0].itemCode).itemImage;
+                resourceIcons[0].gameObject.SetActive(true);
+                resourceText.text = itemName1 + " " + appearanceResources[0].itemCount;
             }
             else
             {
-                resourceIcons[0].sprite = appearanceResources[0].sprite;
-                resourceIcons[0].gameObject.SetActive(true);
-                resourceText.text = appearanceResources[0].type.ToString() + " " + appearanceResources[0].count;
+                resourceText.text = "자원 : 없음";
+                for (int i = 0; i < resourceIcons.Length; i++)
+                {
+                    SpriteRenderer item = resourceIcons[i];
+                    item.gameObject.SetActive(false);
+                }
             }
         }
         else
@@ -162,7 +236,7 @@ public class TileInfo : MonoBehaviour
             }
             else
             {
-                resourceIcons[resourceIcons.Length-1].transform.parent.transform.localEulerAngles = new Vector3(90,-rotationValue.y,0);
+                resourceIcons[resourceIcons.Length - 1].transform.parent.transform.localEulerAngles = new Vector3(90, -rotationValue.y, 0);
 
                 for (int i = 0; i < resourceIcons.Length; i++)
                 {
@@ -184,6 +258,20 @@ public class TileInfo : MonoBehaviour
         {
             ResourceUpdate(false);
             inPlayerSight = false;
+        }
+    }
+
+    bool CheckTutorial(Tile tile)
+    {
+        if (MapController.instance.GetTilesInRange(tile, 1).Contains(myTile) || myTile == tile)
+        {
+            isTutorialTile = true;
+            return true;
+        }
+        else
+        {
+            isTutorialTile = false;
+            return false;
         }
     }
 

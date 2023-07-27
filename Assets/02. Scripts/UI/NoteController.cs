@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using DG.Tweening;
 using System;
 using UnityEditor.Search;
+using Unity.VisualScripting.Antlr3.Runtime;
 
 public class NoteController : MonoBehaviour
 {
@@ -22,7 +23,7 @@ public class NoteController : MonoBehaviour
 
     [SerializeField] DialogueRunner[] dialogueRunner;
 
-    bool newDay = true;
+    public bool newDay = true;
     int dialogueRunnerIndex = 0;
     string nodeName;
 
@@ -34,10 +35,10 @@ public class NoteController : MonoBehaviour
     int DiaryPageNum = 1;
 
     public int pageNum = 0;
-    int dayCount = 1;
+    //int dayCount = 1;
 
-    List<int> numbers = new List<int>() { 1, 2, 3, 4, 5 };
-    int selectedNumber;
+    //List<int> numbers = new List<int>() { 1, 2, 3, 4, 5 };
+    //int selectedNumber;
 
     [SerializeField] NoteAnim noteAnim;
 
@@ -63,27 +64,26 @@ public class NoteController : MonoBehaviour
 
         notePages = targets.ToArray();
 
-        CameraMove cameraMove = FindObjectOfType<CameraMove>();
+        //CameraMove cameraMove = FindObjectOfType<CameraMove>();
 
         for (int i = 0; i < notePages.Length; i++)
         {
             notePages[i].gameObject.SetActive(false);
-            var page = notePages[i].GetComponent<NotePage>();
-            page.Init(cameraMove);
+            //var page = notePages[i].GetComponent<NotePage>();
+            //page.Init(cameraMove);
 
-            if (page.isNoteMoveRight)
-                page.pageOnEvent += MoveNoteRight;
-            else
-                page.pageOnEvent += MoveNoteCenter;
+            //if (page.isNoteMoveRight)
+            //    page.pageOnEvent += MoveNoteRight;
+            //else
+            //    page.pageOnEvent += MoveNoteCenter;
         }
 
-        int randomIndex = UnityEngine.Random.Range(0, numbers.Count);
-        selectedNumber = numbers[randomIndex];
-        numbers.RemoveAt(randomIndex);
+        //int randomIndex = UnityEngine.Random.Range(0, numbers.Count);
+        //selectedNumber = numbers[randomIndex];
+        //numbers.RemoveAt(randomIndex);
 
         inventory.SetActive(false);
 
-        Debug.LogError("init End");
     }
 
     private void MoveNoteCenter()
@@ -101,7 +101,6 @@ public class NoteController : MonoBehaviour
     /// </summary>
     public void OpenBox()
     {
-        Debug.Log(isTutorial);
         if (isTutorial)
         {
             page_Diary_Back.SetActive(true);
@@ -116,8 +115,12 @@ public class NoteController : MonoBehaviour
                 PageOn(0);
                 newDay = false;
             }
+            else
+                PageOn(pageNum);
+
             ChangePageButton();
         }
+
     }
     /// <summary>
     /// 상자 닫힐 때 NoteAnim.cs에서 호출되는 함수 
@@ -127,6 +130,8 @@ public class NoteController : MonoBehaviour
         notePages[pageNum].gameObject.SetActive(false);
         nextPageBtn.gameObject.SetActive(false);
         prevPageBtn.gameObject.SetActive(false);
+
+        notePos.DOAnchorPos(new Vector2(noteCenterPos.anchoredPosition.x, notePos.anchoredPosition.y), 1f);
     }
 
 
@@ -151,6 +156,29 @@ public class NoteController : MonoBehaviour
         ChangePage(pageNum - 1);
     }
 
+    public void ChangePageForce(int index)
+    {
+        pageNum = index;
+
+        Debug.Log("실행");
+        if (!noteAnim.GetIsOpen())
+        {
+            noteAnim.Open_Anim();
+            Debug.Log("열림");
+        }
+            
+
+        for (int i = 0; i < notePages.Length; i++) 
+        {
+            notePages[i].gameObject.SetActive(false);
+            Debug.Log(i+"닫힘");
+        }
+
+        notePages[index].gameObject.SetActive(true);
+        Debug.Log(index);
+        PageOn(index);
+        ChangePageButton();
+    }
 
     /// <summary>
     /// 다음/이전 페이지로 이동
@@ -174,34 +202,55 @@ public class NoteController : MonoBehaviour
         switch (index)
         {
             case 0:
-                dialogueRunnerIndex = 0;
-                nodeName = "Day" + dayCount;
-                inventory.SetActive(false);
+                var pos = inventory.transform.position;
+                pos.x = 450;
+                inventory.transform.position = pos;
+                inventory.SetActive(true);
+                GameManager.instance.SetPrioryty(false);
+                Debug.Log("인덱스 0");
+                MoveNoteRight();
                 break;
             case 1:
-                dialogueRunnerIndex = 1;
-                nodeName = "Day" + dayCount + "ChooseEvent";
                 inventory.SetActive(false);
-                break;
-            case 2:
-                dialogueRunnerIndex = 2;
-                nodeName = "d" + selectedNumber;
-                inventory.SetActive(false);
-                break;
-            case 3:
-                inventory.SetActive(true);
-                break;
-            case 4:
-                GameManager.instance.SetPrioryty(false);
-                inventory.SetActive(false);
-                break;
-            case 5:
                 GameManager.instance.SetPrioryty(true);
+                Debug.Log("인덱스 1");
+                MoveNoteCenter();
                 break;
-            //    noteAnim.Close_Anim();
-            //    return;
             default:
+                Debug.Log("인덱스 범위 벗어남");
                 return;
+                //case 0:
+                //    dialogueRunnerIndex = 0;
+                //    nodeName = "Day" + dayCount;
+                //    inventory.SetActive(false);
+                //    break;
+                //case 1:
+                //    dialogueRunnerIndex = 1;
+                //    nodeName = "Day" + dayCount + "ChooseEvent";
+                //    inventory.SetActive(false);
+                //    break;
+                //case 2:
+                //    dialogueRunnerIndex = 2;
+                //    nodeName = "d" + selectedNumber;
+                //    inventory.SetActive(false);
+                //    break;
+                //case 3:
+                //    var pos = inventory.transform.position;
+                //    pos.x = 450;
+                //    inventory.transform.position = pos;
+                //    inventory.SetActive(true);
+                //    break;
+                //case 4:
+                //    GameManager.instance.SetPrioryty(false);
+                //    inventory.SetActive(false);
+                //    break;
+                //case 5:
+                //    GameManager.instance.SetPrioryty(true);
+                //    break;
+                ////    noteAnim.Close_Anim();
+                ////    return;
+                //default:
+                //    return;
         }
 
         if (!dialogueRunner[dialogueRunnerIndex].IsDialogueRunning)
@@ -223,18 +272,18 @@ public class NoteController : MonoBehaviour
             prevPageBtn.gameObject.SetActive(false);
             nextDayBtn.gameObject.SetActive(false);
         }
-        else if (pageNum == notePages.Length - 1)
+        else if (pageNum == 1) //pageNum == notePages.Length - 1
         {
             nextPageBtn.gameObject.SetActive(false);
             prevPageBtn.gameObject.SetActive(true);
             nextDayBtn.gameObject.SetActive(true);
         }
-        else
-        {
-            nextPageBtn.gameObject.SetActive(true);
-            prevPageBtn.gameObject.SetActive(true);
-            nextDayBtn.gameObject.SetActive(false);
-        }
+        //else
+        //{
+        //    nextPageBtn.gameObject.SetActive(true);
+        //    prevPageBtn.gameObject.SetActive(true);
+        //    nextDayBtn.gameObject.SetActive(false);
+        //}
     }
 
     private void SetBtnNormal()
@@ -256,11 +305,11 @@ public class NoteController : MonoBehaviour
         pageNum = 0;
         for (int i = 0; i < dialogueRunner.Length; i++)
             dialogueRunner[i].Stop();
-        int randomIndex = UnityEngine.Random.Range(0, numbers.Count);
-        selectedNumber = numbers[randomIndex];
-        numbers.RemoveAt(randomIndex);
-        dayCount++;
-        newDay = true;
+        //int randomIndex = UnityEngine.Random.Range(0, numbers.Count);
+        //selectedNumber = numbers[randomIndex];
+        //numbers.RemoveAt(randomIndex);
+        GameManager.instance.SetPrioryty(false);
+        //dayCount++;
     }
 
     public void SetTutorialDiary()
@@ -280,7 +329,6 @@ public class NoteController : MonoBehaviour
         if (_idx < 1)
             return;
 
-        Debug.LogError("LoadDiaryPage " + _idx);
         if (_idx == 5)
         {
             EndTutorialDiary();
@@ -307,10 +355,15 @@ public class NoteController : MonoBehaviour
     public void EndTutorialDiary()
     {
         isTutorial = false;
-        noteAnim.Close_Anim();
         page_Diary_Back.SetActive(false);
+        noteAnim.Close_Anim();
         SetBtnNormal();
         TutorialManager.instance.tutorialController.SetNextTutorial();
+    }
+
+    public bool GetNewDay()
+    {
+        return newDay;
     }
 }
 

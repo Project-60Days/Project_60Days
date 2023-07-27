@@ -8,6 +8,32 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] TutorialDialogue tutorialDialogue;
     [SerializeField] InventoryManager inventoryManager;
     [SerializeField] CraftingUIController craftingUIController;
+    [SerializeField] UIHighLightController uiHighLightController;
+
+    public Stack<string> currUIStack = new Stack<string>();
+
+    private void Awake()
+    {
+        currUIStack.Push(StringUtility.UI_NORMAL);
+    }
+
+    public void AddCurrUIName(string _uiName)
+    {
+        currUIStack.Push(_uiName);
+
+        Debug.LogError("currUIStack : " + currUIStack.Peek());
+    }
+
+    public void PopCurrUI()
+    {
+        currUIStack.Pop();
+    }
+
+    public bool isUIStatus(string _cmp)
+    {
+        currUIStack.TryPeek(out string top);
+        return _cmp == top;
+    }
 
     public NoteController GetNoteController()
     {
@@ -27,5 +53,10 @@ public class UIManager : Singleton<UIManager>
     public CraftingUIController GetCraftingUIController()
     {
         return craftingUIController;
+    }
+
+    public UIHighLightController GetUIHighLightController()
+    {
+        return uiHighLightController;
     }
 }

@@ -2,11 +2,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using static UnityEditor.Progress;
 
 public class InventoryPage : MonoBehaviour
 {
     [SerializeField] Transform slotParent;
     [SerializeField] Sprite[] itemTypeImage;
+    [SerializeField] ItemSO itemSO;
 
     private ItemSlot[] slots;
     private Temp[] slotImages;
@@ -23,7 +25,10 @@ public class InventoryPage : MonoBehaviour
     }
     void Awake()
     {
-        FreshSlot();
+        AddItemByCode("ITEM_TIER_2_SIGNALLER");
+        AddItemByCode("ITEM_TIER_2_PLASMA");
+        AddItemByCode("ITEM_TIER_1_PLASTIC");
+        //FreshSlot();
     }
 
     public void FreshSlot()
@@ -107,5 +112,33 @@ public class InventoryPage : MonoBehaviour
             }
         }
         FreshSlot();
+    }
+
+    public bool CheckInventoryItem(string itemCode)
+    {
+        for(int i = 0; i < items.Count; i++)
+        {
+            if (items[i].itemCode == itemCode)
+                return true;
+        }
+
+        return false;
+    }
+
+    public void AddItemByCode(string itemCode)
+    {
+        ItemBase item = null;
+
+        for (int i = 0; i < itemSO.items.Length; i++)
+        {
+            if (itemSO.items[i].itemCode == itemCode)
+            {
+                item = itemSO.items[i];
+                DataManager.instance.itemData.TryGetValue(itemCode, out ItemData itemData);
+                item.data = itemData;
+                items.Add(item);
+                FreshSlot();
+            }
+        }
     }
 }

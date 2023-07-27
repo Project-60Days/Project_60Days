@@ -21,6 +21,9 @@ TagManager:
   - NoteAnim
   - Camera
   - WorkBench
+  - Inventory
+  - ItemDiscription
+  - GeneratePoint
   layers:
   - Default
   - TransparentFX

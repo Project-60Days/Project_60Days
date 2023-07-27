@@ -31,6 +31,12 @@ public enum ENotePageType
     Map
 }
 
+public enum ESlotType
+{
+    InventorySlot,
+    CraftingSlot,
+    ResultSlot
+}
 
 #region Character
 
@@ -115,6 +121,9 @@ public enum EResourceType
     PLASTIC,
     STEEL,
     PLAZMA,
+    POWDER,
+    GAS,
+    PLATE
 }
 
 #endregion
