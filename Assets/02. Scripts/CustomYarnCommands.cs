@@ -15,6 +15,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     void Awake()
     {
         dialogueRunner.AddCommandHandler("mapNextDay", MapNextDay);
+        dialogueRunner.AddCommandHandler("moveToLab", MoveToLab);
         dialogueRunner.AddCommandHandler("waitLightDown", WaitLightDown);
         dialogueRunner.AddCommandHandler("waitLightUp", WaitLightUp);
         dialogueRunner.AddCommandHandler("endTutorial", EndTutorial);
@@ -34,6 +35,11 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         dialogueRunner.AddCommandHandler<string>("play_bgm", PlayBGM);
         dialogueRunner.AddCommandHandler<string>("play_sfx", PlaySFX);
         dialogueRunner.AddCommandHandler<string>("stop_bgm", StopBGM);
+    }
+
+    private void MoveToLab()
+    {
+        GameManager.instance.SetPrioryty(false);
     }
 
     private void EndTutorial()
