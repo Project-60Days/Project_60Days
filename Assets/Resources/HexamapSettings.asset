@@ -202,7 +202,7 @@ MonoBehaviour:
       Distribution: 0
       Quantity: 0
       Order: 0
-      PrefabsArraySize: 5
+      PrefabsArraySize: 9
       PrefabsIsExpanded: 1
       PrefabPickingMethodTypeAsString: Hexamap.PickingMethodRandom
       PrefabPickingMethodPopupIndex: 3
@@ -211,8 +211,12 @@ MonoBehaviour:
       - {fileID: 9064940204541529660, guid: a7b0012c49adb8c4b9463b3fa4c30a9b, type: 3}
       - {fileID: 9064940204541529660, guid: 0636d4e4287eb2e49aa8c854109bb2d9, type: 3}
       - {fileID: 9064940204541529660, guid: 2c30705e8872cc940bc022f8849c307b, type: 3}
-      - {fileID: 9064940204541529660, guid: 0636d4e4287eb2e49aa8c854109bb2d9, type: 3}
-      - {fileID: 9064940204541529660, guid: 0636d4e4287eb2e49aa8c854109bb2d9, type: 3}
+      - {fileID: 9064940204541529660, guid: 8b61c71c8516a1b4ea684184e8dbe444, type: 3}
+      - {fileID: 9064940204541529660, guid: 8b61c71c8516a1b4ea684184e8dbe444, type: 3}
+      - {fileID: 9064940204541529660, guid: 8b61c71c8516a1b4ea684184e8dbe444, type: 3}
+      - {fileID: 9064940204541529660, guid: 8b61c71c8516a1b4ea684184e8dbe444, type: 3}
+      - {fileID: 9064940204541529660, guid: 8b61c71c8516a1b4ea684184e8dbe444, type: 3}
+      - {fileID: 9064940204541529660, guid: 8b61c71c8516a1b4ea684184e8dbe444, type: 3}
     - TypeAsString: Hexamap.LandformMountains
       IsSelected: 0
       Distribution: 0
