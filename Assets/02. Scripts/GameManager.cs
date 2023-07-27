@@ -69,7 +69,6 @@ public class GameManager : Singleton<GameManager>
         SceneLoader.instance.LoadScene((int)ESceneType.Game);
         SceneLoader.instance.LoadSceneAddtive((int)ESceneType.UI);
         SceneLoader.instance.LoadSceneAddtive((int)ESceneType.Map);
-        //SceneLoader.instance.LoadSceneAddtive((int)ESceneType.Crafting);
 
         StartCoroutine(GetMapCamera());
         
@@ -82,6 +81,8 @@ public class GameManager : Singleton<GameManager>
         mapCamera = GameObject.FindGameObjectWithTag("MapCamera").GetComponent<MapCamera>();
 
         StartTutorial();
+
+        SoundManager.instance.PlayBGM("BGM_InGameTheme");
     }
 
     public void Settings()
