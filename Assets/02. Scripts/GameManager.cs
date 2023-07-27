@@ -77,7 +77,8 @@ public class GameManager : Singleton<GameManager>
 
     private IEnumerator GetMapCamera()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitUntil(() => GameObject.FindGameObjectsWithTag("MapCamera") != null);
+
         mapCamera = GameObject.FindGameObjectWithTag("MapCamera").GetComponent<MapCamera>();
 
         StartTutorial();
@@ -97,6 +98,7 @@ public class GameManager : Singleton<GameManager>
     public void StartTutorial()
     {
         TutorialManager tm = Instantiate(tutorialManager).GetComponent<TutorialManager>();
+        tm.lightBackground = GameObject.Find("LightBackground").GetComponent<Image>();
         DontDestroyOnLoad(tm.gameObject);
         tm.Init();
     }
