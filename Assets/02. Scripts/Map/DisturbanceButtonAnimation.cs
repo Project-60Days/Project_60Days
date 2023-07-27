@@ -14,7 +14,7 @@ public class DisturbanceButtonAnimation : MonoBehaviour
         {
             for (int i = buttons.Length; i > 0; i--)
             {
-                buttons[i - 1].DOAnchorPosY(150f * i, 0.5f);
+                buttons[i - 1].DOAnchorPosY(100f * i, 0.25f);
             }
             isClosed = false;
         }
@@ -22,7 +22,7 @@ public class DisturbanceButtonAnimation : MonoBehaviour
         {
             for (int i = buttons.Length; i > 0; i--)
             {
-                buttons[i - 1].DOAnchorPosY(gameObject.GetComponent<RectTransform>().position.y - 45f, 0.5f);
+                buttons[i - 1].DOAnchorPosY(gameObject.GetComponent<RectTransform>().position.y - 45f, 0.25f);
             }
             isClosed = true;
         }
