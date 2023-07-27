@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
+using System;
 
 public class ItemSlot : MonoBehaviour, IPointerClickHandler
 {
@@ -14,6 +15,8 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
     TextMeshProUGUI itemDiscription;
 
     GameObject craft;
+
+    public static Action<ItemBase> CraftItemClick;
 
     private ItemBase _item;
 
@@ -50,7 +53,10 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
                 if (craft.activeSelf)
                 {
                     if (_item != null)
+                    {
                         craft.GetComponent<CraftingUIController>().CraftItem(_item);
+                        CraftItemClick?.Invoke(_item);
+                    }
                 }
                 else
                     itemDiscription.text = _item.data.Description.ToString();

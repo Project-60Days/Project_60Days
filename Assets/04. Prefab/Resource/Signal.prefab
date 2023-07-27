@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3185636126660165025}
   m_Layer: 0
   m_Name: Signal
-  m_TagString: Untagged
+  m_TagString: RenderTextureObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25,14 +25,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3978186304727112820}
-  m_LocalRotation: {x: -0.49531245, y: 0, z: -0, w: 0.8687149}
-  m_LocalPosition: {x: -834, y: 0, z: 1.408}
+  m_LocalRotation: {x: -0, y: -0.86871374, z: -0.49531457, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1.408}
   m_LocalScale: {x: 30, y: 30, z: 30}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -59.381, y: -180, z: 0}
 --- !u!33 &851550195969296747
 MeshFilter:
   m_ObjectHideFlags: 0

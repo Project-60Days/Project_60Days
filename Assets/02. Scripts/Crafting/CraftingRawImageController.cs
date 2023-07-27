@@ -9,7 +9,10 @@ using UnityEngine.EventSystems;
 public class CraftingRawImageController : MonoBehaviour, IDragHandler
 {
     [SerializeField] Camera renderCamera;
-    [SerializeField] Transform target;
+    [SerializeField] Transform targetTr;
+    [SerializeField] GameObject targetObject;
+    [SerializeField] Transform generationPoint;
+    [SerializeField] ItemSO ItemSO;
 
     [Header("Speed")]
     [SerializeField] float rotateSpeed = 10f;
@@ -30,23 +33,24 @@ public class CraftingRawImageController : MonoBehaviour, IDragHandler
 
     void Start()
     {
+        ItemSlot.CraftItemClick += ChangerTarget;
+    }
+
+    void OnDestroy()
+    {
+        ItemSlot.CraftItemClick -= ChangerTarget;
     }
 
     IEnumerator VariablesConnect()
     {
         yield return new WaitForEndOfFrame();
         renderCamera = GameObject.FindGameObjectWithTag("RenderTextureCamera").GetComponent<Camera>();
-        target = GameObject.FindGameObjectWithTag("RenderTextureObject").GetComponent<Transform>();
+        targetObject = GameObject.FindGameObjectWithTag("RenderTextureObject");
         camTargetSize = renderCamera.orthographicSize;
     }
 
     private void Update()
     {
-
-        if (target == null && isTargetOn)
-            StartCoroutine(VariablesConnect());
-
-
         if (Input.GetKeyDown(KeyCode.LeftControl)) isControlKeyPushed = true;
         if (Input.GetKeyUp(KeyCode.LeftControl)) isControlKeyPushed = false;
 
@@ -76,7 +80,7 @@ public class CraftingRawImageController : MonoBehaviour, IDragHandler
 
     public Vector3 Translate(Vector3 _targetPos, Vector3 _lastMoveSpeed)
     {
-        target.transform.position = Vector3.SmoothDamp(target.transform.position, _targetPos, ref _lastMoveSpeed, 0.3f);
+        targetTr.transform.position = Vector3.SmoothDamp(targetTr.transform.position, _targetPos, ref _lastMoveSpeed, 0.3f);
         return _lastMoveSpeed;
     }
 
@@ -85,19 +89,19 @@ public class CraftingRawImageController : MonoBehaviour, IDragHandler
         Vector3 clampedPosition;
 
         Vector3 inputValue = new Vector3(_inputValue.x, 0, _inputValue.y);// = GetInputTranslationDirection();
-        target.Translate(inputValue * Time.deltaTime * translateSpeed);
+        targetTr.Translate(inputValue * Time.deltaTime * translateSpeed);
 
-        clampedPosition = target.position;
+        clampedPosition = targetTr.position;
         clampedPosition.x = Mathf.Clamp(clampedPosition.x, -maxTargetPosition, maxTargetPosition);
         clampedPosition.z = Mathf.Clamp(clampedPosition.z, -maxTargetPosition, maxTargetPosition);
-        target.position = clampedPosition;
+        targetTr.position = clampedPosition;
 
     }
 
     public void Rotate(float mouseX, float mouseY)
     {
-        target.Rotate(Vector3.down, mouseX);
-        target.Rotate(Vector3.right, mouseY);
+        targetTr.Rotate(Vector3.down, mouseX);
+        targetTr.Rotate(Vector3.right, mouseY);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -108,6 +112,17 @@ public class CraftingRawImageController : MonoBehaviour, IDragHandler
         float x = eventData.delta.x * Time.deltaTime * rotateSpeed;
         float y = eventData.delta.y * Time.deltaTime * rotateSpeed;
 
-        target.Rotate(0, -x, y, Space.World);
+        targetTr.Rotate(0, -x, y, Space.World);
+    }
+
+    void ChangerTarget(ItemBase item)
+    {
+        Destroy(targetObject);
+        generationPoint = GameObject.FindGameObjectWithTag("GeneratePoint").GetComponent<Transform>();
+        var newTargetObject = GameObject.Instantiate(item.prefab, generationPoint);
+
+        targetObject = newTargetObject;
+        targetTr = targetObject.transform;
+        StartCoroutine(VariablesConnect());
     }
 }
