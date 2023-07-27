@@ -97,8 +97,8 @@
   },
   {
     "Index": 1009,
-    "Material_1": "ITEM_TIER_2_GEAR",
-    "Material_2": "ITEM_TIER_1_PLASMA",
+    "Material_1": "ITEM_TIER_1_GEAR",
+    "Material_2": "ITEM_TIER_2_PLASMA",
     "Material_3": "ITEM_TIER_1_STEEL",
     "Material_4": -1,
     "Material_5": -1,

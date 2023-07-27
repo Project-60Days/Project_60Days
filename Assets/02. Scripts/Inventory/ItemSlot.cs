@@ -10,8 +10,8 @@ using System;
 public class ItemSlot : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] Image image;
-    //[SerializeField]
-    //ESlotType
+    [SerializeField] public ESlotType eSlotType;
+
     TextMeshProUGUI itemDiscription;
 
     GameObject craft;
@@ -47,21 +47,21 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (craft.activeSelf)
+        switch (eSlotType)
         {
-            if (_item != null)
-            {
-                craft.GetComponent<CraftingUIController>().CraftItem(_item);
-                CraftItemClick?.Invoke(_item);
-            }
+            case ESlotType.InventorySlot:
+                if (craft.activeSelf)
+                {
+                    if (_item != null)
+                        craft.GetComponent<CraftingUIController>().CraftItem(_item);
+                }
+                else
+                    itemDiscription.text = _item.data.Description.ToString();
+                break;
+            case ESlotType.CraftingSlot:
+                craft.GetComponent<CraftingUIController>().CraftToInventory(this); break;
+            case ESlotType.ResultSlot:
+                craft.GetComponent<CraftingUIController>().ResultToInventory(); break;
         }
-        else
-        {
-            Debug.Log("´­¸²");
-            Debug.Log(itemDiscription);
-            Debug.Log(_item.data.Description.ToString());
-            itemDiscription.text = _item.data.Description.ToString();
-        }
-        
     }
 }
