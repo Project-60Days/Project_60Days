@@ -197,7 +197,7 @@ public class MapController : Singleton<MapController>
 
                 var tile = result[randomInt];*/
 
-        var tile = GetTileFromCoords(new Coords(3, -1));
+        var tile = GetTileFromCoords(new Coords(1, 2));
         var spawnPos = ((GameObject)tile.GameEntity).transform.position;
         spawnPos.y += 0.7f;
 
