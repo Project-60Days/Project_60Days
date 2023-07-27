@@ -40,7 +40,7 @@ public class NoteController : MonoBehaviour
     //List<int> numbers = new List<int>() { 1, 2, 3, 4, 5 };
     //int selectedNumber;
 
-    [SerializeField] NoteAnim noteAnim;
+    [SerializeField] public NoteAnim noteAnim;
 
     [SerializeField] VerticalLayoutGroup[] contents;
     [SerializeField] VerticalLayoutGroup[] lineViews;

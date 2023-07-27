@@ -32,11 +32,13 @@ public class TutorialManager : Singleton<TutorialManager>
         lightBackground.DOFade(0f, 2f).SetEase(Ease.InBounce).OnComplete(() =>
         {
             isLightUp = true;
+            lightBackground.gameObject.SetActive(false);
         });
     }
 
     public void LightDownBackground()
     {
+        lightBackground.gameObject.SetActive(true);
         lightBackground.DOFade(0.8f, 2f).SetEase(Ease.InBounce).OnComplete(() =>
         {
             isLightUp = false;
