@@ -2155,7 +2155,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   renderCamera: {fileID: 0}
-  target: {fileID: 0}
+  targetTr: {fileID: 0}
+  targetObject: {fileID: 0}
+  ItemSO: {fileID: 11400000, guid: 9fbd54ca786ce174891a63e9312d8ea6, type: 2}
   rotateSpeed: 10
   translateSpeed: 5
   zoomSpeed: 5

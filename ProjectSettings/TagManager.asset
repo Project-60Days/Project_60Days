@@ -23,6 +23,7 @@ TagManager:
   - WorkBench
   - Inventory
   - ItemDiscription
+  - GeneratePoint
   layers:
   - Default
   - TransparentFX
