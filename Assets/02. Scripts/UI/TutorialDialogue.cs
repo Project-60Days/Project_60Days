@@ -11,6 +11,7 @@ public class TutorialDialogue : MonoBehaviour, IPointerClickHandler
     [SerializeField] DialogueRunner dialogueRunner;
     [SerializeField] VerticalLayoutGroup content;
     [SerializeField] VerticalLayoutGroup lineView;
+    [SerializeField] Button CloseBtn;
 
     private Coroutine runningCoroutine;
     private CoroutineInterruptToken interruptToken;
@@ -19,9 +20,11 @@ public class TutorialDialogue : MonoBehaviour, IPointerClickHandler
     {
         this.gameObject.SetActive(true);
 
+        CloseBtn.onClick.AddListener(EndDialogue);
+
         if (!dialogueRunner.IsDialogueRunning)
         {
-            dialogueRunner.StartDialogue("Tutorial");
+            dialogueRunner.StartDialogue("Tutorial_02_AIDialogue");
             LayoutRebuilder.ForceRebuildLayoutImmediate(content.GetComponent<RectTransform>());
             LayoutRebuilder.ForceRebuildLayoutImmediate(lineView.GetComponent<RectTransform>());
         }
