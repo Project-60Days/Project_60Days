@@ -53,7 +53,10 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
                 if (craft.activeSelf)
                 {
                     if (_item != null)
+                    {
                         craft.GetComponent<CraftingUIController>().CraftItem(_item);
+                        CraftItemClick?.Invoke(_item);
+                    }
                 }
                 else
                     itemDiscription.text = _item.data.Description.ToString();
