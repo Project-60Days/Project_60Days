@@ -10,7 +10,7 @@ public enum EControllerType
 
 public enum EManagerType
 {
-    NONE, DATA, SOUND
+    NONE, DATA, SOUND, MAP
 }
 
 public class App : Singleton<App>
@@ -53,5 +53,13 @@ public class App : Singleton<App>
             return null;
 
         return dic_managers[EManagerType.SOUND] as SoundManager;
+    }
+
+    public MapManager GetMapManager()
+    {
+        if (HasManager(EManagerType.MAP))
+            return null;
+
+        return dic_managers[EManagerType.MAP] as MapManager;
     }
 }

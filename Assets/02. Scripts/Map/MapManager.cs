@@ -9,7 +9,7 @@ using TMPro;
 using Hexamap;
 using UnityEngine.EventSystems;
 
-public class MapController : Singleton<MapController>
+public class MapManager : ManagementBase
 {
     #region 변수
     [SerializeField] HexamapController Hexamap;
@@ -975,6 +975,11 @@ public class MapController : Singleton<MapController>
             return tileGO.transform.Find(name).gameObject;
 
         return null;
+    }
+
+    public override EManagerType GetManagemetType()
+    {
+        throw new NotImplementedException();
     }
     #endregion
 }

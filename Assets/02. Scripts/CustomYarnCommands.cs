@@ -71,8 +71,8 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
     private Coroutine WaitTutorialTileUiOpen()
     {
-        MapController.instance.CurrentUIEmptying();
-        return StartCoroutine(new WaitUntil(() => MapController.instance.isTutorialUiOn()));
+        App.instance.GetMapManager().CurrentUIEmptying();
+        return StartCoroutine(new WaitUntil(() => App.instance.GetMapManager().isTutorialUiOn()));
     }
 
     private Coroutine WaitGetItem(string _itemCode)
@@ -101,24 +101,24 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
     private void SpawnTutorialGlicher()
     {
-        MapController.instance.SpawnTutorialZombie();
+        App.instance.GetMapManager().SpawnTutorialZombie();
     }
 
     private void MapNextDay()
     {
-        MapController.instance.NextDay();
-        MapController.instance.NextDay();
+        App.instance.GetMapManager().NextDay();
+        App.instance.GetMapManager().NextDay();
     }
 
     private Coroutine WaitSetDisturbance()
     {
         MapUiController.instance.InteractableOn();
-        return StartCoroutine(new WaitUntil(() => MapController.instance.IsDisturbanceOn()));
+        return StartCoroutine(new WaitUntil(() => App.instance.GetMapManager().IsDisturbanceOn()));
     }
 
     private Coroutine WaitTileUIOpen()
     {
-        return StartCoroutine(new WaitUntil(() => MapController.instance.IsUiOn()));
+        return StartCoroutine(new WaitUntil(() => App.instance.GetMapManager().IsUiOn()));
     }
 
     private Coroutine WaitUntilUIState(string _UIName)

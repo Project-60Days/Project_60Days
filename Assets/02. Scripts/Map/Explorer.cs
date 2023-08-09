@@ -39,7 +39,7 @@ public class Explorer : MonoBehaviour
 
             if (movePath.Count < walkCount)
             {
-                nextTile = MapController.instance.GetTileFromCoords(targetTile.Coords);
+                nextTile = App.instance.GetMapManager().GetTileFromCoords(targetTile.Coords);
                 targetPos = ((GameObject)nextTile.GameEntity).transform.position;
                 targetPos.y += 0.5f;
                 gameObject.transform.DOMove(targetPos, 0.5f);
@@ -50,7 +50,7 @@ public class Explorer : MonoBehaviour
             {
                 for (int i = 0; i < walkCount; i++)
                 {
-                    nextTile = MapController.instance.GetTileFromCoords(movePath[i]);
+                    nextTile = App.instance.GetMapManager().GetTileFromCoords(movePath[i]);
                     targetPos = ((GameObject)nextTile.GameEntity).transform.position;
                     targetPos.y += 0.5f;
                     gameObject.transform.DOMove(targetPos, 0.5f);
