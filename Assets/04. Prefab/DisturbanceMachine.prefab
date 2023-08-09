@@ -206,7 +206,7 @@ GameObject:
   - component: {fileID: -9178913118835124496}
   - component: {fileID: 6313639618506749780}
   m_Layer: 0
-  m_Name: Disturbance
+  m_Name: DisturbanceMachine
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -241,6 +241,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ce403c37306fc74782595c6a41b7031, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objects:
+    m_keys: 000000000100000002000000030000000400000005000000
+    m_values:
+    - {fileID: 5510535609946674871}
+    - {fileID: 1559909866429256190}
+    - {fileID: 3672629809476589635}
+    - {fileID: 1712170047193090938}
+    - {fileID: 2685795916529070903}
+    - {fileID: 4930841364764459017}
 --- !u!114 &6313639618506749780
 MonoBehaviour:
   m_ObjectHideFlags: 0

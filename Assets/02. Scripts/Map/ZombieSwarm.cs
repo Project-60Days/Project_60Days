@@ -12,7 +12,7 @@ public class ZombieSwarm : MonoBehaviour
     public int drinkCount;
     public GameObject equipment;
     public bool isChasingPlayer;
-    public Distrubtor nearthDistrubtor;
+    public DisturbanceMachine nearthDistrubtor;
     public int remainStunTime;
 
     public float zombieMovePossibility;
@@ -71,7 +71,7 @@ public class ZombieSwarm : MonoBehaviour
         if (nearthDistrubtor != null)
         {
             Debug.Log(gameObject.name + "이 교란기를 발견!");
-            StartCoroutine(MoveToTarget(nearthDistrubtor.curTile));
+            StartCoroutine(MoveToTarget(nearthDistrubtor.currentTile));
 
             return;
         }
