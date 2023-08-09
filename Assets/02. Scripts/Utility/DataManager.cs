@@ -8,7 +8,7 @@ public interface ILoader<Key, Value>
     Dictionary<Key, Value> MakeDict();
 }
 
-public class DataManager : Singleton<DataManager>
+public class DataManager : ManagementBase
 {
     [SerializeField] public ItemSO itemSO;
 
@@ -83,6 +83,11 @@ public class DataManager : Singleton<DataManager>
         }
 
         return language;
+    }
+
+    public override EManagerType GetManagemetType()
+    {
+        return EManagerType.DATA;
     }
 }
 

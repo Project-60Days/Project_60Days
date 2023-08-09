@@ -14,6 +14,6 @@ public class ButtonBase : MonoBehaviour
 
     public void PlayClickSFX()
     {
-        SoundManager.instance.PlaySFX(SFXName_btnClick);
+        App.instance.GetSoundManager().PlaySFX(SFXName_btnClick);
     }
 }

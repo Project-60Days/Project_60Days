@@ -138,16 +138,16 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
     private void PlayBGM(string bgmName)
     {
-        SoundManager.instance.PlayBGM(bgmName);
+        App.instance.GetSoundManager().PlayBGM(bgmName);
     }
 
     private void PlaySFX(string sfxName)
     {
-        SoundManager.instance.PlaySFX(sfxName);
+        App.instance.GetSoundManager().PlaySFX(sfxName);
     }
 
     private void StopBGM(string soundName)
     {
-        SoundManager.instance.StopBGM();
+        App.instance.GetSoundManager().StopBGM();
     }
 }

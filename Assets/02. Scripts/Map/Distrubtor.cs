@@ -12,7 +12,7 @@ public class Distrubtor : MonoBehaviour
 
     public void Set(Tile tile, CompassPoint cp)
     {
-        //DataManager.instance.gameData.TryGetValue("DISRUBTOR_LIFETIME", out GameData time);
+        //App.instance.GetDataManager().gameData.TryGetValue("DISRUBTOR_LIFETIME", out GameData time);
         lifeTime = 3f;
         curTile = tile;
         direction = cp;
