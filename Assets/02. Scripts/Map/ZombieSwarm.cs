@@ -32,11 +32,11 @@ public class ZombieSwarm : MonoBehaviour
 
     public void Init(Tile tile)
     {
-        DataManager.instance.gameData.TryGetValue("Data_Zombie_Move_Possibility", out GameData move);
-        DataManager.instance.gameData.TryGetValue("Data_Zombie_Stay_Possibility", out GameData stay);
-        DataManager.instance.gameData.TryGetValue("Data_SpecialZombie_Possibility", out GameData special);
-        DataManager.instance.gameData.TryGetValue("Data_MinCount_ZombieSwarm", out GameData min);
-        DataManager.instance.gameData.TryGetValue("Data_MaxCount_ZombieSwarm", out GameData max);
+        App.instance.GetDataManager().gameData.TryGetValue("Data_Zombie_Move_Possibility", out GameData move);
+        App.instance.GetDataManager().gameData.TryGetValue("Data_Zombie_Stay_Possibility", out GameData stay);
+        App.instance.GetDataManager().gameData.TryGetValue("Data_SpecialZombie_Possibility", out GameData special);
+        App.instance.GetDataManager().gameData.TryGetValue("Data_MinCount_ZombieSwarm", out GameData min);
+        App.instance.GetDataManager().gameData.TryGetValue("Data_MaxCount_ZombieSwarm", out GameData max);
 
         zombieMovePossibility = move.value;
         zombieStayPossibility = stay.value;

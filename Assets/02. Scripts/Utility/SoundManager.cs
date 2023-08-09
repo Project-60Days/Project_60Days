@@ -9,7 +9,7 @@ public class Sound
     public AudioClip clip;
 }
 
-public class SoundManager : Singleton<SoundManager>
+public class SoundManager : ManagementBase
 {
     [SerializeField] Sound[] array_sfx = null;
     [SerializeField] Sound[] array_bgm = null;
@@ -105,5 +105,10 @@ public class SoundManager : Singleton<SoundManager>
         sfxVolume = Mathf.Clamp01(volume);
 
         sfxPlayer.volume = sfxVolume;
+    }
+
+    public override EManagerType GetManagemetType()
+    {
+        return EManagerType.SOUND;
     }
 }

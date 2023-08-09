@@ -295,8 +295,8 @@ public class MapController : Singleton<MapController>
 
         // 맵 오브젝트 소환 관련
 
-        DataManager.instance.gameData.TryGetValue("Data_MinCount_ZombieObject", out GameData min);
-        DataManager.instance.gameData.TryGetValue("Data_MaxCount_ZombieObject", out GameData max);
+        App.instance.GetDataManager().gameData.TryGetValue("Data_MinCount_ZombieObject", out GameData min);
+        App.instance.GetDataManager().gameData.TryGetValue("Data_MaxCount_ZombieObject", out GameData max);
 
         int rand = (int)UnityEngine.Random.Range(min.value, max.value);
 
