@@ -90,7 +90,7 @@ public class InventoryPage : MonoBehaviour
         if (slotCount < slots.Length)
         {
             string code = _item.itemCode;
-            DataManager.instance.itemData.TryGetValue(code, out ItemData itemData);
+            App.instance.GetDataManager().itemData.TryGetValue(code, out ItemData itemData);
             _item.data = itemData;
             items.Add(_item);
             FreshSlot();
@@ -135,7 +135,7 @@ public class InventoryPage : MonoBehaviour
             if (itemSO.items[i].itemCode == itemCode)
             {
                 item = itemSO.items[i];
-                DataManager.instance.itemData.TryGetValue(itemCode, out ItemData itemData);
+                App.instance.GetDataManager().itemData.TryGetValue(itemCode, out ItemData itemData);
                 item.data = itemData;
                 items.Add(item);
                 FreshSlot();

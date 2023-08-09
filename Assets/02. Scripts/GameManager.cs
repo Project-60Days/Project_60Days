@@ -82,7 +82,7 @@ public class GameManager : Singleton<GameManager>
 
         StartTutorial();
 
-        SoundManager.instance.PlayBGM("BGM_InGameTheme");
+        App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
     }
 
     public void Settings()
