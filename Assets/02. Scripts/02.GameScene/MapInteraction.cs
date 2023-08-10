@@ -20,7 +20,7 @@ public class MapInteraction : MonoBehaviour
 
         //ImplantOpenEvent += ImplantOpenAnim;
         //ImplantCloseEvent += ImplantCloseAnim;
-        SoundManager.instance.PlayBGM("BGM_InGameTheme");
+        App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
     }
 
 

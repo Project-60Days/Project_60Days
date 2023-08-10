@@ -83,7 +83,7 @@ public class TileInfo : MonoBehaviour
 
     void Start()
     {
-        MapController.PlayerBehavior += CheckPlayerTIle;
+        MapManager.PlayerBehavior += CheckPlayerTIle;
         myTile = gameObject.transform.GetComponent<TileController>().Model;
         appearanceResources = new List<Resource>();
         gachaList = new List<ItemBase>();
@@ -91,7 +91,7 @@ public class TileInfo : MonoBehaviour
         {
             gachaList.Add(itemSO.items[i]);
         }
-        if (CheckTutorial(MapController.instance.playerLocationTile))
+        if (CheckTutorial(App.instance.GetMapManager().playerLocationTile))
         {
             TutorialResourceUpdate();
         }
@@ -104,7 +104,7 @@ public class TileInfo : MonoBehaviour
 
     void OnDestroy()
     {
-        MapController.PlayerBehavior -= CheckPlayerTIle;
+        MapManager.PlayerBehavior -= CheckPlayerTIle;
     }
 
     void RandomResourceUpdate()
@@ -249,7 +249,7 @@ public class TileInfo : MonoBehaviour
 
     void CheckPlayerTIle(Tile tile)
     {
-        if (MapController.instance.GetTilesInRange(tile, 3).Contains(myTile) || myTile == tile)
+        if (App.instance.GetMapManager().GetTilesInRange(tile, 3).Contains(myTile) || myTile == tile)
         {
             ResourceUpdate(true);
             inPlayerSight = true;
@@ -263,7 +263,7 @@ public class TileInfo : MonoBehaviour
 
     bool CheckTutorial(Tile tile)
     {
-        if (MapController.instance.GetTilesInRange(tile, 1).Contains(myTile) || myTile == tile)
+        if (App.instance.GetMapManager().GetTilesInRange(tile, 1).Contains(myTile) || myTile == tile)
         {
             isTutorialTile = true;
             return true;

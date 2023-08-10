@@ -61,7 +61,7 @@ public class CraftingUIController : MonoBehaviour
     {
         for(int i = 1001; i < 2000; i++)
         {
-            DataManager.instance.itemCombineData.TryGetValue(i, out ItemCombineData itemData);
+            App.instance.GetDataManager().itemCombineData.TryGetValue(i, out ItemCombineData itemData);
 
             if (itemData != null)
                 itemCombines.Add(itemData);
@@ -218,7 +218,7 @@ public class CraftingUIController : MonoBehaviour
             if (itemSO.items[i].itemCode == resultItemCode)
             {
                 resultItem = itemSO.items[i];
-                DataManager.instance.itemData.TryGetValue(resultItemCode, out ItemData itemData);
+                App.instance.GetDataManager().itemData.TryGetValue(resultItemCode, out ItemData itemData);
                 resultItem.data = itemData;
                 
                 return resultItem;

@@ -12,7 +12,7 @@ public class ZombieSwarm : MonoBehaviour
     public int drinkCount;
     public GameObject equipment;
     public bool isChasingPlayer;
-    public Distrubtor nearthDistrubtor;
+    public DisturbanceMachine nearthDistrubtor;
     public int remainStunTime;
 
     public float zombieMovePossibility;
@@ -32,11 +32,11 @@ public class ZombieSwarm : MonoBehaviour
 
     public void Init(Tile tile)
     {
-        DataManager.instance.gameData.TryGetValue("Data_Zombie_Move_Possibility", out GameData move);
-        DataManager.instance.gameData.TryGetValue("Data_Zombie_Stay_Possibility", out GameData stay);
-        DataManager.instance.gameData.TryGetValue("Data_SpecialZombie_Possibility", out GameData special);
-        DataManager.instance.gameData.TryGetValue("Data_MinCount_ZombieSwarm", out GameData min);
-        DataManager.instance.gameData.TryGetValue("Data_MaxCount_ZombieSwarm", out GameData max);
+        App.instance.GetDataManager().gameData.TryGetValue("Data_Zombie_Move_Possibility", out GameData move);
+        App.instance.GetDataManager().gameData.TryGetValue("Data_Zombie_Stay_Possibility", out GameData stay);
+        App.instance.GetDataManager().gameData.TryGetValue("Data_SpecialZombie_Possibility", out GameData special);
+        App.instance.GetDataManager().gameData.TryGetValue("Data_MinCount_ZombieSwarm", out GameData min);
+        App.instance.GetDataManager().gameData.TryGetValue("Data_MaxCount_ZombieSwarm", out GameData max);
 
         zombieMovePossibility = move.value;
         zombieStayPossibility = stay.value;
@@ -54,8 +54,8 @@ public class ZombieSwarm : MonoBehaviour
     public void Detection()
     {
         // 데모 컨트롤러에서 범위 가져옴.
-        isChasingPlayer = MapController.instance.CalculateDistanceToPlayer(curTile, 2);
-        nearthDistrubtor = MapController.instance.CalculateDistanceToDistrubtor(curTile, 2);
+        isChasingPlayer = App.instance.GetMapManager().CalculateDistanceToPlayer(curTile, 2);
+        nearthDistrubtor = App.instance.GetMapManager().CalculateDistanceToDistrubtor(curTile, 2);
         ActionDecision();
     }
 
@@ -71,7 +71,7 @@ public class ZombieSwarm : MonoBehaviour
         if (nearthDistrubtor != null)
         {
             Debug.Log(gameObject.name + "이 교란기를 발견!");
-            StartCoroutine(MoveToTarget(nearthDistrubtor.curTile));
+            StartCoroutine(MoveToTarget(nearthDistrubtor.currentTile));
 
             return;
         }
@@ -79,7 +79,7 @@ public class ZombieSwarm : MonoBehaviour
         if (isChasingPlayer)
         {
             Debug.Log(gameObject.name + "이 플레이어를 발견!");
-            StartCoroutine(MoveToTarget(MapController.instance.playerLocationTile));
+            StartCoroutine(MoveToTarget(App.instance.GetMapManager().playerLocationTile));
         }
         else
         {
@@ -108,14 +108,14 @@ public class ZombieSwarm : MonoBehaviour
             if (movePath.Count <= 0)
                 break;
 
-            targetTile = MapController.instance.GetTileFromCoords(movePath[i]);
+            targetTile = App.instance.GetMapManager().GetTileFromCoords(movePath[i]);
             targetPos = ((GameObject)targetTile.GameEntity).transform.position;
             targetPos.y += 1;
             gameObject.transform.DOMove(targetPos, time);
             yield return new WaitForSeconds(time);
             curTile = targetTile;
         }
-        MapController.instance.CheckSumZombies();
+        App.instance.GetMapManager().CheckSumZombies();
         CurrentTileInfoUpdate(curTile);
         CurrentTileInfoUpdate(lastTile);
         lastTile = curTile;
@@ -123,7 +123,7 @@ public class ZombieSwarm : MonoBehaviour
 
     public IEnumerator MoveToRandom(int num = 1, float time = 0.5f)
     {
-        var candidate = MapController.instance.GetTilesInRange(curTile, num);
+        var candidate = App.instance.GetMapManager().GetTilesInRange(curTile, num);
         int rand = UnityEngine.Random.Range(0, candidate.Count);
 
         while (((GameObject)candidate[rand].GameEntity).gameObject.layer == 8)
@@ -138,7 +138,7 @@ public class ZombieSwarm : MonoBehaviour
         yield return gameObject.transform.DOMove(targetPos, time);
 
         curTile = candidate[rand];
-        MapController.instance.CheckSumZombies();
+        App.instance.GetMapManager().CheckSumZombies();
         CurrentTileInfoUpdate(curTile);
         CurrentTileInfoUpdate(lastTile);
         lastTile = curTile;

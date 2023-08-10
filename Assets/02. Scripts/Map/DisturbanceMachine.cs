@@ -4,17 +4,22 @@ using UnityEngine;
 using DG.Tweening;
 using Hexamap;
 
-public class Distrubtor : MonoBehaviour
+[System.Serializable]
+public class CompassPointObjects : SerializableDictionary<CompassPoint, GameObject> { };
+
+public class DisturbanceMachine : MonoBehaviour
 {
     float lifeTime;
-    public Tile curTile;
+    public Tile currentTile;
     CompassPoint direction;
+
+    [SerializeField] CompassPointObjects objects;
 
     public void Set(Tile tile, CompassPoint cp)
     {
-        //DataManager.instance.gameData.TryGetValue("DISRUBTOR_LIFETIME", out GameData time);
+        //App.instance.GetDataManager().gameData.TryGetValue("DISRUBTOR_LIFETIME", out GameData time);
         lifeTime = 3f;
-        curTile = tile;
+        currentTile = tile;
         direction = cp;
 
         GetComponentInChildren<MeshRenderer>().material.DOFade(100, 1f);
@@ -22,9 +27,7 @@ public class Distrubtor : MonoBehaviour
 
     public void Move()
     {
-        curTile.Neighbours.TryGetValue(direction, out Tile nextTile);
-
-
+        currentTile.Neighbours.TryGetValue(direction, out Tile nextTile);
 
         if (lifeTime > 0)
         {
@@ -36,7 +39,7 @@ public class Distrubtor : MonoBehaviour
             else
             {
                 transform.DOMove(((GameObject)nextTile.GameEntity).transform.position + Vector3.up, 0.5f);
-                curTile = nextTile;
+                currentTile = nextTile;
                 lifeTime -= 1;
             }
         }
@@ -44,6 +47,20 @@ public class Distrubtor : MonoBehaviour
         {
             StopAllCoroutines();
             Destroy(gameObject);
+        }
+    }
+
+    public GameObject GetDirectionObject(CompassPoint compass)
+    {
+        objects.TryGetValue(compass, out GameObject value);
+        return value;
+    }
+
+    public void DirectionObjectOff()
+    {
+        foreach (var item in objects)
+        {
+            item.Value.SetActive(false);
         }
     }
 }

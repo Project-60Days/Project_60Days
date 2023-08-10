@@ -9,7 +9,14 @@ using TMPro;
 using Hexamap;
 using UnityEngine.EventSystems;
 
-public class MapController : Singleton<MapController>
+public enum TileState
+{
+    None,
+    Moveable,
+    Unable
+}
+
+public class MapManager : ManagementBase
 {
     #region 변수
     [SerializeField] HexamapController Hexamap;
@@ -51,7 +58,7 @@ public class MapController : Singleton<MapController>
     List<Coords> movePath;
 
     TMP_Text textHealth;
-    GameObject distrubtorObject;
+    GameObject disturbanceMachine;
     GameObject explorerObject;
     GameObject currentUI;
 
@@ -122,18 +129,18 @@ public class MapController : Singleton<MapController>
         }
     }
 
-    public Distrubtor CalculateDistanceToDistrubtor(Tile tile, int range)
+    public DisturbanceMachine CalculateDistanceToDistrubtor(Tile tile, int range)
     {
         var searchTiles = Hexamap.Map.GetTilesInRange(tile, range);
 
-        if (distrubtorObject == null)
+        if (disturbanceMachine == null)
             return null;
 
         foreach (var item in searchTiles)
         {
-            if (distrubtorObject.GetComponent<Distrubtor>().curTile == item)
+            if (disturbanceMachine.GetComponent<DisturbanceMachine>().currentTile == item)
             {
-                return distrubtorObject.GetComponent<Distrubtor>();
+                return disturbanceMachine.GetComponent<DisturbanceMachine>();
             }
         }
         return null;
@@ -184,19 +191,6 @@ public class MapController : Singleton<MapController>
 
     public void SpawnTutorialZombie()
     {
-        /*        List<Tile> result = new List<Tile>();
-
-                var tileList1 = GetTilesInRange(playerLocationTile, 5);
-                var tileList2 = GetTilesInRange(playerLocationTile, 4);
-
-                result.AddRange(tileList1);
-                result.AddRange(tileList2);
-                result = result.Distinct().ToList();
-
-                int randomInt = UnityEngine.Random.Range(0, result.Count);
-
-                var tile = result[randomInt];*/
-
         var tile = GetTileFromCoords(new Coords(0, -3));
 
         var spawnPos = ((GameObject)tile.GameEntity).transform.position;
@@ -232,37 +226,11 @@ public class MapController : Singleton<MapController>
         hexamapTr.position = Vector3.forward * 200f;
     }
 
-    void Update()
-    {
-        /*        if (textHealth != null)
-                    textHealth.text = "체력: " + health;*/
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Destroy(player);
-
-            foreach (var item in zombiesList)
-            {
-                Destroy(item.gameObject);
-            }
-
-            zombiesList.Clear();
-            GenerateMap();
-        }
-
-        if (!isPlayerMoving && !isBaseOn && !noteAnim.GetIsOpen())
-        {
-            //CameraMoveInputKey();
-            MouseOverTile();
-        }
-    }
-
     IEnumerator GetAdditiveSceneObjects()
     {
         yield return new WaitForEndOfFrame();
         mapCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         noteAnim = GameObject.FindGameObjectWithTag("NoteAnim").GetComponent<NoteAnim>();
-        //textHealth = GameObject.FindGameObjectWithTag("MapUi").transform.GetChild(0).transform.Find("Hp_Text").GetComponent<TMP_Text>();
         arrow = GameObject.FindGameObjectWithTag("MapUi").transform.GetChild(0).transform.Find("Map_Arrow").GetComponent<ArrowToMove>();
     }
 
@@ -293,59 +261,59 @@ public class MapController : Singleton<MapController>
         TextStats.text = $"Map generated in {timeSpent.ToString("0.000")} seconds.";
         //Debug.Log($"Seed : { Hexamap.Map.Seed }");
 
-        // 맵 오브젝트 소환 관련
+        GenerateMapObjects();
+    }
 
-        DataManager.instance.gameData.TryGetValue("Data_MinCount_ZombieObject", out GameData min);
-        DataManager.instance.gameData.TryGetValue("Data_MaxCount_ZombieObject", out GameData max);
+    void Update()
+    {
+        if (!isPlayerMoving && !isBaseOn && !noteAnim.GetIsOpen())
+        {
+            MouseEvent();
+        }
+    }
 
-        int rand = (int)UnityEngine.Random.Range(min.value, max.value);
+    void RegenerateMap()
+    {
+        Destroy(player);
 
-        // 좀비 등장 수 고정
-        // rand = 5;
+        foreach (var item in zombiesList)
+        {
+            Destroy(item.gameObject);
+        }
+
+        zombiesList.Clear();
+        GenerateMap();
+    }
+
+    /// <summary>
+    /// 맵에서 스폰되는 오브젝트들에 대한 초기화를 하는 함수이다.
+    /// 플레이어, 좀비, 안개를 생성하고, 플레이어의 위치를 리소스 매니저에게 전달한다.
+    /// </summary>
+    void GenerateMapObjects()
+    {
+        App.instance.GetDataManager().gameData.TryGetValue("Data_MinCount_ZombieObject", out GameData min);
+        App.instance.GetDataManager().gameData.TryGetValue("Data_MaxCount_ZombieObject", out GameData max);
 
         SpawnPlayer();
-        //SpawnZombies(rand);
+        //SpawnZombies((int)UnityEngine.Random.Range(min.value, max.value));
+
         fog.transform.position = player.transform.position;
-        unselectAllTile();
         FischlWorks_FogWar.csFogWar.instance.InitializeMapControllerObjects(player, 5);
+
         resourceManager.SetTile(playerLocationTile);
         StartCoroutine(DelaySightGetInfo());
+        DeselectAllTile();
     }
 
-    IEnumerator DelaySightGetInfo()
-    {
-        yield return new WaitForEndOfFrame();
-        PlayerBehavior?.Invoke(playerLocationTile);
-    }
 
     void SpawnPlayer()
     {
-        // 랜덤 위치
-
-        /*
-        int randomInt;
-        var tileList = Hexamap.Map.Tiles;
-
-        while (true)
-        {
-            randomInt = UnityEngine.Random.Range(0, tileList.Count);
-
-            if (tileList[randomInt].Landform.GetType().Name == "LandformPlain")
-            {
-                break;
-            }
-        }
-
-        playerLocationTile = tileList[randomInt];
-        */
-
-        // 정가운데 좌표 고정
         playerLocationTile = Hexamap.Map.GetTileFromCoords(new Coords(0, 0));
         prevTile = playerLocationTile;
         targetTile = ((GameObject)playerLocationTile.GameEntity).GetComponent<TileController>();
 
         Vector3 spawnPos = ((GameObject)playerLocationTile.GameEntity).transform.position;
-        spawnPos.y += 0.5f;
+        spawnPos.y += 0.7f;
 
         player = Instantiate(playerPrefab, spawnPos, Quaternion.Euler(0, -90, 0));
         player.transform.parent = hexamapTr;
@@ -384,6 +352,20 @@ public class MapController : Singleton<MapController>
         }
     }
 
+    /// <summary>
+    /// 플레이어가 서 있는 타일의 위치를 갱신할 때마다 그 타일의 정보를 넘겨주는 이벤트 함수
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator DelaySightGetInfo()
+    {
+        // AdditiveScene 딜레이 용
+        yield return new WaitForEndOfFrame();
+        PlayerBehavior?.Invoke(playerLocationTile);
+    }
+
+    /// <summary>
+    /// 카메라 시점을 InputKey를 통해 변경시켜주는 함수. 현재는 카메라가 변경되어 이 함수도 수정이 필요함. 사용하지 않음. 
+    /// </summary>
     void CameraMoveInputKey()
     {
         // -- Keyboard movement
@@ -440,138 +422,106 @@ public class MapController : Singleton<MapController>
 
     }
 
-    void MouseOverTile()
+    /// <summary>
+    /// Raytracing을 통해 마우스 현재 위치에 맞는 타일의 정보를 가져오거나, 타일의 하위 오브젝트를 활성화시키는 함수.
+    /// </summary>
+    void MouseEvent()
     {
-        // Mouse raytracing to select tiles
         RaycastHit hit;
-        Transform objectHit;
-        TileController tile;
+        TileController tileController;
 
         Ray ray = mapCamera.ScreenPointToRay(Input.mousePosition);
         int onlyLayerMaskTile = 1 << LayerMask.NameToLayer("Tile");
 
-        // 아무 상태도 아닐 때
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile) && !isPlayerSelected)
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile))
         {
-            objectHit = hit.transform;
-            tile = objectHit.parent.GetComponent<TileController>();
+            tileController = hit.transform.parent.GetComponent<TileController>();
 
-            if (tile != null && !selectedTiles.Contains(tile))
+            DeselectAllTile();
+            DeselectAllPathTile();
+
+            if (!isPlayerSelected)
             {
-                unselectAllTile();
-                selectTile(tile, "BorderNo");
-
-                if (isUIOn)
-                {
-                    currentUI.SetActive(false);
-                    isUIOn = false;
-                }
+                AnyCondition(tileController);
             }
-        }
-        // 플레이어를 선택했을 때
-        else if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile) && isPlayerCanMove)
-        {
-            objectHit = hit.transform;
-            tile = objectHit.parent.GetComponent<TileController>();
-            var rangeOfMotion = 0;
-
-            unselectAllTile();
-            unselectAllPathTile();
-
-            if (tile.Model != playerLocationTile)
+            else if (isPlayerCanMove)
             {
-                selectPath = AStar.FindPath(playerLocationTile.Coords, tile.Model.Coords);
-
-                foreach (var item in selectPath)
-                {
-                    if (rangeOfMotion == health)
-                        break;
-
-                    Tile targetTile = Hexamap.Map.GetTileFromCoords(item);
-                    var tileBorder = getTileBorder(targetTile, "Border");
-                    tileBorder?.SetActive(true);
-                    rangeOfMotion++;
-                }
+                PathFinder(tileController, health);
+                selectedTiles.Add(tileController);
             }
-
-            if (rangeOfMotion == health)
-                selectTile(tile, "BorderNo");
-            else
-                selectTile(tile, "BorderYes");
-        }
-        // 교란기 선택 시
-        else if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile) && isDisturbanceSet)
-        {
-            objectHit = hit.transform;
-            tile = objectHit.parent.GetComponent<TileController>();
-
-            if (Hexamap.Map.GetTilesInRange(playerLocationTile, 1).Contains(tile.Model))
+            else if (isDisturbanceSet)
             {
-                unselectAllTile();
-                DroneDirectionObejctOff(distrubtorObject);
-                selectTile(tile, "BorderYes");
-                distrubtorObject.transform.position = ((GameObject)tile.Model.GameEntity).transform.position + Vector3.up;
-
-                foreach (var item in playerLocationTile.Neighbours)
-                {
-                    if (item.Value == tile.Model)
-                        distrubtorObject.transform.GetChild(1).GetChild((int)item.Key).gameObject.SetActive(true);
-                }
+                DisturbancePathFinder(tileController);
             }
-        }
-        // 탐색기 선택 시
-        else if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile) && isExplorerSet)
-        {
-            objectHit = hit.transform;
-            tile = objectHit.parent.GetComponent<TileController>();
-            var rangeOfMotion = 0;
-
-            unselectAllTile();
-            unselectAllPathTile();
-
-            if (tile.Model != playerLocationTile)
+            else if (isExplorerSet)
             {
-                selectPath = AStar.FindPath(playerLocationTile.Coords, tile.Model.Coords);
-
-                foreach (var item in selectPath)
-                {
-                    if (rangeOfMotion == 5)
-                        break;
-
-                    Tile targetTile = Hexamap.Map.GetTileFromCoords(item);
-                    var tileBorder = getTileBorder(targetTile, "Border");
-                    tileBorder?.SetActive(true);
-                    rangeOfMotion++;
-                }
-
-                if (rangeOfMotion == 5)
-                    selectTile(tile, "BorderNo");
-                else
-                    selectTile(tile, "BorderYes");
+                PathFinder(tileController, 5);
             }
         }
         else
         {
+            DeselectAllTile();
+            DeselectAllPathTile();
+
             if (isUIOn)
             {
                 currentUI.SetActive(false);
                 isUIOn = false;
             }
-            unselectAllTile();
-            unselectAllPathTile();
         }
 
         MouseClickTile();
     }
 
-    void DroneDirectionObejctOff(GameObject ddo)
+    void AnyCondition(TileController tileController)
     {
-        var ddoArr = ddo.transform.GetChild(1).GetComponentsInChildren<Transform>();
-
-        for (int i = 1; i < ddoArr.Length; i++)
+        if (tileController != null && !selectedTiles.Contains(tileController))
         {
-            if (ddoArr[i].gameObject.activeInHierarchy)
-                ddoArr[i].gameObject.SetActive(false);
+            SelectBorder(tileController, TileState.Unable);
+
+            if (isUIOn)
+            {
+                currentUI.SetActive(false);
+                isUIOn = false;
+            }
+        }
+    }
+
+    void PathFinder(TileController tileController, int num)
+    {
+        int rangeOfMotion = 0;
+
+        if (tileController.Model != playerLocationTile)
+        {
+            foreach (Coords coords in AStar.FindPath(playerLocationTile.Coords, tileController.Model.Coords))
+            {
+                if (rangeOfMotion == health)
+                    break;
+
+                GameObject border = (GameObject)GetTileFromCoords(coords).GameEntity;
+                border.GetComponent<Borders>().GetBorder()?.SetActive(true);
+                rangeOfMotion++;
+            }
+        }
+
+        if (rangeOfMotion != num)
+            tileController.GetComponent<Borders>().GetAvailableBorder()?.SetActive(true);
+        else
+            tileController.GetComponent<Borders>().GetUnAvailableBorder()?.SetActive(true);
+    }
+
+    void DisturbancePathFinder(TileController tileController)
+    {
+        if (Hexamap.Map.GetTilesInRange(playerLocationTile, 1).Contains(tileController.Model))
+        {
+            disturbanceMachine.transform.position = ((GameObject)tileController.Model.GameEntity).transform.position + Vector3.up;
+            disturbanceMachine.GetComponent<DisturbanceMachine>().DirectionObjectOff();
+            SelectBorder(tileController, TileState.Moveable);
+
+            foreach (var item in playerLocationTile.Neighbours.Where(item => item.Value == tileController.Model))
+            {
+                disturbanceMachine.GetComponent<DisturbanceMachine>().GetDirectionObject(item.Key).SetActive(true);
+            }
         }
     }
 
@@ -584,122 +534,97 @@ public class MapController : Singleton<MapController>
 
         RaycastHit hit;
         Ray ray = mapCamera.ScreenPointToRay(Input.mousePosition);
+
         int onlyLayerMaskPlayer = 1 << LayerMask.NameToLayer("Player");
         int onlyLayerMaskTile = 1 << LayerMask.NameToLayer("Tile");
 
         if (Input.GetMouseButtonDown(0))
         {
-            // UI 너머로 타일 클릭 방지
-
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskPlayer) && !isPlayerCanMove && health != 0 && !isDisturbanceSet && !isExplorerSet)
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskPlayer) 
+                && !isPlayerCanMove && !isDisturbanceSet && !isExplorerSet && health != 0)
             {
                 isPlayerSelected = true;
                 isPlayerCanMove = true;
             }
-            else if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile) && !isPlayerSelected)
+            else if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile) )
             {
-                Transform objectHit = hit.transform;
-                TileController tile = objectHit.parent.GetComponent<TileController>();
+                TileController tileController = hit.transform.parent.GetComponent<TileController>();
 
-                currentUI = GetUi(tile);
-                currentUI.SetActive(true);
-                isUIOn = true;
-            }
-            else if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile) && isPlayerCanMove)
-            {
-                Transform objectHit = hit.transform;
-                TileController tile = objectHit.parent.GetComponent<TileController>();
-                if (getTileBorder(tile, "BorderYes").activeInHierarchy && playerLocationTile != tile.Model)
+                if (!isPlayerSelected)
                 {
-                    // 선택한 칸으로 이동
-                    movePath = AStar.FindPath(playerLocationTile.Coords, tile.Model.Coords);
-
-                    isPlayerSelected = false;
-                    isPlayerCanMove = false;
-                    targetTile = tile;
-
-                    unselectAllTile();
-                    unselectAllPathTile();
-
-                    arrow.OnEffect(tile.transform);
+                    currentUI = GetUi(tileController);
+                    currentUI.SetActive(true);
+                    isUIOn = true;
                 }
-                else
+                else if (isPlayerCanMove)
                 {
-                    return;
-                }
-            }
-            else if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile) && isDisturbanceSet)
-            {
-                Transform objectHit = hit.transform;
-                TileController tile = objectHit.parent.GetComponent<TileController>();
-                if (Hexamap.Map.GetTilesInRange(playerLocationTile, 1).Contains(tile.Model) && getTileBorder(tile, "BorderYes").activeInHierarchy)
-                {
-                    // 교란기 설치
-                    foreach (var item in playerLocationTile.Neighbours)
+                    if (GetTileBorder(tileController, TileState.Moveable).activeInHierarchy && playerLocationTile != tileController.Model)
                     {
-                        if (item.Value == tile.Model)
+                        SavePlayerMovePath(tileController);
+                    }
+                }
+                else if (isDisturbanceSet)
+                {
+                    if (Hexamap.Map.GetTilesInRange(playerLocationTile, 1).Contains(tileController.Model) 
+                        && GetTileBorder(tileController, TileState.Moveable).activeInHierarchy)
+                    {
+                        foreach (var item in playerLocationTile.Neighbours.Where(item => item.Value == tileController.Model))
                         {
-                            distrubtorObject.GetComponent<Distrubtor>().Set(tile.Model, item.Key);
-                            DistrubtorSettingSuccess();
+                            DistrubtorSettingSuccess(tileController, item.Key);
                         }
                     }
                 }
-                else
+                else if (isExplorerSet)
                 {
-                    return;
+                    if (GetTileBorder(tileController, TileState.Moveable).activeInHierarchy && playerLocationTile != tileController.Model)
+                    {
+                        ExplorerSettingSuccess(tileController);
+                    }
                 }
-            }
-            else if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile) && isExplorerSet)
-            {
-                Transform objectHit = hit.transform;
-                TileController tile = objectHit.parent.GetComponent<TileController>();
-                if (getTileBorder(tile, "BorderYes").activeInHierarchy && playerLocationTile != tile.Model)
-                {
-                    explorerObject.GetComponent<Explorer>().Targetting(tile.Model);
-                    explorerObject.GetComponent<Explorer>().Move();
-                    ExplorerSettingSuccess();
-                    unselectAllPathTile();
-                }
-                else
-                {
-                    return;
-                }
-            }
 
+            }
         }
 
         // 우클릭 시 선택 취소
         if (Input.GetMouseButtonDown(1))
         {
+            DeselectAllTile();
+            DeselectAllPathTile();
+
             if (isPlayerCanMove)
             {
-                unselectAllTile();
-                unselectAllPathTile();
                 isPlayerSelected = false;
                 isPlayerCanMove = false;
             }
-
-            if (isDisturbanceSet)
+            else if (isDisturbanceSet)
             {
-                unselectAllTile();
-                unselectAllPathTile();
                 DistrubtorBorderActiveSet(false);
             }
-
-            if (isExplorerSet)
+            else if (isExplorerSet)
             {
-                unselectAllTile();
-                unselectAllPathTile();
                 ExplorerBorderActiveSet(false);
             }
         }
     }
 
+    void SavePlayerMovePath(TileController tileController)
+    {
+        targetTile = tileController;
+        movePath = AStar.FindPath(playerLocationTile.Coords, tileController.Model.Coords);
+        arrow.OnEffect(tileController.transform);
+
+        isPlayerSelected = false;
+        isPlayerCanMove = false;
+
+        DeselectAllTile();
+        DeselectAllPathTile();
+    }
+
     IEnumerator MovePlayer(Vector3 lastTargetPos, float time = 0.4f)
     {
         isPlayerMoving = true;
-        unselectAllTile();
-        unselectAllPathTile();
+        DeselectAllTile();
+        DeselectAllPathTile();
 
         Tile targetTile;
         Vector3 targetPos;
@@ -715,7 +640,6 @@ public class MapController : Singleton<MapController>
                 ;
             player.transform.DOMove(targetPos, time);
             health--;
-            //textHealth.text = "체력: " + health;
             yield return new WaitForSeconds(time);
         }
 
@@ -725,22 +649,21 @@ public class MapController : Singleton<MapController>
 
         movePath.Clear();
         health = 0;
-        //isPlayerMoving = false;
         PlayerBehavior?.Invoke(playerLocationTile);
         resourceManager.GetResource();
         arrow.OffEffect();
     }
 
-    void DistrubtorSettingSuccess()
+    void DistrubtorSettingSuccess(TileController tileController, CompassPoint direction)
     {
-        DroneDirectionObejctOff(distrubtorObject);
+        disturbanceMachine.GetComponent<DisturbanceMachine>().Set(tileController.Model, direction);
+        disturbanceMachine.GetComponent<DisturbanceMachine>().DirectionObjectOff();
 
         List<Tile> nearthTiles = GetTilesInRange(playerLocationTile, 1);
 
         for (int i = 0; i < nearthTiles.Count; i++)
         {
-            GameObject border = getTileBorder(nearthTiles[i], "BorderTarget");
-            border?.SetActive(false);
+            ((GameObject)nearthTiles[i].GameEntity).GetComponent<Borders>().GetDisturbanceBorder()?.SetActive(false);
         }
 
         isPlayerSelected = false;
@@ -748,10 +671,15 @@ public class MapController : Singleton<MapController>
         isDisturbanceInstall = true;
     }
 
-    void ExplorerSettingSuccess()
+    void ExplorerSettingSuccess(TileController tileController)
     {
+        explorerObject.GetComponent<Explorer>().Targetting(tileController.Model);
+        explorerObject.GetComponent<Explorer>().Move();
+
         isPlayerSelected = false;
         isExplorerSet = false;
+
+        DeselectAllPathTile();
     }
 
     #region UI 씬 버튼 관련
@@ -768,9 +696,9 @@ public class MapController : Singleton<MapController>
                 border?.SetActive(true);
             }
 
-            distrubtorObject = Instantiate(distrubtorPrefab, player.transform.position + Vector3.up * 1.5f, Quaternion.Euler(0, -90, 0));
-            distrubtorObject.transform.parent = hexamapTr;
-            distrubtorObject.GetComponentInChildren<MeshRenderer>().material.DOFade(50, 0);
+            disturbanceMachine = Instantiate(distrubtorPrefab, player.transform.position + Vector3.up * 1.5f, Quaternion.Euler(0, -90, 0));
+            disturbanceMachine.transform.parent = hexamapTr;
+            disturbanceMachine.GetComponentInChildren<MeshRenderer>().material.DOFade(50, 0);
 
             isDisturbanceSet = true;
             isPlayerSelected = true;
@@ -782,7 +710,7 @@ public class MapController : Singleton<MapController>
                 GameObject border = getTileBorder(nearthTiles[i], "BorderTarget");
                 border?.SetActive(false);
 
-                Destroy(distrubtorObject);
+                Destroy(disturbanceMachine);
                 isDisturbanceSet = false;
                 isPlayerSelected = false;
             }
@@ -821,8 +749,8 @@ public class MapController : Singleton<MapController>
         else
         {
             isPlayerMoving = true;
-            unselectAllTile();
-            unselectAllPathTile();
+            DeselectAllTile();
+            DeselectAllPathTile();
 
             health = 0;
             PlayerBehavior?.Invoke(playerLocationTile);
@@ -836,8 +764,8 @@ public class MapController : Singleton<MapController>
 
         health = maxHealth;
 
-        if (distrubtorObject != null)
-            distrubtorObject.GetComponent<Distrubtor>().Move();
+        if (disturbanceMachine != null)
+            disturbanceMachine.GetComponent<DisturbanceMachine>().Move();
 
         if (explorerObject != null)
             StartCoroutine(explorerObject.GetComponent<Explorer>().Move());
@@ -871,7 +799,7 @@ public class MapController : Singleton<MapController>
     #endregion
 
     #region 선택 타일 관련
-    void unselectAllTile()
+    void DeselectAllTile()
     {
         if (selectedTiles == null)
             return;
@@ -885,7 +813,7 @@ public class MapController : Singleton<MapController>
         selectedTiles.Clear();
     }
 
-    void unselectAllPathTile()
+    void DeselectAllPathTile()
     {
         if (selectPath == null)
             return;
@@ -903,12 +831,21 @@ public class MapController : Singleton<MapController>
         selectedTiles.Remove(tile);
     }
 
-    void selectTile(TileController tile, string name)
+    void SelectBorder(TileController tileController, TileState state)
     {
-        GameObject border = getTileBorder(tile.Model, name);
-
-        border.SetActive(true);
-        selectedTiles.Add(tile);
+        switch (state) 
+        {
+            case TileState.None:
+                tileController.GetComponent<Borders>().GetBorder()?.SetActive(true);
+                break;
+            case TileState.Moveable:
+                tileController.GetComponent<Borders>().GetAvailableBorder()?.SetActive(true);
+                break;
+            case TileState.Unable:
+                tileController.GetComponent<Borders>().GetUnAvailableBorder()?.SetActive(true);
+                break;
+        }
+        selectedTiles.Add(tileController);
     }
 
     void selectMetaLandform(TileController tile)
@@ -927,15 +864,15 @@ public class MapController : Singleton<MapController>
         var tileToUnselect = selectedTiles.Except(metaLandformTiles).ToList();
         var tileToSelect = metaLandformTiles.Except(selectedTiles).ToList();
 
-        tileToSelect.ForEach(t => selectTile(t, "BorderNo"));
+        tileToSelect.ForEach(t => SelectBorder(t, "BorderNo"));
         tileToUnselect.ForEach(t => unselectTile(t));
     }
 
     void BordersOff(TileController tile)
     {
-        GameObject border1 = getTileBorder(tile, "Border");
-        GameObject border2 = getTileBorder(tile, "BorderYes");
-        GameObject border3 = getTileBorder(tile, "BorderNo");
+        GameObject border1 = GetTileBorder(tile, "Border");
+        GameObject border2 = GetTileBorder(tile, "BorderYes");
+        GameObject border3 = GetTileBorder(tile, "BorderNo");
         //GameObject border4 = getTileBorder(tile, "BorderTarget");
 
         border1?.SetActive(false);
@@ -957,12 +894,17 @@ public class MapController : Singleton<MapController>
         //border4?.SetActive(false);
     }
 
-    GameObject getTileBorder(TileController tile, string name)
+    GameObject GetTileBorder(TileController tileController, TileState state)
     {
-        GameObject tileGO = (GameObject)tile.Model.GameEntity;
-
-        if (tileGO != null && tile.Model.Landform.GetType().Name != "LandformWorldLimit")
-            return tileGO.transform.Find(name).gameObject;
+        switch (state)
+        {
+            case TileState.None:
+                return tileController.GetComponent<Borders>().GetBorder();
+            case TileState.Moveable:
+                return tileController.GetComponent<Borders>().GetAvailableBorder();
+            case TileState.Unable:
+                return tileController.GetComponent<Borders>().GetUnAvailableBorder();
+        }
 
         return null;
     }
@@ -975,6 +917,11 @@ public class MapController : Singleton<MapController>
             return tileGO.transform.Find(name).gameObject;
 
         return null;
+    }
+
+    public override EManagerType GetManagemetType()
+    {
+        throw new NotImplementedException();
     }
     #endregion
 }
