@@ -15,15 +15,19 @@ public class CraftingUIController : MonoBehaviour
     [SerializeField] ItemSO itemSO;
 
     private ItemSlot[] slots;
-    public List<Transform> slotTransforms;
-    public List<Image> craftTypeImages;
-
+    
     InventoryPage inventoryPage;
 
+    public List<Transform> slotTransforms;
+    public List<Image> craftTypeImages;
     public List<ItemBase> items;
     public List<ItemCombineData> itemCombines;
+
     string[] combinationCodes = new string[9];
 
+    /// <summary>
+    /// 아직 ItemSO에 추가되지 않은 아이템 조합 시에 생성될 임시 아이템
+    /// </summary>
     [SerializeField] ItemBase tempItem;
 
     void Awake()
@@ -47,6 +51,9 @@ public class CraftingUIController : MonoBehaviour
         InputKey();
     }
 
+    /// <summary>
+    /// 정다은이 생성한 함수가 아닙니다.. P키를 누르면 아이템이 추가되는건가 보네요~
+    /// </summary>
     private void InputKey()
     {
         if (Input.GetKeyDown(KeyCode.P))
@@ -61,7 +68,7 @@ public class CraftingUIController : MonoBehaviour
     {
         for(int i = 1001; i < 2000; i++)
         {
-            App.instance.GetDataManager().itemCombineData.TryGetValue(i, out ItemCombineData itemData);
+            App.instance.GetDataManager().itemCombineData.TryGetValue(i, out ItemCombineData itemData); //ItemCombineData내의 모든 값 itemComines 리스트에 추가
 
             if (itemData != null)
                 itemCombines.Add(itemData);
@@ -71,7 +78,7 @@ public class CraftingUIController : MonoBehaviour
        
         gameObject.SetActive(false);
 
-        for (int i = 0; i < slots.Length; i++)
+        for (int i = 0; i < slots.Length; i++) //CraftBag 내의 slot 모두 초기화
         {
             slotTransforms[i].gameObject.SetActive(false);
             slots[i].item = null;
