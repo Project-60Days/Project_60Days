@@ -61,13 +61,20 @@ public class TitleLoad : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// 비디오 재생이 끝났을 때 비활성화하는 함수
+    /// </summary>
+    /// <param name="vp"></param>
     void OnVideoEnd(VideoPlayer vp)
     {
         rawImage.SetActive(false);
         StartCoroutine(LeftLog());
     }
     
-
+    /// <summary>
+    /// 좌측상단 로그 재생
+    /// </summary>
+    /// <returns></returns>
     IEnumerator LeftLog()
     {
         leftLogField.gameObject.SetActive(true);
@@ -90,6 +97,10 @@ public class TitleLoad : MonoBehaviour
         StartCoroutine(RightLog());
     }
 
+    /// <summary>
+    /// 우측상단 로그 재생
+    /// </summary>
+    /// <returns></returns>
     IEnumerator RightLog()
     {
         rightLogField.gameObject.SetActive(true);
@@ -111,6 +122,10 @@ public class TitleLoad : MonoBehaviour
         StartCoroutine(Title());
     }
 
+    /// <summary>
+    /// 타이틀 재생
+    /// </summary>
+    /// <returns></returns>
     IEnumerator Title()
     {
         yield return new WaitForSeconds(0.1f);
