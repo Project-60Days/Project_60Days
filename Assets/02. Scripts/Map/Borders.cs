@@ -7,7 +7,7 @@ public class Borders : MonoBehaviour
     [SerializeField] GameObject[] borders;
     [SerializeField] Material[] materials;
 
-    public GameObject GetBorder()
+    public GameObject GetNormalBorder()
     {
         borders[0].GetComponent<MeshRenderer>().material = materials[0];
         return borders[0];
@@ -25,8 +25,17 @@ public class Borders : MonoBehaviour
         return borders[0];
 
     }
+    
     public GameObject GetDisturbanceBorder()
     {
         return borders[1];
+    }
+
+    public void OffAllBorders()
+    {
+        foreach (var item in borders)
+        {
+            item.SetActive(false);
+        }
     }
 }

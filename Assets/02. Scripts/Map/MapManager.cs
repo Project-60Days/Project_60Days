@@ -8,90 +8,99 @@ using DG.Tweening;
 using TMPro;
 using Hexamap;
 using UnityEngine.EventSystems;
+using FischlWorks_FogWar;
 
 public enum TileState
 {
     None,
     Moveable,
-    Unable
+    Unable,
+    Target
 }
 
 public class MapManager : ManagementBase
 {
     #region 변수
-    [SerializeField] HexamapController Hexamap;
-    [SerializeField] Text TextStats;
+    public static Action<Tile> PlayerSightUpdate;
+
+    [Header("컴포넌트")]
+    [Space(5f)]
+
+    [SerializeField] HexamapController map;
+    [SerializeField] ResourceManager resourceManager;
+    [SerializeField] CsFogWar fogOfWar;
+    [SerializeField] Text statText;
+    [SerializeField] Transform zombiesTransform;
+    [SerializeField] Transform mapTransform;
+
+    [Header("프리팹")]
+    [Space(5f)]
     [SerializeField] GameObject playerPrefab;
     [SerializeField] GameObject zombiePrefab;
-    [SerializeField] GameObject distrubtorPrefab;
-    [SerializeField] GameObject explorerPrefab;
-    [SerializeField] Transform zombiesTr;
-    [SerializeField] Transform hexamapTr;
+    [SerializeField] GameObject disturbanceMachinePrefab;
+    [SerializeField] GameObject explorerMachinePrefab;
+
+
+    [Header("카메라")]
+    [Space(5f)]
     [SerializeField] Camera mapCamera;
-    [SerializeField] GameObject player;
-    [SerializeField] GameObject fog;
-    [SerializeField] ResourceManager resourceManager;
-
-    public Tile playerLocationTile;
-    public Tile prevTile;
-    public TileController targetTile;
-
-
-    [Header("카메라 설정")]
-    [Space(5f)]
-    [SerializeField] int MaxYPosition = 70;
-    [SerializeField] int MinYPosition = 5;
-    [SerializeField] int MinXRotation = 30;
-    [SerializeField] int MaxXRotation = 90;
-    [SerializeField] int ScrollSpeed = 50;
-    [SerializeField] int MoveSpeed = 50;
-    ArrowToMove arrow;
-
-    [Header("게임 씬")]
-    [Space(5f)]
-    public bool isBaseOn;
 
     List<TileController> selectedTiles = new List<TileController>();
     List<GameObject> disrubtorBorders = new List<GameObject>();
     List<GameObject> zombiesList = new List<GameObject>();
-    List<Coords> selectPath;
+
+    List<Coords> selectedPathTiles;
     List<Coords> movePath;
 
-    TMP_Text textHealth;
+    GameObject player;
     GameObject disturbanceMachine;
-    GameObject explorerObject;
+    GameObject explorerMachine;
     GameObject currentUI;
 
-    int health;
+    ArrowToMove arrow;
+    NoteAnim noteAnim;
+    Tile playerLocationTile;
+    Tile prevPlayerLocationTile;
+    TileController targetTile;
+
+    int currentHealth;
     int maxHealth = 1;
 
-    bool isPlayerSelected;
-    bool isPlayerCanMove;
     bool isUIOn;
-    bool isDisturbanceSet;
-    bool isExplorerSet;
-    bool isPlayerMoving;
-    bool isDisturbanceInstall;
-    NoteAnim noteAnim;
 
-    public static Action<Tile> PlayerBehavior;
+    public bool UiOn
+    {
+        get 
+        { 
+            return isUIOn; 
+        }
+    }
+
+    bool isBaseOn;
+
+    bool isPlayerMoving;
+    bool isPlayerCanMove;
+    bool isPlayerSelected;
+    
+    bool isExplorerSet;
+    bool isDisturbanceSet;
+    bool isDisturbanceInstall;
+
+    public bool DisturbanceInstall
+    {
+        get 
+        { 
+            return isDisturbanceInstall; 
+        }
+    }
+
     #endregion
 
     #region 외부 호출 함수들
 
-    public bool IsUiOn()
-    {
-        return isUIOn;
-    }
-
-    public bool IsDisturbanceOn()
-    {
-        return isDisturbanceInstall;
-    }
-
     public bool CalculateDistanceToPlayer(Tile tile, int range)
     {
-        var searchTiles = Hexamap.Map.GetTilesInRange(tile, range);
+        var searchTiles = map.Map.GetTilesInRange(tile, range);
 
         foreach (var item in searchTiles)
         {
@@ -105,7 +114,7 @@ public class MapManager : ManagementBase
 
     public bool isTutorialUiOn()
     {
-        if (IsUiOn())
+        if (isUIOn)
             return currentUI.transform.parent.parent.GetComponent<TileInfo>().isTutorialTile;
 
         return false;
@@ -118,20 +127,9 @@ public class MapManager : ManagementBase
         currentUI = null;
     }
 
-    public void BaseActiveSet(bool isbool)
-    {
-        isBaseOn = isbool;
-
-        if (isUIOn)
-        {
-            currentUI.SetActive(false);
-            isUIOn = false;
-        }
-    }
-
     public DisturbanceMachine CalculateDistanceToDistrubtor(Tile tile, int range)
     {
-        var searchTiles = Hexamap.Map.GetTilesInRange(tile, range);
+        var searchTiles = map.Map.GetTilesInRange(tile, range);
 
         if (disturbanceMachine == null)
             return null;
@@ -196,7 +194,7 @@ public class MapManager : ManagementBase
         var spawnPos = ((GameObject)tile.GameEntity).transform.position;
         spawnPos.y += 0.7f;
 
-        var zombie = Instantiate(zombiePrefab, spawnPos, Quaternion.Euler(0, -90, 0), zombiesTr);
+        var zombie = Instantiate(zombiePrefab, spawnPos, Quaternion.Euler(0, -90, 0), zombiesTransform);
         zombie.name = "Zombie " + 1;
         zombie.GetComponent<ZombieSwarm>().Init(tile);
 
@@ -207,12 +205,17 @@ public class MapManager : ManagementBase
 
     public Tile GetTileFromCoords(Coords coords)
     {
-        return Hexamap.Map.GetTileFromCoords(coords);
+        return map.Map.GetTileFromCoords(coords);
     }
 
     public List<Tile> GetTilesInRange(Tile tile, int num)
     {
-        return Hexamap.Map.GetTilesInRange(tile, num);
+        return map.Map.GetTilesInRange(tile, num);
+    }
+
+    public Tile GetPlayerLocationTile()
+    {
+        return playerLocationTile;
     }
     #endregion
 
@@ -220,10 +223,9 @@ public class MapManager : ManagementBase
     {
         StartCoroutine(GetAdditiveSceneObjects());
         GenerateMap();
-        BaseActiveSet(true);
 
-        health = maxHealth;
-        hexamapTr.position = Vector3.forward * 200f;
+        currentHealth = maxHealth;
+        mapTransform.position = Vector3.forward * 200f;
     }
 
     IEnumerator GetAdditiveSceneObjects()
@@ -236,29 +238,29 @@ public class MapManager : ManagementBase
 
     void GenerateMap()
     {
-        Hexamap.Destroy();
+        map.Destroy();
 
         var timeBefore = DateTime.Now;
 
-        Hexamap.Generate();
+        map.Generate();
 
         double timeSpent = (DateTime.Now - timeBefore).TotalSeconds;
 
-        Hexamap.Draw();
+        map.Draw();
 
         // Add some noise to Y position of tiles
         FastNoise _fastNoise = new FastNoise();
         _fastNoise.SetFrequency(0.1f);
         _fastNoise.SetNoiseType(FastNoise.NoiseType.Perlin);
-        _fastNoise.SetSeed(Hexamap.Map.Seed);
-        foreach (Tile tile in Hexamap.Map.Tiles)
+        _fastNoise.SetSeed(map.Map.Seed);
+        foreach (Tile tile in map.Map.Tiles)
         {
             var noiseY = _fastNoise.GetValue(tile.Coords.X, tile.Coords.Y);
             (tile.GameEntity as GameObject).transform.position += new Vector3(0, noiseY * 2, 0);
         }
 
         // Output stats
-        TextStats.text = $"Map generated in {timeSpent.ToString("0.000")} seconds.";
+        statText.text = $"Map generated in {timeSpent.ToString("0.000")} seconds.";
         //Debug.Log($"Seed : { Hexamap.Map.Seed }");
 
         GenerateMapObjects();
@@ -266,7 +268,7 @@ public class MapManager : ManagementBase
 
     void Update()
     {
-        if (!isPlayerMoving && !isBaseOn && !noteAnim.GetIsOpen())
+        if (!isPlayerMoving && !noteAnim.GetIsOpen())
         {
             MouseEvent();
         }
@@ -297,8 +299,8 @@ public class MapManager : ManagementBase
         SpawnPlayer();
         //SpawnZombies((int)UnityEngine.Random.Range(min.value, max.value));
 
-        fog.transform.position = player.transform.position;
-        FischlWorks_FogWar.csFogWar.instance.InitializeMapControllerObjects(player, 5);
+        fogOfWar.transform.position = player.transform.position;
+        FischlWorks_FogWar.CsFogWar.instance.InitializeMapControllerObjects(player, 5);
 
         resourceManager.SetTile(playerLocationTile);
         StartCoroutine(DelaySightGetInfo());
@@ -308,21 +310,21 @@ public class MapManager : ManagementBase
 
     void SpawnPlayer()
     {
-        playerLocationTile = Hexamap.Map.GetTileFromCoords(new Coords(0, 0));
-        prevTile = playerLocationTile;
+        playerLocationTile = map.Map.GetTileFromCoords(new Coords(0, 0));
+        prevPlayerLocationTile = playerLocationTile;
         targetTile = ((GameObject)playerLocationTile.GameEntity).GetComponent<TileController>();
 
         Vector3 spawnPos = ((GameObject)playerLocationTile.GameEntity).transform.position;
         spawnPos.y += 0.7f;
 
         player = Instantiate(playerPrefab, spawnPos, Quaternion.Euler(0, -90, 0));
-        player.transform.parent = hexamapTr;
+        player.transform.parent = mapTransform;
     }
 
     void SpawnZombies(int zombiesNumber)
     {
         int randomInt;
-        var tileList = Hexamap.Map.Tiles;
+        var tileList = map.Map.Tiles;
         List<int> selectTileNumber = new List<int>();
 
         // 플레이어와 겹치지 않는 랜덤 타일 뽑기.
@@ -345,7 +347,7 @@ public class MapManager : ManagementBase
             var spawnPos = ((GameObject)tile.GameEntity).transform.position;
             spawnPos.y += 0.7f;
 
-            var zombie = Instantiate(zombiePrefab, spawnPos, Quaternion.Euler(0, -90, 0), zombiesTr);
+            var zombie = Instantiate(zombiePrefab, spawnPos, Quaternion.Euler(0, -90, 0), zombiesTransform);
             zombie.name = "Zombie " + (i + 1);
             zombie.GetComponent<ZombieSwarm>().Init(tile);
             zombiesList.Add(zombie);
@@ -360,66 +362,7 @@ public class MapManager : ManagementBase
     {
         // AdditiveScene 딜레이 용
         yield return new WaitForEndOfFrame();
-        PlayerBehavior?.Invoke(playerLocationTile);
-    }
-
-    /// <summary>
-    /// 카메라 시점을 InputKey를 통해 변경시켜주는 함수. 현재는 카메라가 변경되어 이 함수도 수정이 필요함. 사용하지 않음. 
-    /// </summary>
-    void CameraMoveInputKey()
-    {
-        // -- Keyboard movement
-        float vertical = Input.GetAxisRaw("Vertical");
-        float horizontal = Input.GetAxisRaw("Horizontal");
-
-        Vector3 movement = mapCamera.transform.position;
-
-        if (vertical > 0) // Top
-        {
-            movement += Vector3.left * MoveSpeed * Time.deltaTime;
-
-        }
-        else if (vertical < 0) // Bottom
-        {
-            movement += Vector3.right * MoveSpeed * Time.deltaTime;
-
-        }
-
-        if (horizontal > 0) // Right
-        {
-            //
-
-            movement += Vector3.forward * MoveSpeed * Time.deltaTime;
-        }
-        else if (horizontal < 0) // Left
-        {
-            //
-            movement += Vector3.back * MoveSpeed * Time.deltaTime;
-
-        }
-
-
-        // -- Mouse scrolling
-        float scrollWheel = Input.GetAxis("Mouse ScrollWheel");
-
-        if (scrollWheel > 0 && movement.y > MinYPosition)
-        {
-            movement += Vector3.down * ScrollSpeed * Time.deltaTime;
-        }
-        else if (scrollWheel < 0 && movement.y < MaxYPosition)
-        {
-            movement += Vector3.up * ScrollSpeed * Time.deltaTime;
-        }
-
-
-        float relativeY = movement.y / (MaxYPosition - MinYPosition);
-        float newXRot = (MaxXRotation - MinXRotation) * relativeY + MinXRotation;
-
-        if (newXRot < MaxXRotation && newXRot > MinXRotation)
-            mapCamera.transform.eulerAngles = new Vector3(newXRot, -90, 0);
-
-        mapCamera.transform.position = movement;
-
+        PlayerSightUpdate?.Invoke(playerLocationTile);
     }
 
     /// <summary>
@@ -446,7 +389,7 @@ public class MapManager : ManagementBase
             }
             else if (isPlayerCanMove)
             {
-                PathFinder(tileController, health);
+                PathFinder(tileController, currentHealth);
                 selectedTiles.Add(tileController);
             }
             else if (isDisturbanceSet)
@@ -495,11 +438,11 @@ public class MapManager : ManagementBase
         {
             foreach (Coords coords in AStar.FindPath(playerLocationTile.Coords, tileController.Model.Coords))
             {
-                if (rangeOfMotion == health)
+                if (rangeOfMotion == currentHealth)
                     break;
 
                 GameObject border = (GameObject)GetTileFromCoords(coords).GameEntity;
-                border.GetComponent<Borders>().GetBorder()?.SetActive(true);
+                border.GetComponent<Borders>().GetNormalBorder()?.SetActive(true);
                 rangeOfMotion++;
             }
         }
@@ -512,7 +455,7 @@ public class MapManager : ManagementBase
 
     void DisturbancePathFinder(TileController tileController)
     {
-        if (Hexamap.Map.GetTilesInRange(playerLocationTile, 1).Contains(tileController.Model))
+        if (map.Map.GetTilesInRange(playerLocationTile, 1).Contains(tileController.Model))
         {
             disturbanceMachine.transform.position = ((GameObject)tileController.Model.GameEntity).transform.position + Vector3.up;
             disturbanceMachine.GetComponent<DisturbanceMachine>().DirectionObjectOff();
@@ -541,7 +484,7 @@ public class MapManager : ManagementBase
         if (Input.GetMouseButtonDown(0))
         {
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskPlayer) 
-                && !isPlayerCanMove && !isDisturbanceSet && !isExplorerSet && health != 0)
+                && !isPlayerCanMove && !isDisturbanceSet && !isExplorerSet && currentHealth != 0)
             {
                 isPlayerSelected = true;
                 isPlayerCanMove = true;
@@ -565,12 +508,12 @@ public class MapManager : ManagementBase
                 }
                 else if (isDisturbanceSet)
                 {
-                    if (Hexamap.Map.GetTilesInRange(playerLocationTile, 1).Contains(tileController.Model) 
+                    if (map.Map.GetTilesInRange(playerLocationTile, 1).Contains(tileController.Model) 
                         && GetTileBorder(tileController, TileState.Moveable).activeInHierarchy)
                     {
                         foreach (var item in playerLocationTile.Neighbours.Where(item => item.Value == tileController.Model))
                         {
-                            DistrubtorSettingSuccess(tileController, item.Key);
+                            SetCompleteDisturbanceMachine(tileController, item.Key);
                         }
                     }
                 }
@@ -578,7 +521,7 @@ public class MapManager : ManagementBase
                 {
                     if (GetTileBorder(tileController, TileState.Moveable).activeInHierarchy && playerLocationTile != tileController.Model)
                     {
-                        ExplorerSettingSuccess(tileController);
+                        SetCompleteExplorerMachine(tileController);
                     }
                 }
 
@@ -598,11 +541,11 @@ public class MapManager : ManagementBase
             }
             else if (isDisturbanceSet)
             {
-                DistrubtorBorderActiveSet(false);
+                DisturbanceMachineSetting(false);
             }
             else if (isExplorerSet)
             {
-                ExplorerBorderActiveSet(false);
+                ExplorerMachineSettting(false);
             }
         }
     }
@@ -631,15 +574,15 @@ public class MapManager : ManagementBase
 
         foreach (var item in movePath)
         {
-            targetTile = Hexamap.Map.GetTileFromCoords(item);
+            targetTile = map.Map.GetTileFromCoords(item);
             if (targetTile == null)
                 break;
 
             targetPos = ((GameObject)targetTile.GameEntity).transform.position;
-            targetPos.y += 0.5f
-                ;
+            targetPos.y += 0.5f;
+
             player.transform.DOMove(targetPos, time);
-            health--;
+            currentHealth--;
             yield return new WaitForSeconds(time);
         }
 
@@ -648,13 +591,76 @@ public class MapManager : ManagementBase
         yield return new WaitForSeconds(time);
 
         movePath.Clear();
-        health = 0;
-        PlayerBehavior?.Invoke(playerLocationTile);
+        currentHealth = 0;
+        PlayerSightUpdate?.Invoke(playerLocationTile);
         resourceManager.GetResource();
         arrow.OffEffect();
     }
 
-    void DistrubtorSettingSuccess(TileController tileController, CompassPoint direction)
+    TileController TileToTileController(Tile tile)
+    {
+        return ((GameObject)tile.GameEntity).GetComponent<TileController>();
+    }
+
+    #region UI 씬 버튼 관련
+    public void DisturbanceMachineSetting(bool set)
+    {
+        List<Tile> nearthTiles = GetTilesInRange(playerLocationTile, 1);
+
+        if (set)
+        {
+            for (int i = 0; i < nearthTiles.Count; i++)
+            {
+                SelectBorder(TileToTileController(nearthTiles[i]), TileState.Target);
+            }
+            GenerateDisturbanceMachine();
+            isDisturbanceSet = true;
+            isPlayerSelected = true;
+        }
+        else
+        {
+            for (int i = 0; i < nearthTiles.Count; i++)
+            {
+                UnSelectBorder(TileToTileController(nearthTiles[i]));
+            }
+            Destroy(disturbanceMachine);
+            isDisturbanceSet = false;
+            isPlayerSelected = false;
+        }
+    }
+
+    void GenerateDisturbanceMachine()
+    {
+        disturbanceMachine = Instantiate(disturbanceMachinePrefab, player.transform.position + Vector3.up * 1.5f, Quaternion.Euler(0, -90, 0));
+        disturbanceMachine.transform.parent = mapTransform;
+        disturbanceMachine.GetComponentInChildren<MeshRenderer>().material.DOFade(50, 0);
+    }
+
+    public void ExplorerMachineSettting(bool set)
+    {
+        if (set)
+        {
+            GenerateExplorerMachine();
+            isExplorerSet = true;
+            isPlayerSelected = true;
+        }
+        else
+        {
+            Destroy(explorerMachine);
+            isExplorerSet = false;
+            isPlayerSelected = false;
+        }
+    }
+
+    void GenerateExplorerMachine()
+    {
+        explorerMachine = Instantiate(explorerMachinePrefab, player.transform.position + Vector3.up * 1.5f, Quaternion.identity);
+        explorerMachine.transform.parent = mapTransform;
+        explorerMachine.GetComponentInChildren<MeshRenderer>().material.DOFade(50, 0);
+        explorerMachine.GetComponent<Explorer>().Set(playerLocationTile);
+    }
+
+    void SetCompleteDisturbanceMachine(TileController tileController, CompassPoint direction)
     {
         disturbanceMachine.GetComponent<DisturbanceMachine>().Set(tileController.Model, direction);
         disturbanceMachine.GetComponent<DisturbanceMachine>().DirectionObjectOff();
@@ -663,7 +669,7 @@ public class MapManager : ManagementBase
 
         for (int i = 0; i < nearthTiles.Count; i++)
         {
-            ((GameObject)nearthTiles[i].GameEntity).GetComponent<Borders>().GetDisturbanceBorder()?.SetActive(false);
+            UnSelectBorder(TileToTileController(nearthTiles[i]));
         }
 
         isPlayerSelected = false;
@@ -671,10 +677,10 @@ public class MapManager : ManagementBase
         isDisturbanceInstall = true;
     }
 
-    void ExplorerSettingSuccess(TileController tileController)
+    void SetCompleteExplorerMachine(TileController tileController)
     {
-        explorerObject.GetComponent<Explorer>().Targetting(tileController.Model);
-        explorerObject.GetComponent<Explorer>().Move();
+        explorerMachine.GetComponent<Explorer>().Targetting(tileController.Model);
+        explorerMachine.GetComponent<Explorer>().Move();
 
         isPlayerSelected = false;
         isExplorerSet = false;
@@ -682,64 +688,10 @@ public class MapManager : ManagementBase
         DeselectAllPathTile();
     }
 
-    #region UI 씬 버튼 관련
-    public void DistrubtorBorderActiveSet(bool set)
-    {
-        List<Tile> nearthTiles;
-        nearthTiles = GetTilesInRange(playerLocationTile, 1);
-
-        if (set)
-        {
-            for (int i = 0; i < nearthTiles.Count; i++)
-            {
-                GameObject border = getTileBorder(nearthTiles[i], "BorderTarget");
-                border?.SetActive(true);
-            }
-
-            disturbanceMachine = Instantiate(distrubtorPrefab, player.transform.position + Vector3.up * 1.5f, Quaternion.Euler(0, -90, 0));
-            disturbanceMachine.transform.parent = hexamapTr;
-            disturbanceMachine.GetComponentInChildren<MeshRenderer>().material.DOFade(50, 0);
-
-            isDisturbanceSet = true;
-            isPlayerSelected = true;
-        }
-        else
-        {
-            for (int i = 0; i < nearthTiles.Count; i++)
-            {
-                GameObject border = getTileBorder(nearthTiles[i], "BorderTarget");
-                border?.SetActive(false);
-
-                Destroy(disturbanceMachine);
-                isDisturbanceSet = false;
-                isPlayerSelected = false;
-            }
-        }
-    }
-
-    public void ExplorerBorderActiveSet(bool set)
-    {
-        if (set)
-        {
-            explorerObject = Instantiate(explorerPrefab, player.transform.position + Vector3.up * 1.5f, Quaternion.identity);
-            explorerObject.transform.parent = hexamapTr;
-            explorerObject.GetComponentInChildren<MeshRenderer>().material.DOFade(50, 0);
-            explorerObject.GetComponent<Explorer>().Set(playerLocationTile);
-            isExplorerSet = true;
-            isPlayerSelected = true;
-        }
-        else
-        {
-            Destroy(explorerObject);
-            isExplorerSet = false;
-            isPlayerSelected = false;
-        }
-    }
-
     public void NextDay()
     {
         resourceManager.SetTile(targetTile.Model);
-        prevTile = playerLocationTile;
+        prevPlayerLocationTile = playerLocationTile;
         playerLocationTile = targetTile.Model;
 
         if (movePath != null)
@@ -752,27 +704,25 @@ public class MapManager : ManagementBase
             DeselectAllTile();
             DeselectAllPathTile();
 
-            health = 0;
-            PlayerBehavior?.Invoke(playerLocationTile);
+            currentHealth = 0;
+            PlayerSightUpdate?.Invoke(playerLocationTile);
             arrow.OffEffect();
-            if (prevTile == playerLocationTile)
+
+            if (prevPlayerLocationTile == playerLocationTile)
                 resourceManager.GetResource();
         }
 
-        if (health == maxHealth)
-            prevTile = playerLocationTile;
-
-        health = maxHealth;
+        currentHealth = maxHealth;
 
         if (disturbanceMachine != null)
             disturbanceMachine.GetComponent<DisturbanceMachine>().Move();
 
-        if (explorerObject != null)
-            StartCoroutine(explorerObject.GetComponent<Explorer>().Move());
+        if (explorerMachine != null)
+            StartCoroutine(explorerMachine.GetComponent<Explorer>().Move());
 
-        foreach (var item in zombiesList)
+        foreach (var zombie in zombiesList)
         {
-            item.GetComponent<ZombieSwarm>().Detection();
+            zombie.GetComponent<ZombieSwarm>().DetectionAndAct();
         }
     }
 
@@ -781,7 +731,7 @@ public class MapManager : ManagementBase
         GameObject tileGO = (GameObject)tile.Model.GameEntity;
 
         if (tileGO != null && tile.Model.Landform.GetType().Name != "LandformWorldLimit")
-            return tileGO.transform.Find("Canvas").Find("TileInfo").gameObject;
+            return tileGO.GetComponent<TileInfo>().GetUiObject();
 
         return null;
     }
@@ -808,47 +758,35 @@ public class MapManager : ManagementBase
         {
             if (t == null)
                 continue;
-            BordersOff(t);
+            UnSelectBorder(t);
         }
         selectedTiles.Clear();
     }
 
     void DeselectAllPathTile()
     {
-        if (selectPath == null)
+        if (selectedPathTiles == null)
             return;
 
-        foreach (var t in selectPath)
+        foreach (var t in selectedPathTiles)
         {
-            BordersOff(Hexamap.Map.GetTileFromCoords(t));
+            UnSelectBorder(TileToTileController(GetTileFromCoords(t)));
         }
-        selectPath.Clear();
+        selectedPathTiles.Clear();
     }
 
-    void unselectTile(TileController tile)
+    void UnselectTile(TileController tile)
     {
-        BordersOff(tile);
+        UnSelectBorder(tile);
         selectedTiles.Remove(tile);
     }
 
-    void SelectBorder(TileController tileController, TileState state)
-    {
-        switch (state) 
-        {
-            case TileState.None:
-                tileController.GetComponent<Borders>().GetBorder()?.SetActive(true);
-                break;
-            case TileState.Moveable:
-                tileController.GetComponent<Borders>().GetAvailableBorder()?.SetActive(true);
-                break;
-            case TileState.Unable:
-                tileController.GetComponent<Borders>().GetUnAvailableBorder()?.SetActive(true);
-                break;
-        }
-        selectedTiles.Add(tileController);
-    }
 
-    void selectMetaLandform(TileController tile)
+    /// <summary>
+    /// 같은 그룹 타일이 모여있는 곳에 마우스를 올리면 그룹선택을 하게 해주는 함수. 현재 사용 중이지 않다.
+    /// </summary>
+    /// <param name="tile"></param>
+    void SelectMetaLandform(TileController tile)
     {
         // Select metalandform of a tile
         var metaLandformTiles = tile
@@ -864,34 +802,33 @@ public class MapManager : ManagementBase
         var tileToUnselect = selectedTiles.Except(metaLandformTiles).ToList();
         var tileToSelect = metaLandformTiles.Except(selectedTiles).ToList();
 
-        tileToSelect.ForEach(t => SelectBorder(t, "BorderNo"));
-        tileToUnselect.ForEach(t => unselectTile(t));
+        tileToSelect.ForEach(t => SelectBorder(t, TileState.Unable));
+        tileToUnselect.ForEach(t => UnselectTile(t));
     }
 
-    void BordersOff(TileController tile)
+    void SelectBorder(TileController tileController, TileState state)
     {
-        GameObject border1 = GetTileBorder(tile, "Border");
-        GameObject border2 = GetTileBorder(tile, "BorderYes");
-        GameObject border3 = GetTileBorder(tile, "BorderNo");
-        //GameObject border4 = getTileBorder(tile, "BorderTarget");
-
-        border1?.SetActive(false);
-        border2?.SetActive(false);
-        border3?.SetActive(false);
-        //border4?.SetActive(false);
+        switch (state) 
+        {
+            case TileState.None:
+                tileController.GetComponent<Borders>().GetNormalBorder()?.SetActive(true);
+                break;
+            case TileState.Moveable:
+                tileController.GetComponent<Borders>().GetAvailableBorder()?.SetActive(true);
+                break;
+            case TileState.Unable:
+                tileController.GetComponent<Borders>().GetUnAvailableBorder()?.SetActive(true);
+                break;
+            case TileState.Target:
+                tileController.GetComponent<Borders>().GetDisturbanceBorder()?.SetActive(true);
+                break;
+        }
+        selectedTiles.Add(tileController);
     }
 
-    void BordersOff(Tile tile)
+    void UnSelectBorder(TileController tileController)
     {
-        GameObject border1 = getTileBorder(tile, "Border");
-        GameObject border2 = getTileBorder(tile, "BorderYes");
-        GameObject border3 = getTileBorder(tile, "BorderNo");
-        //GameObject border4 = getTileBorder(tile, "BorderTarget");
-
-        border1?.SetActive(false);
-        border2?.SetActive(false);
-        border3?.SetActive(false);
-        //border4?.SetActive(false);
+        tileController.GetComponent<Borders>().OffAllBorders();
     }
 
     GameObject GetTileBorder(TileController tileController, TileState state)
@@ -899,7 +836,7 @@ public class MapManager : ManagementBase
         switch (state)
         {
             case TileState.None:
-                return tileController.GetComponent<Borders>().GetBorder();
+                return tileController.GetComponent<Borders>().GetNormalBorder();
             case TileState.Moveable:
                 return tileController.GetComponent<Borders>().GetAvailableBorder();
             case TileState.Unable:
@@ -909,19 +846,9 @@ public class MapManager : ManagementBase
         return null;
     }
 
-    GameObject getTileBorder(Tile tile, string name)
-    {
-        GameObject tileGO = (GameObject)tile.GameEntity;
-
-        if (tileGO != null && tile.Landform.GetType().Name != "LandformWorldLimit")
-            return tileGO.transform.Find(name).gameObject;
-
-        return null;
-    }
-
     public override EManagerType GetManagemetType()
     {
-        throw new NotImplementedException();
+        return EManagerType.MAP;
     }
     #endregion
 }

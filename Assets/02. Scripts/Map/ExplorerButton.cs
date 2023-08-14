@@ -21,6 +21,6 @@ public class ExplorerButton : MonoBehaviour
     public void Explorer()
     {
         if(controller.CheckSelected())
-            controller.ExplorerBorderActiveSet(true);
+            controller.ExplorerMachineSettting(true);
     }
 }

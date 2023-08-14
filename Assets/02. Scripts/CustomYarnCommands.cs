@@ -113,12 +113,12 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     private Coroutine WaitSetDisturbance()
     {
         MapUiController.instance.InteractableOn();
-        return StartCoroutine(new WaitUntil(() => App.instance.GetMapManager().IsDisturbanceOn()));
+        return StartCoroutine(new WaitUntil(() => App.instance.GetMapManager().DisturbanceInstall));
     }
 
     private Coroutine WaitTileUIOpen()
     {
-        return StartCoroutine(new WaitUntil(() => App.instance.GetMapManager().IsUiOn()));
+        return StartCoroutine(new WaitUntil(() => App.instance.GetMapManager().UiOn));
     }
 
     private Coroutine WaitUntilUIState(string _UIName)

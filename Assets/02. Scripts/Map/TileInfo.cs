@@ -83,7 +83,7 @@ public class TileInfo : MonoBehaviour
 
     void Start()
     {
-        MapManager.PlayerBehavior += CheckPlayerTIle;
+        MapManager.PlayerSightUpdate += CheckPlayerTIle;
         myTile = gameObject.transform.GetComponent<TileController>().Model;
         appearanceResources = new List<Resource>();
         gachaList = new List<ItemBase>();
@@ -91,7 +91,7 @@ public class TileInfo : MonoBehaviour
         {
             gachaList.Add(itemSO.items[i]);
         }
-        if (CheckTutorial(App.instance.GetMapManager().playerLocationTile))
+        if (CheckTutorial(App.instance.GetMapManager().GetPlayerLocationTile()))
         {
             TutorialResourceUpdate();
         }
@@ -104,7 +104,7 @@ public class TileInfo : MonoBehaviour
 
     void OnDestroy()
     {
-        MapManager.PlayerBehavior -= CheckPlayerTIle;
+        MapManager.PlayerSightUpdate -= CheckPlayerTIle;
     }
 
     void RandomResourceUpdate()
@@ -278,5 +278,10 @@ public class TileInfo : MonoBehaviour
     public TMP_Text GetZombieText()
     {
         return zombieText;
+    }
+
+    public GameObject GetUiObject()
+    {
+        return ui;
     }
 }

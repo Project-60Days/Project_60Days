@@ -39,6 +39,5 @@ public class MapCamera : MonoBehaviour
             //UIManager.instance.PopCurrUI();
         }
         mapUi.SetActive(isOn);
-        App.instance.GetMapManager().BaseActiveSet(!isOn);
     }
 }

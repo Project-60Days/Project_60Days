@@ -51,7 +51,7 @@ public class ZombieSwarm : MonoBehaviour
         CurrentTileInfoUpdate(curTile);
     }
 
-    public void Detection()
+    public void DetectionAndAct()
     {
         // 데모 컨트롤러에서 범위 가져옴.
         isChasingPlayer = App.instance.GetMapManager().CalculateDistanceToPlayer(curTile, 2);
@@ -79,7 +79,7 @@ public class ZombieSwarm : MonoBehaviour
         if (isChasingPlayer)
         {
             Debug.Log(gameObject.name + "이 플레이어를 발견!");
-            StartCoroutine(MoveToTarget(App.instance.GetMapManager().playerLocationTile));
+            StartCoroutine(MoveToTarget(App.instance.GetMapManager().GetPlayerLocationTile()));
         }
         else
         {

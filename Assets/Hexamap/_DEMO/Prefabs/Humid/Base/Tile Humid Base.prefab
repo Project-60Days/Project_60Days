@@ -1686,7 +1686,7 @@ MonoBehaviour:
   zombieText: {fileID: 3307195799614185734}
   itemSO: {fileID: 11400000, guid: 9fbd54ca786ce174891a63e9312d8ea6, type: 2}
   player: {fileID: 0}
-  ui: {fileID: 0}
+  ui: {fileID: 4450744164816018897}
   resourceIcons:
   - {fileID: 4480861642612386862}
   - {fileID: 2074347082223530886}

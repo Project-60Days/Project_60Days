@@ -261,25 +261,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Hexamap: {fileID: 35908273}
+  resourceManager: {fileID: 1926141685}
+  fog: {fileID: 1413298384}
   TextStats: {fileID: 1221586099}
+  zombiesTr: {fileID: 706894744}
+  hexamapTr: {fileID: 2032613207}
   playerPrefab: {fileID: 6314717740676103250, guid: 303886a44e740944493ee594d856f8af, type: 3}
   zombiePrefab: {fileID: 6314717740676103250, guid: 29bed00a597eb3044ac9e986cee602f5, type: 3}
   distrubtorPrefab: {fileID: 2141712199585254430, guid: fbea53f2c0e7cdc49a173ebc909cc565, type: 3}
   explorerPrefab: {fileID: 2141712199585254430, guid: 5fede54bddf76ae4fb17561eb5cb324f, type: 3}
-  zombiesTr: {fileID: 706894744}
-  hexamapTr: {fileID: 2032613207}
   mapCamera: {fileID: 534669904}
-  player: {fileID: 0}
-  fog: {fileID: 1982854165}
-  resourceManager: {fileID: 1926141685}
-  targetTile: {fileID: 0}
-  MaxYPosition: 70
-  MinYPosition: 5
-  MinXRotation: 30
-  MaxXRotation: 90
-  ScrollSpeed: 100
-  MoveSpeed: 50
-  isBaseOn: 0
 --- !u!1 &70614907
 GameObject:
   m_ObjectHideFlags: 0
@@ -689,7 +680,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!20 &534669904
 Camera:
   m_ObjectHideFlags: 0
