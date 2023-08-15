@@ -88,7 +88,7 @@ public class TileInfo : MonoBehaviour
 
     void Start()
     {
-        MapController.PlayerSightUpdate += CheckPlayerTIle;
+        Player.PlayerSightUpdate += CheckPlayerTIle;
         myTile = gameObject.transform.GetComponent<TileController>().Model;
         appearanceResources = new List<Resource>();
         gachaList = new List<ItemBase>();
@@ -109,7 +109,7 @@ public class TileInfo : MonoBehaviour
 
     void OnDestroy()
     {
-        MapController.PlayerSightUpdate -= CheckPlayerTIle;
+        Player.PlayerSightUpdate -= CheckPlayerTIle;
     }
 
     void RandomResourceUpdate()

@@ -10,27 +10,9 @@ using Hexamap;
 using UnityEngine.EventSystems;
 using FischlWorks_FogWar;
 
-public enum ETileState
-{
-    None,
-    Moveable,
-    Unable,
-    Target
-}
-
-public enum EMabPrefab
-{
-    Player,
-    Zombie,
-    Disturbtor,
-    Explorer
-}
-
 public class MapController : Singleton<MapController>
 {
     #region 변수
-
-
     [Header("컴포넌트")]
     [Space(5f)]
 
@@ -55,9 +37,9 @@ public class MapController : Singleton<MapController>
     GameObject explorer;
     GameObject currentUI;
 
-    ArrowToMove arrow;
+    ArrowPointUI arrow;
     NoteAnim noteAnim;
-    TileController targetTile;
+    TileController targetTileController;
 
     int currentHealth;
     int maxHealth = 1;
@@ -100,7 +82,7 @@ public class MapController : Singleton<MapController>
 
         foreach (var item in searchTiles)
         {
-            if (player.Tile.Model == item)
+            if (player.TileController.Model == item)
             {
                 return true;
             }
@@ -196,7 +178,7 @@ public class MapController : Singleton<MapController>
 
         zombiesList.Add(zombie);
 
-        zombie.GetComponent<ZombieSwarm>().MoveTargetCoroutine(player.Tile.Model);
+        zombie.GetComponent<ZombieSwarm>().MoveTargetCoroutine(player.TileController.Model);
     }
 
     public Tile GetTileFromCoords(Coords coords)
@@ -211,7 +193,7 @@ public class MapController : Singleton<MapController>
 
     public Tile GetPlayerLocationTile()
     {
-        return player.Tile.Model;
+        return player.TileController.Model;
     }
     #endregion
 
@@ -228,7 +210,7 @@ public class MapController : Singleton<MapController>
         yield return new WaitForEndOfFrame();
         mapCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         noteAnim = GameObject.FindGameObjectWithTag("NoteAnim").GetComponent<NoteAnim>();
-        arrow = GameObject.FindGameObjectWithTag("MapUi").transform.GetChild(0).transform.Find("Map_Arrow").GetComponent<ArrowToMove>();
+        arrow = GameObject.FindGameObjectWithTag("MapUi").transform.GetChild(0).transform.Find("Map_Arrow").GetComponent<ArrowPointUI>();
     }
 
     void GenerateMap()
@@ -301,10 +283,11 @@ public class MapController : Singleton<MapController>
 
     void SpawnPlayer()
     {
-        player.Tile = TileToTileController(map.Map.GetTileFromCoords(new Coords(0, 0)));
-        targetTile = player.Tile;
+        player.UpdateCurrentTile(TileToTileController(map.Map.GetTileFromCoords(new Coords(0, 0))));
+        
+        targetTileController = player.TileController;
 
-        Vector3 spawnPos = player.Tile.transform.position;
+        Vector3 spawnPos = player.TileController.transform.position;
         spawnPos.y += 0.7f;
 
         var playerObject = Instantiate(mapPrefab.items[(int)EMabPrefab.Player].prefab, spawnPos, Quaternion.Euler(0, -90, 0));
@@ -324,7 +307,7 @@ public class MapController : Singleton<MapController>
             randomInt = UnityEngine.Random.Range(0, tileList.Count);
 
             if (tileList[randomInt].Landform.GetType().Name == "LandformPlain"
-                && player.Tile.Model != tileList[randomInt])
+                && player.TileController.Model != tileList[randomInt])
             {
                 if (!selectTileNumber.Contains(randomInt))
                     selectTileNumber.Add(randomInt);
@@ -413,9 +396,9 @@ public class MapController : Singleton<MapController>
     {
         int rangeOfMotion = 0;
 
-        if (tileController.Model != player.Tile.Model)
+        if (tileController.Model != player.TileController.Model)
         {
-            foreach (Coords coords in AStar.FindPath(playerLocationTileController.Model.Coords, tileController.Model.Coords))
+            foreach (Coords coords in AStar.FindPath(player.TileController.Model.Coords, tileController.Model.Coords))
             {
                 if (rangeOfMotion == currentHealth)
                     break;
@@ -434,13 +417,13 @@ public class MapController : Singleton<MapController>
 
     void DisturbtorPathFinder(TileController tileController)
     {
-        if (map.Map.GetTilesInRange(playerLocationTileController.Model, 1).Contains(tileController.Model))
+        if (map.Map.GetTilesInRange(player.TileController.Model, 1).Contains(tileController.Model))
         {
             disturbtor.transform.position = ((GameObject)tileController.Model.GameEntity).transform.position + Vector3.up;
             disturbtor.GetComponent<Disturbtor>().DirectionObjectOff();
             SelectBorder(tileController, ETileState.Moveable);
 
-            foreach (var item in playerLocationTileController.Model.Neighbours.Where(item => item.Value == tileController.Model))
+            foreach (var item in player.TileController.Model.Neighbours.Where(item => item.Value == tileController.Model))
             {
                 disturbtor.GetComponent<Disturbtor>().GetDirectionObject(item.Key).SetActive(true);
             }
@@ -481,17 +464,17 @@ public class MapController : Singleton<MapController>
                 else if (isPlayerCanMove)
                 {
                     if (GetTileBorder(tileController, ETileState.Moveable).activeInHierarchy 
-                        && playerLocationTileController.Model != tileController.Model)
+                        && player.TileController.Model != tileController.Model)
                     {
                         SavePlayerMovePath(tileController);
                     }
                 }
                 else if (isDisturbanceSet)
                 {
-                    if (map.Map.GetTilesInRange(playerLocationTileController.Model, 1).Contains(tileController.Model) 
+                    if (map.Map.GetTilesInRange(player.TileController.Model, 1).Contains(tileController.Model) 
                         && GetTileBorder(tileController, ETileState.Moveable).activeInHierarchy)
                     {
-                        foreach (var item in playerLocationTileController.Model.Neighbours.Where(item => item.Value == tileController.Model))
+                        foreach (var item in player.TileController.Model.Neighbours.Where(item => item.Value == tileController.Model))
                         {
                             InstallDisturbtor(tileController, item.Key);
                         }
@@ -500,7 +483,7 @@ public class MapController : Singleton<MapController>
                 else if (isExplorerSet)
                 {
                     if (GetTileBorder(tileController, ETileState.Moveable).activeInHierarchy 
-                        && playerLocationTileController.Model != tileController.Model)
+                        && player.TileController.Model != tileController.Model)
                     {
                         InstallExplorer(tileController);
                     }
@@ -521,19 +504,19 @@ public class MapController : Singleton<MapController>
             }
             else if (isDisturbanceSet)
             {
-                DisturbtorSetting(false);
+                PreparingDisturbtor(false);
             }
             else if (isExplorerSet)
             {
-                ExplorerSettting(false);
+                PreparingExplorer(false);
             }
         }
     }
 
     void SavePlayerMovePath(TileController tileController)
     {
-        targetTile = tileController;
-        movePath = AStar.FindPath(playerLocationTileController.Model.Coords, tileController.Model.Coords);
+        targetTileController = tileController;
+        movePath = AStar.FindPath(player.TileController.Model.Coords, tileController.Model.Coords);
         arrow.OnEffect(tileController.transform);
 
         isPlayerSelected = false;
@@ -542,7 +525,7 @@ public class MapController : Singleton<MapController>
         DeselectAllBorderTiles();
     }
 
-    IEnumerator MovePlayer(Vector3 lastTargetPos, float time = 0.4f)
+    IEnumerator MovePlayer(TileController targetTileController, float time = 0.4f)
     {
         isPlayerMoving = true;
 
@@ -550,6 +533,7 @@ public class MapController : Singleton<MapController>
 
         Tile targetTile;
         Vector3 targetPos;
+        Vector3 lastTargetPos = targetTileController.transform.position;
 
         foreach (var item in movePath)
         {
@@ -571,8 +555,11 @@ public class MapController : Singleton<MapController>
 
         movePath.Clear();
         currentHealth = 0;
+
+        player.UpdateCurrentTile(targetTileController);
         //Player로 이동
         //PlayerSightUpdate?.Invoke(playerLocationTileController.Model);
+
         // MapManager로 이동
         //resourceManager.GetResource(playerLocationTileController);
         //arrow.OffEffect();
@@ -584,9 +571,9 @@ public class MapController : Singleton<MapController>
     }
 
     #region UI 씬 버튼 관련
-    public void DisturbtorSetting(bool set)
+    public void PreparingDisturbtor(bool set)
     {
-        List<Tile> nearthTiles = GetTilesInRange(playerLocationTileController.Model, 1);
+        List<Tile> nearthTiles = GetTilesInRange(player.TileController.Model, 1);
 
         if (set)
         {
@@ -595,7 +582,7 @@ public class MapController : Singleton<MapController>
                 SelectBorder(TileToTileController(nearthTiles[i]), ETileState.Target);
             }
 
-            GenerateDisturbtor();
+            GenerateExampleDisturbtor();
 
             isDisturbanceSet = true;
             isPlayerSelected = true;
@@ -614,7 +601,7 @@ public class MapController : Singleton<MapController>
         }
     }
 
-    void GenerateDisturbtor()
+    void GenerateExampleDisturbtor()
     {
         disturbtor = Instantiate(mapPrefab.items[(int)EMabPrefab.Disturbtor].prefab, player.transform.position + Vector3.up * 1.5f, Quaternion.Euler(0, -90, 0));
         disturbtor.transform.parent = mapTransform;
@@ -626,7 +613,7 @@ public class MapController : Singleton<MapController>
         disturbtor.GetComponent<Disturbtor>().Set(tileController.Model, direction);
         disturbtor.GetComponent<Disturbtor>().DirectionObjectOff();
 
-        List<Tile> nearthTiles = GetTilesInRange(playerLocationTileController.Model, 1);
+        List<Tile> nearthTiles = GetTilesInRange(player.TileController.Model, 1);
         for (int i = 0; i < nearthTiles.Count; i++)
         {
             DeselectBorder(TileToTileController(nearthTiles[i]));
@@ -637,11 +624,11 @@ public class MapController : Singleton<MapController>
         isDisturbanceInstall = true;
     }
 
-    public void ExplorerSettting(bool set)
+    public void PreparingExplorer(bool set)
     {
         if (set)
         {
-            GenerateExplorer();
+            GenerateExampleExplorer();
             isExplorerSet = true;
             isPlayerSelected = true;
         }
@@ -653,13 +640,13 @@ public class MapController : Singleton<MapController>
         }
     }
 
-    void GenerateExplorer()
+    void GenerateExampleExplorer()
     {
         explorer = Instantiate(mapPrefab.items[(int)EMabPrefab.Explorer].prefab, player.transform.position + Vector3.up * 1.5f, Quaternion.identity);
         explorer.transform.parent = mapTransform;
 
         explorer.GetComponentInChildren<MeshRenderer>().material.DOFade(50, 0);
-        explorer.GetComponent<Explorer>().Set(playerLocationTileController.Model);
+        explorer.GetComponent<Explorer>().Set(player.TileController.Model);
     }
 
     void InstallExplorer(TileController tileController)
@@ -673,11 +660,9 @@ public class MapController : Singleton<MapController>
 
     public void NextDay()
     {
-        playerLocationTileController = targetTile;
-
         if (movePath != null)
         {
-            StartCoroutine(MovePlayer(targetTile.transform.position));
+            StartCoroutine(MovePlayer(targetTileController));
         }
         else
         {

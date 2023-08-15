@@ -126,4 +126,20 @@ public enum EResourceType
     PLATE
 }
 
+public enum ETileState
+{
+    None,
+    Moveable,
+    Unable,
+    Target
+}
+
+public enum EMabPrefab
+{
+    Player,
+    Zombie,
+    Disturbtor,
+    Explorer
+}
+
 #endregion

@@ -14,12 +14,14 @@ public class Player : MonoBehaviour
 
     public static Action<Tile> PlayerSightUpdate;
 
-    TileController currentTile;
+    TileController currentTileContorller;
 
-    public TileController Tile
+    public TileController TileController
     {
-        get { return currentTile; }
-        set { currentTile = value; }
+        get 
+        { 
+            return currentTileContorller; 
+        }
     }
 
     void Start()
@@ -29,18 +31,21 @@ public class Player : MonoBehaviour
         StartCoroutine(DelaySightGetInfo());
     }
 
-    /// <summary>
-    /// 플레이어가 서 있는 타일의 위치를 갱신할 때마다 그 타일의 정보를 넘겨주는 이벤트 함수
-    /// </summary>
-    /// <returns></returns>
-    IEnumerator DelaySightGetInfo()
+    void SavePlayerMovePath(TileController tileController)
     {
-        // AdditiveScene 딜레이 
-        yield return new WaitForEndOfFrame();
-        PlayerSightUpdate?.Invoke(currentTile.Model);
+        movePath = AStar.FindPath(currentTileContorller.Model.Coords, tileController.Model.Coords);
+        
+        //targetTileController = tileController;
+        //arrow.OnEffect(tileController.transform);
+
+        //isPlayerSelected = false;
+        //isPlayerCanMove = false;
+
+        //DeselectAllBorderTiles();
     }
 
-    public IEnumerator MoveToTargetTile(Vector3 lastTargetPos, float time = 0.4f)
+
+    public IEnumerator MoveToTarget(TileController targetTileController, float time = 0.4f)
     {
         //isPlayerMoving = true;
 
@@ -48,6 +53,7 @@ public class Player : MonoBehaviour
 
         Tile targetTile;
         Vector3 targetPos;
+        Vector3 lastTargetPos = targetTileController.transform.position;
 
         foreach (var item in movePath)
         {
@@ -69,10 +75,28 @@ public class Player : MonoBehaviour
 
         movePath.Clear();
         currentHealth = 0;
-        PlayerSightUpdate?.Invoke(currentTile.Model);
+
+        UpdateCurrentTile(targetTileController);
+        PlayerSightUpdate?.Invoke(currentTileContorller.Model);
 
         // MapManager로 이동
         //resourceManager.GetResource(playerLocationTileController);
         //arrow.OffEffect();
+    }
+
+    /// <summary>
+    /// 플레이어가 서 있는 타일의 위치를 갱신할 때마다 그 타일의 정보를 넘겨주는 이벤트 함수
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator DelaySightGetInfo()
+    {
+        // AdditiveScene 딜레이 
+        yield return new WaitForEndOfFrame();
+        PlayerSightUpdate?.Invoke(currentTileContorller.Model);
+    }
+
+    public void UpdateCurrentTile(TileController tileController)
+    {
+        currentTileContorller = tileController;
     }
 }

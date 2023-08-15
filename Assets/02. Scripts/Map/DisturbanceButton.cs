@@ -21,6 +21,6 @@ public class DisturbanceButton : MonoBehaviour
     public void Disturbance()
     {
         if(controller.CheckSelected())
-            controller.DisturbtorSetting(true);
+            controller.PreparingDisturbtor(true);
     }
 }
