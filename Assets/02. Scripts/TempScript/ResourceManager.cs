@@ -8,8 +8,7 @@ public class ResourceManager : MonoBehaviour
 {
     [SerializeField] int collectiveAbility;
     [SerializeField] ItemSO itemSO;
-    Tile currenTile;
-    TileInfo currenTileInfo;
+
     List<Resource> owendResources;
     InventoryPage inventory;
 
@@ -37,15 +36,9 @@ public class ResourceManager : MonoBehaviour
         }
     }
 
-    public void SetTile(Tile tile)
+    public void GetResource(TileController tile)
     {
-        currenTile = tile;
-        currenTileInfo = ((GameObject)(currenTile.GameEntity)).GetComponent<TileInfo>();
-    }
-
-    public void GetResource()
-    {
-        var list = currenTileInfo.GetResources(collectiveAbility);
+        var list = tile.GetComponent<TileInfo>().GetResources(collectiveAbility);
 
         if (owendResources == null)
             owendResources = list;

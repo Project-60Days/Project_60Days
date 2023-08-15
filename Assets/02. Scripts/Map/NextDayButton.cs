@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class NextDayButton : MonoBehaviour
 {
-    MapManager controller;
+    MapController controller;
     void Start()
     {
         StartCoroutine(GetMapController());
@@ -14,7 +14,7 @@ public class NextDayButton : MonoBehaviour
     IEnumerator GetMapController()
     {
         yield return new WaitForEndOfFrame();
-        controller = GameObject.FindGameObjectWithTag("MapController").GetComponent<MapManager>();
+        controller = GameObject.FindGameObjectWithTag("MapController").GetComponent<MapController>();
         gameObject.GetComponent<Button>().onClick.AddListener(NextDay);
     }
 

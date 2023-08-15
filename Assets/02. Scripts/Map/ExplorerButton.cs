@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ExplorerButton : MonoBehaviour
 {
-    MapManager controller;
+    MapController controller;
     void Start()
     {
         StartCoroutine(GetMapController());
@@ -14,13 +14,13 @@ public class ExplorerButton : MonoBehaviour
     IEnumerator GetMapController()
     {
         yield return new WaitForEndOfFrame();
-        controller = GameObject.FindGameObjectWithTag("MapController").GetComponent<MapManager>();
+        controller = GameObject.FindGameObjectWithTag("MapController").GetComponent<MapController>();
         gameObject.GetComponent<Button>().onClick.AddListener(Explorer);
     }
 
     public void Explorer()
     {
         if(controller.CheckSelected())
-            controller.ExplorerMachineSettting(true);
+            controller.ExplorerSettting(true);
     }
 }

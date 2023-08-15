@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class DisturbanceButton : MonoBehaviour
 {
-    MapManager controller;
+    MapController controller;
     void Start()
     {
         StartCoroutine(GetMapController());
@@ -14,13 +14,13 @@ public class DisturbanceButton : MonoBehaviour
     IEnumerator GetMapController()
     {
         yield return new WaitForEndOfFrame();
-        controller = GameObject.FindGameObjectWithTag("MapController").GetComponent<MapManager>();
+        controller = GameObject.FindGameObjectWithTag("MapController").GetComponent<MapController>();
         gameObject.GetComponent<Button>().onClick.AddListener(Disturbance);
     }
 
     public void Disturbance()
     {
         if(controller.CheckSelected())
-            controller.DisturbanceMachineSetting(true);
+            controller.DisturbtorSetting(true);
     }
 }

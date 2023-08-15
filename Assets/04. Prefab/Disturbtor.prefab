@@ -206,7 +206,7 @@ GameObject:
   - component: {fileID: -9178913118835124496}
   - component: {fileID: 6313639618506749780}
   m_Layer: 0
-  m_Name: DisturbanceMachine
+  m_Name: Disturbtor
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

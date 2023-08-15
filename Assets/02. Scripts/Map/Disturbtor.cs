@@ -7,7 +7,7 @@ using Hexamap;
 [System.Serializable]
 public class CompassPointObjects : SerializableDictionary<CompassPoint, GameObject> { };
 
-public class DisturbanceMachine : MonoBehaviour
+public class Disturbtor : MonoBehaviour
 {
     float lifeTime;
     public Tile currentTile;
