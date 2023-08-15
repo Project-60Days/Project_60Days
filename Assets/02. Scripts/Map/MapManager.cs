@@ -68,7 +68,7 @@ public class MapManager : ManagementBase
 
     bool isUIOn;
 
-    public bool UiOn
+    public bool UIOn
     {
         get 
         { 
@@ -114,13 +114,13 @@ public class MapManager : ManagementBase
 
     public bool isTutorialUiOn()
     {
-        if (isUIOn)
-            return currentUI.transform.parent.parent.GetComponent<TileInfo>().isTutorialTile;
+        if (currentUI == null)
+            return false;
 
-        return false;
+        return currentUI.transform.parent.parent.GetComponent<TileInfo>().TutorialTile;
     }
 
-    public void CurrentUIEmptying()
+    public void OffCurrentUI()
     {
         currentUI.SetActive(false);
         isUIOn = false;
@@ -270,7 +270,7 @@ public class MapManager : ManagementBase
     {
         if (!isPlayerMoving && !noteAnim.GetIsOpen())
         {
-            MouseEvent();
+            MouseOverEvents();
         }
     }
 
@@ -304,7 +304,7 @@ public class MapManager : ManagementBase
 
         resourceManager.SetTile(playerLocationTile);
         StartCoroutine(DelaySightGetInfo());
-        DeselectAllTile();
+        UnselectAllTile();
     }
 
 
@@ -368,7 +368,7 @@ public class MapManager : ManagementBase
     /// <summary>
     /// Raytracing을 통해 마우스 현재 위치에 맞는 타일의 정보를 가져오거나, 타일의 하위 오브젝트를 활성화시키는 함수.
     /// </summary>
-    void MouseEvent()
+    void MouseOverEvents()
     {
         RaycastHit hit;
         TileController tileController;
@@ -380,31 +380,29 @@ public class MapManager : ManagementBase
         {
             tileController = hit.transform.parent.GetComponent<TileController>();
 
-            DeselectAllTile();
-            DeselectAllPathTile();
+            UnselectAllTile();
 
             if (!isPlayerSelected)
             {
-                AnyCondition(tileController);
+                DefalutMouseOverState(tileController);
             }
             else if (isPlayerCanMove)
             {
-                PathFinder(tileController, currentHealth);
+                TilePathFinder(tileController, currentHealth);
                 selectedTiles.Add(tileController);
             }
             else if (isDisturbanceSet)
             {
-                DisturbancePathFinder(tileController);
+                DisturbanceMachinePathFinder(tileController);
             }
             else if (isExplorerSet)
             {
-                PathFinder(tileController, 5);
+                TilePathFinder(tileController, 5);
             }
         }
         else
         {
-            DeselectAllTile();
-            DeselectAllPathTile();
+            UnselectAllTile();
 
             if (isUIOn)
             {
@@ -413,10 +411,10 @@ public class MapManager : ManagementBase
             }
         }
 
-        MouseClickTile();
+        MouseClickEvents();
     }
 
-    void AnyCondition(TileController tileController)
+    void DefalutMouseOverState(TileController tileController)
     {
         if (tileController != null && !selectedTiles.Contains(tileController))
         {
@@ -430,7 +428,7 @@ public class MapManager : ManagementBase
         }
     }
 
-    void PathFinder(TileController tileController, int num)
+    void TilePathFinder(TileController tileController, int num)
     {
         int rangeOfMotion = 0;
 
@@ -453,7 +451,7 @@ public class MapManager : ManagementBase
             tileController.GetComponent<Borders>().GetUnAvailableBorder()?.SetActive(true);
     }
 
-    void DisturbancePathFinder(TileController tileController)
+    void DisturbanceMachinePathFinder(TileController tileController)
     {
         if (map.Map.GetTilesInRange(playerLocationTile, 1).Contains(tileController.Model))
         {
@@ -468,7 +466,7 @@ public class MapManager : ManagementBase
         }
     }
 
-    void MouseClickTile()
+    void MouseClickEvents()
     {
         if (EventSystem.current.IsPointerOverGameObject())
         {
@@ -501,7 +499,8 @@ public class MapManager : ManagementBase
                 }
                 else if (isPlayerCanMove)
                 {
-                    if (GetTileBorder(tileController, TileState.Moveable).activeInHierarchy && playerLocationTile != tileController.Model)
+                    if (GetTileBorder(tileController, TileState.Moveable).activeInHierarchy 
+                        && playerLocationTile != tileController.Model)
                     {
                         SavePlayerMovePath(tileController);
                     }
@@ -513,15 +512,16 @@ public class MapManager : ManagementBase
                     {
                         foreach (var item in playerLocationTile.Neighbours.Where(item => item.Value == tileController.Model))
                         {
-                            SetCompleteDisturbanceMachine(tileController, item.Key);
+                            InstallDisturbanceMachine(tileController, item.Key);
                         }
                     }
                 }
                 else if (isExplorerSet)
                 {
-                    if (GetTileBorder(tileController, TileState.Moveable).activeInHierarchy && playerLocationTile != tileController.Model)
+                    if (GetTileBorder(tileController, TileState.Moveable).activeInHierarchy 
+                        && playerLocationTile != tileController.Model)
                     {
-                        SetCompleteExplorerMachine(tileController);
+                        InstallExplorerMachine(tileController);
                     }
                 }
 
@@ -531,8 +531,7 @@ public class MapManager : ManagementBase
         // 우클릭 시 선택 취소
         if (Input.GetMouseButtonDown(1))
         {
-            DeselectAllTile();
-            DeselectAllPathTile();
+            UnselectAllTile();
 
             if (isPlayerCanMove)
             {
@@ -559,15 +558,14 @@ public class MapManager : ManagementBase
         isPlayerSelected = false;
         isPlayerCanMove = false;
 
-        DeselectAllTile();
-        DeselectAllPathTile();
+        UnselectAllTile();
     }
 
     IEnumerator MovePlayer(Vector3 lastTargetPos, float time = 0.4f)
     {
         isPlayerMoving = true;
-        DeselectAllTile();
-        DeselectAllPathTile();
+
+        UnselectAllTile();
 
         Tile targetTile;
         Vector3 targetPos;
@@ -613,7 +611,9 @@ public class MapManager : ManagementBase
             {
                 SelectBorder(TileToTileController(nearthTiles[i]), TileState.Target);
             }
+
             GenerateDisturbanceMachine();
+
             isDisturbanceSet = true;
             isPlayerSelected = true;
         }
@@ -623,7 +623,9 @@ public class MapManager : ManagementBase
             {
                 UnSelectBorder(TileToTileController(nearthTiles[i]));
             }
+
             Destroy(disturbanceMachine);
+
             isDisturbanceSet = false;
             isPlayerSelected = false;
         }
@@ -634,6 +636,22 @@ public class MapManager : ManagementBase
         disturbanceMachine = Instantiate(disturbanceMachinePrefab, player.transform.position + Vector3.up * 1.5f, Quaternion.Euler(0, -90, 0));
         disturbanceMachine.transform.parent = mapTransform;
         disturbanceMachine.GetComponentInChildren<MeshRenderer>().material.DOFade(50, 0);
+    }
+
+    void InstallDisturbanceMachine(TileController tileController, CompassPoint direction)
+    {
+        disturbanceMachine.GetComponent<DisturbanceMachine>().Set(tileController.Model, direction);
+        disturbanceMachine.GetComponent<DisturbanceMachine>().DirectionObjectOff();
+
+        List<Tile> nearthTiles = GetTilesInRange(playerLocationTile, 1);
+        for (int i = 0; i < nearthTiles.Count; i++)
+        {
+            UnSelectBorder(TileToTileController(nearthTiles[i]));
+        }
+
+        isPlayerSelected = false;
+        isDisturbanceSet = false;
+        isDisturbanceInstall = true;
     }
 
     public void ExplorerMachineSettting(bool set)
@@ -656,36 +674,18 @@ public class MapManager : ManagementBase
     {
         explorerMachine = Instantiate(explorerMachinePrefab, player.transform.position + Vector3.up * 1.5f, Quaternion.identity);
         explorerMachine.transform.parent = mapTransform;
+
         explorerMachine.GetComponentInChildren<MeshRenderer>().material.DOFade(50, 0);
         explorerMachine.GetComponent<Explorer>().Set(playerLocationTile);
     }
 
-    void SetCompleteDisturbanceMachine(TileController tileController, CompassPoint direction)
-    {
-        disturbanceMachine.GetComponent<DisturbanceMachine>().Set(tileController.Model, direction);
-        disturbanceMachine.GetComponent<DisturbanceMachine>().DirectionObjectOff();
-
-        List<Tile> nearthTiles = GetTilesInRange(playerLocationTile, 1);
-
-        for (int i = 0; i < nearthTiles.Count; i++)
-        {
-            UnSelectBorder(TileToTileController(nearthTiles[i]));
-        }
-
-        isPlayerSelected = false;
-        isDisturbanceSet = false;
-        isDisturbanceInstall = true;
-    }
-
-    void SetCompleteExplorerMachine(TileController tileController)
+    void InstallExplorerMachine(TileController tileController)
     {
         explorerMachine.GetComponent<Explorer>().Targetting(tileController.Model);
         explorerMachine.GetComponent<Explorer>().Move();
 
         isPlayerSelected = false;
         isExplorerSet = false;
-
-        DeselectAllPathTile();
     }
 
     public void NextDay()
@@ -701,8 +701,7 @@ public class MapManager : ManagementBase
         else
         {
             isPlayerMoving = true;
-            DeselectAllTile();
-            DeselectAllPathTile();
+            UnselectAllTile();
 
             currentHealth = 0;
             PlayerSightUpdate?.Invoke(playerLocationTile);
@@ -749,7 +748,7 @@ public class MapManager : ManagementBase
     #endregion
 
     #region 선택 타일 관련
-    void DeselectAllTile()
+    void UnselectAllTile()
     {
         if (selectedTiles == null)
             return;
@@ -763,47 +762,10 @@ public class MapManager : ManagementBase
         selectedTiles.Clear();
     }
 
-    void DeselectAllPathTile()
-    {
-        if (selectedPathTiles == null)
-            return;
-
-        foreach (var t in selectedPathTiles)
-        {
-            UnSelectBorder(TileToTileController(GetTileFromCoords(t)));
-        }
-        selectedPathTiles.Clear();
-    }
-
     void UnselectTile(TileController tile)
     {
         UnSelectBorder(tile);
         selectedTiles.Remove(tile);
-    }
-
-
-    /// <summary>
-    /// 같은 그룹 타일이 모여있는 곳에 마우스를 올리면 그룹선택을 하게 해주는 함수. 현재 사용 중이지 않다.
-    /// </summary>
-    /// <param name="tile"></param>
-    void SelectMetaLandform(TileController tile)
-    {
-        // Select metalandform of a tile
-        var metaLandformTiles = tile
-            .Model
-            .Landform
-            .MetaLandform
-            .Tiles
-            .Select(t => t.GameEntity)
-            .Cast<GameObject>()
-            .Select(g => g.GetComponent<TileController>())
-            .ToList();
-
-        var tileToUnselect = selectedTiles.Except(metaLandformTiles).ToList();
-        var tileToSelect = metaLandformTiles.Except(selectedTiles).ToList();
-
-        tileToSelect.ForEach(t => SelectBorder(t, TileState.Unable));
-        tileToUnselect.ForEach(t => UnselectTile(t));
     }
 
     void SelectBorder(TileController tileController, TileState state)
@@ -849,6 +811,30 @@ public class MapManager : ManagementBase
     public override EManagerType GetManagemetType()
     {
         return EManagerType.MAP;
+    }
+
+    /// <summary>
+    /// 같은 그룹 타일이 모여있는 곳에 마우스를 올리면 그룹 전체를 선택을 하게 해주는 함수. 현재 사용 중이지 않다.
+    /// </summary>
+    /// <param name="tile"></param>
+    void SelectMetaLandform(TileController tile)
+    {
+        // Select metalandform of a tile
+        var metaLandformTiles = tile
+            .Model
+            .Landform
+            .MetaLandform
+            .Tiles
+            .Select(t => t.GameEntity)
+            .Cast<GameObject>()
+            .Select(g => g.GetComponent<TileController>())
+            .ToList();
+
+        var tileToUnselect = selectedTiles.Except(metaLandformTiles).ToList();
+        var tileToSelect = metaLandformTiles.Except(selectedTiles).ToList();
+
+        tileToSelect.ForEach(t => SelectBorder(t, TileState.Unable));
+        tileToUnselect.ForEach(t => UnselectTile(t));
     }
     #endregion
 }

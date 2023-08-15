@@ -71,7 +71,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
     private Coroutine WaitTutorialTileUiOpen()
     {
-        App.instance.GetMapManager().CurrentUIEmptying();
+        App.instance.GetMapManager().OffCurrentUI();
         return StartCoroutine(new WaitUntil(() => App.instance.GetMapManager().isTutorialUiOn()));
     }
 
@@ -118,7 +118,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
     private Coroutine WaitTileUIOpen()
     {
-        return StartCoroutine(new WaitUntil(() => App.instance.GetMapManager().UiOn));
+        return StartCoroutine(new WaitUntil(() => App.instance.GetMapManager().UIOn));
     }
 
     private Coroutine WaitUntilUIState(string _UIName)

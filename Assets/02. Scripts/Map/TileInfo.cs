@@ -53,7 +53,12 @@ public class TileInfo : MonoBehaviour
     int resourceID;
     bool isCanMove;
     bool inPlayerSight;
-    public bool isTutorialTile;
+    bool isTutorialTile;
+
+    public bool TutorialTile
+    {
+        get { return TutorialTile; }
+    }
 
     // 수정 필요
     public List<Resource> GetResources(int count)
