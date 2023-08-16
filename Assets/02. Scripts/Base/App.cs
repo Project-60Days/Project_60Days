@@ -34,6 +34,19 @@ public class App : Singleton<App>
         }
     }
 
+    public bool HasController(EControllerType _type)
+    {
+        return dic_controllers.ContainsKey(_type);
+    }
+
+    public MapUiController GetMapUiController()
+    {
+        if (HasController(EControllerType.MAP))
+            return null;
+
+        return dic_controllers[EControllerType.MAP] as MapUiController;
+    }
+
     public bool HasManager(EManagerType _type)
     {
         return dic_managers.ContainsKey(_type);

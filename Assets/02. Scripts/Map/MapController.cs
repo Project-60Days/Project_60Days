@@ -16,10 +16,12 @@ public class MapController : Singleton<MapController>
     [Space(5f)]
     [SerializeField] HexamapController map;
     [SerializeField] CsFogWar fogOfWar;
+
     [Header("트랜스폼")]
     [Space(5f)]
     [SerializeField] Transform zombiesTransform;
     [SerializeField] Transform mapTransform;
+
     [Header("프리팹")]
     [Space(5f)]
     [SerializeField] MapPrefabSO mapPrefab;
@@ -37,133 +39,6 @@ public class MapController : Singleton<MapController>
     GameObject disturbtor;
     GameObject explorer;
     TileController targetTileController;
-
-    public bool CalculateDistanceToPlayer(Tile tile, int range)
-    {
-        var searchTiles = map.Map.GetTilesInRange(tile, range);
-
-        foreach (var item in searchTiles)
-        {
-            if (player.TileController.Model == item)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    //UIController로 이사
-/*    public bool isTutorialUiOn()
-    {
-        if (currentUI == null)
-            return false;
-
-        return currentUI.transform.parent.parent.GetComponent<TileInfo>().TutorialTile;
-    }*/
-
-    public bool isDisturbtorInstall()
-    {
-        if (disturbtor != null)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    //UI 컨트롤러로 이사
-/*    public void OffCurrentUI()
-    {
-        currentUI.SetActive(false);
-        isUIOn = false;
-        currentUI = null;
-    }*/
-
-    public Disturbtor CalculateDistanceToDistrubtor(Tile tile, int range)
-    {
-        var searchTiles = map.Map.GetTilesInRange(tile, range);
-
-        if (disturbtor == null)
-            return null;
-
-        foreach (var item in searchTiles)
-        {
-            if (disturbtor.GetComponent<Disturbtor>().currentTile == item)
-            {
-                return disturbtor.GetComponent<Disturbtor>();
-            }
-        }
-        return null;
-    }
-
-    public void CheckSumZombies()
-    {
-        List<Tile> tiles = new List<Tile>();
-
-        foreach (var item in zombiesList)
-            tiles.Add(item.GetComponent<ZombieSwarm>().curTile);
-
-        var result = tiles.GroupBy(x => x)
-            .Where(g => g.Count() > 1)
-            .Select(x => x.Key)
-            .Distinct()
-            .ToList();
-
-        foreach (var item in result)
-        {
-            var num = tiles.IndexOf(item);
-            for (int i = num + 1; i < tiles.Count; i++)
-            {
-                if (tiles[num] == tiles[i])
-                {
-                    var secondZombieSwarm = zombiesList[i].GetComponent<ZombieSwarm>();
-                    zombiesList[num].GetComponent<ZombieSwarm>().SumZombies(secondZombieSwarm);
-                    zombiesList.RemoveAt(i);
-                    Destroy(secondZombieSwarm.gameObject, 0.5f);
-                }
-            }
-        }
-    }
-
-
-
-    public void AllowMouseEvent()
-    {
-        //isPlayerMoving = false;
-    }
-
-    public void SpawnTutorialZombie()
-    {
-        var tile = GetTileFromCoords(new Coords(0, -3));
-
-        var spawnPos = ((GameObject)tile.GameEntity).transform.position;
-        spawnPos.y += 0.7f;
-
-        var zombie = Instantiate(mapPrefab.items[(int)EMabPrefab.Zombie].prefab, spawnPos, Quaternion.Euler(0, -90, 0), zombiesTransform);
-        zombie.name = "Zombie " + 1;
-        zombie.GetComponent<ZombieSwarm>().Init(tile);
-
-        zombiesList.Add(zombie);
-
-        zombie.GetComponent<ZombieSwarm>().MoveTargetCoroutine(player.TileController.Model);
-    }
-
-    public Tile GetTileFromCoords(Coords coords)
-    {
-        return map.Map.GetTileFromCoords(coords);
-    }
-
-    public List<Tile> GetTilesInRange(Tile tile, int num)
-    {
-        return map.Map.GetTilesInRange(tile, num);
-    }
-
-    public Tile GetPlayerLocationTile()
-    {
-        return player.TileController.Model;
-    }
 
     void GenerateMap()
     {
@@ -269,18 +144,29 @@ public class MapController : Singleton<MapController>
         }
     }
 
+    public void SpawnTutorialZombie()
+    {
+        var tile = GetTileFromCoords(new Coords(0, -3));
+
+        var spawnPos = ((GameObject)tile.GameEntity).transform.position;
+        spawnPos.y += 0.7f;
+
+        var zombie = Instantiate(mapPrefab.items[(int)EMabPrefab.Zombie].prefab, spawnPos, Quaternion.Euler(0, -90, 0), zombiesTransform);
+        zombie.name = "Zombie " + 1;
+        zombie.GetComponent<ZombieSwarm>().Init(tile);
+
+        zombiesList.Add(zombie);
+
+        zombie.GetComponent<ZombieSwarm>().MoveTargetCoroutine(player.TileController.Model);
+    }
+
     public void DefalutMouseOverState(TileController tileController)
     {
         if (tileController != null && !selectedTiles.Contains(tileController))
         {
             SelectBorder(tileController, ETileState.Unable);
 
-            // UI컨트롤러 로 이사
-            /*            if (isUIOn)
-                        {
-                            currentUI.SetActive(false);
-                            isUIOn = false;
-                        }*/
+            App.instance.GetMapUiController().TileInfoPanelActive(false);
         }
     }
 
@@ -368,14 +254,13 @@ public class MapController : Singleton<MapController>
     public void SavePlayerMovePath(TileController tileController)
     {
         targetTileController = tileController;
-        player.UpdateMovePath(AStar.FindPath(player.TileController.Model.Coords, tileController.Model.Coords));
-        
-        // arroUiOn
-        // arrow.OnEffect(tileController.transform);
 
-        //isPlayerSelected = false;
+        player.UpdateMovePath(AStar.FindPath(player.TileController.Model.Coords, tileController.Model.Coords));
+
+        App.instance.GetMapUiController().PlayerMovePointActive(tileController.transform);
 
         DeselectAllBorderTiles();
+        //isPlayerSelected = false;
     }
 
     TileController TileToTileController(Tile tile)
@@ -494,24 +379,33 @@ public class MapController : Singleton<MapController>
         player.HealthCharging();
     }
 
-    public GameObject GetUi(TileController tile)
+    public void CheckSumZombies()
     {
-        GameObject tileGO = (GameObject)tile.Model.GameEntity;
+        List<Tile> tiles = new List<Tile>();
 
-        if (tileGO != null && tile.Model.Landform.GetType().Name != "LandformWorldLimit")
-            return tileGO.GetComponent<TileInfo>().GetUiObject();
+        foreach (var item in zombiesList)
+            tiles.Add(item.GetComponent<ZombieSwarm>().curTile);
 
-        return null;
-    }
+        var result = tiles.GroupBy(x => x)
+            .Where(g => g.Count() > 1)
+            .Select(x => x.Key)
+            .Distinct()
+            .ToList();
 
-    public GameObject GetUi(Tile tile)
-    {
-        GameObject tileGO = (GameObject)tile.GameEntity;
-
-        if (tileGO != null && tile.Landform.GetType().Name != "LandformWorldLimit")
-            return tileGO.transform.Find("Canvas").Find("TileInfo").gameObject;
-
-        return null;
+        foreach (var item in result)
+        {
+            var num = tiles.IndexOf(item);
+            for (int i = num + 1; i < tiles.Count; i++)
+            {
+                if (tiles[num] == tiles[i])
+                {
+                    var secondZombieSwarm = zombiesList[i].GetComponent<ZombieSwarm>();
+                    zombiesList[num].GetComponent<ZombieSwarm>().SumZombies(secondZombieSwarm);
+                    zombiesList.RemoveAt(i);
+                    Destroy(secondZombieSwarm.gameObject, 0.5f);
+                }
+            }
+        }
     }
 
     void SelectBorder(TileController tileController, ETileState state)
@@ -594,5 +488,63 @@ public class MapController : Singleton<MapController>
 
         tileToSelect.ForEach(t => SelectBorder(t, ETileState.Unable));
         tileToUnselect.ForEach(t => DeselectBorder(t));
+    }
+
+    public Tile GetTileFromCoords(Coords coords)
+    {
+        return map.Map.GetTileFromCoords(coords);
+    }
+
+    public List<Tile> GetTilesInRange(Tile tile, int num)
+    {
+        return map.Map.GetTilesInRange(tile, num);
+    }
+
+    public Tile GetPlayerLocationTile()
+    {
+        return player.TileController.Model;
+    }
+
+    public bool isDisturbtorInstall()
+    {
+        if (disturbtor != null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public bool CalculateDistanceToPlayer(Tile tile, int range)
+    {
+        var searchTiles = map.Map.GetTilesInRange(tile, range);
+
+        foreach (var item in searchTiles)
+        {
+            if (player.TileController.Model == item)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Disturbtor CalculateDistanceToDistrubtor(Tile tile, int range)
+    {
+        var searchTiles = map.Map.GetTilesInRange(tile, range);
+
+        if (disturbtor == null)
+            return null;
+
+        foreach (var item in searchTiles)
+        {
+            if (disturbtor.GetComponent<Disturbtor>().currentTile == item)
+            {
+                return disturbtor.GetComponent<Disturbtor>();
+            }
+        }
+        return null;
     }
 }

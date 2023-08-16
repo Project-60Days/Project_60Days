@@ -228,4 +228,13 @@ public class MapManager : ManagementBase
         }
         return true;
     }
+
+    public void AllowMouseEvent(bool isAllow)
+    {
+        isPlayerSelected = false;
+        isDronePrepared = false;
+        isDisturbtor = false;
+
+        interactable = isAllow;
+    }
 }

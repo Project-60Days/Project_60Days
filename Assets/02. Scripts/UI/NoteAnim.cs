@@ -185,7 +185,7 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         blackPanel.gameObject.SetActive(false);
         dayText.text = "Day " + ++dayCount;
         noteController.newDay = true;
-        MapController.instance.AllowMouseEvent();
+        App.instance.GetMapManager().AllowMouseEvent(true);
     }
 
     public bool GetIsOpen()
