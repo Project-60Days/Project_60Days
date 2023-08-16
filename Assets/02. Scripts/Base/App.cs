@@ -5,7 +5,7 @@ using UnityEngine;
 
 public enum EControllerType
 {
-    NONE, 
+    NONE, MAP
 }
 
 public enum EManagerType

@@ -20,7 +20,7 @@ public class DisturbanceButton : MonoBehaviour
 
     public void Disturbance()
     {
-        if(controller.CheckSelected())
+        if(App.instance.GetMapManager().CheckCanInstallDrone())
             controller.PreparingDisturbtor(true);
     }
 }

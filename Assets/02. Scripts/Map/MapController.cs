@@ -12,69 +12,31 @@ using FischlWorks_FogWar;
 
 public class MapController : Singleton<MapController>
 {
-    #region 변수
     [Header("컴포넌트")]
     [Space(5f)]
-
     [SerializeField] HexamapController map;
-    [SerializeField] ResourceManager resourceManager;
     [SerializeField] CsFogWar fogOfWar;
+    [Header("트랜스폼")]
+    [Space(5f)]
     [SerializeField] Transform zombiesTransform;
     [SerializeField] Transform mapTransform;
-    [SerializeField] MapPrefabSO mapPrefab;
-
-    [Header("카메라")]
+    [Header("프리팹")]
     [Space(5f)]
-    [SerializeField] Camera mapCamera;
+    [SerializeField] MapPrefabSO mapPrefab;
 
     List<TileController> selectedTiles = new List<TileController>();
     List<GameObject> zombiesList = new List<GameObject>();
 
-    List<Coords> movePath;
-
     Player player;
+
+    public Player Player
+    {
+        get { return player; }
+    }
+
     GameObject disturbtor;
     GameObject explorer;
-    GameObject currentUI;
-
-    ArrowPointUI arrow;
-    NoteAnim noteAnim;
     TileController targetTileController;
-
-    int currentHealth;
-    int maxHealth = 1;
-
-    bool isUIOn;
-
-    public bool UIOn
-    {
-        get 
-        { 
-            return isUIOn; 
-        }
-    }
-
-    bool isBaseOn;
-
-    bool isPlayerMoving;
-    bool isPlayerCanMove;
-    bool isPlayerSelected;
-    
-    bool isExplorerSet;
-    bool isDisturbanceSet;
-    bool isDisturbanceInstall;
-
-    public bool DisturbanceInstall
-    {
-        get 
-        { 
-            return isDisturbanceInstall; 
-        }
-    }
-
-    #endregion
-
-    #region 외부 호출 함수들
 
     public bool CalculateDistanceToPlayer(Tile tile, int range)
     {
@@ -90,20 +52,34 @@ public class MapController : Singleton<MapController>
         return false;
     }
 
-    public bool isTutorialUiOn()
+    //UIController로 이사
+/*    public bool isTutorialUiOn()
     {
         if (currentUI == null)
             return false;
 
         return currentUI.transform.parent.parent.GetComponent<TileInfo>().TutorialTile;
+    }*/
+
+    public bool isDisturbtorInstall()
+    {
+        if (disturbtor != null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
-    public void OffCurrentUI()
+    //UI 컨트롤러로 이사
+/*    public void OffCurrentUI()
     {
         currentUI.SetActive(false);
         isUIOn = false;
         currentUI = null;
-    }
+    }*/
 
     public Disturbtor CalculateDistanceToDistrubtor(Tile tile, int range)
     {
@@ -151,18 +127,11 @@ public class MapController : Singleton<MapController>
         }
     }
 
-    public bool CheckSelected()
-    {
-        if (isPlayerSelected || isPlayerMoving || isDisturbanceSet || isExplorerSet)
-        {
-            return false;
-        }
-        return true;
-    }
+
 
     public void AllowMouseEvent()
     {
-        isPlayerMoving = false;
+        //isPlayerMoving = false;
     }
 
     public void SpawnTutorialZombie()
@@ -195,23 +164,6 @@ public class MapController : Singleton<MapController>
     {
         return player.TileController.Model;
     }
-    #endregion
-
-    void Start()
-    {
-        StartCoroutine(GetAdditiveSceneObjects());
-        GenerateMap();
-
-        currentHealth = maxHealth;
-    }
-
-    IEnumerator GetAdditiveSceneObjects()
-    {
-        yield return new WaitForEndOfFrame();
-        mapCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        noteAnim = GameObject.FindGameObjectWithTag("NoteAnim").GetComponent<NoteAnim>();
-        arrow = GameObject.FindGameObjectWithTag("MapUi").transform.GetChild(0).transform.Find("Map_Arrow").GetComponent<ArrowPointUI>();
-    }
 
     void GenerateMap()
     {
@@ -238,14 +190,6 @@ public class MapController : Singleton<MapController>
 
         GenerateMapObjects();
         mapTransform.position = Vector3.forward * 200f;
-    }
-
-    void Update()
-    {
-        if (!isPlayerMoving && !noteAnim.GetIsOpen())
-        {
-            MouseOverEvents();
-        }
     }
 
     void RegenerateMap()
@@ -275,16 +219,13 @@ public class MapController : Singleton<MapController>
 
         fogOfWar.transform.position = player.transform.position;
         FischlWorks_FogWar.CsFogWar.instance.InitializeMapControllerObjects(player.gameObject, 5);
-
-        
         DeselectAllBorderTiles();
     }
-
 
     void SpawnPlayer()
     {
         player.UpdateCurrentTile(TileToTileController(map.Map.GetTileFromCoords(new Coords(0, 0))));
-        
+
         targetTileController = player.TileController;
 
         Vector3 spawnPos = player.TileController.transform.position;
@@ -328,79 +269,33 @@ public class MapController : Singleton<MapController>
         }
     }
 
-
-    /// <summary>
-    /// Raytracing을 통해 마우스 현재 위치에 맞는 타일의 정보를 가져오거나, 타일의 하위 오브젝트를 활성화시키는 함수.
-    /// </summary>
-    void MouseOverEvents()
-    {
-        RaycastHit hit;
-        TileController tileController;
-
-        Ray ray = mapCamera.ScreenPointToRay(Input.mousePosition);
-        int onlyLayerMaskTile = 1 << LayerMask.NameToLayer("Tile");
-
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile))
-        {
-            tileController = hit.transform.parent.GetComponent<TileController>();
-
-            DeselectAllBorderTiles();
-
-            if (!isPlayerSelected)
-            {
-                DefalutMouseOverState(tileController);
-            }
-            else if (isPlayerCanMove)
-            {
-                TilePathFinder(tileController, currentHealth);
-                selectedTiles.Add(tileController);
-            }
-            else if (isDisturbanceSet)
-            {
-                DisturbtorPathFinder(tileController);
-            }
-            else if (isExplorerSet)
-            {
-                TilePathFinder(tileController, 5);
-            }
-        }
-        else
-        {
-            DeselectAllBorderTiles();
-
-            if (isUIOn)
-            {
-                currentUI.SetActive(false);
-                isUIOn = false;
-            }
-        }
-
-        MouseClickEvents();
-    }
-
-    void DefalutMouseOverState(TileController tileController)
+    public void DefalutMouseOverState(TileController tileController)
     {
         if (tileController != null && !selectedTiles.Contains(tileController))
         {
             SelectBorder(tileController, ETileState.Unable);
 
-            if (isUIOn)
-            {
-                currentUI.SetActive(false);
-                isUIOn = false;
-            }
+            // UI컨트롤러 로 이사
+            /*            if (isUIOn)
+                        {
+                            currentUI.SetActive(false);
+                            isUIOn = false;
+                        }*/
         }
     }
 
-    void TilePathFinder(TileController tileController, int num)
+    public void TilePathFinder(TileController tileController, int num = 0)
     {
+        if (num == 0)
+            num = player.HealthPoint;
+
         int rangeOfMotion = 0;
 
         if (tileController.Model != player.TileController.Model)
         {
             foreach (Coords coords in AStar.FindPath(player.TileController.Model.Coords, tileController.Model.Coords))
             {
-                if (rangeOfMotion == currentHealth)
+                if (rangeOfMotion == player.HealthPoint)
                     break;
 
                 GameObject border = (GameObject)GetTileFromCoords(coords).GameEntity;
@@ -415,7 +310,12 @@ public class MapController : Singleton<MapController>
             tileController.GetComponent<Borders>().GetUnAvailableBorder()?.SetActive(true);
     }
 
-    void DisturbtorPathFinder(TileController tileController)
+    public void AddSelectedTilesList(TileController tileController)
+    {
+        selectedTiles.Add(tileController);
+    }
+
+    public void DisturbtorPathFinder(TileController tileController)
     {
         if (map.Map.GetTilesInRange(player.TileController.Model, 1).Contains(tileController.Model))
         {
@@ -430,139 +330,52 @@ public class MapController : Singleton<MapController>
         }
     }
 
-    void MouseClickEvents()
+    public bool PlayerCanMoveCheck()
     {
-        if (EventSystem.current.IsPointerOverGameObject())
-        {
+        if (player.HealthPoint != 0)
+            return true;
+        else
+            return false;
+    }
+
+    public void SelectPlayerMovePoint(TileController tileController)
+    {
+        if (GetTileBorder(tileController, ETileState.Moveable).activeInHierarchy && player.TileController.Model != tileController.Model)
+            SavePlayerMovePath(tileController);
+        else
             return;
-        }
+    }
 
-        RaycastHit hit;
-        Ray ray = mapCamera.ScreenPointToRay(Input.mousePosition);
+    public void SelectTileForDisturbtor(TileController tileController)
+    {
+        if (!GetTileBorder(tileController, ETileState.Moveable).activeInHierarchy)
+            return;
 
-        int onlyLayerMaskPlayer = 1 << LayerMask.NameToLayer("Player");
-        int onlyLayerMaskTile = 1 << LayerMask.NameToLayer("Tile");
-
-        if (Input.GetMouseButtonDown(0))
+        foreach (var item in player.TileController.Model.Neighbours.Where(item => item.Value == tileController.Model))
         {
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskPlayer) 
-                && !isPlayerCanMove && !isDisturbanceSet && !isExplorerSet && currentHealth != 0)
-            {
-                isPlayerSelected = true;
-                isPlayerCanMove = true;
-            }
-            else if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile) )
-            {
-                TileController tileController = hit.transform.parent.GetComponent<TileController>();
-
-                if (!isPlayerSelected)
-                {
-                    currentUI = GetUi(tileController);
-                    currentUI.SetActive(true);
-                    isUIOn = true;
-                }
-                else if (isPlayerCanMove)
-                {
-                    if (GetTileBorder(tileController, ETileState.Moveable).activeInHierarchy 
-                        && player.TileController.Model != tileController.Model)
-                    {
-                        SavePlayerMovePath(tileController);
-                    }
-                }
-                else if (isDisturbanceSet)
-                {
-                    if (map.Map.GetTilesInRange(player.TileController.Model, 1).Contains(tileController.Model) 
-                        && GetTileBorder(tileController, ETileState.Moveable).activeInHierarchy)
-                    {
-                        foreach (var item in player.TileController.Model.Neighbours.Where(item => item.Value == tileController.Model))
-                        {
-                            InstallDisturbtor(tileController, item.Key);
-                        }
-                    }
-                }
-                else if (isExplorerSet)
-                {
-                    if (GetTileBorder(tileController, ETileState.Moveable).activeInHierarchy 
-                        && player.TileController.Model != tileController.Model)
-                    {
-                        InstallExplorer(tileController);
-                    }
-                }
-
-            }
-        }
-
-        // 우클릭 시 선택 취소
-        if (Input.GetMouseButtonDown(1))
-        {
-            DeselectAllBorderTiles();
-
-            if (isPlayerCanMove)
-            {
-                isPlayerSelected = false;
-                isPlayerCanMove = false;
-            }
-            else if (isDisturbanceSet)
-            {
-                PreparingDisturbtor(false);
-            }
-            else if (isExplorerSet)
-            {
-                PreparingExplorer(false);
-            }
+            InstallDisturbtor(tileController, item.Key);
         }
     }
 
-    void SavePlayerMovePath(TileController tileController)
+    public void SelectTileForExplorer(TileController tileController)
+    {
+        if (!GetTileBorder(tileController, ETileState.Moveable).activeInHierarchy)
+            return;
+
+        InstallExplorer(tileController);
+    }
+
+    public void SavePlayerMovePath(TileController tileController)
     {
         targetTileController = tileController;
-        movePath = AStar.FindPath(player.TileController.Model.Coords, tileController.Model.Coords);
-        arrow.OnEffect(tileController.transform);
+        player.UpdateMovePath(AStar.FindPath(player.TileController.Model.Coords, tileController.Model.Coords));
+        
+        // arroUiOn
+        // arrow.OnEffect(tileController.transform);
 
-        isPlayerSelected = false;
-        isPlayerCanMove = false;
-
-        DeselectAllBorderTiles();
-    }
-
-    IEnumerator MovePlayer(TileController targetTileController, float time = 0.4f)
-    {
-        isPlayerMoving = true;
+        //isPlayerSelected = false;
 
         DeselectAllBorderTiles();
-
-        Tile targetTile;
-        Vector3 targetPos;
-        Vector3 lastTargetPos = targetTileController.transform.position;
-
-        foreach (var item in movePath)
-        {
-            targetTile = map.Map.GetTileFromCoords(item);
-            if (targetTile == null)
-                break;
-
-            targetPos = ((GameObject)targetTile.GameEntity).transform.position;
-            targetPos.y += 0.5f;
-
-            player.transform.DOMove(targetPos, time);
-            currentHealth--;
-            yield return new WaitForSeconds(time);
-        }
-
-        lastTargetPos.y += 0.5f;
-        yield return player.transform.DOMove(lastTargetPos, time);
-        yield return new WaitForSeconds(time);
-
-        movePath.Clear();
-        currentHealth = 0;
-
-        player.UpdateCurrentTile(targetTileController);
-        //Player로 이동
-        //PlayerSightUpdate?.Invoke(playerLocationTileController.Model);
-
-        // MapManager로 이동
-        //resourceManager.GetResource(playerLocationTileController);
-        //arrow.OffEffect();
     }
 
     TileController TileToTileController(Tile tile)
@@ -570,7 +383,6 @@ public class MapController : Singleton<MapController>
         return ((GameObject)tile.GameEntity).GetComponent<TileController>();
     }
 
-    #region UI 씬 버튼 관련
     public void PreparingDisturbtor(bool set)
     {
         List<Tile> nearthTiles = GetTilesInRange(player.TileController.Model, 1);
@@ -584,8 +396,7 @@ public class MapController : Singleton<MapController>
 
             GenerateExampleDisturbtor();
 
-            isDisturbanceSet = true;
-            isPlayerSelected = true;
+            //isDronePrepared = true;
         }
         else
         {
@@ -596,8 +407,7 @@ public class MapController : Singleton<MapController>
 
             Destroy(disturbtor);
 
-            isDisturbanceSet = false;
-            isPlayerSelected = false;
+            //isDronePrepared = false;
         }
     }
 
@@ -610,6 +420,8 @@ public class MapController : Singleton<MapController>
 
     void InstallDisturbtor(TileController tileController, CompassPoint direction)
     {
+        if (map.Map.GetTilesInRange(player.TileController.Model, 1).Contains(tileController.Model))
+            return;
         disturbtor.GetComponent<Disturbtor>().Set(tileController.Model, direction);
         disturbtor.GetComponent<Disturbtor>().DirectionObjectOff();
 
@@ -619,9 +431,7 @@ public class MapController : Singleton<MapController>
             DeselectBorder(TileToTileController(nearthTiles[i]));
         }
 
-        isPlayerSelected = false;
-        isDisturbanceSet = false;
-        isDisturbanceInstall = true;
+        //isDisturbtor = true;
     }
 
     public void PreparingExplorer(bool set)
@@ -629,14 +439,13 @@ public class MapController : Singleton<MapController>
         if (set)
         {
             GenerateExampleExplorer();
-            isExplorerSet = true;
-            isPlayerSelected = true;
+            //isDronePrepared = true;
+            //isDisturbtor = false;
         }
         else
         {
             Destroy(explorer);
-            isExplorerSet = false;
-            isPlayerSelected = false;
+            //isDronePrepared = false;
         }
     }
 
@@ -651,33 +460,25 @@ public class MapController : Singleton<MapController>
 
     void InstallExplorer(TileController tileController)
     {
+        if (player.TileController.Model != tileController.Model)
+            return;
+
         explorer.GetComponent<Explorer>().Targetting(tileController.Model);
         explorer.GetComponent<Explorer>().Move();
 
-        isPlayerSelected = false;
-        isExplorerSet = false;
+        //isDisturbtor = false;
     }
 
-    public void NextDay()
+    public IEnumerator NextDay()
     {
-        if (movePath != null)
+        if (player.MovePath != null)
         {
-            StartCoroutine(MovePlayer(targetTileController));
+            yield return StartCoroutine(player.MoveToTarget(targetTileController));
         }
         else
         {
-            isPlayerMoving = true;
             DeselectAllBorderTiles();
-
-            currentHealth = 0;
-            //PlayerSightUpdate?.Invoke(playerLocationTileController.Model);
-            arrow.OffEffect();
-
-            // MapManager로 이동
-            //resourceManager.GetResource(targetTile);
         }
-
-        currentHealth = maxHealth;
 
         if (disturbtor != null)
             disturbtor.GetComponent<Disturbtor>().Move();
@@ -689,6 +490,8 @@ public class MapController : Singleton<MapController>
         {
             zombie.GetComponent<ZombieSwarm>().DetectionAndAct();
         }
+
+        player.HealthCharging();
     }
 
     public GameObject GetUi(TileController tile)
@@ -711,13 +514,9 @@ public class MapController : Singleton<MapController>
         return null;
     }
 
-    #endregion
-
-    #region 타일 선택 경계선 관련
-
     void SelectBorder(TileController tileController, ETileState state)
     {
-        switch (state) 
+        switch (state)
         {
             case ETileState.None:
                 tileController.GetComponent<Borders>().GetNormalBorder()?.SetActive(true);
@@ -739,11 +538,11 @@ public class MapController : Singleton<MapController>
     {
         tileController.GetComponent<Borders>().OffAllBorders();
 
-        if(selectedTiles.Contains(tileController))
+        if (selectedTiles.Contains(tileController))
             selectedTiles.Remove(tileController);
     }
 
-    void DeselectAllBorderTiles()
+    public void DeselectAllBorderTiles()
     {
         if (selectedTiles == null)
             return;
@@ -796,5 +595,4 @@ public class MapController : Singleton<MapController>
         tileToSelect.ForEach(t => SelectBorder(t, ETileState.Unable));
         tileToUnselect.ForEach(t => DeselectBorder(t));
     }
-    #endregion
 }

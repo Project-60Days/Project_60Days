@@ -7,21 +7,29 @@ using DG.Tweening;
 
 public class Player : MonoBehaviour
 {
+    public static Action<Tile> PlayerSightUpdate;
+
     int maxHealth = 1;
     int currentHealth;
 
+    public int HealthPoint
+    {
+        get { return currentHealth; }
+    }
+
     List<Coords> movePath;
 
-    public static Action<Tile> PlayerSightUpdate;
+    public List<Coords> MovePath
+    {
+        get { return movePath; }
+    }
+
 
     TileController currentTileContorller;
 
     public TileController TileController
     {
-        get 
-        { 
-            return currentTileContorller; 
-        }
+        get { return currentTileContorller; }
     }
 
     void Start()
@@ -34,7 +42,7 @@ public class Player : MonoBehaviour
     void SavePlayerMovePath(TileController tileController)
     {
         movePath = AStar.FindPath(currentTileContorller.Model.Coords, tileController.Model.Coords);
-        
+
         //targetTileController = tileController;
         //arrow.OnEffect(tileController.transform);
 
@@ -77,7 +85,6 @@ public class Player : MonoBehaviour
         currentHealth = 0;
 
         UpdateCurrentTile(targetTileController);
-        PlayerSightUpdate?.Invoke(currentTileContorller.Model);
 
         // MapManager∑Œ ¿Ãµø
         //resourceManager.GetResource(playerLocationTileController);
@@ -98,5 +105,16 @@ public class Player : MonoBehaviour
     public void UpdateCurrentTile(TileController tileController)
     {
         currentTileContorller = tileController;
+        PlayerSightUpdate?.Invoke(currentTileContorller.Model);
+    }
+
+    public void UpdateMovePath(List<Coords> path)
+    {
+        movePath = path;
+    }
+
+    public void HealthCharging()
+    {
+        currentHealth = maxHealth;
     }
 }

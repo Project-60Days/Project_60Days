@@ -71,8 +71,12 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
     private Coroutine WaitTutorialTileUiOpen()
     {
-        MapController.instance.OffCurrentUI();
-        return StartCoroutine(new WaitUntil(() => MapController.instance.isTutorialUiOn()));
+        //MapController.instance.OffCurrentUI();
+        //return StartCoroutine(new WaitUntil(() => MapController.instance.isTutorialUiOn()));
+
+        // UI컨트롤러 만들고 추후 수정 필요
+        App.instance.GetMapManager().ArrowUIOnOff(true);
+        return StartCoroutine(new WaitUntil(() => App.instance.GetMapManager().CheckCanInstallDrone()));
     }
 
     private Coroutine WaitGetItem(string _itemCode)
@@ -112,13 +116,17 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
     private Coroutine WaitSetDisturbance()
     {
-        MapUiController.instance.InteractableOn();
-        return StartCoroutine(new WaitUntil(() => MapController.instance.DisturbanceInstall));
+        // UI컨트롤러 만들고 추후 수정 필요
+        //MapUiController.instance.InteractableOn();
+        return StartCoroutine(new WaitUntil(() => MapController.instance.isDisturbtorInstall()));
     }
 
     private Coroutine WaitTileUIOpen()
     {
-        return StartCoroutine(new WaitUntil(() => MapController.instance.UIOn));
+        //return StartCoroutine(new WaitUntil(() => MapController.instance.UIOn));
+        // UI컨트롤러 만들고 추후 수정 필요
+        App.instance.GetMapManager().ArrowUIOnOff(true);
+        return StartCoroutine(new WaitUntil(() => App.instance.GetMapManager().CheckCanInstallDrone()));
     }
 
     private Coroutine WaitUntilUIState(string _UIName)
