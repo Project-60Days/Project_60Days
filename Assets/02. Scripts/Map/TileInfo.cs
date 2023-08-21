@@ -31,59 +31,35 @@ public class Resource
     }
 }
 
-
-
 public class TileInfo : MonoBehaviour
 {
-    [SerializeField] TMP_Text resourceText;
-    [SerializeField] TMP_Text zombieText;
-    [SerializeField] ItemSO itemSO;
-    [SerializeField] GameObject player;
-    [SerializeField] GameObject ui;
+    [Header("컴포넌트")]
+    [Space(5f)]
     [SerializeField] SpriteRenderer[] resourceIcons;
+    [SerializeField] ItemSO itemSO;
 
-    ETileType tileType;
-    EWeatherType weatherType;
+    [Header("지형 정보")]
+    [Space(5f)]
+    [SerializeField] Sprite landformSprite;
+
     List<ItemBase> gachaList;
     List<Resource> appearanceResources;
+    
     Tile myTile;
 
-    string buildingID;
-    string specialID;
-    int resourceID;
-    bool isCanMove;
+    public bool TutorialTile
+    {
+        get { return TutorialTile; }
+    }
+
     bool inPlayerSight;
-    public bool isTutorialTile;
+    bool isTutorialTile;
 
     // 수정 필요
-    public List<Resource> GetResources(int count)
-    {
-        List<Resource> list = new List<Resource>();
-
-        if (appearanceResources == null)
-            Debug.Log("비어있음");
-
-        for (int i = 0; i < appearanceResources.Count; i++)
-        {
-            Resource item = appearanceResources[i];
-            if (item.itemCount - count >= 0)
-            {
-                list.Add(new Resource(item.itemCode, count));
-                item.IncreaseDecreaseCount(-count);
-            }
-            else
-            {
-                list.Add(new Resource(item.itemCode, item.itemCount));
-                item.IncreaseDecreaseCount(-count);
-            }
-        }
-        ResourceUpdate(true);
-        return list;
-    }
 
     void Start()
     {
-        MapController.PlayerBehavior += CheckPlayerTIle;
+        Player.PlayerSightUpdate += CheckPlayerTIle;
         myTile = gameObject.transform.GetComponent<TileController>().Model;
         appearanceResources = new List<Resource>();
         gachaList = new List<ItemBase>();
@@ -91,7 +67,7 @@ public class TileInfo : MonoBehaviour
         {
             gachaList.Add(itemSO.items[i]);
         }
-        if (CheckTutorial(MapController.instance.playerLocationTile))
+        if (CheckTutorial(MapController.instance.GetPlayerLocationTile()))
         {
             TutorialResourceUpdate();
         }
@@ -104,7 +80,7 @@ public class TileInfo : MonoBehaviour
 
     void OnDestroy()
     {
-        MapController.PlayerBehavior -= CheckPlayerTIle;
+        Player.PlayerSightUpdate -= CheckPlayerTIle;
     }
 
     void RandomResourceUpdate()
@@ -181,9 +157,10 @@ public class TileInfo : MonoBehaviour
 
                 var itemName1 = itemSO.items.ToList().Find(x => x.itemCode == appearanceResources[0].itemCode).data.Korean;
                 var itemName2 = itemSO.items.ToList().Find(x => x.itemCode == appearanceResources[1].itemCode).data.Korean;
-
-                resourceText.text = itemName1 + " " + appearanceResources[0].itemCount + "\n"
+                var text = itemName1 + " " + appearanceResources[0].itemCount + "\n"
                     + itemName2 + " " + appearanceResources[1].itemCount;
+
+                App.instance.GetMapUiController().UpdateText(ETileInfoTMP.Resource, text);
             }
             else if (appearanceResources.Count == 1)
             {
@@ -191,11 +168,13 @@ public class TileInfo : MonoBehaviour
 
                 resourceIcons[0].sprite = itemSO.items.ToList().Find(x => x.itemCode == appearanceResources[0].itemCode).itemImage;
                 resourceIcons[0].gameObject.SetActive(true);
-                resourceText.text = itemName1 + " " + appearanceResources[0].itemCount;
+
+                var text = itemName1 + " " + appearanceResources[0].itemCount;
+                App.instance.GetMapUiController().UpdateText(ETileInfoTMP.Resource, text);
             }
             else
             {
-                resourceText.text = "자원 : 없음";
+                App.instance.GetMapUiController().UpdateText(ETileInfoTMP.Resource, "자원 : 없음");
                 for (int i = 0; i < resourceIcons.Length; i++)
                 {
                     SpriteRenderer item = resourceIcons[i];
@@ -205,7 +184,8 @@ public class TileInfo : MonoBehaviour
         }
         else
         {
-            resourceText.text = "자원 : ???";
+            App.instance.GetMapUiController().UpdateText(ETileInfoTMP.Resource, "자원 : ???");
+
             for (int i = 0; i < resourceIcons.Length; i++)
             {
                 SpriteRenderer item = resourceIcons[i];
@@ -247,6 +227,31 @@ public class TileInfo : MonoBehaviour
         }
     }
 
+    public List<Resource> GetResources(int count)
+    {
+        List<Resource> list = new List<Resource>();
+
+        if (appearanceResources == null)
+            Debug.Log("비어있음");
+
+        for (int i = 0; i < appearanceResources.Count; i++)
+        {
+            Resource item = appearanceResources[i];
+            if (item.itemCount - count >= 0)
+            {
+                list.Add(new Resource(item.itemCode, count));
+                item.IncreaseDecreaseCount(-count);
+            }
+            else
+            {
+                list.Add(new Resource(item.itemCode, item.itemCount));
+                item.IncreaseDecreaseCount(-count);
+            }
+        }
+        ResourceUpdate(true);
+        return list;
+    }
+
     void CheckPlayerTIle(Tile tile)
     {
         if (MapController.instance.GetTilesInRange(tile, 3).Contains(myTile) || myTile == tile)
@@ -273,10 +278,5 @@ public class TileInfo : MonoBehaviour
             isTutorialTile = false;
             return false;
         }
-    }
-
-    public TMP_Text GetZombieText()
-    {
-        return zombieText;
     }
 }

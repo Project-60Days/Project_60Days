@@ -183,7 +183,7 @@ namespace FischlWorks_FogWar
         /// https://www.albertford.com/shadowcasting
         private class QuadrantIterator
         {
-            public QuadrantIterator(csFogWar fogWar)
+            public QuadrantIterator(CsFogWar fogWar)
             {
                 this.fogWar = fogWar;
             }
@@ -225,7 +225,7 @@ namespace FischlWorks_FogWar
             public Vector2Int originPoint { get; set; } = new Vector2Int();
 
             // To be initialized within the constructor, needed for reference
-            private csFogWar fogWar = null;
+            private CsFogWar fogWar = null;
         }
 
 
@@ -285,7 +285,7 @@ namespace FischlWorks_FogWar
 
 
         // Parent manager module, passed with initialization
-        private csFogWar fogWar = null;
+        private CsFogWar fogWar = null;
 
         public FogField fogField { get; private set; } = new FogField();
 
@@ -295,7 +295,7 @@ namespace FischlWorks_FogWar
 
 
         /// Initializes the shadowcaster module with properties from the dependant csFogWar object.
-        public void Initialize(csFogWar fogWar)
+        public void Initialize(CsFogWar fogWar)
         {
             this.fogWar = fogWar;
 
@@ -442,7 +442,7 @@ namespace FischlWorks_FogWar
                 return true;
             }
 
-            return (fogWar.levelData[levelCoordinates.x][levelCoordinates.y] == csFogWar.LevelColumn.ETileState.Empty);
+            return (fogWar.levelData[levelCoordinates.x][levelCoordinates.y] == CsFogWar.LevelColumn.ETileState.Empty);
         }
 
 
@@ -456,7 +456,7 @@ namespace FischlWorks_FogWar
                 return false;
             }
 
-            return (fogWar.levelData[levelCoordinates.x][levelCoordinates.y] == csFogWar.LevelColumn.ETileState.Obstacle);
+            return (fogWar.levelData[levelCoordinates.x][levelCoordinates.y] == CsFogWar.LevelColumn.ETileState.Obstacle);
         }
 
 

@@ -12,7 +12,7 @@ public class ZombieSwarm : MonoBehaviour
     public int drinkCount;
     public GameObject equipment;
     public bool isChasingPlayer;
-    public Distrubtor nearthDistrubtor;
+    public Disturbtor nearthDistrubtor;
     public int remainStunTime;
 
     public float zombieMovePossibility;
@@ -26,7 +26,6 @@ public class ZombieSwarm : MonoBehaviour
     public Tile lastTile;
     public Tile targetTile;
     List<Coords> movePath;
-    TMP_Text zombieCountTMP;
 
     //public SpecialZombie[] specialZombies;
 
@@ -47,11 +46,11 @@ public class ZombieSwarm : MonoBehaviour
         zombieCount = (int)Random.Range(zombieMinCount, zombieMaxCount);
         curTile = tile;
         lastTile = curTile;
-        zombieCountTMP = ((GameObject)curTile.GameEntity).GetComponent<TileInfo>().GetZombieText();
+
         CurrentTileInfoUpdate(curTile);
     }
 
-    public void Detection()
+    public void DetectionAndAct()
     {
         // 데모 컨트롤러에서 범위 가져옴.
         isChasingPlayer = MapController.instance.CalculateDistanceToPlayer(curTile, 2);
@@ -71,7 +70,7 @@ public class ZombieSwarm : MonoBehaviour
         if (nearthDistrubtor != null)
         {
             Debug.Log(gameObject.name + "이 교란기를 발견!");
-            StartCoroutine(MoveToTarget(nearthDistrubtor.curTile));
+            StartCoroutine(MoveToTarget(nearthDistrubtor.currentTile));
 
             return;
         }
@@ -79,7 +78,7 @@ public class ZombieSwarm : MonoBehaviour
         if (isChasingPlayer)
         {
             Debug.Log(gameObject.name + "이 플레이어를 발견!");
-            StartCoroutine(MoveToTarget(MapController.instance.playerLocationTile));
+            StartCoroutine(MoveToTarget(MapController.instance.GetPlayerLocationTile()));
         }
         else
         {
@@ -147,9 +146,13 @@ public class ZombieSwarm : MonoBehaviour
     public void CurrentTileInfoUpdate(Tile tile)
     {
         if (tile == curTile)
-            zombieCountTMP.text = "좀비 약 " + zombieCount + "체";
+        {
+            App.instance.GetMapUiController().UpdateText(ETileInfoTMP.Zombie, "좀비 약 " + zombieCount + "체");
+        }
         else
-            zombieCountTMP.text = "알 수 없음";
+        {
+            App.instance.GetMapUiController().UpdateText(ETileInfoTMP.Zombie, "알 수 없음");
+        }
     }
 
     public void SumZombies(ZombieSwarm zombie)

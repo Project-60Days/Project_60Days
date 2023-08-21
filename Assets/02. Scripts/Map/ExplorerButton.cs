@@ -20,7 +20,7 @@ public class ExplorerButton : MonoBehaviour
 
     public void Explorer()
     {
-        if(controller.CheckSelected())
-            controller.ExplorerBorderActiveSet(true);
+        if(App.instance.GetMapManager().CheckCanInstallDrone())
+            controller.PreparingExplorer(true);
     }
 }
