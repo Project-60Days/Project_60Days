@@ -38,7 +38,6 @@ public class TitleLoad : MonoBehaviour
     void Start()
     {
         videoPlayer = GetComponent<VideoPlayer>();
-
         videoPlayer.loopPointReached += OnVideoEnd;
 
         leftLogField.gameObject.SetActive(false);
@@ -128,7 +127,7 @@ public class TitleLoad : MonoBehaviour
     /// <returns></returns>
     IEnumerator Title()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(2f);
 
         titleText.SetActive(true);
         titleImage.SetActive(true);
@@ -136,14 +135,14 @@ public class TitleLoad : MonoBehaviour
         TextMeshProUGUI text = titleText.GetComponent<TextMeshProUGUI>();
 
         text.alpha = 0f;
-        text.DOFade(1f, 2f).SetEase(Ease.InOutBounce);
+        text.DOFade(1f, 0.1f).SetEase(Ease.InOutBounce);
 
         Image title = titleImage.GetComponent<Image>();
 
         title.color = new Color(1f, 1f, 1f, 0f);
-        title.DOFade(1f, 2f).SetEase(Ease.InOutBounce);
+        title.DOFade(1f, 0.1f).SetEase(Ease.InOutBounce);
 
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(2f);
 
         buttonText.SetActive(true);
         buttonBack.SetActive(true);

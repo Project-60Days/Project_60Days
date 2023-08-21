@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
-using Unity.VisualScripting;
 using System;
 
 public class ItemSlot : MonoBehaviour, IPointerClickHandler
@@ -13,7 +10,6 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
     [SerializeField] public ESlotType eSlotType;
 
     TextMeshProUGUI itemDiscription;
-
     GameObject craft;
 
     public static Action<ItemBase> CraftItemClick;
@@ -29,12 +25,12 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
             if (_item != null)
             {
                 image.sprite = item.itemImage;
-                image.color = new Color(1, 1, 1, 1);
+                image.color = Color.white;
             }
             else
             {
                 image.sprite = null;
-                image.color = new Color(1, 1, 1, 0);
+                image.color = Color.clear;
             }
         }
     }

@@ -1,11 +1,6 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using TMPro.EditorUtilities;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class CraftingUIController : MonoBehaviour
 {
@@ -18,10 +13,10 @@ public class CraftingUIController : MonoBehaviour
     
     InventoryPage inventoryPage;
 
-    public List<Transform> slotTransforms;
-    public List<Image> craftTypeImages;
-    public List<ItemBase> items;
-    public List<ItemCombineData> itemCombines;
+    private List<Transform> slotTransforms;
+    private List<Image> craftTypeImages;
+    private List<ItemBase> items;
+    private List<ItemCombineData> itemCombines;
 
     string[] combinationCodes = new string[9];
 
@@ -35,38 +30,21 @@ public class CraftingUIController : MonoBehaviour
         inventoryPage = GameObject.Find("Inventory").GetComponent<InventoryPage>();
 
         slots = slotParent.GetComponentsInChildren<ItemSlot>();
-        for (int i = 0; i < slotParent.childCount; i++)
-        {
-            if (slotParent.GetChild(i))
-            {
-                slotTransforms.Add(slotParent.GetChild(i));
-                craftTypeImages.Add(slotTransforms[i].GetChild(1).GetComponent<Image>());
-            }
-            
-        }
-    }
+        slotTransforms = new List<Transform>();
+        craftTypeImages = new List<Image>();
 
-    void Update()
-    {
-        InputKey();
-    }
-
-    /// <summary>
-    /// 정다은이 생성한 함수가 아닙니다.. P키를 누르면 아이템이 추가되는건가 보네요~
-    /// </summary>
-    private void InputKey()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
+        foreach (Transform child in slotParent)
         {
-            inventoryPage.AddItem(itemSO.items[0]);
-            inventoryPage.AddItem(itemSO.items[1]);
-            inventoryPage.AddItem(itemSO.items[4]);
+            slotTransforms.Add(child);
+            craftTypeImages.Add(child.GetChild(1).GetComponent<Image>());
         }
     }
 
     void Start()
     {
-        for(int i = 1001; i < 2000; i++)
+        itemCombines = new List<ItemCombineData>();
+
+        for (int i = 1001; i < 2000; i++)
         {
             App.instance.GetDataManager().itemCombineData.TryGetValue(i, out ItemCombineData itemData); //ItemCombineData내의 모든 값 itemComines 리스트에 추가
 
@@ -84,6 +62,27 @@ public class CraftingUIController : MonoBehaviour
             slots[i].item = null;
             slots[i].eSlotType = ESlotType.CraftingSlot;
             craftTypeImages[i].GetComponent<Image>().sprite = craftTypeImage[0];
+        }
+    }
+
+    /// <summary>
+    /// 시연회용 임시 함수(맞나?)
+    /// </summary>
+    void Update()
+    {
+        InputKey();
+    }
+
+    /// <summary>
+    /// 정다은이 생성한 함수가 아닙니다.. P키를 누르면 아이템이 추가되는건가 보네요~
+    /// </summary>
+    private void InputKey()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            inventoryPage.AddItem(itemSO.items[0]);
+            inventoryPage.AddItem(itemSO.items[1]);
+            inventoryPage.AddItem(itemSO.items[4]);
         }
     }
 
@@ -147,6 +146,9 @@ public class CraftingUIController : MonoBehaviour
         items.Clear();
     }
 
+    /// <summary>
+    /// 시연회용 임시 함수
+    /// </summary>
     public void ReturnItemWithOutExit()
     {
         for (int i = 0; i < items.Count; i++)
@@ -166,26 +168,26 @@ public class CraftingUIController : MonoBehaviour
     {
         int flag; // 0: 일치, 1: 불일치
 
-        for (int i = 0; i < itemCombines.Count; i++)
+        foreach(ItemCombineData combineData in itemCombines)
         {
             flag = 0;
- 
-            combinationCodes[0] = itemCombines[i].Material_1;
-            combinationCodes[1] = itemCombines[i].Material_2;
-            combinationCodes[2] = itemCombines[i].Material_3;
-            combinationCodes[3] = itemCombines[i].Material_4;
-            combinationCodes[4] = itemCombines[i].Material_5;
-            combinationCodes[5] = itemCombines[i].Material_6;
-            combinationCodes[6] = itemCombines[i].Material_7;
-            combinationCodes[7] = itemCombines[i].Material_8;
-            combinationCodes[8] = itemCombines[i].Result;
 
-            for (int j = 0; j < items.Count; j++)
+            combinationCodes[0] = combineData.Material_1;
+            combinationCodes[1] = combineData.Material_2;
+            combinationCodes[2] = combineData.Material_3;
+            combinationCodes[3] = combineData.Material_4;
+            combinationCodes[4] = combineData.Material_5;
+            combinationCodes[5] = combineData.Material_6;
+            combinationCodes[6] = combineData.Material_7;
+            combinationCodes[7] = combineData.Material_8;
+            combinationCodes[8] = combineData.Result;
+
+            for (int i = 0; i < items.Count; i++)
             {
                 for (int k = 0; k < 8; k++)
                 {
                     if (combinationCodes[k] == "1" || combinationCodes[k] == "-1") continue;
-                    if (combinationCodes[k] == items[j].itemCode)
+                    if (combinationCodes[k] == items[i].itemCode)
                     {
                         combinationCodes[k] = "1";
                         break;
@@ -204,7 +206,7 @@ public class CraftingUIController : MonoBehaviour
 
             if (flag == 0)
             {
-                if (combinationCodes[8] == "ITEM_TIER_2_SIGNALLER" || combinationCodes[8] == "ITEM_TIER_2_RISISTOR") continue;
+                //if (combinationCodes[8] == "ITEM_TIER_2_SIGNALLER" || combinationCodes[8] == "ITEM_TIER_2_RISISTOR") continue;
                 Debug.Log(combinationCodes[8]);
                 ItemBase item = CombineResultItem(combinationCodes[8]);
                 AddCombineItem(item);
@@ -214,7 +216,7 @@ public class CraftingUIController : MonoBehaviour
     }
 
     /// <summary>
-    /// 조합 결과 아이템 CraftBag에 표시
+    /// 조합 결과 아이템 ItemBase에서 검색 후 리턴
     /// </summary>
     public ItemBase CombineResultItem(string resultItemCode)
     {
@@ -236,14 +238,25 @@ public class CraftingUIController : MonoBehaviour
         return tempItem;
     }
 
+    /// <summary>
+    /// 조합 결과 아이템 CraftBag에 표시
+    /// </summary>
+    /// <param name="_item"></param>
     public void AddCombineItem(ItemBase _item)
     {
-        slotTransforms[items.Count].gameObject.SetActive(true);
-        slots[items.Count].item = _item;
-        craftTypeImages[items.Count].GetComponent<Image>().sprite = craftTypeImage[1];
-        slots[items.Count].eSlotType = ESlotType.ResultSlot;
+        int slotIndex = items.Count;
+        slotTransforms[slotIndex].gameObject.SetActive(true);
+        slots[slotIndex].item = _item;
+        craftTypeImages[slotIndex].GetComponent<Image>().sprite = craftTypeImage[1];
+        slots[slotIndex].eSlotType = ESlotType.ResultSlot;
     }
 
+    /// <summary>
+    /// 해당 아이템이 특정 갯수만큼 있는지 체크하는 함수
+    /// </summary>
+    /// <param name="itemCode"></param>
+    /// <param name="count"></param>
+    /// <returns></returns>
     public bool CheckCraftingItem(string itemCode, int count = 1)
     {
         int _cnt = 0;
