@@ -1,15 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class SparkAnim : MonoBehaviour
 {
     [SerializeField] string animName;
-    Animator animator;
 
-    public float minInterval = 5f;
-    public float maxInterval = 15f;
+    [Header("Interval")]
+    [SerializeField] float minInterval = 5f;
+    [SerializeField] float maxInterval = 15f;
+
+    Animator animator;
 
     float timer = 0;
     float interval = 5f;

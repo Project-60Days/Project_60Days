@@ -2014,7 +2014,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 302944094}
-  hoverImage: {fileID: 1131282746}
+  eSlotType: 0
 --- !u!114 &302944094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2182,7 +2182,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 332547188}
-  hoverImage: {fileID: 1127382545}
+  eSlotType: 0
 --- !u!114 &332547188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2353,7 +2353,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 341170025}
-  hoverImage: {fileID: 99013255}
+  eSlotType: 0
 --- !u!114 &341170025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3072,7 +3072,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 476700551}
-  hoverImage: {fileID: 795675578}
+  eSlotType: 0
 --- !u!114 &476700551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3163,7 +3163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 527550098}
-  hoverImage: {fileID: 1507637485}
+  eSlotType: 0
 --- !u!114 &527550098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3627,7 +3627,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 634859349}
-  hoverImage: {fileID: 1209481467}
+  eSlotType: 0
 --- !u!114 &634859349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4294,7 +4294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 754411139}
-  hoverImage: {fileID: 805700811}
+  eSlotType: 0
 --- !u!114 &754411139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4846,7 +4846,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 813231543}
-  hoverImage: {fileID: 2333122}
+  eSlotType: 0
 --- !u!114 &813231543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5017,7 +5017,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 843680436}
-  hoverImage: {fileID: 1229813790}
+  eSlotType: 0
 --- !u!114 &843680436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5108,7 +5108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 847121920}
-  hoverImage: {fileID: 1506213574}
+  eSlotType: 0
 --- !u!114 &847121920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5397,16 +5397,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotParent: {fileID: 278412671}
-  slots:
-  - {fileID: 1715068956}
-  - {fileID: 2144127626}
-  - {fileID: 1798626532}
-  - {fileID: 1455023829}
-  - {fileID: 1285841911}
-  - {fileID: 634859348}
-  - {fileID: 1547399539}
-  - {fileID: 341170024}
-  - {fileID: 476700550}
+  itemTypeImage: []
+  itemSO: {fileID: 0}
   items: []
 --- !u!1 &869300077
 GameObject:
@@ -6102,7 +6094,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 1009418289}
-  hoverImage: {fileID: 1007352632}
+  eSlotType: 0
 --- !u!114 &1009418289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6658,7 +6650,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 1162765013}
-  hoverImage: {fileID: 332055294}
+  eSlotType: 0
 --- !u!114 &1162765013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6749,7 +6741,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 1202785566}
-  hoverImage: {fileID: 411857339}
+  eSlotType: 0
 --- !u!114 &1202785566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7291,7 +7283,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 1285841912}
-  hoverImage: {fileID: 266394264}
+  eSlotType: 0
 --- !u!114 &1285841912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7507,16 +7499,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotParent: {fileID: 869629808}
-  slots:
-  - {fileID: 1939427797}
-  - {fileID: 1162765012}
-  - {fileID: 2104329398}
-  - {fileID: 1746638906}
-  - {fileID: 527550097}
-  - {fileID: 1905445344}
-  - {fileID: 1684471225}
-  - {fileID: 302944093}
-  - {fileID: 843680435}
+  itemTypeImage: []
+  itemSO: {fileID: 0}
   items: []
 --- !u!1 &1438337114
 GameObject:
@@ -7650,7 +7634,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 1455023830}
-  hoverImage: {fileID: 1017205513}
+  eSlotType: 0
 --- !u!114 &1455023830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7869,16 +7853,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotParent: {fileID: 548215772}
-  slots:
-  - {fileID: 1636551343}
-  - {fileID: 1202785565}
-  - {fileID: 1859457831}
-  - {fileID: 847121919}
-  - {fileID: 1009418288}
-  - {fileID: 754411138}
-  - {fileID: 813231542}
-  - {fileID: 1665291762}
-  - {fileID: 332547187}
+  itemTypeImage: []
+  itemSO: {fileID: 0}
   items: []
 --- !u!1 &1506213574
 GameObject:
@@ -8397,7 +8373,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 1547399540}
-  hoverImage: {fileID: 227530374}
+  eSlotType: 0
 --- !u!114 &1547399540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8568,7 +8544,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 1636551344}
-  hoverImage: {fileID: 452026849}
+  eSlotType: 0
 --- !u!114 &1636551344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9053,7 +9029,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 1665291763}
-  hoverImage: {fileID: 869300077}
+  eSlotType: 0
 --- !u!114 &1665291763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9144,7 +9120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 1684471226}
-  hoverImage: {fileID: 750153153}
+  eSlotType: 0
 --- !u!114 &1684471226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9433,7 +9409,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 1715068954}
-  hoverImage: {fileID: 1886740475}
+  eSlotType: 0
 --- !u!1 &1725577214
 GameObject:
   m_ObjectHideFlags: 0
@@ -9563,7 +9539,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 1746638907}
-  hoverImage: {fileID: 1778910525}
+  eSlotType: 0
 --- !u!114 &1746638907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10128,7 +10104,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 1798626533}
-  hoverImage: {fileID: 1340709373}
+  eSlotType: 0
 --- !u!114 &1798626533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10296,7 +10272,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 1859457832}
-  hoverImage: {fileID: 785708}
+  eSlotType: 0
 --- !u!114 &1859457832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10548,7 +10524,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 1905445345}
-  hoverImage: {fileID: 2079564293}
+  eSlotType: 0
 --- !u!114 &1905445345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10793,7 +10769,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 1939427798}
-  hoverImage: {fileID: 1961564568}
+  eSlotType: 0
 --- !u!114 &1939427798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11355,7 +11331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 2104329399}
-  hoverImage: {fileID: 1968154072}
+  eSlotType: 0
 --- !u!114 &2104329399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11523,7 +11499,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 2144127627}
-  hoverImage: {fileID: 1053339675}
+  eSlotType: 0
 --- !u!114 &2144127627
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -5,14 +5,17 @@ using UnityEngine.EventSystems;
 
 public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    [Header("Buttons")]
     [SerializeField] Button closeBtn;
     [SerializeField] Button openBtn;
     [SerializeField] Button nextDayBtn;
 
+    [Header("Box Objects")]
     [SerializeField] GameObject boxTop;
     [SerializeField] GameObject boxBottom;
     [SerializeField] Image[] notePanels;
-    
+
+    [Header("Note Objects")]
     [SerializeField] Image blackPanel;
     [SerializeField] Text dayText;
     [SerializeField] GameObject nextPage;
@@ -28,13 +31,17 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     [SerializeField] NoteController noteController;
 
-
     void Start()
     {
         originalPos = transform.position;
+        Initialize();
+    }
 
-        for (int i = 0; i < notePanels.Length; i++) 
-            notePanels[i].DOFade(0f, 0f);
+    void Initialize()
+    {
+        foreach (var notePanel in notePanels)
+            notePanel.DOFade(0f, 0f);
+
         blackPanel.DOFade(0f, 0f);
         closeBtn.gameObject.SetActive(false);
         nextPage.SetActive(false);
@@ -49,7 +56,6 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         nextDayBtn.onClick.AddListener(NextDayEvent);
     }
 
-
     /// <summary>
     /// 상자 마우스 호버
     /// </summary>
@@ -59,6 +65,7 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         if (!isOpen)
             transform.DOMoveY(originalPos.y + 80f, 0.5f);
     }
+
     /// <summary>
     /// 상자 마우스 호버 해제
     /// </summary>
@@ -77,6 +84,9 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         if (!isOpen)
         {
             Debug.LogError("Open_Anim");
+
+            DOTween.Kill(gameObject);
+
             Sequence sequence = DOTween.Sequence();
             sequence.Append(transform.DOMoveY(originalPos.y, 0.5f))
                 .Join(boxTop.transform.DOMoveY(960f, 0.5f))
@@ -84,12 +94,12 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                 .AppendCallback(() =>
                 {
                     noteBackground_Back.SetActive(true);
-                    for (int i = 0; i < notePanels.Length; i++)
-                        notePanels[i].DOFade(1f, 0.5f);
+                    foreach (var notePanel in notePanels)
+                        notePanel.DOFade(1f, 0.5f);
                 })
                 .OnComplete(() => OpenBox());
 
-            DOTween.Kill(gameObject);
+            
             closeBtn.DOKill();
             openBtn.DOKill();
 
@@ -112,18 +122,20 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             nextDay.SetActive(false);
             dayText.gameObject.SetActive(false);
 
+            DOTween.Kill(gameObject);
+
             Sequence sequence = DOTween.Sequence();
             sequence.AppendCallback(() =>
             {
-                for (int i = 0; i < notePanels.Length; i++)
-                    notePanels[i].DOFade(0f, 0.5f);
+                foreach (var notePanel in notePanels)
+                    notePanel.DOFade(0f, 0.5f);
             })
                 .AppendInterval(0.5f)
                 .Append(boxTop.transform.DOMoveY(10f, 0.5f))
                 .Join(boxBottom.transform.DOMoveY(10f, 0.5f))
                 .OnComplete(() => CloseBox());
 
-            DOTween.Kill(gameObject);
+            
             closeBtn.DOKill();
             openBtn.DOKill();
 
@@ -145,7 +157,7 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         Sequence sequence = DOTween.Sequence();
         sequence.Append(blackPanel.DOFade(1f, 0.5f)).SetEase(Ease.InQuint)
             .AppendInterval(0.5f)
-            .Append(blackPanel.DOFade(0f, 1f))
+            .Append(blackPanel.DOFade(0f, 0.5f + 0.5f))
             .OnComplete(() => NewDay());
         sequence.Play();
     }
@@ -188,6 +200,10 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         MapController.instance.AllowMouseEvent();
     }
 
+    /// <summary>
+    /// 노트가 열려있는 지 체크
+    /// </summary>
+    /// <returns></returns>
     public bool GetIsOpen()
     {
         return isOpen;

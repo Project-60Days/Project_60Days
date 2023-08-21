@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
@@ -20,29 +18,39 @@ public class WorkBenchUI : MonoBehaviour
     {
         inventoryUi.transform.position = craftingStartPos.position;
         craftingUi.transform.position = inventoryStartPos.position;
-
     }
+
 
     private void OnEnable()
     {
-        WorkBench onClickScript = FindObjectOfType<WorkBench>();
-        if (onClickScript != null)
-        {
-            onClickScript.onClickEvent.AddListener(ActivateObject);
-        }
+        SetOnClickEvent(true);
     }
 
     private void OnDisable()
     {
+        SetOnClickEvent(true);
+    }
+
+    private void SetOnClickEvent(bool enable)
+    {
         WorkBench onClickScript = FindObjectOfType<WorkBench>();
         if (onClickScript != null)
         {
-            onClickScript.onClickEvent.RemoveListener(ActivateObject);
+            if (enable)
+            {
+                onClickScript.onClickEvent.AddListener(ActivateUIObjects);
+            }
+            else
+            {
+                onClickScript.onClickEvent.RemoveListener(ActivateUIObjects);
+            }
         }
     }
 
-    private void ActivateObject()
+    private void ActivateUIObjects()
     {
+        sequence?.Kill();
+
         sequence = DOTween.Sequence();
 
         sequence

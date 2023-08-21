@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using Unity.VisualScripting;
 
 public class TitleButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -12,8 +9,6 @@ public class TitleButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     private Color normalTextColor = Color.white;
     private Color highlightTextColor = Color.black;
-
-    [SerializeField] int flag;
 
     [SerializeField] GameObject titlePanel;
     [SerializeField] GameObject optionPanel;
