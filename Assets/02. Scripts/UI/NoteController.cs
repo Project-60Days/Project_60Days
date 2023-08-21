@@ -2,11 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Yarn.Unity;
-using UnityEngine.SceneManagement;
 using DG.Tweening;
-using System;
-using UnityEditor.Search;
-using Unity.VisualScripting.Antlr3.Runtime;
 
 public class NoteController : MonoBehaviour
 {

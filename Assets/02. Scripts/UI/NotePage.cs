@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class NotePage : MonoBehaviour
@@ -9,14 +7,16 @@ public class NotePage : MonoBehaviour
     /// 페이지가 열렸을 때 수행할 이벤트
     /// </summary>
     public Action pageOnEvent;
-    public ENotePageType notePageType;
-    public bool isNoteMoveRight;
+    public ENotePageType notePageType { get; private set; }
+    public bool isNoteMoveRight { get; private set; }
 
     CameraMove cameraMove;
 
-    public void Init(CameraMove _cameramove)
+    public void Init(CameraMove _cameramove, ENotePageType _notePageType, bool _isNoteMoveRight)
     {
         cameraMove = _cameramove;
+        notePageType = notePageType;
+        isNoteMoveRight = isNoteMoveRight;
         pageOnEvent += () => { cameraMove.ChangeCamera(notePageType); };
     }
 
