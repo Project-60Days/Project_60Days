@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CraftingUIController : MonoBehaviour
+public class CraftingUiController : ControllerBase
 {
     [SerializeField] Transform slotParent;
     [SerializeField] Sprite[] craftTypeImage;
@@ -10,8 +10,6 @@ public class CraftingUIController : MonoBehaviour
     [SerializeField] ItemSO itemSO;
 
     private ItemSlot[] slots;
-    
-    InventoryPage inventoryPage;
 
     private List<Transform> slotTransforms;
     private List<Image> craftTypeImages;
@@ -25,10 +23,13 @@ public class CraftingUIController : MonoBehaviour
     /// </summary>
     [SerializeField] ItemBase tempItem;
 
+    public override EControllerType GetControllerType()
+    {
+        return EControllerType.CRAFT;
+    }
+
     void Awake()
     {
-        inventoryPage = GameObject.Find("Inventory").GetComponent<InventoryPage>();
-
         slots = slotParent.GetComponentsInChildren<ItemSlot>();
         slotTransforms = new List<Transform>();
         craftTypeImages = new List<Image>();
@@ -80,9 +81,9 @@ public class CraftingUIController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            inventoryPage.AddItem(itemSO.items[0]);
-            inventoryPage.AddItem(itemSO.items[1]);
-            inventoryPage.AddItem(itemSO.items[4]);
+            App.instance.GetInventoryController().AddItem(itemSO.items[0]);
+            App.instance.GetInventoryController().AddItem(itemSO.items[1]);
+            App.instance.GetInventoryController().AddItem(itemSO.items[4]);
         }
     }
 
@@ -125,7 +126,7 @@ public class CraftingUIController : MonoBehaviour
         items.Add(_item);
         FreshCraftingBag();
         CombineItem();
-        inventoryPage.RemoveItem(_item);
+        App.instance.GetInventoryController().RemoveItem(_item);
     }
 
     /// <summary>
@@ -138,7 +139,7 @@ public class CraftingUIController : MonoBehaviour
 
         for (int i = 0; i < items.Count; i++)
         {
-            inventoryPage.AddItem(items[i]);
+            App.instance.GetInventoryController().AddItem(items[i]);
             slotTransforms[i].gameObject.SetActive(false);
             slots[i].item = null;
         }
@@ -153,7 +154,7 @@ public class CraftingUIController : MonoBehaviour
     {
         for (int i = 0; i < items.Count; i++)
         {
-            inventoryPage.AddItem(items[i]);
+            App.instance.GetInventoryController().AddItem(items[i]);
             slotTransforms[i].gameObject.SetActive(false);
             slots[i].item = null;
         }
@@ -276,14 +277,14 @@ public class CraftingUIController : MonoBehaviour
     public void CraftToInventory(ItemSlot itemSlot)
     {
         items.Remove(itemSlot.item);
-        inventoryPage.AddItem(slots[items.Count].item);
+        App.instance.GetInventoryController().AddItem(slots[items.Count].item);
         FreshCraftingBag();
         CombineItem();
     }
 
     public void ResultToInventory()
     {
-        inventoryPage.AddItem(slots[items.Count].item);
+        App.instance.GetInventoryController().AddItem(slots[items.Count].item);
         slotTransforms[items.Count].gameObject.SetActive(false);
         slots[items.Count].item = null;
         items.Clear();

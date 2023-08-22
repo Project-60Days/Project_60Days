@@ -7,7 +7,7 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] NoteController noteController;
     [SerializeField] TutorialDialogue tutorialDialogue;
     [SerializeField] InventoryManager inventoryManager;
-    [SerializeField] CraftingUIController craftingUIController;
+    [SerializeField] CraftingUiController craftingUIController;
     [SerializeField] UIHighLightController uiHighLightController;
     [SerializeField] EndUIController endUIController;
 
@@ -51,7 +51,7 @@ public class UIManager : Singleton<UIManager>
         return inventoryManager;
     }
 
-    public CraftingUIController GetCraftingUIController()
+    public CraftingUiController GetCraftingUIController()
     {
         return craftingUIController;
     }

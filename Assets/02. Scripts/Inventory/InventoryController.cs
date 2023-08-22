@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class InventoryPage : MonoBehaviour
+public class InventoryController : ControllerBase
 {
     [SerializeField] Transform slotParent;
     [SerializeField] Sprite[] itemTypeImage;
@@ -14,8 +14,14 @@ public class InventoryPage : MonoBehaviour
     private TextMeshProUGUI[] itemCounts;
 
     public List<ItemBase> items;
+
     int slotCount = 0;
     int flag = 0;
+
+    public override EControllerType GetControllerType()
+    {
+        return EControllerType.INVENTORY;
+    }
 
     private void OnValidate()
     {
@@ -23,6 +29,7 @@ public class InventoryPage : MonoBehaviour
         slotImages = slotParent.GetComponentsInChildren<Temp>();
         itemCounts = slotParent.GetComponentsInChildren<TextMeshProUGUI>();
     }
+
     void Awake()
     {
         AddItemByCode("ITEM_TIER_2_SIGNALLER");
