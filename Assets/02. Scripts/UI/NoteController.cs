@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using Yarn.Unity;
 using DG.Tweening;
 
-public class NoteController : MonoBehaviour
+public class NoteController : ControllerBase
 {
     [SerializeField] RectTransform noteCenterPos;
     [SerializeField] RectTransform noteRightPos;
@@ -36,10 +36,15 @@ public class NoteController : MonoBehaviour
     //List<int> numbers = new List<int>() { 1, 2, 3, 4, 5 };
     //int selectedNumber;
 
-    [SerializeField] public NoteAnim noteAnim;
+    //[SerializeField] public NoteAnim noteAnim;
 
     [SerializeField] VerticalLayoutGroup[] contents;
     [SerializeField] VerticalLayoutGroup[] lineViews;
+
+    public override EControllerType GetControllerType()
+    {
+        return EControllerType.NOTE;
+    }
 
     private void Start()
     {
@@ -157,9 +162,9 @@ public class NoteController : MonoBehaviour
         pageNum = index;
 
         Debug.Log("실행");
-        if (!noteAnim.GetIsOpen())
+        if (!App.instance.GetNoteManager().GetIsOpen())
         {
-            noteAnim.Open_Anim();
+            App.instance.GetNoteManager().Open_Anim();
             Debug.Log("열림");
         }
             
@@ -352,7 +357,7 @@ public class NoteController : MonoBehaviour
     {
         isTutorial = false;
         page_Diary_Back.SetActive(false);
-        noteAnim.Close_Anim();
+        App.instance.GetNoteManager().Close_Anim();
         SetBtnNormal();
         TutorialManager.instance.tutorialController.SetNextTutorial();
     }

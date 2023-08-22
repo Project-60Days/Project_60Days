@@ -51,7 +51,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
                     if (_item != null)
                     {
                         var itemSave = _item;
-                        craft.GetComponent<CraftingUIController>().CraftItem(_item);
+                        App.instance.GetCraftController().CraftItem(_item);
                         CraftItemClick?.Invoke(itemSave);
                     }
                 }
@@ -59,10 +59,10 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
                     itemDiscription.text = _item.data.Description.ToString();
                 break;
             case ESlotType.CraftingSlot:
-                //craft.GetComponent<CraftingUIController>().CraftToInventory(this); break;
+                //App.instance.GetCraftController().CraftToInventory(this); break;
                 return;
             case ESlotType.ResultSlot:
-                craft.GetComponent<CraftingUIController>().ResultToInventory(); break;
+                App.instance.GetCraftController().ResultToInventory(); break;
         }
     }
 }

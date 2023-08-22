@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine.EventSystems;
 
-public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class NoteManager : ManagementBase, IPointerEnterHandler, IPointerExitHandler
 {
     [Header("Buttons")]
     [SerializeField] Button closeBtn;
@@ -29,7 +29,10 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     bool isOpen = false;
     int dayCount = 1;
 
-    [SerializeField] NoteController noteController;
+    public override EManagerType GetManagemetType()
+    {
+        return EManagerType.MAP;
+    }
 
     void Start()
     {
@@ -116,7 +119,7 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         if (isOpen)
         {
-            noteController.CloseBox();
+            App.instance.GetNoteController().CloseBox();
             nextPage.SetActive(false);
             prevPage.SetActive(false);
             nextDay.SetActive(false);
@@ -175,7 +178,7 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         dayText.gameObject.SetActive(true);
 
         UIManager.instance.AddCurrUIName(StringUtility.UI_NOTE);
-        noteController.OpenBox();
+        App.instance.GetNoteController().OpenBox();
     }
     /// <summary>
     /// »óÀÚ ´ÝÈû ÄÝ¹éÇÔ¼ö
@@ -196,7 +199,7 @@ public class NoteAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         blackPanel.gameObject.SetActive(false);
         dayText.text = "Day " + ++dayCount;
-        noteController.newDay = true;
+        App.instance.GetNoteController().newDay = true;
         App.instance.GetMapManager().AllowMouseEvent(true);
     }
 
