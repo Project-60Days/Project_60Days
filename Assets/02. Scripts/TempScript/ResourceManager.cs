@@ -10,7 +10,6 @@ public class ResourceManager : MonoBehaviour
     [SerializeField] ItemSO itemSO;
 
     List<Resource> owendResources;
-    InventoryPage inventory;
 
     void Start()
     {
@@ -21,7 +20,6 @@ public class ResourceManager : MonoBehaviour
     IEnumerator GetInventoryPage()
     {
         yield return new WaitForEndOfFrame();
-        inventory = GameObject.FindGameObjectWithTag("UiCanvas").transform.Find("InventoryUi").transform.Find("Inventory").GetComponent<InventoryPage>();
     }
 
     private void Update()
@@ -74,7 +72,7 @@ public class ResourceManager : MonoBehaviour
 
             for (int j = 0; j < list[i].itemCount; j++)
             {
-                inventory.AddItem(item);
+                App.instance.GetInventoryController().AddItem(item);
             }
         }
     }
