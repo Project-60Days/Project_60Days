@@ -81,7 +81,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
     private Coroutine WaitGetItem(string _itemCode)
     {
-        return StartCoroutine(new WaitUntil(() => UIManager.instance.GetInventoryManager().inventoryPage.CheckInventoryItem(_itemCode)));
+        return StartCoroutine(new WaitUntil(() => UIManager.instance.GetInventoryManager().inventoryController.CheckInventoryItem(_itemCode)));
     }
 
     private Coroutine WaitSetCraftingItem(string _itemCode, int _count = 1)
