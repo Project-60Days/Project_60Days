@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class NoteInteraction : MonoBehaviour
+public class NoteInteraction : MonoBehaviour, IPointerClickHandler
 {
     public UnityEvent onClickEvent;
 

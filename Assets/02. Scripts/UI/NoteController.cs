@@ -22,6 +22,7 @@ public class NoteController : ControllerBase
     [Header("Buttons")]
     [SerializeField] Button nextPageBtn;
     [SerializeField] Button prevPageBtn;
+    [SerializeField] Button closeBtn;
 
     [Header("Tutorial Diary")]
     [SerializeField] GameObject page_Diary_Back;
@@ -58,11 +59,12 @@ public class NoteController : ControllerBase
 
     void DisableObjectsInInit()
     {
-        foreach (var image in noteBackgrounds)
-            image.DOFade(0f, 0f);
+        //foreach (var image in noteBackgrounds)
+        //    image.DOFade(0f, 0f);
 
         ActiveNextBtnAndPrevBtn(false, false);
 
+        closeBtn.gameObject.SetActive(false);
         dayText.gameObject.SetActive(false);
         noteBackground_Back.SetActive(false);
 
@@ -87,19 +89,20 @@ public class NoteController : ControllerBase
         if(!isOpen)
         {
             noteBackground_Back.SetActive(true);
+            OpenNoteCallBack(); //
 
-            DOTween.Kill(gameObject);
+            //DOTween.Kill(gameObject);
 
-            Sequence sequence = DOTween.Sequence();
-            sequence.AppendCallback(() =>
-            {
-                foreach (var notePanel in noteBackgrounds)
-                    notePanel.DOFade(1f, 0.5f);
-            })
-                .AppendInterval(0.5f)
-                .OnComplete(() => OpenNoteCallBack());
+            //Sequence sequence = DOTween.Sequence();
+            //sequence.AppendCallback(() =>
+            //{
+            //    foreach (var notePanel in noteBackgrounds)
+            //        notePanel.DOFade(1f, 1f);
+            //})
+            //    .AppendInterval(1f)
+            //    .OnComplete(() => OpenNoteCallBack());
 
-            sequence.Play(); 
+            //sequence.Play(); 
         }
     }
 
@@ -107,22 +110,25 @@ public class NoteController : ControllerBase
     {
         isOpen = true;
         dayText.gameObject.SetActive(true);
+        closeBtn.gameObject.SetActive(true);
 
-        if (isTutorial)
-        {
-            page_Diary_Back.SetActive(true);
-            DiaryPageNum = 1;
-            LoadDiaryPage(DiaryPageNum);
-        }
-        else
-        {
-            EnableAndPlayPage();
+        EnableAndPlayPage();
+
+        if (isNewDay)
+            isNewDay = false;
+
+        ChangePageButton();
+
+        //if (isTutorial)
+        //{
+        //    page_Diary_Back.SetActive(true);
+        //    DiaryPageNum = 1;
+        //    LoadDiaryPage(DiaryPageNum);
+        //}
+        //else
+        //{
             
-            if (isNewDay)
-                isNewDay = false;
-            
-            ChangePageButton();
-        }
+        //}
         
         UIManager.instance.AddCurrUIName(StringUtility.UI_NOTE);
     }
@@ -134,19 +140,19 @@ public class NoteController : ControllerBase
             DisAbleObjectsInClose();
 
             MoveNoteCenter();
+            CloseNoteCallBack(); //
+            //DOTween.Kill(gameObject);
 
-            DOTween.Kill(gameObject);
+            //Sequence sequence = DOTween.Sequence();
+            //sequence.AppendCallback(() =>
+            //{
+            //    foreach (var notePanel in noteBackgrounds)
+            //        notePanel.DOFade(0f, 0.5f);
+            //})
+            //    .AppendInterval(0.5f)
+            //    .OnComplete(() => CloseNoteCallBack());
 
-            Sequence sequence = DOTween.Sequence();
-            sequence.AppendCallback(() =>
-            {
-                foreach (var notePanel in noteBackgrounds)
-                    notePanel.DOFade(0f, 0.5f);
-            })
-                .AppendInterval(0.5f)
-                .OnComplete(() => CloseNoteCallBack());
-
-            sequence.Play();
+            //sequence.Play();
         }
     }
 
@@ -163,6 +169,7 @@ public class NoteController : ControllerBase
         notePages[pageNum].gameObject.SetActive(false);
         dayText.gameObject.SetActive(false);
         inventoryUi.gameObject.SetActive(false);
+        closeBtn.gameObject.SetActive(false);
 
         ActiveNextBtnAndPrevBtn(false, false);
     }

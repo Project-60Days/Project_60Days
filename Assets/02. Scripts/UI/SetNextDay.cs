@@ -68,7 +68,6 @@ public class SetNextDay : MonoBehaviour
             if (page.GetPageEnabled())
             {
                 todayPages.Add(page);
-                Debug.Log(page.GetENotePageType());
             }
         }
 

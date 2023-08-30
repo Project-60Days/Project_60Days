@@ -22,7 +22,7 @@ public class ResultPage : NotePage
 
     public override bool GetPageEnabled()
     {
-        return isNeedToday;
+        return true;
     }
 
     public override void StopDialogue() { }

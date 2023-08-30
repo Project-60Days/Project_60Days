@@ -1139,6 +1139,7 @@ GameObject:
   - component: {fileID: 105272563}
   - component: {fileID: 105272562}
   - component: {fileID: 105272566}
+  - component: {fileID: 105272568}
   m_Layer: 5
   m_Name: UI_Canvas
   m_TagString: UiCanvas
@@ -1273,6 +1274,18 @@ MonoBehaviour:
   craftingUIController: {fileID: 2078442788}
   uiHighLightController: {fileID: 1608579649}
   endUIController: {fileID: 457224131}
+--- !u!114 &105272568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 105272561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e6e9aab1dda3e04688dbaf8acd1edfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &115180413
 GameObject:
   m_ObjectHideFlags: 0
@@ -1926,7 +1939,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1658759259}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -4212,12 +4225,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 733961255}
-  m_RootOrder: 1
+  m_Father: {fileID: 1658759259}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.0999756, y: -15}
+  m_AnchoredPosition: {x: 289, y: 415}
   m_SizeDelta: {x: 40, y: 37}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &381555328
@@ -4263,7 +4276,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 381555329}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 592508145}
+        m_TargetAssemblyTypeName: NoteController, Assembly-CSharp
+        m_MethodName: CloseNote
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &381555329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5873,18 +5898,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2078442788}
-        m_TargetAssemblyTypeName: CraftingUIController, Assembly-CSharp
-        m_MethodName: ReturnItemWithOutExit
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 195575675}
         m_TargetAssemblyTypeName: CraftingRawImageController, Assembly-CSharp
         m_MethodName: DestroyObject
@@ -8063,6 +8076,7 @@ MonoBehaviour:
   inventoryUi: {fileID: 808010571}
   nextPageBtn: {fileID: 172874818}
   prevPageBtn: {fileID: 2054573658}
+  closeBtn: {fileID: 381555328}
   page_Diary_Back: {fileID: 322581466}
   diaryDialogue: {fileID: 322581469}
   diaryContent: {fileID: 496464674}
@@ -10271,7 +10285,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 854418372}
-  - {fileID: 381555327}
   m_Father: {fileID: 238185277}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -11919,7 +11932,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 808010572}
-  - component: {fileID: 808010573}
   - component: {fileID: 808010574}
   - component: {fileID: 808010575}
   m_Layer: 5
@@ -11953,18 +11965,6 @@ RectTransform:
   m_AnchoredPosition: {x: 497, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &808010573
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 808010571}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e0946730d73df04b868d7e8d4f7f1f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!222 &808010574
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11985,7 +11985,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00d8cfe90dd4b5749920a727ecfee390, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryController: {fileID: 0}
+  inventoryController: {fileID: 1582259496}
 --- !u!1 &810518316
 GameObject:
   m_ObjectHideFlags: 0
@@ -22293,7 +22293,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2078442788}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CraftingUIController, Assembly-CSharp
         m_MethodName: ReturnItem
         m_Mode: 1
@@ -23949,6 +23949,7 @@ RectTransform:
   - {fileID: 234365917}
   - {fileID: 172874817}
   - {fileID: 2054573657}
+  - {fileID: 381555327}
   - {fileID: 172930948}
   m_Father: {fileID: 806694046}
   m_RootOrder: 2
@@ -29944,6 +29945,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b2d9000056b5974d8a9753ae96d0509, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slotParent: {fileID: 169238922}
+  craftTypeImage:
+  - {fileID: 21300000, guid: 363859dded875da46935b9afa0503363, type: 3}
+  - {fileID: 21300000, guid: d32e6fe0c95a4d44c94bdda18fd01c24, type: 3}
+  - {fileID: 21300000, guid: dcf8f64dd8f731342b3857fb01a38a5b, type: 3}
+  inventoryUi: {fileID: 808010571}
+  itemSO: {fileID: 11400000, guid: 9fbd54ca786ce174891a63e9312d8ea6, type: 2}
+  tempItem: {fileID: 11400000, guid: 2a85c175061996a48825efdfa53582a7, type: 2}
 --- !u!1 &2085151538
 GameObject:
   m_ObjectHideFlags: 0

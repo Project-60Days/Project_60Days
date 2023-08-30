@@ -16,8 +16,8 @@ public class WorkBenchUiOpen : MonoBehaviour
 
     private void Start()
     {
-        inventoryUi.transform.position = craftingStartPos.position;
-        craftingUi.transform.position = inventoryStartPos.position;
+        inventoryUi.transform.position = inventoryStartPos.position;
+        craftingUi.transform.position = craftingStartPos.position;
     }
 
 
@@ -28,7 +28,7 @@ public class WorkBenchUiOpen : MonoBehaviour
 
     private void OnDisable()
     {
-        SetOnClickEvent(true);
+        SetOnClickEvent(false);
     }
 
     private void SetOnClickEvent(bool enable)

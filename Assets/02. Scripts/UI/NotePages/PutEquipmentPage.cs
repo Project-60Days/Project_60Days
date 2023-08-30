@@ -24,7 +24,7 @@ public class PutEquipmentPage : NotePage
 
     public override bool GetPageEnabled()
     {
-        return isNeedToday;
+        return true;
     }
 
     public override void StopDialogue() { }
