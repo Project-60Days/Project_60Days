@@ -4,18 +4,27 @@ using UnityEngine;
 
 public class MapPage : NotePage
 {
+    bool isNeedToday;
+
     public override ENotePageType GetENotePageType()
     {
         return ENotePageType.Map;
     }
 
-    public override int GetPriority()
-    {
-        return 6;
-    }
-
-    public override void playPageAction()
+    public override void PlayPageAction()
     {
         GameManager.instance.SetPrioryty(true);
     }
+
+    public override void SetPageEnabled(bool isNeedToday)
+    {
+        this.isNeedToday = isNeedToday;
+    }
+
+    public override bool GetPageEnabled()
+    {
+        return isNeedToday;
+    }
+
+    public override void StopDialogue() { }
 }

@@ -10,17 +10,14 @@ public class StoryPage : NotePage
     [SerializeField] VerticalLayoutGroup content;
     [SerializeField] VerticalLayoutGroup lineView;
 
+    bool isNeedToday;
+
     public override ENotePageType GetENotePageType()
     {
         return ENotePageType.DayStart;
     }
 
-    public override int GetPriority()
-    {
-        return 1;
-    }
-
-    public override void playPageAction()
+    public override void PlayPageAction()
     {
         int dayCount = UIManager.instance.GetNoteController().GetDayCount();
 
@@ -34,7 +31,17 @@ public class StoryPage : NotePage
         }
     }
 
-    public void StopDialogue()
+    public override void SetPageEnabled(bool isNeedToday)
+    {
+        this.isNeedToday = isNeedToday;
+    }
+
+    public override bool GetPageEnabled()
+    {
+        return isNeedToday;
+    }
+
+    public override void StopDialogue()
     {
         dialogueRunner.Stop();
     }

@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Yarn.Unity;
 using DG.Tweening;
+using System;
+using UnityEditor.SearchService;
 
 public class NoteController : ControllerBase
 {
@@ -11,13 +13,8 @@ public class NoteController : ControllerBase
     [SerializeField] RectTransform noteRightPos;
     [SerializeField] RectTransform notePos;
 
-    [Header("Note Pages")]
-    [SerializeField] GameObject pageContainer;
-    [SerializeField] Transform[] notePages;
-
     [Header("Note Objects")]
-    [SerializeField] Image[] notePanels;
-    [SerializeField] Image blackPanel;
+    [SerializeField] Image[] noteBackgrounds;
     [SerializeField] Text dayText;
     [SerializeField] GameObject noteBackground_Back;
     [SerializeField] GameObject inventoryUi;
@@ -25,7 +22,6 @@ public class NoteController : ControllerBase
     [Header("Buttons")]
     [SerializeField] Button nextPageBtn;
     [SerializeField] Button prevPageBtn;
-    [SerializeField] Button nextDayBtn;
 
     [Header("Tutorial Diary")]
     [SerializeField] GameObject page_Diary_Back;
@@ -33,6 +29,8 @@ public class NoteController : ControllerBase
     [SerializeField] VerticalLayoutGroup diaryContent;
     [SerializeField] VerticalLayoutGroup diaryLineView;
     int DiaryPageNum = 1;
+
+    NotePage[] notePages;
 
     bool isTutorial = false;
     bool isNewDay = true;
@@ -48,55 +46,30 @@ public class NoteController : ControllerBase
 
     public void Start()
     {
-        nextDayBtn.onClick.AddListener(NextDayEvent);
-
         Init();
     }
 
     void Init()
     {
-        foreach (var notePanel in notePanels)
-            notePanel.DOFade(0f, 0f);
+        notePages = GetComponent<SetNextDay>().GetNotePageArray();
 
-        blackPanel.DOFade(0f, 0f);
-        blackPanel.gameObject.SetActive(false);
+        DisableObjectsInInit();
+    }
 
-        nextPageBtn.gameObject.SetActive(false);
-        prevPageBtn.gameObject.SetActive(false);
-        nextDayBtn.gameObject.SetActive(false);
+    void DisableObjectsInInit()
+    {
+        foreach (var image in noteBackgrounds)
+            image.DOFade(0f, 0f);
+
+        ActiveNextBtnAndPrevBtn(false, false);
 
         dayText.gameObject.SetActive(false);
         noteBackground_Back.SetActive(false);
 
         inventoryUi.SetActive(false);
 
-        Transform[] pages = pageContainer.GetComponentsInChildren<Transform>();
-        List<Transform> targets = new List<Transform>();
-        foreach (Transform page in pages)
-        {
-            if (page.CompareTag("NotePage"))
-            {
-                targets.Add(page);
-            }
-        }
-
-        notePages = targets.ToArray();
-
-        for (int i = 0; i < notePages.Length; i++)
-        {
-            notePages[i].gameObject.SetActive(false);
-            //var page = notePages[i].GetComponent<NotePage>();
-            //page.Init(cameraMove);
-
-            //if (page.isNoteMoveRight)
-            //    page.pageOnEvent += MoveNoteRight;
-            //else
-            //    page.pageOnEvent += MoveNoteCenter;
-        }
-
-        //int randomIndex = UnityEngine.Random.Range(0, numbers.Count);
-        //selectedNumber = numbers[randomIndex];
-        //numbers.RemoveAt(randomIndex);
+        foreach(var page in notePages)
+            page.gameObject.SetActive(false);
     }
 
     private void MoveNoteCenter()
@@ -120,7 +93,7 @@ public class NoteController : ControllerBase
             Sequence sequence = DOTween.Sequence();
             sequence.AppendCallback(() =>
             {
-                foreach (var notePanel in notePanels)
+                foreach (var notePanel in noteBackgrounds)
                     notePanel.DOFade(1f, 0.5f);
             })
                 .AppendInterval(0.5f)
@@ -143,15 +116,11 @@ public class NoteController : ControllerBase
         }
         else
         {
-            notePages[pageNum].gameObject.SetActive(true);
+            EnableAndPlayPage();
+            
             if (isNewDay)
-            {
-                PageOn(0);
                 isNewDay = false;
-            }
-            else
-                PageOn(pageNum);
-
+            
             ChangePageButton();
         }
         
@@ -162,25 +131,21 @@ public class NoteController : ControllerBase
     {
         if (isOpen)
         {
-            notePages[pageNum].gameObject.SetActive(false);
-            nextPageBtn.gameObject.SetActive(false);
-            prevPageBtn.gameObject.SetActive(false);
+            DisAbleObjectsInClose();
 
             MoveNoteCenter();
-            dayText.gameObject.SetActive(false);
 
             DOTween.Kill(gameObject);
 
             Sequence sequence = DOTween.Sequence();
             sequence.AppendCallback(() =>
             {
-                foreach (var notePanel in notePanels)
+                foreach (var notePanel in noteBackgrounds)
                     notePanel.DOFade(0f, 0.5f);
             })
                 .AppendInterval(0.5f)
                 .OnComplete(() => CloseNoteCallBack());
 
-            inventoryUi.gameObject.SetActive(false);
             sequence.Play();
         }
     }
@@ -193,28 +158,23 @@ public class NoteController : ControllerBase
         UIManager.instance.PopCurrUI();
     }
 
-    void NextDayEvent()
+    void DisAbleObjectsInClose()
     {
-        CloseNote();
-        blackPanel.gameObject.SetActive(true);
-        Sequence sequence = DOTween.Sequence();
-        sequence.Append(blackPanel.DOFade(1f, 0.5f)).SetEase(Ease.InQuint)
-            .AppendInterval(0.5f)
-            .Append(blackPanel.DOFade(0f, 0.5f + 0.5f))
-            .OnComplete(() => NextDayEventCallBack());
-        sequence.Play();
+        notePages[pageNum].gameObject.SetActive(false);
+        dayText.gameObject.SetActive(false);
+        inventoryUi.gameObject.SetActive(false);
 
+        ActiveNextBtnAndPrevBtn(false, false);
     }
 
-    void NextDayEventCallBack()
+    public void SetNextDay()
     {
-        blackPanel.gameObject.SetActive(false);
         dayText.text = "Day " + ++dayCount;
         isNewDay = true;
-        App.instance.GetMapManager().AllowMouseEvent(true);
-        MapController.instance.NextDay();
         pageNum = 0;
-        GameManager.instance.SetPrioryty(false);
+        notePages = GetComponent<SetNextDay>().GetNotePageArray();
+        for (int i = 0; i < notePages.Length; i++)
+            notePages[i].gameObject.SetActive(false);
     }
 
     public void NextPageEvent()
@@ -224,6 +184,7 @@ public class NoteController : ControllerBase
 
         ChangePage(pageNum + 1);
     }
+
     /// <summary>
     /// 이전 페이지 버튼 클릭 시 호출
     /// </summary>
@@ -239,14 +200,27 @@ public class NoteController : ControllerBase
     /// 다음/이전 페이지로 이동
     /// </summary>
     /// <param name="index"></param>
-    public void ChangePage(int index)
+    void ChangePage(int index)
     {
         notePages[pageNum].gameObject.SetActive(false);
-        notePages[index].gameObject.SetActive(true);
-
-        PageOn(index);
         pageNum = index;
+        EnableAndPlayPage();
         ChangePageButton();
+    }
+
+    void EnableAndPlayPage()
+    {
+        notePages[pageNum].gameObject.SetActive(true);
+        notePages[pageNum].PlayPageAction();
+        SetNotePos();
+    }
+
+    void SetNotePos()
+    {
+        if (notePages[pageNum].GetENotePageType() == ENotePageType.CraftEquipment)
+            MoveNoteRight();
+        else
+            MoveNoteCenter();
     }
 
     public void ChangePageForce(int index)
@@ -269,70 +243,8 @@ public class NoteController : ControllerBase
 
         notePages[index].gameObject.SetActive(true);
         Debug.Log(index);
-        PageOn(index);
+        notePages[index].PlayPageAction();
         ChangePageButton();
-    }
-
-
-    /// <summary>
-    /// 한 페이지 내에서 yarn node 이동
-    /// </summary>
-    /// <param name="index"></param>
-    void PageOn(int index)
-    {
-        switch (index)
-        {
-            case 0:
-                var pos = inventoryUi.transform.position;
-                pos.x = 450;
-                inventoryUi.transform.position = pos;
-                inventoryUi.SetActive(true);
-                GameManager.instance.SetPrioryty(false);
-                Debug.Log("인덱스 0");
-                MoveNoteRight();
-                break;
-            case 1:
-                inventoryUi.SetActive(false);
-                GameManager.instance.SetPrioryty(true);
-                Debug.Log("인덱스 1");
-                MoveNoteCenter();
-                break;
-            default:
-                Debug.Log("인덱스 범위 벗어남");
-                return;
-                //case 0:
-                //    dialogueRunnerIndex = 0;
-                //    nodeName = "Day" + dayCount;
-                //    inventory.SetActive(false);
-                //    break;
-                //case 1:
-                //    dialogueRunnerIndex = 1;
-                //    nodeName = "Day" + dayCount + "ChooseEvent";
-                //    inventory.SetActive(false);
-                //    break;
-                //case 2:
-                //    dialogueRunnerIndex = 2;
-                //    nodeName = "d" + selectedNumber;
-                //    inventory.SetActive(false);
-                //    break;
-                //case 3:
-                //    var pos = inventory.transform.position;
-                //    pos.x = 450;
-                //    inventory.transform.position = pos;
-                //    inventory.SetActive(true);
-                //    break;
-                //case 4:
-                //    GameManager.instance.SetPrioryty(false);
-                //    inventory.SetActive(false);
-                //    break;
-                //case 5:
-                //    GameManager.instance.SetPrioryty(true);
-                //    break;
-                ////    noteAnim.Close_Anim();
-                ////    return;
-                //default:
-                //    return;
-        }
     }
 
     /// <summary>
@@ -341,23 +253,17 @@ public class NoteController : ControllerBase
     void ChangePageButton()
     {
         if (pageNum == 0)
-        {
-            nextPageBtn.gameObject.SetActive(true);
-            prevPageBtn.gameObject.SetActive(false);
-            nextDayBtn.gameObject.SetActive(false);
-        }
+            ActiveNextBtnAndPrevBtn(true, false);
         else if (pageNum == notePages.Length - 1)
-        {
-            nextPageBtn.gameObject.SetActive(false);
-            prevPageBtn.gameObject.SetActive(true);
-            nextDayBtn.gameObject.SetActive(true);
-        }
+            ActiveNextBtnAndPrevBtn(false, true);
         else
-        {
-            nextPageBtn.gameObject.SetActive(true);
-            prevPageBtn.gameObject.SetActive(true);
-            nextDayBtn.gameObject.SetActive(false);
-        }
+            ActiveNextBtnAndPrevBtn(true, true);
+    }
+
+    void ActiveNextBtnAndPrevBtn(bool nextBtnEnable, bool prevBtnEnable)
+    {
+        nextPageBtn.gameObject.SetActive(nextBtnEnable);
+        prevPageBtn.gameObject.SetActive(prevBtnEnable);
     }
 
     public bool GetIsOpen()
@@ -437,6 +343,5 @@ public class NoteController : ControllerBase
 
         nextPageBtn.onClick.AddListener(NextPageEvent);
         prevPageBtn.onClick.AddListener(PrevPageEvent);
-        nextDayBtn.onClick.AddListener(NextDayEvent);
     }
 }

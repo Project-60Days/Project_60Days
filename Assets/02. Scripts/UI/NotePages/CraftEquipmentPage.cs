@@ -1,22 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Yarn.Unity;
 
 public class CraftEquipmentPage : NotePage
 {
     [SerializeField] GameObject inventoryUi;
+
+    bool isNeedToday;
 
     public override ENotePageType GetENotePageType()
     {
         return ENotePageType.CraftEquipment;
     }
 
-    public override int GetPriority()
-    {
-        return 4;
-    }
-
-    public override void playPageAction()
+    public override void PlayPageAction()
     {
 
         var pos = inventoryUi.transform.position;
@@ -24,4 +22,16 @@ public class CraftEquipmentPage : NotePage
         inventoryUi.transform.position = pos;
         inventoryUi.SetActive(true);
     }
+
+    public override void SetPageEnabled(bool isNeedToday)
+    {
+        this.isNeedToday = isNeedToday;
+    }
+
+    public override bool GetPageEnabled()
+    {
+        return isNeedToday;
+    }
+
+    public override void StopDialogue() { }
 }

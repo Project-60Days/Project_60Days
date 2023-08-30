@@ -4,19 +4,28 @@ using UnityEngine;
 
 public class PutEquipmentPage : NotePage
 {
+    bool isNeedToday;
+
     public override ENotePageType GetENotePageType()
     {
         return ENotePageType.PutEquipment;
     }
 
-    public override int GetPriority()
-    {
-        return 5;
-    }
-
-    public override void playPageAction()
+    public override void PlayPageAction()
     {
         //    GameManager.instance.SetPrioryty(false);
         //    inventory.SetActive(false);
     }
+
+    public override void SetPageEnabled(bool isNeedToday)
+    {
+        this.isNeedToday = isNeedToday;
+    }
+
+    public override bool GetPageEnabled()
+    {
+        return isNeedToday;
+    }
+
+    public override void StopDialogue() { }
 }
