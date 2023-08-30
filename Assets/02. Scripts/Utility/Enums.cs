@@ -25,9 +25,9 @@ public enum ENotePageType
 {
     DayStart,
     SelectEvent,
-    Resource,
-    Equipment,
-    SpecialEvent,
+    CraftEquipment,
+    PutEquipment,
+    Result,
     Map
 }
 

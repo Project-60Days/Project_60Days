@@ -20,10 +20,10 @@ TagManager:
   - CraftingUi
   - NoteAnim
   - Camera
-  - WorkBench
   - Inventory
   - ItemDiscription
   - GeneratePoint
+  - Note
   layers:
   - Default
   - TransparentFX

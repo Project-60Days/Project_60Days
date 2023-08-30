@@ -1,7 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
 
-public class WorkBenchUI : MonoBehaviour
+public class WorkBenchUiOpen : MonoBehaviour
 {
     [SerializeField] GameObject inventoryUi;
     [SerializeField] GameObject craftingUi;
@@ -33,7 +33,7 @@ public class WorkBenchUI : MonoBehaviour
 
     private void SetOnClickEvent(bool enable)
     {
-        WorkBench onClickScript = FindObjectOfType<WorkBench>();
+        WorkBenchInteraction onClickScript = FindObjectOfType<WorkBenchInteraction>();
         if (onClickScript != null)
         {
             if (enable)

@@ -829,6 +829,9 @@ MonoBehaviour:
   images:
   - {fileID: 172456546}
   - {fileID: 705836913}
+  panelScaleUpDuration: 1
+  imageFadeDuration: 0.5
+  panelScaleDownDuration: 0.01
 --- !u!1 &536258908
 GameObject:
   m_ObjectHideFlags: 0
@@ -2419,7 +2422,7 @@ GameObject:
   - component: {fileID: 1700741578}
   m_Layer: 5
   m_Name: WorkBench_Img
-  m_TagString: WorkBench
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
