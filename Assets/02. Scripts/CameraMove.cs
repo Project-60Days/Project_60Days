@@ -29,8 +29,8 @@ public class CameraMove : MonoBehaviour
     private IEnumerator GetMapCamera()
     {
         yield return new WaitForSeconds(1f);
-        cameraInfos.Add(new CameraInfo(GameObject.FindGameObjectWithTag("MapCamera").GetComponent<MapCamera>().mapCamera, ENotePageType.Map));
-        ChangeCamera(ENotePageType.DayStart);
+        //cameraInfos.Add(new CameraInfo(GameObject.FindGameObjectWithTag("MapCamera").GetComponent<MapCamera>().mapCamera, ENotePageType.Map));
+        //ChangeCamera(ENotePageType.Result);
     }
 
     [SerializeField] public List<CameraInfo> cameraInfos;

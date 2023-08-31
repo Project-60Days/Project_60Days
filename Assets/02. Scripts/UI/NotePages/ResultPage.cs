@@ -1,10 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Yarn.Unity;
 
 public class ResultPage : NotePage
 {
-    bool isNeedToday;
+    [SerializeField] DialogueRunner dialogueRunner;
+    [SerializeField] VerticalLayoutGroup content;
+    [SerializeField] VerticalLayoutGroup lineView;
+
+    bool isNeedToday = true;
+    string nodeName;
 
     public override ENotePageType GetENotePageType()
     {
@@ -13,17 +20,36 @@ public class ResultPage : NotePage
 
     public override void PlayPageAction()
     {
-        GameManager.instance.SetPrioryty(false);
+        //int dayCount = UIManager.instance.GetNoteController().GetDayCount();
+        //string nodeName = "Day" + dayCount;
+
+        nodeName = "Result";
+
+        if (!dialogueRunner.IsDialogueRunning)
+        {
+            dialogueRunner.StartDialogue(nodeName);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(content.GetComponent<RectTransform>());
+            LayoutRebuilder.ForceRebuildLayoutImmediate(lineView.GetComponent<RectTransform>());
+        }
     }
+
+    public override void SetNodeName(string nodeName)
+    {
+        this.nodeName = nodeName;
+    }
+
     public override void SetPageEnabled(bool isNeedToday)
     {
         this.isNeedToday = isNeedToday;
     }
 
-    public override bool GetPageEnabled()
+    public override bool GetPageEnableToday()
     {
-        return true;
+        return isNeedToday;
     }
 
-    public override void StopDialogue() { }
+    public override void StopDialogue()
+    {
+        dialogueRunner.Stop();
+    }
 }

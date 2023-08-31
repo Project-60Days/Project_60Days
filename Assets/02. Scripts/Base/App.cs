@@ -5,7 +5,7 @@ using UnityEngine;
 
 public enum EControllerType
 {
-    NONE, MAP, CRAFT, NOTE, INVENTORY
+    NONE, MAP, CRAFT, INVENTORY
 }
 
 public enum EManagerType
@@ -58,14 +58,6 @@ public class App : Singleton<App>
             return null;
 
         return dic_controllers[EControllerType.CRAFT] as CraftingUiController;
-    }
-
-    public NoteController GetNoteController()
-    {
-        if (HasController(EControllerType.NOTE))
-            return null;
-
-        return dic_controllers[EControllerType.NOTE] as NoteController;
     }
 
     public InventoryController GetInventoryController()

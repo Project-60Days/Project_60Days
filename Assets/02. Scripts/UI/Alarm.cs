@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,39 +7,37 @@ using UnityEngine.EventSystems;
 public class Alarm : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] EAlarmType alarmType;
+
+    [Header("TempForTest")] //테스트용 임시 변수들
     [SerializeField] GameObject NewAlarm;
     [SerializeField] GameObject ResultAlarm;
     [SerializeField] GameObject CautionAlarm;
 
-    NoteController noteController;
-    void Start()
-    {
-        noteController = UIManager.instance.GetNoteController();
-
-        NewAlarm.SetActive(false);
-        ResultAlarm.SetActive(false);
-        CautionAlarm.SetActive(false);
-    }
     public void OnPointerClick(PointerEventData eventData)
     {
         if (this.alarmType == EAlarmType.New)
-            SetAlarm(ENotePageType.SelectEvent);
+            EnableAlarm(ENotePageType.Select);
         else if (this.alarmType == EAlarmType.Result)
-            SetAlarm(ENotePageType.Result);
+            EnableAlarm(ENotePageType.Result);
         else if (this.alarmType == EAlarmType.Caution)
-            Debug.Log("지도가 열릴 예정인");
+            GameManager.instance.SetPrioryty(true);
     }
 
-    public void SetAlarm(ENotePageType type)
+    void EnableAlarm(ENotePageType type)
     {
-        int index = noteController.GetPageNum(type);
-        if (index > 0)
-        {
-            noteController.SetPageNum(index);
-            noteController.OpenNote();
-        }
+        UIManager.instance.AddCurrUIName(StringUtility.UI_NOTE);
+        UIManager.instance.GetNoteController().SetPageNum(type);
+        UIManager.instance.GetNoteController().OpenNote();
     }
 
+    void SetAlarm(EAlarmType type) //일단 임시로 만든.. 데이터 연결해서 해당 알림 띄울건지 말지 결정 후 이 함수로 알림 호출
+    {
+        if (this.alarmType == type)
+            gameObject.SetActive(true);
+    }
+
+    //테스트용 임시 함수들
+    #region Temp
     public void AddNew()
     {
         NewAlarm.SetActive(true);
@@ -63,4 +62,5 @@ public class Alarm : MonoBehaviour, IPointerClickHandler
     {
         CautionAlarm.SetActive(false);
     }
+    #endregion
 }
