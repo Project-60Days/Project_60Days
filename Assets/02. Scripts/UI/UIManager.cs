@@ -10,7 +10,6 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] CraftingUiController craftingUIController;
     [SerializeField] UIHighLightController uiHighLightController;
     [SerializeField] EndUIController endUIController;
-    //[SerializeField] SubSelectController subSelectController;
 
     public Stack<string> currUIStack = new Stack<string>();
 

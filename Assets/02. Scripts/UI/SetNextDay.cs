@@ -26,8 +26,6 @@ public class SetNextDay : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     [SerializeField] GameObject ResultAlarm;
     [SerializeField] GameObject CautionAlarm;
 
-    Quest[] quests;
-
     void Start()
     {
         Init();
@@ -53,37 +51,30 @@ public class SetNextDay : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     }
     void NextDayEvent()
     {
+        Debug.Log("½ÇÇàµÊ");
         UIManager.instance.GetNoteController().CloseNote();
         blackPanel.gameObject.SetActive(true);
         Sequence sequence = DOTween.Sequence();
         sequence.Append(blackPanel.DOFade(1f, 0.5f)).SetEase(Ease.InQuint)
             .AppendInterval(0.5f)
+            .Append(blackPanel.DOFade(0f, 0.5f + 0.5f))
             .OnComplete(() => NextDayEventCallBack());
         sequence.Play();
-
-        Debug.Log("2");
-    }
-
-    void InitQuestAndAlarm()
-    {
-        InitQuestList();
-        NewAlarm.SetActive(false);
-        ResultAlarm.SetActive(false);
-        CautionAlarm.SetActive(false);
 
     }
 
     void NextDayEventCallBack()
     {
-        InitQuestAndAlarm();
-        blackPanel.DOFade(0f, 0.5f + 0.5f);
         blackPanel.gameObject.SetActive(false);
         UIManager.instance.GetNoteController().SetNextDay();
         InitPageEnabled();
         App.instance.GetMapManager().AllowMouseEvent(true);
         MapController.instance.NextDay();
         GameManager.instance.SetPrioryty(false);
-        Debug.Log("4");
+        InitQuestList();
+        NewAlarm.SetActive(false);
+        ResultAlarm.SetActive(false);
+        CautionAlarm.SetActive(false);
     }
 
     #region Gauage
@@ -173,7 +164,7 @@ public class SetNextDay : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     void SetQuestList()
     {
-        quests = questParent.GetComponentsInChildren<Quest>();
+        Quest[] quests = questParent.GetComponentsInChildren<Quest>();
         foreach (Quest quest in quests)
         {
             if(quest.GetEQuestType() == EQuestType.Sub)
@@ -185,10 +176,10 @@ public class SetNextDay : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     void InitQuestList()
     {
+        Quest[] quests = questParent.GetComponentsInChildren<Quest>();
         foreach (Quest quest in quests)
         {
             Destroy(quest.gameObject);
-            Debug.Log("ÆÄ±«µÊ");
         }
     }
     #endregion
