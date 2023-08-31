@@ -29,7 +29,7 @@ namespace FischlWorks_FogWar
     /// and is resposible for scanning / saving / loading the LevelData object.\n
     /// The class handles the update frequency of the fog, plus some shader businesses.\n
     /// Various public interfaces related to FogRevealer's FOV are also available.
-    public class CsFogWar : Singleton<CsFogWar>
+    public class csFogWar : Singleton<csFogWar>
     {
         /// A class for storing the base level data.
         /// 
@@ -146,7 +146,7 @@ namespace FischlWorks_FogWar
                 this.updateOnlyOnMove = updateOnlyOnMove;
             }
 
-            public Vector2Int GetCurrentLevelCoordinates(CsFogWar fogWar)
+            public Vector2Int GetCurrentLevelCoordinates(csFogWar fogWar)
             {
                 currentLevelCoordinates = new Vector2Int(
                     fogWar.GetUnitX(revealerTransform.position.x),

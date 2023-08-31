@@ -15,12 +15,13 @@ public class MapController : Singleton<MapController>
     [Header("컴포넌트")]
     [Space(5f)]
     [SerializeField] HexamapController map;
-    [SerializeField] CsFogWar fogOfWar;
+    [SerializeField] csFogWar fogOfWar;
 
     [Header("트랜스폼")]
     [Space(5f)]
     [SerializeField] Transform zombiesTransform;
     [SerializeField] Transform mapTransform;
+    [SerializeField] Transform mapParentTransform;
 
     [Header("프리팹")]
     [Space(5f)]
@@ -38,9 +39,20 @@ public class MapController : Singleton<MapController>
 
     GameObject disturbtor;
     GameObject explorer;
+
     TileController targetTileController;
 
-    void GenerateMap()
+    public TileController TargetPointTile
+    {
+        get { return targetTileController; }
+    }
+
+    private void Start()
+    {
+        mapParentTransform.position = Vector3.right * -1000f;
+    }
+
+    public void GenerateMap()
     {
         map.Destroy();
 
@@ -67,7 +79,7 @@ public class MapController : Singleton<MapController>
         mapTransform.position = Vector3.forward * 200f;
     }
 
-    void RegenerateMap()
+    public void RegenerateMap()
     {
         Destroy(player);
 
@@ -93,7 +105,7 @@ public class MapController : Singleton<MapController>
         //SpawnZombies((int)UnityEngine.Random.Range(min.value, max.value));
 
         fogOfWar.transform.position = player.transform.position;
-        FischlWorks_FogWar.CsFogWar.instance.InitializeMapControllerObjects(player.gameObject, 5);
+        FischlWorks_FogWar.csFogWar.instance.InitializeMapControllerObjects(player.gameObject, 5);
         DeselectAllBorderTiles();
     }
 
@@ -166,7 +178,7 @@ public class MapController : Singleton<MapController>
         {
             SelectBorder(tileController, ETileState.Unable);
 
-            App.instance.GetMapUiController().TileInfoPanelActive(false);
+            App.instance.GetMapUiController().SetActiveTileInfo(false);
         }
     }
 
@@ -257,7 +269,7 @@ public class MapController : Singleton<MapController>
 
         player.UpdateMovePath(AStar.FindPath(player.TileController.Model.Coords, tileController.Model.Coords));
 
-        App.instance.GetMapUiController().PlayerMovePointActive(tileController.transform);
+        App.instance.GetMapUiController().OnPlayerMovePoint(tileController.transform);
 
         DeselectAllBorderTiles();
         //isPlayerSelected = false;

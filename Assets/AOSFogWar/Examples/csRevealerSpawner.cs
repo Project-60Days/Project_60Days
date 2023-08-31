@@ -21,7 +21,7 @@ namespace FischlWorks_FogWar
     public class csRevealerSpawner : MonoBehaviour
     {
         [SerializeField]
-        private CsFogWar fogWar = null;
+        private csFogWar fogWar = null;
 
         [SerializeField]
         private GameObject exampleRevealer = null;
@@ -33,7 +33,7 @@ namespace FischlWorks_FogWar
             // This part is meant to be modified following the project's scene structure later...
             try
             {
-                fogWar = GameObject.Find("FogWar").GetComponent<CsFogWar>();
+                fogWar = GameObject.Find("FogWar").GetComponent<csFogWar>();
             }
             catch
             {
@@ -58,7 +58,7 @@ namespace FischlWorks_FogWar
                 Transform randomTransform = Instantiate(exampleRevealer, randomPoint, Quaternion.identity).GetComponent<Transform>();
 
                 // Utilizing the constructor, setting updateOnlyOnMove to true will not update the fog texture immediately
-                int index = fogWar.AddFogRevealer(new CsFogWar.FogRevealer(randomTransform, 3, false));
+                int index = fogWar.AddFogRevealer(new csFogWar.FogRevealer(randomTransform, 3, false));
             }
 
             if (Input.GetKeyDown(KeyCode.C))

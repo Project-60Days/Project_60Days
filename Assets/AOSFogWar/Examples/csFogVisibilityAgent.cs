@@ -33,7 +33,7 @@ namespace FischlWorks_FogWar
     public class csFogVisibilityAgent : MonoBehaviour
     {
         [SerializeField]
-        private CsFogWar fogWar = null;
+        private csFogWar fogWar = null;
 
         [SerializeField]
         private bool visibility = false;
@@ -52,7 +52,7 @@ namespace FischlWorks_FogWar
             // This part is meant to be modified following the project's scene structure later...
             try
             {
-                fogWar = GameObject.FindGameObjectWithTag("FogWar").GetComponent<CsFogWar>();
+                fogWar = GameObject.FindGameObjectWithTag("FogWar").GetComponent<csFogWar>();
             }
             catch
             {

@@ -75,7 +75,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         //return StartCoroutine(new WaitUntil(() => MapController.instance.isTutorialUiOn()));
 
         // UI컨트롤러 만들고 추후 수정 필요
-        App.instance.GetMapManager().ArrowUIOnOff(true);
+        App.instance.GetMapManager().OnTargetPointUI();
         return StartCoroutine(new WaitUntil(() => App.instance.GetMapManager().CheckCanInstallDrone()));
     }
 
@@ -125,7 +125,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     {
         //return StartCoroutine(new WaitUntil(() => MapController.instance.UIOn));
         // UI컨트롤러 만들고 추후 수정 필요
-        App.instance.GetMapManager().ArrowUIOnOff(true);
+        App.instance.GetMapManager().OnTargetPointUI();
         return StartCoroutine(new WaitUntil(() => App.instance.GetMapManager().CheckCanInstallDrone()));
     }
 
