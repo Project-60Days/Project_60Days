@@ -24,12 +24,7 @@ public class MapManager : ManagementBase
     bool isDronePrepared;
     bool isDisturbtor;
 
-    ETileMouseState mouseState;
-
-    public override EManagerType GetManagemetType()
-    {
-        return EManagerType.MAP;
-    }
+    public ETileMouseState mouseState;
 
     void Update()
     {
@@ -44,15 +39,15 @@ public class MapManager : ManagementBase
     IEnumerator GetAdditiveSceneObjects()
     {
         yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
         mapCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         //mapUIController 호출
-        //noteAnim = GameObject.FindGameObjectWithTag("NoteAnim").GetComponent<NoteAnim>();
-        //arrow = GameObject.FindGameObjectWithTag("MapUi").transform.GetChild(0).transform.Find("Map_Arrow").GetComponent<ArrowPointUI>();
     }
 
     public void CreateMap()
     {
         StartCoroutine(GetAdditiveSceneObjects());
+        mapController.GenerateMap();
     }
 
     /// <summary>
@@ -97,18 +92,10 @@ public class MapManager : ManagementBase
         else
         {
             mapController.DeselectAllBorderTiles();
-
-            //ui 비활성화.
-            //ui 컨트롤러로 추후 옮김
-
-            /*            if (isUIOn)
-                        {
-                            currentUI.SetActive(false);
-                            isUIOn = false;
-                        }*/
+            mapUIController.SetActiveTileInfo(false);
         }
 
-        //MouseClickEvents();
+        MouseClickEvents();
     }
 
     /// <summary>
@@ -140,11 +127,7 @@ public class MapManager : ManagementBase
 
                 if (!isPlayerSelected && !isDronePrepared)
                 {
-                    // ui 활성화, UI 컨트롤러로 이사
-                    /*
-                                        currentUI = GetUi(tileController);
-                                        currentUI.SetActive(true);
-                                        isUIOn = true;*/
+                    mapUIController.SetActiveTileInfo(true);
                 }
                 else if (isPlayerSelected)
                 {
@@ -189,6 +172,10 @@ public class MapManager : ManagementBase
         }
     }
 
+    /// <summary>
+    /// 마우스 이벤트 컨트롤 위한 열거형 업데이트 시켜주는 함수
+    /// Update에서 호출
+    /// </summary>
     void SetETileMoveState()
     {
         if (!interactable)
@@ -208,12 +195,7 @@ public class MapManager : ManagementBase
     {
         yield return StartCoroutine(mapController.NextDay());
         resourceManager.GetResource(mapController.Player.TileController);
-        ArrowUIOnOff(false);
-    }
-
-    public void ArrowUIOnOff(bool active)
-    {
-        //mapUIController~~~
+        mapUIController.OffPlayerMovePoint();
     }
 
     /// <summary>
@@ -236,5 +218,15 @@ public class MapManager : ManagementBase
         isDisturbtor = false;
 
         interactable = isAllow;
+    }
+
+    public void OnTargetPointUI()
+    {
+        mapUIController.OnPlayerMovePoint(mapController.TargetPointTile.transform);
+    }
+
+    public override EManagerType GetManagemetType()
+    {
+        return EManagerType.MAP;
     }
 }

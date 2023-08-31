@@ -19,7 +19,6 @@ public class DataManager : ManagementBase
 
     private void Awake()
     {
-        DontDestroyOnLoad(this);
         LoadData();
         InitItemSO();
     }

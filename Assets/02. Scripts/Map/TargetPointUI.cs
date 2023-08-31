@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ArrowPointUI : MonoBehaviour
+public class TargetPointUI : MonoBehaviour
 {
     Transform target = null;
     bool isOn;

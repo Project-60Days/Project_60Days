@@ -6,7 +6,7 @@ namespace Hexamap
 {
     public class HexamapController : MonoBehaviour
     {
-        public bool GenerateOnStartup = true;
+        public bool GenerateOnStartup = false;
         public AssetsMap Settings;
         public GameObject Parent;
 

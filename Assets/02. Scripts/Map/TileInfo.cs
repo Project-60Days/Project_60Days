@@ -52,8 +52,8 @@ public class TileInfo : MonoBehaviour
         get { return TutorialTile; }
     }
 
-    bool inPlayerSight;
-    bool isTutorialTile;
+    bool inPlayerSight = false;
+    bool isTutorialTile = false;
 
     // 수정 필요
 
@@ -67,14 +67,17 @@ public class TileInfo : MonoBehaviour
         {
             gachaList.Add(itemSO.items[i]);
         }
-        if (CheckTutorial(MapController.instance.GetPlayerLocationTile()))
-        {
-            TutorialResourceUpdate();
-        }
-        else
-        {
-            RandomResourceUpdate();
-        }
+
+        /*        if (CheckTutorial(MapController.instance.GetPlayerLocationTile()))
+                {
+                    TutorialResourceUpdate();
+                }
+                else
+                {
+                    RandomResourceUpdate();
+                }*/
+
+        RandomResourceUpdate();
         RotationCheck(transform.rotation.eulerAngles);
     }
 

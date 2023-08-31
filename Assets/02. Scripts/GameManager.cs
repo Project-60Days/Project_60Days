@@ -69,9 +69,12 @@ public class GameManager : Singleton<GameManager>
         SceneLoader.instance.LoadScene((int)ESceneType.Game);
         SceneLoader.instance.LoadSceneAddtive((int)ESceneType.UI);
         SceneLoader.instance.LoadSceneAddtive((int)ESceneType.Map);
+        App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
+        //StartTutorial();
 
-        StartCoroutine(GetMapCamera());
         
+        App.instance.GetMapManager().CreateMap();
+        StartCoroutine(GetMapCamera());
     }
 
     private IEnumerator GetMapCamera()
@@ -79,10 +82,6 @@ public class GameManager : Singleton<GameManager>
         yield return new WaitUntil(() => GameObject.FindGameObjectsWithTag("MapCamera") != null);
 
         mapCamera = GameObject.FindGameObjectWithTag("MapCamera").GetComponent<MapCamera>();
-
-        StartTutorial();
-
-        App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
     }
 
     public void Settings()

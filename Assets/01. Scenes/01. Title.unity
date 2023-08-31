@@ -980,7 +980,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a86b3f646a93ba499bf168f5fdc2b01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flag: 0
   titlePanel: {fileID: 1248355821}
   optionPanel: {fileID: 1439562842}
   soundPanel: {fileID: 1281276776}
@@ -1314,7 +1313,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a86b3f646a93ba499bf168f5fdc2b01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flag: 0
   titlePanel: {fileID: 1248355821}
   optionPanel: {fileID: 1439562842}
   soundPanel: {fileID: 1281276776}
@@ -1844,7 +1842,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a86b3f646a93ba499bf168f5fdc2b01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flag: 0
   titlePanel: {fileID: 1248355821}
   optionPanel: {fileID: 1439562842}
   soundPanel: {fileID: 1281276776}
@@ -2169,7 +2166,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a86b3f646a93ba499bf168f5fdc2b01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flag: 0
   titlePanel: {fileID: 1248355821}
   optionPanel: {fileID: 1439562842}
   soundPanel: {fileID: 1281276776}
@@ -2345,7 +2341,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a86b3f646a93ba499bf168f5fdc2b01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flag: 0
   titlePanel: {fileID: 1248355821}
   optionPanel: {fileID: 1439562842}
   soundPanel: {fileID: 1281276776}
@@ -3366,7 +3361,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a86b3f646a93ba499bf168f5fdc2b01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flag: 0
   titlePanel: {fileID: 1248355821}
   optionPanel: {fileID: 1439562842}
   soundPanel: {fileID: 1281276776}
@@ -4804,7 +4798,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a86b3f646a93ba499bf168f5fdc2b01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flag: 0
   titlePanel: {fileID: 1248355821}
   optionPanel: {fileID: 1439562842}
   soundPanel: {fileID: 1281276776}
@@ -4930,7 +4923,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a86b3f646a93ba499bf168f5fdc2b01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flag: 0
   titlePanel: {fileID: 1248355821}
   optionPanel: {fileID: 1439562842}
   soundPanel: {fileID: 1281276776}
@@ -5022,26 +5014,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25780014b375d3847aae732c64cc05ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hexamap: {fileID: 0}
-  TextStats: {fileID: 0}
-  playerPrefab: {fileID: 0}
-  zombiePrefab: {fileID: 0}
-  distrubtorPrefab: {fileID: 0}
-  explorerPrefab: {fileID: 0}
-  zombiesTr: {fileID: 0}
-  hexamapTr: {fileID: 0}
-  mapCamera: {fileID: 0}
-  player: {fileID: 0}
-  fog: {fileID: 0}
-  resourceManager: {fileID: 0}
-  targetTile: {fileID: 0}
-  MaxYPosition: 70
-  MinYPosition: 5
-  MinXRotation: 30
-  MaxXRotation: 90
-  ScrollSpeed: 50
-  MoveSpeed: 50
-  isBaseOn: 0
+  mouseState: 0
 --- !u!1 &1900904276
 GameObject:
   m_ObjectHideFlags: 0

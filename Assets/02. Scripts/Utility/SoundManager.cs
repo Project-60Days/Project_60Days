@@ -25,8 +25,6 @@ public class SoundManager : ManagementBase
 
     private void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
-
         dic_BGM = new Dictionary<string, AudioClip>();
         dic_SFX = new Dictionary<string, AudioClip>();
 

@@ -62,7 +62,7 @@ public class Explorer : MonoBehaviour
             if (curTile == targetTile)
             {
                 Debug.Log("작동");
-                FischlWorks_FogWar.CsFogWar.instance.AddFogRevealer(new FischlWorks_FogWar.CsFogWar.FogRevealer(gameObject.transform, 2, false));
+                FischlWorks_FogWar.csFogWar.instance.AddFogRevealer(new FischlWorks_FogWar.csFogWar.FogRevealer(gameObject.transform, 2, false));
                 lifeTime -= 1;
             }
 
@@ -70,9 +70,9 @@ public class Explorer : MonoBehaviour
         else
         {
             // 삭제
-            FischlWorks_FogWar.CsFogWar.instance._FogRevealers[FischlWorks_FogWar.CsFogWar.instance._FogRevealers.Count - 1].sightRange = 0;
+            FischlWorks_FogWar.csFogWar.instance._FogRevealers[FischlWorks_FogWar.csFogWar.instance._FogRevealers.Count - 1].sightRange = 0;
             yield return delay1;
-            FischlWorks_FogWar.CsFogWar.instance.RemoveFogRevealer(1);
+            FischlWorks_FogWar.csFogWar.instance.RemoveFogRevealer(1);
             Destroy(gameObject);
 
         }

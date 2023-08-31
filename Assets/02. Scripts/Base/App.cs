@@ -20,15 +20,20 @@ public class App : Singleton<App>
 
     private void Awake()
     {
+        dic_controllers = new Dictionary<EControllerType, ControllerBase>();
+        dic_managers = new Dictionary<EManagerType, ManagementBase>();
+
+        DontDestroyOnLoad(this.gameObject);
+
         var controller = GetComponentsInChildren<ControllerBase>(true);
         var manager = GetComponentsInChildren<ManagementBase>(true);
 
-        foreach(var c in controller)
+        foreach (var c in controller)
         {
             dic_controllers.Add(c.GetControllerType(), c);
         }
 
-        foreach(var m in manager)
+        foreach (var m in manager)
         {
             dic_managers.Add(m.GetManagemetType(), m);
         }
