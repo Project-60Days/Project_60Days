@@ -1,7 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
 
-public class WorkBenchUI : MonoBehaviour
+public class WorkBenchUiOpen : MonoBehaviour
 {
     [SerializeField] GameObject inventoryUi;
     [SerializeField] GameObject craftingUi;
@@ -16,8 +16,8 @@ public class WorkBenchUI : MonoBehaviour
 
     private void Start()
     {
-        inventoryUi.transform.position = craftingStartPos.position;
-        craftingUi.transform.position = inventoryStartPos.position;
+        inventoryUi.transform.position = inventoryStartPos.position;
+        craftingUi.transform.position = craftingStartPos.position;
     }
 
 
@@ -28,12 +28,12 @@ public class WorkBenchUI : MonoBehaviour
 
     private void OnDisable()
     {
-        SetOnClickEvent(true);
+        SetOnClickEvent(false);
     }
 
     private void SetOnClickEvent(bool enable)
     {
-        WorkBench onClickScript = FindObjectOfType<WorkBench>();
+        WorkBenchInteraction onClickScript = FindObjectOfType<WorkBenchInteraction>();
         if (onClickScript != null)
         {
             if (enable)

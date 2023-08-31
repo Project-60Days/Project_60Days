@@ -25,9 +25,9 @@ public enum ENotePageType
 {
     DayStart,
     SelectEvent,
-    Resource,
-    Equipment,
-    SpecialEvent,
+    CraftEquipment,
+    PutEquipment,
+    Result,
     Map
 }
 
@@ -38,6 +38,18 @@ public enum ESlotType
     ResultSlot
 }
 
+public enum EQuestType
+{
+    Main,
+    Sub
+}
+
+public enum EAlarmType
+{
+    New,
+    Result,
+    Caution
+}
 #region Character
 
 public enum EHungerType

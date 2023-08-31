@@ -2,10 +2,10 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class WorkBench : MonoBehaviour, IPointerClickHandler
+public class WorkBenchInteraction : MonoBehaviour, IPointerClickHandler
 {
     public UnityEvent onClickEvent;
-   
+
     /// <summary>
     /// 작업대 클릭 시 이벤트 발생 함수
     /// </summary>
