@@ -9,7 +9,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
     [SerializeField] Image image;
     [SerializeField] public ESlotType eSlotType;
 
-    TextMeshProUGUI itemDiscription;
+    //TextMeshProUGUI itemDiscription;
     GameObject craft;
 
     public static Action<ItemBase> CraftItemClick;
@@ -38,7 +38,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
     void Awake()
     {
         craft = GameObject.Find("CraftingUi");
-        itemDiscription = GameObject.FindWithTag("ItemDiscription").GetComponent<TextMeshProUGUI>();
+        //itemDiscription = GameObject.FindWithTag("ItemDiscription").GetComponent<TextMeshProUGUI>();
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -55,8 +55,8 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
                         CraftItemClick?.Invoke(itemSave);
                     }
                 }
-                else
-                    itemDiscription.text = _item.data.Description.ToString();
+                //else
+                    //itemDiscription.text = _item.data.Description.ToString();
                 break;
             case ESlotType.CraftingSlot:
                 //App.instance.GetCraftController().CraftToInventory(this); break;

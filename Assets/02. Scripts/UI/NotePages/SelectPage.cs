@@ -4,25 +4,26 @@ using UnityEngine;
 using UnityEngine.UI;
 using Yarn.Unity;
 
-public class StoryPage : NotePage
+public class SelectPage : NotePage
 {
     [SerializeField] DialogueRunner dialogueRunner;
     [SerializeField] VerticalLayoutGroup content;
     [SerializeField] VerticalLayoutGroup lineView;
 
-    bool isNeedToday;
+    bool isNeedToday = true;
+    string nodeName;
 
     public override ENotePageType GetENotePageType()
     {
-        return ENotePageType.DayStart;
+        return ENotePageType.Select;
     }
 
     public override void PlayPageAction()
     {
-        GameManager.instance.SetPrioryty(false);
-        int dayCount = UIManager.instance.GetNoteController().GetDayCount();
+        //int dayCount = UIManager.instance.GetNoteController().GetDayCount();
+        //string nodeName = "Day" + dayCount;
 
-        string nodeName = "Day" + dayCount;
+        nodeName = "Select";
 
         if (!dialogueRunner.IsDialogueRunning)
         {
@@ -31,15 +32,19 @@ public class StoryPage : NotePage
             LayoutRebuilder.ForceRebuildLayoutImmediate(lineView.GetComponent<RectTransform>());
         }
     }
+    public override void SetNodeName(string nodeName)
+    {
+        this.nodeName = nodeName;
+    }
 
     public override void SetPageEnabled(bool isNeedToday)
     {
         this.isNeedToday = isNeedToday;
     }
 
-    public override bool GetPageEnabled()
+    public override bool GetPageEnableToday()
     {
-        return true;
+        return isNeedToday;
     }
 
     public override void StopDialogue()

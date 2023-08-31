@@ -23,12 +23,8 @@ public enum ItemType
 
 public enum ENotePageType
 {
-    DayStart,
-    SelectEvent,
-    CraftEquipment,
-    PutEquipment,
     Result,
-    Map
+    Select
 }
 
 public enum ESlotType

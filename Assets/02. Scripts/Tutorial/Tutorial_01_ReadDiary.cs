@@ -8,7 +8,7 @@ public class Tutorial_01_ReadDiary : TutorialBase
 {
     public override void Enter()
     {
-        UIManager.instance.GetNoteController().SetTutorialDiary();
+        //UIManager.instance.GetNoteController().SetTutorialDiary();
     }
 
     public override void Execute(TutorialController _controller)
