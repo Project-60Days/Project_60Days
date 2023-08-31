@@ -13,7 +13,7 @@ public class PutEquipmentPage : NotePage
 
     public override void PlayPageAction()
     {
-        //    GameManager.instance.SetPrioryty(false);
+        GameManager.instance.SetPrioryty(false);
         //    inventory.SetActive(false);
     }
 

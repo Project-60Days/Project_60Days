@@ -1,10 +1,8 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Yarn.Unity;
 using DG.Tweening;
-using System;
-using UnityEditor.SearchService;
+using Unity.VisualScripting;
 
 public class NoteController : ControllerBase
 {
@@ -39,7 +37,9 @@ public class NoteController : ControllerBase
     int dayCount = 1;
 
     int pageNum = 0;
-    
+
+    SetNextDay setNextDay;
+
     public override EControllerType GetControllerType()
     {
         return EControllerType.NOTE;
@@ -52,7 +52,8 @@ public class NoteController : ControllerBase
 
     void Init()
     {
-        notePages = GetComponent<SetNextDay>().GetNotePageArray();
+        setNextDay = GameObject.Find("NextDay_Btn").GetComponent<SetNextDay>();
+        notePages = setNextDay.GetNotePageArray();
 
         DisableObjectsInInit();
     }
@@ -179,7 +180,7 @@ public class NoteController : ControllerBase
         dayText.text = "Day " + ++dayCount;
         isNewDay = true;
         pageNum = 0;
-        notePages = GetComponent<SetNextDay>().GetNotePageArray();
+        notePages = setNextDay.GetNotePageArray();
         for (int i = 0; i < notePages.Length; i++)
             notePages[i].gameObject.SetActive(false);
     }
@@ -273,6 +274,7 @@ public class NoteController : ControllerBase
         prevPageBtn.gameObject.SetActive(prevBtnEnable);
     }
 
+    #region GetAndSet
     public bool GetIsOpen()
     {
         return isOpen;
@@ -288,12 +290,26 @@ public class NoteController : ControllerBase
         return dayCount;
     }
 
+    public int GetPageNum(ENotePageType type)
+    {
+        for (int i = 0; i < notePages.Length; i++) 
+        {
+            if (notePages[i].GetENotePageType() == type)
+            {
+                return i;
+            }
+        }
 
-    /// <summary>
-    /// 아래는 튜토리얼관련 함수들
-    /// </summary>
+        return -1;
+    }
 
+    public void SetPageNum(int index) 
+    {
+        pageNum = index;
+    }
+    #endregion
 
+    #region TutorialDiary
     public void SetTutorialDiary()
     {
         Debug.Log("SetTutorialDiary");
@@ -351,4 +367,5 @@ public class NoteController : ControllerBase
         nextPageBtn.onClick.AddListener(NextPageEvent);
         prevPageBtn.onClick.AddListener(PrevPageEvent);
     }
+    #endregion
 }

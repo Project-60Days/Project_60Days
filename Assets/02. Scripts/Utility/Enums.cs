@@ -38,6 +38,18 @@ public enum ESlotType
     ResultSlot
 }
 
+public enum EQuestType
+{
+    Main,
+    Sub
+}
+
+public enum EAlarmType
+{
+    New,
+    Result,
+    Caution
+}
 #region Character
 
 public enum EHungerType

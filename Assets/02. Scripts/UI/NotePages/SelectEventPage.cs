@@ -19,6 +19,7 @@ public class SelectEventPage : NotePage
 
     public override void PlayPageAction()
     {
+        GameManager.instance.SetPrioryty(false);
         int dayCount = UIManager.instance.GetNoteController().GetDayCount();
 
         string nodeName = "Day" + dayCount + "ChooseEvent";

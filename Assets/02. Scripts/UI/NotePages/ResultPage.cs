@@ -13,7 +13,7 @@ public class ResultPage : NotePage
 
     public override void PlayPageAction()
     {
-
+        GameManager.instance.SetPrioryty(false);
     }
     public override void SetPageEnabled(bool isNeedToday)
     {

@@ -16,7 +16,7 @@ public class CraftEquipmentPage : NotePage
 
     public override void PlayPageAction()
     {
-
+        GameManager.instance.SetPrioryty(false);
         var pos = inventoryUi.transform.position;
         pos.x = 450;
         inventoryUi.transform.position = pos;
