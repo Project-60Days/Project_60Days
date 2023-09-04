@@ -145,8 +145,9 @@ public class SetNextDay : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     void NextDayEventCallBack()
     {
         Init();
-        UIManager.instance.GetNoteController().SetNextDay();
+        GameManager.instance.SetPrioryty(false);
 
+        UIManager.instance.GetNoteController().SetNextDay();
         App.instance.GetMapManager().AllowMouseEvent(true);
         MapController.instance.NextDay();
     }
