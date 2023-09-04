@@ -1,25 +1,24 @@
 using UnityEngine;
+using UnityEngine.UI;
 using DG.Tweening;
+using System.Collections.Generic;
 
 public class WorkBenchUiOpen : MonoBehaviour
 {
     [SerializeField] GameObject inventoryUi;
     [SerializeField] GameObject craftingUi;
-
-    [SerializeField] Transform craftingStartPos;
-    [SerializeField] Transform craftingPointPos;
-
-    [SerializeField] Transform inventoryStartPos;
-    [SerializeField] Transform inventoryPointPos;
+    [SerializeField] GameObject blackPanel;
 
     Sequence sequence;
 
     private void Start()
     {
-        inventoryUi.transform.position = inventoryStartPos.position;
-        craftingUi.transform.position = craftingStartPos.position;
+        inventoryUi.GetComponent<CanvasGroup>().alpha = 0.0f;
+        craftingUi.GetComponent<CanvasGroup>().alpha = 0.0f;
+        craftingUi.SetActive(false);
+        inventoryUi.SetActive(false);
+        blackPanel.SetActive(false);
     }
-
 
     private void OnEnable()
     {
@@ -50,18 +49,15 @@ public class WorkBenchUiOpen : MonoBehaviour
     private void ActivateUIObjects()
     {
         sequence?.Kill();
-
+        craftingUi.SetActive(true);
+        inventoryUi.SetActive(true);
+        blackPanel.SetActive(true);
         sequence = DOTween.Sequence();
 
         sequence
-            .OnStart(() =>
-            {
-                inventoryUi.SetActive(true);
-                craftingUi.SetActive(true);
-                inventoryUi.transform.position = inventoryStartPos.position;
-                craftingUi.transform.position = craftingStartPos.position;
-            })
-            .Append(inventoryUi.transform.DOMoveX(inventoryPointPos.position.x, 1f))
-            .Join(craftingUi.transform.DOMoveX(craftingPointPos.position.x, 1f));
+            .Append(craftingUi.GetComponent<CanvasGroup>().DOFade(1f, 0.5f))
+            .Append(inventoryUi.GetComponent<CanvasGroup>().DOFade(1f, 0.5f));
+
+        sequence.Play();
     }
 }

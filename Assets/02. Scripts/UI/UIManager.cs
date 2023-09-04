@@ -6,10 +6,12 @@ public class UIManager : Singleton<UIManager>
 {
     [SerializeField] NoteController noteController;
     [SerializeField] TutorialDialogue tutorialDialogue;
-    [SerializeField] InventoryManager inventoryManager;
+    [SerializeField] InventoryController inventoryController;
     [SerializeField] CraftingUiController craftingUIController;
     [SerializeField] UIHighLightController uiHighLightController;
     [SerializeField] EndUIController endUIController;
+    [SerializeField] SelectController selectController;
+    [SerializeField] NextDayController nextDayController;
 
     public Stack<string> currUIStack = new Stack<string>();
 
@@ -46,9 +48,9 @@ public class UIManager : Singleton<UIManager>
         return tutorialDialogue;
     }
 
-    public InventoryManager GetInventoryManager()
+    public InventoryController GetInventoryController()
     {
-        return inventoryManager;
+        return inventoryController;
     }
 
     public CraftingUiController GetCraftingUIController()
@@ -64,5 +66,15 @@ public class UIManager : Singleton<UIManager>
     public EndUIController GetEndUIController()
     {
         return endUIController;
+    }
+
+    public SelectController GetSelectController()
+    {
+        return selectController;
+    }
+
+    public NextDayController GetNextDayController()
+    {
+        return nextDayController;
     }
 }

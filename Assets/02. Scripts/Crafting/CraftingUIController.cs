@@ -81,9 +81,9 @@ public class CraftingUiController : ControllerBase
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            App.instance.GetInventoryController().AddItem(itemSO.items[0]);
-            App.instance.GetInventoryController().AddItem(itemSO.items[1]);
-            App.instance.GetInventoryController().AddItem(itemSO.items[4]);
+            UIManager.instance.GetInventoryController().AddItem(itemSO.items[0]);
+            UIManager.instance.GetInventoryController().AddItem(itemSO.items[1]);
+            UIManager.instance.GetInventoryController().AddItem(itemSO.items[4]);
         }
     }
 
@@ -126,7 +126,7 @@ public class CraftingUiController : ControllerBase
         items.Add(_item);
         FreshCraftingBag();
         CombineItem();
-        App.instance.GetInventoryController().RemoveItem(_item);
+        UIManager.instance.GetInventoryController().RemoveItem(_item);
     }
 
     /// <summary>
@@ -139,7 +139,7 @@ public class CraftingUiController : ControllerBase
 
         for (int i = 0; i < items.Count; i++)
         {
-            App.instance.GetInventoryController().AddItem(items[i]);
+            UIManager.instance.GetInventoryController().AddItem(items[i]);
             slotTransforms[i].gameObject.SetActive(false);
             slots[i].item = null;
         }
@@ -154,7 +154,7 @@ public class CraftingUiController : ControllerBase
     {
         for (int i = 0; i < items.Count; i++)
         {
-            App.instance.GetInventoryController().AddItem(items[i]);
+            UIManager.instance.GetInventoryController().AddItem(items[i]);
             slotTransforms[i].gameObject.SetActive(false);
             slots[i].item = null;
         }
@@ -277,14 +277,14 @@ public class CraftingUiController : ControllerBase
     public void CraftToInventory(ItemSlot itemSlot)
     {
         items.Remove(itemSlot.item);
-        App.instance.GetInventoryController().AddItem(slots[items.Count].item);
+        UIManager.instance.GetInventoryController().AddItem(slots[items.Count].item);
         FreshCraftingBag();
         CombineItem();
     }
 
     public void ResultToInventory()
     {
-        App.instance.GetInventoryController().AddItem(slots[items.Count].item);
+        UIManager.instance.GetInventoryController().AddItem(slots[items.Count].item);
         slotTransforms[items.Count].gameObject.SetActive(false);
         slots[items.Count].item = null;
         items.Clear();

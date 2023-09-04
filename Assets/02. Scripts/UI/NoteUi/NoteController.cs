@@ -4,7 +4,7 @@ using Yarn.Unity;
 using DG.Tweening;
 using Unity.VisualScripting;
 
-public class NoteController : MonoBehaviour
+public class NoteController : ControllerBase
 {
     [Header("Note Objects")]
     [SerializeField] Text dayText;
@@ -15,14 +15,21 @@ public class NoteController : MonoBehaviour
     [SerializeField] Button prevPageBtn;
     [SerializeField] Button closeBtn;
 
-    NotePage[] notePages;
+    public NotePage[] notePages;
 
     bool isNewDay = true;
     bool isOpen = false;
     int dayCount = 0;
     int pageNum = 0;
 
-    SetNextDay setNextDay; //controller·Î º¯°æ..?
+
+
+
+
+    public override EControllerType GetControllerType()
+    {
+        return EControllerType.NOTE;
+    }
 
 
 
@@ -35,8 +42,6 @@ public class NoteController : MonoBehaviour
 
     void Init()
     {
-        setNextDay = GameObject.Find("NextDay_Btn").GetComponent<SetNextDay>();
-
         ActiveNextBtnAndPrevBtn(false, false);
         ActiveObjects(false);
         InitVariables();
@@ -50,7 +55,7 @@ public class NoteController : MonoBehaviour
         dayText.text = "Day " + ++dayCount;
         isNewDay = true;
         pageNum = 0;
-        notePages = setNextDay.GetNotePageArray();
+        notePages = UIManager.instance.GetNextDayController().GetNotePageArray();
     }
 
 
