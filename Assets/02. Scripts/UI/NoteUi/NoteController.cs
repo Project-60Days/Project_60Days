@@ -22,7 +22,7 @@ public class NoteController : MonoBehaviour
     int dayCount = 0;
     int pageNum = 0;
 
-    SetNextDay setNextDay; //controller나 manager로 변경..요망
+    SetNextDay setNextDay; //controller로 변경..?
 
 
 
@@ -88,6 +88,7 @@ public class NoteController : MonoBehaviour
         {
             isOpen = false;
             ActiveObjects(false);
+            ActiveNextBtnAndPrevBtn(false, false);
 
             notePages[pageNum].gameObject.SetActive(false);
 

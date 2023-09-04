@@ -32,6 +32,7 @@ public class SelectPage : NotePage
             LayoutRebuilder.ForceRebuildLayoutImmediate(lineView.GetComponent<RectTransform>());
         }
     }
+
     public override void SetNodeName(string nodeName)
     {
         this.nodeName = nodeName;
