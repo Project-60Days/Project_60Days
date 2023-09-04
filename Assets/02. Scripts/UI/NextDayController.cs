@@ -4,17 +4,10 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SetNextDay : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class NextDayController : ControllerBase
 {
     [SerializeField] Image blackPanel;
-    NotePage[] pages;
-
-    [Header("Gauage Obejcts")]
-    [SerializeField] Image gaugeImage;
-    [SerializeField] float fillSpeed = 1.0f;
-    [SerializeField] float maxGaugeValue = 100.0f;
-    float currentGaugeValue = 0.0f;
-    bool isFilling = false;
+    public NotePage[] pages;
 
     [Header("Quest Objects")]
     [SerializeField] GameObject questPrefab;
@@ -29,24 +22,19 @@ public class SetNextDay : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
 
 
-    void Awake()
+    public override EControllerType GetControllerType()
     {
-        pages = GameObject.Find("Page_Back").GetComponentsInChildren<NotePage>(includeInactive: true);
-
-        Init();
+        return EControllerType.NEXTDAY;
     }
 
-    void Update()
+
+
+
+
+    void Awake()
     {
-        if (isFilling) //버튼 게이지 관련
-        {
-            FillGauge();
-            if (currentGaugeValue >= maxGaugeValue) //게이지가 다 차면 다음 날로 이동
-            {
-                isFilling = false;
-                NextDayEvent();
-            }
-        }
+        Init();
+        pages = GameObject.Find("Page_Back").GetComponentsInChildren<NotePage>(includeInactive: true);
     }
 
 
@@ -59,7 +47,6 @@ public class SetNextDay : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     void Init()
     {
         InitBlackPanel();
-        InitGauageUI();
         InitPageEnabled();
         InitQuestList();
         InitAlarm();
@@ -75,15 +62,6 @@ public class SetNextDay : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         sequence.Append(blackPanel.DOFade(0f, 1f))
             .OnComplete(() => blackPanel.gameObject.SetActive(false));
         sequence.Play();   
-    }
-
-    /// <summary>
-    /// 버튼 게이지 초기화
-    /// </summary>
-    void InitGauageUI()
-    {
-        currentGaugeValue = 0.0f;
-        gaugeImage.fillAmount = 0;
     }
 
     /// <summary>
@@ -129,7 +107,7 @@ public class SetNextDay : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     /// <summary>
     /// 다음 날이 될 때 BlackPanel 활성화/페이드인
     /// </summary>
-    void NextDayEvent()
+    public void NextDayEvent()
     {
         blackPanel.gameObject.SetActive(true);
         Sequence sequence = DOTween.Sequence();
@@ -156,48 +134,6 @@ public class SetNextDay : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
 
 
-    #region Gauage
-    /// <summary>
-    /// 버튼을 누르고 있을 때
-    /// </summary>
-    /// <param name="eventData"></param>
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        isFilling = true;
-    }
-
-    /// <summary>
-    /// 버튼에서 뗐을 때
-    /// </summary>
-    /// <param name="eventData"></param>
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        isFilling = false;
-        InitGauageUI();
-    }
-
-    /// <summary>
-    /// 게이지 채움
-    /// </summary>
-    void FillGauge()
-    {
-        currentGaugeValue += fillSpeed * Time.deltaTime;
-        UpdateGaugeUI();
-    }
-
-    /// <summary>
-    /// 게이지에 따라 Ui 변경
-    /// </summary>
-    void UpdateGaugeUI()
-    {
-        gaugeImage.fillAmount = currentGaugeValue / maxGaugeValue;
-    }
-    #endregion
-
-
-
-
-
     #region PageSetting
     /// <summary>
     /// 새로운 날에 쓰이는 페이지만 모아 NoteController에 배열로 전달. (page.GetPageEnableToday()함수로 사용 여부 확인)
@@ -208,8 +144,11 @@ public class SetNextDay : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         List<NotePage> todayPages = new List<NotePage>();
         foreach (NotePage page in pages)
         {
+            Debug.Log(page);
+            Debug.Log(page.GetPageEnableToday());
             if (page.GetPageEnableToday())
             {
+                Debug.Log(page);
                 todayPages.Add(page);
             }
         }

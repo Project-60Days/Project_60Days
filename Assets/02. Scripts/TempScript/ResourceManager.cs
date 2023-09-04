@@ -72,7 +72,7 @@ public class ResourceManager : MonoBehaviour
 
             for (int j = 0; j < list[i].itemCount; j++)
             {
-                App.instance.GetInventoryController().AddItem(item);
+                UIManager.instance.GetInventoryController().AddItem(item);
             }
         }
     }

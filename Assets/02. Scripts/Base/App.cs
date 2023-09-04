@@ -5,7 +5,7 @@ using UnityEngine;
 
 public enum EControllerType
 {
-    NONE, MAP, CRAFT, INVENTORY
+    NONE, MAP, CRAFT, INVENTORY, NOTE, SELECT, NEXTDAY
 }
 
 public enum EManagerType
@@ -66,6 +66,30 @@ public class App : Singleton<App>
             return null;
 
         return dic_controllers[EControllerType.CRAFT] as InventoryController;
+    }
+
+    public NoteController GetNoteController()
+    {
+        if (!HasController(EControllerType.NOTE))
+            return null;
+
+        return dic_controllers[EControllerType.NOTE] as NoteController;
+    }
+
+    public SelectController GetSelectController()
+    {
+        if (!HasController(EControllerType.SELECT))
+            return null;
+
+        return dic_controllers[EControllerType.SELECT] as SelectController;
+    }
+
+    public NextDayController GetNextDayController()
+    {
+        if (!HasController(EControllerType.NEXTDAY))
+            return null;
+
+        return dic_controllers[EControllerType.NEXTDAY] as NextDayController;
     }
 
     public bool HasManager(EManagerType _type)
