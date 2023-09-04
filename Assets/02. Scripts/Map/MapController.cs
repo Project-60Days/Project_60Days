@@ -14,7 +14,7 @@ public class MapController : Singleton<MapController>
 {
     [Header("컴포넌트")]
     [Space(5f)]
-    [SerializeField] HexamapController map;
+    [SerializeField] HexamapController hexaMap;
     [SerializeField] csFogWar fogOfWar;
 
     [Header("트랜스폼")]
@@ -50,26 +50,28 @@ public class MapController : Singleton<MapController>
     private void Start()
     {
         mapParentTransform.position = Vector3.right * -1000f;
+        GenerateMap();
+        App.instance.GetMapManager().GetAdditiveSceneObjectsCoroutine();
     }
 
     public void GenerateMap()
     {
-        map.Destroy();
+        hexaMap.Destroy();
 
         var timeBefore = DateTime.Now;
 
-        map.Generate();
+        hexaMap.Generate();
 
         double timeSpent = (DateTime.Now - timeBefore).TotalSeconds;
 
-        map.Draw();
+        hexaMap.Draw();
 
         // Add some noise to Y position of tiles
         FastNoise _fastNoise = new FastNoise();
         _fastNoise.SetFrequency(0.1f);
         _fastNoise.SetNoiseType(FastNoise.NoiseType.Perlin);
-        _fastNoise.SetSeed(map.Map.Seed);
-        foreach (Tile tile in map.Map.Tiles)
+        _fastNoise.SetSeed(hexaMap.Map.Seed);
+        foreach (Tile tile in hexaMap.Map.Tiles)
         {
             var noiseY = _fastNoise.GetValue(tile.Coords.X, tile.Coords.Y);
             (tile.GameEntity as GameObject).transform.position += new Vector3(0, noiseY * 2, 0);
@@ -102,31 +104,32 @@ public class MapController : Singleton<MapController>
         App.instance.GetDataManager().gameData.TryGetValue("Data_MaxCount_ZombieObject", out GameData max);
 
         SpawnPlayer();
-        //SpawnZombies((int)UnityEngine.Random.Range(min.value, max.value));
+        SpawnZombies((int)UnityEngine.Random.Range(min.value, max.value));
 
         fogOfWar.transform.position = player.transform.position;
-        FischlWorks_FogWar.csFogWar.instance.InitializeMapControllerObjects(player.gameObject, 5);
+        csFogWar.instance.InitializeMapControllerObjects(player.gameObject, 5);
         DeselectAllBorderTiles();
     }
 
     void SpawnPlayer()
     {
-        player.UpdateCurrentTile(TileToTileController(map.Map.GetTileFromCoords(new Coords(0, 0))));
 
-        targetTileController = player.TileController;
 
-        Vector3 spawnPos = player.TileController.transform.position;
+        Vector3 spawnPos = TileToTileController(hexaMap.Map.GetTileFromCoords(new Coords(0, 0))).transform.position;
         spawnPos.y += 0.7f;
 
         var playerObject = Instantiate(mapPrefab.items[(int)EMabPrefab.Player].prefab, spawnPos, Quaternion.Euler(0, -90, 0));
         player = playerObject.GetComponent<Player>();
-        player.transform.parent = mapTransform;
+        player.transform.parent = mapParentTransform;
+
+        player.UpdateCurrentTile(TileToTileController(hexaMap.Map.GetTileFromCoords(new Coords(0, 0))));
+        targetTileController = player.TileController;
     }
 
     void SpawnZombies(int zombiesNumber)
     {
         int randomInt;
-        var tileList = map.Map.Tiles;
+        var tileList = hexaMap.Map.Tiles;
         List<int> selectTileNumber = new List<int>();
 
         // 플레이어와 겹치지 않는 랜덤 타일 뽑기.
@@ -215,7 +218,7 @@ public class MapController : Singleton<MapController>
 
     public void DisturbtorPathFinder(TileController tileController)
     {
-        if (map.Map.GetTilesInRange(player.TileController.Model, 1).Contains(tileController.Model))
+        if (hexaMap.Map.GetTilesInRange(player.TileController.Model, 1).Contains(tileController.Model))
         {
             disturbtor.transform.position = ((GameObject)tileController.Model.GameEntity).transform.position + Vector3.up;
             disturbtor.GetComponent<Disturbtor>().DirectionObjectOff();
@@ -317,7 +320,7 @@ public class MapController : Singleton<MapController>
 
     void InstallDisturbtor(TileController tileController, CompassPoint direction)
     {
-        if (map.Map.GetTilesInRange(player.TileController.Model, 1).Contains(tileController.Model))
+        if (hexaMap.Map.GetTilesInRange(player.TileController.Model, 1).Contains(tileController.Model))
             return;
         disturbtor.GetComponent<Disturbtor>().Set(tileController.Model, direction);
         disturbtor.GetComponent<Disturbtor>().DirectionObjectOff();
@@ -504,12 +507,12 @@ public class MapController : Singleton<MapController>
 
     public Tile GetTileFromCoords(Coords coords)
     {
-        return map.Map.GetTileFromCoords(coords);
+        return hexaMap.Map.GetTileFromCoords(coords);
     }
 
     public List<Tile> GetTilesInRange(Tile tile, int num)
     {
-        return map.Map.GetTilesInRange(tile, num);
+        return hexaMap.Map.GetTilesInRange(tile, num);
     }
 
     public Tile GetPlayerLocationTile()
@@ -531,7 +534,7 @@ public class MapController : Singleton<MapController>
 
     public bool CalculateDistanceToPlayer(Tile tile, int range)
     {
-        var searchTiles = map.Map.GetTilesInRange(tile, range);
+        var searchTiles = hexaMap.Map.GetTilesInRange(tile, range);
 
         foreach (var item in searchTiles)
         {
@@ -545,7 +548,7 @@ public class MapController : Singleton<MapController>
 
     public Disturbtor CalculateDistanceToDistrubtor(Tile tile, int range)
     {
-        var searchTiles = map.Map.GetTilesInRange(tile, range);
+        var searchTiles = hexaMap.Map.GetTilesInRange(tile, range);
 
         if (disturbtor == null)
             return null;

@@ -46,7 +46,7 @@ public class App : Singleton<App>
 
     public MapUiController GetMapUiController()
     {
-        if (HasController(EControllerType.MAP))
+        if (!HasController(EControllerType.MAP))
             return null;
 
         return dic_controllers[EControllerType.MAP] as MapUiController;
@@ -54,7 +54,7 @@ public class App : Singleton<App>
 
     public CraftingUiController GetCraftController()
     {
-        if (HasController(EControllerType.CRAFT))
+        if (!HasController(EControllerType.CRAFT))
             return null;
 
         return dic_controllers[EControllerType.CRAFT] as CraftingUiController;
@@ -62,7 +62,7 @@ public class App : Singleton<App>
 
     public InventoryController GetInventoryController()
     {
-        if (HasController(EControllerType.CRAFT))
+        if (!HasController(EControllerType.CRAFT))
             return null;
 
         return dic_controllers[EControllerType.CRAFT] as InventoryController;
@@ -75,7 +75,7 @@ public class App : Singleton<App>
 
     public DataManager GetDataManager()
     {
-        if (HasManager(EManagerType.DATA))
+        if (!HasManager(EManagerType.DATA))
             return null;
 
         return dic_managers[EManagerType.DATA] as DataManager;
@@ -83,7 +83,7 @@ public class App : Singleton<App>
 
     public SoundManager GetSoundManager()
     {
-        if (HasManager(EManagerType.SOUND))
+        if (!HasManager(EManagerType.SOUND))
             return null;
 
         return dic_managers[EManagerType.SOUND] as SoundManager;
@@ -91,7 +91,7 @@ public class App : Singleton<App>
 
     public MapManager GetMapManager()
     {
-        if (HasManager(EManagerType.MAP))
+        if (!HasManager(EManagerType.MAP))
             return null;
 
         return dic_managers[EManagerType.MAP] as MapManager;

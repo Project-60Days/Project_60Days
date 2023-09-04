@@ -19,6 +19,7 @@ public class MapCamera : MonoBehaviour
     public IEnumerator GetCamera()
     {
         yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
         player = GameObject.FindGameObjectWithTag("Player");
         mapUi = GameObject.FindGameObjectWithTag("MapUi").transform.GetChild(0).gameObject;
         mapCamera.Follow = player.transform;

@@ -238,18 +238,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2141712199585254430}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ce403c37306fc74782595c6a41b7031, type: 3}
+  m_Script: {fileID: 11500000, guid: 0021055449e4a2a46b374cdd2fcc8ff5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   objects:
-    m_keys: 000000000100000002000000030000000400000005000000
-    m_values:
-    - {fileID: 5510535609946674871}
-    - {fileID: 1559909866429256190}
-    - {fileID: 3672629809476589635}
-    - {fileID: 1712170047193090938}
-    - {fileID: 2685795916529070903}
-    - {fileID: 4930841364764459017}
+    m_keys: 
+    m_values: []
 --- !u!114 &6313639618506749780
 MonoBehaviour:
   m_ObjectHideFlags: 0
