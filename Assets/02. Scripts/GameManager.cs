@@ -70,10 +70,6 @@ public class GameManager : Singleton<GameManager>
         SceneLoader.instance.LoadSceneAddtive((int)ESceneType.UI);
         SceneLoader.instance.LoadSceneAddtive((int)ESceneType.Map);
         App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
-        //StartTutorial();
-
-        
-        App.instance.GetMapManager().CreateMap();
         StartCoroutine(GetMapCamera());
     }
 
@@ -93,14 +89,6 @@ public class GameManager : Singleton<GameManager>
     public void SetPrioryty(bool set)
     {
         mapCamera.SetPrioryty(set);
-    }
-
-    public void StartTutorial()
-    {
-        TutorialManager tm = Instantiate(tutorialManager).GetComponent<TutorialManager>();
-        tm.lightBackground = GameObject.Find("LightBackground").GetComponent<Image>();
-        DontDestroyOnLoad(tm.gameObject);
-        tm.Init();
     }
 
     public void QuitGame()

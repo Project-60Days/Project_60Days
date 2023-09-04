@@ -16,7 +16,6 @@ public class MapManager : ManagementBase
 {
     Camera mapCamera;
     MapController mapController;
-    MapUiController mapUIController;
     ResourceManager resourceManager;
 
     bool interactable;
@@ -24,6 +23,7 @@ public class MapManager : ManagementBase
     bool isDronePrepared;
     bool isDisturbtor;
 
+    public MapUiController mapUIController;
     public ETileMouseState mouseState;
 
     void Update()
@@ -38,16 +38,14 @@ public class MapManager : ManagementBase
 
     IEnumerator GetAdditiveSceneObjects()
     {
-        yield return new WaitForEndOfFrame();
-        yield return new WaitForEndOfFrame();
+        yield return new WaitUntil(() => FindObjectOfType<MapUiController>() != null );
         mapCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        //mapUIController »£√‚
+        mapUIController = GameObject.FindGameObjectWithTag("UiCanvas").transform.GetComponentInChildren<MapUiController>();
     }
 
-    public void CreateMap()
+    public void GetAdditiveSceneObjectsCoroutine()
     {
         StartCoroutine(GetAdditiveSceneObjects());
-        mapController.GenerateMap();
     }
 
     /// <summary>

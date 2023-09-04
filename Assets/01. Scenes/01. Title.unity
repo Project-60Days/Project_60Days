@@ -5014,6 +5014,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25780014b375d3847aae732c64cc05ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapUIController: {fileID: 0}
   mouseState: 0
 --- !u!1 &1900904276
 GameObject:

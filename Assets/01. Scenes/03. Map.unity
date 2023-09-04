@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bb9de564fe71e643ae9272a8b8d251f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  map: {fileID: 35908273}
+  hexaMap: {fileID: 35908273}
   fogOfWar: {fileID: 1413298386}
   zombiesTransform: {fileID: 706894744}
   mapTransform: {fileID: 270035658}
