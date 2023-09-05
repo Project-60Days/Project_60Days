@@ -47,11 +47,6 @@ public class TileInfo : MonoBehaviour
     
     Tile myTile;
 
-    public bool TutorialTile
-    {
-        get { return TutorialTile; }
-    }
-
     bool inPlayerSight = false;
     bool isTutorialTile = false;
 
@@ -103,30 +98,6 @@ public class TileInfo : MonoBehaviour
         }
     }
 
-    public void TutorialResourceUpdate()
-    {
-
-        List<ItemBase> list = new List<ItemBase>();
-
-        for (int i = 0; i < 2; i++)
-        {
-            list.Add(itemSO.items[i]);
-        }
-
-        for (int i = 0; i < 2; i++)
-        {
-            var randomPick = Random.Range(0, list.Count);
-            var item = list[randomPick];
-
-            var randomCount = Random.Range(1, 16);
-            var resource = new Resource(item.itemCode, randomCount);
-
-            appearanceResources.Add(resource);
-            list.RemoveAt(randomPick);
-        }
-        ResourceUpdate(true);
-    }
-
     void ResourceUpdate(bool isNearth)
     {
         if (isNearth)
@@ -163,7 +134,7 @@ public class TileInfo : MonoBehaviour
                 var text = itemName1 + " " + appearanceResources[0].itemCount + "\n"
                     + itemName2 + " " + appearanceResources[1].itemCount;
 
-                App.instance.GetMapUiController().UpdateText(ETileInfoTMP.Resource, text);
+                App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Resource, text);
             }
             else if (appearanceResources.Count == 1)
             {
@@ -173,7 +144,7 @@ public class TileInfo : MonoBehaviour
                 resourceIcons[0].gameObject.SetActive(true);
 
                 var text = itemName1 + " " + appearanceResources[0].itemCount;
-                App.instance.GetMapUiController().UpdateText(ETileInfoTMP.Resource, text);
+                App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Resource, text);
             }
             else
             {
@@ -187,7 +158,7 @@ public class TileInfo : MonoBehaviour
         }
         else
         {
-            App.instance.GetMapUiController().UpdateText(ETileInfoTMP.Resource, "자원 : ???");
+            App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Resource, "자원 : ???");
 
             for (int i = 0; i < resourceIcons.Length; i++)
             {

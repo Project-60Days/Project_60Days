@@ -31,14 +31,19 @@ public class MapController : Singleton<MapController>
     List<GameObject> zombiesList = new List<GameObject>();
 
     Player player;
-
     public Player Player
     {
         get { return player; }
     }
 
+    [Header("테스트")]
+    [Space(5f)]
     GameObject disturbtor;
     GameObject explorer;
+
+
+    [SerializeField] MapTestManager mapTest;
+    [SerializeField] bool isTest;
 
     TileController targetTileController;
 
@@ -49,9 +54,10 @@ public class MapController : Singleton<MapController>
 
     private void Start()
     {
-        mapParentTransform.position = Vector3.right * -1000f;
-        GenerateMap();
-        App.instance.GetMapManager().GetAdditiveSceneObjectsCoroutine();
+        if (!isTest)
+            App.instance.GetMapManager().GetAdditiveSceneObjectsCoroutine();
+        else
+            mapTest.TestStart();
     }
 
     public void GenerateMap()
@@ -78,7 +84,7 @@ public class MapController : Singleton<MapController>
         }
 
         GenerateMapObjects();
-        mapTransform.position = Vector3.forward * 200f;
+        mapParentTransform.position = Vector3.forward * 200f;
     }
 
     public void RegenerateMap()
@@ -100,11 +106,17 @@ public class MapController : Singleton<MapController>
     /// </summary>
     void GenerateMapObjects()
     {
-        App.instance.GetDataManager().gameData.TryGetValue("Data_MinCount_ZombieObject", out GameData min);
-        App.instance.GetDataManager().gameData.TryGetValue("Data_MaxCount_ZombieObject", out GameData max);
-
         SpawnPlayer();
-        SpawnZombies((int)UnityEngine.Random.Range(min.value, max.value));
+        if (!isTest)
+        {
+            App.instance.GetDataManager().gameData.TryGetValue("Data_MinCount_ZombieObject", out GameData min);
+            App.instance.GetDataManager().gameData.TryGetValue("Data_MaxCount_ZombieObject", out GameData max);
+            SpawnZombies((int)UnityEngine.Random.Range(min.value, max.value));
+        }
+        else
+        {
+            SpawnZombies((int)UnityEngine.Random.Range(0, 30));
+        }
 
         fogOfWar.transform.position = player.transform.position;
         csFogWar.instance.InitializeMapControllerObjects(player.gameObject, 5);
@@ -113,8 +125,6 @@ public class MapController : Singleton<MapController>
 
     void SpawnPlayer()
     {
-
-
         Vector3 spawnPos = TileToTileController(hexaMap.Map.GetTileFromCoords(new Coords(0, 0))).transform.position;
         spawnPos.y += 0.7f;
 
