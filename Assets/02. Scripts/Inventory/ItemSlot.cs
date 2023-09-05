@@ -46,17 +46,13 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         switch (eSlotType)
         {
             case ESlotType.InventorySlot:
-                if (craft.activeSelf)
+                if (_item != null)
                 {
-                    if (_item != null)
-                    {
-                        var itemSave = _item;
-                        UIManager.instance.GetCraftingUIController().CraftItem(_item);
-                        CraftItemClick?.Invoke(itemSave);
-                    }
+                    var itemSave = _item;
+                    UIManager.instance.GetCraftingUIController().CraftItem(_item);
+                    UIManager.instance.GetInventoryController().RemoveItem(_item);
+                    CraftItemClick?.Invoke(itemSave);
                 }
-                //else
-                    //itemDiscription.text = _item.data.Description.ToString();
                 break;
             case ESlotType.CraftingSlot:
                 //App.instance.GetCraftController().CraftToInventory(this); break;

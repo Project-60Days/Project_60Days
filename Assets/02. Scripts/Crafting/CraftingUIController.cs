@@ -6,15 +6,14 @@ public class CraftingUiController : ControllerBase
 {
     [SerializeField] Transform slotParent;
     [SerializeField] Sprite[] craftTypeImage;
-    [SerializeField] GameObject inventoryUi;
     [SerializeField] ItemSO itemSO;
 
-    private ItemSlot[] slots;
+    ItemSlot[] slots;
 
-    private List<Transform> slotTransforms;
-    private List<Image> craftTypeImages;
-    private List<ItemBase> items;
-    private List<ItemCombineData> itemCombines;
+    List<Transform> slotTransforms;
+    List<Image> craftTypeImages;
+    List<ItemBase> items;
+    List<ItemCombineData> itemCombines;
 
     string[] combinationCodes = new string[9];
 
@@ -54,8 +53,6 @@ public class CraftingUiController : ControllerBase
             else
                 break;
         }
-       
-        gameObject.SetActive(false);
 
         for (int i = 0; i < slots.Length; i++) //CraftBag 내의 slot 모두 초기화
         {
@@ -126,31 +123,13 @@ public class CraftingUiController : ControllerBase
         items.Add(_item);
         FreshCraftingBag();
         CombineItem();
-        UIManager.instance.GetInventoryController().RemoveItem(_item);
+        
     }
 
     /// <summary>
     /// Exit 버튼 눌렀을 때 인벤토리로 아이템 반환
     /// </summary>
     public void ReturnItem()
-    {
-        gameObject.SetActive(false);
-        inventoryUi.SetActive(false);
-
-        for (int i = 0; i < items.Count; i++)
-        {
-            UIManager.instance.GetInventoryController().AddItem(items[i]);
-            slotTransforms[i].gameObject.SetActive(false);
-            slots[i].item = null;
-        }
-
-        items.Clear();
-    }
-
-    /// <summary>
-    /// 시연회용 임시 함수
-    /// </summary>
-    public void ReturnItemWithOutExit()
     {
         for (int i = 0; i < items.Count; i++)
         {
