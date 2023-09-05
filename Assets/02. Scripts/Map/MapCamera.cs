@@ -10,15 +10,8 @@ public class MapCamera : MonoBehaviour
     GameObject mapUi;
     public CinemachineVirtualCamera mapCamera;
 
-    private void Start()
+    public IEnumerator GetMapInfo()
     {
-        StartCoroutine(GetCamera());
-        mapCamera = GetComponent<CinemachineVirtualCamera>();
-    }
-
-    public IEnumerator GetCamera()
-    {
-        yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
         player = GameObject.FindGameObjectWithTag("Player");
         mapUi = GameObject.FindGameObjectWithTag("MapUi").transform.GetChild(0).gameObject;

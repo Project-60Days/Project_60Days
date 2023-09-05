@@ -147,11 +147,11 @@ public class ZombieSwarm : MonoBehaviour
     {
         if (tile == curTile)
         {
-            App.instance.GetMapUiController().UpdateText(ETileInfoTMP.Zombie, "좀비 약 " + zombieCount + "체");
+            App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Zombie, "좀비 약 " + zombieCount + "체");
         }
         else
         {
-            App.instance.GetMapUiController().UpdateText(ETileInfoTMP.Zombie, "알 수 없음");
+            App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Zombie, "알 수 없음");
         }
     }
 
