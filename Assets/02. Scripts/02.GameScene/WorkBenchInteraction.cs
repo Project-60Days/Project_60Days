@@ -12,7 +12,6 @@ public class WorkBenchInteraction : MonoBehaviour, IPointerClickHandler
     /// <param name="eventData"></param>
     public void OnPointerClick(PointerEventData eventData)
     {
-        UIManager.instance.AddCurrUIName(StringUtility.UI_CRAFTING);
         onClickEvent?.Invoke();
     }
 }

@@ -86,7 +86,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
     private Coroutine WaitSetCraftingItem(string _itemCode, int _count = 1)
     {
-        return StartCoroutine(new WaitUntil(() => UIManager.instance.GetCraftingUIController().CheckCraftingItem(_itemCode, _count)));
+        return StartCoroutine(new WaitUntil(() => UIManager.instance.GetCraftingUiController().CheckCraftingItem(_itemCode, _count)));
     }
 
     private Coroutine WaitNewDay()

@@ -25,7 +25,6 @@ public class Alarm : MonoBehaviour, IPointerClickHandler
 
     void EnableAlarm(ENotePageType type)
     {
-        UIManager.instance.AddCurrUIName(StringUtility.UI_NOTE);
         UIManager.instance.GetNoteController().SetPageNum(type);
         UIManager.instance.GetNoteController().OpenNote();
     }

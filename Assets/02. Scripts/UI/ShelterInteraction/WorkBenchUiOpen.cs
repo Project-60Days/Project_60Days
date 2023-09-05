@@ -7,57 +7,82 @@ public class WorkBenchUiOpen : MonoBehaviour
 {
     [SerializeField] GameObject inventoryUi;
     [SerializeField] GameObject craftingUi;
-    [SerializeField] GameObject blackPanel;
 
-    Sequence sequence;
+    
 
-    private void Start()
+    void Start()
     {
         inventoryUi.GetComponent<CanvasGroup>().alpha = 0.0f;
         craftingUi.GetComponent<CanvasGroup>().alpha = 0.0f;
-        craftingUi.SetActive(false);
-        inventoryUi.SetActive(false);
-        blackPanel.SetActive(false);
+
+        
+
+        ActivateUiObjects(false);
     }
 
-    private void OnEnable()
+    void OnEnable()
     {
         SetOnClickEvent(true);
     }
 
-    private void OnDisable()
+    void OnDisable()
     {
         SetOnClickEvent(false);
     }
 
-    private void SetOnClickEvent(bool enable)
+    void SetOnClickEvent(bool enable)
     {
         WorkBenchInteraction onClickScript = FindObjectOfType<WorkBenchInteraction>();
         if (onClickScript != null)
         {
             if (enable)
             {
-                onClickScript.onClickEvent.AddListener(ActivateUIObjects);
+                onClickScript.onClickEvent.AddListener(UiOpenEvent);
             }
             else
             {
-                onClickScript.onClickEvent.RemoveListener(ActivateUIObjects);
+                onClickScript.onClickEvent.RemoveListener(UiOpenEvent);
             }
         }
     }
 
-    private void ActivateUIObjects()
+    void UiOpenEvent()
     {
-        sequence?.Kill();
-        craftingUi.SetActive(true);
-        inventoryUi.SetActive(true);
-        blackPanel.SetActive(true);
-        sequence = DOTween.Sequence();
+        UIManager.instance.AddCurrUIName(StringUtility.UI_CRAFTING);
+        ActivateUiObjects(true);
+        FadeInUiObjects();
+    }
 
+    public void UiCloseEvent()
+    {
+        Sequence sequence = DOTween.Sequence();
+        UIManager.instance.PopCurrUI();
+        sequence
+            .Append(inventoryUi.GetComponent<CanvasGroup>().DOFade(0f, 0.5f))
+            .Append(craftingUi.GetComponent<CanvasGroup>().DOFade(0f, 0.5f))
+            .OnComplete(() => ActivateUiObjects(false));
+        sequence.Play();
+    }
+
+    void ActivateUiObjects(bool isActive)
+    {
+        Debug.Log("d");
+        inventoryUi.SetActive(isActive);
+        craftingUi.SetActive(isActive);
+    }
+
+    void FadeInUiObjects()
+    {
+        Sequence sequence = DOTween.Sequence();
         sequence
             .Append(craftingUi.GetComponent<CanvasGroup>().DOFade(1f, 0.5f))
             .Append(inventoryUi.GetComponent<CanvasGroup>().DOFade(1f, 0.5f));
-
         sequence.Play();
+    }
+
+    public void Temp() //테스트용 버튼에 쓰일 임시 함수
+    {
+        ActivateUiObjects(true);
+        FadeInUiObjects();
     }
 }
