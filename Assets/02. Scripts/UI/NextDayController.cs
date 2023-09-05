@@ -144,11 +144,8 @@ public class NextDayController : ControllerBase
         List<NotePage> todayPages = new List<NotePage>();
         foreach (NotePage page in pages)
         {
-            Debug.Log(page);
-            Debug.Log(page.GetPageEnableToday());
             if (page.GetPageEnableToday())
             {
-                Debug.Log(page);
                 todayPages.Add(page);
             }
         }

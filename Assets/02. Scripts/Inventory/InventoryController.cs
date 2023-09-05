@@ -16,7 +16,6 @@ public class InventoryController : ControllerBase
     public List<ItemBase> items;
 
     int slotCount = 0;
-    int flag = 0;
 
     public override EControllerType GetControllerType()
     {
@@ -36,7 +35,7 @@ public class InventoryController : ControllerBase
         AddItemByCode("ITEM_TIER_2_PLASMA");
         AddItemByCode("ITEM_TIER_1_PLASTIC");
         AddItemByCode("ITEM_TIER_1_STEEL");
-        flag = 1;
+        FreshSlot();
     }
 
     void Start()
@@ -140,8 +139,6 @@ public class InventoryController : ControllerBase
                 App.instance.GetDataManager().itemData.TryGetValue(itemCode, out ItemData itemData);
                 item.data = itemData;
                 items.Add(item);
-                if (flag == 1)
-                    FreshSlot();
             }
         }
     }

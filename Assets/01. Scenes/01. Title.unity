@@ -2882,8 +2882,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 355.7433, y: 0}
-  m_SizeDelta: {x: 711.4866, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &1076115634
 GameObject:
@@ -5126,6 +5126,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 84913d908d27e8747a576dca88de8b2d, type: 3}
   - name: SFX_ButtonClick_02
     clip: {fileID: 8300000, guid: acab310d9f17e9347acf6a7fcecd8021, type: 3}
+  - name: SFX_Note_Open
+    clip: {fileID: 8300000, guid: 77d31b03f201ea447b2eeebc63200328, type: 3}
+  - name: SFX_Note_Close
+    clip: {fileID: 8300000, guid: ae65884410c8b764ebb2557870b67f90, type: 3}
   array_bgm:
   - name: BGM_TitleTheme
     clip: {fileID: 8300000, guid: b884864b4ce146a40b5d435eb2e6625a, type: 3}

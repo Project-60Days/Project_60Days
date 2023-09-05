@@ -3,18 +3,16 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using static UnityEditor.Progress;
 
 public class ItemSlot : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] Image image;
     [SerializeField] public ESlotType eSlotType;
 
-    //TextMeshProUGUI itemDiscription;
-    GameObject craft;
-
     public static Action<ItemBase> CraftItemClick;
 
-    private ItemBase _item;
+    public ItemBase _item;//
 
     public ItemBase item
     {
@@ -35,34 +33,28 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    void Awake()
-    {
-        craft = GameObject.Find("CraftingUi");
-        //itemDiscription = GameObject.FindWithTag("ItemDiscription").GetComponent<TextMeshProUGUI>();
-    }
-
     public void OnPointerClick(PointerEventData eventData)
     {
         switch (eSlotType)
         {
             case ESlotType.InventorySlot:
-                if (craft.activeSelf)
+                if (_item != null)
                 {
-                    if (_item != null)
-                    {
-                        var itemSave = _item;
-                        UIManager.instance.GetCraftingUIController().CraftItem(_item);
-                        CraftItemClick?.Invoke(itemSave);
-                    }
+                    var itemSave = _item;
+                    UIManager.instance.GetCraftingUiController().CraftItem(_item);
+                    UIManager.instance.GetInventoryController().RemoveItem(_item);
+                    CraftItemClick?.Invoke(itemSave);
                 }
-                //else
-                    //itemDiscription.text = _item.data.Description.ToString();
                 break;
             case ESlotType.CraftingSlot:
-                //App.instance.GetCraftController().CraftToInventory(this); break;
-                return;
+                if (_item != null)
+                {
+                    UIManager.instance.GetCraftingUiController().CraftToInventory(_item);
+                    UIManager.instance.GetInventoryController().AddItem(_item);
+                }
+                break;
             case ESlotType.ResultSlot:
-                UIManager.instance.GetCraftingUIController().ResultToInventory(); break;
+                UIManager.instance.GetCraftingUiController().ResultToInventory(); break;
         }
     }
 }
