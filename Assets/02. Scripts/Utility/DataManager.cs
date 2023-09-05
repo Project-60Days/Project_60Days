@@ -16,6 +16,7 @@ public class DataManager : ManagementBase
     public Dictionary<string, GameData> gameData = new Dictionary<string, GameData>();
     public Dictionary<string, ItemData> itemData = new Dictionary<string, ItemData>();
     public Dictionary<int, ItemCombineData> itemCombineData = new Dictionary<int, ItemCombineData>();
+    public Dictionary<int, TileData> tileData = new Dictionary<int, TileData>();
 
     private void Awake()
     {
@@ -28,11 +29,14 @@ public class DataManager : ManagementBase
         stringData.Clear();
         gameData.Clear();
         itemData.Clear();
+        itemCombineData.Clear();
+        tileData.Clear();
 
         var stringDataRaw = DataLoader.LoadData<StringData>(StringUtility.stringDataPath);
         var gameDataRaw = DataLoader.LoadData<GameData>(StringUtility.gameDataPath);
         var itemDataRaw = DataLoader.LoadData<ItemData>(StringUtility.itemDataPath);
         var itemCombineDataRaw = DataLoader.LoadData<ItemCombineData>(StringUtility.itemCombineDataPath);
+        var tileDataRaw = DataLoader.LoadData<TileData>(StringUtility.tileDataPath);
 
         foreach (var data in stringDataRaw)
             stringData.Add(data.Code, data);
@@ -45,6 +49,9 @@ public class DataManager : ManagementBase
 
         foreach (var data in itemCombineDataRaw)
             itemCombineData.Add(data.Index, data);
+
+        foreach (var data in tileDataRaw)
+            tileData.Add(data.Index, data);
     }
 
     private void InitItemSO()
@@ -141,6 +148,26 @@ public class ItemCombineData
     public string Material_8;
     public string Result;
 }
+
+[Serializable]
+public class TileData
+{
+    public int Index;
+    public int TileTypeAppearPosibility;
+    public int TileSwarmMinCount;
+    public int TileSwarmMaxCount;
+    public int RemainPossibility_Metal;
+    public int RemainPossibility_Carbon;
+    public int RemainPossibility_Plasma;
+    public int RemainPossibility_Pawder;
+    public int RemainPossibility_Gas;
+    public int RemainPossibility_Rubber;
+    public string Korean;
+    public string English;
+    public string Japanese;
+    public string Chinese;
+}
+
 public class DataLoader
 {
     public static T[] LoadData<T>(string dataPath)

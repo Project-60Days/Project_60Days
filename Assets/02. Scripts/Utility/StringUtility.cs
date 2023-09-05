@@ -6,6 +6,7 @@ public static class StringUtility
     public static string gameDataPath = "Data/GameData";
     public static string itemDataPath = "Data/ItemData";
     public static string itemCombineDataPath = "Data/ItemCombineData";
+    public static string tileDataPath = "Data/TileData";
 
 
     #region UIName
