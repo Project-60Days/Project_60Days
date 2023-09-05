@@ -39,7 +39,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
     private void MoveToLab()
     {
-        GameManager.instance.SetPrioryty(false);
+        App.instance.GetMapManager().SetMapCameraPriority(false);
     }
 
     private void EndTutorial()
@@ -98,8 +98,8 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     {
         Debug.Log("MovenoteTap" + _idx.ToString());
 
-        if (_idx == 0) GameManager.instance.SetPrioryty(false);
-        else GameManager.instance.SetPrioryty(true);
+        if (_idx == 0) App.instance.GetMapManager().SetMapCameraPriority(false);
+        else App.instance.GetMapManager().SetMapCameraPriority(true);
         UIManager.instance.GetNoteController().ChangePageForce(_idx);
     } 
 

@@ -12,6 +12,6 @@ public class MapInteraction : MonoBehaviour, IPointerClickHandler
     /// <param name="eventData"></param>
     public void OnPointerClick(PointerEventData eventData)
     {
-        GameManager.instance.SetPrioryty(true);
+        App.instance.GetMapManager().SetMapCameraPriority(true);
     }
 }

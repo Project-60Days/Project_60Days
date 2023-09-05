@@ -70,25 +70,12 @@ public class GameManager : Singleton<GameManager>
         SceneLoader.instance.LoadSceneAddtive((int)ESceneType.UI);
         SceneLoader.instance.LoadSceneAddtive((int)ESceneType.Map);
         App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
-        StartCoroutine(GetMapCamera());
-    }
-
-    private IEnumerator GetMapCamera()
-    {
-        yield return new WaitUntil(() => GameObject.FindGameObjectsWithTag("MapCamera") != null);
-
-        mapCamera = GameObject.FindGameObjectWithTag("MapCamera").GetComponent<MapCamera>();
     }
 
     public void Settings()
     {
         // 설정 창
         Debug.Log("설정");
-    }
-
-    public void SetPrioryty(bool set)
-    {
-        mapCamera.SetPrioryty(set);
     }
 
     public void QuitGame()
