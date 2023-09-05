@@ -20,7 +20,7 @@ public class Alarm : MonoBehaviour, IPointerClickHandler
         else if (this.alarmType == EAlarmType.Result)
             EnableAlarm(ENotePageType.Result);
         else if (this.alarmType == EAlarmType.Caution)
-            App.instance.GetMapManager().SetMapCameraPriority(true);
+            GameManager.instance.SetPrioryty(true);
     }
 
     void EnableAlarm(ENotePageType type)

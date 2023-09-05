@@ -14,19 +14,17 @@ public enum ETileMouseState
 
 public class MapManager : ManagementBase
 {
-    Camera mainCamera;
-    MapCamera mapCineCamera;
+    Camera mapCamera;
     MapController mapController;
     ResourceManager resourceManager;
 
+    bool interactable;
     bool isPlayerSelected;
     bool isDronePrepared;
     bool isDisturbtor;
 
     public MapUiController mapUIController;
     public ETileMouseState mouseState;
-    public bool interactable;
-
 
     void Update()
     {
@@ -40,15 +38,9 @@ public class MapManager : ManagementBase
 
     IEnumerator GetAdditiveSceneObjects()
     {
-        yield return new WaitForEndOfFrame();
-        mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        mapUIController = GameObject.FindGameObjectWithTag("MapUi").GetComponent<MapUiController>();
-        mapController = GameObject.FindGameObjectWithTag("MapController").GetComponent<MapController>();
-
-        yield return new WaitUntil(() => mapController != null);
-        mapController.GenerateMap();
-        mapCineCamera = GameObject.FindGameObjectWithTag("MapCamera").GetComponent<MapCamera>();
-        StartCoroutine(mapCineCamera.GetMapInfo());
+        yield return new WaitUntil(() => FindObjectOfType<MapUiController>() != null );
+        mapCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        mapUIController = GameObject.FindGameObjectWithTag("UiCanvas").transform.GetComponentInChildren<MapUiController>();
     }
 
     public void GetAdditiveSceneObjectsCoroutine()
@@ -64,7 +56,7 @@ public class MapManager : ManagementBase
         RaycastHit hit;
         TileController tileController;
 
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        Ray ray = mapCamera.ScreenPointToRay(Input.mousePosition);
         int onlyLayerMaskTile = 1 << LayerMask.NameToLayer("Tile");
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile))
@@ -115,7 +107,7 @@ public class MapManager : ManagementBase
         }
 
         RaycastHit hit;
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        Ray ray = mapCamera.ScreenPointToRay(Input.mousePosition);
 
         int onlyLayerMaskPlayer = 1 << LayerMask.NameToLayer("Player");
         int onlyLayerMaskTile = 1 << LayerMask.NameToLayer("Tile");
@@ -234,10 +226,5 @@ public class MapManager : ManagementBase
     public override EManagerType GetManagemetType()
     {
         return EManagerType.MAP;
-    }
-
-    public void SetMapCameraPriority(bool _set)
-    {
-        mapCineCamera.SetPrioryty(_set);
     }
 }

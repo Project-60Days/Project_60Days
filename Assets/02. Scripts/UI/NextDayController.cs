@@ -123,7 +123,7 @@ public class NextDayController : ControllerBase
     void NextDayEventCallBack()
     {
         Init();
-        App.instance.GetMapManager().SetMapCameraPriority(false);
+        GameManager.instance.SetPrioryty(false);
 
         UIManager.instance.GetNoteController().SetNextDay();
         App.instance.GetMapManager().AllowMouseEvent(true);
