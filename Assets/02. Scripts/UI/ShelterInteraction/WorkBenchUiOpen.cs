@@ -8,14 +8,14 @@ public class WorkBenchUiOpen : MonoBehaviour
     [SerializeField] GameObject inventoryUi;
     [SerializeField] GameObject craftingUi;
 
-    Sequence sequence;
+    
 
     void Start()
     {
         inventoryUi.GetComponent<CanvasGroup>().alpha = 0.0f;
         craftingUi.GetComponent<CanvasGroup>().alpha = 0.0f;
 
-        sequence = DOTween.Sequence();
+        
 
         ActivateUiObjects(false);
     }
@@ -48,23 +48,32 @@ public class WorkBenchUiOpen : MonoBehaviour
 
     void UiOpenEvent()
     {
-        Debug.Log("2");
+        UIManager.instance.AddCurrUIName(StringUtility.UI_CRAFTING);
         ActivateUiObjects(true);
         FadeInUiObjects();
     }
 
+    public void UiCloseEvent()
+    {
+        Sequence sequence = DOTween.Sequence();
+        UIManager.instance.PopCurrUI();
+        sequence
+            .Append(inventoryUi.GetComponent<CanvasGroup>().DOFade(0f, 0.5f))
+            .Append(craftingUi.GetComponent<CanvasGroup>().DOFade(0f, 0.5f))
+            .OnComplete(() => ActivateUiObjects(false));
+        sequence.Play();
+    }
+
     void ActivateUiObjects(bool isActive)
     {
-        Debug.Log("1");
+        Debug.Log("d");
         inventoryUi.SetActive(isActive);
         craftingUi.SetActive(isActive);
     }
 
     void FadeInUiObjects()
     {
-        Debug.Log("0");
-        sequence?.Kill();
-
+        Sequence sequence = DOTween.Sequence();
         sequence
             .Append(craftingUi.GetComponent<CanvasGroup>().DOFade(1f, 0.5f))
             .Append(inventoryUi.GetComponent<CanvasGroup>().DOFade(1f, 0.5f));

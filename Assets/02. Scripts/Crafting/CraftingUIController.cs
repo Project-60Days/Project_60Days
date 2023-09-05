@@ -7,13 +7,13 @@ public class CraftingUiController : ControllerBase
     [SerializeField] Transform slotParent;
     [SerializeField] Sprite[] craftTypeImage;
     [SerializeField] ItemSO itemSO;
+    [SerializeField] GameObject slotPrefab;
 
-    ItemSlot[] slots;
-
-    List<Transform> slotTransforms;
-    List<Image> craftTypeImages;
     List<ItemBase> items;
     List<ItemCombineData> itemCombines;
+
+    Transform firstChild;
+    Transform lastChild;
 
     string[] combinationCodes = new string[9];
 
@@ -27,42 +27,26 @@ public class CraftingUiController : ControllerBase
         return EControllerType.CRAFT;
     }
 
-    void Awake()
-    {
-        slots = slotParent.GetComponentsInChildren<ItemSlot>();
-        slotTransforms = new List<Transform>();
-        craftTypeImages = new List<Image>();
-
-        foreach (Transform child in slotParent)
-        {
-            slotTransforms.Add(child);
-            craftTypeImages.Add(child.GetChild(1).GetComponent<Image>());
-        }
-    }
-
     void Start()
     {
+        items = new List<ItemBase>();
         itemCombines = new List<ItemCombineData>();
 
-        for (int i = 1001; i < 2000; i++)
+        int i = 1001;
+        while(true)
         {
             App.instance.GetDataManager().itemCombineData.TryGetValue(i, out ItemCombineData itemData); //ItemCombineData내의 모든 값 itemComines 리스트에 추가
 
-            if (itemData != null)
-                itemCombines.Add(itemData);
-            else
-                break;
+            if (itemData == null) break;
+
+            itemCombines.Add(itemData);
+            i++;
         }
 
-        for (int i = 0; i < slots.Length; i++) //CraftBag 내의 slot 모두 초기화
-        {
-            slotTransforms[i].gameObject.SetActive(false);
-            slots[i].item = null;
-            slots[i].eSlotType = ESlotType.CraftingSlot;
-            craftTypeImages[i].GetComponent<Image>().sprite = craftTypeImage[0];
-        }
+        InitSlots();
     }
 
+    #region temp
     /// <summary>
     /// 시연회용 임시 함수(맞나?)
     /// </summary>
@@ -83,35 +67,30 @@ public class CraftingUiController : ControllerBase
             UIManager.instance.GetInventoryController().AddItem(itemSO.items[4]);
         }
     }
+    #endregion
+
+    public void InitSlots()
+    {
+        for(int i = 0; i < slotParent.childCount; i++)
+        {
+            Destroy(slotParent.GetChild(i).gameObject);
+        }
+    }
 
     /// <summary>
     /// CraftBag 새로고침(?)
     /// </summary>
     public void FreshCraftingBag()
     {
-        for (int i = 0; i < items.Count + 1; i++)
+        InitSlots();
+
+        for(int i = 0; i < items.Count; i++)
         {
-            slotTransforms[i].gameObject.SetActive(false);
-            slots[i].item = null;
-            slots[i].eSlotType = ESlotType.CraftingSlot;
-            craftTypeImages[i].GetComponent<Image>().sprite = craftTypeImage[0];
+            GameObject obj = Instantiate(slotPrefab, slotParent);
+            obj.GetComponentInChildren<ItemSlot>().item = items[i];
         }
 
-        int j = 0;
-
-        craftTypeImages[j].gameObject.SetActive(false);
-
-        for (; j < items.Count; j++)
-        {
-            slotTransforms[j].gameObject.SetActive(true);
-            slots[j].item = items[j];
-        }
-
-        for (; j < slots.Length; j++)
-        {
-            slotTransforms[j].gameObject.SetActive(false);
-            slots[j].item = null;
-        }
+        SetFirstAndLastSlot();
     }
 
     /// <summary>
@@ -122,29 +101,33 @@ public class CraftingUiController : ControllerBase
     {
         items.Add(_item);
         FreshCraftingBag();
-        CombineItem();
-        
+        CompareToCombineData();
     }
 
+    void SetFirstAndLastSlot()
+    {
+        firstChild = slotParent.GetChild(0);
+        lastChild = slotParent.GetChild(slotParent.childCount - 1);
+        firstChild.GetChild(1).gameObject.SetActive(false);
+    }
     /// <summary>
     /// Exit 버튼 눌렀을 때 인벤토리로 아이템 반환
     /// </summary>
-    public void ReturnItem()
+    public void ExitUi()
     {
         for (int i = 0; i < items.Count; i++)
         {
             UIManager.instance.GetInventoryController().AddItem(items[i]);
-            slotTransforms[i].gameObject.SetActive(false);
-            slots[i].item = null;
         }
 
+        InitSlots();
         items.Clear();
     }
 
     /// <summary>
     /// 조합표 비교
     /// </summary>
-    public void CombineItem()
+    public void CompareToCombineData()
     {
         int flag; // 0: 일치, 1: 불일치
 
@@ -152,15 +135,7 @@ public class CraftingUiController : ControllerBase
         {
             flag = 0;
 
-            combinationCodes[0] = combineData.Material_1;
-            combinationCodes[1] = combineData.Material_2;
-            combinationCodes[2] = combineData.Material_3;
-            combinationCodes[3] = combineData.Material_4;
-            combinationCodes[4] = combineData.Material_5;
-            combinationCodes[5] = combineData.Material_6;
-            combinationCodes[6] = combineData.Material_7;
-            combinationCodes[7] = combineData.Material_8;
-            combinationCodes[8] = combineData.Result;
+            GetCombinationCodes(combineData);
 
             for (int i = 0; i < items.Count; i++)
             {
@@ -177,7 +152,7 @@ public class CraftingUiController : ControllerBase
 
             for (int k = 0; k < 8; k++)
             {
-                if (combinationCodes[k] == "1" || combinationCodes[k] == "-1") continue;
+                if (combinationCodes[k] == "1") continue;
                 else
                 {
                     flag = 1; break;
@@ -186,19 +161,30 @@ public class CraftingUiController : ControllerBase
 
             if (flag == 0)
             {
-                //if (combinationCodes[8] == "ITEM_TIER_2_SIGNALLER" || combinationCodes[8] == "ITEM_TIER_2_RISISTOR") continue;
-                Debug.Log(combinationCodes[8]);
-                ItemBase item = CombineResultItem(combinationCodes[8]);
+                ItemBase item = GetResultItem(combinationCodes[8]);
                 AddCombineItem(item);
                 break;
             }
         }
     }
 
+    void GetCombinationCodes(ItemCombineData combineData)
+    {
+        combinationCodes[0] = combineData.Material_1;
+        combinationCodes[1] = combineData.Material_2;
+        combinationCodes[2] = combineData.Material_3;
+        combinationCodes[3] = combineData.Material_4;
+        combinationCodes[4] = combineData.Material_5;
+        combinationCodes[5] = combineData.Material_6;
+        combinationCodes[6] = combineData.Material_7;
+        combinationCodes[7] = combineData.Material_8;
+        combinationCodes[8] = combineData.Result;
+    }
+
     /// <summary>
     /// 조합 결과 아이템 ItemBase에서 검색 후 리턴
     /// </summary>
-    public ItemBase CombineResultItem(string resultItemCode)
+    public ItemBase GetResultItem(string resultItemCode)
     {
         ItemBase resultItem;
 
@@ -224,11 +210,11 @@ public class CraftingUiController : ControllerBase
     /// <param name="_item"></param>
     public void AddCombineItem(ItemBase _item)
     {
-        int slotIndex = items.Count;
-        slotTransforms[slotIndex].gameObject.SetActive(true);
-        slots[slotIndex].item = _item;
-        craftTypeImages[slotIndex].GetComponent<Image>().sprite = craftTypeImage[1];
-        slots[slotIndex].eSlotType = ESlotType.ResultSlot;
+        GameObject obj = Instantiate(slotPrefab, slotParent);
+        obj.GetComponentInChildren<ItemSlot>().item = _item;
+        obj.GetComponentInChildren<ItemSlot>().eSlotType = ESlotType.ResultSlot;
+        obj.GetComponent<Image>().sprite = craftTypeImage[1];
+        SetFirstAndLastSlot();
     }
 
     /// <summary>
@@ -253,21 +239,17 @@ public class CraftingUiController : ControllerBase
             return false;
     }
 
-    public void CraftToInventory(ItemSlot itemSlot)
+    public void CraftToInventory(ItemBase _item)
     {
-        items.Remove(itemSlot.item);
-        UIManager.instance.GetInventoryController().AddItem(slots[items.Count].item);
+        items.Remove(_item);
         FreshCraftingBag();
-        CombineItem();
+        CompareToCombineData();
     }
 
     public void ResultToInventory()
     {
-        UIManager.instance.GetInventoryController().AddItem(slots[items.Count].item);
-        slotTransforms[items.Count].gameObject.SetActive(false);
-        slots[items.Count].item = null;
+        UIManager.instance.GetInventoryController().AddItem(lastChild.GetComponentInChildren<ItemSlot>().item);
         items.Clear();
-        FreshCraftingBag();
-        CombineItem();
+        InitSlots();
     }
 }

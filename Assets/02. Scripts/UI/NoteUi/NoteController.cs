@@ -73,13 +73,14 @@ public class NoteController : ControllerBase
             isOpen = true;
             ActiveObjects(true);
 
-            EnableAndPlayPage();
+            ActiveAndPlayPage();
 
             if (isNewDay)
                 isNewDay = false;
 
             ChangePageButton();
 
+            App.instance.GetSoundManager().PlaySFX("SFX_Note_Open");
             UIManager.instance.AddCurrUIName(StringUtility.UI_NOTE);
         }
     }
@@ -97,6 +98,7 @@ public class NoteController : ControllerBase
 
             notePages[pageNum].gameObject.SetActive(false);
 
+            App.instance.GetSoundManager().PlaySFX("SFX_Note_Close");
             UIManager.instance.PopCurrUI();
         }
     }
@@ -159,14 +161,14 @@ public class NoteController : ControllerBase
     {
         notePages[pageNum].gameObject.SetActive(false);
         pageNum = index;
-        EnableAndPlayPage();
+        ActiveAndPlayPage();
         ChangePageButton();
     }
 
     /// <summary>
     /// 새로운 페이지 활성화 및 페이지 동작(Yarn 실행)
     /// </summary>
-    void EnableAndPlayPage()
+    void ActiveAndPlayPage()
     {
         notePages[pageNum].gameObject.SetActive(true);
         notePages[pageNum].PlayPageAction();
