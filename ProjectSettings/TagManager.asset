@@ -18,12 +18,12 @@ TagManager:
   - RenderTextureObject
   - InventoryUi
   - CraftingUi
-  - NoteAnim
   - Camera
   - Inventory
   - ItemDiscription
   - GeneratePoint
   - Note
+  - ShelterUi
   layers:
   - Default
   - TransparentFX

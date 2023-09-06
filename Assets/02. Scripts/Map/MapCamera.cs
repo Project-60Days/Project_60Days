@@ -16,7 +16,7 @@ public class MapCamera : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         mapUi = GameObject.FindGameObjectWithTag("MapUi").transform.GetChild(0).gameObject;
         mapCamera.Follow = player.transform;
-        mapCamera.m_Lens.OrthographicSize = 6;
+        mapCamera.m_Lens.OrthographicSize = 6.5f;
     }
 
     public void SetPrioryty(bool isOn)

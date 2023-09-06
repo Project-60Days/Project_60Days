@@ -62,10 +62,10 @@ public class App : Singleton<App>
 
     public InventoryController GetInventoryController()
     {
-        if (!HasController(EControllerType.CRAFT))
+        if (!HasController(EControllerType.INVENTORY))
             return null;
 
-        return dic_controllers[EControllerType.CRAFT] as InventoryController;
+        return dic_controllers[EControllerType.INVENTORY] as InventoryController;
     }
 
     public NoteController GetNoteController()

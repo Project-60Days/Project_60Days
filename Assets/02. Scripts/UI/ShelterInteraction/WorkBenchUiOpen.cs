@@ -66,7 +66,6 @@ public class WorkBenchUiOpen : MonoBehaviour
 
     void ActivateUiObjects(bool isActive)
     {
-        Debug.Log("d");
         inventoryUi.SetActive(isActive);
         craftingUi.SetActive(isActive);
     }
