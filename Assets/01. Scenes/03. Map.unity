@@ -731,7 +731,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapUIController: {fileID: 0}
   mouseState: 0
-  interactable: 0
+  interactable: 1
 --- !u!850595691 &1351128737
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -851,7 +851,7 @@ MonoBehaviour:
   LevelDataToLoad: {fileID: 0}
   saveDataOnScan: 0
   levelNameToSave: Default
-  levelDimensionX: 50
+  levelDimensionX: 60
   levelDimensionY: 50
   unitScale: 0.5
   scanSpacingPerUnit: 0.25

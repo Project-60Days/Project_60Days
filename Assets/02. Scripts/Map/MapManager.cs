@@ -73,10 +73,14 @@ public class MapManager : ManagementBase
 
             mapController.DeselectAllBorderTiles();
 
-            switch (mouseState) 
+            if (!mapController.CheckPlayersView(tileController))
+                return;
+
+            switch (mouseState)
             {
                 case ETileMouseState.CanClick:
                     mapController.DefalutMouseOverState(tileController);
+                    mapUIController.SetActiveTileInfo(false);
                     break;
 
                 case ETileMouseState.CanPlayerMove:
@@ -124,7 +128,7 @@ public class MapManager : ManagementBase
         {
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskPlayer))
             {
-                if(!isDronePrepared)
+                if (!isDronePrepared && !mapUIController.MovePointActivate())
                     isPlayerSelected = mapController.PlayerCanMoveCheck();
             }
             else if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile))
@@ -137,7 +141,15 @@ public class MapManager : ManagementBase
                 }
                 else if (isPlayerSelected)
                 {
-                    mapController.SelectPlayerMovePoint(tileController);
+
+                    if (mapController.SelectPlayerMovePoint(tileController))
+                    {
+                        mapUIController.OnPlayerMovePoint(tileController.transform);
+                        isPlayerSelected = false;
+                    }
+                    else
+                        return;
+
                 }
                 else if (isDronePrepared)
                 {

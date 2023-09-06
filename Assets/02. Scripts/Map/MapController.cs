@@ -28,6 +28,7 @@ public class MapController : Singleton<MapController>
     [SerializeField] MapPrefabSO mapPrefab;
 
     List<TileController> selectedTiles = new List<TileController>();
+    List<TileController> pathTiles = new List<TileController>();
     List<GameObject> zombiesList = new List<GameObject>();
 
     Player player;
@@ -119,7 +120,7 @@ public class MapController : Singleton<MapController>
         }
 
         fogOfWar.transform.position = player.transform.position;
-        csFogWar.instance.InitializeMapControllerObjects(player.gameObject, 5);
+        csFogWar.instance.InitializeMapControllerObjects(player.gameObject, 5.5f);
         DeselectAllBorderTiles();
     }
 
@@ -190,8 +191,6 @@ public class MapController : Singleton<MapController>
         if (tileController != null && !selectedTiles.Contains(tileController))
         {
             SelectBorder(tileController, ETileState.Unable);
-
-            App.instance.GetMapUiController().SetActiveTileInfo(false);
         }
     }
 
@@ -211,6 +210,7 @@ public class MapController : Singleton<MapController>
 
                 GameObject border = (GameObject)GetTileFromCoords(coords).GameEntity;
                 border.GetComponent<Borders>().GetNormalBorder()?.SetActive(true);
+                pathTiles.Add(TileToTileController(GetTileFromCoords(coords)));
                 rangeOfMotion++;
             }
         }
@@ -249,12 +249,16 @@ public class MapController : Singleton<MapController>
             return false;
     }
 
-    public void SelectPlayerMovePoint(TileController tileController)
+    public bool SelectPlayerMovePoint(TileController tileController)
     {
-        if (GetTileBorder(tileController, ETileState.Moveable).activeInHierarchy && player.TileController.Model != tileController.Model)
+        if (tileController.GetComponent<Borders>().GetEtileState() == ETileState.Moveable
+            && player.TileController.Model != tileController.Model)
+        {
             SavePlayerMovePath(tileController);
+            return true;
+        }
         else
-            return;
+            return false;
     }
 
     public void SelectTileForDisturbtor(TileController tileController)
@@ -281,8 +285,6 @@ public class MapController : Singleton<MapController>
         targetTileController = tileController;
 
         player.UpdateMovePath(AStar.FindPath(player.TileController.Model.Coords, tileController.Model.Coords));
-
-        App.instance.GetMapUiController().OnPlayerMovePoint(tileController.transform);
 
         DeselectAllBorderTiles();
         //isPlayerSelected = false;
@@ -438,16 +440,16 @@ public class MapController : Singleton<MapController>
         switch (state)
         {
             case ETileState.None:
-                tileController.GetComponent<Borders>().GetNormalBorder()?.SetActive(true);
+                tileController.GetComponent<Borders>().GetNormalBorder().SetActive(true);
                 break;
             case ETileState.Moveable:
-                tileController.GetComponent<Borders>().GetAvailableBorder()?.SetActive(true);
+                tileController.GetComponent<Borders>().GetAvailableBorder().SetActive(true);
                 break;
             case ETileState.Unable:
-                tileController.GetComponent<Borders>().GetUnAvailableBorder()?.SetActive(true);
+                tileController.GetComponent<Borders>().GetUnAvailableBorder().SetActive(true);
                 break;
             case ETileState.Target:
-                tileController.GetComponent<Borders>().GetDisturbanceBorder()?.SetActive(true);
+                tileController.GetComponent<Borders>().GetDisturbanceBorder().SetActive(true);
                 break;
         }
         selectedTiles.Add(tileController);
@@ -461,19 +463,27 @@ public class MapController : Singleton<MapController>
             selectedTiles.Remove(tileController);
     }
 
+    void ClearTiles(List<TileController> tiles)
+    {
+        for (int i = 0; i < tiles.Count; i++)
+        {
+            TileController tile = tiles[i];
+            DeselectBorder(tile);
+        }
+        tiles.Clear();
+    }
+
     public void DeselectAllBorderTiles()
     {
         if (selectedTiles == null)
             return;
 
-        foreach (var tile in selectedTiles)
-        {
-            if (tile == null)
-                continue;
-            DeselectBorder(tile);
-        }
+        ClearTiles(selectedTiles);
 
-        selectedTiles.Clear();
+        if (pathTiles == null)
+            return;
+
+        ClearTiles(pathTiles);
     }
 
     GameObject GetTileBorder(TileController tileController, ETileState state)
@@ -571,5 +581,21 @@ public class MapController : Singleton<MapController>
             }
         }
         return null;
+    }
+
+    // 시야 바꾸기
+    public bool CheckPlayersView(TileController tileController)
+    {
+        var getTiles = GetTilesInRange(player.TileController.Model, 3);
+
+        if (player.TileController == tileController)
+            return true;
+
+        if (getTiles.Contains(tileController.Model))
+        {
+            return true;
+        }
+        else
+            return false;
     }
 }

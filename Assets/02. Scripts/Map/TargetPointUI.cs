@@ -27,4 +27,9 @@ public class TargetPointUI : MonoBehaviour
         isOn = false;
         gameObject.SetActive(false);
     }
+
+    public bool ActivateStatus()
+    {
+        return isOn;
+    }
 }

@@ -35,6 +35,11 @@ public class MapUiController : ControllerBase
         tileInfoPanel.transform.localPosition = pos;
     }
 
+    public bool GetTileInfoActivate()
+    {
+        return tileInfoPanel.gameObject.activeInHierarchy;
+    }
+
     public void OnPlayerMovePoint(Transform transform)
     {
         targetPoint.OnEffect(transform);
@@ -48,5 +53,10 @@ public class MapUiController : ControllerBase
     public void UpdateText(ETileInfoTMP infoTMP, string text)
     {
         tileInfoPanel.UpdateText(infoTMP, text);
+    }
+
+    public bool MovePointActivate()
+    {
+        return targetPoint.ActivateStatus();
     }
 }
