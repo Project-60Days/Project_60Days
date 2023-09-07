@@ -1,8 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using Yarn.Unity;
-using DG.Tweening;
-using Unity.VisualScripting;
 
 public class NoteController : ControllerBase
 {
