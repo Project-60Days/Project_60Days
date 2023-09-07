@@ -25,9 +25,19 @@ public class MapUiController : ControllerBase
         return tileInfoPanel.gameObject.activeInHierarchy;
     }
 
-    public void SetActiveTileInfo(bool _active)
+    /// <summary>
+    /// 마우스 위치에 따라 타일 인포 패널 다른 위치에 출력
+    /// </summary>
+    public void TrueTileInfo(Vector3 tilePos)
     {
-        tileInfoPanel.gameObject.SetActive(_active);
+        var screenPoint = Camera.main.WorldToScreenPoint(tilePos);
+        tileInfoPanel.transform.position = screenPoint;
+        tileInfoPanel.gameObject.SetActive(true);
+    }
+
+    public void FalseTileInfo()
+    {
+        tileInfoPanel.gameObject.SetActive(false);
     }
 
     public void MoveTileInfo(Vector3 pos)

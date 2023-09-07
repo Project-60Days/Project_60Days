@@ -18,6 +18,7 @@ public class MapManager : ManagementBase
     MapCamera mapCineCamera;
     MapController mapController;
     ResourceManager resourceManager;
+    TileController curTileController;
 
     bool isPlayerSelected;
     bool isDronePrepared;
@@ -80,7 +81,10 @@ public class MapManager : ManagementBase
             {
                 case ETileMouseState.CanClick:
                     mapController.DefalutMouseOverState(tileController);
-                    mapUIController.SetActiveTileInfo(false);
+
+                    if (tileController != curTileController)
+                        mapUIController.FalseTileInfo();
+
                     break;
 
                 case ETileMouseState.CanPlayerMove:
@@ -98,12 +102,14 @@ public class MapManager : ManagementBase
                     }
                     break;
             }
+            curTileController = tileController;
         }
         else
         {
             mapController.DeselectAllBorderTiles();
-            mapUIController.SetActiveTileInfo(false);
+            mapUIController.FalseTileInfo();
         }
+
 
         MouseClickEvents();
     }
@@ -126,6 +132,7 @@ public class MapManager : ManagementBase
 
         if (Input.GetMouseButtonDown(0))
         {
+            
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskPlayer))
             {
                 if (!isDronePrepared && !mapUIController.MovePointActivate())
@@ -137,7 +144,7 @@ public class MapManager : ManagementBase
 
                 if (!isPlayerSelected && !isDronePrepared)
                 {
-                    mapUIController.SetActiveTileInfo(true);
+                    mapUIController.TrueTileInfo(tileController.transform.position);
                 }
                 else if (isPlayerSelected)
                 {

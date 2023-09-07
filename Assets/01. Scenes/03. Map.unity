@@ -267,7 +267,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 70614907}
-  m_LocalRotation: {x: 0.3535534, y: -0.61237246, z: 0.3535534, w: 0.61237246}
+  m_LocalRotation: {x: 0.4662279, y: -0.53163105, z: 0.4662279, w: 0.53163105}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -275,7 +275,7 @@ Transform:
   - {fileID: 1905312115}
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 60, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 82.5, y: -90, z: 0}
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -619,7 +619,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 50
-  orthographic: 0
+  orthographic: 1
   orthographic size: 20
   m_Depth: 0
   m_CullingMask:
@@ -643,7 +643,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 991915579}
-  m_LocalRotation: {x: 0.3535534, y: -0.61237246, z: 0.3535534, w: 0.61237246}
+  m_LocalRotation: {x: 0.4662279, y: -0.53163105, z: 0.4662279, w: 0.53163105}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -853,8 +853,8 @@ MonoBehaviour:
   levelNameToSave: Default
   levelDimensionX: 60
   levelDimensionY: 50
-  unitScale: 0.5
-  scanSpacingPerUnit: 0.25
+  unitScale: 0.825
+  scanSpacingPerUnit: 10
   rayStartHeight: 5
   rayMaxDistance: 10
   obstacleLayers:
