@@ -8,8 +8,8 @@ using TMPro;
 
 public class TitleLoad : MonoBehaviour
 {
-    [Header("Settings")]
-    [SerializeField] GameObject rawImage;
+    [Header("Loading Objects")]
+    [SerializeField] GameObject loadingVideo;
     VideoPlayer videoPlayer;
 
     [SerializeField] TextMeshProUGUI leftLogField;
@@ -18,36 +18,32 @@ public class TitleLoad : MonoBehaviour
     string rightFileText;
 
     [SerializeField] ScrollRect scrollRect;
-    [SerializeField] RectTransform contentRect;
 
     [SerializeField] float leftLogShowInterval;
     [SerializeField] float rightLogShowInterval;
 
-    [Header("Objects")]
+    [Header("Title Objects")]
     [SerializeField] GameObject titleText;
     [SerializeField] GameObject titleImage;
 
     [SerializeField] GameObject buttonText;
     [SerializeField] GameObject buttonBack;
 
-    [SerializeField] GameObject optionPanel;
-    [SerializeField] GameObject soundPanel;
-
     private string[] lines;
+
+
+
+
 
     void Start()
     {
+        Init();
+    }
+
+    void Init()
+    {
         videoPlayer = GetComponent<VideoPlayer>();
         videoPlayer.loopPointReached += OnVideoEnd;
-
-        leftLogField.gameObject.SetActive(false);
-        rightLogField.gameObject.SetActive(false);
-        titleText.SetActive(false);
-        titleImage.SetActive(false);
-        buttonText.SetActive(false);
-        buttonBack.SetActive(false);
-        optionPanel.SetActive(false);
-        soundPanel.SetActive(false);
 
         string leftfilePath = "Assets/Text/Tittle_Log_LeftAccess.txt";
         leftFileText = AssetDatabase.LoadAssetAtPath<TextAsset>(leftfilePath).text;
@@ -57,8 +53,20 @@ public class TitleLoad : MonoBehaviour
 
         lines = rightFileText.Split('\n');
 
-        
+        InitActive();
     }
+
+    void InitActive()
+    {
+        titleText.SetActive(false);
+        titleImage.SetActive(false);
+        buttonText.SetActive(false);
+        buttonBack.SetActive(false);
+    }
+
+
+
+
 
     /// <summary>
     /// 비디오 재생이 끝났을 때 비활성화하는 함수
@@ -66,17 +74,20 @@ public class TitleLoad : MonoBehaviour
     /// <param name="vp"></param>
     void OnVideoEnd(VideoPlayer vp)
     {
-        rawImage.SetActive(false);
+        loadingVideo.SetActive(false);
         StartCoroutine(LeftLog());
     }
     
+
+
+
+
     /// <summary>
     /// 좌측상단 로그 재생
     /// </summary>
     /// <returns></returns>
     IEnumerator LeftLog()
     {
-        leftLogField.gameObject.SetActive(true);
         int currentIndex = 0;
         leftLogField.text = "";
 
@@ -102,7 +113,6 @@ public class TitleLoad : MonoBehaviour
     /// <returns></returns>
     IEnumerator RightLog()
     {
-        rightLogField.gameObject.SetActive(true);
         int currentIndex = 0; 
         rightLogField.text = ""; 
 
@@ -120,6 +130,10 @@ public class TitleLoad : MonoBehaviour
 
         StartCoroutine(Title());
     }
+
+
+
+
 
     /// <summary>
     /// 타이틀 재생

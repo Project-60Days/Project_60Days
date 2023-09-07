@@ -2262,19 +2262,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5fbb327238d79747933f8bcfe3fb89b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rawImage: {fileID: 1221569147}
+  loadingVideo: {fileID: 1221569147}
   leftLogField: {fileID: 1027408797}
   rightLogField: {fileID: 1069463923}
   scrollRect: {fileID: 754211149}
-  contentRect: {fileID: 1782671770}
   leftLogShowInterval: 0.01
   rightLogShowInterval: 0.1
   titleText: {fileID: 226033570}
   titleImage: {fileID: 1653897647}
   buttonText: {fileID: 2025397811}
   buttonBack: {fileID: 2012358814}
-  optionPanel: {fileID: 1439562842}
-  soundPanel: {fileID: 1281276776}
 --- !u!1 &1027345988
 GameObject:
   m_ObjectHideFlags: 0
@@ -2466,7 +2463,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: new text
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c87a1169d8532814591c34bc7fdd9961, type: 2}
   m_sharedMaterial: {fileID: 905333173488943863, guid: c87a1169d8532814591c34bc7fdd9961, type: 2}
@@ -2764,17 +2761,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '1
-
-    2
-
-    3
-
-    4
-
-    5
-
-    6'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c87a1169d8532814591c34bc7fdd9961, type: 2}
   m_sharedMaterial: {fileID: 905333173488943863, guid: c87a1169d8532814591c34bc7fdd9961, type: 2}
@@ -5016,6 +5003,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapUIController: {fileID: 0}
   mouseState: 0
+  interactable: 0
 --- !u!1 &1900904276
 GameObject:
   m_ObjectHideFlags: 0

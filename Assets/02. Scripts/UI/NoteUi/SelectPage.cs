@@ -10,7 +10,7 @@ public class SelectPage : NotePage
     [SerializeField] VerticalLayoutGroup content;
     [SerializeField] VerticalLayoutGroup lineView;
 
-    bool isNeedToday = true;
+    bool isNeedToday = true; //임시로 true를 default로 설정
     string nodeName;
 
     public override ENotePageType GetENotePageType()
@@ -20,10 +20,7 @@ public class SelectPage : NotePage
 
     public override void PlayPageAction()
     {
-        //int dayCount = UIManager.instance.GetNoteController().GetDayCount();
-        //string nodeName = "Day" + dayCount;
-
-        nodeName = "Select";
+        nodeName = "Select"; //임시로 노드 이름 설정
 
         if (!dialogueRunner.IsDialogueRunning)
         {
