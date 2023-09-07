@@ -226,6 +226,14 @@ public class TileInfo : MonoBehaviour
         return list;
     }
 
+    public bool CheckResources()
+    {
+        if (appearanceResources != null)
+            return true;
+        else
+            return false;
+    }
+
     void CheckPlayerTIle(Tile tile)
     {
         if (MapController.instance.GetTilesInRange(tile, 3).Contains(myTile) || myTile == tile)

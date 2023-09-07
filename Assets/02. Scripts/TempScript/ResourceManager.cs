@@ -13,13 +13,7 @@ public class ResourceManager : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(GetInventoryPage());
         owendResources = new List<Resource>();
-    }
-
-    IEnumerator GetInventoryPage()
-    {
-        yield return new WaitForEndOfFrame();
     }
 
     private void Update()
@@ -55,12 +49,14 @@ public class ResourceManager : MonoBehaviour
 
                     var itemName = itemSO.items.ToList().Find(x => x.itemCode == resource.itemCode).data.Korean;
 
+                    PlaySFX(itemName);
                     Debug.LogFormat("{0} ÀÚ¿ø, {1}°³ È¹µæ!", itemName, list[i].itemCount);
                 }
                 else
                 {
                     owendResources.Add(list[i]);
                     var itemName = itemSO.items.ToList().Find(x => x.itemCode == owendResources[owendResources.Count - 1].itemCode).data.Korean;
+                    PlaySFX(itemName);
                     Debug.LogFormat(itemName + " ÀÚ¿ø {0}°³ Ãß°¡", owendResources[owendResources.Count - 1].itemCount);
                 }
             }
@@ -75,5 +71,24 @@ public class ResourceManager : MonoBehaviour
                 UIManager.instance.GetInventoryController().AddItem(item);
             }
         }
+    }
+
+    public void PlaySFX(string str)
+    {
+        App.instance.GetSoundManager().PlaySFX("SFX_Metal_Acquisition");
+        /*        switch (str)
+                {
+                    case "°­Ã¶":
+                        App.instance.GetSoundManager().PlaySFX("SFX_Metal_Acquisition");
+                        break;
+                    default:
+                        App.instance.GetSoundManager().PlaySFX("SFX_Plasma_Acquisition");
+                        break;
+                }*/
+    }
+
+    public bool CheckResource(TileController tileController)
+    {
+        return tileController.GetComponent<TileInfo>().CheckResources();
     }
 }

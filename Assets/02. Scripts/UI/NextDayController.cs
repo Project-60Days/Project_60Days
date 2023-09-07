@@ -116,6 +116,7 @@ public class NextDayController : ControllerBase
     /// </summary>
     public void NextDayEvent()
     {
+        StartCoroutine(App.instance.GetMapManager().NextDayCoroutine());
         blackPanel.gameObject.SetActive(true);
         Sequence sequence = DOTween.Sequence();
         sequence.Append(blackPanel.DOFade(1f, 0.5f)).SetEase(Ease.InQuint)
