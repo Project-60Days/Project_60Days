@@ -1,4 +1,6 @@
+using Cinemachine;
 using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -18,9 +20,9 @@ public class NextDayController : ControllerBase
     [SerializeField] GameObject resultAlarm;
     [SerializeField] GameObject cautionAlarm;
 
+    CanvasGroup shelterUi;
 
-
-
+    CinemachineVirtualCamera mapCamera; //임시
 
     public override EControllerType GetControllerType()
     {
@@ -37,6 +39,11 @@ public class NextDayController : ControllerBase
         pages = GameObject.Find("Page_Back").GetComponentsInChildren<NotePage>(includeInactive: true);
     }
 
+    void Start()
+    {
+        shelterUi = GameObject.FindGameObjectWithTag("ShelterUi").GetComponent<CanvasGroup>();
+        mapCamera = GameObject.FindGameObjectWithTag("MapCamera").GetComponent<CinemachineVirtualCamera>();//임시
+    }
 
 
 
@@ -113,6 +120,7 @@ public class NextDayController : ControllerBase
         Sequence sequence = DOTween.Sequence();
         sequence.Append(blackPanel.DOFade(1f, 0.5f)).SetEase(Ease.InQuint)
             .AppendInterval(0.5f)
+            .Append(shelterUi.DOFade(1f, 0f))
             .OnComplete(() => NextDayEventCallBack());
         sequence.Play();
     }
@@ -131,7 +139,29 @@ public class NextDayController : ControllerBase
     }
 
 
+    public void BackToShelter() //임시..........
+    {
+        Sequence sequence = DOTween.Sequence();
+        sequence
+            .Append(shelterUi.DOFade(1f, 0.5f));
+        sequence.Play();
+    }
 
+    public void ZoomOutMap() //임시.........................
+    {
+        StartCoroutine("OrthoAnim");
+    }
+
+    IEnumerator OrthoAnim() //임시..................................
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            yield return new WaitForSeconds(0.05f);
+            mapCamera.m_Lens.OrthographicSize += 0.05f;
+        }
+        App.instance.GetMapManager().SetMapCameraPriority(false);
+        BackToShelter();
+    }
 
 
     #region PageSetting
