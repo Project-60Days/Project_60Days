@@ -18,6 +18,7 @@ public class MapManager : ManagementBase
     MapCamera mapCineCamera;
     MapController mapController;
     ResourceManager resourceManager;
+    TileController curTileController;
 
     bool isPlayerSelected;
     bool isDronePrepared;
@@ -73,10 +74,17 @@ public class MapManager : ManagementBase
 
             mapController.DeselectAllBorderTiles();
 
-            switch (mouseState) 
+            if (!mapController.CheckPlayersView(tileController))
+                return;
+
+            switch (mouseState)
             {
                 case ETileMouseState.CanClick:
                     mapController.DefalutMouseOverState(tileController);
+
+                    if (tileController != curTileController)
+                        mapUIController.FalseTileInfo();
+
                     break;
 
                 case ETileMouseState.CanPlayerMove:
@@ -94,12 +102,14 @@ public class MapManager : ManagementBase
                     }
                     break;
             }
+            curTileController = tileController;
         }
         else
         {
             mapController.DeselectAllBorderTiles();
-            mapUIController.SetActiveTileInfo(false);
+            mapUIController.FalseTileInfo();
         }
+
 
         MouseClickEvents();
     }
@@ -122,9 +132,10 @@ public class MapManager : ManagementBase
 
         if (Input.GetMouseButtonDown(0))
         {
+            
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskPlayer))
             {
-                if(!isDronePrepared)
+                if (!isDronePrepared && !mapUIController.MovePointActivate())
                     isPlayerSelected = mapController.PlayerCanMoveCheck();
             }
             else if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile))
@@ -133,11 +144,19 @@ public class MapManager : ManagementBase
 
                 if (!isPlayerSelected && !isDronePrepared)
                 {
-                    mapUIController.SetActiveTileInfo(true);
+                    mapUIController.TrueTileInfo(tileController.transform.position);
                 }
                 else if (isPlayerSelected)
                 {
-                    mapController.SelectPlayerMovePoint(tileController);
+
+                    if (mapController.SelectPlayerMovePoint(tileController))
+                    {
+                        mapUIController.OnPlayerMovePoint(tileController.transform);
+                        isPlayerSelected = false;
+                    }
+                    else
+                        return;
+
                 }
                 else if (isDronePrepared)
                 {

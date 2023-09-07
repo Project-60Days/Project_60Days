@@ -139,7 +139,7 @@ namespace FischlWorks_FogWar
         [System.Serializable]
         public class FogRevealer
         {
-            public FogRevealer(Transform revealerTransform, int sightRange, bool updateOnlyOnMove)
+            public FogRevealer(Transform revealerTransform, float sightRange, bool updateOnlyOnMove)
             {
                 this.revealerTransform = revealerTransform;
                 this.sightRange = sightRange;
@@ -162,8 +162,8 @@ namespace FischlWorks_FogWar
             public Transform _RevealerTransform => revealerTransform;
 
             [SerializeField]
-            public int sightRange = 0;
-            public int _SightRange => sightRange;
+            public float sightRange = 0;
+            public float _SightRange => sightRange;
 
             [SerializeField]
             private bool updateOnlyOnMove = true;
@@ -191,7 +191,7 @@ namespace FischlWorks_FogWar
         private List<FogRevealer> fogRevealers = null;
         public List<FogRevealer> _FogRevealers => fogRevealers;
         [SerializeField]
-        private Transform levelMidPoint = null;
+        public Transform levelMidPoint = null;
         public Transform _LevelMidPoint => levelMidPoint;
         [SerializeField]
         [Range(1, 30)]
@@ -465,7 +465,7 @@ namespace FischlWorks_FogWar
 
                 shadowcaster.ProcessLevelData(
                     fogRevealer._CurrentLevelCoordinates,
-                    Mathf.RoundToInt(fogRevealer._SightRange / unitScale));
+                    fogRevealer._SightRange / unitScale);
             }
 
             UpdateFogPlaneTextureTarget();
@@ -595,7 +595,7 @@ namespace FischlWorks_FogWar
             Debug.LogFormat("Successfully loaded level scan data with the name of \"{0}\"", LevelDataToLoad.name);
         }
 
-        public void InitializeMapControllerObjects(GameObject player, int sightRange)
+        public void InitializeMapControllerObjects(GameObject player, float sightRange)
         {
             fogRevealers.Add(new FogRevealer(player.transform, sightRange, true));
         }
