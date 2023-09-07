@@ -48,8 +48,8 @@ public class SelectController : ControllerBase
         {
             OpenSelectPanel();
 
-            selectBase.GetOptionA(buttonA);
-            selectBase.GetOptionB(buttonB);
+            selectBase.SetOptionA(buttonA);
+            selectBase.SetOptionB(buttonB);
 
             buttonA.onClick.RemoveAllListeners();
             buttonB.onClick.RemoveAllListeners();
