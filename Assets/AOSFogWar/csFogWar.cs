@@ -191,7 +191,7 @@ namespace FischlWorks_FogWar
         private List<FogRevealer> fogRevealers = null;
         public List<FogRevealer> _FogRevealers => fogRevealers;
         [SerializeField]
-        private Transform levelMidPoint = null;
+        public Transform levelMidPoint = null;
         public Transform _LevelMidPoint => levelMidPoint;
         [SerializeField]
         [Range(1, 30)]
@@ -465,7 +465,7 @@ namespace FischlWorks_FogWar
 
                 shadowcaster.ProcessLevelData(
                     fogRevealer._CurrentLevelCoordinates,
-                    Mathf.RoundToInt(fogRevealer._SightRange / unitScale));
+                    fogRevealer._SightRange / unitScale);
             }
 
             UpdateFogPlaneTextureTarget();

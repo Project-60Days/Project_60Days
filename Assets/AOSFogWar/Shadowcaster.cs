@@ -232,7 +232,7 @@ namespace FischlWorks_FogWar
 
         private class ColumnIterator
         {
-            public ColumnIterator(int depth, int maxDepth, float startSlope, float endSlope)
+            public ColumnIterator(int depth, float maxDepth, float startSlope, float endSlope)
             {
                 this.depth = depth;
                 this.maxDepth = maxDepth;
@@ -275,7 +275,7 @@ namespace FischlWorks_FogWar
 
             // In my implementaion, we consider the depth as the x axis of the eastern quadrant
             public int depth { get; private set; } = 0;
-            public int maxDepth { get; private set; } = 0;
+            public float maxDepth { get; private set; } = 0;
 
             // The variable startSlope is the 'lower' one, and the endSlope is the 'higher' one
             public float startSlope { get; set; } = 0;
@@ -320,7 +320,7 @@ namespace FischlWorks_FogWar
 
 
         /// Processes the level data with shadowcasting algorithm, and updates the FogField object accordingly
-        public void ProcessLevelData(Vector2Int revealerPoint, int sightRange)
+        public void ProcessLevelData(Vector2Int revealerPoint, float sightRange)
         {
             // Reveal the first tile where the revealer is at
             RevealTile(fogWar.WorldToLevel(fogWar.GetWorldVector(revealerPoint)));
@@ -402,7 +402,7 @@ namespace FischlWorks_FogWar
 
 
 
-        private void RevealTileIteratively(Vector2Int quadrantPoint, int sightRange)
+        private void RevealTileIteratively(Vector2Int quadrantPoint, float sightRange)
         {
             Vector2Int levelCoordinates = quadrantIterator.QuadrantToLevel(quadrantPoint);
 

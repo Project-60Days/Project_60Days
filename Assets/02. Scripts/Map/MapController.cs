@@ -120,7 +120,8 @@ public class MapController : Singleton<MapController>
         }
 
         fogOfWar.transform.position = player.transform.position;
-        csFogWar.instance.InitializeMapControllerObjects(player.gameObject, 5.5f);
+        csFogWar.instance.levelMidPoint = player.transform;
+        csFogWar.instance.InitializeMapControllerObjects(player.gameObject, 4.4f);
         DeselectAllBorderTiles();
     }
 
