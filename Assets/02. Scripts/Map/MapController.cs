@@ -113,15 +113,17 @@ public class MapController : Singleton<MapController>
             App.instance.GetDataManager().gameData.TryGetValue("Data_MinCount_ZombieObject", out GameData min);
             App.instance.GetDataManager().gameData.TryGetValue("Data_MaxCount_ZombieObject", out GameData max);
             SpawnZombies((int)UnityEngine.Random.Range(min.value, max.value));
+            SpawnTestZombie();
         }
         else
         {
             SpawnZombies((int)UnityEngine.Random.Range(0, 30));
+            SpawnTestZombie();
         }
 
         fogOfWar.transform.position = player.transform.position;
         csFogWar.instance.levelMidPoint = player.transform;
-        csFogWar.instance.InitializeMapControllerObjects(player.gameObject, 4.4f);
+        csFogWar.instance.InitializeMapControllerObjects(player.gameObject, 4.5f);
         DeselectAllBorderTiles();
     }
 
@@ -136,6 +138,13 @@ public class MapController : Singleton<MapController>
 
         player.UpdateCurrentTile(TileToTileController(hexaMap.Map.GetTileFromCoords(new Coords(0, 0))));
         targetTileController = player.TileController;
+        StartCoroutine(FloatingAnimation());
+    }
+
+    IEnumerator FloatingAnimation()
+    {
+        yield return new WaitUntil(() => player != null);
+        player.StartFloatingAnimation();
     }
 
     void SpawnZombies(int zombiesNumber)
@@ -171,9 +180,9 @@ public class MapController : Singleton<MapController>
         }
     }
 
-    public void SpawnTutorialZombie()
+    public void SpawnTestZombie()
     {
-        var tile = GetTileFromCoords(new Coords(0, -3));
+        var tile = GetTileFromCoords(new Coords(0, -1));
 
         var spawnPos = ((GameObject)tile.GameEntity).transform.position;
         spawnPos.y += 0.7f;
@@ -598,5 +607,21 @@ public class MapController : Singleton<MapController>
         }
         else
             return false;
+    }
+
+    public bool CheckZombies()
+    {
+        var playerNearthTiles = GetTilesInRange(player.TileController.Model, 1);
+
+        for (int i = 0; i < zombiesList.Count; i++)
+        {
+            GameObject item = zombiesList[i];
+            if (playerNearthTiles.Contains(item.GetComponent<ZombieSwarm>().curTile))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

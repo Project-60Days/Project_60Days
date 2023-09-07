@@ -105,7 +105,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
     private void SpawnTutorialGlicher()
     {
-        MapController.instance.SpawnTutorialZombie();
+        MapController.instance.SpawnTestZombie();
     }
 
     private void MapNextDay()

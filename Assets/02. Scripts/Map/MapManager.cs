@@ -14,6 +14,10 @@ public enum ETileMouseState
 
 public class MapManager : ManagementBase
 {
+    public MapUiController mapUIController;
+    public ETileMouseState mouseState;
+    public bool mouseIntreractable;
+
     Camera mainCamera;
     MapCamera mapCineCamera;
     MapController mapController;
@@ -23,11 +27,6 @@ public class MapManager : ManagementBase
     bool isPlayerSelected;
     bool isDronePrepared;
     bool isDisturbtor;
-
-    public MapUiController mapUIController;
-    public ETileMouseState mouseState;
-    public bool interactable;
-
 
     void Update()
     {
@@ -49,6 +48,7 @@ public class MapManager : ManagementBase
         yield return new WaitUntil(() => mapController != null);
         mapController.GenerateMap();
         mapCineCamera = GameObject.FindGameObjectWithTag("MapCamera").GetComponent<MapCamera>();
+        resourceManager = GameObject.FindGameObjectWithTag("Resource").GetComponent<ResourceManager>();
         StartCoroutine(mapCineCamera.GetMapInfo());
     }
 
@@ -119,10 +119,10 @@ public class MapManager : ManagementBase
     /// </summary>
     void MouseClickEvents()
     {
-        if (EventSystem.current.IsPointerOverGameObject())
-        {
-            return;
-        }
+        /*        if (EventSystem.current.IsPointerOverGameObject())
+                {
+                    return;
+                }*/
 
         RaycastHit hit;
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
@@ -132,7 +132,7 @@ public class MapManager : ManagementBase
 
         if (Input.GetMouseButtonDown(0))
         {
-            
+
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskPlayer))
             {
                 if (!isDronePrepared && !mapUIController.MovePointActivate())
@@ -203,7 +203,7 @@ public class MapManager : ManagementBase
     /// </summary>
     void SetETileMoveState()
     {
-        if (!interactable)
+        if (!mouseIntreractable)
             mouseState = ETileMouseState.Nothing;
 
         else if (!isPlayerSelected && !isDronePrepared)
@@ -216,11 +216,13 @@ public class MapManager : ManagementBase
             mouseState = ETileMouseState.DronePrepared;
     }
 
-    IEnumerator NextDayCoroutine()
+    public IEnumerator NextDayCoroutine()
     {
         yield return StartCoroutine(mapController.NextDay());
         resourceManager.GetResource(mapController.Player.TileController);
-        mapUIController.OffPlayerMovePoint();
+
+        if (mapUIController.MovePointActivate())
+            mapUIController.OffPlayerMovePoint();
     }
 
     /// <summary>
@@ -242,7 +244,7 @@ public class MapManager : ManagementBase
         isDronePrepared = false;
         isDisturbtor = false;
 
-        interactable = isAllow;
+        mouseIntreractable = isAllow;
     }
 
     public void OnTargetPointUI()
@@ -258,5 +260,26 @@ public class MapManager : ManagementBase
     public void SetMapCameraPriority(bool _set)
     {
         mapCineCamera.SetPrioryty(_set);
+    }
+
+    // 처음 생성 시 검사, 이후 NextDay 함수 끝나면 검사.
+    public void CheckResource()
+    {
+        if (resourceManager.CheckResource(mapController.Player.TileController))
+        {
+            // New 알림 온
+        }
+        else
+            return;
+    }
+
+    public void CheckZombies()
+    {
+        if (mapController.CheckZombies())
+        {
+            // 경고 알림 온
+        }
+        else
+            return;
     }
 }

@@ -24,6 +24,7 @@ TagManager:
   - GeneratePoint
   - Note
   - ShelterUi
+  - Resource
   layers:
   - Default
   - TransparentFX

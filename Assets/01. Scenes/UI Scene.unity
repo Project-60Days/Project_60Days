@@ -10057,7 +10057,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -22861,7 +22861,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   disturbtorButton: {fileID: 378457520}
   explorerButton: {fileID: 783848024}
-  targetPoint: {fileID: 0}
+  targetPoint: {fileID: 975941562}
   tileInfoPanel: {fileID: 281437198}
 --- !u!1 &1829595855
 GameObject:
@@ -25187,14 +25187,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b2d9000056b5974d8a9753ae96d0509, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotParent: {fileID: 169238922}
-  craftTypeImage:
-  - {fileID: 21300000, guid: 363859dded875da46935b9afa0503363, type: 3}
-  - {fileID: 21300000, guid: d32e6fe0c95a4d44c94bdda18fd01c24, type: 3}
-  - {fileID: 21300000, guid: dcf8f64dd8f731342b3857fb01a38a5b, type: 3}
-  itemSO: {fileID: 11400000, guid: 9fbd54ca786ce174891a63e9312d8ea6, type: 2}
-  slotPrefab: {fileID: 411417707709324595, guid: f426bbc5f32299949a25ba1ac4d203f4, type: 3}
-  tempItem: {fileID: 11400000, guid: 2a85c175061996a48825efdfa53582a7, type: 2}
 --- !u!225 &2078442789
 CanvasGroup:
   m_ObjectHideFlags: 0

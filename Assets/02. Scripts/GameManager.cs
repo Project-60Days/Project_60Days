@@ -70,6 +70,7 @@ public class GameManager : Singleton<GameManager>
         SceneLoader.instance.LoadSceneAddtive((int)ESceneType.UI);
         SceneLoader.instance.LoadSceneAddtive((int)ESceneType.Map);
         App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
+        App.instance.GetMapManager().AllowMouseEvent(true);
     }
 
     public void Settings()

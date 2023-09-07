@@ -14,7 +14,6 @@ public class MapInteraction : MonoBehaviour, IPointerClickHandler
 
     void Start() //юс╫ц..
     {
-        App.instance.GetMapManager().GetAdditiveSceneObjectsCoroutine();
         mapCamera = GameObject.FindGameObjectWithTag("MapCamera").GetComponent<CinemachineVirtualCamera>();
         transposer = mapCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
     }
