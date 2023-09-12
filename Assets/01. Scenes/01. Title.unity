@@ -2265,7 +2265,7 @@ MonoBehaviour:
   loadingVideo: {fileID: 1221569147}
   leftLogField: {fileID: 1027408797}
   rightLogField: {fileID: 1069463923}
-  scrollRect: {fileID: 754211149}
+  rightLogScrollRect: {fileID: 754211149}
   leftLogShowInterval: 0.01
   rightLogShowInterval: 0.1
   titleText: {fileID: 226033570}
@@ -2867,10 +2867,10 @@ RectTransform:
   m_Father: {fileID: 1782671770}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 355.7433, y: 0}
+  m_SizeDelta: {x: 711.4866, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &1076115634
 GameObject:
@@ -5003,7 +5003,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapUIController: {fileID: 0}
   mouseState: 0
-  interactable: 0
+  mouseIntreractable: 0
 --- !u!1 &1900904276
 GameObject:
   m_ObjectHideFlags: 0

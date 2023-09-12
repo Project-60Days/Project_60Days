@@ -12,10 +12,11 @@ public class MapInteraction : MonoBehaviour, IPointerClickHandler
     CinemachineFramingTransposer transposer;
     public UnityEvent onClickEvent;
 
-    void Start() //юс╫ц..
+    void Start() 
     {
         mapCamera = GameObject.FindGameObjectWithTag("MapCamera").GetComponent<CinemachineVirtualCamera>();
         transposer = mapCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+        transposer.m_CameraDistance = 15f;
     }
 
     /// <summary>
@@ -39,16 +40,6 @@ public class MapInteraction : MonoBehaviour, IPointerClickHandler
     void ZoomInMap()
     {
         App.instance.GetMapManager().SetMapCameraPriority(true);
-        //DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, targetDistance, duration);
-        //StartCoroutine("OrthoAnim");
-    }
-
-    IEnumerator OrthoAnim()
-    {
-        for(int i = 0; i < 10; i++)
-        {
-            yield return new WaitForSeconds(0.05f);
-            transposer.m_CameraDistance -= 0.05f;
-        }
+        DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 10f, 0.5f);
     }
 }

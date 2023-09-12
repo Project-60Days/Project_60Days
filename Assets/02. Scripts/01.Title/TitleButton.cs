@@ -20,20 +20,24 @@ public class TitleButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     void Start()
     {
+        Init();
+        SetButtonNormal();
+    }
+
+    void Init()
+    {
         buttonText = GetComponentInChildren<Text>();
         buttonImage = GetComponentInChildren<Image>();
 
         optionPanel.SetActive(false);
         soundPanel.SetActive(false);
-
-        SetButtonNomal();
     }
 
 
 
 
 
-    void SetButtonNomal()
+    void SetButtonNormal()
     {
         buttonText.color = normalTextColor;
         buttonImage.enabled = false;
@@ -56,7 +60,7 @@ public class TitleButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        SetButtonNomal();
+        SetButtonNormal();
     }
 
 

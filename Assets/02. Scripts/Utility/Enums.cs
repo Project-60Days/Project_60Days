@@ -46,6 +46,14 @@ public enum EAlarmType
     Result,
     Caution
 }
+
+public enum ECraftModeType
+{
+    Craft,
+    Equip,
+    Blueprint
+}
+
 #region Character
 
 public enum EHungerType
@@ -93,20 +101,6 @@ public enum EPartsType
 #endregion
 
 #region HexTile
-
-public enum TerrainType 
-{ 
-    Grassland, 
-    Machine, 
-    Desert, 
-    Water 
-};
-public enum TileHeight 
-{ 
-    Flat, 
-    Uphill, 
-    Downhill 
-};
 
 public enum ETileType
 {

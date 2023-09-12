@@ -15,9 +15,13 @@ public class WorkBenchUiOpen : MonoBehaviour
         inventoryUi.GetComponent<CanvasGroup>().alpha = 0.0f;
         craftingUi.GetComponent<CanvasGroup>().alpha = 0.0f;
 
-        
-
         ActivateUiObjects(false);
+    }
+
+    void ActivateUiObjects(bool isActive)
+    {
+        inventoryUi.SetActive(isActive);
+        craftingUi.SetActive(isActive);
     }
 
     void OnEnable()
@@ -53,6 +57,15 @@ public class WorkBenchUiOpen : MonoBehaviour
         FadeInUiObjects();
     }
 
+    void FadeInUiObjects()
+    {
+        Sequence sequence = DOTween.Sequence();
+        sequence
+            .Append(craftingUi.GetComponent<CanvasGroup>().DOFade(1f, 0.5f))
+            .Append(inventoryUi.GetComponent<CanvasGroup>().DOFade(1f, 0.5f));
+        sequence.Play();
+    }
+
     public void UiCloseEvent()
     {
         Sequence sequence = DOTween.Sequence();
@@ -64,23 +77,9 @@ public class WorkBenchUiOpen : MonoBehaviour
         sequence.Play();
     }
 
-    void ActivateUiObjects(bool isActive)
-    {
-        inventoryUi.SetActive(isActive);
-        craftingUi.SetActive(isActive);
-    }
-
-    void FadeInUiObjects()
-    {
-        Sequence sequence = DOTween.Sequence();
-        sequence
-            .Append(craftingUi.GetComponent<CanvasGroup>().DOFade(1f, 0.5f))
-            .Append(inventoryUi.GetComponent<CanvasGroup>().DOFade(1f, 0.5f));
-        sequence.Play();
-    }
-
     public void Temp() //테스트용 버튼에 쓰일 임시 함수
     {
+        UIManager.instance.AddCurrUIName(StringUtility.UI_CRAFTING);
         ActivateUiObjects(true);
         FadeInUiObjects();
     }
