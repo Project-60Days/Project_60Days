@@ -22,8 +22,8 @@ public class NextDayController : ControllerBase
 
     CanvasGroup shelterUi;
 
-    CinemachineVirtualCamera mapCamera; //임시
-    CinemachineFramingTransposer transposer; //임시
+    CinemachineVirtualCamera mapCamera;
+    CinemachineFramingTransposer transposer;
 
     public override EControllerType GetControllerType()
     {
@@ -43,7 +43,8 @@ public class NextDayController : ControllerBase
     void Start()
     {
         shelterUi = GameObject.FindGameObjectWithTag("ShelterUi").GetComponent<CanvasGroup>();
-        mapCamera = GameObject.FindGameObjectWithTag("MapCamera").GetComponent<CinemachineVirtualCamera>();//임시
+        mapCamera = GameObject.FindGameObjectWithTag("MapCamera").GetComponent<CinemachineVirtualCamera>();
+        transposer = mapCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
     }
 
 
@@ -134,22 +135,13 @@ public class NextDayController : ControllerBase
     {
         Init();
         App.instance.GetMapManager().SetMapCameraPriority(false);
-
+        transposer.m_CameraDistance = 15f;
         UIManager.instance.GetNoteController().SetNextDay();
         App.instance.GetMapManager().AllowMouseEvent(true);
         MapController.instance.NextDay();
     }
 
-
-    public void BackToShelter() //임시..........
-    {
-        Sequence sequence = DOTween.Sequence();
-        sequence
-            .Append(shelterUi.DOFade(1f, 0.5f));
-        sequence.Play();
-    }
-
-    public void ZoomOutMap() //임시.........................
+    public void ZoomOutMap()
     {
         Sequence sequence = DOTween.Sequence();
         sequence
@@ -157,8 +149,8 @@ public class NextDayController : ControllerBase
             .OnComplete(() =>
             {
                 App.instance.GetMapManager().SetMapCameraPriority(false);
-                BackToShelter();
-            });
+            })
+            .Append(shelterUi.DOFade(1f, 0.5f));
         sequence.Play();
     }
 

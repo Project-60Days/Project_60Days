@@ -12,7 +12,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 
     public static Action<ItemBase> CraftItemClick;
 
-    public ItemBase _item;//
+    public ItemBase _item;
 
     public ItemBase item
     {
@@ -41,20 +41,28 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
                 if (_item != null)
                 {
                     var itemSave = _item;
-                    UIManager.instance.GetCraftingUiController().CraftItem(_item);
-                    UIManager.instance.GetInventoryController().RemoveItem(_item);
+                    UIManager.instance.GetCraftingUiController().MoveInventoryToCraft(_item);
+                    if (_item.itemCount == 1)
+                    {
+                        UIManager.instance.GetInventoryController().RemoveItem(_item);
+                    }          
+                    else
+                    {
+                        _item.itemCount--;
+                        UIManager.instance.GetInventoryController().UpdateSlot();
+                    }
                     CraftItemClick?.Invoke(itemSave);
                 }
                 break;
             case ESlotType.CraftingSlot:
                 if (_item != null)
                 {
-                    UIManager.instance.GetCraftingUiController().CraftToInventory(_item);
+                    UIManager.instance.GetCraftingUiController().MoveCraftToInventory(_item);
                     UIManager.instance.GetInventoryController().AddItem(_item);
                 }
                 break;
             case ESlotType.ResultSlot:
-                UIManager.instance.GetCraftingUiController().ResultToInventory(); break;
+                UIManager.instance.GetCraftingUiController().MoveResultToInventory(); break;
         }
     }
 }

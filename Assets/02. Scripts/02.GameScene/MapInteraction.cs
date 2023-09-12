@@ -12,7 +12,7 @@ public class MapInteraction : MonoBehaviour, IPointerClickHandler
     CinemachineFramingTransposer transposer;
     public UnityEvent onClickEvent;
 
-    void Start() //юс╫ц..
+    void Start() 
     {
         mapCamera = GameObject.FindGameObjectWithTag("MapCamera").GetComponent<CinemachineVirtualCamera>();
         transposer = mapCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
