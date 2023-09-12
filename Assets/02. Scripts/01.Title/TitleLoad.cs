@@ -16,9 +16,8 @@ public class TitleLoad : MonoBehaviour
     string leftFileText;
     [SerializeField] TextMeshProUGUI rightLogField;
     string rightFileText;
-    string[] lines;
 
-    [SerializeField] ScrollRect rightLogScrollRect;
+    [SerializeField] ScrollRect scrollRect;
 
     [SerializeField] float leftLogShowInterval;
     [SerializeField] float rightLogShowInterval;
@@ -30,7 +29,7 @@ public class TitleLoad : MonoBehaviour
     [SerializeField] GameObject buttonText;
     [SerializeField] GameObject buttonBack;
 
-    
+    private string[] lines;
 
 
 
@@ -54,29 +53,15 @@ public class TitleLoad : MonoBehaviour
 
         lines = rightFileText.Split('\n');
 
-        InitObjects();
+        InitActive();
     }
 
-    void InitObjects()
+    void InitActive()
     {
-        ActiveTitleObjects(false);
-        ActiveButtonObjects(false);
-    }
-
-
-
-
-
-    void ActiveTitleObjects(bool isActive)
-    {
-        titleText.SetActive(isActive);
-        titleImage.SetActive(isActive);
-    }
-
-    void ActiveButtonObjects(bool isActive)
-    {
-        buttonText.SetActive(isActive);
-        buttonBack.SetActive(isActive);
+        titleText.SetActive(false);
+        titleImage.SetActive(false);
+        buttonText.SetActive(false);
+        buttonBack.SetActive(false);
     }
 
 
@@ -134,10 +119,11 @@ public class TitleLoad : MonoBehaviour
         while (currentIndex < lines.Length)
         {
             string line = lines[currentIndex];
-            rightLogField.text += line + '\n';
+            rightLogField.text += line;
+            rightLogField.text += '\n';
             currentIndex++;
 
-            rightLogScrollRect.verticalNormalizedPosition = 0.0f;
+            scrollRect.verticalNormalizedPosition = 0.0f;
 
             yield return new WaitForSeconds(rightLogShowInterval);
         }
@@ -157,31 +143,24 @@ public class TitleLoad : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
 
-        ActiveTitleObjects(true);
+        titleText.SetActive(true);
+        titleImage.SetActive(true);
 
-        SetTitleText();
-        SetTitleImage();
-
-        App.instance.GetSoundManager().PlayBGM("BGM_TitleTheme");
-
-        yield return new WaitForSeconds(2f);
-
-        ActiveButtonObjects(true);
-    }
-
-    void SetTitleText()
-    {
         TextMeshProUGUI text = titleText.GetComponent<TextMeshProUGUI>();
 
         text.alpha = 0f;
         text.DOFade(1f, 0.1f).SetEase(Ease.InOutBounce);
-    }
 
-    void SetTitleImage()
-    {
         Image title = titleImage.GetComponent<Image>();
 
         title.color = new Color(1f, 1f, 1f, 0f);
         title.DOFade(1f, 0.1f).SetEase(Ease.InOutBounce);
+
+        yield return new WaitForSeconds(2f);
+
+        buttonText.SetActive(true);
+        buttonBack.SetActive(true);
+
+        App.instance.GetSoundManager().PlayBGM("BGM_TitleTheme");
     }
 }

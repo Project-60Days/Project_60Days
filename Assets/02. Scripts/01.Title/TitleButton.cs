@@ -20,18 +20,13 @@ public class TitleButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     void Start()
     {
-        Init();
-
-        SetButtonNomal();
-    }
-
-    void Init()
-    {
         buttonText = GetComponentInChildren<Text>();
         buttonImage = GetComponentInChildren<Image>();
 
         optionPanel.SetActive(false);
         soundPanel.SetActive(false);
+
+        SetButtonNomal();
     }
 
 
