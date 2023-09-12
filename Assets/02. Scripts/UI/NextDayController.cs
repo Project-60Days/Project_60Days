@@ -23,7 +23,7 @@ public class NextDayController : ControllerBase
     CanvasGroup shelterUi;
 
     CinemachineVirtualCamera mapCamera; //임시
-
+    CinemachineFramingTransposer transposer; //임시
     public override EControllerType GetControllerType()
     {
         return EControllerType.NEXTDAY;
@@ -43,6 +43,7 @@ public class NextDayController : ControllerBase
     {
         shelterUi = GameObject.FindGameObjectWithTag("ShelterUi").GetComponent<CanvasGroup>();
         mapCamera = GameObject.FindGameObjectWithTag("MapCamera").GetComponent<CinemachineVirtualCamera>();//임시
+        transposer = mapCamera.GetCinemachineComponent<CinemachineFramingTransposer>();//임시
     }
 
 
@@ -139,6 +140,22 @@ public class NextDayController : ControllerBase
     }
 
 
+    
+
+
+    public void ZoomOutMap() //임시.........................
+    {
+        Sequence sequence = DOTween.Sequence();
+        sequence
+            .Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 15f, 0.5f))
+            .OnComplete(() =>
+            {
+                App.instance.GetMapManager().SetMapCameraPriority(false);
+                BackToShelter();
+            });
+        sequence.Play();
+    }
+
     public void BackToShelter() //임시..........
     {
         Sequence sequence = DOTween.Sequence();
@@ -147,21 +164,8 @@ public class NextDayController : ControllerBase
         sequence.Play();
     }
 
-    public void ZoomOutMap() //임시.........................
-    {
-        StartCoroutine("OrthoAnim");
-    }
 
-    IEnumerator OrthoAnim() //임시..................................
-    {
-        for (int i = 0; i < 10; i++)
-        {
-            yield return new WaitForSeconds(0.05f);
-            mapCamera.m_Lens.OrthographicSize += 0.05f;
-        }
-        App.instance.GetMapManager().SetMapCameraPriority(false);
-        BackToShelter();
-    }
+
 
 
     #region PageSetting

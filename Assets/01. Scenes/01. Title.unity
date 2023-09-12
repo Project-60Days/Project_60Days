@@ -2265,7 +2265,7 @@ MonoBehaviour:
   loadingVideo: {fileID: 1221569147}
   leftLogField: {fileID: 1027408797}
   rightLogField: {fileID: 1069463923}
-  scrollRect: {fileID: 754211149}
+  rightLogScrollRect: {fileID: 754211149}
   leftLogShowInterval: 0.01
   rightLogShowInterval: 0.1
   titleText: {fileID: 226033570}
