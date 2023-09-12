@@ -632,8 +632,8 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 100
-  field of view: 34
-  orthographic: 1
+  field of view: 37
+  orthographic: 0
   orthographic size: 30
   m_Depth: 1
   m_CullingMask:
@@ -1419,7 +1419,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 34
+    FieldOfView: 37
     OrthographicSize: 30
     NearClipPlane: 0.3
     FarClipPlane: 100

@@ -7,6 +7,7 @@ using DG.Tweening;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] FloatingEffect floating;
     public static Action<Tile> PlayerSightUpdate;
 
     int maxHealth = 1;
@@ -116,5 +117,10 @@ public class Player : MonoBehaviour
     public void HealthCharging()
     {
         currentHealth = maxHealth;
+    }
+
+    public void StartFloatingAnimation()
+    {
+        StartCoroutine(floating.FloatingAnimation());
     }
 }
