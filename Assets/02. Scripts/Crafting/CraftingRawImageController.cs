@@ -1,10 +1,6 @@
 using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
-using System.Collections.Generic;
-using Cinemachine;
 using UnityEngine.EventSystems;
-using static UnityEditor.Progress;
 
 
 public class CraftingRawImageController : MonoBehaviour, IDragHandler
@@ -34,12 +30,14 @@ public class CraftingRawImageController : MonoBehaviour, IDragHandler
 
     void Start()
     {
-        ItemSlot.CraftItemClick += ChangerTarget;
+        ItemSlot.InventoryItemClick += ChangerTarget;
+        CraftSlot.CraftItemClick += DestroyObject;
     }
 
     void OnDestroy()
     {
-        ItemSlot.CraftItemClick -= ChangerTarget;
+        ItemSlot.InventoryItemClick -= ChangerTarget;
+        CraftSlot.CraftItemClick -= DestroyObject;
     }
 
     IEnumerator VariablesConnect()

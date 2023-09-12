@@ -1,16 +1,14 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using TMPro;
 using System;
-using static UnityEditor.Progress;
 
 public class ItemSlot : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] Image image;
-    [SerializeField] public ESlotType eSlotType;
+    [SerializeField] public ESlotType eSlotType = ESlotType.InventorySlot;
 
-    public static Action<GameObject> CraftItemClick;
+    public static Action<GameObject> InventoryItemClick;
 
     public ItemBase _item;
 
@@ -35,30 +33,17 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        switch (eSlotType)
+        var itemSave = _item;
+        UIManager.instance.GetCraftingUiController().MoveInventoryToCraft(_item);
+        if (_item.itemCount == 1)
         {
-            case ESlotType.InventorySlot:
-                var itemSave = _item;
-                UIManager.instance.GetCraftingUiController().MoveInventoryToCraft(_item);
-                if (_item.itemCount == 1)
-                {
-                    UIManager.instance.GetInventoryController().RemoveItem(_item);
-                }
-                else
-                {
-                    _item.itemCount--;
-                    UIManager.instance.GetInventoryController().UpdateSlot();
-                }
-                CraftItemClick?.Invoke(itemSave.prefab);
-                break;
-            case ESlotType.CraftingSlot:
-                UIManager.instance.GetInventoryController().AddItem(_item);
-                UIManager.instance.GetCraftingUiController().MoveCraftToInventory(_item);
-                break;
-            case ESlotType.ResultSlot:
-                UIManager.instance.GetInventoryController().AddItem(_item);
-                UIManager.instance.GetCraftingUiController().MoveResultToInventory();
-                break;
+            UIManager.instance.GetInventoryController().RemoveItem(_item);
         }
+        else
+        {
+            _item.itemCount--;
+            UIManager.instance.GetInventoryController().UpdateSlot();
+        }
+        InventoryItemClick?.Invoke(itemSave.prefab);
     }
 }

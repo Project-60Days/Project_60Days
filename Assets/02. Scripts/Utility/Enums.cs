@@ -14,7 +14,7 @@ public enum EUILayer
     Setting
 };
 
-public enum ItemType
+public enum EItemType
 {
     Material,
     Equipment,
@@ -31,7 +31,8 @@ public enum ESlotType
 {
     InventorySlot,
     CraftingSlot,
-    ResultSlot
+    ResultSlot,
+    EquipSlot
 }
 
 public enum EQuestType

@@ -99,20 +99,19 @@ public class CraftingUiController : ControllerBase
     {
         InitSlots();
 
+        bool isFirst = true;
         for(int i = 0; i < items.Count; i++)
         {
             GameObject obj = Instantiate(slotPrefab, slotParent);
-            obj.GetComponentInChildren<ItemSlot>().item = items[i];
+            obj.GetComponentInChildren<CraftSlot>().item = items[i];
+            if (isFirst)
+            {
+                obj.transform.GetChild(1).gameObject.SetActive(false);
+                isFirst = false;
+            }
+                
         }
-
-        SetFirstSlot();
         CompareToCombineData();
-    }
-
-    void SetFirstSlot()
-    {
-        firstChild = slotParent.GetChild(0);
-        firstChild.GetChild(1).gameObject.SetActive(false);
     }
 
 
@@ -161,7 +160,7 @@ public class CraftingUiController : ControllerBase
 
             for (int k = 0; k < 8; k++)
             {
-                if (combinationCodes[k] == "1") continue;
+                if (combinationCodes[k] == "1" || combinationCodes[k] == "-1") continue;
                 else
                 {
                     flag = 1; break;
@@ -172,6 +171,7 @@ public class CraftingUiController : ControllerBase
             {
                 ItemBase item = GetResultItemByItemCode(combinationCodes[8]);
                 AddCombineItem(item);
+                Debug.Log(item);
                 break;
             }
         }
@@ -218,10 +218,9 @@ public class CraftingUiController : ControllerBase
     public void AddCombineItem(ItemBase _item)
     {
         GameObject obj = Instantiate(slotPrefab, slotParent);
-        obj.GetComponentInChildren<ItemSlot>().item = _item;
-        obj.GetComponentInChildren<ItemSlot>().eSlotType = ESlotType.ResultSlot;
-        obj.GetComponent<Image>().sprite = craftTypeImage[1];
-        SetFirstSlot();
+        obj.GetComponentInChildren<CraftSlot>().item = _item;
+        obj.GetComponentInChildren<CraftSlot>().eSlotType = ESlotType.ResultSlot;
+        obj.transform.GetChild(1).GetComponent<Image>().sprite = craftTypeImage[1];
     }
 
 
