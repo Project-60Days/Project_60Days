@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine.EventSystems;
+using static UnityEditor.Progress;
 
 
 public class CraftingRawImageController : MonoBehaviour, IDragHandler
@@ -28,7 +29,7 @@ public class CraftingRawImageController : MonoBehaviour, IDragHandler
     private float camVelocity = 0.0F;
     private float camTargetSize = 0.0f;
     bool isControlKeyPushed;
-    bool canRotate;
+    public bool canRotate;
     bool isTargetOn;
 
     void Start()
@@ -45,7 +46,6 @@ public class CraftingRawImageController : MonoBehaviour, IDragHandler
     {
         yield return new WaitForEndOfFrame();
         renderCamera = GameObject.FindGameObjectWithTag("RenderTextureCamera").GetComponent<Camera>();
-        targetObject = GameObject.FindGameObjectWithTag("RenderTextureObject");
         targetTr = targetObject.transform;
         camTargetSize = renderCamera.orthographicSize;
     }
@@ -116,14 +116,13 @@ public class CraftingRawImageController : MonoBehaviour, IDragHandler
         targetTr.Rotate(0, -x, y, Space.World);
     }
 
-    void ChangerTarget(ItemBase item)
+    public void ChangerTarget(GameObject itemPrefab)
     {
         Destroy(targetObject);
         generationPoint = GameObject.FindGameObjectWithTag("GeneratePoint").GetComponent<Transform>();
-        var newTargetObject = GameObject.Instantiate(item.prefab, generationPoint);
+        var newTargetObject = Instantiate(itemPrefab, generationPoint);
 
         targetObject = newTargetObject;
-        targetTr = targetObject.transform;
         StartCoroutine(VariablesConnect());
     }
 
