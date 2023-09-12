@@ -30,13 +30,13 @@ public class CraftingRawImageController : MonoBehaviour, IDragHandler
 
     void Start()
     {
-        ItemSlot.InventoryItemClick += ChangerTarget;
+        ItemSlot.CraftItemClick += ChangerTarget;
         CraftSlot.CraftItemClick += DestroyObject;
     }
 
     void OnDestroy()
     {
-        ItemSlot.InventoryItemClick -= ChangerTarget;
+        ItemSlot.CraftItemClick -= ChangerTarget;
         CraftSlot.CraftItemClick -= DestroyObject;
     }
 
@@ -105,8 +105,8 @@ public class CraftingRawImageController : MonoBehaviour, IDragHandler
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (isControlKeyPushed)
-            return;
+        if (!canRotate) return;
+        if (isControlKeyPushed) return;
 
         float x = eventData.delta.x * Time.deltaTime * rotateSpeed;
         float y = eventData.delta.y * Time.deltaTime * rotateSpeed;

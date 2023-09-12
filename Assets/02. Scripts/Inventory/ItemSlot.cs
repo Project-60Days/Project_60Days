@@ -3,47 +3,35 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System;
 
-public class ItemSlot : MonoBehaviour, IPointerClickHandler
+public class ItemSlot : SlotBase
 {
-    [SerializeField] Image image;
-    [SerializeField] public ESlotType eSlotType = ESlotType.InventorySlot;
+    public static Action<GameObject> CraftItemClick;
 
-    public static Action<GameObject> InventoryItemClick;
-
-    public ItemBase _item;
-
-    public ItemBase item
+    public ItemSlot()
     {
-        get { return _item; }
-        set
+        eSlotType = ESlotType.InventorySlot;
+    }
+
+    public override void OnPointerClick(PointerEventData eventData)
+    {
+        if (UIManager.instance.GetCraftModeController().GetECraftModeType() == ECraftModeType.Craft)
         {
-            _item = value;
-            if (_item != null)
+            CraftItemClick?.Invoke(_item.prefab);
+            UIManager.instance.GetCraftingUiController().MoveInventoryToCraft(_item);
+            if (_item.itemCount == 1)
             {
-                image.sprite = item.itemImage;
-                image.color = Color.white;
+                UIManager.instance.GetInventoryController().RemoveItem(_item);
             }
             else
             {
-                image.sprite = null;
-                image.color = Color.clear;
+                _item.itemCount--;
+                UIManager.instance.GetInventoryController().UpdateSlot();
             }
         }
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        var itemSave = _item;
-        UIManager.instance.GetCraftingUiController().MoveInventoryToCraft(_item);
-        if (_item.itemCount == 1)
+        else if (UIManager.instance.GetCraftModeController().GetECraftModeType() == ECraftModeType.Equip)
         {
-            UIManager.instance.GetInventoryController().RemoveItem(_item);
+            if (_item.eItemType != EItemType.Equipment) return;
+            UIManager.instance.GetCraftingUiController().MoveInventoryToEquip(_item);
         }
-        else
-        {
-            _item.itemCount--;
-            UIManager.instance.GetInventoryController().UpdateSlot();
-        }
-        InventoryItemClick?.Invoke(itemSave.prefab);
     }
 }

@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CraftingUiController : ControllerBase
 {
+    [Header ("Craft Mode")]
     [SerializeField] Transform slotParent;
     [SerializeField] Sprite[] craftTypeImage;
     [SerializeField] ItemSO itemSO;
@@ -12,8 +14,6 @@ public class CraftingUiController : ControllerBase
     List<ItemBase> items;
     List<ItemCombineData> itemCombines;
 
-    Transform firstChild;
-
     string[] combinationCodes = new string[9];
 
     /// <summary>
@@ -21,7 +21,9 @@ public class CraftingUiController : ControllerBase
     /// </summary>
     [SerializeField] ItemBase tempItem;
 
-
+    [Header("Equip Mode")]
+    [SerializeField] GameObject[] equipSlots;
+    int i = 0; //юс╫ц..
 
 
 
@@ -171,7 +173,6 @@ public class CraftingUiController : ControllerBase
             {
                 ItemBase item = GetResultItemByItemCode(combinationCodes[8]);
                 AddCombineItem(item);
-                Debug.Log(item);
                 break;
             }
         }
@@ -281,5 +282,12 @@ public class CraftingUiController : ControllerBase
     {
         items.Clear();
         InitSlots();
+    }
+
+    public void MoveInventoryToEquip(ItemBase _item)
+    {
+        if (i == 3) i = 0;
+        equipSlots[i].GetComponentInChildren<EquipSlot>().item = _item;
+        i++;
     }
 }

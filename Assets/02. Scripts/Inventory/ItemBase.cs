@@ -6,6 +6,6 @@ public class ItemBase : ScriptableObject
     public ItemData data;
     public Sprite itemImage;
     public int itemCount = 0;
-    public ItemType itemType;
+    public EItemType eItemType;
     public GameObject prefab;
 }
