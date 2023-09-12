@@ -16,8 +16,9 @@ public class TitleLoad : MonoBehaviour
     string leftFileText;
     [SerializeField] TextMeshProUGUI rightLogField;
     string rightFileText;
+    string[] lines;
 
-    [SerializeField] ScrollRect scrollRect;
+    [SerializeField] ScrollRect rightLogScrollRect;
 
     [SerializeField] float leftLogShowInterval;
     [SerializeField] float rightLogShowInterval;
@@ -28,8 +29,6 @@ public class TitleLoad : MonoBehaviour
 
     [SerializeField] GameObject buttonText;
     [SerializeField] GameObject buttonBack;
-
-    private string[] lines;
 
 
 
@@ -53,15 +52,29 @@ public class TitleLoad : MonoBehaviour
 
         lines = rightFileText.Split('\n');
 
-        InitActive();
+        InitObjects();
     }
 
-    void InitActive()
+    void InitObjects()
     {
-        titleText.SetActive(false);
-        titleImage.SetActive(false);
-        buttonText.SetActive(false);
-        buttonBack.SetActive(false);
+        ActiveTitleObjects(false);
+        ActiveButtonObjects(false);
+    }
+
+
+
+
+
+    void ActiveTitleObjects(bool isActive)
+    {
+        titleText.SetActive(isActive);
+        titleImage.SetActive(isActive);
+    }
+
+    void ActiveButtonObjects(bool isActive)
+    {
+        buttonText.SetActive(isActive);
+        buttonBack.SetActive(isActive);
     }
 
 
@@ -77,7 +90,7 @@ public class TitleLoad : MonoBehaviour
         loadingVideo.SetActive(false);
         StartCoroutine(LeftLog());
     }
-    
+
 
 
 
@@ -100,7 +113,7 @@ public class TitleLoad : MonoBehaviour
             {
                 yield return new WaitForSeconds(leftLogShowInterval);
             }
-            
+
             currentIndex++;
         }
 
@@ -113,17 +126,16 @@ public class TitleLoad : MonoBehaviour
     /// <returns></returns>
     IEnumerator RightLog()
     {
-        int currentIndex = 0; 
-        rightLogField.text = ""; 
+        int currentIndex = 0;
+        rightLogField.text = "";
 
         while (currentIndex < lines.Length)
         {
             string line = lines[currentIndex];
-            rightLogField.text += line;
-            rightLogField.text += '\n';
+            rightLogField.text += line + '\n';
             currentIndex++;
 
-            scrollRect.verticalNormalizedPosition = 0.0f;
+            rightLogScrollRect.verticalNormalizedPosition = 0.0f;
 
             yield return new WaitForSeconds(rightLogShowInterval);
         }
@@ -143,24 +155,31 @@ public class TitleLoad : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
 
-        titleText.SetActive(true);
-        titleImage.SetActive(true);
+        ActiveTitleObjects(true);
 
+        SetTitleText();
+        SetTitleImage();
+
+        App.instance.GetSoundManager().PlayBGM("BGM_TitleTheme");
+
+        yield return new WaitForSeconds(2f);
+
+        ActiveButtonObjects(true);
+    }
+
+    void SetTitleText()
+    {
         TextMeshProUGUI text = titleText.GetComponent<TextMeshProUGUI>();
 
         text.alpha = 0f;
         text.DOFade(1f, 0.1f).SetEase(Ease.InOutBounce);
+    }
 
+    void SetTitleImage()
+    {
         Image title = titleImage.GetComponent<Image>();
 
         title.color = new Color(1f, 1f, 1f, 0f);
         title.DOFade(1f, 0.1f).SetEase(Ease.InOutBounce);
-
-        yield return new WaitForSeconds(2f);
-
-        buttonText.SetActive(true);
-        buttonBack.SetActive(true);
-
-        App.instance.GetSoundManager().PlayBGM("BGM_TitleTheme");
     }
 }

@@ -23,6 +23,7 @@ public class NextDayController : ControllerBase
     CanvasGroup shelterUi;
 
     CinemachineVirtualCamera mapCamera; //임시
+    CinemachineFramingTransposer transposer; //임시
 
     public override EControllerType GetControllerType()
     {
@@ -150,19 +151,19 @@ public class NextDayController : ControllerBase
 
     public void ZoomOutMap() //임시.........................
     {
-        StartCoroutine("OrthoAnim");
+        Sequence sequence = DOTween.Sequence();
+        sequence
+            .Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 15f, 0.5f))
+            .OnComplete(() =>
+            {
+                App.instance.GetMapManager().SetMapCameraPriority(false);
+                BackToShelter();
+            });
+        sequence.Play();
     }
 
-    IEnumerator OrthoAnim() //임시..................................
-    {
-        for (int i = 0; i < 10; i++)
-        {
-            yield return new WaitForSeconds(0.05f);
-            mapCamera.m_Lens.OrthographicSize += 0.05f;
-        }
-        App.instance.GetMapManager().SetMapCameraPriority(false);
-        BackToShelter();
-    }
+
+
 
 
     #region PageSetting
