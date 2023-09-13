@@ -43,6 +43,8 @@ public class NextDayController : ControllerBase
     {
         shelterUi = GameObject.FindGameObjectWithTag("ShelterUi").GetComponent<CanvasGroup>();
         mapCamera = GameObject.FindGameObjectWithTag("MapCamera").GetComponent<CinemachineVirtualCamera>();//임시
+        //App 에 넣어주기
+        App.instance.AddController(this);
     }
 
 
@@ -116,14 +118,13 @@ public class NextDayController : ControllerBase
     /// </summary>
     public void NextDayEvent()
     {
-        StartCoroutine(App.instance.GetMapManager().NextDayCoroutine());
         blackPanel.gameObject.SetActive(true);
         Sequence sequence = DOTween.Sequence();
         sequence.Append(blackPanel.DOFade(1f, 0.5f)).SetEase(Ease.InQuint)
             .AppendInterval(0.5f)
             .Append(shelterUi.DOFade(1f, 0f))
             .OnComplete(() => NextDayEventCallBack());
-        sequence.Play();
+        //sequence.Play();
     }
 
     /// <summary>
@@ -136,7 +137,7 @@ public class NextDayController : ControllerBase
 
         UIManager.instance.GetNoteController().SetNextDay();
         App.instance.GetMapManager().AllowMouseEvent(true);
-        MapController.instance.NextDay();
+        StartCoroutine(App.instance.GetMapManager().NextDayCoroutine());
     }
 
 
@@ -251,6 +252,17 @@ public class NextDayController : ControllerBase
     public void RemoveSelectPage() //테스트용 임시 함수. 다음 날에 선택 페이지 비활성화 버튼
     {
         pages[1].SetPageEnabled(false);
+    }
+
+    public void AddResultAlarm()
+    {
+        resultAlarm.SetActive(true);
+        //resultAlarm.GetComponent<Alarm>().AddResult();
+    }
+    public void AddCautionAlarm()
+    {
+        cautionAlarm.SetActive(true);
+        //cautionAlarm.GetComponent<Alarm>().AddCaution();
     }
     #endregion
 

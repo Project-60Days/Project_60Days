@@ -10,7 +10,12 @@ public class ResourceManager : MonoBehaviour
     [SerializeField] ItemSO itemSO;
 
     List<Resource> owendResources;
-
+    bool isGetResource;
+    public bool IsGetResource
+    {
+        get { return isGetResource; }
+        set { isGetResource = value; }
+    }
     void Start()
     {
         owendResources = new List<Resource>();
@@ -51,6 +56,7 @@ public class ResourceManager : MonoBehaviour
 
                     PlaySFX(itemName);
                     Debug.LogFormat("{0} ÀÚ¿ø, {1}°³ È¹µæ!", itemName, list[i].itemCount);
+                    isGetResource = true;
                 }
                 else
                 {
@@ -58,6 +64,7 @@ public class ResourceManager : MonoBehaviour
                     var itemName = itemSO.items.ToList().Find(x => x.itemCode == owendResources[owendResources.Count - 1].itemCode).data.Korean;
                     PlaySFX(itemName);
                     Debug.LogFormat(itemName + " ÀÚ¿ø {0}°³ Ãß°¡", owendResources[owendResources.Count - 1].itemCount);
+                    isGetResource = true;
                 }
             }
         }

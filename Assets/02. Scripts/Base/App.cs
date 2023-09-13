@@ -120,4 +120,9 @@ public class App : Singleton<App>
 
         return dic_managers[EManagerType.MAP] as MapManager;
     }
+
+    public void AddController(ControllerBase controller)
+    {
+        dic_controllers.Add(controller.GetControllerType(), controller);
+    }
 }
