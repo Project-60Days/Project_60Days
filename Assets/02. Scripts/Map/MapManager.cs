@@ -50,8 +50,6 @@ public class MapManager : ManagementBase
         mapCineCamera = GameObject.FindGameObjectWithTag("MapCamera").GetComponent<MapCamera>();
         resourceManager = GameObject.FindGameObjectWithTag("Resource").GetComponent<ResourceManager>();
         StartCoroutine(mapCineCamera.GetMapInfo());
-
-
     }
 
     public void GetAdditiveSceneObjectsCoroutine()

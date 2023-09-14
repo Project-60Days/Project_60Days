@@ -42,7 +42,6 @@ public class MapController : Singleton<MapController>
     GameObject disturbtor;
     GameObject explorer;
 
-
     [SerializeField] MapTestManager mapTest;
     [SerializeField] bool isTest;
 
