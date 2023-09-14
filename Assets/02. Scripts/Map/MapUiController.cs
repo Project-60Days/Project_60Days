@@ -10,6 +10,11 @@ public class MapUiController : ControllerBase
     [SerializeField] TargetPointUI targetPoint;
     [SerializeField] TileInfoPanel tileInfoPanel;
 
+    private void Start()
+    {
+        App.instance.AddController(this);
+    }
+
     public override EControllerType GetControllerType()
     {
         return EControllerType.MAP;

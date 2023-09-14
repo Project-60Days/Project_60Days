@@ -223,6 +223,7 @@ public class MapManager : ManagementBase
 
         if (mapUIController.MovePointActivate())
             mapUIController.OffPlayerMovePoint();
+        CheckRoutine();
     }
 
     /// <summary>
@@ -262,12 +263,19 @@ public class MapManager : ManagementBase
         mapCineCamera.SetPrioryty(_set);
     }
 
+    public void CheckRoutine()
+    {
+        CheckResource();
+        CheckZombies();
+    }
+
     // 처음 생성 시 검사, 이후 NextDay 함수 끝나면 검사.
     public void CheckResource()
     {
-        if (resourceManager.CheckResource(mapController.Player.TileController))
+        if (resourceManager.IsGetResource)
         {
-            // New 알림 온
+            App.instance.GetNextDayController().AddResultAlarm();
+            resourceManager.IsGetResource = false;
         }
         else
             return;
@@ -277,7 +285,7 @@ public class MapManager : ManagementBase
     {
         if (mapController.CheckZombies())
         {
-            // 경고 알림 온
+            App.instance.GetNextDayController().AddCautionAlarm();
         }
         else
             return;

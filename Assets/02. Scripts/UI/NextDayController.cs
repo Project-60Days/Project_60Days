@@ -45,13 +45,14 @@ public class NextDayController : ControllerBase
         shelterUi = GameObject.FindGameObjectWithTag("ShelterUi").GetComponent<CanvasGroup>();
         mapCamera = GameObject.FindGameObjectWithTag("MapCamera").GetComponent<CinemachineVirtualCamera>();
         transposer = mapCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+        App.instance.AddController(this);
     }
 
 
 
 
     /// <summary>
-    /// ¿Â°® ÃÊ±âÈ­ ÇÔ¼ö ¸ðÀ½
+    /// ï¿½Â°ï¿½ ï¿½Ê±ï¿½È­ ï¿½Ô¼ï¿½ ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     void Init()
     {
@@ -63,7 +64,7 @@ public class NextDayController : ControllerBase
 
     #region Inits
     /// <summary>
-    /// È°¼ºÈ­ µÆ´ø BlackPanel ´Ù½Ã ºñÃb¼ºÈ­ (BlackPanelÀº ´ÙÀ½ ³¯·Î ³Ñ¾î°¥ ¶§ Àá±ñ º¸ÀÌ´Â ±î¸¸ È­¸é)
+    /// È°ï¿½ï¿½È­ ï¿½Æ´ï¿½ BlackPanel ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½bï¿½ï¿½È­ (BlackPanelï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¾î°¥ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½î¸¸ È­ï¿½ï¿½)
     /// </summary>
     void InitBlackPanel()
     {
@@ -74,7 +75,7 @@ public class NextDayController : ControllerBase
     }
 
     /// <summary>
-    /// ³ëÆ® ÆäÀÌÁö ÃÊ±âÈ­ (dialogueRunner ¸ØÃß±â, ÆäÀÌÁö ºñÈ°¼ºÈ­) --> Ãß°¡ ÀÛ¾÷ ÇÊ¿ä. µ¥ÀÌÅÍ ¿¬°áÇØ¾ßÇÔ.
+    /// ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ (dialogueRunner ï¿½ï¿½ï¿½ß±ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­) --> ï¿½ß°ï¿½ ï¿½Û¾ï¿½ ï¿½Ê¿ï¿½. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½ï¿½.
     /// </summary>
     void InitPageEnabled()
     {
@@ -82,12 +83,12 @@ public class NextDayController : ControllerBase
         {
             page.StopDialogue();
             page.gameObject.SetActive(false);
-            //ÀÌÈÄ »õ·Î¿î ³¯ÀÌ ½ÃÀÛµÉ ¶§¸¶´Ù µ¥ÀÌÅÍ ¹Þ¾Æ¿Í page.SetPageEnabled() È£ÃâÇÏ¿© °ª ³Ñ°ÜÁÖ±â
+            //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ûµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½ page.SetPageEnabled() È£ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ ï¿½Ñ°ï¿½ï¿½Ö±ï¿½
         }
     }
 
     /// <summary>
-    /// Äù½ºÆ® ¸ñ·Ï ÃÊ±âÈ­ (»ý¼ºµÇ¾ú´ø ÇÁ¸®ÆÕ ¸ðµÎ ÆÄ±«)
+    /// ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ (ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ä±ï¿½)
     /// </summary>
     void InitQuestList()
     {
@@ -99,7 +100,7 @@ public class NextDayController : ControllerBase
     }
 
     /// <summary>
-    /// ¾Ë¸² ¸ñ·Ï ÃÊ±âÈ­ --> ÇöÀç´Â ÇÊ¿äÇÑ ¾Ë¸²¸¸ SetActive(true)ÇØ¼­ »ç¿ë ÁßÀÎµ¥, ´õ ÁÁÀº ¹æ¹ýÀ» °í¹Î Áß. / ¸¶Âù°¡Áö·Î Ãß°¡ ÀÛ¾÷ ÇÊ¿ä. µ¥ÀÌÅÍ ¿¬°áÇØ¾ßÇÔ.
+    /// ï¿½Ë¸ï¿½ ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ --> ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½Ë¸ï¿½ï¿½ï¿½ SetActive(true)ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½, ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½. / ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ ï¿½Û¾ï¿½ ï¿½Ê¿ï¿½. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½ï¿½.
     /// </summary>
     void InitAlarm()
     {
@@ -114,22 +115,21 @@ public class NextDayController : ControllerBase
 
 
     /// <summary>
-    /// ´ÙÀ½ ³¯ÀÌ µÉ ¶§ BlackPanel È°¼ºÈ­/ÆäÀÌµåÀÎ
+    /// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ BlackPanel È°ï¿½ï¿½È­/ï¿½ï¿½ï¿½Ìµï¿½ï¿½ï¿½
     /// </summary>
     public void NextDayEvent()
     {
-        StartCoroutine(App.instance.GetMapManager().NextDayCoroutine());
         blackPanel.gameObject.SetActive(true);
         Sequence sequence = DOTween.Sequence();
         sequence.Append(blackPanel.DOFade(1f, 0.5f)).SetEase(Ease.InQuint)
             .AppendInterval(0.5f)
             .Append(shelterUi.DOFade(1f, 0f))
             .OnComplete(() => NextDayEventCallBack());
-        sequence.Play();
+        //sequence.Play();
     }
 
     /// <summary>
-    /// ¹Ù·Î À§ÀÇ NextDayEvent()ÀÇ ÄÝ¹éÇÔ¼ö (ÃÊ±âÈ­ ÀÛ¾÷)
+    /// ï¿½Ù·ï¿½ ï¿½ï¿½ï¿½ï¿½ NextDayEvent()ï¿½ï¿½ ï¿½Ý¹ï¿½ï¿½Ô¼ï¿½ (ï¿½Ê±ï¿½È­ ï¿½Û¾ï¿½)
     /// </summary>
     void NextDayEventCallBack()
     {
@@ -138,7 +138,7 @@ public class NextDayController : ControllerBase
         transposer.m_CameraDistance = 15f;
         UIManager.instance.GetNoteController().SetNextDay();
         App.instance.GetMapManager().AllowMouseEvent(true);
-        MapController.instance.NextDay();
+        StartCoroutine(App.instance.GetMapManager().NextDayCoroutine());
     }
 
     public void ZoomOutMap()
@@ -160,7 +160,7 @@ public class NextDayController : ControllerBase
 
     #region PageSetting
     /// <summary>
-    /// »õ·Î¿î ³¯¿¡ ¾²ÀÌ´Â ÆäÀÌÁö¸¸ ¸ð¾Æ NoteController¿¡ ¹è¿­·Î Àü´Þ. (page.GetPageEnableToday()ÇÔ¼ö·Î »ç¿ë ¿©ºÎ È®ÀÎ)
+    /// ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ NoteControllerï¿½ï¿½ ï¿½è¿­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. (page.GetPageEnableToday()ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½)
     /// </summary>
     /// <returns></returns>
     public NotePage[] GetNotePageArray()
@@ -184,7 +184,7 @@ public class NextDayController : ControllerBase
 
     #region QuestSetting
     /// <summary>
-    /// Äù½ºÆ® ÇÁ¸®ÆÕ Ãß°¡ --> Ãß°¡ ÀÛ¾÷ ÇÊ¿ä.. ±×¸®°í Á» ´õ °£°áÇÏ°Ô ÇÔ¼ö ³ª´©°í ½ÍÀ½.
+    /// ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ --> ï¿½ß°ï¿½ ï¿½Û¾ï¿½ ï¿½Ê¿ï¿½.. ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ô¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
     /// </summary>
     /// <param name="type"></param>
     /// <param name="text"></param>
@@ -200,7 +200,7 @@ public class NextDayController : ControllerBase
     }
 
     /// <summary>
-    /// Äù½ºÆ® ¸®½ºÆ® Á¤·Ä(?) ¸ÞÀÎÄù½ºÆ®´Â À§·Î, ¼­ºêÄù½ºÆ®´Â ¾Æ·¡¿¡ ¶ß°Ô. --> À§ÀÇ AddQuestÇÔ¼ö Á¤¸® µÇ¸é ¸¶Âù°¡Áö·Î ¾êµµ ¼Õº¸°í ½ÍÀ½. ´õ ÁÁÀº ¹æ¹ýÀÌ ÀÖÀ»µí!
+    /// ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½(?) ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Æ·ï¿½ï¿½ï¿½ ï¿½ß°ï¿½. --> ï¿½ï¿½ï¿½ï¿½ AddQuestï¿½Ô¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½êµµ ï¿½Õºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½!
     /// </summary>
     void SetQuestList()
     {
@@ -220,30 +220,41 @@ public class NextDayController : ControllerBase
 
 
     #region ForTest
-    public void AddMainQuestBtn() //Å×½ºÆ®¿ë ÀÓ½Ã ÇÔ¼ö. ¸ÞÀÎÄù½ºÆ® Ãß°¡ ¹öÆ°
+    public void AddMainQuestBtn() //ï¿½×½ï¿½Æ®ï¿½ï¿½ ï¿½Ó½ï¿½ ï¿½Ô¼ï¿½. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ß°ï¿½ ï¿½ï¿½Æ°
     {
-        AddQuest(EQuestType.Main, "¿¹½ÃÀÔ´Ï´Ù");
+        AddQuest(EQuestType.Main, "ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½");
     }
 
-    public void AddSubQuestBtn() //Å×½ºÆ®¿ë ÀÓ½Ã ÇÔ¼ö. ¼­ºêÄù½ºÆ® Ãß°¡ ¹öÆ°
+    public void AddSubQuestBtn() //ï¿½×½ï¿½Æ®ï¿½ï¿½ ï¿½Ó½ï¿½ ï¿½Ô¼ï¿½. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ß°ï¿½ ï¿½ï¿½Æ°
     {
-        AddQuest(EQuestType.Sub, "¿¹½Ã¿©");
+        AddQuest(EQuestType.Sub, "ï¿½ï¿½ï¿½Ã¿ï¿½");
     }
-    public void AddResultPage() //Å×½ºÆ®¿ë ÀÓ½Ã ÇÔ¼ö. ´ÙÀ½ ³¯¿¡ °á°ú ÆäÀÌÁö È°¼ºÈ­ ¹öÆ°
+    public void AddResultPage() //ï¿½×½ï¿½Æ®ï¿½ï¿½ ï¿½Ó½ï¿½ ï¿½Ô¼ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­ ï¿½ï¿½Æ°
     {
         pages[0].SetPageEnabled(true);
     }
-    public void RemoveResultPage() //Å×½ºÆ®¿ë ÀÓ½Ã ÇÔ¼ö. ´ÙÀ½ ³¯¿¡ °á°ú ÆäÀÌÁö ºñÈ°¼ºÈ­ ¹öÆ°
+    public void RemoveResultPage() //ï¿½×½ï¿½Æ®ï¿½ï¿½ ï¿½Ó½ï¿½ ï¿½Ô¼ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­ ï¿½ï¿½Æ°
     {
         pages[0].SetPageEnabled(false);
     }
-    public void AddSelectPage() //Å×½ºÆ®¿ë ÀÓ½Ã ÇÔ¼ö. ´ÙÀ½ ³¯¿¡ ¼±ÅÃ ÆäÀÌÁö È°¼ºÈ­ ¹öÆ°
+    public void AddSelectPage() //ï¿½×½ï¿½Æ®ï¿½ï¿½ ï¿½Ó½ï¿½ ï¿½Ô¼ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­ ï¿½ï¿½Æ°
     {
         pages[1].SetPageEnabled(true);
     }
-    public void RemoveSelectPage() //Å×½ºÆ®¿ë ÀÓ½Ã ÇÔ¼ö. ´ÙÀ½ ³¯¿¡ ¼±ÅÃ ÆäÀÌÁö ºñÈ°¼ºÈ­ ¹öÆ°
+    public void RemoveSelectPage() //ï¿½×½ï¿½Æ®ï¿½ï¿½ ï¿½Ó½ï¿½ ï¿½Ô¼ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­ ï¿½ï¿½Æ°
     {
         pages[1].SetPageEnabled(false);
+    }
+
+    public void AddResultAlarm()
+    {
+        resultAlarm.SetActive(true);
+        //resultAlarm.GetComponent<Alarm>().AddResult();
+    }
+    public void AddCautionAlarm()
+    {
+        cautionAlarm.SetActive(true);
+        //cautionAlarm.GetComponent<Alarm>().AddCaution();
     }
     #endregion
 
@@ -251,5 +262,5 @@ public class NextDayController : ControllerBase
 
 
 
-    //¾Æ¹«Æ° ÀüÃ¼ÀûÀ¸·Î »õ·Î¿î ³¯ µÉ ¶§ Àü ³¯ µ¥ÀÌÅÍ È®ÀÎÇØ¾ß ÇÏ´Â °ÍµéÀº ÀüºÎ Ãß°¡ ÀÛ¾÷ ÇÊ¿äÇÔ(Äù½ºÆ®, ³ëÆ® ÆäÀÌÁö, ¾Ë¸²)
+    //ï¿½Æ¹ï¿½Æ° ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½Ï´ï¿½ ï¿½Íµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ ï¿½Û¾ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½Æ®, ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Ë¸ï¿½)
 }
