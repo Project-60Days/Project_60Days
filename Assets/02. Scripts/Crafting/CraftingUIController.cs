@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CraftingUiController : ControllerBase
 {
+    [Header ("Craft Mode")]
     [SerializeField] Transform slotParent;
     [SerializeField] Sprite[] craftTypeImage;
     [SerializeField] ItemSO itemSO;
@@ -12,8 +14,6 @@ public class CraftingUiController : ControllerBase
     List<ItemBase> items;
     List<ItemCombineData> itemCombines;
 
-    Transform firstChild;
-
     string[] combinationCodes = new string[9];
 
     /// <summary>
@@ -21,7 +21,9 @@ public class CraftingUiController : ControllerBase
     /// </summary>
     [SerializeField] ItemBase tempItem;
 
-
+    [Header("Equip Mode")]
+    [SerializeField] GameObject[] equipSlots;
+    int i = 0; //юс╫ц..
 
 
 
@@ -99,20 +101,19 @@ public class CraftingUiController : ControllerBase
     {
         InitSlots();
 
+        bool isFirst = true;
         for(int i = 0; i < items.Count; i++)
         {
             GameObject obj = Instantiate(slotPrefab, slotParent);
-            obj.GetComponentInChildren<ItemSlot>().item = items[i];
+            obj.GetComponentInChildren<CraftSlot>().item = items[i];
+            if (isFirst)
+            {
+                obj.transform.GetChild(1).gameObject.SetActive(false);
+                isFirst = false;
+            }
+                
         }
-
-        SetFirstSlot();
         CompareToCombineData();
-    }
-
-    void SetFirstSlot()
-    {
-        firstChild = slotParent.GetChild(0);
-        firstChild.GetChild(1).gameObject.SetActive(false);
     }
 
 
@@ -161,7 +162,7 @@ public class CraftingUiController : ControllerBase
 
             for (int k = 0; k < 8; k++)
             {
-                if (combinationCodes[k] == "1") continue;
+                if (combinationCodes[k] == "1" || combinationCodes[k] == "-1") continue;
                 else
                 {
                     flag = 1; break;
@@ -218,10 +219,9 @@ public class CraftingUiController : ControllerBase
     public void AddCombineItem(ItemBase _item)
     {
         GameObject obj = Instantiate(slotPrefab, slotParent);
-        obj.GetComponentInChildren<ItemSlot>().item = _item;
-        obj.GetComponentInChildren<ItemSlot>().eSlotType = ESlotType.ResultSlot;
-        obj.GetComponent<Image>().sprite = craftTypeImage[1];
-        SetFirstSlot();
+        obj.GetComponentInChildren<CraftSlot>().item = _item;
+        obj.GetComponentInChildren<CraftSlot>().eSlotType = ESlotType.ResultSlot;
+        obj.transform.GetChild(1).GetComponent<Image>().sprite = craftTypeImage[1];
     }
 
 
@@ -282,5 +282,12 @@ public class CraftingUiController : ControllerBase
     {
         items.Clear();
         InitSlots();
+    }
+
+    public void MoveInventoryToEquip(ItemBase _item)
+    {
+        if (i == 3) i = 0;
+        equipSlots[i].GetComponentInChildren<EquipSlot>().item = _item;
+        i++;
     }
 }

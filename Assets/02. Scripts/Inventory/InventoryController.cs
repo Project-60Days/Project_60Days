@@ -55,11 +55,11 @@ public class InventoryController : ControllerBase
             itemCounts[i].gameObject.SetActive(true);
             itemCounts[i].text = items[i].itemCount.ToString();
 
-            if (items[i].itemType == ItemType.Consumption)
+            if (items[i].eItemType == EItemType.Consumption)
                 slotImages[i].GetComponent<Image>().sprite = itemTypeImage[0];
-            else if (items[i].itemType == ItemType.Equipment)
+            else if (items[i].eItemType == EItemType.Equipment)
                 slotImages[i].GetComponent<Image>().sprite = itemTypeImage[1];
-            else if (items[i].itemType == ItemType.Material)
+            else if (items[i].eItemType == EItemType.Material)
                 slotImages[i].GetComponent<Image>().sprite = itemTypeImage[2];
         }
     }

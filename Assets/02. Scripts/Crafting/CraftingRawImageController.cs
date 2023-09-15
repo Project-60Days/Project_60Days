@@ -1,10 +1,6 @@
 using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
-using System.Collections.Generic;
-using Cinemachine;
 using UnityEngine.EventSystems;
-using static UnityEditor.Progress;
 
 
 public class CraftingRawImageController : MonoBehaviour, IDragHandler
@@ -35,11 +31,13 @@ public class CraftingRawImageController : MonoBehaviour, IDragHandler
     void Start()
     {
         ItemSlot.CraftItemClick += ChangerTarget;
+        CraftSlot.CraftItemClick += DestroyObject;
     }
 
     void OnDestroy()
     {
         ItemSlot.CraftItemClick -= ChangerTarget;
+        CraftSlot.CraftItemClick -= DestroyObject;
     }
 
     IEnumerator VariablesConnect()
@@ -107,8 +105,8 @@ public class CraftingRawImageController : MonoBehaviour, IDragHandler
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (isControlKeyPushed)
-            return;
+        if (!canRotate) return;
+        if (isControlKeyPushed) return;
 
         float x = eventData.delta.x * Time.deltaTime * rotateSpeed;
         float y = eventData.delta.y * Time.deltaTime * rotateSpeed;

@@ -3,10 +3,10 @@ using UnityEngine;
 [CreateAssetMenu]
 public class EquipmentItem : ItemBase
 {
-    private readonly ItemType thisType = ItemType.Equipment;
+    private readonly EItemType thisType = EItemType.Equipment;
 
     public EquipmentItem()
     {
-        itemType = thisType;
+        eItemType = thisType;
     }
 }
