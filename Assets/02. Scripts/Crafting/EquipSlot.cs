@@ -13,6 +13,7 @@ public class EquipSlot : SlotBase
 
     public override void OnPointerClick(PointerEventData eventData)
     {
-        //
+        UIManager.instance.GetInventoryController().AddItem(_item);
+        UIManager.instance.GetCraftingUiController().MoveEquipToInventory(_item);
     }
 }

@@ -14,19 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemCode: ITEM_TIER_1_GEAR
   data:
-    Index: 0
-    Tier: 0
-    Code: 
+    Index: 1009
+    Tier: 1
+    Code: ITEM_TIER_1_GEAR
     Rarity: 0
     TileIncludePossibility: 0
     Type: 0
-    isCanBase: 0
-    CombineSlotCount: 0
-    Description: 
-    Korean: 
-    English: 
-    Japanese: 
-    Chinese: 
+    isCanBase: 1
+    CombineSlotCount: 3
+    Description: "\uC544\uC774\uD15C\uBA85: \uAE30\uC5B4\n\uD2F0\uC5B4: 1\n\uBD84\uB958:[\uD569\uC131\uBB3C]\n-\uC544\uC774\uD15C
+      \uC124\uBA85\n\uD569\uC131\uBB3C\uACFC \uD569\uC131\uBB3C\uAC04\uC758 \uC5F0\uACB0\uC744
+      \uB3C4\uC640\uC900\uB2E4.\n\uAC00\uB3D9\uB418\uB294 \uBB34\uAE30\uB098 \uD569\uC131\uBB3C\uC758
+      \uB9E4\uC6B0 \uAE30\uBCF8\uC801\uC778 \uC874\uC7AC\uC774\uB2E4."
+    Korean: "\uAE30\uC5B4"
+    English: -1
+    Japanese: -1
+    Chinese: -1
   itemImage: {fileID: 21300000, guid: 8eaf2613189293d41b334565e0e3b273, type: 3}
-  itemCount: 0
-  itemType: 0
+  itemCount: 7
+  eItemType: 1
+  prefab: {fileID: 0}

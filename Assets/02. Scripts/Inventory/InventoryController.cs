@@ -67,7 +67,7 @@ public class InventoryController : ControllerBase
     /// <summary>
     /// slot √ ±‚»≠
     /// </summary>
-    private void InitSlots()
+    void InitSlots()
     {
         for (int i = 0; i < slotParent.childCount; i++)
         {

@@ -16,7 +16,6 @@ public class ItemSlot : SlotBase
     {
         if (UIManager.instance.GetCraftModeController().GetECraftModeType() == ECraftModeType.Craft)
         {
-            CraftItemClick?.Invoke(_item.prefab);
             UIManager.instance.GetCraftingUiController().MoveInventoryToCraft(_item);
             if (_item.itemCount == 1)
             {
@@ -27,11 +26,21 @@ public class ItemSlot : SlotBase
                 _item.itemCount--;
                 UIManager.instance.GetInventoryController().UpdateSlot();
             }
+            CraftItemClick?.Invoke(_item.prefab);
         }
         else if (UIManager.instance.GetCraftModeController().GetECraftModeType() == ECraftModeType.Equip)
         {
             if (_item.eItemType != EItemType.Equipment) return;
             UIManager.instance.GetCraftingUiController().MoveInventoryToEquip(_item);
+            if (_item.itemCount == 1)
+            {
+                UIManager.instance.GetInventoryController().RemoveItem(_item);
+            }
+            else
+            {
+                _item.itemCount--;
+                UIManager.instance.GetInventoryController().UpdateSlot();
+            }
         }
     }
 }

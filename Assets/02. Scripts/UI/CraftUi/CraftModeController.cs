@@ -11,7 +11,7 @@ public class CraftModeController : MonoBehaviour
 
     ECraftModeType eCraftModeType;
 
-    void Start()
+    void Awake()
     {
         SetCraftActive();
     }
@@ -19,38 +19,37 @@ public class CraftModeController : MonoBehaviour
 
     void CraftActiveMode()
     {
-        eCraftModeType = ECraftModeType.Craft;
-        UIManager.instance.GetCraftingUiController().enabled = true;
-        UIManager.instance.GetCraftingRawImageController().DestroyObject();
         CraftBack.SetActive(true);
+        eCraftModeType = ECraftModeType.Craft;
+        UIManager.instance.GetCraftingRawImageController().DestroyObject();
     }
 
     void CraftInActiveMode()
     {
-        UIManager.instance.GetCraftingUiController().enabled = false;
-        UIManager.instance.GetCraftingUiController().ExitUi();
         CraftBack.SetActive(false);
+        UIManager.instance.GetCraftingUiController().ExitCraftBag();
     }
 
     void EquipActiveMode()
     {
+        EquipBack.SetActive(true);
         eCraftModeType = ECraftModeType.Equip;
         UIManager.instance.GetCraftingRawImageController().canRotate = false;
         UIManager.instance.GetCraftingRawImageController().ChangerTarget(player);
-        EquipBack.SetActive(true);
     }
 
     void EquipInActiveMode()
     {
-        UIManager.instance.GetCraftingRawImageController().canRotate = false;
         EquipBack.SetActive(false);
+        UIManager.instance.GetCraftingRawImageController().canRotate = true;
+        UIManager.instance.GetCraftingUiController().ExitEquipBag();
     }
 
     void BlueprintActiveMode()
     {
+        BlueprintBack.SetActive(true);
         eCraftModeType = ECraftModeType.Blueprint;
         UIManager.instance.GetCraftingRawImageController().DestroyObject();
-        BlueprintBack.SetActive(true);
     }
 
     void BlueprintInActiveMode()
@@ -58,6 +57,10 @@ public class CraftModeController : MonoBehaviour
         BlueprintBack.SetActive(false);
     }
 
+
+
+
+    #region Buttons
     public ECraftModeType GetECraftModeType()
     {
         return eCraftModeType;
@@ -65,6 +68,7 @@ public class CraftModeController : MonoBehaviour
 
     public void SetCraftActive()
     {
+        Debug.Log("Craft");
         CraftActiveMode();
         EquipInActiveMode();
         BlueprintInActiveMode();
@@ -72,6 +76,7 @@ public class CraftModeController : MonoBehaviour
 
     public void SetEquipActive()
     {
+        Debug.Log("Equip");
         CraftInActiveMode();
         EquipActiveMode();
         BlueprintInActiveMode();
@@ -79,8 +84,11 @@ public class CraftModeController : MonoBehaviour
 
     public void SetBlueprintActive()
     {
+        Debug.Log("Blueprint");
         CraftInActiveMode();
         EquipInActiveMode();
         BlueprintActiveMode();
     }
+    #endregion
+
 }
