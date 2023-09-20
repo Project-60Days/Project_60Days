@@ -32,5 +32,5 @@ MonoBehaviour:
     Chinese: -1
   itemImage: {fileID: 21300000, guid: f75befbdae4df9145acdd8433d032f71, type: 3}
   itemCount: 0
-  itemType: 0
-  resourceType: 5
+  eItemType: 1
+  prefab: {fileID: 0}
