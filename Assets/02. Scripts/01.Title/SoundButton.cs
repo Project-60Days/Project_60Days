@@ -32,7 +32,7 @@ public class SoundButton : MonoBehaviour, IPointerDownHandler, IDragHandler
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (isDragging)
+        if (isDragging == true)
         {
             float currentDragX = eventData.position.x;
 

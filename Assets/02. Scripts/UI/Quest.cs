@@ -8,9 +8,9 @@ public class Quest : MonoBehaviour
 {
     EQuestType type;
     
-    public void SetEQuestType(EQuestType type)
+    public void SetEQuestType(EQuestType _type)
     {
-        this.type = type;
+        this.type = _type;
     }
 
     public EQuestType GetEQuestType()
@@ -36,9 +36,9 @@ public class Quest : MonoBehaviour
             image.color = Color.blue;
     }
 
-    public void SetText(string text)
+    public void SetText(string _text)
     {
         TMP_Text questText = this.transform.GetChild(1).GetComponent<TMP_Text>();
-        questText.text = text;
+        questText.text = _text;
     }
 }

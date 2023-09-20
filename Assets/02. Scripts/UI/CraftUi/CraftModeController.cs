@@ -68,7 +68,6 @@ public class CraftModeController : MonoBehaviour
 
     public void SetCraftActive()
     {
-        Debug.Log("Craft");
         CraftActiveMode();
         EquipInActiveMode();
         BlueprintInActiveMode();
@@ -76,7 +75,6 @@ public class CraftModeController : MonoBehaviour
 
     public void SetEquipActive()
     {
-        Debug.Log("Equip");
         CraftInActiveMode();
         EquipActiveMode();
         BlueprintInActiveMode();
@@ -84,7 +82,6 @@ public class CraftModeController : MonoBehaviour
 
     public void SetBlueprintActive()
     {
-        Debug.Log("Blueprint");
         CraftInActiveMode();
         EquipInActiveMode();
         BlueprintActiveMode();

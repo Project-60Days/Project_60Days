@@ -19780,7 +19780,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 105272566}
         m_TargetAssemblyTypeName: WorkBenchUiOpen, Assembly-CSharp
-        m_MethodName: UiCloseEvent
+        m_MethodName: CloseUi
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -26306,6 +26306,7 @@ MonoBehaviour:
   craftSlotPrefab: {fileID: 411417707709324595, guid: f426bbc5f32299949a25ba1ac4d203f4, type: 3}
   tempItem: {fileID: 11400000, guid: 2a85c175061996a48825efdfa53582a7, type: 2}
   equipSlotParent: {fileID: 724573621}
+  equipItems: []
 --- !u!225 &2078442789
 CanvasGroup:
   m_ObjectHideFlags: 0

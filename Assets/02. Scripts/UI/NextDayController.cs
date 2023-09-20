@@ -1,15 +1,13 @@
 using Cinemachine;
 using DG.Tweening;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class NextDayController : ControllerBase
 {
     [SerializeField] Image blackPanel;
-    public NotePage[] pages;
+    public NotePageBase[] pages;
 
     [Header("Quest Objects")]
     [SerializeField] GameObject questPrefab;
@@ -37,7 +35,7 @@ public class NextDayController : ControllerBase
     void Awake()
     {
         Init();
-        pages = GameObject.Find("Page_Back").GetComponentsInChildren<NotePage>(includeInactive: true);
+        pages = GameObject.Find("Page_Back").GetComponentsInChildren<NotePageBase>(includeInactive: true);
     }
 
     void Start()
@@ -78,7 +76,7 @@ public class NextDayController : ControllerBase
     /// </summary>
     void InitPageEnabled()
     {
-        foreach (NotePage page in pages)
+        foreach (NotePageBase page in pages)
         {
             page.StopDialogue();
             page.gameObject.SetActive(false);
@@ -93,9 +91,7 @@ public class NextDayController : ControllerBase
     {
         Quest[] quests = questParent.GetComponentsInChildren<Quest>();
         foreach (Quest quest in quests)
-        {
             Destroy(quest.gameObject);
-        }
     }
 
     /// <summary>
@@ -163,15 +159,13 @@ public class NextDayController : ControllerBase
     /// 새로운 날에 쓰이는 페이지만 모아 NoteController에 배열로 전달. (page.GetPageEnableToday()함수로 사용 여부 확인)
     /// </summary>
     /// <returns></returns>
-    public NotePage[] GetNotePageArray()
+    public NotePageBase[] GetNotePageArray()
     {
-        List<NotePage> todayPages = new List<NotePage>();
-        foreach (NotePage page in pages)
+        List<NotePageBase> todayPages = new List<NotePageBase>();
+        foreach (NotePageBase page in pages)
         {
             if (page.GetPageEnableToday())
-            {
                 todayPages.Add(page);
-            }
         }
 
         return todayPages.ToArray(); ;
@@ -188,12 +182,12 @@ public class NextDayController : ControllerBase
     /// </summary>
     /// <param name="type"></param>
     /// <param name="text"></param>
-    void AddQuest(EQuestType type, string text)
+    void AddQuest(EQuestType _type, string _text)
     {
         GameObject obj = Instantiate(questPrefab, questParent);
         Quest quest = obj.GetComponent<Quest>();
-        quest.SetEQuestType(type);
-        quest.SetText(text);
+        quest.SetEQuestType(_type);
+        quest.SetText(_text);
         quest.SetQuestTypeText();
         quest.SetQuestTypeImage();
         SetQuestList();

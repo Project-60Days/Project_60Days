@@ -12,7 +12,7 @@ public class NoteController : ControllerBase
     [SerializeField] Button prevPageBtn;
     [SerializeField] Button closeBtn;
 
-    NotePage[] notePages;
+    NotePageBase[] notePages;
 
     bool isNewDay = true;
     bool isOpen = false;
@@ -65,14 +65,14 @@ public class NoteController : ControllerBase
     public void OpenNote()
     {
         if (notePages.Length == 0) return;
-        if (!isOpen)
+        if (isOpen == false)
         {
             isOpen = true;
             ActiveObjects(true);
 
             ActiveAndPlayPage();
 
-            if (isNewDay)
+            if (isNewDay == true)
                 isNewDay = false;
 
             ChangePageButton();
@@ -87,7 +87,7 @@ public class NoteController : ControllerBase
     /// </summary>
     public void CloseNote()
     {
-        if (isOpen)
+        if (isOpen == true)
         {
             isOpen = false;
             ActiveObjects(false);
@@ -104,11 +104,11 @@ public class NoteController : ControllerBase
     /// 노트 열고 닫을 때 겹치는 오브젝트 활성화/비활성화
     /// </summary>
     /// <param name="isEnable"></param>
-    void ActiveObjects(bool isEnable)
+    void ActiveObjects(bool _isEnable)
     {
-        closeBtn.gameObject.SetActive(isEnable);
-        dayText.gameObject.SetActive(isEnable);
-        noteBackground.SetActive(isEnable);
+        closeBtn.gameObject.SetActive(_isEnable);
+        dayText.gameObject.SetActive(_isEnable);
+        noteBackground.SetActive(_isEnable);
     }
 
 
@@ -131,7 +131,7 @@ public class NoteController : ControllerBase
     /// <summary>
     /// 다음 페이지 버튼 클릭 시 호출
     /// </summary>
-    public void NextPageEvent()
+    public void GoToNextPage()
     {
         if (pageNum + 1 > notePages.Length - 1)
             return;
@@ -142,7 +142,7 @@ public class NoteController : ControllerBase
     /// <summary>
     /// 이전 페이지 버튼 클릭 시 호출
     /// </summary>
-    public void PrevPageEvent()
+    public void GoToPrevPage()
     {
         if (pageNum - 1 < 0)
             return;
@@ -154,10 +154,10 @@ public class NoteController : ControllerBase
     /// 다음/이전 페이지로 이동
     /// </summary>
     /// <param name="index"></param>
-    void ChangePage(int index)
+    void ChangePage(int _index)
     {
         notePages[pageNum].gameObject.SetActive(false);
-        pageNum = index;
+        pageNum = _index;
         ActiveAndPlayPage();
         ChangePageButton();
     }
@@ -171,12 +171,12 @@ public class NoteController : ControllerBase
         notePages[pageNum].PlayPageAction();
     }
 
-    public void ChangePageForce(int index) //시연회때문에 임시로 만들었던 함수.. 지우고싶다
+    public void ChangePageForce(int _index) //시연회때문에 임시로 만들었던 함수.. 지우고싶다
     {
-        pageNum = index;
+        pageNum = _index;
 
         Debug.Log("실행");
-        if (!isOpen)
+        if (isOpen == false)
         {
             OpenNote();
             Debug.Log("열림");
@@ -189,9 +189,9 @@ public class NoteController : ControllerBase
             Debug.Log(i + "닫힘");
         }
 
-        notePages[index].gameObject.SetActive(true);
-        Debug.Log(index);
-        notePages[index].PlayPageAction();
+        notePages[_index].gameObject.SetActive(true);
+        Debug.Log(_index);
+        notePages[_index].PlayPageAction();
         ChangePageButton();
     }
 
@@ -222,10 +222,10 @@ public class NoteController : ControllerBase
     /// </summary>
     /// <param name="nextBtnEnable"></param>
     /// <param name="prevBtnEnable"></param>
-    void ActiveNextBtnAndPrevBtn(bool nextBtnEnable, bool prevBtnEnable)
+    void ActiveNextBtnAndPrevBtn(bool _nextBtnEnable, bool _prevBtnEnable)
     {
-        nextPageBtn.gameObject.SetActive(nextBtnEnable);
-        prevPageBtn.gameObject.SetActive(prevBtnEnable);
+        nextPageBtn.gameObject.SetActive(_nextBtnEnable);
+        prevPageBtn.gameObject.SetActive(_prevBtnEnable);
     }
 
 
@@ -248,24 +248,13 @@ public class NoteController : ControllerBase
         return dayCount;
     }
 
-    public void SetPageNum(ENotePageType type)
+    public void SetPageNum(ENotePageType _type)
     {
         for (int i = 0; i < notePages.Length; i++)
         {
-            if (notePages[i].GetENotePageType() == type)
-            {
+            if (notePages[i].GetENotePageType() == _type)
                 pageNum = i;
-            }
         }
     }
     #endregion
-
-
-
-
-
-    public void TempOpenBtn() //임시로 ui씬에서 노트를 펼치기 위해 만든 함수
-    {
-        OpenNote();
-    }
 }

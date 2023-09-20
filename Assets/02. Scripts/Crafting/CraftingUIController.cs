@@ -121,12 +121,11 @@ public class CraftingUiController : ControllerBase
         {
             GameObject obj = Instantiate(craftSlotPrefab, craftSlotParent);
             obj.GetComponentInChildren<CraftSlot>().item = craftItems[i];
-            if (isFirst)
+            if (isFirst == true)
             {
                 obj.transform.GetChild(1).gameObject.SetActive(false);
                 isFirst = false;
             }
-                
         }
         CompareToCombineData();
     }
@@ -179,17 +178,17 @@ public class CraftingUiController : ControllerBase
         }
     }
 
-    void GetCombinationCodes(ItemCombineData combineData)
+    void GetCombinationCodes(ItemCombineData _combineData)
     {
-        combinationCodes[0] = combineData.Material_1;
-        combinationCodes[1] = combineData.Material_2;
-        combinationCodes[2] = combineData.Material_3;
-        combinationCodes[3] = combineData.Material_4;
-        combinationCodes[4] = combineData.Material_5;
-        combinationCodes[5] = combineData.Material_6;
-        combinationCodes[6] = combineData.Material_7;
-        combinationCodes[7] = combineData.Material_8;
-        combinationCodes[8] = combineData.Result;
+        combinationCodes[0] = _combineData.Material_1;
+        combinationCodes[1] = _combineData.Material_2;
+        combinationCodes[2] = _combineData.Material_3;
+        combinationCodes[3] = _combineData.Material_4;
+        combinationCodes[4] = _combineData.Material_5;
+        combinationCodes[5] = _combineData.Material_6;
+        combinationCodes[6] = _combineData.Material_7;
+        combinationCodes[7] = _combineData.Material_8;
+        combinationCodes[8] = _combineData.Result;
     }
 
 
@@ -199,11 +198,11 @@ public class CraftingUiController : ControllerBase
     /// <summary>
     /// 조합 결과 아이템 ItemBase에서 검색 후 리턴
     /// </summary>
-    public ItemBase GetResultItemByItemCode(string resultItemCode)
+    public ItemBase GetResultItemByItemCode(string _resultItemCode)
     {
         foreach(ItemBase item in itemSO.items)
         {
-            if (item.itemCode == resultItemCode)
+            if (item.itemCode == _resultItemCode)
             {
                 return item;
             }
@@ -241,12 +240,14 @@ public class CraftingUiController : ControllerBase
 
     public void MoveCraftToInventory(ItemBase _item)
     {
+        UIManager.instance.GetInventoryController().AddItem(_item);
         craftItems.Remove(_item);
         UpdateCraft();
     }
 
-    public void MoveResultToInventory()
+    public void MoveResultToInventory(ItemBase _item)
     {
+        UIManager.instance.GetInventoryController().AddItem(_item);
         craftItems.Clear();
         InitCraftSlots();
     }
@@ -261,20 +262,17 @@ public class CraftingUiController : ControllerBase
     /// <param name="itemCode"></param>
     /// <param name="count"></param>
     /// <returns></returns>
-    public bool CheckCraftingItem(string itemCode, int count = 1)
+    public bool CheckCraftingItem(string _itemCode, int _count = 1)
     {
-        int _cnt = 0;
+        int cnt = 0;
 
         for (int i = 0; i < craftItems.Count; i++)
         {
-            if (craftItems[i].itemCode == itemCode)
-                _cnt++;
+            if (craftItems[i].itemCode == _itemCode)
+                cnt++;
         }
 
-        if (_cnt == count)
-            return true;
-        else
-            return false;
+            return (cnt == _count);
     }
     #endregion
 
@@ -315,6 +313,7 @@ public class CraftingUiController : ControllerBase
 
     public void MoveEquipToInventory(ItemBase _item)
     {
+        UIManager.instance.GetInventoryController().AddItem(_item);
         equipItems.Remove(_item);
         UpdateEquip();
     }

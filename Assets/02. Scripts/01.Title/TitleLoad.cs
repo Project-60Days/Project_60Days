@@ -65,16 +65,16 @@ public class TitleLoad : MonoBehaviour
 
 
 
-    void ActiveTitleObjects(bool isActive)
+    void ActiveTitleObjects(bool _isActive)
     {
-        titleText.SetActive(isActive);
-        titleImage.SetActive(isActive);
+        titleText.SetActive(_isActive);
+        titleImage.SetActive(_isActive);
     }
 
-    void ActiveButtonObjects(bool isActive)
+    void ActiveButtonObjects(bool _isActive)
     {
-        buttonText.SetActive(isActive);
-        buttonBack.SetActive(isActive);
+        buttonText.SetActive(_isActive);
+        buttonBack.SetActive(_isActive);
     }
 
 

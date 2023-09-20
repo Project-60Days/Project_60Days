@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Yarn.Unity;
 
-public class SelectPage : NotePage
+public class SelectPage : NotePageBase
 {
     [SerializeField] DialogueRunner dialogueRunner;
     [SerializeField] VerticalLayoutGroup content;
@@ -22,7 +22,7 @@ public class SelectPage : NotePage
     {
         nodeName = "Select"; //임시로 노드 이름 설정
 
-        if (!dialogueRunner.IsDialogueRunning)
+        if (dialogueRunner.IsDialogueRunning == false)
         {
             dialogueRunner.StartDialogue(nodeName);
             LayoutRebuilder.ForceRebuildLayoutImmediate(content.GetComponent<RectTransform>());
@@ -30,14 +30,14 @@ public class SelectPage : NotePage
         }
     }
 
-    public override void SetNodeName(string nodeName)
+    public override void SetNodeName(string _nodeName)
     {
-        this.nodeName = nodeName;
+        this.nodeName = _nodeName;
     }
 
-    public override void SetPageEnabled(bool isNeedToday)
+    public override void SetPageEnabled(bool _isNeedToday)
     {
-        this.isNeedToday = isNeedToday;
+        this.isNeedToday = _isNeedToday;
     }
 
     public override bool GetPageEnableToday()

@@ -106,15 +106,11 @@ public class InventoryController : ControllerBase
     /// 인벤토리에 itemCode를 이용하여 아이템 추가
     /// </summary>
     /// <param name="itemCode"></param>
-    public void AddItemByItemCode(string itemCode)
+    public void AddItemByItemCode(string _itemCode)
     {
         for (int i = 0; i < itemSO.items.Length; i++)
-        {
-            if (itemSO.items[i].itemCode == itemCode)
-            {
+            if (itemSO.items[i].itemCode == _itemCode)
                 AddItem(itemSO.items[i]);
-            }
-        }
     }
 
 
@@ -148,11 +144,11 @@ public class InventoryController : ControllerBase
     /// </summary>
     /// <param name="itemCode"></param>
     /// <returns></returns>
-    public bool CheckInventoryItem(string itemCode)
+    public bool CheckInventoryItem(string _itemCode)
     {
         for(int i = 0; i < items.Count; i++)
         {
-            if (items[i].itemCode == itemCode)
+            if (items[i].itemCode == _itemCode)
                 return true;
         }
 
