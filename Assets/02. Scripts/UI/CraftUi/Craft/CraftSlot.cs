@@ -17,12 +17,10 @@ public class CraftSlot : SlotBase
         switch (eSlotType)
         {
             case ESlotType.CraftingSlot:
-                UIManager.instance.GetInventoryController().AddItem(_item);
                 UIManager.instance.GetCraftingUiController().MoveCraftToInventory(_item);
                 break;
             case ESlotType.ResultSlot:
-                UIManager.instance.GetInventoryController().AddItem(_item);
-                UIManager.instance.GetCraftingUiController().MoveResultToInventory();
+                UIManager.instance.GetCraftingUiController().MoveResultToInventory(_item);
                 break;
         }
 

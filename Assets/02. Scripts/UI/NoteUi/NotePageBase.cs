@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class NotePage : MonoBehaviour
+public abstract class NotePageBase : MonoBehaviour
 {
     public abstract ENotePageType GetENotePageType();
     public abstract void PlayPageAction();

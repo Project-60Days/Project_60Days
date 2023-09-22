@@ -32,7 +32,8 @@ public enum ESlotType
     InventorySlot,
     CraftingSlot,
     ResultSlot,
-    EquipSlot
+    EquipSlot,
+    BlueprintSlot
 }
 
 public enum EQuestType
@@ -43,7 +44,6 @@ public enum EQuestType
 
 public enum EAlarmType
 {
-    New,
     Result,
     Caution
 }

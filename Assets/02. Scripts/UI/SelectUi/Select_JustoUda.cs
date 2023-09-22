@@ -28,15 +28,15 @@ public class Select_JustoUda : SelectBase
         gameObject.SetActive(false);
     }
 
-    public override void SetOptionA(Button button)
+    public override void SetOptionA(Button _button)
     {
-        button.GetComponent<Image>().sprite = imageA;
-        button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = textA;
+        _button.GetComponent<Image>().sprite = imageA;
+        _button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = textA;
     }
 
-    public override void SetOptionB(Button button)
+    public override void SetOptionB(Button _button)
     {
-        button.GetComponent<Image>().sprite = imageB;
-        button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = textB;
+        _button.GetComponent<Image>().sprite = imageB;
+        _button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = textB;
     }
 }

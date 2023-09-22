@@ -20,7 +20,7 @@ public class NotificationButton : ButtonBase
 
     public void ClickButton()
     {
-        if (!isOpen)
+        if (isOpen == false)
             StartCoroutine(OpenPanel());
         else
             StartCoroutine(ClosePanel());

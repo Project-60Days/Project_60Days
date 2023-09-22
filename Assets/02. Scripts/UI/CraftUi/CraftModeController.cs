@@ -5,9 +5,11 @@ using UnityEngine;
 public class CraftModeController : MonoBehaviour
 {
     [SerializeField] GameObject player;
-    [SerializeField] GameObject CraftBack;
-    [SerializeField] GameObject EquipBack;
-    [SerializeField] GameObject BlueprintBack;
+    [SerializeField] GameObject craftBag;
+    [SerializeField] GameObject equipBag;
+    [SerializeField] GameObject blueprintBag;
+    [SerializeField] GameObject blueprint;
+    [SerializeField] GameObject inventoryBack;
 
     ECraftModeType eCraftModeType;
 
@@ -19,20 +21,20 @@ public class CraftModeController : MonoBehaviour
 
     void CraftActiveMode()
     {
-        CraftBack.SetActive(true);
+        craftBag.SetActive(true);
         eCraftModeType = ECraftModeType.Craft;
         UIManager.instance.GetCraftingRawImageController().DestroyObject();
     }
 
     void CraftInActiveMode()
     {
-        CraftBack.SetActive(false);
+        craftBag.SetActive(false);
         UIManager.instance.GetCraftingUiController().ExitCraftBag();
     }
 
     void EquipActiveMode()
     {
-        EquipBack.SetActive(true);
+        equipBag.SetActive(true);
         eCraftModeType = ECraftModeType.Equip;
         UIManager.instance.GetCraftingRawImageController().canRotate = false;
         UIManager.instance.GetCraftingRawImageController().ChangerTarget(player);
@@ -40,21 +42,25 @@ public class CraftModeController : MonoBehaviour
 
     void EquipInActiveMode()
     {
-        EquipBack.SetActive(false);
+        equipBag.SetActive(false);
         UIManager.instance.GetCraftingRawImageController().canRotate = true;
         UIManager.instance.GetCraftingUiController().ExitEquipBag();
     }
 
     void BlueprintActiveMode()
     {
-        BlueprintBack.SetActive(true);
+        blueprintBag.SetActive(true);
+        blueprint.SetActive(true);
+        inventoryBack.SetActive(false);
         eCraftModeType = ECraftModeType.Blueprint;
         UIManager.instance.GetCraftingRawImageController().DestroyObject();
     }
 
     void BlueprintInActiveMode()
     {
-        BlueprintBack.SetActive(false);
+        inventoryBack.SetActive(true);
+        blueprintBag.SetActive(false);
+        blueprint.SetActive(false);
     }
 
 
@@ -68,7 +74,6 @@ public class CraftModeController : MonoBehaviour
 
     public void SetCraftActive()
     {
-        Debug.Log("Craft");
         CraftActiveMode();
         EquipInActiveMode();
         BlueprintInActiveMode();
@@ -76,7 +81,6 @@ public class CraftModeController : MonoBehaviour
 
     public void SetEquipActive()
     {
-        Debug.Log("Equip");
         CraftInActiveMode();
         EquipActiveMode();
         BlueprintInActiveMode();
@@ -84,11 +88,9 @@ public class CraftModeController : MonoBehaviour
 
     public void SetBlueprintActive()
     {
-        Debug.Log("Blueprint");
         CraftInActiveMode();
         EquipInActiveMode();
         BlueprintActiveMode();
     }
     #endregion
-
 }

@@ -1,22 +1,19 @@
 using Cinemachine;
 using DG.Tweening;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class NextDayController : ControllerBase
 {
     [SerializeField] Image blackPanel;
-    public NotePage[] pages;
+    public NotePageBase[] pages;
 
     [Header("Quest Objects")]
     [SerializeField] GameObject questPrefab;
     [SerializeField] Transform questParent;
 
     [Header("Alarm Objects")]
-    [SerializeField] GameObject newAlarm;
     [SerializeField] GameObject resultAlarm;
     [SerializeField] GameObject cautionAlarm;
 
@@ -37,7 +34,7 @@ public class NextDayController : ControllerBase
     void Awake()
     {
         Init();
-        pages = GameObject.Find("Page_Back").GetComponentsInChildren<NotePage>(includeInactive: true);
+        pages = GameObject.Find("Page_Back").GetComponentsInChildren<NotePageBase>(includeInactive: true);
     }
 
     void Start()
@@ -79,7 +76,7 @@ public class NextDayController : ControllerBase
     /// </summary>
     void InitPageEnabled()
     {
-        foreach (NotePage page in pages)
+        foreach (NotePageBase page in pages)
         {
             page.StopDialogue();
             page.gameObject.SetActive(false);
@@ -94,9 +91,7 @@ public class NextDayController : ControllerBase
     {
         Quest[] quests = questParent.GetComponentsInChildren<Quest>();
         foreach (Quest quest in quests)
-        {
             Destroy(quest.gameObject);
-        }
     }
 
     /// <summary>
@@ -104,7 +99,6 @@ public class NextDayController : ControllerBase
     /// </summary>
     void InitAlarm()
     {
-        newAlarm.SetActive(false);
         resultAlarm.SetActive(false);
         cautionAlarm.SetActive(false);
     }
@@ -154,7 +148,20 @@ public class NextDayController : ControllerBase
         sequence.Play();
     }
 
+    public void FadeOutUiObjects()
+    {
+        Sequence sequence = DOTween.Sequence();
+        sequence
+            .Append(shelterUi.DOFade(0f, 0.5f))
+            .OnComplete(() => ZoomInMap());
+        sequence.Play();
+    }
 
+    void ZoomInMap()
+    {
+        App.instance.GetMapManager().SetMapCameraPriority(true);
+        DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 10f, 0.5f);
+    }
 
 
 
@@ -163,15 +170,13 @@ public class NextDayController : ControllerBase
     /// ���ο� ���� ���̴� �������� ��� NoteController�� �迭�� ����. (page.GetPageEnableToday()�Լ��� ��� ���� Ȯ��)
     /// </summary>
     /// <returns></returns>
-    public NotePage[] GetNotePageArray()
+    public NotePageBase[] GetNotePageArray()
     {
-        List<NotePage> todayPages = new List<NotePage>();
-        foreach (NotePage page in pages)
+        List<NotePageBase> todayPages = new List<NotePageBase>();
+        foreach (NotePageBase page in pages)
         {
             if (page.GetPageEnableToday())
-            {
                 todayPages.Add(page);
-            }
         }
 
         return todayPages.ToArray(); ;
@@ -188,12 +193,11 @@ public class NextDayController : ControllerBase
     /// </summary>
     /// <param name="type"></param>
     /// <param name="text"></param>
-    void AddQuest(EQuestType type, string text)
+    void AddQuest(EQuestType _type)
     {
         GameObject obj = Instantiate(questPrefab, questParent);
         Quest quest = obj.GetComponent<Quest>();
-        quest.SetEQuestType(type);
-        quest.SetText(text);
+        quest.SetEQuestType(_type);
         quest.SetQuestTypeText();
         quest.SetQuestTypeImage();
         SetQuestList();
@@ -222,12 +226,12 @@ public class NextDayController : ControllerBase
     #region ForTest
     public void AddMainQuestBtn() //�׽�Ʈ�� �ӽ� �Լ�. ��������Ʈ �߰� ��ư
     {
-        AddQuest(EQuestType.Main, "�����Դϴ�");
+        AddQuest(EQuestType.Main);
     }
 
     public void AddSubQuestBtn() //�׽�Ʈ�� �ӽ� �Լ�. ��������Ʈ �߰� ��ư
     {
-        AddQuest(EQuestType.Sub, "���ÿ�");
+        AddQuest(EQuestType.Sub);
     }
     public void AddResultPage() //�׽�Ʈ�� �ӽ� �Լ�. ���� ���� ��� ������ Ȱ��ȭ ��ư
     {

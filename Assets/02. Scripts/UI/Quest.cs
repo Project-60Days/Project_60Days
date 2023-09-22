@@ -7,10 +7,12 @@ using UnityEngine.UI;
 public class Quest : MonoBehaviour
 {
     EQuestType type;
+    [SerializeField] Sprite[] questImages;
+    [SerializeField] Sprite[] progressImages;
     
-    public void SetEQuestType(EQuestType type)
+    public void SetEQuestType(EQuestType _type)
     {
-        this.type = type;
+        this.type = _type;
     }
 
     public EQuestType GetEQuestType()
@@ -29,16 +31,16 @@ public class Quest : MonoBehaviour
     
     public void SetQuestTypeImage()
     {
-        Image image = this.GetComponent<Image>();
-        if (this.type == EQuestType.Main)
-            image.color=Color.red;
+        Image[] images = transform.GetComponentsInChildren<Image>();
+        if (type == EQuestType.Main)
+        {
+            images[0].sprite = questImages[0];
+            images[1].sprite = progressImages[0];
+        }
         else
-            image.color = Color.blue;
-    }
-
-    public void SetText(string text)
-    {
-        TMP_Text questText = this.transform.GetChild(1).GetComponent<TMP_Text>();
-        questText.text = text;
+        {
+            images[0].sprite = questImages[1];
+            images[1].sprite = progressImages[1];
+        }
     }
 }
