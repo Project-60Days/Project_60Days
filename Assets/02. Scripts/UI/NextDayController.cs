@@ -14,7 +14,6 @@ public class NextDayController : ControllerBase
     [SerializeField] Transform questParent;
 
     [Header("Alarm Objects")]
-    [SerializeField] GameObject newAlarm;
     [SerializeField] GameObject resultAlarm;
     [SerializeField] GameObject cautionAlarm;
 
@@ -43,6 +42,7 @@ public class NextDayController : ControllerBase
         shelterUi = GameObject.FindGameObjectWithTag("ShelterUi").GetComponent<CanvasGroup>();
         mapCamera = GameObject.FindGameObjectWithTag("MapCamera").GetComponent<CinemachineVirtualCamera>();
         transposer = mapCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+        transposer.m_CameraDistance = 15f;
     }
 
 
@@ -99,7 +99,6 @@ public class NextDayController : ControllerBase
     /// </summary>
     void InitAlarm()
     {
-        newAlarm.SetActive(false);
         resultAlarm.SetActive(false);
         cautionAlarm.SetActive(false);
     }
@@ -150,7 +149,20 @@ public class NextDayController : ControllerBase
         sequence.Play();
     }
 
+    public void FadeOutUiObjects()
+    {
+        Sequence sequence = DOTween.Sequence();
+        sequence
+            .Append(shelterUi.DOFade(0f, 0.5f))
+            .OnComplete(() => ZoomInMap());
+        sequence.Play();
+    }
 
+    void ZoomInMap()
+    {
+        App.instance.GetMapManager().SetMapCameraPriority(true);
+        DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 10f, 0.5f);
+    }
 
 
 
@@ -182,12 +194,11 @@ public class NextDayController : ControllerBase
     /// </summary>
     /// <param name="type"></param>
     /// <param name="text"></param>
-    void AddQuest(EQuestType _type, string _text)
+    void AddQuest(EQuestType _type)
     {
         GameObject obj = Instantiate(questPrefab, questParent);
         Quest quest = obj.GetComponent<Quest>();
         quest.SetEQuestType(_type);
-        quest.SetText(_text);
         quest.SetQuestTypeText();
         quest.SetQuestTypeImage();
         SetQuestList();
@@ -216,12 +227,12 @@ public class NextDayController : ControllerBase
     #region ForTest
     public void AddMainQuestBtn() //테스트용 임시 함수. 메인퀘스트 추가 버튼
     {
-        AddQuest(EQuestType.Main, "예시입니다");
+        AddQuest(EQuestType.Main);
     }
 
     public void AddSubQuestBtn() //테스트용 임시 함수. 서브퀘스트 추가 버튼
     {
-        AddQuest(EQuestType.Sub, "예시여");
+        AddQuest(EQuestType.Sub);
     }
     public void AddResultPage() //테스트용 임시 함수. 다음 날에 결과 페이지 활성화 버튼
     {

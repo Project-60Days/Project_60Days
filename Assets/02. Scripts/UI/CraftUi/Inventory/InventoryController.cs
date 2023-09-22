@@ -39,7 +39,6 @@ public class InventoryController : ControllerBase
         AddItemByItemCode("ITEM_TIER_2_PLASMA");
         AddItemByItemCode("ITEM_TIER_1_PLASTIC");
         AddItemByItemCode("ITEM_TIER_1_STEEL");
-        UpdateSlot();
     }
 
     /// <summary>
