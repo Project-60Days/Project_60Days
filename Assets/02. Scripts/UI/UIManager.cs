@@ -36,6 +36,8 @@ public class UIManager : Singleton<UIManager>
     public bool isUIStatus(string _cmp)
     {
         currUIStack.TryPeek(out string top);
+        Debug.Log("Top: " + top);
+        Debug.Log(_cmp == top);
         return _cmp == top;
     }
 

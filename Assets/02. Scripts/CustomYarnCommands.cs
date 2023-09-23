@@ -17,7 +17,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         dialogueRunner.AddCommandHandler<string>("waitUntil", WaitUntilUIState);
         dialogueRunner.AddCommandHandler<string, string>("highlight", HighLightObject);
 
-        //dialogueRunner.AddCommandHandler("hide", HideDialogue);
+        dialogueRunner.AddCommandHandler("hide", HideDialogue);
         dialogueRunner.AddCommandHandler("show", ShowDialogue);
         dialogueRunner.AddCommandHandler("done", DoneDialogue);
         //
