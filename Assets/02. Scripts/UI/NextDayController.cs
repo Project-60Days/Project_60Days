@@ -12,6 +12,7 @@ public class NextDayController : ControllerBase
     [Header("Quest Objects")]
     [SerializeField] GameObject questPrefab;
     [SerializeField] Transform questParent;
+    [SerializeField] GameObject questLogo;
 
     [Header("Alarm Objects")]
     [SerializeField] GameObject resultAlarm;
@@ -210,6 +211,10 @@ public class NextDayController : ControllerBase
     void SetQuestList()
     {
         Quest[] quests = questParent.GetComponentsInChildren<Quest>();
+
+        if (quests.Length > 0)
+            questLogo.SetActive(true);
+
         foreach (Quest quest in quests)
         {
             if(quest.GetEQuestType() == EQuestType.Main)
@@ -219,6 +224,18 @@ public class NextDayController : ControllerBase
         }
     }
     #endregion
+
+
+
+
+
+    public void SetNote(string _noteType, bool _isActive)
+    {
+        if (_noteType == "result")
+            pages[0].SetPageEnabled(_isActive);
+        else if (_noteType == "select")
+            pages[1].SetPageEnabled(_isActive);
+    }
 
 
 
@@ -234,23 +251,7 @@ public class NextDayController : ControllerBase
     {
         AddQuest(EQuestType.Sub);
     }
-    public void AddResultPage() //�׽�Ʈ�� �ӽ� �Լ�. ���� ���� ��� ������ Ȱ��ȭ ��ư
-    {
-        pages[0].SetPageEnabled(true);
-    }
-    public void RemoveResultPage() //�׽�Ʈ�� �ӽ� �Լ�. ���� ���� ��� ������ ��Ȱ��ȭ ��ư
-    {
-        pages[0].SetPageEnabled(false);
-    }
-    public void AddSelectPage() //�׽�Ʈ�� �ӽ� �Լ�. ���� ���� ���� ������ Ȱ��ȭ ��ư
-    {
-        pages[1].SetPageEnabled(true);
-    }
-    public void RemoveSelectPage() //�׽�Ʈ�� �ӽ� �Լ�. ���� ���� ���� ������ ��Ȱ��ȭ ��ư
-    {
-        pages[1].SetPageEnabled(false);
-    }
-
+   
     public void AddResultAlarm()
     {
         resultAlarm.SetActive(true);

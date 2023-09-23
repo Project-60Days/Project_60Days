@@ -60,33 +60,57 @@ tags:
 <<highlight Map UI_MAP>>
 <<hide>>
 <<waitUntil UI_MAP>>
+<<jump Tutorial_05>>
 ===
-title: Tutoral_05
+title: Tutorial_05
 tags:
 ---
+<<show>>
 글리처는 기록상 제일 위험한 바이러스를 지닌 유기체로 플레이어의 생존에서 제일 눈여겨 봐야할 존재입니다.
 그들과 전투에서 패배하게 된다면 그들과 같은 존재가 될 것입니다.
 현 상황 거처는 공격능력을 갖추고 있지 않습니다. 서둘러 글리처에게서 멀어지십시오.
 거처를 누를 시 이동할 수 있는 반경이 표시됩니다.
+<<hide>>
+//<<wait~>>
+<<jump Tutorial_06>>
 ===
-title: Tutoral_6
+title: Tutorial_06
 tags:
 ---
+<<show>>
 거처를 이동시키는데 많은 동력을 필요로 하기 때문에 하루를 소모하게 됩니다.
 하루를 소모하기 때문에 현 거처에서 할 수 있는 모든 행동을 취해야합니다.
 행동 확인 이후 입력 완료 버튼을 눌러 다음날로 진행하십시오.
+<<hide>>
+<<setNote result true>>
+<<setNote select false>>
+<<waitNewDay>>
+<<jump Tutorial_07>>
 ===
-title: Tutoral_7
+title: Tutorial_07
 tags:
 ---
+<<setAlert selection true>>
+<<setAlert caution false>>
+<<show>>
 이동을 통하여 현 거처 위치의 자원이 자동수집 되었습니다.
 왼쪽 노트 알림을 눌러 아이템 수집 결과를 확인하십시오
+<<highlight Alert UI_NOTE>>
+<<hide>>
+<<waitUntil UI_NOTE>>
+<<show>>
 현 필요 생존 프로세스를 모두 완료하였습니다.
+<<hide>>
+<<waitUntil UI_NORMAL>>
+<<jump Tutorial_08>>
 ===
-title: Tutoral_8
+title: Tutorial_08
 tags: 
 ---
+<<show>>
 플레이어의 행동 기반에 따라 데이터베이스를 분석합니다.
 현재 접근 가능한 데이터를 수집하여 플레이어에 따른 전송방식을 구축합니다.
 플레이어에게 데이터를 전송합니다.
+<<hide>>
+<<endTutorial>>
 ===

@@ -122,19 +122,33 @@ public class InventoryController : ControllerBase
     /// <param name="_item"></param>
     public void RemoveItem(ItemBase _item)
     {
-        _item.itemCount--;
-        for(int i = 0; i < items.Count; i++)
+        if (_item.itemCount == 1)
         {
-            if (items[i] == _item)
+            for (int i = 0; i < items.Count; i++)
             {
-                items.RemoveAt(i);
-                break;
+                if (items[i] == _item)
+                {
+                    items.RemoveAt(i);
+                    break;
+                }
             }
         }
+        else
+            _item.itemCount--;
+        
         UpdateSlot();
     }
 
-
+    public void RemoveItemByCode(string _itemCode)
+    {
+        ItemBase item;
+        for (int i = 0; i < itemSO.items.Length; i++)
+            if (itemSO.items[i].itemCode == _itemCode)
+            {
+                item = itemSO.items[i];
+                RemoveItem(item);
+            }
+    }
 
 
 

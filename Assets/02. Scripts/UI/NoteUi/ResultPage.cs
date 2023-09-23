@@ -10,7 +10,7 @@ public class ResultPage : NotePageBase
     [SerializeField] VerticalLayoutGroup content;
     [SerializeField] VerticalLayoutGroup lineView;
 
-    bool isNeedToday = true; //임시로 true를 default로 설정
+    bool isNeedToday = false; //임시로 false를 default로 설정
     string nodeName;
 
     public override ENotePageType GetENotePageType()

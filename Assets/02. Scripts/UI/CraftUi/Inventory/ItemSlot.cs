@@ -27,12 +27,6 @@ public class ItemSlot : SlotBase
             UIManager.instance.GetCraftingUiController().MoveInventoryToEquip(_item);
         }
 
-        if (_item.itemCount == 1)
-            UIManager.instance.GetInventoryController().RemoveItem(_item);
-        else
-        {
-            _item.itemCount--;
-            UIManager.instance.GetInventoryController().UpdateSlot();
-        }
+        UIManager.instance.GetInventoryController().RemoveItem(_item);
     }
 }
