@@ -15,18 +15,18 @@ public class ItemSlot : SlotBase
     public override void OnPointerClick(PointerEventData eventData)
     {
         var item = _item;
-
+        
         if (UIManager.instance.GetCraftModeController().GetECraftModeType() == ECraftModeType.Craft)
         {
-            UIManager.instance.GetCraftingUiController().MoveInventoryToCraft(_item);
+            UIManager.instance.GetCraftingUiController().MoveInventoryToCraft(item);
             CraftItemClick?.Invoke(item.prefab);
         }
         else if (UIManager.instance.GetCraftModeController().GetECraftModeType() == ECraftModeType.Equip)
         {
-            if (_item.eItemType != EItemType.Equipment) return;
-            UIManager.instance.GetCraftingUiController().MoveInventoryToEquip(_item);
+            if (item.eItemType != EItemType.Equipment) return;
+            UIManager.instance.GetCraftingUiController().MoveInventoryToEquip(item);
         }
 
-        UIManager.instance.GetInventoryController().RemoveItem(_item);
+        UIManager.instance.GetInventoryController().RemoveItem(item);
     }
 }

@@ -32,9 +32,7 @@ public class InventoryController : ControllerBase
     void Awake()
     {
         foreach(var item in itemSO.items)
-        {
             item.itemCount = 0;
-        }
 
         AddItemByItemCode("ITEM_TIER_2_PLASMA");
         AddItemByItemCode("ITEM_TIER_1_PLASTIC");
@@ -122,7 +120,9 @@ public class InventoryController : ControllerBase
     /// <param name="_item"></param>
     public void RemoveItem(ItemBase _item)
     {
-        if (_item.itemCount == 1)
+        _item.itemCount--;
+
+        if (_item.itemCount == 0)
         {
             for (int i = 0; i < items.Count; i++)
             {
@@ -133,8 +133,6 @@ public class InventoryController : ControllerBase
                 }
             }
         }
-        else
-            _item.itemCount--;
         
         UpdateSlot();
     }

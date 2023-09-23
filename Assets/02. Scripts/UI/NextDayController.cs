@@ -142,19 +142,18 @@ public class NextDayController : ControllerBase
         Sequence sequence = DOTween.Sequence();
         sequence
             .Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 5f, 0.5f))
-            .OnComplete(() =>
-            {
-                App.instance.GetMapManager().SetMapCameraPriority(false);
-            })
+            .OnComplete(() => App.instance.GetMapManager().SetMapCameraPriority(false))
             .Append(shelterUi.DOFade(1f, 0.5f));
         sequence.Play();
     }
 
     public void GoToMap()
     {
+        blackPanel.gameObject.SetActive(true);
         Sequence sequence = DOTween.Sequence();
         sequence
             .Append(shelterUi.DOFade(0f, 0.5f))
+            .Join(blackPanel.DOFade(1f, 0.5f))
             .OnComplete(() => ZoomInMap());
         sequence.Play();
     }
@@ -162,7 +161,9 @@ public class NextDayController : ControllerBase
     void ZoomInMap()
     {
         App.instance.GetMapManager().SetMapCameraPriority(true);
-        DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 10f, 0.5f);
+        blackPanel.DOFade(0f, 0.5f);
+        DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 10f, 0.5f)
+            .OnComplete(()=> blackPanel.gameObject.SetActive(false));
     }
 
 

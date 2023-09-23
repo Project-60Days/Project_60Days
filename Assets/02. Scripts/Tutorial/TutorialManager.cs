@@ -9,10 +9,12 @@ public class TutorialManager : Singleton<TutorialManager>
     [Header("Tutorial")]
     [SerializeField]  TutorialController tutorialController;
 
-    public Image lightBackground;
-    public Image workBench;
+    GameObject workBench;
+    Image lightBackground;
+    Image workBenchImage;
     public bool isLightUp = false;
 
+    int initIndex;
     public TutorialController GetTutorialController()
     {
         return tutorialController;
@@ -21,31 +23,32 @@ public class TutorialManager : Singleton<TutorialManager>
     void Awake()
     {
         lightBackground = GameObject.FindWithTag("LightImage").GetComponent<Image>();
-        workBench = GameObject.FindWithTag("WorkBench").GetComponent<Image>();
+        workBench = GameObject.FindWithTag("WorkBench");
+        workBenchImage = workBench.GetComponent<Image>();
+
+        initIndex = workBench.transform.GetSiblingIndex();
     }
 
     public void LightUpWorkBench()
     {
+        workBench.transform.SetAsLastSibling();
         Color color = new Color(0.15f, 0.15f, 0.15f, 1f);
-        workBench.DOColor(color, 0.5f);
+        workBenchImage.DOColor(color, 0f);
     }
     public void LightDownWorkBench()
     {
-        Color color = new Color(0.020f, 0.020f, 0.020f, 1f);
-        workBench.DOColor(color, 0f);
+        workBench.transform.SetSiblingIndex(initIndex);
+        Color color = new Color(1f, 1f, 1f, 1f);
+        workBenchImage.DOColor(color, 0f);
     }
     public void LightUpBackground()
     {
         Color color = new Color(1f, 1f, 1f, 1f);
-        Sequence sequence = DOTween.Sequence();
-        sequence.Append(lightBackground.DOFade(0f, 2f).SetEase(Ease.InBounce))
-            .Join(workBench.DOColor(color, 2f).SetEase(Ease.InBounce))
-            .OnComplete(() =>
+        lightBackground.DOFade(0f, 2f).SetEase(Ease.InBounce).OnComplete(() =>
             {
-            lightBackground.gameObject.SetActive(false);
-            isLightUp = true;
+                lightBackground.gameObject.SetActive(false);
+                isLightUp = true;
             });
-        sequence.Play();
     }
 
     public void EndTutorial()

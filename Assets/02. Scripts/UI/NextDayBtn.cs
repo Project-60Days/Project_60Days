@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class NextDayBtn : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     [Header("Gauage Obejcts")]
-    [SerializeField] Image gaugeImage;
     [SerializeField] float fillSpeed = 1.0f;
     [SerializeField] float maxGaugeValue = 100.0f;
     float currentGaugeValue = 0.0f;
@@ -25,7 +24,7 @@ public class NextDayBtn : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             FillGauge();
             if (currentGaugeValue >= maxGaugeValue) //게이지가 다 차면 다음 날로 이동
             {
-                isFilling = false;
+                InitGauageUI();
                 UIManager.instance.GetNextDayController().NextDayEvent();
             }
         }
@@ -36,8 +35,8 @@ public class NextDayBtn : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     /// </summary>
     void InitGauageUI()
     {
+        isFilling = false;
         currentGaugeValue = 0.0f;
-        gaugeImage.fillAmount = 0;
     }
 
     /// <summary>
@@ -65,14 +64,5 @@ public class NextDayBtn : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     void FillGauge()
     {
         currentGaugeValue += fillSpeed * Time.deltaTime;
-        UpdateGaugeUI();
-    }
-
-    /// <summary>
-    /// 게이지에 따라 Ui 변경
-    /// </summary>
-    void UpdateGaugeUI()
-    {
-        gaugeImage.fillAmount = currentGaugeValue / maxGaugeValue;
     }
 }
