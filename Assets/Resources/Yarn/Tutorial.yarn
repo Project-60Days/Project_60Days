@@ -25,27 +25,41 @@ tags:
 아이템을 제작해내려면 특정 순서대로 자원을 배치해야합니다.
 대상의 인벤토리에 가지고 있는 기본자원 강철, 플라스틱, 플라즈마를 이용하여 배터리를 제작해낼 수 있습니다.
 <<hide>>
-<<waitUntilGetItem ITEM_TIER_2_BATTERY>>
+<<waitGetItem ITEM_TIER_2_BATTERY>>
 <<show>>
 배터리를 제작하였습니다.
 거처로 돌아가 전력을 보급하십시오.
 <<hide>>
 <<waitUntil UI_NORMAL>>
+
 <<jump Tutorial_03>>
 ===
 title: Tutorial_03
 tags:
 ---
+<<setAlert selection true>>
 <<show>>
 노트에서는 플레이어의 스토리와 결정을 내릴 수 있으며 퀘스트를 완료할 수 있습니다.
 왼쪽 노트 알림을 눌러 거처에 배터리를 보급하여 거처를 정상상태로 되돌리십시오.
+<<highlight Alert UI_NOTE>>
+<<hide>>
+<<waitUntil UI_NOTE>>
+<<waitLightUp>>
+<<jump Tutorial_04>>
 ===
 title: Tutorial_04
 tags:
 ---
+<<setAlert selection false>>
+<<setAlert caution true>>
+<<show>>
 비상사태입니다. 감지시스템 재가동 결과 글리처가 거처주변에서 발견되었습니다.
 왼쪽 비상 알림은 거처 주변 1칸 내에 글리처가 존재함을 알려줍니다.
-표시된 오른쪽 지도 UI를 선택하여 거처의 상황을 파악하십시오.
+표시된 왼쪽 비상 알림 또는 오른쪽 지도 UI를 선택하여 거처의 상황을 파악하십시오.
+<<highlight Alert UI_MAP>>
+<<highlight Map UI_MAP>>
+<<hide>>
+<<waitUntil UI_MAP>>
 ===
 title: Tutoral_05
 tags:

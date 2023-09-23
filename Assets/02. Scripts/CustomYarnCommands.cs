@@ -26,13 +26,15 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         dialogueRunner.AddCommandHandler("lightDownWorkBench", LightDownWorkBench);
 
         //02//
-        dialogueRunner.AddCommandHandler<string>("waitUntilGetItem", WaitUntilGetItem);
+        dialogueRunner.AddCommandHandler<string>("waitGetItem", WaitGetItem);
         //dialogueRunner.AddCommandHandler<string, int>("waitSetCraftingItem", WaitSetCraftingItem);
 
-
+        //03//
+        dialogueRunner.AddCommandHandler("waitLightUp", WaitLightUp);
+        dialogueRunner.AddCommandHandler<string, bool>("setAlert", SetAlertState);
         //
         dialogueRunner.AddCommandHandler("mapNextDay", MapNextDay);
-        dialogueRunner.AddCommandHandler("waitLightUp", WaitLightUp);
+        
         dialogueRunner.AddCommandHandler("endTutorial", EndTutorial);
         dialogueRunner.AddCommandHandler<int>("moveNoteTap", MoveNoteTap);
         
@@ -89,17 +91,19 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     //    return StartCoroutine(new WaitUntil(() => UIManager.instance.GetCraftingUiController().CheckCraftingItem(_itemCode, _count)));
     //}
 
-    private Coroutine WaitUntilGetItem(string _itemCode)
+    private Coroutine WaitGetItem(string _itemCode)
     {
         return StartCoroutine(new WaitUntil(() => UIManager.instance.GetInventoryController().CheckInventoryItem(_itemCode)));
     }
 
-
+    void SetAlertState(string _alertType, bool _isActive)
+    {
+        UIManager.instance.GetAlertController().SetAlert(_alertType, _isActive);
+    }
 
     //
     private Coroutine WaitLightUp()
     {
-        TutorialManager.instance.LightUpBackground();
         return StartCoroutine(new WaitUntil(() => TutorialManager.instance.isLightUp));
     }
 

@@ -158,12 +158,7 @@ public class CraftingUiController : ControllerBase
             flag = 0;
 
             string[] combinationCodes = GetCombinationCodes(combineData);
-            if (combinationCodes[8]=="ITEM_TIER_2_BATTERY")
-            {
-                for(int i=0;i<8;i++)
-                    Debug.Log(combinationCodes[i]);
-               
-            }
+         
             for (int i = 0; i < craftItems.Count; i++)
             {
                 for (int k = 0; k < 8; k++)
@@ -185,8 +180,6 @@ public class CraftingUiController : ControllerBase
                     flag = 1; break;
                 }
             }
-
-            Debug.Log(flag);
 
             if (flag == 0)
             {

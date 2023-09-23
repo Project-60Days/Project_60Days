@@ -13,6 +13,7 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] UIHighLightController uiHighLightController;
     [SerializeField] SelectController selectController;
     [SerializeField] NextDayController nextDayController;
+    [SerializeField] AlertController alertController;
 
     public Stack<string> currUIStack = new Stack<string>();
 
@@ -36,7 +37,6 @@ public class UIManager : Singleton<UIManager>
     public bool isUIStatus(string _cmp)
     {
         currUIStack.TryPeek(out string top);
-        Debug.Log(top);
         return _cmp == top;
     }
 
@@ -83,5 +83,10 @@ public class UIManager : Singleton<UIManager>
     public NextDayController GetNextDayController()
     {
         return nextDayController;
+    }
+
+    public AlertController GetAlertController()
+    {
+        return alertController;
     }
 }

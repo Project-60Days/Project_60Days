@@ -38,11 +38,16 @@ public class TutorialManager : Singleton<TutorialManager>
     }
     public void LightUpBackground()
     {
-        lightBackground.DOFade(0f, 2f).SetEase(Ease.InBounce).OnComplete(() =>
-        {
+        Color color = new Color(1f, 1f, 1f, 1f);
+        Sequence sequence = DOTween.Sequence();
+        sequence.Append(lightBackground.DOFade(0f, 2f).SetEase(Ease.InBounce))
+            .Join(workBench.DOColor(color, 2f).SetEase(Ease.InBounce))
+            .OnComplete(() =>
+            {
             lightBackground.gameObject.SetActive(false);
             isLightUp = true;
-        });
+            });
+        sequence.Play();
     }
 
     public void EndTutorial()
