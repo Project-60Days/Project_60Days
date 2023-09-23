@@ -11,7 +11,6 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] CraftingRawImageController craftingRawImageController;
     [SerializeField] CraftModeController craftModeController;
     [SerializeField] UIHighLightController uiHighLightController;
-    [SerializeField] EndUIController endUIController;
     [SerializeField] SelectController selectController;
     [SerializeField] NextDayController nextDayController;
 
@@ -73,11 +72,6 @@ public class UIManager : Singleton<UIManager>
     public UIHighLightController GetUIHighLightController()
     {
         return uiHighLightController;
-    }
-
-    public EndUIController GetEndUIController()
-    {
-        return endUIController;
     }
 
     public SelectController GetSelectController()

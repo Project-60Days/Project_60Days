@@ -1,52 +1,39 @@
-ï»¿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
 public class TutorialManager : Singleton<TutorialManager>
 {
-    // íŠœí† ë¦¬ì–¼ ì”¬ ê´€ë¦¬ ìŠ¤í¬ë¦½íŠ¸
-
-    [Header("Prefabs")]
+    // Æ©Åä¸®¾ó ¾À °ü¸® ½ºÅ©¸³Æ®
 
     [Header("Tutorial")]
-    [SerializeField] public TutorialController tutorialController;
+    [SerializeField]  TutorialController tutorialController;
 
     public Image lightBackground;
-    public bool isLightUp;
+    public bool isLightUp = false;
 
-    private void Start()
+    public TutorialController GetTutorialController()
     {
-        Init();
+        return tutorialController;
     }
 
-    private void Init()
+    void Awake()
     {
+        lightBackground = GameObject.FindWithTag("LightImage").GetComponent<Image>();
         tutorialController.Init();
-        isLightUp = false;
     }
 
     public void LightUpBackground()
     {
         lightBackground.DOFade(0f, 2f).SetEase(Ease.InBounce).OnComplete(() =>
         {
-            isLightUp = true;
             lightBackground.gameObject.SetActive(false);
-        });
-    }
-
-    public void LightDownBackground()
-    {
-        lightBackground.gameObject.SetActive(true);
-        lightBackground.DOFade(0.8f, 2f).SetEase(Ease.InBounce).OnComplete(() =>
-        {
-            isLightUp = false;
+            isLightUp = true;
         });
     }
 
     public void EndTutorial()
     {
-        // íŠœí† ë¦¬ì–¼ ë
+        Destroy(this);
     }
 }

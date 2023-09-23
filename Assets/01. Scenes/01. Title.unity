@@ -5124,8 +5124,6 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 019bb21b2638c6d4fadc0a5209ced35a, type: 3}
   - name: SFX_Gas_Acquisition
     clip: {fileID: 8300000, guid: e75c9bc18b582be4bab13a6cfa81ff0e, type: 3}
-  - name: SFX_Gas_Acquisition
-    clip: {fileID: 8300000, guid: e75c9bc18b582be4bab13a6cfa81ff0e, type: 3}
   - name: SFX_Rubber_Acquisition
     clip: {fileID: 8300000, guid: 19ae4e0da840b0246b9c6ced9eb0e4bb, type: 3}
   array_bgm:

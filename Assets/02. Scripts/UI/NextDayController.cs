@@ -42,7 +42,8 @@ public class NextDayController : ControllerBase
         shelterUi = GameObject.FindGameObjectWithTag("ShelterUi").GetComponent<CanvasGroup>();
         mapCamera = GameObject.FindGameObjectWithTag("MapCamera").GetComponent<CinemachineVirtualCamera>();
         transposer = mapCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
-        App.instance.AddController(this);
+        transposer.m_CameraDistance = 5f;
+        App.instance.AddController(this); //?
     }
 
 
@@ -135,11 +136,11 @@ public class NextDayController : ControllerBase
         StartCoroutine(App.instance.GetMapManager().NextDayCoroutine());
     }
 
-    public void ZoomOutMap()
+    public void GoToLab()
     {
         Sequence sequence = DOTween.Sequence();
         sequence
-            .Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 15f, 0.5f))
+            .Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 5f, 0.5f))
             .OnComplete(() =>
             {
                 App.instance.GetMapManager().SetMapCameraPriority(false);
@@ -148,7 +149,7 @@ public class NextDayController : ControllerBase
         sequence.Play();
     }
 
-    public void FadeOutUiObjects()
+    public void GoToMap()
     {
         Sequence sequence = DOTween.Sequence();
         sequence

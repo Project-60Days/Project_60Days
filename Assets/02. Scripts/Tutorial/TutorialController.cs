@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class TutorialController : MonoBehaviour
 {
@@ -12,26 +11,19 @@ public class TutorialController : MonoBehaviour
     public void Init()
     {
         tutorialList = new List<TutorialBase>(this.GetComponentsInChildren<TutorialBase>());
-
         SetNextTutorial();
-    }
-
-    private void Update()
-    {
-        currentTutorial?.Execute(this);
     }
 
     public void SetNextTutorial()
     {
-        currentTutorial?.Exit();
+        TutorialIndex++;
 
-        if (TutorialIndex >= tutorialList.Count - 1)
+        if (TutorialIndex > tutorialList.Count - 1)
         {
             CompleteTutorial();
             return;
         }
 
-        TutorialIndex++;
         currentTutorial = tutorialList[TutorialIndex];
 
         currentTutorial?.Enter();
@@ -40,7 +32,6 @@ public class TutorialController : MonoBehaviour
     void CompleteTutorial()
     {
         currentTutorial = null;
-
-        // 모든 튜토리얼 종료
+        TutorialManager.instance.EndTutorial();
     }
 }

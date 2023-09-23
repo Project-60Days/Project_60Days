@@ -15,6 +15,6 @@ public class MapInteraction : MonoBehaviour, IPointerClickHandler
     /// <param name="eventData"></param>
     public void OnPointerClick(PointerEventData eventData)
     {
-        UIManager.instance.GetNextDayController().FadeOutUiObjects();
+        UIManager.instance.GetNextDayController().GoToMap();
     }
 }

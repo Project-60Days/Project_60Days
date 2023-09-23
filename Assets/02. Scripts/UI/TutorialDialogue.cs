@@ -7,54 +7,42 @@ using Yarn.Unity;
 using static Yarn.Unity.Effects;
 using DG.Tweening;
 
-public class TutorialDialogue : MonoBehaviour, IPointerClickHandler
+public class TutorialDialogue : MonoBehaviour
 {
     [SerializeField] DialogueRunner dialogueRunner;
-    [SerializeField] GameObject ImageBack;
+    [SerializeField] GameObject imageBack;
     [SerializeField] VerticalLayoutGroup content;
     [SerializeField] VerticalLayoutGroup lineView;
-    [SerializeField] Button CloseBtn;
 
     private Coroutine runningCoroutine;
     private CoroutineInterruptToken interruptToken;
 
     public void Show()
     {
-        Debug.Log("show");
-        ImageBack.GetComponent<RectTransform>().DOAnchorPos(new Vector2(0f, 0f), 1f);
+        Debug.Log("TutorialUI Show");
+        imageBack.GetComponent<RectTransform>().DOAnchorPos(new Vector2(0f, 0f), 0.3f).SetEase(Ease.InQuad);
     }
 
     public void Hide()
     {
-        Debug.Log("hide");
-        ImageBack.GetComponent<RectTransform>().DOAnchorPos(new Vector2(-910f, 0f), 1f);
+        Debug.Log("TutorialUI Hide");
+        imageBack.GetComponent<RectTransform>().DOAnchorPos(new Vector2(0f, -400f), 0.3f).SetEase(Ease.OutQuad);
     }
 
     public void StartDialogue(string _nodeName)
     {
-        this.gameObject.SetActive(true);
+        if (dialogueRunner.IsDialogueRunning == true) dialogueRunner.Stop();
 
-        dialogueRunner.Stop();
+        dialogueRunner.StartDialogue(_nodeName);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(content.GetComponent<RectTransform>());
+        LayoutRebuilder.ForceRebuildLayoutImmediate(lineView.GetComponent<RectTransform>());
 
-        CloseBtn.onClick.AddListener(EndDialogue);
-
-        if (!dialogueRunner.IsDialogueRunning)
-        {
-            dialogueRunner.StartDialogue(_nodeName);
-            LayoutRebuilder.ForceRebuildLayoutImmediate(content.GetComponent<RectTransform>());
-            LayoutRebuilder.ForceRebuildLayoutImmediate(lineView.GetComponent<RectTransform>());
-        }
-
-        interruptToken = new CoroutineInterruptToken();
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        
+        interruptToken = new CoroutineInterruptToken(); //?
     }
 
     public void EndDialogue()
     {
-        this.gameObject.SetActive(false);
+        dialogueRunner.Stop();
+        TutorialManager.instance.GetTutorialController().SetNextTutorial();
     }
 }

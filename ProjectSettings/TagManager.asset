@@ -5,7 +5,6 @@ TagManager:
   serializedVersion: 2
   tags:
   - NotePage
-  - NameCardPrefab
   - MapCamera
   - UiCanvas
   - MapUi
@@ -19,12 +18,10 @@ TagManager:
   - InventoryUi
   - CraftingUi
   - Camera
-  - Inventory
-  - ItemDiscription
   - GeneratePoint
-  - Note
   - ShelterUi
   - Resource
+  - LightImage
   layers:
   - Default
   - TransparentFX

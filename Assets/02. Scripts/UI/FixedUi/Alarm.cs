@@ -20,7 +20,7 @@ public class Alarm : MonoBehaviour, IPointerClickHandler
             UIManager.instance.GetNoteController().OpenNote();
         //EnableAlarm(ENotePageType.Result);
         else if (this.alarmType == EAlarmType.Caution)
-            UIManager.instance.GetNextDayController().FadeOutUiObjects();
+            UIManager.instance.GetNextDayController().GoToMap();
     }
 
     void SetAlarm(EAlarmType type) //일단 임시로 만든.. 데이터 연결해서 해당 알림 띄울건지 말지 결정 후 이 함수로 알림 호출
