@@ -6,6 +6,7 @@ using DG.Tweening;
 using Yarn;
 using UnityEngine.UIElements;
 using System;
+using System.Xml.Serialization;
 
 public class CustomYarnCommands : Singleton<CustomYarnCommands>
 {
@@ -19,22 +20,28 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
         dialogueRunner.AddCommandHandler("hide", HideDialogue);
         dialogueRunner.AddCommandHandler("show", ShowDialogue);
-        dialogueRunner.AddCommandHandler("done", DoneDialogue);
+
+        //01//
+        dialogueRunner.AddCommandHandler("lightUpWorkBench", LightUpWorkBench);
+        dialogueRunner.AddCommandHandler("lightDownWorkBench", LightDownWorkBench);
+
+        //02//
+        dialogueRunner.AddCommandHandler<string>("waitUntilGetItem", WaitUntilGetItem);
+        //dialogueRunner.AddCommandHandler<string, int>("waitSetCraftingItem", WaitSetCraftingItem);
+
+
         //
         dialogueRunner.AddCommandHandler("mapNextDay", MapNextDay);
         dialogueRunner.AddCommandHandler("waitLightUp", WaitLightUp);
         dialogueRunner.AddCommandHandler("endTutorial", EndTutorial);
         dialogueRunner.AddCommandHandler<int>("moveNoteTap", MoveNoteTap);
-        dialogueRunner.AddCommandHandler<string>("waitGetItem", WaitGetItem);
-        dialogueRunner.AddCommandHandler<string, int>("waitSetCraftingItem", WaitSetCraftingItem);
+        
+        
         dialogueRunner.AddCommandHandler("waitNewDay", WaitNewDay);
         dialogueRunner.AddCommandHandler("waitTileUIOpen", WaitTileUIOpen);
         dialogueRunner.AddCommandHandler("waitTutorialTileUIOpen", WaitTutorialTileUiOpen);
         dialogueRunner.AddCommandHandler("waitSetDisturbance", WaitSetDisturbance);
         dialogueRunner.AddCommandHandler("spawnTutorialGlicher", SpawnTutorialGlicher);
-        
-        
-        dialogueRunner.AddCommandHandler("nextTutorial", SetNextTutorial);
         
         dialogueRunner.AddCommandHandler<string>("play_bgm", PlayBGM);
         dialogueRunner.AddCommandHandler<string>("play_sfx", PlaySFX);
@@ -54,10 +61,18 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     {
         UIManager.instance.GetTutorialDialogue().Show();
     }
-    void DoneDialogue()
+
+
+    void LightUpWorkBench()
     {
-        UIManager.instance.GetTutorialDialogue().EndDialogue();
+        TutorialManager.instance.LightUpWorkBench();
     }
+
+    void LightDownWorkBench()
+    {
+        TutorialManager.instance.LightDownWorkBench();
+    }
+
 
     private Coroutine WaitUntilUIState(string _UIName)
     {
@@ -69,8 +84,15 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         UIManager.instance.GetUIHighLightController().ShowHighLight(_objectID, _waitStatusName);
     }
 
+    //private Coroutine WaitSetCraftingItem(string _itemCode, int _count = 1)
+    //{
+    //    return StartCoroutine(new WaitUntil(() => UIManager.instance.GetCraftingUiController().CheckCraftingItem(_itemCode, _count)));
+    //}
 
-
+    private Coroutine WaitUntilGetItem(string _itemCode)
+    {
+        return StartCoroutine(new WaitUntil(() => UIManager.instance.GetInventoryController().CheckInventoryItem(_itemCode)));
+    }
 
 
 
@@ -91,16 +113,9 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         return StartCoroutine(new WaitUntil(() => App.instance.GetMapManager().CheckCanInstallDrone()));
     }
 
-    private Coroutine WaitGetItem(string _itemCode)
-    {
-        return StartCoroutine(new WaitUntil(() => UIManager.instance.GetInventoryController().CheckInventoryItem(_itemCode)));
-    }
+    
 
-    private Coroutine WaitSetCraftingItem(string _itemCode, int _count = 1)
-    {
-        return StartCoroutine(new WaitUntil(() => UIManager.instance.GetCraftingUiController().CheckCraftingItem(_itemCode, _count)));
-    }
-
+    
     private Coroutine WaitNewDay()
     {
         return StartCoroutine(new WaitUntil(() => UIManager.instance.GetNoteController().GetNewDay()));
@@ -142,14 +157,6 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     }
 
    
-
-    private void SetNextTutorial()
-    {
-        TutorialManager.instance.GetTutorialController().SetNextTutorial();
-    }
-
-    
-
     private void PlayBGM(string bgmName)
     {
         App.instance.GetSoundManager().PlayBGM(bgmName);

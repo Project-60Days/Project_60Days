@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using static UnityEditor.Progress;
+using System;
 
 public class InventoryController : ControllerBase
 {
@@ -35,7 +36,6 @@ public class InventoryController : ControllerBase
             item.itemCount = 0;
         }
 
-        AddItemByItemCode("ITEM_TIER_2_SIGNALLER");
         AddItemByItemCode("ITEM_TIER_2_PLASMA");
         AddItemByItemCode("ITEM_TIER_1_PLASTIC");
         AddItemByItemCode("ITEM_TIER_1_STEEL");
@@ -145,12 +145,11 @@ public class InventoryController : ControllerBase
     /// <returns></returns>
     public bool CheckInventoryItem(string _itemCode)
     {
-        for(int i = 0; i < items.Count; i++)
+        foreach(var item in items)
         {
-            if (items[i].itemCode == _itemCode)
+            if (item.itemCode == _itemCode)
                 return true;
         }
-
         return false;
     }
 }
