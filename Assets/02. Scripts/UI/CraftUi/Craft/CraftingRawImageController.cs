@@ -20,7 +20,6 @@ public class CraftingRawImageController : MonoBehaviour, IDragHandler
     [SerializeField] float maxCameraSize = 10.0f;
     [SerializeField] float minCameraSize = 2.0f;
     [SerializeField] float maxTargetPosition = 5.0f;
-    [SerializeField] float rotateLimitAngle = 70.0f;
 
     private float camVelocity = 0.0F;
     private float camTargetSize = 0.0f;

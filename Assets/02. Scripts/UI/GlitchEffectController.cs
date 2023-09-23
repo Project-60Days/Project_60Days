@@ -13,7 +13,6 @@ public class GlitchEffectController : MonoBehaviour
     private Image image;
     private Material material;
 
-    float currTime;
     float nextTime;
 
     private void OnEnable()
@@ -21,7 +20,6 @@ public class GlitchEffectController : MonoBehaviour
         image = GetComponent<Image>();
         material = image.material;
 
-        currTime = 0f;
         nextTime = GetRandomTime(minActiveTime, maxActiveTime);
 
         StartCoroutine(EffectTimer());

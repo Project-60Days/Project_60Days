@@ -59,7 +59,7 @@ public class CustomDialogueView : DialogueViewBase
 
     public override void DialogueComplete()
     {
-        tutorialDialogue.EndDialogue();
+        
     }
 
     public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)

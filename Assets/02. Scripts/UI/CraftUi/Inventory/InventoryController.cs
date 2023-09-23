@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using static UnityEditor.Progress;
+using System;
 
 public class InventoryController : ControllerBase
 {
@@ -31,11 +32,8 @@ public class InventoryController : ControllerBase
     void Awake()
     {
         foreach(var item in itemSO.items)
-        {
             item.itemCount = 0;
-        }
 
-        AddItemByItemCode("ITEM_TIER_2_SIGNALLER");
         AddItemByItemCode("ITEM_TIER_2_PLASMA");
         AddItemByItemCode("ITEM_TIER_1_PLASTIC");
         AddItemByItemCode("ITEM_TIER_1_STEEL");
@@ -123,18 +121,32 @@ public class InventoryController : ControllerBase
     public void RemoveItem(ItemBase _item)
     {
         _item.itemCount--;
-        for(int i = 0; i < items.Count; i++)
+
+        if (_item.itemCount == 0)
         {
-            if (items[i] == _item)
+            for (int i = 0; i < items.Count; i++)
             {
-                items.RemoveAt(i);
-                break;
+                if (items[i] == _item)
+                {
+                    items.RemoveAt(i);
+                    break;
+                }
             }
         }
+        
         UpdateSlot();
     }
 
-
+    public void RemoveItemByCode(string _itemCode)
+    {
+        ItemBase item;
+        for (int i = 0; i < itemSO.items.Length; i++)
+            if (itemSO.items[i].itemCode == _itemCode)
+            {
+                item = itemSO.items[i];
+                RemoveItem(item);
+            }
+    }
 
 
 
@@ -145,12 +157,11 @@ public class InventoryController : ControllerBase
     /// <returns></returns>
     public bool CheckInventoryItem(string _itemCode)
     {
-        for(int i = 0; i < items.Count; i++)
+        foreach(var item in items)
         {
-            if (items[i].itemCode == _itemCode)
+            if (item.itemCode == _itemCode)
                 return true;
         }
-
         return false;
     }
 }

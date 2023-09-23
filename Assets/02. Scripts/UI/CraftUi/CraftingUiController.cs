@@ -158,7 +158,7 @@ public class CraftingUiController : ControllerBase
             flag = 0;
 
             string[] combinationCodes = GetCombinationCodes(combineData);
-
+         
             for (int i = 0; i < craftItems.Count; i++)
             {
                 for (int k = 0; k < 8; k++)

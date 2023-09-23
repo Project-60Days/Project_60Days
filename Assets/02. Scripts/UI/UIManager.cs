@@ -11,9 +11,9 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] CraftingRawImageController craftingRawImageController;
     [SerializeField] CraftModeController craftModeController;
     [SerializeField] UIHighLightController uiHighLightController;
-    [SerializeField] EndUIController endUIController;
     [SerializeField] SelectController selectController;
     [SerializeField] NextDayController nextDayController;
+    [SerializeField] AlertController alertController;
 
     public Stack<string> currUIStack = new Stack<string>();
 
@@ -75,11 +75,6 @@ public class UIManager : Singleton<UIManager>
         return uiHighLightController;
     }
 
-    public EndUIController GetEndUIController()
-    {
-        return endUIController;
-    }
-
     public SelectController GetSelectController()
     {
         return selectController;
@@ -88,5 +83,10 @@ public class UIManager : Singleton<UIManager>
     public NextDayController GetNextDayController()
     {
         return nextDayController;
+    }
+
+    public AlertController GetAlertController()
+    {
+        return alertController;
     }
 }

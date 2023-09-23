@@ -42,9 +42,9 @@ public enum EQuestType
     Sub
 }
 
-public enum EAlarmType
+public enum EAlertType
 {
-    Result,
+    Selection,
     Caution
 }
 

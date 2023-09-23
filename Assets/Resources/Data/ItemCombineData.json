@@ -157,9 +157,9 @@
   },
   {
     "Index": 1014,
-    "Material_1": "ITEM_TIER_2_RISISTOR",
-    "Material_2": "ITEM_TIER_1_PLATE",
-    "Material_3": "ITEM_TIER_1_PLASMA",
+    "Material_1": "ITEM_TIER_1_STEEL",
+    "Material_2": "ITEM_TIER_1_PLASTIC",
+    "Material_3": "ITEM_TIER_2_PLASMA",
     "Material_4": -1,
     "Material_5": -1,
     "Material_6": -1,

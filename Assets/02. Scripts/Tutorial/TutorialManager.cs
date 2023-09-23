@@ -1,52 +1,58 @@
-Ôªøusing System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
 public class TutorialManager : Singleton<TutorialManager>
 {
-    // ÌäúÌÜ†Î¶¨Ïñº Ïî¨ Í¥ÄÎ¶¨ Ïä§ÌÅ¨Î¶ΩÌä∏
-
-    [Header("Prefabs")]
+    // ∆©≈‰∏ÆæÛ æ¿ ∞¸∏Æ Ω∫≈©∏≥∆Æ
 
     [Header("Tutorial")]
-    [SerializeField] public TutorialController tutorialController;
+    [SerializeField]  TutorialController tutorialController;
 
-    public Image lightBackground;
-    public bool isLightUp;
+    GameObject workBench;
+    Image lightBackground;
+    Image workBenchImage;
+    public bool isLightUp = false;
 
-    private void Start()
+    int initIndex;
+    public TutorialController GetTutorialController()
     {
-        Init();
+        return tutorialController;
     }
 
-    private void Init()
+    void Awake()
     {
-        tutorialController.Init();
-        isLightUp = false;
+        lightBackground = GameObject.FindWithTag("LightImage").GetComponent<Image>();
+        workBench = GameObject.FindWithTag("WorkBench");
+        workBenchImage = workBench.GetComponent<Image>();
+
+        initIndex = workBench.transform.GetSiblingIndex();
     }
 
+    public void LightUpWorkBench()
+    {
+        workBench.transform.SetAsLastSibling();
+        Color color = new Color(0.15f, 0.15f, 0.15f, 1f);
+        workBenchImage.DOColor(color, 0f);
+    }
+    public void LightDownWorkBench()
+    {
+        workBench.transform.SetSiblingIndex(initIndex);
+        Color color = new Color(1f, 1f, 1f, 1f);
+        workBenchImage.DOColor(color, 0f);
+    }
     public void LightUpBackground()
     {
+        Color color = new Color(1f, 1f, 1f, 1f);
         lightBackground.DOFade(0f, 2f).SetEase(Ease.InBounce).OnComplete(() =>
-        {
-            isLightUp = true;
-            lightBackground.gameObject.SetActive(false);
-        });
-    }
-
-    public void LightDownBackground()
-    {
-        lightBackground.gameObject.SetActive(true);
-        lightBackground.DOFade(0.8f, 2f).SetEase(Ease.InBounce).OnComplete(() =>
-        {
-            isLightUp = false;
-        });
+            {
+                lightBackground.gameObject.SetActive(false);
+                isLightUp = true;
+            });
     }
 
     public void EndTutorial()
     {
-        // ÌäúÌÜ†Î¶¨Ïñº ÎÅù
+        Destroy(this);
     }
 }

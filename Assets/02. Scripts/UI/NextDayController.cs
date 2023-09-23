@@ -12,6 +12,7 @@ public class NextDayController : ControllerBase
     [Header("Quest Objects")]
     [SerializeField] GameObject questPrefab;
     [SerializeField] Transform questParent;
+    [SerializeField] GameObject questLogo;
 
     [Header("Alarm Objects")]
     [SerializeField] GameObject resultAlarm;
@@ -42,7 +43,8 @@ public class NextDayController : ControllerBase
         shelterUi = GameObject.FindGameObjectWithTag("ShelterUi").GetComponent<CanvasGroup>();
         mapCamera = GameObject.FindGameObjectWithTag("MapCamera").GetComponent<CinemachineVirtualCamera>();
         transposer = mapCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
-        App.instance.AddController(this);
+        transposer.m_CameraDistance = 5f;
+        App.instance.AddController(this); //?
     }
 
 
@@ -135,24 +137,23 @@ public class NextDayController : ControllerBase
         StartCoroutine(App.instance.GetMapManager().NextDayCoroutine());
     }
 
-    public void ZoomOutMap()
+    public void GoToLab()
     {
         Sequence sequence = DOTween.Sequence();
         sequence
-            .Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 15f, 0.5f))
-            .OnComplete(() =>
-            {
-                App.instance.GetMapManager().SetMapCameraPriority(false);
-            })
+            .Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 5f, 0.5f))
+            .OnComplete(() => App.instance.GetMapManager().SetMapCameraPriority(false))
             .Append(shelterUi.DOFade(1f, 0.5f));
         sequence.Play();
     }
 
-    public void FadeOutUiObjects()
+    public void GoToMap()
     {
+        blackPanel.gameObject.SetActive(true);
         Sequence sequence = DOTween.Sequence();
         sequence
             .Append(shelterUi.DOFade(0f, 0.5f))
+            .Join(blackPanel.DOFade(1f, 0.5f))
             .OnComplete(() => ZoomInMap());
         sequence.Play();
     }
@@ -160,7 +161,9 @@ public class NextDayController : ControllerBase
     void ZoomInMap()
     {
         App.instance.GetMapManager().SetMapCameraPriority(true);
-        DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 10f, 0.5f);
+        blackPanel.DOFade(0f, 0.5f);
+        DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 10f, 0.5f)
+            .OnComplete(()=> blackPanel.gameObject.SetActive(false));
     }
 
 
@@ -209,6 +212,10 @@ public class NextDayController : ControllerBase
     void SetQuestList()
     {
         Quest[] quests = questParent.GetComponentsInChildren<Quest>();
+
+        if (quests.Length > 0)
+            questLogo.SetActive(true);
+
         foreach (Quest quest in quests)
         {
             if(quest.GetEQuestType() == EQuestType.Main)
@@ -218,6 +225,18 @@ public class NextDayController : ControllerBase
         }
     }
     #endregion
+
+
+
+
+
+    public void SetNote(string _noteType, bool _isActive)
+    {
+        if (_noteType == "result")
+            pages[0].SetPageEnabled(_isActive);
+        else if (_noteType == "select")
+            pages[1].SetPageEnabled(_isActive);
+    }
 
 
 
@@ -233,23 +252,7 @@ public class NextDayController : ControllerBase
     {
         AddQuest(EQuestType.Sub);
     }
-    public void AddResultPage() //�׽�Ʈ�� �ӽ� �Լ�. ���� ���� ��� ������ Ȱ��ȭ ��ư
-    {
-        pages[0].SetPageEnabled(true);
-    }
-    public void RemoveResultPage() //�׽�Ʈ�� �ӽ� �Լ�. ���� ���� ��� ������ ��Ȱ��ȭ ��ư
-    {
-        pages[0].SetPageEnabled(false);
-    }
-    public void AddSelectPage() //�׽�Ʈ�� �ӽ� �Լ�. ���� ���� ���� ������ Ȱ��ȭ ��ư
-    {
-        pages[1].SetPageEnabled(true);
-    }
-    public void RemoveSelectPage() //�׽�Ʈ�� �ӽ� �Լ�. ���� ���� ���� ������ ��Ȱ��ȭ ��ư
-    {
-        pages[1].SetPageEnabled(false);
-    }
-
+   
     public void AddResultAlarm()
     {
         resultAlarm.SetActive(true);
