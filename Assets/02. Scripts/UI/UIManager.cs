@@ -5,7 +5,6 @@ using UnityEngine;
 public class UIManager : Singleton<UIManager>
 {
     [SerializeField] NoteController noteController;
-    [SerializeField] TutorialDialogue tutorialDialogue;
     [SerializeField] InventoryController inventoryController;
     [SerializeField] CraftingUiController craftingUiController;
     [SerializeField] CraftingRawImageController craftingRawImageController;
@@ -43,11 +42,6 @@ public class UIManager : Singleton<UIManager>
     public NoteController GetNoteController()
     {
         return noteController;
-    }
-
-    public TutorialDialogue GetTutorialDialogue()
-    {
-        return tutorialDialogue;
     }
 
     public InventoryController GetInventoryController()

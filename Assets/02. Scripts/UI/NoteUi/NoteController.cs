@@ -81,7 +81,7 @@ public class NoteController : ControllerBase
             UIManager.instance.AddCurrUIName(StringUtility.UI_NOTE);
         }
     }
-
+    
     /// <summary>
     /// 노트 닫을 때 호출
     /// </summary>
@@ -111,6 +111,12 @@ public class NoteController : ControllerBase
         noteBackground.SetActive(_isEnable);
     }
 
+    public void OnAfterSelect()
+    {
+        notePages[pageNum].gameObject.SetActive(false);
+
+        CloseNote();
+    }
 
 
 
@@ -171,30 +177,6 @@ public class NoteController : ControllerBase
         notePages[pageNum].PlayPageAction();
     }
 
-    public void ChangePageForce(int _index) //시연회때문에 임시로 만들었던 함수.. 지우고싶다
-    {
-        pageNum = _index;
-
-        Debug.Log("실행");
-        if (isOpen == false)
-        {
-            OpenNote();
-            Debug.Log("열림");
-        }
-
-
-        for (int i = 0; i < notePages.Length; i++)
-        {
-            notePages[i].gameObject.SetActive(false);
-            Debug.Log(i + "닫힘");
-        }
-
-        notePages[_index].gameObject.SetActive(true);
-        Debug.Log(_index);
-        notePages[_index].PlayPageAction();
-        ChangePageButton();
-    }
-
 
 
 
@@ -233,28 +215,9 @@ public class NoteController : ControllerBase
 
 
     #region GetAndSet
-    public bool GetIsOpen()
-    {
-        return isOpen;
-    }
-
     public bool GetNewDay()
     {
         return isNewDay;
-    }
-
-    public int GetDayCount()
-    {
-        return dayCount;
-    }
-
-    public void SetPageNum(ENotePageType _type)
-    {
-        for (int i = 0; i < notePages.Length; i++)
-        {
-            if (notePages[i].GetENotePageType() == _type)
-                pageNum = i;
-        }
     }
     #endregion
 }

@@ -29,6 +29,7 @@ tags:
 <<show>>
 배터리를 제작하였습니다.
 거처로 돌아가 전력을 보급하십시오.
+<<highlight ExitCrafting UI_NORMAL>>
 <<hide>>
 <<waitUntil UI_NORMAL>>
 
@@ -81,6 +82,7 @@ tags:
 거처를 이동시키는데 많은 동력을 필요로 하기 때문에 하루를 소모하게 됩니다.
 하루를 소모하기 때문에 현 거처에서 할 수 있는 모든 행동을 취해야합니다.
 행동 확인 이후 입력 완료 버튼을 눌러 다음날로 진행하십시오.
+<<highlight NextDay UI_NORMAL>>
 <<hide>>
 <<setNote result true>>
 <<setNote select false>>
