@@ -4,24 +4,14 @@ using DG.Tweening;
 
 public class TutorialController : MonoBehaviour
 {
+    [SerializeField] Transform tutorialBack;
+
     GameObject workBench;
     Image lightBackground;
     Image workBenchImage;
     public bool isLightUp = false;
 
     int initIndex;
-
-    public void Show()
-    {
-        Debug.Log("TutorialUI Show");
-        GetComponent<Transform>().DOMove(new Vector2(0f, 0f), 0.3f).SetEase(Ease.InQuad);
-    }
-
-    public void Hide()
-    {
-        Debug.Log("TutorialUI Hide");
-        GetComponent<Transform>().DOMove(new Vector2(0f, -400f), 0.3f).SetEase(Ease.OutQuad);
-    }
 
     void Awake()
     {
@@ -31,6 +21,18 @@ public class TutorialController : MonoBehaviour
 
         initIndex = workBench.transform.GetSiblingIndex();
     }
+
+    public void Show()
+    {
+        tutorialBack.DOMove(new Vector2(0f, 0f), 0.3f).SetEase(Ease.InQuad);
+    }
+
+    public void Hide()
+    {
+        tutorialBack.DOMove(new Vector2(0f, -400f), 0.3f).SetEase(Ease.OutQuad);
+    }
+
+    
 
     public void LightUpWorkBench()
     {

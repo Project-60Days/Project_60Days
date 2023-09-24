@@ -26,7 +26,5 @@ public class ItemSlot : SlotBase
             if (item.eItemType != EItemType.Equipment) return;
             UIManager.instance.GetCraftingUiController().MoveInventoryToEquip(item);
         }
-
-        UIManager.instance.GetInventoryController().RemoveItem(item);
     }
 }
