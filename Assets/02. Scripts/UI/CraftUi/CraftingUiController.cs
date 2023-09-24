@@ -250,6 +250,7 @@ public class CraftingUiController : ControllerBase
     /// <param name="_item"></param>
     public void MoveInventoryToCraft(ItemBase _item)
     {
+        UIManager.instance.GetInventoryController().RemoveItem(_item);
         craftItems.Add(_item);
         UpdateCraft();
     }
@@ -315,6 +316,7 @@ public class CraftingUiController : ControllerBase
 
     public void MoveInventoryToEquip(ItemBase _item)
     {
+        UIManager.instance.GetInventoryController().RemoveItem(_item);
         equipItems.Add(_item);
         UpdateEquip();
     }

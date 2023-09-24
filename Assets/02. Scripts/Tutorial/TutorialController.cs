@@ -1,10 +1,58 @@
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using DG.Tweening;
 
 public class TutorialController : MonoBehaviour
 {
-    void CompleteTutorial()
+    [SerializeField] Transform tutorialBack;
+
+    GameObject workBench;
+    Image lightBackground;
+    Image workBenchImage;
+    public bool isLightUp = false;
+
+    int initIndex;
+
+    void Awake()
     {
-        TutorialManager.instance.EndTutorial();
+        lightBackground = GameObject.FindWithTag("LightImage").GetComponent<Image>();
+        workBench = GameObject.FindWithTag("WorkBench");
+        workBenchImage = workBench.GetComponent<Image>();
+
+        initIndex = workBench.transform.GetSiblingIndex();
+    }
+
+    public void Show()
+    {
+        tutorialBack.DOMove(new Vector2(0f, 0f), 0.3f).SetEase(Ease.InQuad);
+    }
+
+    public void Hide()
+    {
+        tutorialBack.DOMove(new Vector2(0f, -400f), 0.3f).SetEase(Ease.OutQuad);
+    }
+
+    
+
+    public void LightUpWorkBench()
+    {
+        workBench.transform.SetAsLastSibling();
+        Color color = new Color(0.15f, 0.15f, 0.15f, 1f);
+        workBenchImage.DOColor(color, 0f);
+    }
+    public void LightDownWorkBench()
+    {
+        workBench.transform.SetSiblingIndex(initIndex);
+        Color color = new Color(1f, 1f, 1f, 1f);
+        workBenchImage.DOColor(color, 0f);
+    }
+    public void LightUpBackground()
+    {
+        Color color = new Color(1f, 1f, 1f, 1f);
+        lightBackground.DOFade(0f, 2f).SetEase(Ease.InBounce).OnComplete(() =>
+        {
+            lightBackground.gameObject.SetActive(false);
+            isLightUp = true;
+        });
     }
 }

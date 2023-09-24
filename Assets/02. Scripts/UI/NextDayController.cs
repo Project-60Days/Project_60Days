@@ -14,9 +14,9 @@ public class NextDayController : ControllerBase
     [SerializeField] Transform questParent;
     [SerializeField] GameObject questLogo;
 
-    [Header("Alarm Objects")]
-    [SerializeField] GameObject resultAlarm;
-    [SerializeField] GameObject cautionAlarm;
+    [Header("Alert Objects")]
+    [SerializeField] GameObject selectAlert;
+    [SerializeField] GameObject cautionAlert;
 
     CanvasGroup shelterUi;
 
@@ -51,19 +51,19 @@ public class NextDayController : ControllerBase
 
 
     /// <summary>
-    /// �°� �ʱ�ȭ �Լ� ����
+    /// 초기화 함수 모음
     /// </summary>
     void Init()
     {
         InitBlackPanel();
         InitPageEnabled();
         InitQuestList();
-        InitAlarm();
+        InitAlert();
     }
 
     #region Inits
     /// <summary>
-    /// Ȱ��ȭ �ƴ� BlackPanel �ٽ� ���b��ȭ (BlackPanel�� ���� ���� �Ѿ �� ��� ���̴� � ȭ��)
+    /// BlackPanel 초기화 --> BlackPanel: 다음 날로 넘어갈 때 깜빡거리는 용도
     /// </summary>
     void InitBlackPanel()
     {
@@ -74,7 +74,7 @@ public class NextDayController : ControllerBase
     }
 
     /// <summary>
-    /// ��Ʈ ������ �ʱ�ȭ (dialogueRunner ���߱�, ������ ��Ȱ��ȭ) --> �߰� �۾� �ʿ�. ������ �����ؾ���.
+    /// 노트 페이지 초기화
     /// </summary>
     void InitPageEnabled()
     {
@@ -82,12 +82,12 @@ public class NextDayController : ControllerBase
         {
             page.StopDialogue();
             page.gameObject.SetActive(false);
-            //���� ���ο� ���� ���۵� ������ ������ �޾ƿ� page.SetPageEnabled() ȣ���Ͽ� �� �Ѱ��ֱ�
+            //page.SetPageEnabled()로 다음 날 사용할 페이지 결정
         }
     }
 
     /// <summary>
-    /// ����Ʈ ��� �ʱ�ȭ (�����Ǿ��� ������ ��� �ı�)
+    /// 퀘스트 리스트 초기화
     /// </summary>
     void InitQuestList()
     {
@@ -97,12 +97,12 @@ public class NextDayController : ControllerBase
     }
 
     /// <summary>
-    /// �˸� ��� �ʱ�ȭ --> ����� �ʿ��� �˸��� SetActive(true)�ؼ� ��� ���ε�, �� ���� ����� ���� ��. / ���������� �߰� �۾� �ʿ�. ������ �����ؾ���.
+    /// 알림 리스트 초기화
     /// </summary>
-    void InitAlarm()
+    void InitAlert()
     {
-        resultAlarm.SetActive(false);
-        cautionAlarm.SetActive(false);
+        selectAlert.SetActive(false);
+        cautionAlert.SetActive(false);
     }
     #endregion
 
@@ -111,7 +111,7 @@ public class NextDayController : ControllerBase
 
 
     /// <summary>
-    /// ���� ���� �� �� BlackPanel Ȱ��ȭ/���̵���
+    /// 다음 날로 넘어갈 때 호출되는 이벤트 --> blackPanel 깜빡거림
     /// </summary>
     public void NextDayEvent()
     {
@@ -121,11 +121,11 @@ public class NextDayController : ControllerBase
             .AppendInterval(0.5f)
             .Append(shelterUi.DOFade(1f, 0f))
             .OnComplete(() => NextDayEventCallBack());
-        //sequence.Play();
+        sequence.Play();
     }
 
     /// <summary>
-    /// �ٷ� ���� NextDayEvent()�� �ݹ��Լ� (�ʱ�ȭ �۾�)
+    /// NextDayEvent 콜백함수
     /// </summary>
     void NextDayEventCallBack()
     {
@@ -170,7 +170,7 @@ public class NextDayController : ControllerBase
 
     #region PageSetting
     /// <summary>
-    /// ���ο� ���� ���̴� �������� ��� NoteController�� �迭�� ����. (page.GetPageEnableToday()�Լ��� ��� ���� Ȯ��)
+    /// 다음 날로 넘어갈 때 노트 페이지 구성 함수
     /// </summary>
     /// <returns></returns>
     public NotePageBase[] GetNotePageArray()
@@ -184,6 +184,14 @@ public class NextDayController : ControllerBase
 
         return todayPages.ToArray(); ;
     }
+
+    public void SetNote(string _noteType, bool _isActive)
+    {
+        if (_noteType == "result")
+            pages[0].SetPageEnabled(_isActive);
+        else if (_noteType == "select")
+            pages[1].SetPageEnabled(_isActive);
+    }
     #endregion
 
 
@@ -192,7 +200,7 @@ public class NextDayController : ControllerBase
 
     #region QuestSetting
     /// <summary>
-    /// ����Ʈ ������ �߰� --> �߰� �۾� �ʿ�.. �׸��� �� �� �����ϰ� �Լ� ������ ����.
+    /// 다음 날로 넘어갈 때 퀘스트 리스트 구성 함수
     /// </summary>
     /// <param name="type"></param>
     /// <param name="text"></param>
@@ -207,7 +215,7 @@ public class NextDayController : ControllerBase
     }
 
     /// <summary>
-    /// ����Ʈ ����Ʈ ����(?) ��������Ʈ�� ����, ��������Ʈ�� �Ʒ��� �߰�. --> ���� AddQuest�Լ� ���� �Ǹ� ���������� �굵 �պ��� ����. �� ���� ����� ������!
+    /// 퀘스트 리스트 순서 정렬 함수 (임시로 메인퀘스트는 위에, 서브퀘스트는 아래에 위치하게 설정)
     /// </summary>
     void SetQuestList()
     {
@@ -230,18 +238,6 @@ public class NextDayController : ControllerBase
 
 
 
-    public void SetNote(string _noteType, bool _isActive)
-    {
-        if (_noteType == "result")
-            pages[0].SetPageEnabled(_isActive);
-        else if (_noteType == "select")
-            pages[1].SetPageEnabled(_isActive);
-    }
-
-
-
-
-
     #region ForTest
     public void AddMainQuestBtn() //�׽�Ʈ�� �ӽ� �Լ�. ��������Ʈ �߰� ��ư
     {
@@ -255,19 +251,13 @@ public class NextDayController : ControllerBase
    
     public void AddResultAlarm()
     {
-        resultAlarm.SetActive(true);
+        selectAlert.SetActive(true);
         //resultAlarm.GetComponent<Alarm>().AddResult();
     }
     public void AddCautionAlarm()
     {
-        cautionAlarm.SetActive(true);
+        cautionAlert.SetActive(true);
         //cautionAlarm.GetComponent<Alarm>().AddCaution();
     }
     #endregion
-
-
-
-
-
-    //�ƹ�ư ��ü������ ���ο� �� �� �� �� �� ������ Ȯ���ؾ� �ϴ� �͵��� ���� �߰� �۾� �ʿ���(����Ʈ, ��Ʈ ������, �˸�)
 }

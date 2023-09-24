@@ -17,10 +17,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     {
         //common//
         dialogueRunner.AddCommandHandler<string, string>("highlight", HighLightObject);
-
         dialogueRunner.AddCommandHandler<string>("waitUntil", WaitUntilUIState);
-        
-
         dialogueRunner.AddCommandHandler("hide", HideDialogue);
         dialogueRunner.AddCommandHandler("show", ShowDialogue);
 
@@ -45,10 +42,9 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         dialogueRunner.AddCommandHandler("endTutorial", EndTutorial);
         
         //dialogueRunner.AddCommandHandler("spawnTutorialGlicher", SpawnTutorialGlicher);
-        
         //dialogueRunner.AddCommandHandler<string>("play_bgm", PlayBGM);
         //dialogueRunner.AddCommandHandler<string>("play_sfx", PlaySFX);
-        dialogueRunner.AddCommandHandler<string>("stop_bgm", StopBGM);
+        //dialogueRunner.AddCommandHandler<string>("stop_bgm", StopBGM);
     }
 
 
@@ -68,12 +64,12 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
     void HideDialogue()
     {
-        UIManager.instance.GetTutorialDialogue().Hide();
+        TutorialManager.instance.GetTutorialController().Hide();
     }
 
     void ShowDialogue()
     {
-        UIManager.instance.GetTutorialDialogue().Show();
+        TutorialManager.instance.GetTutorialController().Show();
     }
     #endregion
 
@@ -84,12 +80,12 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     #region 01
     void LightUpWorkBench()
     {
-        TutorialManager.instance.LightUpWorkBench();
+        TutorialManager.instance.GetTutorialController().LightUpWorkBench();
     }
 
     void LightDownWorkBench()
     {
-        TutorialManager.instance.LightDownWorkBench();
+        TutorialManager.instance.GetTutorialController().LightDownWorkBench();
     }
     #endregion
 
@@ -112,7 +108,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     #region 03
     private Coroutine WaitLightUp()
     {
-        return StartCoroutine(new WaitUntil(() => TutorialManager.instance.isLightUp));
+        return StartCoroutine(new WaitUntil(() => TutorialManager.instance.GetTutorialController().isLightUp));
     }
 
     void SetAlertState(string _alertType, bool _isActive)
