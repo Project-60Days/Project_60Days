@@ -18,7 +18,9 @@ public enum EItemType
 {
     Material,
     Equipment,
-    Consumption
+    Both,
+    UnCraftable,
+    Special
 }
 
 public enum ENotePageType

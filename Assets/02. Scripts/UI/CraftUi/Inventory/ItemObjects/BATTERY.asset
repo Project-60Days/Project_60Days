@@ -9,15 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab148b27d7e912d4182140719f1d4363, type: 3}
+  m_Script: {fileID: 11500000, guid: 04865242a8028fc46a0079b51f0c8ad4, type: 3}
   m_Name: BATTERY
   m_EditorClassIdentifier: 
-  itemCode: ITEM_TIER_2_BATTERY
+  itemCode: ITEM_TUTORIAL_BATTERY
   data:
-    Index: 1021
-    Tier: 2
-    Code: ITEM_TIER_2_BATTERY
-    Rarity: 1
+    Index: 1010
+    Tier: 0
+    Code: ITEM_TUTORIAL_BATTERY
+    Rarity: 0
     TileIncludePossibility: 0
     Type: 0
     isCanBase: 0
@@ -27,10 +27,11 @@ MonoBehaviour:
       \uB3D9\uB825\uC744 \uACF5\uAE09\uD574\uC8FC\uB294 \uC5ED\uD560\uC744 \uD55C\uB2E4.\n\uAD50\uB780\uAE30\uC744
       \uB9CC\uB4DC\uB294\uB370 \uD544\uC694\uD558\uB2E4."
     Korean: "\uBC30\uD130\uB9AC"
-    English: -1
-    Japanese: -1
-    Chinese: -1
+    English: 
+    Japanese: 
+    Chinese: 
   itemImage: {fileID: 21300000, guid: 390fa402470db29468048aa7bb1c8fd4, type: 3}
+  slotImage: {fileID: 21300000, guid: dcf8f64dd8f731342b3857fb01a38a5b, type: 3}
   itemCount: 1
-  eItemType: 2
+  eItemType: 4
   prefab: {fileID: 0}

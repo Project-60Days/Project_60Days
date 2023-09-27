@@ -18,10 +18,10 @@ MonoBehaviour:
     Tier: 2
     Code: ITEM_TIER_2_PLASMA
     Rarity: 1
-    TileIncludePossibility: 20
+    TileIncludePossibility: 25
     Type: 0
-    isCanBase: 0
-    CombineSlotCount: 0
+    isCanBase: 1
+    CombineSlotCount: 1
     Description: "\uC544\uC774\uD15C\uBA85: \uD50C\uB77C\uC988\uB9C8\n\uD2F0\uC5B4:
       2\n\uBD84\uB958: [\uAE30\uBCF8\uC790\uC6D0]\n-\uC544\uC774\uD15C \uC124\uBA85\n\uB300\uBD80\uBD84\uC758
       \uC9C0\uD615\uC5D0 \uC874\uC7AC\uD558\uBA70 \uD2B9\uC815 \uC9C0\uD615\uC5D0\uC11C\uB294
@@ -32,6 +32,7 @@ MonoBehaviour:
     Japanese: -1
     Chinese: -1
   itemImage: {fileID: 21300000, guid: bcc2f8eda25b412408626f8590cb7097, type: 3}
+  slotImage: {fileID: 21300000, guid: 363859dded875da46935b9afa0503363, type: 3}
   itemCount: 0
-  itemType: 0
+  eItemType: 0
   prefab: {fileID: 7108736289300237860, guid: 510872e95816c8442b91f312d06dd23e, type: 3}

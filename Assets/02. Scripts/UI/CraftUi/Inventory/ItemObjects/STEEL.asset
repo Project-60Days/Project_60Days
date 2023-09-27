@@ -18,10 +18,10 @@ MonoBehaviour:
     Tier: 1
     Code: ITEM_TIER_1_STEEL
     Rarity: 0
-    TileIncludePossibility: 30
+    TileIncludePossibility: 50
     Type: 0
     isCanBase: 1
-    CombineSlotCount: 2
+    CombineSlotCount: 1
     Description: "\uC544\uC774\uD15C\uBA85: \uAC15\uCCA0\n\uD2F0\uC5B4: 1\n\uBD84\uB958:
       [\uAE30\uBCF8\uC790\uC6D0]\n-\uC544\uC774\uD15C \uC124\uBA85\n\uAC00\uC7A5
       \uD754\uD558\uAC8C \uAD6C\uD560 \uC218 \uC788\uB294 \uC790\uC6D0\uC774\uB2E4.\n\uBAA8\uB4E0
@@ -31,6 +31,7 @@ MonoBehaviour:
     Japanese: -1
     Chinese: -1
   itemImage: {fileID: 21300000, guid: 903743215b83aa34d936fe1e8fef8680, type: 3}
+  slotImage: {fileID: 21300000, guid: 363859dded875da46935b9afa0503363, type: 3}
   itemCount: 0
-  itemType: 0
+  eItemType: 0
   prefab: {fileID: 5291711458905113346, guid: 03f13903e83b61e48b34af8e95fd217f, type: 3}

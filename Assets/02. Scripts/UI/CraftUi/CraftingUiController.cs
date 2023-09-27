@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.UI;
 using static UnityEditor.Progress;
@@ -163,21 +164,21 @@ public class CraftingUiController : ControllerBase
             {
                 for (int k = 0; k < 8; k++)
                 {
-                    if (combinationCodes[k] == "1" || combinationCodes[k] == "-1") continue;
                     if (combinationCodes[k] == craftItems[i].itemCode)
                     {
-                        combinationCodes[k] = "1";
-                        break;
+                        combinationCodes[k] = "-1";
+                        break;  
                     }
+                    if (k == 7) flag = 1;
                 }
             }
 
             for (int k = 0; k < 8; k++)
             {
-                if (combinationCodes[k] == "1" || combinationCodes[k] == "-1") continue;
-                else
+                if (combinationCodes[k] != "-1")
                 {
-                    flag = 1; break;
+                    flag = 1;
+                    break;
                 }
             }
 
@@ -224,7 +225,7 @@ public class CraftingUiController : ControllerBase
             }
         }
 
-        Debug.Log("아직 추가되지 않은 아이템");
+        Debug.Log("아직 추가되지 않은 아이템: " + _resultItemCode);
         return tempItem;
     }
 
@@ -362,7 +363,7 @@ public class CraftingUiController : ControllerBase
             if (itemSO.items[i].itemCode == _itemCode)
                 AddBlueprintItem(itemSO.items[i]);
 
-        Debug.Log("아직 추가되지 않은 아이템");
+        Debug.Log("아직 추가되지 않은 아이템: " + _itemCode);
         AddBlueprintItem(tempItem);
     }
 

@@ -5,6 +5,7 @@ using DG.Tweening;
 public class TutorialController : MonoBehaviour
 {
     [SerializeField] Transform tutorialBack;
+    [SerializeField] Image whitePanel;
 
     GameObject workBench;
     Image lightBackground;
@@ -25,11 +26,13 @@ public class TutorialController : MonoBehaviour
     public void Show()
     {
         tutorialBack.DOMove(new Vector2(0f, 0f), 0.3f).SetEase(Ease.InQuad);
+        whitePanel.raycastTarget = true;
     }
 
     public void Hide()
     {
         tutorialBack.DOMove(new Vector2(0f, -400f), 0.3f).SetEase(Ease.OutQuad);
+        whitePanel.raycastTarget = false;
     }
 
     
