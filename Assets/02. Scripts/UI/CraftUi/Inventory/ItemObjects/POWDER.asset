@@ -28,5 +28,7 @@ MonoBehaviour:
     Japanese: 
     Chinese: 
   itemImage: {fileID: 21300000, guid: 240cd570e330c384b9e7efd555db2a9f, type: 3}
+  slotImage: {fileID: 21300000, guid: 363859dded875da46935b9afa0503363, type: 3}
   itemCount: 0
-  itemType: 0
+  eItemType: 0
+  prefab: {fileID: 0}

@@ -14,19 +14,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemCode: ITEM_TIER_2_GENERATOR
   data:
-    Index: 0
-    Tier: 0
-    Code: 
-    Rarity: 0
+    Index: 1015
+    Tier: 2
+    Code: ITEM_TIER_2_GENERATOR
+    Rarity: 1
     TileIncludePossibility: 0
     Type: 0
     isCanBase: 0
     CombineSlotCount: 0
-    Description: 
-    Korean: 
+    Description: "\uC544\uC774\uD15C\uBA85: \uBC1C\uC804\uAE30\n\uBD84\uB958:[\uD569\uC131\uBB3C]\n\uD2F0\uC5B4:
+      2\n-\uC544\uC774\uD15C \uC124\uBA85\n\uAC00\uB3D9\uD615 \uBB34\uAE30\uC758
+      \uC911\uC2EC\uC774 \uB418\uB294 \uD569\uC131\uBB3C\uC774\uB2E4.\n\uAD50\uB780\uAE30\uC744
+      \uB9CC\uB4DC\uB294\uB370 \uD544\uC694\uD558\uB2E4."
+    Korean: "\uBC1C\uC804\uAE30"
     English: 
     Japanese: 
     Chinese: 
   itemImage: {fileID: 21300000, guid: f3ce1157fbc0a2940aa81a59d0ccbdb8, type: 3}
+  slotImage: {fileID: 21300000, guid: 363859dded875da46935b9afa0503363, type: 3}
   itemCount: 0
-  itemType: 0
+  eItemType: 0
+  prefab: {fileID: 0}

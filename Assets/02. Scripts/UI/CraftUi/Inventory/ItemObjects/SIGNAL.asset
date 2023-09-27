@@ -10,24 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 42165cb51ef0e8d4099b71eaf4f478c1, type: 3}
-  m_Name: SIGNALLER
+  m_Name: SIGNAL
   m_EditorClassIdentifier: 
-  itemCode: ITEM_TIER_2_SIGNALLER
+  itemCode: ITEM_TIER_2_SIGNAL
   data:
-    Index: 0
-    Tier: 0
-    Code: 
-    Rarity: 0
+    Index: 1014
+    Tier: 2
+    Code: ITEM_TIER_2_SIGNAL
+    Rarity: 1
     TileIncludePossibility: 0
     Type: 0
     isCanBase: 0
     CombineSlotCount: 0
-    Description: 
-    Korean: 
+    Description: "\uC544\uC774\uD15C\uBA85: \uC2E0\uD638\uAE30\n\uD2F0\uC5B4: 2\n\uBD84\uB958:[\uD569\uC131\uBB3C]\n-\uC544\uC774\uD15C
+      \uC124\uBA85\n\uD1B5\uC2E0\uC5D0 \uC788\uC5B4 \uD544\uC218\uC801\uC774\uBA70
+      \uD50C\uB77C\uC988\uB9C8\uB97C \uC774\uC6A9\uD558\uC5EC \uB9CC\uB4E4 \uC218
+      \uC788\uB2E4.\n\uAD50\uB780\uAE30\uC744 \uB9CC\uB4DC\uB294\uB370 \uD544\uC694\uD558\uB2E4."
+    Korean: "\uC2E0\uD638\uAE30"
     English: 
     Japanese: 
     Chinese: 
   itemImage: {fileID: 21300000, guid: 59bf8fb908afd8c47b6efcdf3332fc68, type: 3}
+  slotImage: {fileID: 21300000, guid: 363859dded875da46935b9afa0503363, type: 3}
   itemCount: 0
-  itemType: 0
+  eItemType: 0
   prefab: {fileID: 3978186304727112820, guid: 98bbcb743baf8a543a79573cddba25e2, type: 3}

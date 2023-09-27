@@ -8,7 +8,6 @@ using System;
 public class InventoryController : ControllerBase
 {
     [SerializeField] Transform slotParent;
-    [SerializeField] Sprite[] itemTypeImage;
     [SerializeField] ItemSO itemSO;
 
     ItemSlot[] slots;
@@ -35,7 +34,7 @@ public class InventoryController : ControllerBase
             item.itemCount = 0;
 
         AddItemByItemCode("ITEM_TIER_2_PLASMA");
-        AddItemByItemCode("ITEM_TIER_1_PLASTIC");
+        AddItemByItemCode("ITEM_TIER_1_CARBON");
         AddItemByItemCode("ITEM_TIER_1_STEEL");
     }
 
@@ -51,13 +50,7 @@ public class InventoryController : ControllerBase
             slots[i].item = items[i];
             itemCounts[i].gameObject.SetActive(true);
             itemCounts[i].text = items[i].itemCount.ToString();
-
-            if (items[i].eItemType == EItemType.Consumption)
-                slotImages[i].GetComponent<Image>().sprite = itemTypeImage[0];
-            else if (items[i].eItemType == EItemType.Equipment)
-                slotImages[i].GetComponent<Image>().sprite = itemTypeImage[1];
-            else if (items[i].eItemType == EItemType.Material)
-                slotImages[i].GetComponent<Image>().sprite = itemTypeImage[2];
+            slotImages[i].GetComponent<Image>().sprite = items[i].slotImage;
         }
     }
 
@@ -69,8 +62,6 @@ public class InventoryController : ControllerBase
         for (int i = 0; i < slotParent.childCount; i++)
         {
             slots[i].item = null;
-            slotImages[i].GetComponent<Image>().sprite = itemTypeImage[0];
-            itemCounts[i].text = "0";
             itemCounts[i].gameObject.SetActive(false);
         }
     }
