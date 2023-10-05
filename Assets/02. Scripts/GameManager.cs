@@ -9,10 +9,10 @@ public struct Controller
 }
 
 /// <summary>
-/// ÀÏ ¼ö°¡ ³Ñ¾î°¨¿¡ µû¶ó ¸Â°Ô ¸Ê, Ä³¸¯ÅÍ, ÅÂ½ºÅ© ¾÷µ¥ÀÌÆ®. -> °¢ ¸Å´ÏÀú¿¡°Ô ¸í·É.
-/// UI, ´ëÈ­ ½Ã½ºÅÛ ÄÁÆ®·Ñ.
-/// °ÔÀÓ ½ÃÀÛ ¹× Á¾·á, °ÔÀÓ ¿À¹ö, ÀúÀå ±¸Çö.
-/// ¾À °ü¸®.
+/// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¾î°¨ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Â°ï¿½ ï¿½ï¿½, Ä³ï¿½ï¿½ï¿½ï¿½, ï¿½Â½ï¿½Å© ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®. -> ï¿½ï¿½ ï¿½Å´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
+/// UI, ï¿½ï¿½È­ ï¿½Ã½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ®ï¿½ï¿½.
+/// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
+/// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 /// </summary>
 public class GameManager : Singleton<GameManager>
 {
@@ -39,44 +39,43 @@ public class GameManager : Singleton<GameManager>
 
     public void UpdateAllState()
     {
-        // 1. ÀÏÂ÷ º¯°æ
+        // 1. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-        // 2. ¸Ê ¾÷µ¥ÀÌÆ®
+        // 2. ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
 
-        // 3. Ä³¸¯ÅÍ »óÅÂ ¾÷µ¥ÀÌÆ®
+        // 3. Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
 
-        // 4. Å×½ºÅ© ¾÷µ¥ÀÌÆ®
+        // 4. ï¿½×½ï¿½Å© ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
     }
 
     public void SaveGame()
     {
-        // ÇöÀç ¸ðµç µ¥ÀÌÅÍ ÀúÀå
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
 
     public void PrevGameStart()
     {
-        // ÀÌÀü µ¥ÀÌÅÍ ºÒ·¯¿À±â
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
 
-        // ¾À ÀÌµ¿
+        // ï¿½ï¿½ ï¿½Ìµï¿½
         SceneLoader.instance.LoadScene(1);
     }
 
     public void NewGameStart()
     {
-        // µ¥ÀÌÅÍ ÃÊ±âÈ­
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
 
-        // ¾À ÀÌµ¿
+        // ï¿½ï¿½ ï¿½Ìµï¿½
         SceneLoader.instance.LoadScene((int)ESceneType.Game);
         SceneLoader.instance.LoadSceneAddtive((int)ESceneType.UI);
         SceneLoader.instance.LoadSceneAddtive((int)ESceneType.Map);
         App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
-        App.instance.GetMapManager().AllowMouseEvent(true);
     }
 
     public void Settings()
     {
-        // ¼³Á¤ Ã¢
-        Debug.Log("¼³Á¤");
+        // ï¿½ï¿½ï¿½ï¿½ Ã¢
+        Debug.Log("ï¿½ï¿½ï¿½ï¿½");
     }
 
     public void QuitGame()

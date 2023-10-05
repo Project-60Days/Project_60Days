@@ -6,10 +6,7 @@ using Hexamap;
 
 public enum ETileMouseState
 {
-    Nothing,
-    CanClick,
-    CanPlayerMove,
-    DronePrepared,
+    Nothing, CanClick, CanPlayerMove, DronePrepared
 }
 
 public class MapManager : ManagementBase
@@ -24,9 +21,9 @@ public class MapManager : ManagementBase
     ResourceManager resourceManager;
     TileController curTileController;
 
-    bool isPlayerSelected;
+    bool canPlayerMove;
     bool isDronePrepared;
-    bool isDisturbtor;
+    bool isDisturbtorPrepared;
 
     void Update()
     {
@@ -48,6 +45,8 @@ public class MapManager : ManagementBase
         yield return new WaitUntil(() => mapController != null);
         mapController.GenerateMap();
         mapCineCamera = GameObject.FindGameObjectWithTag("MapCamera").GetComponent<MapCamera>();
+
+        AllowMouseEvent(true);
         resourceManager = GameObject.FindGameObjectWithTag("Resource").GetComponent<ResourceManager>();
         StartCoroutine(mapCineCamera.GetMapInfo());
     }
@@ -57,9 +56,7 @@ public class MapManager : ManagementBase
         StartCoroutine(GetAdditiveSceneObjects());
     }
 
-    /// <summary>
-    /// Raytracing을 통해 마우스 현재 위치에 맞는 타일의 정보를 가져오거나, 타일의 하위 오브젝트를 활성화시키는 함수.
-    /// </summary>
+
     void MouseOverEvents()
     {
         RaycastHit hit;
@@ -75,7 +72,10 @@ public class MapManager : ManagementBase
             mapController.DeselectAllBorderTiles();
 
             if (!mapController.CheckPlayersView(tileController))
+            {
+                mapUIController.FalseTileInfo();
                 return;
+            }
 
             switch (mouseState)
             {
@@ -92,7 +92,7 @@ public class MapManager : ManagementBase
                     mapController.AddSelectedTilesList(tileController);
                     break;
                 case ETileMouseState.DronePrepared:
-                    if (isDisturbtor)
+                    if (isDisturbtorPrepared)
                     {
                         mapController.DisturbtorPathFinder(tileController);
                     }
@@ -114,9 +114,6 @@ public class MapManager : ManagementBase
         MouseClickEvents();
     }
 
-    /// <summary>
-    /// 플레이어 이동, 교란기, 탐색기 설치 등 마우스 클릭이벤트들을 담은 함수. Raycast 사용
-    /// </summary>
     void MouseClickEvents()
     {
         /*        if (EventSystem.current.IsPointerOverGameObject())
@@ -136,23 +133,23 @@ public class MapManager : ManagementBase
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskPlayer))
             {
                 if (!isDronePrepared && !mapUIController.MovePointActivate())
-                    isPlayerSelected = mapController.PlayerCanMoveCheck();
+                    canPlayerMove = mapController.PlayerCanMoveCheck();
             }
             else if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile))
             {
                 TileController tileController = hit.transform.parent.GetComponent<TileController>();
 
-                if (!isPlayerSelected && !isDronePrepared)
+                if (!canPlayerMove && !isDronePrepared)
                 {
-                    mapUIController.TrueTileInfo(tileController.transform.position);
+                    mapUIController.TrueTileInfo();
                 }
-                else if (isPlayerSelected)
+                else if (canPlayerMove)
                 {
 
                     if (mapController.SelectPlayerMovePoint(tileController))
                     {
                         mapUIController.OnPlayerMovePoint(tileController.transform);
-                        isPlayerSelected = false;
+                        canPlayerMove = false;
                     }
                     else
                         return;
@@ -160,7 +157,7 @@ public class MapManager : ManagementBase
                 }
                 else if (isDronePrepared)
                 {
-                    if (isDisturbtor)
+                    if (isDisturbtorPrepared)
                     {
                         mapController.SelectTileForDisturbtor(tileController);
                     }
@@ -173,19 +170,18 @@ public class MapManager : ManagementBase
             }
         }
 
-        // 우클릭 시 선택 취소
         if (Input.GetMouseButtonDown(1))
         {
             mapController.DeselectAllBorderTiles();
 
-            if (isPlayerSelected)
+            if (canPlayerMove)
             {
-                isPlayerSelected = false;
+                canPlayerMove = false;
             }
 
             if (isDronePrepared)
             {
-                if (isDisturbtor)
+                if (isDisturbtorPrepared)
                 {
                     mapController.PreparingDisturbtor(false);
                 }
@@ -197,19 +193,15 @@ public class MapManager : ManagementBase
         }
     }
 
-    /// <summary>
-    /// 마우스 이벤트 컨트롤 위한 열거형 업데이트 시켜주는 함수
-    /// Update에서 호출
-    /// </summary>
     void SetETileMoveState()
     {
         if (!mouseIntreractable)
             mouseState = ETileMouseState.Nothing;
 
-        else if (!isPlayerSelected && !isDronePrepared)
+        else if (!canPlayerMove && !isDronePrepared)
             mouseState = ETileMouseState.CanClick;
 
-        else if (isPlayerSelected)
+        else if (canPlayerMove)
             mouseState = ETileMouseState.CanPlayerMove;
 
         else if (isDronePrepared)
@@ -226,10 +218,6 @@ public class MapManager : ManagementBase
         CheckRoutine();
     }
 
-    /// <summary>
-    /// 행동 선택 중일 때 드론 생성 버튼 클릭 방지
-    /// </summary>
-    /// <returns></returns>
     public bool CheckCanInstallDrone()
     {
         if (mouseState == ETileMouseState.CanClick)
@@ -241,9 +229,9 @@ public class MapManager : ManagementBase
 
     public void AllowMouseEvent(bool isAllow)
     {
-        isPlayerSelected = false;
+        canPlayerMove = false;
         isDronePrepared = false;
-        isDisturbtor = false;
+        isDisturbtorPrepared = false;
 
         mouseIntreractable = isAllow;
     }
@@ -269,7 +257,6 @@ public class MapManager : ManagementBase
         CheckZombies();
     }
 
-    // 처음 생성 시 검사, 이후 NextDay 함수 끝나면 검사.
     public void CheckResource()
     {
         if (resourceManager.IsGetResource)

@@ -121,12 +121,12 @@ public enum EWeatherType
 
 public enum EResourceType
 {
-    PLASTIC,
-    STEEL,
-    PLAZMA,
-    POWDER,
-    GAS,
-    PLATE
+    Metal,
+    Carbon,
+    Plasma,
+    Pawder,
+    Gas,
+    Rubber
 }
 
 public enum ETileState

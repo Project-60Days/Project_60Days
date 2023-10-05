@@ -23,7 +23,7 @@ MonoBehaviour:
   WorldLimitsPrefabs:
   - {fileID: 307140750319210593, guid: ac48f32bd8226654e8066c1c6f86b3c1, type: 3}
   BiomeSettings:
-  - UUID: 9a7de77e-9a65-4871-b2ce-acde46d240be
+  - UUID: 873f2c48-8fdc-4061-a880-369b74965849
     Name: Jungle
     MinimumTilesCount: 250
     Landforms:
@@ -148,7 +148,7 @@ MonoBehaviour:
       - {fileID: 6999840904034914940, guid: 39bb7c4d0064ca845b366aa9f451713c, type: 3}
       - {fileID: 5130638035095197332, guid: 3b7607647ed6f4e418cb2566d7dd9d2d, type: 3}
     IsExpanded: 0
-  - UUID: 1f1b86fd-8425-402b-af6d-996ff15c6584
+  - UUID: f3eb728e-bc9b-4d66-b05f-47b69ffb8897
     Name: None
     MinimumTilesCount: 250
     Landforms:
@@ -276,7 +276,7 @@ MonoBehaviour:
       - {fileID: 6999840904034914940, guid: 39bb7c4d0064ca845b366aa9f451713c, type: 3}
       - {fileID: 5130638035095197332, guid: 3b7607647ed6f4e418cb2566d7dd9d2d, type: 3}
     IsExpanded: 0
-  - UUID: 7024aad9-812d-44ec-af4a-5e08144d0326
+  - UUID: bb66eb6b-529e-4c02-ab49-a2c92f45d1f7
     Name: Neo
     MinimumTilesCount: 50
     Landforms:
@@ -332,7 +332,7 @@ MonoBehaviour:
       Quantity: 0
       Order: 0
       PrefabsArraySize: 1
-      PrefabsIsExpanded: 1
+      PrefabsIsExpanded: 0
       PrefabPickingMethodTypeAsString: Hexamap.PickingMethodRandom
       PrefabPickingMethodPopupIndex: 3
       PrefabOrientationMethod: -1
@@ -396,7 +396,7 @@ MonoBehaviour:
       - {fileID: 6999840904034914940, guid: 39bb7c4d0064ca845b366aa9f451713c, type: 3}
       - {fileID: 5130638035095197332, guid: 3b7607647ed6f4e418cb2566d7dd9d2d, type: 3}
     IsExpanded: 0
-  - UUID: 55c8909f-aa93-4e99-837c-c649337f813c
+  - UUID: 29549e10-e029-48b2-9207-1e886f5d261a
     Name: Dessert
     MinimumTilesCount: 50
     Landforms:
@@ -516,7 +516,7 @@ MonoBehaviour:
       - {fileID: 6999840904034914940, guid: 39bb7c4d0064ca845b366aa9f451713c, type: 3}
       - {fileID: 5130638035095197332, guid: 3b7607647ed6f4e418cb2566d7dd9d2d, type: 3}
     IsExpanded: 0
-  - UUID: e07f2d42-595e-4e82-ad29-77a847c84343
+  - UUID: 8a8ad7a5-d7d7-4998-9ef0-ba0a0a2b70a3
     Name: Tundra
     MinimumTilesCount: 50
     Landforms:

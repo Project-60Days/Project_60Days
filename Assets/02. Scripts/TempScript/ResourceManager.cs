@@ -27,8 +27,8 @@ public class ResourceManager : MonoBehaviour
         {
             foreach (var item in owendResources)
             {
-                var itemName = itemSO.items.ToList().Find(x => x.itemCode == item.itemCode).data.Korean;
-                Debug.LogFormat("ÀÚ¿ø ÀÌ¸§ : {0}, ÀÚ¿ø °¹¼ö : {1}", itemName, item.itemCount);
+                var itemName = itemSO.items.ToList().Find(x => x.itemCode == item.ItemCode).data.Korean;
+                Debug.LogFormat("ï¿½Ú¿ï¿½ ï¿½Ì¸ï¿½ : {0}, ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½ : {1}", itemName, item.ItemCount);
             }
         }
     }
@@ -43,27 +43,27 @@ public class ResourceManager : MonoBehaviour
         {
             for (int i = 0; i < list.Count; i++)
             {
-                if (owendResources.Exists(x => x.itemCode == list[i].itemCode))
+                if (owendResources.Exists(x => x.ItemCode == list[i].ItemCode))
                 {
-                    var resource = owendResources.Find(x => x.itemCode == list[i].itemCode);
+                    var resource = owendResources.Find(x => x.ItemCode == list[i].ItemCode);
 
-                    if (resource.itemCount <= 0)
+                    if (resource.ItemCount <= 0)
                         return;
                     else
-                        resource.itemCount += list[i].itemCount;
+                        resource.ItemCount += list[i].ItemCount;
 
-                    var itemName = itemSO.items.ToList().Find(x => x.itemCode == resource.itemCode).data.Korean;
+                    var itemName = itemSO.items.ToList().Find(x => x.itemCode == resource.ItemCode).data.Korean;
 
                     PlaySFX(itemName);
-                    Debug.LogFormat("{0} ÀÚ¿ø, {1}°³ È¹µæ!", itemName, list[i].itemCount);
+                    Debug.LogFormat("{0} ï¿½Ú¿ï¿½, {1}ï¿½ï¿½ È¹ï¿½ï¿½!", itemName, list[i].ItemCount);
                     isGetResource = true;
                 }
                 else
                 {
                     owendResources.Add(list[i]);
-                    var itemName = itemSO.items.ToList().Find(x => x.itemCode == owendResources[owendResources.Count - 1].itemCode).data.Korean;
+                    var itemName = itemSO.items.ToList().Find(x => x.itemCode == owendResources[owendResources.Count - 1].ItemCode).data.Korean;
                     PlaySFX(itemName);
-                    Debug.LogFormat(itemName + " ÀÚ¿ø {0}°³ Ãß°¡", owendResources[owendResources.Count - 1].itemCount);
+                    Debug.LogFormat(itemName + " ï¿½Ú¿ï¿½ {0}ï¿½ï¿½ ï¿½ß°ï¿½", owendResources[owendResources.Count - 1].ItemCount);
                     isGetResource = true;
                 }
             }
@@ -71,9 +71,9 @@ public class ResourceManager : MonoBehaviour
 
         for (int i = 0; i < list.Count; i++)
         {
-            ItemBase item = itemSO.items.ToList().Find(x => x.itemCode == list[i].itemCode);
+            ItemBase item = itemSO.items.ToList().Find(x => x.itemCode == list[i].ItemCode);
 
-            for (int j = 0; j < list[i].itemCount; j++)
+            for (int j = 0; j < list[i].ItemCount; j++)
             {
                 UIManager.instance.GetInventoryController().AddItem(item);
             }
@@ -85,7 +85,7 @@ public class ResourceManager : MonoBehaviour
         App.instance.GetSoundManager().PlaySFX("SFX_Metal_Acquisition");
         /*        switch (str)
                 {
-                    case "°­Ã¶":
+                    case "ï¿½ï¿½Ã¶":
                         App.instance.GetSoundManager().PlaySFX("SFX_Metal_Acquisition");
                         break;
                     default:
