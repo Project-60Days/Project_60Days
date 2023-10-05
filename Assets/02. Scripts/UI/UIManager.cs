@@ -5,15 +5,14 @@ using UnityEngine;
 public class UIManager : Singleton<UIManager>
 {
     [SerializeField] NoteController noteController;
-    [SerializeField] TutorialDialogue tutorialDialogue;
     [SerializeField] InventoryController inventoryController;
     [SerializeField] CraftingUiController craftingUiController;
     [SerializeField] CraftingRawImageController craftingRawImageController;
     [SerializeField] CraftModeController craftModeController;
     [SerializeField] UIHighLightController uiHighLightController;
-    [SerializeField] EndUIController endUIController;
     [SerializeField] SelectController selectController;
     [SerializeField] NextDayController nextDayController;
+    [SerializeField] AlertController alertController;
 
     public Stack<string> currUIStack = new Stack<string>();
 
@@ -45,11 +44,6 @@ public class UIManager : Singleton<UIManager>
         return noteController;
     }
 
-    public TutorialDialogue GetTutorialDialogue()
-    {
-        return tutorialDialogue;
-    }
-
     public InventoryController GetInventoryController()
     {
         return inventoryController;
@@ -75,11 +69,6 @@ public class UIManager : Singleton<UIManager>
         return uiHighLightController;
     }
 
-    public EndUIController GetEndUIController()
-    {
-        return endUIController;
-    }
-
     public SelectController GetSelectController()
     {
         return selectController;
@@ -88,5 +77,10 @@ public class UIManager : Singleton<UIManager>
     public NextDayController GetNextDayController()
     {
         return nextDayController;
+    }
+
+    public AlertController GetAlertController()
+    {
+        return alertController;
     }
 }

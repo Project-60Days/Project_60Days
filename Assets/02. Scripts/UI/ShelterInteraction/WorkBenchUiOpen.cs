@@ -18,10 +18,10 @@ public class WorkBenchUiOpen : MonoBehaviour
         ActivateUiObjects(false);
     }
 
-    void ActivateUiObjects(bool isActive)
+    void ActivateUiObjects(bool _isActive)
     {
-        inventoryUi.SetActive(isActive);
-        craftingUi.SetActive(isActive);
+        inventoryUi.SetActive(_isActive);
+        craftingUi.SetActive(_isActive);
     }
 
     void OnEnable()
@@ -34,23 +34,23 @@ public class WorkBenchUiOpen : MonoBehaviour
         SetOnClickEvent(false);
     }
 
-    void SetOnClickEvent(bool enable)
+    void SetOnClickEvent(bool _enable)
     {
         WorkBenchInteraction onClickScript = FindObjectOfType<WorkBenchInteraction>();
         if (onClickScript != null)
         {
-            if (enable)
+            if (_enable == true)
             {
-                onClickScript.onClickEvent.AddListener(UiOpenEvent);
+                onClickScript.onClickEvent.AddListener(OpenUi);
             }
             else
             {
-                onClickScript.onClickEvent.RemoveListener(UiOpenEvent);
+                onClickScript.onClickEvent.RemoveListener(OpenUi);
             }
         }
     }
 
-    void UiOpenEvent()
+    void OpenUi()
     {
         UIManager.instance.AddCurrUIName(StringUtility.UI_CRAFTING);
         ActivateUiObjects(true);
@@ -66,7 +66,7 @@ public class WorkBenchUiOpen : MonoBehaviour
         sequence.Play();
     }
 
-    public void UiCloseEvent()
+    public void CloseUi()
     {
         Sequence sequence = DOTween.Sequence();
         UIManager.instance.PopCurrUI();
@@ -75,12 +75,5 @@ public class WorkBenchUiOpen : MonoBehaviour
             .Append(craftingUi.GetComponent<CanvasGroup>().DOFade(0f, 0.5f))
             .OnComplete(() => ActivateUiObjects(false));
         sequence.Play();
-    }
-
-    public void Temp() //테스트용 버튼에 쓰일 임시 함수
-    {
-        UIManager.instance.AddCurrUIName(StringUtility.UI_CRAFTING);
-        ActivateUiObjects(true);
-        FadeInUiObjects();
     }
 }

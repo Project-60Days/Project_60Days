@@ -1,46 +1,61 @@
-﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using DG.Tweening;
 
 public class TutorialController : MonoBehaviour
 {
-    List<TutorialBase> tutorialList;
+    [SerializeField] Transform tutorialBack;
+    [SerializeField] Image whitePanel;
 
-    public TutorialBase currentTutorial;
-    int TutorialIndex = -1;
+    GameObject workBench;
+    Image lightBackground;
+    Image workBenchImage;
+    public bool isLightUp = false;
 
-    public void Init()
+    int initIndex;
+
+    void Awake()
     {
-        tutorialList = new List<TutorialBase>(this.GetComponentsInChildren<TutorialBase>());
+        lightBackground = GameObject.FindWithTag("LightImage").GetComponent<Image>();
+        workBench = GameObject.FindWithTag("WorkBench");
+        workBenchImage = workBench.GetComponent<Image>();
 
-        SetNextTutorial();
+        initIndex = workBench.transform.GetSiblingIndex();
     }
 
-    private void Update()
+    public void Show()
     {
-        currentTutorial?.Execute(this);
+        tutorialBack.DOMove(new Vector2(0f, 0f), 0.3f).SetEase(Ease.InQuad);
+        whitePanel.raycastTarget = true;
     }
 
-    public void SetNextTutorial()
+    public void Hide()
     {
-        currentTutorial?.Exit();
+        tutorialBack.DOMove(new Vector2(0f, -400f), 0.3f).SetEase(Ease.OutQuad);
+        whitePanel.raycastTarget = false;
+    }
 
-        if (TutorialIndex >= tutorialList.Count - 1)
+    
+
+    public void LightUpWorkBench()
+    {
+        workBench.transform.SetAsLastSibling();
+        Color color = new Color(0.15f, 0.15f, 0.15f, 1f);
+        workBenchImage.DOColor(color, 0f);
+    }
+    public void LightDownWorkBench()
+    {
+        workBench.transform.SetSiblingIndex(initIndex);
+        Color color = new Color(1f, 1f, 1f, 1f);
+        workBenchImage.DOColor(color, 0f);
+    }
+    public void LightUpBackground()
+    {
+        Color color = new Color(1f, 1f, 1f, 1f);
+        lightBackground.DOFade(0f, 2f).SetEase(Ease.InBounce).OnComplete(() =>
         {
-            CompleteTutorial();
-            return;
-        }
-
-        TutorialIndex++;
-        currentTutorial = tutorialList[TutorialIndex];
-
-        currentTutorial?.Enter();
-    }
-
-    void CompleteTutorial()
-    {
-        currentTutorial = null;
-
-        // 모든 튜토리얼 종료
+            lightBackground.gameObject.SetActive(false);
+            isLightUp = true;
+        });
     }
 }

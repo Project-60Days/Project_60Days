@@ -18,7 +18,9 @@ public enum EItemType
 {
     Material,
     Equipment,
-    Consumption
+    Both,
+    UnCraftable,
+    Special
 }
 
 public enum ENotePageType
@@ -32,7 +34,8 @@ public enum ESlotType
     InventorySlot,
     CraftingSlot,
     ResultSlot,
-    EquipSlot
+    EquipSlot,
+    BlueprintSlot
 }
 
 public enum EQuestType
@@ -41,10 +44,9 @@ public enum EQuestType
     Sub
 }
 
-public enum EAlarmType
+public enum EAlertType
 {
-    New,
-    Result,
+    Selection,
     Caution
 }
 

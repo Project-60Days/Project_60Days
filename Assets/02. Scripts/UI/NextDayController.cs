@@ -1,24 +1,22 @@
 using Cinemachine;
 using DG.Tweening;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class NextDayController : ControllerBase
 {
     [SerializeField] Image blackPanel;
-    public NotePage[] pages;
+    public NotePageBase[] pages;
 
     [Header("Quest Objects")]
     [SerializeField] GameObject questPrefab;
     [SerializeField] Transform questParent;
+    [SerializeField] GameObject questLogo;
 
-    [Header("Alarm Objects")]
-    [SerializeField] GameObject newAlarm;
-    [SerializeField] GameObject resultAlarm;
-    [SerializeField] GameObject cautionAlarm;
+    [Header("Alert Objects")]
+    [SerializeField] GameObject selectAlert;
+    [SerializeField] GameObject cautionAlert;
 
     CanvasGroup shelterUi;
 
@@ -37,7 +35,7 @@ public class NextDayController : ControllerBase
     void Awake()
     {
         Init();
-        pages = GameObject.Find("Page_Back").GetComponentsInChildren<NotePage>(includeInactive: true);
+        pages = GameObject.Find("Page_Back").GetComponentsInChildren<NotePageBase>(includeInactive: true);
     }
 
     void Start()
@@ -45,26 +43,27 @@ public class NextDayController : ControllerBase
         shelterUi = GameObject.FindGameObjectWithTag("ShelterUi").GetComponent<CanvasGroup>();
         mapCamera = GameObject.FindGameObjectWithTag("MapCamera").GetComponent<CinemachineVirtualCamera>();
         transposer = mapCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
-        App.instance.AddController(this);
+        transposer.m_CameraDistance = 5f;
+        App.instance.AddController(this); //?
     }
 
 
 
 
     /// <summary>
-    /// �°� �ʱ�ȭ �Լ� ����
+    /// 초기화 함수 모음
     /// </summary>
     void Init()
     {
         InitBlackPanel();
         InitPageEnabled();
         InitQuestList();
-        InitAlarm();
+        InitAlert();
     }
 
     #region Inits
     /// <summary>
-    /// Ȱ��ȭ �ƴ� BlackPanel �ٽ� ���b��ȭ (BlackPanel�� ���� ���� �Ѿ �� ��� ���̴� � ȭ��)
+    /// BlackPanel 초기화 --> BlackPanel: 다음 날로 넘어갈 때 깜빡거리는 용도
     /// </summary>
     void InitBlackPanel()
     {
@@ -75,38 +74,35 @@ public class NextDayController : ControllerBase
     }
 
     /// <summary>
-    /// ��Ʈ ������ �ʱ�ȭ (dialogueRunner ���߱�, ������ ��Ȱ��ȭ) --> �߰� �۾� �ʿ�. ������ �����ؾ���.
+    /// 노트 페이지 초기화
     /// </summary>
     void InitPageEnabled()
     {
-        foreach (NotePage page in pages)
+        foreach (NotePageBase page in pages)
         {
             page.StopDialogue();
             page.gameObject.SetActive(false);
-            //���� ���ο� ���� ���۵� ������ ������ �޾ƿ� page.SetPageEnabled() ȣ���Ͽ� �� �Ѱ��ֱ�
+            //page.SetPageEnabled()로 다음 날 사용할 페이지 결정
         }
     }
 
     /// <summary>
-    /// ����Ʈ ��� �ʱ�ȭ (�����Ǿ��� ������ ��� �ı�)
+    /// 퀘스트 리스트 초기화
     /// </summary>
     void InitQuestList()
     {
         Quest[] quests = questParent.GetComponentsInChildren<Quest>();
         foreach (Quest quest in quests)
-        {
             Destroy(quest.gameObject);
-        }
     }
 
     /// <summary>
-    /// �˸� ��� �ʱ�ȭ --> ����� �ʿ��� �˸��� SetActive(true)�ؼ� ��� ���ε�, �� ���� ����� ���� ��. / ���������� �߰� �۾� �ʿ�. ������ �����ؾ���.
+    /// 알림 리스트 초기화
     /// </summary>
-    void InitAlarm()
+    void InitAlert()
     {
-        newAlarm.SetActive(false);
-        resultAlarm.SetActive(false);
-        cautionAlarm.SetActive(false);
+        selectAlert.SetActive(false);
+        cautionAlert.SetActive(false);
     }
     #endregion
 
@@ -115,7 +111,7 @@ public class NextDayController : ControllerBase
 
 
     /// <summary>
-    /// ���� ���� �� �� BlackPanel Ȱ��ȭ/���̵���
+    /// 다음 날로 넘어갈 때 호출되는 이벤트 --> blackPanel 깜빡거림
     /// </summary>
     public void NextDayEvent()
     {
@@ -125,11 +121,11 @@ public class NextDayController : ControllerBase
             .AppendInterval(0.5f)
             .Append(shelterUi.DOFade(1f, 0f))
             .OnComplete(() => NextDayEventCallBack());
-        //sequence.Play();
+        sequence.Play();
     }
 
     /// <summary>
-    /// �ٷ� ���� NextDayEvent()�� �ݹ��Լ� (�ʱ�ȭ �۾�)
+    /// NextDayEvent 콜백함수
     /// </summary>
     void NextDayEventCallBack()
     {
@@ -141,40 +137,60 @@ public class NextDayController : ControllerBase
         StartCoroutine(App.instance.GetMapManager().NextDayCoroutine());
     }
 
-    public void ZoomOutMap()
+    public void GoToLab()
     {
         Sequence sequence = DOTween.Sequence();
         sequence
-            .Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 15f, 0.5f))
-            .OnComplete(() =>
-            {
-                App.instance.GetMapManager().SetMapCameraPriority(false);
-            })
+            .Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 5f, 0.5f))
+            .OnComplete(() => App.instance.GetMapManager().SetMapCameraPriority(false))
             .Append(shelterUi.DOFade(1f, 0.5f));
         sequence.Play();
     }
 
+    public void GoToMap()
+    {
+        blackPanel.gameObject.SetActive(true);
+        Sequence sequence = DOTween.Sequence();
+        sequence
+            .Append(shelterUi.DOFade(0f, 0.5f))
+            .Join(blackPanel.DOFade(1f, 0.5f))
+            .OnComplete(() => ZoomInMap());
+        sequence.Play();
+    }
 
+    void ZoomInMap()
+    {
+        App.instance.GetMapManager().SetMapCameraPriority(true);
+        blackPanel.DOFade(0f, 0.5f);
+        DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 10f, 0.5f)
+            .OnComplete(()=> blackPanel.gameObject.SetActive(false));
+    }
 
 
 
     #region PageSetting
     /// <summary>
-    /// ���ο� ���� ���̴� �������� ��� NoteController�� �迭�� ����. (page.GetPageEnableToday()�Լ��� ��� ���� Ȯ��)
+    /// 다음 날로 넘어갈 때 노트 페이지 구성 함수
     /// </summary>
     /// <returns></returns>
-    public NotePage[] GetNotePageArray()
+    public NotePageBase[] GetNotePageArray()
     {
-        List<NotePage> todayPages = new List<NotePage>();
-        foreach (NotePage page in pages)
+        List<NotePageBase> todayPages = new List<NotePageBase>();
+        foreach (NotePageBase page in pages)
         {
             if (page.GetPageEnableToday())
-            {
                 todayPages.Add(page);
-            }
         }
 
         return todayPages.ToArray(); ;
+    }
+
+    public void SetNote(string _noteType, bool _isActive)
+    {
+        if (_noteType == "result")
+            pages[0].SetPageEnabled(_isActive);
+        else if (_noteType == "select")
+            pages[1].SetPageEnabled(_isActive);
     }
     #endregion
 
@@ -184,27 +200,30 @@ public class NextDayController : ControllerBase
 
     #region QuestSetting
     /// <summary>
-    /// ����Ʈ ������ �߰� --> �߰� �۾� �ʿ�.. �׸��� �� �� �����ϰ� �Լ� ������ ����.
+    /// 다음 날로 넘어갈 때 퀘스트 리스트 구성 함수
     /// </summary>
     /// <param name="type"></param>
     /// <param name="text"></param>
-    void AddQuest(EQuestType type, string text)
+    void AddQuest(EQuestType _type)
     {
         GameObject obj = Instantiate(questPrefab, questParent);
         Quest quest = obj.GetComponent<Quest>();
-        quest.SetEQuestType(type);
-        quest.SetText(text);
+        quest.SetEQuestType(_type);
         quest.SetQuestTypeText();
         quest.SetQuestTypeImage();
         SetQuestList();
     }
 
     /// <summary>
-    /// ����Ʈ ����Ʈ ����(?) ��������Ʈ�� ����, ��������Ʈ�� �Ʒ��� �߰�. --> ���� AddQuest�Լ� ���� �Ǹ� ���������� �굵 �պ��� ����. �� ���� ����� ������!
+    /// 퀘스트 리스트 순서 정렬 함수 (임시로 메인퀘스트는 위에, 서브퀘스트는 아래에 위치하게 설정)
     /// </summary>
     void SetQuestList()
     {
         Quest[] quests = questParent.GetComponentsInChildren<Quest>();
+
+        if (quests.Length > 0)
+            questLogo.SetActive(true);
+
         foreach (Quest quest in quests)
         {
             if(quest.GetEQuestType() == EQuestType.Main)
@@ -222,45 +241,23 @@ public class NextDayController : ControllerBase
     #region ForTest
     public void AddMainQuestBtn() //�׽�Ʈ�� �ӽ� �Լ�. ��������Ʈ �߰� ��ư
     {
-        AddQuest(EQuestType.Main, "�����Դϴ�");
+        AddQuest(EQuestType.Main);
     }
 
     public void AddSubQuestBtn() //�׽�Ʈ�� �ӽ� �Լ�. ��������Ʈ �߰� ��ư
     {
-        AddQuest(EQuestType.Sub, "���ÿ�");
+        AddQuest(EQuestType.Sub);
     }
-    public void AddResultPage() //�׽�Ʈ�� �ӽ� �Լ�. ���� ���� ��� ������ Ȱ��ȭ ��ư
-    {
-        pages[0].SetPageEnabled(true);
-    }
-    public void RemoveResultPage() //�׽�Ʈ�� �ӽ� �Լ�. ���� ���� ��� ������ ��Ȱ��ȭ ��ư
-    {
-        pages[0].SetPageEnabled(false);
-    }
-    public void AddSelectPage() //�׽�Ʈ�� �ӽ� �Լ�. ���� ���� ���� ������ Ȱ��ȭ ��ư
-    {
-        pages[1].SetPageEnabled(true);
-    }
-    public void RemoveSelectPage() //�׽�Ʈ�� �ӽ� �Լ�. ���� ���� ���� ������ ��Ȱ��ȭ ��ư
-    {
-        pages[1].SetPageEnabled(false);
-    }
-
+   
     public void AddResultAlarm()
     {
-        resultAlarm.SetActive(true);
+        selectAlert.SetActive(true);
         //resultAlarm.GetComponent<Alarm>().AddResult();
     }
     public void AddCautionAlarm()
     {
-        cautionAlarm.SetActive(true);
+        cautionAlert.SetActive(true);
         //cautionAlarm.GetComponent<Alarm>().AddCaution();
     }
     #endregion
-
-
-
-
-
-    //�ƹ�ư ��ü������ ���ο� �� �� �� �� �� ������ Ȯ���ؾ� �ϴ� �͵��� ���� �߰� �۾� �ʿ���(����Ʈ, ��Ʈ ������, �˸�)
 }

@@ -42,9 +42,9 @@ public class SelectController : ControllerBase
         gameObject.SetActive(false);
     }
 
-    public void SetSelect(string Key)
+    public void SetSelect(string _Key)
     {
-        if (dic_Select.TryGetValue(Key, out var selectBase))
+        if (dic_Select.TryGetValue(_Key, out var selectBase))
         {
             OpenSelectPanel();
 

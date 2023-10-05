@@ -4,13 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using Yarn.Unity;
 
-public class ResultPage : NotePage
+public class ResultPage : NotePageBase
 {
     [SerializeField] DialogueRunner dialogueRunner;
     [SerializeField] VerticalLayoutGroup content;
     [SerializeField] VerticalLayoutGroup lineView;
 
-    bool isNeedToday = true; //임시로 true를 default로 설정
+    bool isNeedToday = false; //임시로 false를 default로 설정
     string nodeName;
 
     public override ENotePageType GetENotePageType()
@@ -22,7 +22,7 @@ public class ResultPage : NotePage
     {
         nodeName = "Result"; //임시로 노드 이름 설정
 
-        if (!dialogueRunner.IsDialogueRunning)
+        if (dialogueRunner.IsDialogueRunning == false)
         {
             dialogueRunner.StartDialogue(nodeName);
             LayoutRebuilder.ForceRebuildLayoutImmediate(content.GetComponent<RectTransform>());
@@ -30,14 +30,14 @@ public class ResultPage : NotePage
         }
     }
 
-    public override void SetNodeName(string nodeName)
+    public override void SetNodeName(string _nodeName)
     {
-        this.nodeName = nodeName;
+        this.nodeName = _nodeName;
     }
 
-    public override void SetPageEnabled(bool isNeedToday)
+    public override void SetPageEnabled(bool _isNeedToday)
     {
-        this.isNeedToday = isNeedToday;
+        this.isNeedToday = _isNeedToday;
     }
 
     public override bool GetPageEnableToday()

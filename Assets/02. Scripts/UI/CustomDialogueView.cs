@@ -8,14 +8,10 @@ using System;
 
 public class CustomDialogueView : DialogueViewBase
 {
-    [Header("0725 임시 개발")]
-    [SerializeField] TutorialDialogue tutorialDialogue;
-
-
     [SerializeField] private Button skipButton;
     [SerializeField] private TextMeshProUGUI lineText;
 
-    private bool isRunningLine = false;
+    //private bool isRunningLine = false;
     private bool doesUserContinueRequest = false;
     private bool doesUserSkipRequest = false;
 
@@ -59,12 +55,12 @@ public class CustomDialogueView : DialogueViewBase
 
     public override void DialogueComplete()
     {
-        tutorialDialogue.EndDialogue();
+        
     }
 
     public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)
     {
-        isRunningLine = true;
+        //isRunningLine = true;
 
         StartCoroutine(UpdateLine(dialogueLine, onDialogueLineFinished));
     }
@@ -100,6 +96,6 @@ public class CustomDialogueView : DialogueViewBase
 
         _onDialogueLineFinished?.Invoke();
 
-        isRunningLine = false;
+        //isRunningLine = false;
     }
 }

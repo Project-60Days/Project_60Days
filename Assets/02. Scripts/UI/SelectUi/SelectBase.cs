@@ -9,6 +9,6 @@ public abstract class SelectBase : MonoBehaviour
 
     public abstract void SelectA();
     public abstract void SelectB();
-    public abstract void SetOptionA(Button button);
-    public abstract void SetOptionB(Button button);
+    public abstract void SetOptionA(Button _button);
+    public abstract void SetOptionB(Button _button);
 }

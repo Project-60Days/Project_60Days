@@ -6,6 +6,7 @@ using DG.Tweening;
 using Yarn;
 using UnityEngine.UIElements;
 using System;
+using System.Xml.Serialization;
 
 public class CustomYarnCommands : Singleton<CustomYarnCommands>
 {
@@ -14,134 +15,143 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
     void Awake()
     {
-        dialogueRunner.AddCommandHandler("mapNextDay", MapNextDay);
-        dialogueRunner.AddCommandHandler("moveToLab", MoveToLab);
-        dialogueRunner.AddCommandHandler("waitLightDown", WaitLightDown);
-        dialogueRunner.AddCommandHandler("waitLightUp", WaitLightUp);
-        dialogueRunner.AddCommandHandler("endTutorial", EndTutorial);
-        dialogueRunner.AddCommandHandler<int>("moveNoteTap", MoveNoteTap);
-        dialogueRunner.AddCommandHandler<string>("waitGetItem", WaitGetItem);
-        dialogueRunner.AddCommandHandler<string, int>("waitSetCraftingItem", WaitSetCraftingItem);
-        dialogueRunner.AddCommandHandler("waitNewDay", WaitNewDay);
-        dialogueRunner.AddCommandHandler("waitTileUIOpen", WaitTileUIOpen);
-        dialogueRunner.AddCommandHandler("waitTutorialTileUIOpen", WaitTutorialTileUiOpen);
-        dialogueRunner.AddCommandHandler("waitSetDisturbance", WaitSetDisturbance);
-        dialogueRunner.AddCommandHandler("spawnTutorialGlicher", SpawnTutorialGlicher);
+        //common//
+        dialogueRunner.AddCommandHandler<string, string>("highlight", HighLightObject);
         dialogueRunner.AddCommandHandler<string>("waitUntil", WaitUntilUIState);
         dialogueRunner.AddCommandHandler("hide", HideDialogue);
         dialogueRunner.AddCommandHandler("show", ShowDialogue);
-        dialogueRunner.AddCommandHandler("nextTutorial", SetNextTutorial);
-        dialogueRunner.AddCommandHandler<string, string>("highlight", HighLightObject);
-        dialogueRunner.AddCommandHandler<string>("play_bgm", PlayBGM);
-        dialogueRunner.AddCommandHandler<string>("play_sfx", PlaySFX);
-        dialogueRunner.AddCommandHandler<string>("stop_bgm", StopBGM);
+
+        //01//
+        dialogueRunner.AddCommandHandler("lightUpWorkBench", LightUpWorkBench);
+        dialogueRunner.AddCommandHandler("lightDownWorkBench", LightDownWorkBench);
+
+        //02//
+        dialogueRunner.AddCommandHandler<string>("waitGetItem", WaitGetItem);
+
+        //03//
+        dialogueRunner.AddCommandHandler("waitLightUp", WaitLightUp);
+        dialogueRunner.AddCommandHandler<string, bool>("setAlert", SetAlertState);
+
+        //05//
+
+        //06//
+        dialogueRunner.AddCommandHandler("waitNewDay", WaitNewDay);
+        dialogueRunner.AddCommandHandler<string, bool>("setNote", SetNoteState);
+
+        //08//
+        dialogueRunner.AddCommandHandler("endTutorial", EndTutorial);
+        
+        //dialogueRunner.AddCommandHandler("spawnTutorialGlicher", SpawnTutorialGlicher);
+        //dialogueRunner.AddCommandHandler<string>("play_bgm", PlayBGM);
+        //dialogueRunner.AddCommandHandler<string>("play_sfx", PlaySFX);
+        //dialogueRunner.AddCommandHandler<string>("stop_bgm", StopBGM);
     }
 
-    private void MoveToLab()
+
+
+
+
+    #region common
+    private void HighLightObject(string _objectID, string _waitStatusName)
     {
-        App.instance.GetMapManager().SetMapCameraPriority(false);
+        UIManager.instance.GetUIHighLightController().ShowHighLight(_objectID, _waitStatusName);
     }
 
-    private void EndTutorial()
+    private Coroutine WaitUntilUIState(string _UIName)
     {
-        TutorialManager.instance.EndTutorial();
-        UIManager.instance.GetEndUIController().Show();
+        return StartCoroutine(new WaitUntil(() => UIManager.instance.isUIStatus(_UIName)));
     }
 
-    private void HideDialogue()
+    void HideDialogue()
     {
-        UIManager.instance.GetTutorialDialogue().Hide();
+        TutorialManager.instance.GetTutorialController().Hide();
     }
-    private void ShowDialogue()
+
+    void ShowDialogue()
     {
-        UIManager.instance.GetTutorialDialogue().Show();
+        TutorialManager.instance.GetTutorialController().Show();
     }
+    #endregion
 
-    private Coroutine WaitLightDown()
+
+
+
+
+    #region 01
+    void LightUpWorkBench()
     {
-        TutorialManager.instance.LightDownBackground();
-        return StartCoroutine(new WaitUntil(() => !TutorialManager.instance.isLightUp));
+        TutorialManager.instance.GetTutorialController().LightUpWorkBench();
     }
 
-    private Coroutine WaitLightUp()
+    void LightDownWorkBench()
     {
-        TutorialManager.instance.LightUpBackground();
-        return StartCoroutine(new WaitUntil(() => TutorialManager.instance.isLightUp));
+        TutorialManager.instance.GetTutorialController().LightDownWorkBench();
     }
+    #endregion
 
-    private Coroutine WaitTutorialTileUiOpen()
-    {
-        //MapController.instance.OffCurrentUI();
-        //return StartCoroutine(new WaitUntil(() => MapController.instance.isTutorialUiOn()));
 
-        // UI컨트롤러 만들고 추후 수정 필요
-        App.instance.GetMapManager().OnTargetPointUI();
-        return StartCoroutine(new WaitUntil(() => App.instance.GetMapManager().CheckCanInstallDrone()));
-    }
 
+
+
+
+    #region 02
     private Coroutine WaitGetItem(string _itemCode)
     {
         return StartCoroutine(new WaitUntil(() => UIManager.instance.GetInventoryController().CheckInventoryItem(_itemCode)));
     }
+    #endregion
 
-    private Coroutine WaitSetCraftingItem(string _itemCode, int _count = 1)
+
+
+
+
+    #region 03
+    private Coroutine WaitLightUp()
     {
-        return StartCoroutine(new WaitUntil(() => UIManager.instance.GetCraftingUiController().CheckCraftingItem(_itemCode, _count)));
+        return StartCoroutine(new WaitUntil(() => TutorialManager.instance.GetTutorialController().isLightUp));
     }
 
+    void SetAlertState(string _alertType, bool _isActive)
+    {
+        UIManager.instance.GetAlertController().SetAlert(_alertType, _isActive);
+    }
+    #endregion
+
+
+
+
+
+    #region 06
     private Coroutine WaitNewDay()
     {
         return StartCoroutine(new WaitUntil(() => UIManager.instance.GetNoteController().GetNewDay()));
     }
 
-    private void MoveNoteTap(int _idx)
+    void SetNoteState(string _noteType, bool _isActive)
     {
-        Debug.Log("MovenoteTap" + _idx.ToString());
+        UIManager.instance.GetNextDayController().SetNote(_noteType, _isActive);
+    }
+    #endregion
 
-        if (_idx == 0) App.instance.GetMapManager().SetMapCameraPriority(false);
-        else App.instance.GetMapManager().SetMapCameraPriority(true);
-        UIManager.instance.GetNoteController().ChangePageForce(_idx);
-    } 
 
+
+
+
+    #region 08
+    void EndTutorial()
+    {
+        TutorialManager.instance.EndTutorial();
+    }
+    #endregion
+
+
+
+
+
+    #region temp
     private void SpawnTutorialGlicher()
     {
         MapController.instance.SpawnTestZombie();
-    }
-
-    private void MapNextDay()
-    {
-        MapController.instance.NextDay();
-        MapController.instance.NextDay();
-    }
-
-    private Coroutine WaitSetDisturbance()
-    {
-        // UI컨트롤러 만들고 추후 수정 필요
-        //MapUiController.instance.InteractableOn();
-        return StartCoroutine(new WaitUntil(() => MapController.instance.isDisturbtorInstall()));
-    }
-
-    private Coroutine WaitTileUIOpen()
-    {
-        //return StartCoroutine(new WaitUntil(() => MapController.instance.UIOn));
-        // UI컨트롤러 만들고 추후 수정 필요
-        App.instance.GetMapManager().OnTargetPointUI();
-        return StartCoroutine(new WaitUntil(() => App.instance.GetMapManager().CheckCanInstallDrone()));
-    }
-
-    private Coroutine WaitUntilUIState(string _UIName)
-    {
-        return StartCoroutine(new WaitUntil(() => UIManager.instance.isUIStatus(_UIName))); 
-    }
-
-    private void SetNextTutorial()
-    {
-        TutorialManager.instance.tutorialController.SetNextTutorial();
-    }
-
-    private void HighLightObject(string _objectID, string _waitStatusName)
-    {
-        UIManager.instance.GetUIHighLightController().ShowHighLight(_objectID, _waitStatusName);
     }
 
     private void PlayBGM(string bgmName)
@@ -158,4 +168,5 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     {
         App.instance.GetSoundManager().StopBGM();
     }
+    #endregion
 }
