@@ -2,8 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using static UnityEditor.Progress;
-using System;
 
 public class InventoryController : ControllerBase
 {
@@ -11,8 +9,6 @@ public class InventoryController : ControllerBase
     [SerializeField] ItemSO itemSO;
 
     ItemSlot[] slots;
-    Temp[] slotImages;
-    TextMeshProUGUI[] itemCounts;
 
     public List<ItemBase> items;
 
@@ -24,8 +20,6 @@ public class InventoryController : ControllerBase
     void OnValidate()
     {
         slots = slotParent.GetComponentsInChildren<ItemSlot>();
-        slotImages = slotParent.GetComponentsInChildren<Temp>();
-        itemCounts = slotParent.GetComponentsInChildren<TextMeshProUGUI>();
     }
 
     void Awake()
@@ -47,10 +41,9 @@ public class InventoryController : ControllerBase
 
         for (int i = 0; i < items.Count; i++)
         {
+            slots[i].gameObject.SetActive(true);
             slots[i].item = items[i];
-            itemCounts[i].gameObject.SetActive(true);
-            itemCounts[i].text = items[i].itemCount.ToString();
-            slotImages[i].GetComponent<Image>().sprite = items[i].slotImage;
+            slots[i].GetComponentInChildren<TextMeshProUGUI>().text = items[i].itemCount.ToString();
         }
     }
 
@@ -60,10 +53,7 @@ public class InventoryController : ControllerBase
     void InitSlots()
     {
         for (int i = 0; i < slotParent.childCount; i++)
-        {
-            slots[i].item = null;
-            itemCounts[i].gameObject.SetActive(false);
-        }
+            slots[i].gameObject.SetActive(false);
     }
 
 

@@ -1,17 +1,11 @@
-using JetBrains.Annotations;
-using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class CraftingUiController : ControllerBase
 {
     [Header ("Craft Mode")]
     [SerializeField] Transform craftSlotParent;
-    [SerializeField] Sprite[] craftTypeImage;
     [SerializeField] ItemSO itemSO;
     [SerializeField] GameObject craftSlotPrefab;
 
@@ -238,7 +232,6 @@ public class CraftingUiController : ControllerBase
         GameObject obj = Instantiate(craftSlotPrefab, craftSlotParent);
         obj.GetComponentInChildren<CraftSlot>().item = _item;
         obj.GetComponentInChildren<CraftSlot>().eSlotType = ESlotType.ResultSlot;
-        obj.transform.GetChild(1).GetComponent<Image>().sprite = craftTypeImage[1];
     }
 
 

@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class CraftModeController : MonoBehaviour
 {
-    [SerializeField] GameObject player;
     [SerializeField] GameObject craftBag;
     [SerializeField] GameObject equipBag;
     [SerializeField] GameObject blueprintBag;
     [SerializeField] GameObject blueprint;
     [SerializeField] GameObject inventoryBack;
 
-    ECraftModeType eCraftModeType;
+    public ECraftModeType eCraftModeType { get; private set; }
 
     void Awake()
     {
@@ -36,14 +35,11 @@ public class CraftModeController : MonoBehaviour
     {
         equipBag.SetActive(true);
         eCraftModeType = ECraftModeType.Equip;
-        UIManager.instance.GetCraftingRawImageController().canRotate = false;
-        UIManager.instance.GetCraftingRawImageController().ChangerTarget(player);
     }
 
     void EquipInActiveMode()
     {
         equipBag.SetActive(false);
-        UIManager.instance.GetCraftingRawImageController().canRotate = true;
         UIManager.instance.GetCraftingUiController().ExitEquipBag();
     }
 
@@ -67,11 +63,6 @@ public class CraftModeController : MonoBehaviour
 
 
     #region Buttons
-    public ECraftModeType GetECraftModeType()
-    {
-        return eCraftModeType;
-    }
-
     public void SetCraftActive()
     {
         CraftActiveMode();
