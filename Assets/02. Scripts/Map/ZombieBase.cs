@@ -5,7 +5,7 @@ using Hexamap;
 using DG.Tweening;
 using TMPro;
 
-public class ZombieSwarm : MonoBehaviour
+public class ZombieBase : MonoBehaviour
 {
     public int zombieCount;
     public int foodCount;
@@ -52,7 +52,7 @@ public class ZombieSwarm : MonoBehaviour
 
     public void DetectionAndAct()
     {
-        // µ¥¸ð ÄÁÆ®·Ñ·¯¿¡¼­ ¹üÀ§ °¡Á®¿È.
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ®ï¿½Ñ·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
         isChasingPlayer = MapController.instance.CalculateDistanceToPlayer(curTile, 2);
         nearthDistrubtor = MapController.instance.CalculateDistanceToDistrubtor(curTile, 2);
         ActionDecision();
@@ -62,14 +62,14 @@ public class ZombieSwarm : MonoBehaviour
     {
         if (remainStunTime > 0)
         {
-            //Debug.Log(gameObject.name + "Àº Á¤½ÅÀ» Â÷¸®Áö ¸øÇÏ°í ÀÖ´Ù.");
+            //Debug.Log(gameObject.name + "ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ö´ï¿½.");
             remainStunTime--;
             return;
         }
 
         if (nearthDistrubtor != null)
         {
-            Debug.Log(gameObject.name + "ÀÌ ±³¶õ±â¸¦ ¹ß°ß!");
+            Debug.Log(gameObject.name + "ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½â¸¦ ï¿½ß°ï¿½!");
             StartCoroutine(MoveToTarget(nearthDistrubtor.currentTile));
 
             return;
@@ -77,7 +77,7 @@ public class ZombieSwarm : MonoBehaviour
 
         if (isChasingPlayer)
         {
-            Debug.Log(gameObject.name + "ÀÌ ÇÃ·¹ÀÌ¾î¸¦ ¹ß°ß!");
+            Debug.Log(gameObject.name + "ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î¸¦ ï¿½ß°ï¿½!");
             StartCoroutine(MoveToTarget(MapController.instance.GetPlayerLocationTile()));
         }
         else
@@ -85,12 +85,12 @@ public class ZombieSwarm : MonoBehaviour
             var randomInt = GetRandom();
             if (randomInt == 0)
             {
-                //Debug.Log(gameObject.name + "Àº Á¤Ã³¾øÀÌ ¶°µ¹¾Æ ´Ù´Ï°í ÀÖ´Ù...");
+                //Debug.Log(gameObject.name + "ï¿½ï¿½ ï¿½ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù´Ï°ï¿½ ï¿½Ö´ï¿½...");
                 StartCoroutine(MoveToRandom());
             }
             else
             {
-                //Debug.Log(gameObject.name + "Àº ¿òÁ÷ÀÓÀ» º¸ÀÌÁö ¾Ê´Â´Ù...");
+                //Debug.Log(gameObject.name + "ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½...");
             }
         }
     }
@@ -147,15 +147,15 @@ public class ZombieSwarm : MonoBehaviour
     {
         if (tile == curTile)
         {
-            App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Zombie, "Á»ºñ ¾à " + zombieCount + "Ã¼");
+            App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Zombie, "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ " + zombieCount + "Ã¼");
         }
         else
         {
-            App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Zombie, "¾Ë ¼ö ¾øÀ½");
+            App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Zombie, "ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
         }
     }
 
-    public void SumZombies(ZombieSwarm zombie)
+    public void SumZombies(ZombieBase zombie)
     {
         zombieCount += zombie.zombieCount;
         foodCount += zombie.foodCount;

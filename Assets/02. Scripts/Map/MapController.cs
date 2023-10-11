@@ -170,11 +170,11 @@ public class MapController : Singleton<MapController>
         {
             var tile = tileList[selectTileNumber[i]];
             var spawnPos = ((GameObject)tile.GameEntity).transform.position;
-            spawnPos.y += 0.7f;
+            spawnPos.y += 0.2f;
 
             var zombie = Instantiate(mapPrefab.items[(int)EMabPrefab.Zombie].prefab, spawnPos, Quaternion.Euler(0, -90, 0), zombiesTransform);
             zombie.name = "Zombie " + (i + 1);
-            zombie.GetComponent<ZombieSwarm>().Init(tile);
+            zombie.GetComponent<ZombieBase>().Init(tile);
             zombiesList.Add(zombie);
         }
     }
@@ -188,11 +188,11 @@ public class MapController : Singleton<MapController>
 
         var zombie = Instantiate(mapPrefab.items[(int)EMabPrefab.Zombie].prefab, spawnPos, Quaternion.Euler(0, -90, 0), zombiesTransform);
         zombie.name = "Zombie " + 1;
-        zombie.GetComponent<ZombieSwarm>().Init(tile);
+        zombie.GetComponent<ZombieBase>().Init(tile);
 
         zombiesList.Add(zombie);
 
-        zombie.GetComponent<ZombieSwarm>().MoveTargetCoroutine(player.TileController.Model);
+        zombie.GetComponent<ZombieBase>().MoveTargetCoroutine(player.TileController.Model);
     }
 
     public void DefalutMouseOverState(TileController tileController)
@@ -409,7 +409,7 @@ public class MapController : Singleton<MapController>
 
         foreach (var zombie in zombiesList)
         {
-            zombie.GetComponent<ZombieSwarm>().DetectionAndAct();
+            zombie.GetComponent<ZombieBase>().DetectionAndAct();
         }
 
         player.HealthCharging();
@@ -420,7 +420,7 @@ public class MapController : Singleton<MapController>
         List<Tile> tiles = new List<Tile>();
 
         foreach (var item in zombiesList)
-            tiles.Add(item.GetComponent<ZombieSwarm>().curTile);
+            tiles.Add(item.GetComponent<ZombieBase>().curTile);
 
         var result = tiles.GroupBy(x => x)
             .Where(g => g.Count() > 1)
@@ -435,8 +435,8 @@ public class MapController : Singleton<MapController>
             {
                 if (tiles[num] == tiles[i])
                 {
-                    var secondZombieSwarm = zombiesList[i].GetComponent<ZombieSwarm>();
-                    zombiesList[num].GetComponent<ZombieSwarm>().SumZombies(secondZombieSwarm);
+                    var secondZombieSwarm = zombiesList[i].GetComponent<ZombieBase>();
+                    zombiesList[num].GetComponent<ZombieBase>().SumZombies(secondZombieSwarm);
                     zombiesList.RemoveAt(i);
                     Destroy(secondZombieSwarm.gameObject, 0.5f);
                 }
@@ -615,7 +615,7 @@ public class MapController : Singleton<MapController>
         for (int i = 0; i < zombiesList.Count; i++)
         {
             GameObject item = zombiesList[i];
-            if (playerNearthTiles.Contains(item.GetComponent<ZombieSwarm>().curTile))
+            if (playerNearthTiles.Contains(item.GetComponent<ZombieBase>().curTile))
             {
                 return true;
             }
