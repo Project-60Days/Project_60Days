@@ -6,7 +6,7 @@ public class ItemSlot : SlotBase
 {
     public static Action<GameObject> CraftItemClick;
 
-    [SerializeField] int category;
+    public int category;
 
     public ItemSlot()
     {

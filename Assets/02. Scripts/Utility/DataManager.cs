@@ -120,6 +120,7 @@ public class GameData
 public class ItemData
 {
     public int Index;
+    public int Category;
     public int Tier;
     public string Code;
     public int Rarity;

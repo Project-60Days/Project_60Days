@@ -8,8 +8,8 @@ public class InventoryController : ControllerBase
     [SerializeField] Transform slotParent;
     [SerializeField] ItemSO itemSO;
 
-    ItemSlot[] slots;
-
+    List<List<ItemSlot>> slots = new List<List<ItemSlot>>();
+    int[] counts = new int[6];
     public List<ItemBase> items;
 
     public override EControllerType GetControllerType()
@@ -19,7 +19,15 @@ public class InventoryController : ControllerBase
 
     void OnValidate()
     {
-        slots = slotParent.GetComponentsInChildren<ItemSlot>();
+        for (int i = 0; i < 6; i++) 
+            slots.Add(new List<ItemSlot>());
+
+        for (int i = 0; i < slotParent.childCount; i++) 
+        {
+            var slot = slotParent.GetChild(i).GetComponent<ItemSlot>();
+            int category = slot.category;
+            slots[category].Add(slot);
+        }
     }
 
     void Awake()
@@ -41,9 +49,12 @@ public class InventoryController : ControllerBase
 
         for (int i = 0; i < items.Count; i++)
         {
-            slots[i].gameObject.SetActive(true);
-            slots[i].item = items[i];
-            slots[i].GetComponentInChildren<TextMeshProUGUI>().text = items[i].itemCount.ToString();
+            int category = items[i].data.Category;
+            var currentSlot = slots[category][counts[category]];
+            currentSlot.gameObject.SetActive(true);
+            currentSlot.item = items[i];
+            currentSlot.GetComponentInChildren<TextMeshProUGUI>().text = items[i].itemCount.ToString();
+            counts[category]++;
         }
     }
 
@@ -52,8 +63,13 @@ public class InventoryController : ControllerBase
     /// </summary>
     void InitSlots()
     {
-        for (int i = 0; i < slotParent.childCount; i++)
-            slots[i].gameObject.SetActive(false);
+        for (int i = 0; i < slots.Count; i++)
+        {
+            for (int j = 0; j < slots[i].Count; j++)
+                slots[i][j].gameObject.SetActive(false);
+
+            counts[i] = 0;
+        }
     }
 
 
