@@ -1,20 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class CraftModeController : MonoBehaviour
 {
-    [SerializeField] GameObject player;
     [SerializeField] GameObject craftBag;
     [SerializeField] GameObject equipBag;
     [SerializeField] GameObject blueprintBag;
-    [SerializeField] GameObject blueprint;
+    [SerializeField] GameObject blueprintBack;
     [SerializeField] GameObject inventoryBack;
 
-    ECraftModeType eCraftModeType;
+    [SerializeField] Sprite[] inventorySprite;
+    [SerializeField] TextMeshProUGUI modeText;
+
+    public Image inventoryImage;
+
+    public ECraftModeType eCraftModeType { get; private set; }
 
     void Awake()
     {
+        inventoryImage = GetComponent<Image>();
         SetCraftActive();
     }
     
@@ -24,6 +31,8 @@ public class CraftModeController : MonoBehaviour
         craftBag.SetActive(true);
         eCraftModeType = ECraftModeType.Craft;
         UIManager.instance.GetCraftingRawImageController().DestroyObject();
+        inventoryImage.sprite = inventorySprite[0];
+        modeText.text = "제작 모드";
     }
 
     void CraftInActiveMode()
@@ -36,42 +45,38 @@ public class CraftModeController : MonoBehaviour
     {
         equipBag.SetActive(true);
         eCraftModeType = ECraftModeType.Equip;
-        UIManager.instance.GetCraftingRawImageController().canRotate = false;
-        UIManager.instance.GetCraftingRawImageController().ChangerTarget(player);
+        inventoryImage.sprite = inventorySprite[1];
+        modeText.text = "장착 모드";
     }
 
     void EquipInActiveMode()
     {
         equipBag.SetActive(false);
-        UIManager.instance.GetCraftingRawImageController().canRotate = true;
         UIManager.instance.GetCraftingUiController().ExitEquipBag();
     }
 
     void BlueprintActiveMode()
     {
         blueprintBag.SetActive(true);
-        blueprint.SetActive(true);
+        blueprintBack.SetActive(true);
         inventoryBack.SetActive(false);
         eCraftModeType = ECraftModeType.Blueprint;
         UIManager.instance.GetCraftingRawImageController().DestroyObject();
+        inventoryImage.sprite = inventorySprite[2];
+        modeText.text = "설계도 모드";
     }
 
     void BlueprintInActiveMode()
     {
         inventoryBack.SetActive(true);
         blueprintBag.SetActive(false);
-        blueprint.SetActive(false);
+        blueprintBack.SetActive(false);
     }
 
 
 
 
     #region Buttons
-    public ECraftModeType GetECraftModeType()
-    {
-        return eCraftModeType;
-    }
-
     public void SetCraftActive()
     {
         CraftActiveMode();

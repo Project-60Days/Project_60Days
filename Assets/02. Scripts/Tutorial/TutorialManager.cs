@@ -18,7 +18,7 @@ public class TutorialManager : Singleton<TutorialManager>
 
     public void StartTutorial()
     {
-        
+        tutorialController.LightDownBackground();
     }
 
     public void EndTutorial()
