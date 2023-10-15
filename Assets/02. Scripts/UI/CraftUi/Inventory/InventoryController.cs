@@ -161,4 +161,26 @@ public class InventoryController : ControllerBase
         }
         return false;
     }
+
+    #region temp
+    /// <summary>
+    /// 시연회용 임시 함수(맞나?)
+    /// </summary>
+    void Update()
+    {
+        InputKey();
+    }
+
+    /// <summary>
+    /// 정다은이 생성한 함수가 아닙니다.. P키를 누르면 아이템이 추가되는건가 보네요~
+    /// </summary>
+    private void InputKey()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            for (int i = 0; i < 11; i++) 
+                AddItem(itemSO.items[i]);
+        }
+    }
+    #endregion
 }

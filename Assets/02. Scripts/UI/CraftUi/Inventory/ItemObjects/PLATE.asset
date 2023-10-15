@@ -15,6 +15,7 @@ MonoBehaviour:
   itemCode: ITEM_TIER_1_PLATE
   data:
     Index: 1007
+    Category: 1
     Tier: 1
     Code: ITEM_TIER_1_PLATE
     Rarity: 0
@@ -22,16 +23,12 @@ MonoBehaviour:
     Type: 0
     isCanBase: 0
     CombineSlotCount: 0
-    Description: "\uC544\uC774\uD15C\uBA85: \uAC15\uD310\n\uD2F0\uC5B4: 1\n\uBD84\uB958:[\uD569\uC131\uBB3C]\n-\uC544\uC774\uD15C
-      \uC124\uBA85\n\uBB34\uAE30\uC758 \uAE30\uBC18\uC774 \uB418\uB294 \uD569\uC131\uBB3C\uB85C
-      \uAC15\uCCA0\uC744 \uD1B5\uD574 \uB9CC\uB4E4 \uC218 \uC788\uB2E4.\n\uB300\uBD80\uBD84\uC758
-      \uBB34\uAE30\uB294 \uAC15\uD310\uC73C\uB85C \uC2DC\uC791\uB41C\uB2E4."
+    Description: 
     Korean: "\uAC15\uD310"
-    English: 
-    Japanese: 
-    Chinese: 
+    English: -1
+    Japanese: -1
+    Chinese: -1
   itemImage: {fileID: 21300000, guid: f75befbdae4df9145acdd8433d032f71, type: 3}
-  slotImage: {fileID: 21300000, guid: 363859dded875da46935b9afa0503363, type: 3}
   itemCount: 0
-  eItemType: 1
+  eItemType: 0
   prefab: {fileID: 0}
