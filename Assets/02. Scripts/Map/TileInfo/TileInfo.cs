@@ -131,7 +131,7 @@ public class TileInfo : MonoBehaviour
             }
             else
             {
-                App.instance.GetMapUiController().UpdateText(ETileInfoTMP.Resource, "�ڿ� : ����");
+                //App.instance.GetMapUiController().UpdateText(ETileInfoTMP.Resource, "�ڿ� : ����");
                 for (int i = 0; i < resourceIcons.Length; i++)
                 {
                     SpriteRenderer item = resourceIcons[i];
@@ -141,7 +141,7 @@ public class TileInfo : MonoBehaviour
         }
         else
         {
-            App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Resource, "�ڿ� : ???");
+            //App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Resource, "�ڿ� : ???");
 
             for (int i = 0; i < resourceIcons.Length; i++)
             {

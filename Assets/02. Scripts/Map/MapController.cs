@@ -28,6 +28,7 @@ public class MapController : Singleton<MapController>
     [SerializeField] MapPrefabSO mapPrefab;
 
     List<TileController> selectedTiles = new List<TileController>();
+    List<int> preemptiveTiles = new List<int>();
     List<TileController> pathTiles = new List<TileController>();
     List<GameObject> zombiesList = new List<GameObject>();
 
@@ -161,7 +162,11 @@ public class MapController : Singleton<MapController>
                 && player.TileController.Model != tileList[randomInt])
             {
                 if (!selectTileNumber.Contains(randomInt))
+                {
                     selectTileNumber.Add(randomInt);
+                    preemptiveTiles.Add(randomInt);
+                }
+                
             }
         }
 
@@ -622,5 +627,40 @@ public class MapController : Singleton<MapController>
         }
 
         return false;
+    }
+
+    public void GenerateSignal()
+    {
+        int randomInt;
+        var tileList = hexaMap.Map.Tiles;
+        List<int> selectTileNumber = new List<int>();
+        
+        // 플레이어와 겹치지 않는 랜덤 타일 뽑기.
+        while (selectTileNumber.Count != 5)
+        {
+            randomInt = UnityEngine.Random.Range(0, tileList.Count);
+
+            if (tileList[randomInt].Landform.GetType().Name == "LandformPlain"
+                && player.TileController.Model != tileList[randomInt])
+            {
+                if (!preemptiveTiles.Contains(randomInt))
+                {
+                    selectTileNumber.Add(randomInt);
+                }
+            }
+        }
+        
+        // 신호기 생성.
+        for (int i = 0; i < selectTileNumber.Count; i++)
+        {
+            var tile = tileList[selectTileNumber[i]];
+            var spawnPos = ((GameObject)tile.GameEntity).transform.position;
+            spawnPos.y += 0.2f;
+
+            var zombie = Instantiate(mapPrefab.items[(int)EMabPrefab.Zombie].prefab, spawnPos, Quaternion.Euler(0, -90, 0), zombiesTransform);
+            zombie.name = "Zombie " + (i + 1);
+            zombie.GetComponent<ZombieBase>().Init(tile);
+            zombiesList.Add(zombie);
+        }
     }
 }
