@@ -1,6 +1,7 @@
 [
   {
     "Index": 1001,
+    "Category": 0,
     "Tier": 1,
     "Code": "ITEM_TIER_1_STEEL",
     "Rarity": 0,
@@ -10,7 +11,7 @@
     "EquipType": null,
     "isCanBase": 1,
     "CombineSlotCount": 1,
-    "Description": "아이템명: 강철\n티어: 1\n분류: [기본자원]\n-아이템 설명\n가장 흔하게 구할 수 있는 자원이다.\n모든 무기와 부품을 구성할 수 있다.",
+    "Description": null,
     "Korean": "강철",
     "English": -1,
     "Japanese": -1,
@@ -18,6 +19,7 @@
   },
   {
     "Index": 1002,
+    "Category": 0,
     "Tier": 2,
     "Code": "ITEM_TIER_1_CARBON",
     "Rarity": 1,
@@ -27,7 +29,7 @@
     "EquipType": null,
     "isCanBase": 1,
     "CombineSlotCount": 1,
-    "Description": "아이템명: 탄소섬유\n티어: 1\n분류:[합성물]\n-아이템 설명\n무기의 기반이 되는 합성물로 플라스틱을 통해 만들 수 있다.\n대부분의 외피를 담당하고 있다.",
+    "Description": null,
     "Korean": "탄소섬유",
     "English": -1,
     "Japanese": -1,
@@ -35,6 +37,7 @@
   },
   {
     "Index": 1003,
+    "Category": 0,
     "Tier": 2,
     "Code": "ITEM_TIER_2_PLASMA",
     "Rarity": 1,
@@ -44,7 +47,7 @@
     "EquipType": null,
     "isCanBase": 1,
     "CombineSlotCount": 1,
-    "Description": "아이템명: 플라즈마\n티어: 2\n분류: [기본자원]\n-아이템 설명\n대부분의 지형에 존재하며 특정 지형에서는 구할 수 없다.\n일부 전기를 사용하는 무기나 부품을 구성할 수 있다.",
+    "Description": null,
     "Korean": "플라즈마",
     "English": -1,
     "Japanese": -1,
@@ -52,6 +55,7 @@
   },
   {
     "Index": 1004,
+    "Category": 0,
     "Tier": 3,
     "Code": "ITEM_TIER_3_POWDER",
     "Rarity": 2,
@@ -61,7 +65,7 @@
     "EquipType": null,
     "isCanBase": 1,
     "CombineSlotCount": 1,
-    "Description": "아이템명: 화약\n티어: 3\n분류: [기본자원]\n-아이템 설명\n특정 지형에서만 구할 수 있으며 매우 희귀하다.\n화력이 필요한 곳에 주로 쓰인다.",
+    "Description": null,
     "Korean": "화약",
     "English": -1,
     "Japanese": -1,
@@ -69,6 +73,7 @@
   },
   {
     "Index": 1005,
+    "Category": 0,
     "Tier": 3,
     "Code": "ITEM_TIER_3_GAS",
     "Rarity": 2,
@@ -78,7 +83,7 @@
     "EquipType": null,
     "isCanBase": 1,
     "CombineSlotCount": 1,
-    "Description": "아이템명: 가스\n티어: 3\n분류: [기본자원]\n-아이템 설명\n특정 지형에서만 구할 수 있으며 매우 희귀하다.\n냉매의 원료로 사용된다.",
+    "Description": null,
     "Korean": "가스",
     "English": -1,
     "Japanese": -1,
@@ -86,6 +91,7 @@
   },
   {
     "Index": 1006,
+    "Category": 0,
     "Tier": 3,
     "Code": "ITEM_TIER_3_RUBBER",
     "Rarity": 2,
@@ -95,7 +101,7 @@
     "EquipType": null,
     "isCanBase": 1,
     "CombineSlotCount": 1,
-    "Description": "고무",
+    "Description": null,
     "Korean": "고무",
     "English": -1,
     "Japanese": -1,
@@ -103,6 +109,7 @@
   },
   {
     "Index": 1007,
+    "Category": 1,
     "Tier": 1,
     "Code": "ITEM_TIER_1_PLATE",
     "Rarity": 0,
@@ -112,14 +119,15 @@
     "EquipType": null,
     "isCanBase": null,
     "CombineSlotCount": null,
-    "Description": "아이템명: 강판\n티어: 1\n분류:[합성물]\n-아이템 설명\n무기의 기반이 되는 합성물로 강철을 통해 만들 수 있다.\n대부분의 무기는 강판으로 시작된다.",
+    "Description": null,
     "Korean": "강판",
-    "English": null,
-    "Japanese": null,
-    "Chinese": null
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
   },
   {
     "Index": 1008,
+    "Category": 1,
     "Tier": 2,
     "Code": "ITEM_TIER_2_WIRE",
     "Rarity": 1,
@@ -129,14 +137,15 @@
     "EquipType": null,
     "isCanBase": null,
     "CombineSlotCount": null,
-    "Description": "전선뭉치",
+    "Description": null,
     "Korean": "전선뭉치",
-    "English": null,
-    "Japanese": null,
-    "Chinese": null
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
   },
   {
     "Index": 1009,
+    "Category": 1,
     "Tier": 2,
     "Code": "ITEM_TIER_2_GEAR",
     "Rarity": 1,
@@ -146,14 +155,15 @@
     "EquipType": null,
     "isCanBase": null,
     "CombineSlotCount": null,
-    "Description": "아이템명: 기어\n티어: 1\n분류:[합성물]\n-아이템 설명\n합성물과 합성물간의 연결을 도와준다.\n가동되는 무기나 합성물의 매우 기본적인 존재이다.",
+    "Description": null,
     "Korean": "기어",
-    "English": null,
-    "Japanese": null,
-    "Chinese": null
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
   },
   {
     "Index": 1010,
+    "Category": 1,
     "Tier": null,
     "Code": "ITEM_TUTORIAL_BATTERY",
     "Rarity": null,
@@ -163,14 +173,15 @@
     "EquipType": null,
     "isCanBase": null,
     "CombineSlotCount": null,
-    "Description": "아이템명:배터리\n분류:[합성물]\n티어: 2\n-아이템 설명\n가동형 무기의 동력을 공급해주는 역할을 한다.\n교란기을 만드는데 필요하다.",
+    "Description": null,
     "Korean": "배터리",
-    "English": null,
-    "Japanese": null,
-    "Chinese": null
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
   },
   {
     "Index": 1011,
+    "Category": 2,
     "Tier": 1,
     "Code": "ITEM_TIER_2_ALLOY",
     "Rarity": 1,
@@ -180,14 +191,15 @@
     "EquipType": null,
     "isCanBase": null,
     "CombineSlotCount": null,
-    "Description": "합금",
+    "Description": null,
     "Korean": "합금",
-    "English": null,
-    "Japanese": null,
-    "Chinese": null
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
   },
   {
     "Index": 1012,
+    "Category": 2,
     "Tier": 1,
     "Code": "ITEM_TIER_2_DECK",
     "Rarity": 1,
@@ -199,12 +211,13 @@
     "CombineSlotCount": null,
     "Description": null,
     "Korean": "갑판",
-    "English": null,
-    "Japanese": null,
-    "Chinese": null
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
   },
   {
     "Index": 1013,
+    "Category": 2,
     "Tier": 2,
     "Code": "ITEM_TIER_2_SEMICONDUCTOR",
     "Rarity": 1,
@@ -216,12 +229,13 @@
     "CombineSlotCount": null,
     "Description": null,
     "Korean": "반도체",
-    "English": null,
-    "Japanese": null,
-    "Chinese": null
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
   },
   {
     "Index": 1014,
+    "Category": 2,
     "Tier": 2,
     "Code": "ITEM_TIER_2_SIGNAL",
     "Rarity": 1,
@@ -231,14 +245,15 @@
     "EquipType": null,
     "isCanBase": null,
     "CombineSlotCount": null,
-    "Description": "아이템명: 신호기\n티어: 2\n분류:[합성물]\n-아이템 설명\n통신에 있어 필수적이며 플라즈마를 이용하여 만들 수 있다.\n교란기을 만드는데 필요하다.",
+    "Description": null,
     "Korean": "신호기",
-    "English": null,
-    "Japanese": null,
-    "Chinese": null
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
   },
   {
     "Index": 1015,
+    "Category": 2,
     "Tier": 2,
     "Code": "ITEM_TIER_2_GENERATOR",
     "Rarity": 1,
@@ -248,14 +263,15 @@
     "EquipType": null,
     "isCanBase": null,
     "CombineSlotCount": null,
-    "Description": "아이템명: 발전기\n분류:[합성물]\n티어: 2\n-아이템 설명\n가동형 무기의 중심이 되는 합성물이다.\n교란기을 만드는데 필요하다.",
+    "Description": null,
     "Korean": "발전기",
-    "English": null,
-    "Japanese": null,
-    "Chinese": null
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
   },
   {
     "Index": 1016,
+    "Category": 2,
     "Tier": 2,
     "Code": "ITEM_TIER_2_RESISTOR",
     "Rarity": 1,
@@ -265,14 +281,15 @@
     "EquipType": null,
     "isCanBase": null,
     "CombineSlotCount": null,
-    "Description": "아이템명: 저항기\n티어: 2\n분류:[합성물]\n-아이템 설명\n제어하는 장치에 필요한 합성물로 플라즈마를 통해 만들 수 있다.\n대부분 무기의 세밀한 조정이 필요할 때 사용된다.",
+    "Description": null,
     "Korean": "저항기",
-    "English": null,
-    "Japanese": null,
-    "Chinese": null
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
   },
   {
     "Index": 1017,
+    "Category": 2,
     "Tier": 3,
     "Code": "ITEM_TIER_3_WHEEL",
     "Rarity": 2,
@@ -282,14 +299,15 @@
     "EquipType": null,
     "isCanBase": null,
     "CombineSlotCount": null,
-    "Description": "바퀴",
+    "Description": null,
     "Korean": "바퀴",
-    "English": null,
-    "Japanese": null,
-    "Chinese": null
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
   },
   {
     "Index": 1018,
+    "Category": 2,
     "Tier": 2,
     "Code": "ITEM_TIER_2_PUMB",
     "Rarity": 1,
@@ -299,14 +317,15 @@
     "EquipType": null,
     "isCanBase": null,
     "CombineSlotCount": null,
-    "Description": "펌프",
+    "Description": null,
     "Korean": "펌프",
-    "English": null,
-    "Japanese": null,
-    "Chinese": null
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
   },
   {
     "Index": 1019,
+    "Category": 3,
     "Tier": 2,
     "Code": "ITEM_TIER_2_BLADE",
     "Rarity": 1,
@@ -316,14 +335,15 @@
     "EquipType": 2,
     "isCanBase": null,
     "CombineSlotCount": null,
-    "Description": "경화칼날",
+    "Description": null,
     "Korean": "경화칼날",
-    "English": null,
-    "Japanese": null,
-    "Chinese": null
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
   },
   {
     "Index": 1020,
+    "Category": 3,
     "Tier": 2,
     "Code": "ITEM_TIER_2_HARDSKIN",
     "Rarity": 1,
@@ -333,14 +353,15 @@
     "EquipType": 2,
     "isCanBase": null,
     "CombineSlotCount": null,
-    "Description": "강화외피",
+    "Description": null,
     "Korean": "강화외피",
-    "English": null,
-    "Japanese": null,
-    "Chinese": null
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
   },
   {
     "Index": 1021,
+    "Category": 3,
     "Tier": 2,
     "Code": "ITEM_TIER_2_MEMORY",
     "Rarity": 1,
@@ -350,14 +371,15 @@
     "EquipType": 2,
     "isCanBase": null,
     "CombineSlotCount": null,
-    "Description": "메모리장치",
+    "Description": null,
     "Korean": "메모리장치",
-    "English": null,
-    "Japanese": null,
-    "Chinese": null
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
   },
   {
     "Index": 1022,
+    "Category": 3,
     "Tier": 2,
     "Code": "ITEM_TIER_2_FINDOR",
     "Rarity": 1,
@@ -367,14 +389,15 @@
     "EquipType": null,
     "isCanBase": null,
     "CombineSlotCount": null,
-    "Description": "탐색기",
+    "Description": null,
     "Korean": "탐색기",
-    "English": null,
-    "Japanese": null,
-    "Chinese": null
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
   },
   {
     "Index": 1023,
+    "Category": 3,
     "Tier": 2,
     "Code": "ITEM_TIER_2_DISTURBE",
     "Rarity": 1,
@@ -384,14 +407,15 @@
     "EquipType": null,
     "isCanBase": null,
     "CombineSlotCount": null,
-    "Description": "아이템명: 교란기\n분류:[가동형 무기]\n-아이템 설명\n맵에서 이동 시에 사용할 수 있다.\n좀비로부터 도망칠 때 유용하다.\n캐릭터에 장착할 수 없으며 소모되는 형식의 무기이다.",
+    "Description": null,
     "Korean": "교란기",
-    "English": null,
-    "Japanese": null,
-    "Chinese": null
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
   },
   {
     "Index": 1024,
+    "Category": 3,
     "Tier": 3,
     "Code": "ITEM_TIER_3_RIFLE",
     "Rarity": 2,
@@ -401,14 +425,15 @@
     "EquipType": 0,
     "isCanBase": null,
     "CombineSlotCount": null,
-    "Description": "소총기",
+    "Description": null,
     "Korean": "소총기",
-    "English": null,
-    "Japanese": null,
-    "Chinese": null
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
   },
   {
     "Index": 1025,
+    "Category": 3,
     "Tier": 3,
     "Code": "ITEM_TIER_3_CANNON",
     "Rarity": 2,
@@ -418,14 +443,15 @@
     "EquipType": 1,
     "isCanBase": null,
     "CombineSlotCount": null,
-    "Description": "포격기",
+    "Description": null,
     "Korean": "포격기",
-    "English": null,
-    "Japanese": null,
-    "Chinese": null
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
   },
   {
     "Index": 1026,
+    "Category": 4,
     "Tier": 3,
     "Code": "ITEM_TIER_3_SHAPEMETAL",
     "Rarity": 2,
@@ -435,14 +461,15 @@
     "EquipType": 2,
     "isCanBase": null,
     "CombineSlotCount": null,
-    "Description": "형상기억금속",
+    "Description": null,
     "Korean": "형상기억금속",
-    "English": null,
-    "Japanese": null,
-    "Chinese": null
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
   },
   {
     "Index": 1027,
+    "Category": 4,
     "Tier": 2,
     "Code": "ITEM_TIER_2_GPS",
     "Rarity": 2,
@@ -452,14 +479,15 @@
     "EquipType": 2,
     "isCanBase": null,
     "CombineSlotCount": null,
-    "Description": "위치추적기",
+    "Description": null,
     "Korean": "위치추적기",
-    "English": null,
-    "Japanese": null,
-    "Chinese": null
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
   },
   {
     "Index": 1028,
+    "Category": 4,
     "Tier": 3,
     "Code": "ITEM_TIER_3_POWER",
     "Rarity": 2,
@@ -469,14 +497,15 @@
     "EquipType": 2,
     "isCanBase": null,
     "CombineSlotCount": null,
-    "Description": "동력원",
+    "Description": null,
     "Korean": "동력원",
-    "English": null,
-    "Japanese": null,
-    "Chinese": null
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
   },
   {
     "Index": 1029,
+    "Category": 4,
     "Tier": 3,
     "Code": "ITEM_TIER_3_GRENADE",
     "Rarity": 2,
@@ -486,14 +515,15 @@
     "EquipType": 1,
     "isCanBase": null,
     "CombineSlotCount": null,
-    "Description": "유탄발사기",
+    "Description": null,
     "Korean": "유탄발사기",
-    "English": null,
-    "Japanese": null,
-    "Chinese": null
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
   },
   {
     "Index": 1030,
+    "Category": 4,
     "Tier": 3,
     "Code": "ITEM_TIER_3_EMP",
     "Rarity": 2,
@@ -503,14 +533,15 @@
     "EquipType": 0,
     "isCanBase": null,
     "CombineSlotCount": null,
-    "Description": "EMP장치",
+    "Description": null,
     "Korean": "EMP장치",
-    "English": null,
-    "Japanese": null,
-    "Chinese": null
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
   },
   {
     "Index": 1031,
+    "Category": 5,
     "Tier": 3,
     "Code": "ITEM_TIER_3_REACTIVESKIN",
     "Rarity": 2,
@@ -520,14 +551,15 @@
     "EquipType": 2,
     "isCanBase": null,
     "CombineSlotCount": null,
-    "Description": "반응형외갑",
+    "Description": null,
     "Korean": "반응형외갑",
-    "English": null,
-    "Japanese": null,
-    "Chinese": null
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
   },
   {
     "Index": 1032,
+    "Category": 5,
     "Tier": 3,
     "Code": "ITEM_TIER_3_ENERGYCANNON",
     "Rarity": 2,
@@ -537,10 +569,10 @@
     "EquipType": 0,
     "isCanBase": null,
     "CombineSlotCount": null,
-    "Description": "에너지캐논",
+    "Description": null,
     "Korean": "에너지캐논",
-    "English": null,
-    "Japanese": null,
-    "Chinese": null
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
   }
 ]

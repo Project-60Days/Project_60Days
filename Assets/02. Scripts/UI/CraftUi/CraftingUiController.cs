@@ -1,37 +1,29 @@
-using JetBrains.Annotations;
-using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class CraftingUiController : ControllerBase
 {
     [Header ("Craft Mode")]
     [SerializeField] Transform craftSlotParent;
-    [SerializeField] Sprite[] craftTypeImage;
     [SerializeField] ItemSO itemSO;
     [SerializeField] GameObject craftSlotPrefab;
 
     List<ItemBase> craftItems = new List<ItemBase>();
     List<ItemCombineData> itemCombines = new List<ItemCombineData>();
 
-    /// <summary>
-    /// 아직 ItemSO에 추가되지 않은 아이템 조합 시에 생성될 임시 아이템
-    /// </summary>
-    [SerializeField] ItemBase tempItem;
-
     [Header("Equip Mode")]
     [SerializeField] Transform equipSlotParent;
     [SerializeField] EquipSlot[] equipSlots;
-    List<ItemBase> equipItems = new List<ItemBase>();
 
     [Header("Blueprint Mode")]
     [SerializeField] Transform blueprintSlotParent;
     [SerializeField] GameObject blueprintSlotPrefab;
 
+    /// <summary>
+    /// 아직 ItemSO에 추가되지 않은 아이템 조합 시에 생성될 임시 아이템
+    /// </summary>
+    [SerializeField] ItemBase tempItem;
 
     public override EControllerType GetControllerType()
     {
@@ -55,8 +47,6 @@ public class CraftingUiController : ControllerBase
             i++;
         }
 
-        equipSlots = equipSlotParent.GetComponentsInChildren<EquipSlot>();
-
         InitCraftSlots();
         InitEquipSlots();
         InitBlueprintSlots();
@@ -69,25 +59,19 @@ public class CraftingUiController : ControllerBase
     public void InitCraftSlots()
     {
         for (int i = 0; i < craftSlotParent.childCount; i++)
-        {
             Destroy(craftSlotParent.GetChild(i).gameObject);
-        }
     }
 
     void InitEquipSlots()
     {
         foreach (var slot in equipSlots)
-        {
             slot.item = null;
-        }
     }
 
     void InitBlueprintSlots()
     {
         for (int i = 0; i < blueprintSlotParent.childCount; i++)
-        {
             Destroy(blueprintSlotParent.GetChild(i).gameObject);
-        }
     }
 
 
@@ -95,33 +79,6 @@ public class CraftingUiController : ControllerBase
 
 
     #region Craft
-    #region temp
-    /// <summary>
-    /// 시연회용 임시 함수(맞나?)
-    /// </summary>
-    void Update()
-    {
-        InputKey();
-    }
-
-    /// <summary>
-    /// 정다은이 생성한 함수가 아닙니다.. P키를 누르면 아이템이 추가되는건가 보네요~
-    /// </summary>
-    private void InputKey()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            UIManager.instance.GetInventoryController().AddItem(itemSO.items[0]);
-            UIManager.instance.GetInventoryController().AddItem(itemSO.items[1]);
-            UIManager.instance.GetInventoryController().AddItem(itemSO.items[4]);
-        }
-    }
-    #endregion
-
-
-
-
-
     /// <summary>
     /// CraftBag 새로고침(?)
     /// </summary>
@@ -220,9 +177,7 @@ public class CraftingUiController : ControllerBase
         foreach(ItemBase item in itemSO.items)
         {
             if (item.itemCode == _resultItemCode)
-            {
                 return item;
-            }
         }
 
         Debug.Log("아직 추가되지 않은 아이템: " + _resultItemCode);
@@ -238,7 +193,6 @@ public class CraftingUiController : ControllerBase
         GameObject obj = Instantiate(craftSlotPrefab, craftSlotParent);
         obj.GetComponentInChildren<CraftSlot>().item = _item;
         obj.GetComponentInChildren<CraftSlot>().eSlotType = ESlotType.ResultSlot;
-        obj.transform.GetChild(1).GetComponent<Image>().sprite = craftTypeImage[1];
     }
 
 
@@ -299,34 +253,43 @@ public class CraftingUiController : ControllerBase
 
 
     #region Equip
-    void UpdateEquip()
+    void AddEquip(ItemBase _item)
     {
-        if (equipItems.Count == 4)
+        for (int i = 0; i < equipSlots.Length; i++) 
         {
-            UIManager.instance.GetInventoryController().AddItem(equipSlots[0].item);
-            equipItems.RemoveAt(0);
+            if (equipSlots[i].equipType != _item.data.EquipType)
+                continue;
+
+            if (equipSlots[i].item != null)
+                UIManager.instance.GetInventoryController().AddItem(equipSlots[i].item);
+
+            equipSlots[i].item = _item;
         }
+    }
 
-        InitEquipSlots();
-
-        for (int i = 0; i < equipItems.Count; i++) 
+    void RemoveEquip(ItemBase _item)
+    {
+        for (int i = 0; i < equipSlots.Length; i++)
         {
-            equipSlots[i].item = equipItems[i];
+            if (equipSlots[i].equipType != _item.data.EquipType)
+                continue;
+
+            if (equipSlots[i].item != null)
+                UIManager.instance.GetInventoryController().AddItem(equipSlots[i].item);
+
+            equipSlots[i].item = null;
         }
     }
 
     public void MoveInventoryToEquip(ItemBase _item)
     {
         UIManager.instance.GetInventoryController().RemoveItem(_item);
-        equipItems.Add(_item);
-        UpdateEquip();
+        AddEquip(_item);
     }
 
     public void MoveEquipToInventory(ItemBase _item)
     {
-        UIManager.instance.GetInventoryController().AddItem(_item);
-        equipItems.Remove(_item);
-        UpdateEquip();
+        RemoveEquip(_item);
     }
     #endregion
 
@@ -392,9 +355,7 @@ public class CraftingUiController : ControllerBase
     public void ExitCraftBag()
     {
         for (int i = 0; i < craftItems.Count; i++)
-        {
             UIManager.instance.GetInventoryController().AddItem(craftItems[i]);
-        }
 
         InitCraftSlots();
         craftItems.Clear();
@@ -402,12 +363,12 @@ public class CraftingUiController : ControllerBase
 
     public void ExitEquipBag()
     {
-        for (int i = 0; i < equipItems.Count; i++) 
+        for (int i = 0; i < equipSlots.Length; i++) 
         {
+            if (equipSlots[i].item == null) continue;
             UIManager.instance.GetInventoryController().AddItem(equipSlots[i].item);
             equipSlots[i].item = null;
         }
-        equipItems.Clear();
     }
 
     public void ExitBlueprintBag()

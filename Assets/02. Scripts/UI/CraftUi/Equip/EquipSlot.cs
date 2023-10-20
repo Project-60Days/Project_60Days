@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 public class EquipSlot : SlotBase
 {
     [SerializeField] public EItemType eItemType = EItemType.Equipment;
+    [SerializeField] public int equipType;
 
     public EquipSlot()
     {

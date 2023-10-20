@@ -51,11 +51,18 @@ public class TutorialController : MonoBehaviour
     }
     public void LightUpBackground()
     {
-        Color color = new Color(1f, 1f, 1f, 1f);
         lightBackground.DOFade(0f, 2f).SetEase(Ease.InBounce).OnComplete(() =>
         {
             lightBackground.gameObject.SetActive(false);
             isLightUp = true;
+        });
+    }
+    public void LightDownBackground()
+    {
+        lightBackground.DOFade(1f, 0f).SetEase(Ease.InBounce).OnComplete(() =>
+        {
+            lightBackground.gameObject.SetActive(true);
+            isLightUp = false;
         });
     }
 }

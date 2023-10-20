@@ -2,18 +2,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using static UnityEditor.Progress;
-using System;
 
 public class InventoryController : ControllerBase
 {
     [SerializeField] Transform slotParent;
     [SerializeField] ItemSO itemSO;
 
-    ItemSlot[] slots;
-    Temp[] slotImages;
-    TextMeshProUGUI[] itemCounts;
-
+    List<List<ItemSlot>> slots = new List<List<ItemSlot>>();
+    int[] counts = new int[6];
     public List<ItemBase> items;
 
     public override EControllerType GetControllerType()
@@ -23,9 +19,15 @@ public class InventoryController : ControllerBase
 
     void OnValidate()
     {
-        slots = slotParent.GetComponentsInChildren<ItemSlot>();
-        slotImages = slotParent.GetComponentsInChildren<Temp>();
-        itemCounts = slotParent.GetComponentsInChildren<TextMeshProUGUI>();
+        for (int i = 0; i < 6; i++) 
+            slots.Add(new List<ItemSlot>());
+
+        for (int i = 0; i < slotParent.childCount; i++) 
+        {
+            var slot = slotParent.GetChild(i).GetComponent<ItemSlot>();
+            int category = slot.category;
+            slots[category].Add(slot);
+        }
     }
 
     void Awake()
@@ -47,10 +49,12 @@ public class InventoryController : ControllerBase
 
         for (int i = 0; i < items.Count; i++)
         {
-            slots[i].item = items[i];
-            itemCounts[i].gameObject.SetActive(true);
-            itemCounts[i].text = items[i].itemCount.ToString();
-            slotImages[i].GetComponent<Image>().sprite = items[i].slotImage;
+            int category = items[i].data.Category;
+            var currentSlot = slots[category][counts[category]];
+            currentSlot.gameObject.SetActive(true);
+            currentSlot.item = items[i];
+            currentSlot.GetComponentInChildren<TextMeshProUGUI>().text = items[i].itemCount.ToString();
+            counts[category]++;
         }
     }
 
@@ -59,10 +63,12 @@ public class InventoryController : ControllerBase
     /// </summary>
     void InitSlots()
     {
-        for (int i = 0; i < slotParent.childCount; i++)
+        for (int i = 0; i < slots.Count; i++)
         {
-            slots[i].item = null;
-            itemCounts[i].gameObject.SetActive(false);
+            for (int j = 0; j < slots[i].Count; j++)
+                slots[i][j].gameObject.SetActive(false);
+
+            counts[i] = 0;
         }
     }
 
@@ -155,4 +161,26 @@ public class InventoryController : ControllerBase
         }
         return false;
     }
+
+    #region temp
+    /// <summary>
+    /// 시연회용 임시 함수(맞나?)
+    /// </summary>
+    void Update()
+    {
+        InputKey();
+    }
+
+    /// <summary>
+    /// 정다은이 생성한 함수가 아닙니다.. P키를 누르면 아이템이 추가되는건가 보네요~
+    /// </summary>
+    private void InputKey()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            for (int i = 0; i < 11; i++) 
+                AddItem(itemSO.items[i]);
+        }
+    }
+    #endregion
 }

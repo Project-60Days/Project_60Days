@@ -7,6 +7,7 @@ public class WorkBenchUiOpen : MonoBehaviour
 {
     [SerializeField] GameObject inventoryUi;
     [SerializeField] GameObject craftingUi;
+    [SerializeField] GameObject productionUi;
 
     
 
@@ -62,7 +63,8 @@ public class WorkBenchUiOpen : MonoBehaviour
         Sequence sequence = DOTween.Sequence();
         sequence
             .Append(craftingUi.GetComponent<CanvasGroup>().DOFade(1f, 0.5f))
-            .Append(inventoryUi.GetComponent<CanvasGroup>().DOFade(1f, 0.5f));
+            .Append(inventoryUi.GetComponent<CanvasGroup>().DOFade(1f, 0.5f))
+            .Join(productionUi.GetComponent<CanvasGroup>().DOFade(1f, 0.5f));
         sequence.Play();
     }
 
@@ -72,6 +74,7 @@ public class WorkBenchUiOpen : MonoBehaviour
         UIManager.instance.PopCurrUI();
         sequence
             .Append(inventoryUi.GetComponent<CanvasGroup>().DOFade(0f, 0.5f))
+            .Join(productionUi.GetComponent<CanvasGroup>().DOFade(0f, 0.5f))
             .Append(craftingUi.GetComponent<CanvasGroup>().DOFade(0f, 0.5f))
             .OnComplete(() => ActivateUiObjects(false));
         sequence.Play();
