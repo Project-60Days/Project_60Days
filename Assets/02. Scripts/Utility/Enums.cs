@@ -144,7 +144,16 @@ public enum EMabPrefab
     Player,
     Zombie,
     Disturbtor,
-    Explorer
+    Explorer,
+    Signal
+}
+
+public enum ETileRandomType
+{
+    ExcludePlayer,
+    IncludePlayer,
+    ExcludeEntites,
+    IncludeEntites
 }
 
 #endregion
