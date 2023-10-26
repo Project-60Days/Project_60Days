@@ -49,6 +49,9 @@ public class TileInfo : MonoBehaviour
 
     protected Dictionary<EResourceType, int> gachaRate = new Dictionary<EResourceType, int>();
     protected EResourceType eResourceType;
+
+    string structureName = "구조물 없음";
+
     #endregion
 
     void Start()
@@ -230,5 +233,15 @@ public class TileInfo : MonoBehaviour
         {
             ResourceUpdate(false);
         }
+    }
+
+    public void SetStructureName(string name)
+    {
+        structureName = name;
+    }
+
+    public string GetStructureName()
+    {
+        return structureName;
     }
 }

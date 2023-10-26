@@ -9,6 +9,7 @@ using TMPro;
 using Hexamap;
 using UnityEngine.EventSystems;
 using FischlWorks_FogWar;
+using Random = UnityEngine.Random;
 
 public class MapController : Singleton<MapController>
 {
@@ -113,14 +114,16 @@ public class MapController : Singleton<MapController>
         {
             App.instance.GetDataManager().gameData.TryGetValue("Data_MinCount_ZombieObject", out GameData min);
             App.instance.GetDataManager().gameData.TryGetValue("Data_MaxCount_ZombieObject", out GameData max);
-            SpawnZombies((int)UnityEngine.Random.Range(min.value, max.value));
+            SpawnZombies((int)Random.Range(min.value, max.value));
             SpawnTestZombie();
         }
         else
         {
-            SpawnZombies((int)UnityEngine.Random.Range(0, 30));
+            SpawnZombies((int)Random.Range(0, 30));
             SpawnTestZombie();
         }
+
+        GenerateSignal();
 
         fogOfWar.transform.position = player.transform.position;
         csFogWar.instance.levelMidPoint = player.transform;
@@ -156,13 +159,13 @@ public class MapController : Singleton<MapController>
         var selectedTiles = RandomTileSelect(ETileRandomType.ExcludePlayer, zombiesNumber);
 
         // 오브젝트 생성.
-        for (int i = 0; i < selectedTiles.Count; i++)
+        for (int i = 0; i < zombiesNumber; i++)
         {
             var tile = tileList[selectedTiles[i]];
             var spawnPos = ((GameObject)tile.GameEntity).transform.position;
-            spawnPos.y += 0.2f;
+            spawnPos.y += 0.85f;
 
-            var zombie = Instantiate(mapPrefab.items[(int)EMabPrefab.Zombie].prefab, spawnPos, Quaternion.Euler(0, -90, 0), zombiesTransform);
+            var zombie = Instantiate(mapPrefab.items[(int)EMabPrefab.Zombie].prefab, spawnPos, Quaternion.Euler(0, 90, 0), zombiesTransform);
             zombie.name = "Zombie " + (i + 1);
             zombie.GetComponent<ZombieBase>().Init(tile);
             zombiesList.Add(zombie);
@@ -174,9 +177,9 @@ public class MapController : Singleton<MapController>
         var tile = GetTileFromCoords(new Coords(0, -1));
 
         var spawnPos = ((GameObject)tile.GameEntity).transform.position;
-        spawnPos.y += 0.7f;
+        spawnPos.y += 0.85f;
 
-        var zombie = Instantiate(mapPrefab.items[(int)EMabPrefab.Zombie].prefab, spawnPos, Quaternion.Euler(0, -90, 0), zombiesTransform);
+        var zombie = Instantiate(mapPrefab.items[(int)EMabPrefab.Zombie].prefab, spawnPos, Quaternion.Euler(0, 90, 0), zombiesTransform);
         zombie.name = "Zombie " + 1;
         zombie.GetComponent<ZombieBase>().Init(tile);
 
@@ -619,12 +622,21 @@ public class MapController : Singleton<MapController>
         var tileList = hexaMap.Map.Tiles;
 
         var selectedTiles = RandomTileSelect(ETileRandomType.ExcludePlayer, 1);
-        var tile = tileList[selectedTiles[0]];
+        //var tile = tileList[selectedTiles[0]];
 
-    
+        var tile = GetTileFromCoords(new Coords(0, 1));
+
+        int random = Random.Range(0, System.Enum.GetValues(typeof(CompassPoint)).Length);
+        tile.Neighbours.TryGetValue((CompassPoint)random, out Tile randomTile);
+
+        var randPosition = Vector3.Lerp(((GameObject)tile.GameEntity).transform.position, ((GameObject)randomTile.GameEntity).transform.position, 0.5f);
+
+        ((GameObject)tile.GameEntity).GetComponent<TileInfo>().SetStructureName("신호기 존재");
+        ((GameObject)randomTile.GameEntity).GetComponent<TileInfo>().SetStructureName("신호기 존재");
+
         // 신호기 생성
-        var spawnPos = ((GameObject)tile.GameEntity).transform.position;
-        spawnPos.y += 0.2f;
+        var spawnPos = randPosition;
+        spawnPos.y += 0.7f;
 
         signal = Instantiate(mapPrefab.items[(int)EMabPrefab.Signal].prefab, spawnPos, Quaternion.Euler(0, -90, 0), zombiesTransform);
     }

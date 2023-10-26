@@ -142,6 +142,7 @@ public class MapManager : ManagementBase
                 if (!canPlayerMove && !isDronePrepared)
                 {
                     mapUIController.TrueTileInfo();
+                    Debug.Log(hit.transform.parent.GetComponent<TileInfo>().GetStructureName());
                 }
                 else if (canPlayerMove)
                 {
