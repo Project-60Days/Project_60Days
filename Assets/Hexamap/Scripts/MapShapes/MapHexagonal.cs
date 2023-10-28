@@ -27,6 +27,7 @@ namespace Hexamap
 
             return allocatedCoords;
         }
+        
         protected override IEnumerable<Coords> FindLimits() => _limits;
     }
 }
