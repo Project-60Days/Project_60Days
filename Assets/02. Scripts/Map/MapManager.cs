@@ -278,4 +278,9 @@ public class MapManager : ManagementBase
         else
             return;
     }
+
+    public void CheckStructure()
+    {
+        
+    }
 }
