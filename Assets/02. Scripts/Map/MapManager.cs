@@ -256,6 +256,7 @@ public class MapManager : ManagementBase
     {
         CheckResource();
         CheckZombies();
+        CheckStructure();
     }
 
     public void CheckResource()
@@ -281,6 +282,13 @@ public class MapManager : ManagementBase
 
     public void CheckStructure()
     {
-        
+        if(mapController.CurrentTileStructure() != null)
+        {
+            Debug.Log(mapController.CurrentTileStructure());
+        }
+        else
+        {
+            return;
+        }
     }
 }
