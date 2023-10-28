@@ -123,12 +123,12 @@ public enum EWeatherType
 
 public enum EResourceType
 {
-    PLASTIC,
-    STEEL,
-    PLAZMA,
-    POWDER,
-    GAS,
-    PLATE
+    Metal,
+    Carbon,
+    Plasma,
+    Pawder,
+    Gas,
+    Rubber
 }
 
 public enum ETileState
@@ -144,7 +144,16 @@ public enum EMabPrefab
     Player,
     Zombie,
     Disturbtor,
-    Explorer
+    Explorer,
+    Signal
+}
+
+public enum ETileRandomType
+{
+    ExcludePlayer,
+    IncludePlayer,
+    ExcludeEntites,
+    IncludeEntites
 }
 
 #endregion
