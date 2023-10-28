@@ -13,12 +13,23 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] SelectController selectController;
     [SerializeField] NextDayController nextDayController;
     [SerializeField] AlertController alertController;
+    [SerializeField] MenuController menuController;
 
     public Stack<string> currUIStack = new Stack<string>();
 
     private void Awake()
     {
         currUIStack.Push(StringUtility.UI_NORMAL);
+    }
+    void Update()
+    {
+        InputKey();
+    }
+
+    public void InputKey()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            menuController.EnterMenu();
     }
 
     public void AddCurrUIName(string _uiName)
@@ -82,5 +93,10 @@ public class UIManager : Singleton<UIManager>
     public AlertController GetAlertController()
     {
         return alertController;
+    }
+
+    public MenuController GetMenuController()
+    {
+        return menuController;
     }
 }

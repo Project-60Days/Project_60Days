@@ -33,8 +33,8 @@ public class GameManager : Singleton<GameManager>
 
     public void InputKey()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-            QuitGame();
+        //if (Input.GetKeyDown(KeyCode.Escape))
+            //QuitGame();
     }
 
     public void UpdateAllState()

@@ -2,41 +2,44 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
-using DG.Tweening;
 
 public class MenuButtonBase : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    TextMeshProUGUI buttonText;
-    Image buttonImage;
-    Transform transform;
+    protected bool isClicked = false;
+
+    protected TextMeshProUGUI buttonText;
+    protected Image buttonImage;
 
     Color normalTextColor = Color.white;
     Color highlightTextColor = Color.black;
 
-    void Start()
+    void Awake()
     {
+        Set();
         Init();
-        SetButtonNormal();
     }
 
-    void Init()
+    public virtual void Set()
     {
         buttonText = GetComponentInChildren<TextMeshProUGUI>();
         buttonImage = GetComponent<Image>();
-        transform = GetComponent<Transform>();
+    }
+
+    public virtual void Init()
+    {
+        SetButtonNormal();
     }
 
 
 
 
-
-    void SetButtonNormal()
+    protected void SetButtonNormal()
     {
         buttonText.color = normalTextColor;
         buttonImage.enabled = false;
     }
 
-    void SetButtonHighlighted()
+    protected void SetButtonHighlighted()
     {
         buttonText.color = highlightTextColor;
         buttonImage.enabled = true;
@@ -48,16 +51,22 @@ public class MenuButtonBase : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        SetButtonHighlighted();
+        if (isClicked == false) 
+            SetButtonHighlighted();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        SetButtonNormal();
+        if (isClicked == false)
+            SetButtonNormal();
     }
-
     void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
     {
-        transform.DOLocalMoveY(231f, 1.0f);
+        ClickEvent();
+    }
+
+    public virtual void ClickEvent()
+    {
+        SetButtonNormal();
     }
 }
