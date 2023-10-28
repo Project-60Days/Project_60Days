@@ -75,6 +75,7 @@ public class ResourceManager : MonoBehaviour
 
             for (int j = 0; j < list[i].itemCount; j++)
             {
+                //TODO :: SFX Àç»ý, ¾ÆÀÌÅÛ È¹µæ ½ºÅ©¸³Æ® ÃßÃ·
                 UIManager.instance.GetInventoryController().AddItem(item);
             }
         }

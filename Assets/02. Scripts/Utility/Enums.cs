@@ -57,6 +57,14 @@ public enum ECraftModeType
     Blueprint
 }
 
+public enum EScriptType
+{
+    Diary,
+    Resource,
+    MainQuest,
+    SubQuest
+}
+
 #region Character
 
 public enum EHungerType

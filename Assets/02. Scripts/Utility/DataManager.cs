@@ -17,6 +17,7 @@ public class DataManager : ManagementBase
     public Dictionary<string, ItemData> itemData = new Dictionary<string, ItemData>();
     public Dictionary<int, ItemCombineData> itemCombineData = new Dictionary<int, ItemCombineData>();
     public Dictionary<int, TileData> tileData = new Dictionary<int, TileData>();
+    public Dictionary<string, DiaryData> diaryData = new Dictionary<string, DiaryData>();
 
     private void Awake()
     {
@@ -165,6 +166,19 @@ public class TileData
     public int RemainPossibility_Pawder;
     public int RemainPossibility_Gas;
     public int RemainPossibility_Rubber;
+    public string Korean;
+    public string English;
+    public string Japanese;
+    public string Chinese;
+}
+
+[Serializable]
+public class DiaryData
+{
+    public int Index;
+   // public EScriptType ScriptType;
+    public int Script;
+    public int RemainPossibility;
     public string Korean;
     public string English;
     public string Japanese;
