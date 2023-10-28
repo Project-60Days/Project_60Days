@@ -708,4 +708,9 @@ public class MapController : Singleton<MapController>
         else
             return false;
     }
+
+    public string CurrentTileStructure()
+    {
+        return player.TileController.GetComponent<TileInfo>().GetStructureName();
+    }
 }
