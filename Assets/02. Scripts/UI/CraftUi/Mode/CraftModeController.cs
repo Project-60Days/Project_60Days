@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -13,15 +11,18 @@ public class CraftModeController : MonoBehaviour
     [SerializeField] GameObject inventoryBack;
 
     [SerializeField] Sprite[] inventorySprite;
+    [SerializeField] Sprite[] buttonSprite;
     [SerializeField] TextMeshProUGUI modeText;
 
-    public Image inventoryImage;
+    Button[] buttons;
+    Image inventoryImage;
 
     public ECraftModeType eCraftModeType { get; private set; }
 
     void Awake()
     {
         inventoryImage = GetComponent<Image>();
+        buttons = GetComponentsInChildren<Button>();
         SetCraftActive();
     }
     
@@ -76,12 +77,17 @@ public class CraftModeController : MonoBehaviour
 
 
 
+
     #region Buttons
     public void SetCraftActive()
     {
         CraftActiveMode();
         EquipInActiveMode();
         BlueprintInActiveMode();
+
+        buttons[0].GetComponent<Image>().sprite = buttonSprite[0];
+        buttons[1].GetComponent<Image>().sprite = buttonSprite[1];
+        buttons[2].GetComponent<Image>().sprite = buttonSprite[1];
     }
 
     public void SetEquipActive()
@@ -89,6 +95,10 @@ public class CraftModeController : MonoBehaviour
         CraftInActiveMode();
         EquipActiveMode();
         BlueprintInActiveMode();
+
+        buttons[0].GetComponent<Image>().sprite = buttonSprite[1];
+        buttons[1].GetComponent<Image>().sprite = buttonSprite[0];
+        buttons[2].GetComponent<Image>().sprite = buttonSprite[0];
     }
 
     public void SetBlueprintActive()
@@ -96,6 +106,10 @@ public class CraftModeController : MonoBehaviour
         CraftInActiveMode();
         EquipInActiveMode();
         BlueprintActiveMode();
+
+        buttons[0].GetComponent<Image>().sprite = buttonSprite[1];
+        buttons[1].GetComponent<Image>().sprite = buttonSprite[1];
+        buttons[2].GetComponent<Image>().sprite = buttonSprite[0];
     }
     #endregion
 }
