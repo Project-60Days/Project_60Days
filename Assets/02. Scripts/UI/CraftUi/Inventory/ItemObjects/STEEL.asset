@@ -34,3 +34,4 @@ MonoBehaviour:
   itemCount: 0
   eItemType: 0
   prefab: {fileID: 5291711458905113346, guid: 03f13903e83b61e48b34af8e95fd217f, type: 3}
+  sfxName: SFX_Metal_Acquisition
