@@ -17,22 +17,44 @@ public class CraftModeController : MonoBehaviour
     Button[] buttons;
     Image inventoryImage;
 
+    Vector3 newPosition;
+
     public ECraftModeType eCraftModeType { get; private set; }
 
     void Awake()
     {
-        inventoryImage = GetComponent<Image>();
+        inventoryImage = GameObject.Find("InventoryBackground_Img").GetComponent<Image>();
+        newPosition = inventoryImage.transform.position;
         buttons = GetComponentsInChildren<Button>();
         SetCraftActive();
     }
     
+    void SetButtonImage(int _activeButton)
+    {
+        for(int i = 0; i < buttons.Length; i++)
+        {
+            Image buttonImage = buttons[i].GetComponent<Image>();
+            if (i == _activeButton)
+                buttonImage.sprite = buttonSprite[1];
+            else
+                buttonImage.sprite = buttonSprite[0];
+        }
+    }
 
     void CraftActiveMode()
     {
         craftBag.SetActive(true);
+        SetButtonImage(0);
+
         eCraftModeType = ECraftModeType.Craft;
+
         UIManager.instance.GetCraftingRawImageController().DestroyObject();
+
         inventoryImage.sprite = inventorySprite[0];
+        inventoryImage.SetNativeSize();
+        newPosition.y = 550f;
+        inventoryImage.transform.position = newPosition;
+
         modeText.text = "제작 모드";
     }
 
@@ -45,8 +67,17 @@ public class CraftModeController : MonoBehaviour
     void EquipActiveMode()
     {
         equipBag.SetActive(true);
+        SetButtonImage(1);
+
         eCraftModeType = ECraftModeType.Equip;
+
+        UIManager.instance.GetCraftingRawImageController().DestroyObject();
+
         inventoryImage.sprite = inventorySprite[1];
+        inventoryImage.SetNativeSize();
+        newPosition.y = 547.5f;
+        inventoryImage.transform.position = newPosition;
+
         modeText.text = "장착 모드";
     }
 
@@ -61,9 +92,17 @@ public class CraftModeController : MonoBehaviour
         blueprintBag.SetActive(true);
         blueprintBack.SetActive(true);
         inventoryBack.SetActive(false);
+        SetButtonImage(2);
+
         eCraftModeType = ECraftModeType.Blueprint;
+
         UIManager.instance.GetCraftingRawImageController().DestroyObject();
+
         inventoryImage.sprite = inventorySprite[2];
+        inventoryImage.SetNativeSize();
+        newPosition.y = 547.5f;
+        inventoryImage.transform.position = newPosition;
+
         modeText.text = "설계도 모드";
     }
 
@@ -84,10 +123,6 @@ public class CraftModeController : MonoBehaviour
         CraftActiveMode();
         EquipInActiveMode();
         BlueprintInActiveMode();
-
-        buttons[0].GetComponent<Image>().sprite = buttonSprite[0];
-        buttons[1].GetComponent<Image>().sprite = buttonSprite[1];
-        buttons[2].GetComponent<Image>().sprite = buttonSprite[1];
     }
 
     public void SetEquipActive()
@@ -95,10 +130,6 @@ public class CraftModeController : MonoBehaviour
         CraftInActiveMode();
         EquipActiveMode();
         BlueprintInActiveMode();
-
-        buttons[0].GetComponent<Image>().sprite = buttonSprite[1];
-        buttons[1].GetComponent<Image>().sprite = buttonSprite[0];
-        buttons[2].GetComponent<Image>().sprite = buttonSprite[0];
     }
 
     public void SetBlueprintActive()
@@ -106,10 +137,6 @@ public class CraftModeController : MonoBehaviour
         CraftInActiveMode();
         EquipInActiveMode();
         BlueprintActiveMode();
-
-        buttons[0].GetComponent<Image>().sprite = buttonSprite[1];
-        buttons[1].GetComponent<Image>().sprite = buttonSprite[1];
-        buttons[2].GetComponent<Image>().sprite = buttonSprite[0];
     }
     #endregion
 }
