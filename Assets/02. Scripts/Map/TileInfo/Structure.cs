@@ -4,7 +4,21 @@ using UnityEngine;
 
 public abstract class Structure : MonoBehaviour
 {
-    protected string structureName = "구조물 없음";
+    protected string structureName;
+    public bool isPlayerInTile;
+    bool isVisit;
+
+    public bool Visit
+    {
+        get => isVisit;
+        set
+        {
+            if(isPlayerInTile == false)
+                return;
+            else
+                isVisit = value;
+        }
+    }
+
     public abstract void Init();
-    public abstract string GetstructureName();
 }

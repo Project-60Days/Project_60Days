@@ -99,7 +99,7 @@ public class Player : MonoBehaviour
     IEnumerator DelaySightGetInfo()
     {
         // AdditiveScene µô·¹ÀÌ 
-        yield return new WaitForEndOfFrame();
+        yield return new WaitUntil(() => PlayerSightUpdate != null);
         PlayerSightUpdate?.Invoke(currentTileContorller.Model);
     }
 
