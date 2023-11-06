@@ -28,7 +28,7 @@ public class ResourceManager : MonoBehaviour
             foreach (var item in owendResources)
             {
                 var itemName = itemSO.items.ToList().Find(x => x.itemCode == item.ItemCode).data.Korean;
-                Debug.LogFormat("ï¿½Ú¿ï¿½ ï¿½Ì¸ï¿½ : {0}, ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½ : {1}", itemName, item.ItemCount);
+                Debug.LogFormat("ÀÌ¸§ : {0}, °³¼ö : {1}", itemName, item.ItemCount);
             }
         }
     }
@@ -52,18 +52,18 @@ public class ResourceManager : MonoBehaviour
                     else
                         resource.ItemCount += list[i].ItemCount;
 
-                    var itemName = itemSO.items.ToList().Find(x => x.itemCode == resource.ItemCode).data.Korean;
+                    var item = itemSO.items.ToList().Find(x => x.itemCode == owendResources[owendResources.Count - 1].ItemCode);
 
-                    PlaySFX(itemName);
-                    Debug.LogFormat("{0} ï¿½Ú¿ï¿½, {1}ï¿½ï¿½ È¹ï¿½ï¿½!", itemName, list[i].ItemCount);
+                    PlaySFX(item.sfxName);
+                    Debug.LogFormat("»õ·Î¿î ¾ÆÀÌÅÛ {0} {1}°³ È¹µæÇß´Ù.", item.data.Korean, list[i].ItemCount);
                     isGetResource = true;
                 }
                 else
                 {
                     owendResources.Add(list[i]);
-                    var itemName = itemSO.items.ToList().Find(x => x.itemCode == owendResources[owendResources.Count - 1].ItemCode).data.Korean;
-                    PlaySFX(itemName);
-                    Debug.LogFormat(itemName + " ï¿½Ú¿ï¿½ {0}ï¿½ï¿½ ï¿½ß°ï¿½", owendResources[owendResources.Count - 1].ItemCount);
+                    var item = itemSO.items.ToList().Find(x => x.itemCode == owendResources[owendResources.Count - 1].ItemCode);
+                    PlaySFX(item.sfxName);
+                    Debug.LogFormat(item.data.Korean + " {0}°³ È¹µæÇß´Ù.", owendResources[owendResources.Count - 1].ItemCount);
                     isGetResource = true;
                 }
             }
@@ -83,16 +83,7 @@ public class ResourceManager : MonoBehaviour
 
     public void PlaySFX(string str)
     {
-        App.instance.GetSoundManager().PlaySFX("SFX_Metal_Acquisition");
-        /*        switch (str)
-                {
-                    case "ï¿½ï¿½Ã¶":
-                        App.instance.GetSoundManager().PlaySFX("SFX_Metal_Acquisition");
-                        break;
-                    default:
-                        App.instance.GetSoundManager().PlaySFX("SFX_Plasma_Acquisition");
-                        break;
-                }*/
+        App.instance.GetSoundManager().PlaySFX(str);
     }
 
     public bool CheckResource(TileController tileController)

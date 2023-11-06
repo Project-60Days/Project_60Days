@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Hexamap;
 
-public class NoneTile : TileInfo
+
+public class DesertTile : TileInfo
 {
     public override void Init()
     {
         tileController = gameObject.transform.GetComponent<TileController>().Model;
-        App.instance.GetDataManager().tileData.TryGetValue(1001, out TileData tileData);
+        App.instance.GetDataManager().tileData.TryGetValue(1002, out TileData tileData);
         
         gachaRate.Add(EResourceType.Metal, tileData.RemainPossibility_Metal);
         gachaRate.Add(EResourceType.Carbon, tileData.RemainPossibility_Carbon);

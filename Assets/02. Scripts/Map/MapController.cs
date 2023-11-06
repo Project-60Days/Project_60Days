@@ -165,7 +165,7 @@ public class MapController : Singleton<MapController>
             var spawnPos = ((GameObject)tile.GameEntity).transform.position;
             spawnPos.y += 0.85f;
 
-            var zombie = Instantiate(mapPrefab.items[(int)EMabPrefab.Zombie].prefab, spawnPos, Quaternion.Euler(0, 90, 0), zombiesTransform);
+            var zombie = Instantiate(mapPrefab.items[(int)EMabPrefab.Zombie].prefab, spawnPos, Quaternion.Euler(0, Random.Range(0,360), 0), zombiesTransform);
             zombie.name = "Zombie " + (i + 1);
             zombie.GetComponent<ZombieBase>().Init(tile);
             zombiesList.Add(zombie);
@@ -179,7 +179,7 @@ public class MapController : Singleton<MapController>
         var spawnPos = ((GameObject)tile.GameEntity).transform.position;
         spawnPos.y += 0.85f;
 
-        var zombie = Instantiate(mapPrefab.items[(int)EMabPrefab.Zombie].prefab, spawnPos, Quaternion.Euler(0, 90, 0), zombiesTransform);
+        var zombie = Instantiate(mapPrefab.items[(int)EMabPrefab.Zombie].prefab, spawnPos, Quaternion.Euler(0, Random.Range(0,360), 0), zombiesTransform);
         zombie.name = "Zombie " + 1;
         zombie.GetComponent<ZombieBase>().Init(tile);
 

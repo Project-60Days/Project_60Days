@@ -8,4 +8,5 @@ public class ItemBase : ScriptableObject
     public int itemCount = 0;
     public EItemType eItemType;
     public GameObject prefab;
+    public string sfxName;
 }

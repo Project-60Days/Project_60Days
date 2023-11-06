@@ -17,7 +17,7 @@ public class MapManager : ManagementBase
 
     Camera mainCamera;
     MapCamera mapCineCamera;
-    MapController mapController;
+    public MapController mapController;
     ResourceManager resourceManager;
     TileController curTileController;
 
@@ -280,6 +280,9 @@ public class MapManager : ManagementBase
             return;
     }
 
+    /// <summary>
+    /// 현재 타일에 구조물이 있는지 확인
+    /// </summary>
     public void CheckStructure()
     {
         if(mapController.CurrentTileStructure() != null)

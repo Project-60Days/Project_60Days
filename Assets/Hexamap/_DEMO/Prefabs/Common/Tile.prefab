@@ -243,7 +243,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5066086824897611883}
-  - component: {fileID: 9064098830308556384}
   - component: {fileID: 7133404945534963477}
   m_Layer: 0
   m_Name: Tile
@@ -272,24 +271,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9064098830308556384
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6069308404498233822}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 828700fcdcc3f2f4e8244b21499ede6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  resourceIcons:
-  - {fileID: 8293395201210993440}
-  - {fileID: 3556380363377903167}
-  - {fileID: 6362800062065676503}
-  itemSO: {fileID: 11400000, guid: 9fbd54ca786ce174891a63e9312d8ea6, type: 2}
-  landformSprite: {fileID: 0}
 --- !u!114 &7133404945534963477
 MonoBehaviour:
   m_ObjectHideFlags: 0

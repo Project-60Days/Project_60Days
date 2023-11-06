@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class Signal : Structure
 {
-    public override void Init()
+    public Signal()
     {
         structureName = "신호기";
     }
 
-    public override string GetstructureName()
+    public override void Init()
     {
-        return structureName;
+        isPlayerInTile = false;
+        Visit = false;
     }
+    
 }
