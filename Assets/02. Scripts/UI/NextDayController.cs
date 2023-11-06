@@ -1,13 +1,11 @@
 using Cinemachine;
 using DG.Tweening;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class NextDayController : ControllerBase
 {
     [SerializeField] Image blackPanel;
-    public NotePageBase[] pages;
 
     [Header("Quest Objects")]
     [SerializeField] GameObject questPrefab;
@@ -35,7 +33,6 @@ public class NextDayController : ControllerBase
     void Awake()
     {
         Init();
-        pages = GameObject.Find("Page_Back").GetComponentsInChildren<NotePageBase>(includeInactive: true);
     }
 
     void Start()
@@ -56,7 +53,6 @@ public class NextDayController : ControllerBase
     void Init()
     {
         InitBlackPanel();
-        InitPageEnabled();
         InitQuestList();
         InitAlert();
     }
@@ -70,21 +66,8 @@ public class NextDayController : ControllerBase
         Sequence sequence = DOTween.Sequence();
         sequence.Append(blackPanel.DOFade(0f, 1f))
             .OnComplete(() => blackPanel.gameObject.SetActive(false));
-        sequence.Play();   
-    }
-
-    /// <summary>
-    /// 노트 페이지 초기화
-    /// </summary>
-    void InitPageEnabled()
-    {
-        foreach (NotePageBase page in pages)
-        {
-            page.StopDialogue();
-            page.gameObject.SetActive(false);
-            //page.SetPageEnabled()로 다음 날 사용할 페이지 결정
-        }
-    }
+        sequence.Play();
+    }    
 
     /// <summary>
     /// 퀘스트 리스트 초기화
@@ -163,36 +146,8 @@ public class NextDayController : ControllerBase
         App.instance.GetMapManager().SetMapCameraPriority(true);
         blackPanel.DOFade(0f, 0.5f);
         DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 10f, 0.5f)
-            .OnComplete(()=> blackPanel.gameObject.SetActive(false));
+            .OnComplete(() => blackPanel.gameObject.SetActive(false));
     }
-
-
-
-    #region PageSetting
-    /// <summary>
-    /// 다음 날로 넘어갈 때 노트 페이지 구성 함수
-    /// </summary>
-    /// <returns></returns>
-    public NotePageBase[] GetNotePageArray()
-    {
-        List<NotePageBase> todayPages = new List<NotePageBase>();
-        foreach (NotePageBase page in pages)
-        {
-            if (page.GetPageEnableToday())
-                todayPages.Add(page);
-        }
-
-        return todayPages.ToArray(); ;
-    }
-
-    public void SetNote(string _noteType, bool _isActive)
-    {
-        if (_noteType == "result")
-            pages[0].SetPageEnabled(_isActive);
-        else if (_noteType == "select")
-            pages[1].SetPageEnabled(_isActive);
-    }
-    #endregion
 
 
 

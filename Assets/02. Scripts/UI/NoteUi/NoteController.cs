@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class NoteController : ControllerBase
 {
@@ -12,6 +13,7 @@ public class NoteController : ControllerBase
     [SerializeField] Button prevPageBtn;
     [SerializeField] Button closeBtn;
 
+    public NotePageBase[] pages;
     NotePageBase[] notePages;
 
     bool isNewDay = true;
@@ -32,8 +34,10 @@ public class NoteController : ControllerBase
 
 
 
-    void Start()
+    void Awake()
     {
+        pages = GetComponentsInChildren<NotePageBase>(includeInactive: true);
+
         Init();
     }
 
@@ -42,6 +46,7 @@ public class NoteController : ControllerBase
         ActiveNextBtnAndPrevBtn(false, false);
         ActiveObjects(false);
         InitVariables();
+        InitPageEnabled();
     }
 
     /// <summary>
@@ -52,9 +57,64 @@ public class NoteController : ControllerBase
         dayText.text = "Day " + ++dayCount;
         isNewDay = true;
         pageNum = 0;
-        notePages = UIManager.instance.GetNextDayController().GetNotePageArray();
+        notePages = GetNotePageArray();
     }
 
+    /// <summary>
+    /// 노트 페이지 초기화
+    /// </summary>
+    void InitPageEnabled()
+    {
+        foreach (NotePageBase page in pages)
+        {
+            page.StopDialogue();
+            page.gameObject.SetActive(false);
+            //page.SetPageEnabled()로 다음 날 사용할 페이지 결정
+        }
+    }
+
+
+
+
+    #region PageSetting
+    /// <summary>
+    /// 다음 날로 넘어갈 때 노트 페이지 구성 함수
+    /// </summary>
+    /// <returns></returns>
+    public void SetDiary(string _code, StructData _structData)
+    {
+        var nextDiaryData = App.instance.GetDataManager().diaryData[_code];
+        //var nextDiary += .script;
+        SetNote("result", true);
+        if (nextDiaryData.IsSelectScript == 0)
+        {
+            //yes += Invoke(_structData.YesFunctionName);
+            //yes += SetDiary(_structData.code += "_Enter");
+            //no += Invoke(_structData.NoFunction);
+            //no += SetDiary(_structData.code += "_Pass");
+        }
+    }
+
+    public NotePageBase[] GetNotePageArray()
+    {
+        List<NotePageBase> todayPages = new List<NotePageBase>();
+        foreach (NotePageBase page in pages)
+        {
+            if (page.GetPageEnableToday())
+                todayPages.Add(page);
+        }
+
+        return todayPages.ToArray();
+    }
+
+    public void SetNote(string _noteType, bool _isActive)
+    {
+        if (_noteType == "result")
+            pages[0].SetPageEnabled(_isActive);
+        else if (_noteType == "select")
+            pages[1].SetPageEnabled(_isActive);
+    }
+    #endregion
 
 
 

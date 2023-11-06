@@ -129,7 +129,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
     void SetNoteState(string _noteType, bool _isActive)
     {
-        UIManager.instance.GetNextDayController().SetNote(_noteType, _isActive);
+        UIManager.instance.GetNoteController().SetNote(_noteType, _isActive);
     }
     #endregion
 
