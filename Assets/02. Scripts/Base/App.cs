@@ -10,7 +10,7 @@ public enum EControllerType
 
 public enum EManagerType
 {
-    NONE, DATA, SOUND, MAP
+    NONE, DATA, SOUND, MAP, QUEST
 }
 
 public class App : Singleton<App>
@@ -119,6 +119,14 @@ public class App : Singleton<App>
             return null;
 
         return dic_managers[EManagerType.MAP] as MapManager;
+    }
+
+    public QuestManager GetQuestManager()
+    {
+        if (!HasManager(EManagerType.QUEST))
+            return null;
+
+        return dic_managers[EManagerType.QUEST] as QuestManager;
     }
 
     public void AddController(ControllerBase controller)

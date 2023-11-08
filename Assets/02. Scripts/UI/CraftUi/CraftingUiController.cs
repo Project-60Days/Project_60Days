@@ -309,6 +309,7 @@ public class CraftingUiController : ControllerBase
             if (combineData.Result == _item.itemCode)
             {
                 blueprintCodes = GetCombinationCodes(combineData);
+                Debug.Log(_item.itemCode);
                 break;
             }
         }

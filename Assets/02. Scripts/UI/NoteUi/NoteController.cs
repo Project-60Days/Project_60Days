@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class NoteController : ControllerBase
 {
@@ -12,6 +13,7 @@ public class NoteController : ControllerBase
     [SerializeField] Button prevPageBtn;
     [SerializeField] Button closeBtn;
 
+    NotePageBase[] pages;
     NotePageBase[] notePages;
 
     bool isNewDay = true;
@@ -34,6 +36,8 @@ public class NoteController : ControllerBase
 
     void Start()
     {
+        pages = GetComponentsInChildren<NotePageBase>(includeInactive: true);
+
         Init();
     }
 
@@ -45,6 +49,29 @@ public class NoteController : ControllerBase
     }
 
     /// <summary>
+    /// 페이지 다음/이전 버튼 활성화 또는 비활성화
+    /// </summary>
+    /// <param name="nextBtnEnable"></param>
+    /// <param name="prevBtnEnable"></param>
+    void ActiveNextBtnAndPrevBtn(bool _nextBtnEnable, bool _prevBtnEnable)
+    {
+        Debug.Log(_nextBtnEnable + " " + _prevBtnEnable);
+        nextPageBtn.gameObject.SetActive(_nextBtnEnable);
+        prevPageBtn.gameObject.SetActive(_prevBtnEnable);
+    }
+
+    /// <summary>
+    /// 노트 열고 닫을 때 겹치는 오브젝트 활성화/비활성화
+    /// </summary>
+    /// <param name="isEnable"></param>
+    void ActiveObjects(bool _isEnable)
+    {
+        closeBtn.gameObject.SetActive(_isEnable);
+        dayText.gameObject.SetActive(_isEnable);
+        noteBackground.SetActive(_isEnable);
+    }
+
+    /// <summary>
     /// 변수 초기화 (첫 날 포함 새로운 날이 시작될 때마다 호출됨)
     /// </summary>
     void InitVariables()
@@ -52,7 +79,26 @@ public class NoteController : ControllerBase
         dayText.text = "Day " + ++dayCount;
         isNewDay = true;
         pageNum = 0;
-        notePages = UIManager.instance.GetNextDayController().GetNotePageArray();
+        notePages = GetNotePageArray();
+    }
+
+    public NotePageBase[] GetNotePageArray()
+    {
+        List<NotePageBase> todayPages = new List<NotePageBase>();
+        foreach (NotePageBase page in pages)
+        {
+            page.InitNodeName();
+
+            if (page.GetPageEnableToday() == true)
+            {
+                todayPages.Add(page);
+                UIManager.instance.GetAlertController().SetAlert("selection", true);
+            }
+
+            page.gameObject.SetActive(false);
+        }
+
+        return todayPages.ToArray();
     }
 
 
@@ -100,23 +146,6 @@ public class NoteController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// 노트 열고 닫을 때 겹치는 오브젝트 활성화/비활성화
-    /// </summary>
-    /// <param name="isEnable"></param>
-    void ActiveObjects(bool _isEnable)
-    {
-        closeBtn.gameObject.SetActive(_isEnable);
-        dayText.gameObject.SetActive(_isEnable);
-        noteBackground.SetActive(_isEnable);
-    }
-
-    public void OnAfterSelect()
-    {
-        notePages[pageNum].gameObject.SetActive(false);
-
-        CloseNote();
-    }
 
 
 
@@ -139,10 +168,19 @@ public class NoteController : ControllerBase
     /// </summary>
     public void GoToNextPage()
     {
-        if (pageNum + 1 > notePages.Length - 1)
-            return;
+        if (notePages[pageNum].CompareIndex() == 2 || notePages[pageNum].CompareIndex() == 1)
+        {
+            if (pageNum + 1 > notePages.Length - 1)
+                return;
 
-        ChangePage(pageNum + 1);
+            ChangePage(pageNum + 1);
+        }
+        else
+        {
+            notePages[pageNum].ChangePageAction("next");
+            ChangePageButton();
+        }
+            
     }
 
     /// <summary>
@@ -150,10 +188,18 @@ public class NoteController : ControllerBase
     /// </summary>
     public void GoToPrevPage()
     {
-        if (pageNum - 1 < 0)
-            return;
+        if (notePages[pageNum].CompareIndex() == 2 || notePages[pageNum].CompareIndex() == -1)
+        {
+            if (pageNum - 1 < 0)
+                return;
 
-        ChangePage(pageNum - 1);
+            ChangePage(pageNum - 1);
+        }
+        else
+        {
+            notePages[pageNum].ChangePageAction("prev");
+            ChangePageButton();
+        }
     }
 
     /// <summary>
@@ -174,7 +220,7 @@ public class NoteController : ControllerBase
     void ActiveAndPlayPage()
     {
         notePages[pageNum].gameObject.SetActive(true);
-        notePages[pageNum].PlayPageAction();
+        notePages[pageNum].PlayPageAciton();
     }
 
 
@@ -187,27 +233,25 @@ public class NoteController : ControllerBase
     void ChangePageButton()
     {
         if (notePages.Length == 1)
-            ActiveNextBtnAndPrevBtn(false, false);
-        else
         {
-            if (pageNum == 0)
+            if (notePages[pageNum].CompareIndex() == 2)
+                ActiveNextBtnAndPrevBtn(false, false);
+            else if (notePages[pageNum].CompareIndex() == -1)
                 ActiveNextBtnAndPrevBtn(true, false);
-            else if (pageNum == notePages.Length - 1)
+            else if (notePages[pageNum].CompareIndex() == 1) 
                 ActiveNextBtnAndPrevBtn(false, true);
             else
                 ActiveNextBtnAndPrevBtn(true, true);
         }
-    }
-
-    /// <summary>
-    /// 페이지 다음/이전 버튼 활성화 또는 비활성화
-    /// </summary>
-    /// <param name="nextBtnEnable"></param>
-    /// <param name="prevBtnEnable"></param>
-    void ActiveNextBtnAndPrevBtn(bool _nextBtnEnable, bool _prevBtnEnable)
-    {
-        nextPageBtn.gameObject.SetActive(_nextBtnEnable);
-        prevPageBtn.gameObject.SetActive(_prevBtnEnable);
+        else
+        {
+            if (pageNum == 0 && (notePages[pageNum].CompareIndex() == -1 || notePages[pageNum].CompareIndex() == 2))
+                ActiveNextBtnAndPrevBtn(true, false);
+            else if (pageNum == notePages.Length - 1 && (notePages[pageNum].CompareIndex() == 1 || notePages[pageNum].CompareIndex() == 2))
+                ActiveNextBtnAndPrevBtn(false, true);
+            else
+                ActiveNextBtnAndPrevBtn(true, true);
+        }
     }
 
 

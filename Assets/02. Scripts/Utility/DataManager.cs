@@ -178,7 +178,7 @@ public class DiaryData
 {
     public int Index;
     public int code;
-   // public EScriptType ScriptType;
+    public EScriptType ScriptType;
     public int Script;
     public int IsSelectScript;
     public int RemainPossibility;
