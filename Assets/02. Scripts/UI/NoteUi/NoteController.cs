@@ -12,6 +12,8 @@ public class NoteController : ControllerBase
     [SerializeField] Button nextPageBtn;
     [SerializeField] Button prevPageBtn;
     [SerializeField] Button closeBtn;
+    [SerializeField] Button yesBtn;
+    [SerializeField] Button noBtn;
 
     public NotePageBase[] pages;
     NotePageBase[] notePages;
@@ -46,7 +48,6 @@ public class NoteController : ControllerBase
         ActiveNextBtnAndPrevBtn(false, false);
         ActiveObjects(false);
         InitVariables();
-        InitPageEnabled();
     }
 
     /// <summary>
@@ -60,18 +61,24 @@ public class NoteController : ControllerBase
         notePages = GetNotePageArray();
     }
 
-    /// <summary>
-    /// 노트 페이지 초기화
-    /// </summary>
-    void InitPageEnabled()
+    public NotePageBase[] GetNotePageArray()
     {
+        List<NotePageBase> todayPages = new List<NotePageBase>();
         foreach (NotePageBase page in pages)
         {
-            page.StopDialogue();
             page.gameObject.SetActive(false);
-            //page.SetPageEnabled()로 다음 날 사용할 페이지 결정
+
+            if (page.GetPageEnableToday())
+            {
+                page.InitNodeName();
+                page.PlayFirstNode();
+                todayPages.Add(page);
+            }
         }
+
+        return todayPages.ToArray();
     }
+
 
 
 
@@ -81,38 +88,32 @@ public class NoteController : ControllerBase
     /// 다음 날로 넘어갈 때 노트 페이지 구성 함수
     /// </summary>
     /// <returns></returns>
-    public void SetDiary(string _code, StructData _structData)
+    public void SetDiary(string _code, Structure _structData)
     {
         var nextDiaryData = App.instance.GetDataManager().diaryData[_code];
-        //var nextDiary += .script;
+
         SetNote("result", true);
         if (nextDiaryData.IsSelectScript == 0)
         {
-            //yes += Invoke(_structData.YesFunctionName);
+            yesBtn.onClick.RemoveAllListeners();
+            noBtn.onClick.RemoveAllListeners();
+
+            //yesBtn.onClick.AddListener(_structData.YesFunc);
+            //noBtn.onClick.AddListener(_structData.NoFunc);
+
             //yes += SetDiary(_structData.code += "_Enter");
-            //no += Invoke(_structData.NoFunction);
             //no += SetDiary(_structData.code += "_Pass");
         }
     }
 
-    public NotePageBase[] GetNotePageArray()
-    {
-        List<NotePageBase> todayPages = new List<NotePageBase>();
-        foreach (NotePageBase page in pages)
-        {
-            if (page.GetPageEnableToday())
-                todayPages.Add(page);
-        }
-
-        return todayPages.ToArray();
-    }
+    
 
     public void SetNote(string _noteType, bool _isActive)
     {
-        if (_noteType == "result")
-            pages[0].SetPageEnabled(_isActive);
-        else if (_noteType == "select")
-            pages[1].SetPageEnabled(_isActive);
+        //if (_noteType == "result")
+            //pages[0].SetPageEnabled(_isActive);
+        //else if (_noteType == "select")
+            //pages[1].SetPageEnabled(_isActive);
     }
     #endregion
 
@@ -171,12 +172,6 @@ public class NoteController : ControllerBase
         noteBackground.SetActive(_isEnable);
     }
 
-    public void OnAfterSelect()
-    {
-        notePages[pageNum].gameObject.SetActive(false);
-
-        CloseNote();
-    }
 
 
 
@@ -234,7 +229,7 @@ public class NoteController : ControllerBase
     void ActiveAndPlayPage()
     {
         notePages[pageNum].gameObject.SetActive(true);
-        notePages[pageNum].PlayPageAction();
+        //notePages[pageNum].PlayPageAction();
     }
 
 

@@ -10,25 +10,10 @@ public class ResultPage : NotePageBase
     [SerializeField] VerticalLayoutGroup content;
     [SerializeField] VerticalLayoutGroup lineView;
 
-    public override ENotePageType GetENotePageType()
+    ResultPage()
     {
-        return ENotePageType.Result;
+        eNotePageType = ENotePageType.Result;
     }
 
-    public override void PlayPageAction()
-    {
-        nodeName = "Result"; //임시로 노드 이름 설정
-
-        if (dialogueRunner.IsDialogueRunning == false)
-        {
-            dialogueRunner.StartDialogue(nodeName);
-            LayoutRebuilder.ForceRebuildLayoutImmediate(content.GetComponent<RectTransform>());
-            LayoutRebuilder.ForceRebuildLayoutImmediate(lineView.GetComponent<RectTransform>());
-        }
-    }
-
-    public override void StopDialogue()
-    {
-        dialogueRunner.Stop();
-    }
+   
 }

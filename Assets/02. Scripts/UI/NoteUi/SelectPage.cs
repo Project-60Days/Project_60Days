@@ -10,25 +10,8 @@ public class SelectPage : NotePageBase
     [SerializeField] VerticalLayoutGroup content;
     [SerializeField] VerticalLayoutGroup lineView;
 
-    public override ENotePageType GetENotePageType()
+    SelectPage()
     {
-        return ENotePageType.Select;
-    }
-
-    public override void PlayPageAction()
-    {
-        nodeName = "Select"; //임시로 노드 이름 설정
-
-        if (dialogueRunner.IsDialogueRunning == false)
-        {
-            dialogueRunner.StartDialogue(nodeName);
-            LayoutRebuilder.ForceRebuildLayoutImmediate(content.GetComponent<RectTransform>());
-            LayoutRebuilder.ForceRebuildLayoutImmediate(lineView.GetComponent<RectTransform>());
-        }
-    }
-
-    public override void StopDialogue()
-    {
-        dialogueRunner.Stop();
+        eNotePageType = ENotePageType.Select;
     }
 }
