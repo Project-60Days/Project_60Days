@@ -12,10 +12,6 @@ public class NextDayController : ControllerBase
     [SerializeField] Transform questParent;
     [SerializeField] GameObject questLogo;
 
-    [Header("Alert Objects")]
-    [SerializeField] GameObject selectAlert;
-    [SerializeField] GameObject cautionAlert;
-
     CanvasGroup shelterUi;
 
     CinemachineVirtualCamera mapCamera;
@@ -54,7 +50,7 @@ public class NextDayController : ControllerBase
     {
         InitBlackPanel();
         InitQuestList();
-        InitAlert();
+        UIManager.instance.GetAlertController().InitAlert();
     }
 
     #region Inits
@@ -77,15 +73,6 @@ public class NextDayController : ControllerBase
         Quest[] quests = questParent.GetComponentsInChildren<Quest>();
         foreach (Quest quest in quests)
             Destroy(quest.gameObject);
-    }
-
-    /// <summary>
-    /// 알림 리스트 초기화
-    /// </summary>
-    void InitAlert()
-    {
-        selectAlert.SetActive(false);
-        cautionAlert.SetActive(false);
     }
     #endregion
 
@@ -113,10 +100,14 @@ public class NextDayController : ControllerBase
     void NextDayEventCallBack()
     {
         Init();
+
         App.instance.GetMapManager().SetMapCameraPriority(false);
         transposer.m_CameraDistance = 15f;
+
         UIManager.instance.GetNoteController().SetNextDay();
+
         App.instance.GetMapManager().AllowMouseEvent(true);
+
         StartCoroutine(App.instance.GetMapManager().NextDayCoroutine());
     }
 
@@ -202,17 +193,6 @@ public class NextDayController : ControllerBase
     public void AddSubQuestBtn() //�׽�Ʈ�� �ӽ� �Լ�. ��������Ʈ �߰� ��ư
     {
         AddQuest(EQuestType.Sub);
-    }
-   
-    public void AddResultAlarm()
-    {
-        selectAlert.SetActive(true);
-        //resultAlarm.GetComponent<Alarm>().AddResult();
-    }
-    public void AddCautionAlarm()
-    {
-        cautionAlert.SetActive(true);
-        //cautionAlarm.GetComponent<Alarm>().AddCaution();
     }
     #endregion
 }

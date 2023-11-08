@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Yarn.Unity;
@@ -10,10 +8,18 @@ public class ResultPage : NotePageBase
     [SerializeField] VerticalLayoutGroup content;
     [SerializeField] VerticalLayoutGroup lineView;
 
-    ResultPage()
+    public override ENotePageType GetENotePageType()
     {
-        eNotePageType = ENotePageType.Result;
+        return ENotePageType.Result;
     }
 
-   
+    public override void PlayNode(string _nodeName)
+    {
+        if (dialogueRunner.IsDialogueRunning == true)
+            dialogueRunner.Stop();
+
+        dialogueRunner.StartDialogue(_nodeName);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(content.GetComponent<RectTransform>());
+        LayoutRebuilder.ForceRebuildLayoutImmediate(lineView.GetComponent<RectTransform>());
+    }
 }

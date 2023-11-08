@@ -31,20 +31,23 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         //03//
         dialogueRunner.AddCommandHandler("waitLightUp", WaitLightUp);
         dialogueRunner.AddCommandHandler<string, bool>("setAlert", SetAlertState);
+        dialogueRunner.AddCommandHandler("closeNote", CloseNote);
 
         //05//
 
         //06//
         dialogueRunner.AddCommandHandler("waitNewDay", WaitNewDay);
-        dialogueRunner.AddCommandHandler<string, bool>("setNote", SetNoteState);
 
         //08//
         dialogueRunner.AddCommandHandler("endTutorial", EndTutorial);
-        
+
         //dialogueRunner.AddCommandHandler("spawnTutorialGlicher", SpawnTutorialGlicher);
         //dialogueRunner.AddCommandHandler<string>("play_bgm", PlayBGM);
         //dialogueRunner.AddCommandHandler<string>("play_sfx", PlaySFX);
         //dialogueRunner.AddCommandHandler<string>("stop_bgm", StopBGM);
+
+        dialogueRunner.AddCommandHandler<string>("setResultNote", SetResultPage);
+        dialogueRunner.AddCommandHandler<string>("setSelectNote", SetSelectPage);
     }
 
 
@@ -115,6 +118,11 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     {
         UIManager.instance.GetAlertController().SetAlert(_alertType, _isActive);
     }
+
+    void CloseNote()
+    {
+        UIManager.instance.GetNoteController().CloseNote();
+    }
     #endregion
 
 
@@ -122,14 +130,9 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
 
     #region 06
-    private Coroutine WaitNewDay()
+    Coroutine WaitNewDay()
     {
         return StartCoroutine(new WaitUntil(() => UIManager.instance.GetNoteController().GetNewDay()));
-    }
-
-    void SetNoteState(string _noteType, bool _isActive)
-    {
-        UIManager.instance.GetNoteController().SetNote(_noteType, _isActive);
     }
     #endregion
 
@@ -169,4 +172,14 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         App.instance.GetSoundManager().StopBGM();
     }
     #endregion
+
+
+    void SetResultPage(string _nodeName)
+    {
+        UIManager.instance.GetPageController().SetResultPage(_nodeName);
+    }
+    void SetSelectPage(string _nodeName)
+    {
+        UIManager.instance.GetPageController().SetSelectPageTemp(_nodeName);
+    }
 }

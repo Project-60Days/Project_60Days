@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2131344
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2064,8 +2064,8 @@ RectTransform:
   m_Children:
   - {fileID: 1820666316}
   - {fileID: 806694046}
-  - {fileID: 1819101032}
   - {fileID: 744052716}
+  - {fileID: 1819101032}
   - {fileID: 2131344}
   - {fileID: 2078442785}
   - {fileID: 172930948}
@@ -2108,16 +2108,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e33acc1997074734f8edb51934bfe6ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noteController: {fileID: 592508145}
+  noteController: {fileID: 806694049}
   inventoryController: {fileID: 1582259496}
   craftingUiController: {fileID: 2078442788}
   craftingRawImageController: {fileID: 195575675}
   craftModeController: {fileID: 808010579}
   uiHighLightController: {fileID: 1608579649}
   selectController: {fileID: 2131346}
-  nextDayController: {fileID: 592508146}
+  nextDayController: {fileID: 806694048}
   alertController: {fileID: 1819101033}
   menuController: {fileID: 501596807}
+  pageController: {fileID: 806694047}
 --- !u!114 &105272568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3846,7 +3847,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 592508145}
+      - m_Target: {fileID: 806694049}
         m_TargetAssemblyTypeName: NoteController, Assembly-CSharp
         m_MethodName: GoToNextPage
         m_Mode: 1
@@ -3888,7 +3889,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &172930948
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6368,7 +6369,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 592508145}
+      - m_Target: {fileID: 806694049}
         m_TargetAssemblyTypeName: NoteController, Assembly-CSharp
         m_MethodName: CloseNote
         m_Mode: 1
@@ -7448,7 +7449,7 @@ GameObject:
   - component: {fileID: 430195385}
   - component: {fileID: 430195387}
   m_Layer: 5
-  m_Name: Caution
+  m_Name: CautionAlert_Btn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7521,9 +7522,53 @@ MonoBehaviour:
   m_GameObject: {fileID: 430195382}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 468c3883a6bc8704f903644e2f8aac07, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 0
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 430195385}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1819101033}
+        m_TargetAssemblyTypeName: AlertController, Assembly-CSharp
+        m_MethodName: CautionAlert
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &430395175
 GameObject:
   m_ObjectHideFlags: 0
@@ -11237,77 +11282,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 587435462}
   m_CullTransparentMesh: 1
---- !u!1 &592508142
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 592508144}
-  - component: {fileID: 592508145}
-  - component: {fileID: 592508146}
-  m_Layer: 0
-  m_Name: NoteController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &592508144
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 592508142}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -960, y: -540, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 806694046}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &592508145
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 592508142}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 661c6c0c3cfa51644b7b7cddc9ff5a3a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dayText: {fileID: 1182544300}
-  noteBackground: {fileID: 1668064579}
-  nextPageBtn: {fileID: 172874818}
-  prevPageBtn: {fileID: 2054573658}
-  closeBtn: {fileID: 381555328}
-  yesBtn: {fileID: 2081104078}
-  noBtn: {fileID: 976954633}
-  pages: []
---- !u!114 &592508146
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 592508142}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd310294020bd4b4f95eb86577492d14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  blackPanel: {fileID: 172930949}
-  questPrefab: {fileID: 7396541321985787834, guid: ddcd522fe78ea5b40abac73609c61ca6, type: 3}
-  questParent: {fileID: 1496595107}
-  questLogo: {fileID: 561931466}
-  selectAlert: {fileID: 729293152}
-  cautionAlert: {fileID: 430195382}
 --- !u!1 &592598383
 GameObject:
   m_ObjectHideFlags: 0
@@ -11767,7 +11741,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -22}
-  m_SizeDelta: {x: 161.27, y: 48.35}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &619423584
 MonoBehaviour:
@@ -14043,7 +14017,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 592508146}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NextDayController, Assembly-CSharp
         m_MethodName: AddSubQuestBtn
         m_Mode: 1
@@ -14276,7 +14250,7 @@ GameObject:
   - component: {fileID: 729293154}
   - component: {fileID: 729293157}
   m_Layer: 5
-  m_Name: Selection
+  m_Name: NoteAlert_Btn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14349,9 +14323,53 @@ MonoBehaviour:
   m_GameObject: {fileID: 729293152}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7d9cb485af66a846a35a322858474ce, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 0
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 729293154}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1819101033}
+        m_TargetAssemblyTypeName: AlertController, Assembly-CSharp
+        m_MethodName: ClickNoteAlert
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &732330421
 GameObject:
   m_ObjectHideFlags: 0
@@ -14669,7 +14687,7 @@ RectTransform:
   - {fileID: 1730488301}
   - {fileID: 426052772}
   m_Father: {fileID: 105272565}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -15682,7 +15700,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &779161644
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15716,6 +15734,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70327efe153bce847a972b8f9e038e31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  todayNodeNames: []
+  tomorrowNodeNames: []
+  index: 0
   dialogueRunner: {fileID: 779161647}
   content: {fileID: 661416197}
   lineView: {fileID: 1719989333}
@@ -16691,6 +16712,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 806694046}
+  - component: {fileID: 806694049}
+  - component: {fileID: 806694048}
+  - component: {fileID: 806694047}
   m_Layer: 5
   m_Name: NoteUi
   m_TagString: NoteUi
@@ -16713,7 +16737,6 @@ RectTransform:
   - {fileID: 1599595671}
   - {fileID: 1436753528}
   - {fileID: 1658759259}
-  - {fileID: 592508144}
   m_Father: {fileID: 105272565}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -16722,6 +16745,55 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &806694047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 806694045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebec89f92a03a664db7f95e75c715a39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  yesBtn: {fileID: 2081104078}
+  noBtn: {fileID: 976954633}
+--- !u!114 &806694048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 806694045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd310294020bd4b4f95eb86577492d14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blackPanel: {fileID: 172930949}
+  questPrefab: {fileID: 7396541321985787834, guid: ddcd522fe78ea5b40abac73609c61ca6, type: 3}
+  questParent: {fileID: 1496595107}
+  questLogo: {fileID: 561931466}
+  selectAlert: {fileID: 729293152}
+  cautionAlert: {fileID: 430195382}
+--- !u!114 &806694049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 806694045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 661c6c0c3cfa51644b7b7cddc9ff5a3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dayText: {fileID: 1182544300}
+  noteBackground: {fileID: 1668064579}
+  nextPageBtn: {fileID: 172874818}
+  prevPageBtn: {fileID: 2054573658}
+  closeBtn: {fileID: 381555328}
 --- !u!1 &808010571
 GameObject:
   m_ObjectHideFlags: 0
@@ -18726,7 +18798,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 5}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &895461425
 MonoBehaviour:
@@ -20750,7 +20822,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -20774,43 +20846,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 976954634}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 592508145}
-        m_TargetAssemblyTypeName: NoteController, Assembly-CSharp
-        m_MethodName: OnAfterSelect
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1764525118}
-        m_TargetAssemblyTypeName: TutorialController, Assembly-CSharp
-        m_MethodName: LightUpBackground
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1582259496}
-        m_TargetAssemblyTypeName: InventoryController, Assembly-CSharp
-        m_MethodName: RemoveItemByCode
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: ITEM_TIER_2_BATTERY
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &976954634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24101,7 +24137,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 592508146}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NextDayController, Assembly-CSharp
         m_MethodName: AddMainQuestBtn
         m_Mode: 1
@@ -30812,7 +30848,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 592508146}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NextDayController, Assembly-CSharp
         m_MethodName: GoToLab
         m_Mode: 1
@@ -33184,7 +33220,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1668377331
 RectTransform:
   m_ObjectHideFlags: 0
@@ -36152,7 +36188,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 149.13}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1811164151
 MonoBehaviour:
@@ -36330,7 +36366,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 592508146}
+      - m_Target: {fileID: 806694048}
         m_TargetAssemblyTypeName: NextDayController, Assembly-CSharp
         m_MethodName: NextDayEvent
         m_Mode: 1
@@ -36501,7 +36537,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1819101031}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -36509,7 +36545,7 @@ RectTransform:
   - {fileID: 2094758392}
   - {fileID: 812837636}
   m_Father: {fileID: 105272565}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -40497,7 +40533,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 592508145}
+      - m_Target: {fileID: 806694049}
         m_TargetAssemblyTypeName: NoteController, Assembly-CSharp
         m_MethodName: GoToPrevPage
         m_Mode: 1
@@ -41007,7 +41043,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2078442785
 RectTransform:
   m_ObjectHideFlags: 0
@@ -41237,43 +41273,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2081104079}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 592508145}
-        m_TargetAssemblyTypeName: NoteController, Assembly-CSharp
-        m_MethodName: OnAfterSelect
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1764525118}
-        m_TargetAssemblyTypeName: TutorialController, Assembly-CSharp
-        m_MethodName: LightUpBackground
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1582259496}
-        m_TargetAssemblyTypeName: InventoryController, Assembly-CSharp
-        m_MethodName: RemoveItemByCode
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: ITEM_TIER_2_BATTERY
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &2081104079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42544,7 +42544,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2140631374
 RectTransform:
   m_ObjectHideFlags: 0
@@ -42693,6 +42693,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 848d3e69acae96f409a2278cfda04df4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  todayNodeNames: []
+  tomorrowNodeNames: []
+  index: 0
   dialogueRunner: {fileID: 2140631380}
   content: {fileID: 1811164152}
   lineView: {fileID: 2057729920}
