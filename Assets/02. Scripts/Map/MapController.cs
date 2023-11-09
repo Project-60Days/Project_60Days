@@ -163,9 +163,10 @@ public class MapController : Singleton<MapController>
         {
             var tile = tileList[selectedTiles[i]];
             var spawnPos = ((GameObject)tile.GameEntity).transform.position;
-            spawnPos.y += 0.85f;
+            
+            var random = Random.Range(0, 3);
 
-            var zombie = Instantiate(mapPrefab.items[(int)EMabPrefab.Zombie].prefab, spawnPos, Quaternion.Euler(0, Random.Range(0,360), 0), zombiesTransform);
+            var zombie = Instantiate(mapPrefab.items[(int)EMabPrefab.Zombie1+random].prefab, spawnPos, Quaternion.Euler(0, Random.Range(0,360), 0), zombiesTransform);
             zombie.name = "Zombie " + (i + 1);
             zombie.GetComponent<ZombieBase>().Init(tile);
             zombiesList.Add(zombie);
@@ -177,9 +178,11 @@ public class MapController : Singleton<MapController>
         var tile = GetTileFromCoords(new Coords(0, -1));
 
         var spawnPos = ((GameObject)tile.GameEntity).transform.position;
-        spawnPos.y += 0.85f;
 
-        var zombie = Instantiate(mapPrefab.items[(int)EMabPrefab.Zombie].prefab, spawnPos, Quaternion.Euler(0, Random.Range(0,360), 0), zombiesTransform);
+        var random = Random.Range(0, 3);
+
+        
+        var zombie = Instantiate(mapPrefab.items[(int)EMabPrefab.Zombie1 + random].prefab, spawnPos, Quaternion.Euler(0, Random.Range(0,360), 0), zombiesTransform);
         zombie.name = "Zombie " + 1;
         zombie.GetComponent<ZombieBase>().Init(tile);
 
@@ -628,6 +631,9 @@ public class MapController : Singleton<MapController>
 
         int random = Random.Range(0, System.Enum.GetValues(typeof(CompassPoint)).Length);
         tile.Neighbours.TryGetValue((CompassPoint)random, out Tile randomTile);
+        
+        ((GameObject)tile.GameEntity).GetComponent<TileInfo>().SpawnSignal();
+        ((GameObject)randomTile.GameEntity).GetComponent<TileInfo>().SpawnSignal();
 
         var randPosition = Vector3.Lerp(((GameObject)tile.GameEntity).transform.position, ((GameObject)randomTile.GameEntity).transform.position, 0.5f);
 
@@ -707,10 +713,5 @@ public class MapController : Singleton<MapController>
             return true;
         else
             return false;
-    }
-
-    public string CurrentTileStructure()
-    {
-        return player.TileController.GetComponent<TileInfo>().GetStructureName();
     }
 }
