@@ -9,7 +9,8 @@ public class ResourceManager : MonoBehaviour
     [SerializeField] int collectiveAbility;
     [SerializeField] ItemSO itemSO;
 
-    List<Resource> owendResources;
+    private List<Resource> owendResources;
+    private List<Resource> lastResources;
     bool isGetResource;
     public bool IsGetResource
     {
@@ -35,32 +36,33 @@ public class ResourceManager : MonoBehaviour
 
     public void GetResource(TileController tile)
     {
-        var list = tile.GetComponent<TileInfo>().GetResources(collectiveAbility);
+        lastResources = new List<Resource>();
+        lastResources = tile.GetComponent<TileInfo>().GetResources(collectiveAbility);
 
         if (owendResources == null)
-            owendResources = list;
+            owendResources = lastResources;
         else
         {
-            for (int i = 0; i < list.Count; i++)
+            for (int i = 0; i < lastResources.Count; i++)
             {
-                if (owendResources.Exists(x => x.ItemCode == list[i].ItemCode))
+                if (owendResources.Exists(x => x.ItemCode == lastResources[i].ItemCode))
                 {
-                    var resource = owendResources.Find(x => x.ItemCode == list[i].ItemCode);
+                    var resource = owendResources.Find(x => x.ItemCode == lastResources[i].ItemCode);
 
                     if (resource.ItemCount <= 0)
                         return;
                     else
-                        resource.ItemCount += list[i].ItemCount;
+                        resource.ItemCount += lastResources[i].ItemCount;
 
                     var item = itemSO.items.ToList().Find(x => x.English == owendResources[owendResources.Count - 1].ItemCode);
 
                     PlaySFX(item.sfxName);
-                    Debug.LogFormat("새로운 아이템 {0} {1}개 획득했다.", item.data.Korean, list[i].ItemCount);
+                    Debug.LogFormat("새로운 아이템 {0} {1}개 획득했다.", item.data.Korean, lastResources[i].ItemCount);
                     isGetResource = true;
                 }
                 else
                 {
-                    owendResources.Add(list[i]);
+                    owendResources.Add(lastResources[i]);
                     var item = itemSO.items.ToList().Find(x => x.English == owendResources[owendResources.Count - 1].ItemCode);
                     PlaySFX(item.sfxName);
                     Debug.LogFormat(item.data.Korean + " {0}개 획득했다.", owendResources[owendResources.Count - 1].ItemCount);
@@ -69,11 +71,11 @@ public class ResourceManager : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < list.Count; i++)
+        for (int i = 0; i < lastResources.Count; i++)
         {
-            ItemBase item = itemSO.items.ToList().Find(x => x.English == list[i].ItemCode);
+            ItemBase item = itemSO.items.ToList().Find(x => x.English == lastResources[i].ItemCode);
 
-            for (int j = 0; j < list[i].ItemCount; j++)
+            for (int j = 0; j < lastResources[i].ItemCount; j++)
             {
                 //TODO :: SFX 재생, 아이템 획득 스크립트 추첨
                 UIManager.instance.GetInventoryController().AddItem(item);
@@ -90,4 +92,10 @@ public class ResourceManager : MonoBehaviour
     {
         return tileController.GetComponent<TileInfo>().CheckResources();
     }
+
+    public int LastGetResource(EResourceType resourceType)
+    {
+        return lastResources.Find(x => x.ItemCode == resourceType.ToString()).ItemCount;
+    }
+    
 }
