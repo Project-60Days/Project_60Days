@@ -23,7 +23,7 @@ MonoBehaviour:
   WorldLimitsPrefabs:
   - {fileID: 307140750319210593, guid: ac48f32bd8226654e8066c1c6f86b3c1, type: 3}
   BiomeSettings:
-  - UUID: 899c4929-245e-49e5-b483-c80c5ed7dc5a
+  - UUID: ab337ca3-b80b-4e16-8622-99bc9ea63263
     Name: Jungle
     MinimumTilesCount: 250
     Landforms:
@@ -148,7 +148,7 @@ MonoBehaviour:
       - {fileID: 6999840904034914940, guid: 39bb7c4d0064ca845b366aa9f451713c, type: 3}
       - {fileID: 5130638035095197332, guid: 3b7607647ed6f4e418cb2566d7dd9d2d, type: 3}
     IsExpanded: 0
-  - UUID: 523a829b-ab00-4a93-91d6-aae9fc81480f
+  - UUID: 2db501a5-2867-4d75-a45b-eacc6959ef82
     Name: None
     MinimumTilesCount: 250
     Landforms:
@@ -203,15 +203,22 @@ MonoBehaviour:
       Distribution: 0
       Quantity: 0
       Order: 0
-      PrefabsArraySize: 3
+      PrefabsArraySize: 10
       PrefabsIsExpanded: 1
       PrefabPickingMethodTypeAsString: Hexamap.PickingMethodRandom
       PrefabPickingMethodPopupIndex: 3
       PrefabOrientationMethod: -1
       Prefabs:
-      - {fileID: 6778166872818351884, guid: 5a18a8b6e73d4794db88d68c4d145a24, type: 3}
-      - {fileID: 6778166872818351884, guid: 9f09d5029dc054c419bdde1d584a31aa, type: 3}
-      - {fileID: 6778166872818351884, guid: f6bc4563efac7ce42a25ddccceee09c4, type: 3}
+      - {fileID: 4127266734163317383, guid: 1f1acfb6777d6784a813a371a9338a0f, type: 3}
+      - {fileID: 4127266734163317383, guid: 1f1acfb6777d6784a813a371a9338a0f, type: 3}
+      - {fileID: 4127266734163317383, guid: 1f1acfb6777d6784a813a371a9338a0f, type: 3}
+      - {fileID: 4127266734163317383, guid: 1f1acfb6777d6784a813a371a9338a0f, type: 3}
+      - {fileID: 4127266734163317383, guid: 1f1acfb6777d6784a813a371a9338a0f, type: 3}
+      - {fileID: 4127266734163317383, guid: 5a18a8b6e73d4794db88d68c4d145a24, type: 3}
+      - {fileID: 4127266734163317383, guid: 5a18a8b6e73d4794db88d68c4d145a24, type: 3}
+      - {fileID: 4127266734163317383, guid: 5a18a8b6e73d4794db88d68c4d145a24, type: 3}
+      - {fileID: 4127266734163317383, guid: 68fc41a8e5f8bac43ab8933077b88d67, type: 3}
+      - {fileID: 4127266734163317383, guid: 572ad4dd3b6a47448b6152bf3b0d22dd, type: 3}
     - TypeAsString: Hexamap.LandformMountains
       IsSelected: 0
       Distribution: 0
@@ -270,7 +277,7 @@ MonoBehaviour:
       - {fileID: 6999840904034914940, guid: 39bb7c4d0064ca845b366aa9f451713c, type: 3}
       - {fileID: 5130638035095197332, guid: 3b7607647ed6f4e418cb2566d7dd9d2d, type: 3}
     IsExpanded: 0
-  - UUID: b33aba31-6cb4-4c6e-be6c-921606dd02e5
+  - UUID: 3c2f9837-6f0a-4df1-a68d-90b6e84d82b0
     Name: Desert
     MinimumTilesCount: 50
     Landforms:
@@ -392,7 +399,7 @@ MonoBehaviour:
       - {fileID: 6999840904034914940, guid: 39bb7c4d0064ca845b366aa9f451713c, type: 3}
       - {fileID: 5130638035095197332, guid: 3b7607647ed6f4e418cb2566d7dd9d2d, type: 3}
     IsExpanded: 0
-  - UUID: 29d23300-fef2-432a-b9b7-beffe64aca34
+  - UUID: 5d3ee285-e107-46cc-b817-656b72b5966f
     Name: Tundra
     MinimumTilesCount: 50
     Landforms:

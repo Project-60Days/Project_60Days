@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Hexamap;
+using UnityEditor.ShaderKeywordFilter;
 
 public enum ETileMouseState
 {
@@ -257,6 +258,7 @@ public class MapManager : ManagementBase
     {
         CheckZombies();
         CheckStructure();
+        CheckLandformPlayMusic();
     }
 
     public void CheckZombies()
@@ -282,5 +284,19 @@ public class MapManager : ManagementBase
         {
             return;
         }
+    }
+
+    public void CheckLandformPlayMusic()
+    {
+        var curTile = mapController.Player.TileController.GetComponent<TileInfo>();
+        
+        if(curTile is TundraTile)
+            App.instance.GetSoundManager().PlayBGM("Ambience_Tundra");
+        else if(curTile is JungleTile)
+            App.instance.GetSoundManager().PlayBGM("Ambience_Jungle");
+        else if(curTile is NoneTile)
+            App.instance.GetSoundManager().PlayBGM("Ambience_City");
+        else if(curTile is DesertTile)
+            App.instance.GetSoundManager().PlayBGM("Ambience_Desert");
     }
 }

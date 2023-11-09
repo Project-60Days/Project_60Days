@@ -4,7 +4,8 @@ using UnityEngine;
 
 public abstract class Structure : MonoBehaviour
 {
-    protected string structureName;
+    public string structureName;
+    public Resource resource;
     public bool isPlayerInTile;
     bool isVisit;
 
