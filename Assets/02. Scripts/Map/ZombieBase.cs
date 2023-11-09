@@ -147,11 +147,11 @@ public class ZombieBase : MonoBehaviour
     {
         if (tile == curTile)
         {
-            App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Zombie, "���� �� " + zombieCount + "ü");
+            App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Zombie, "좀비 수 : " + zombieCount + "마리");
         }
         else
         {
-            App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Zombie, "�� �� ����");
+            App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Zombie, "좀비 수 : ???");
         }
     }
 

@@ -141,8 +141,9 @@ public class MapManager : ManagementBase
 
                 if (!canPlayerMove && !isDronePrepared)
                 {
+                    tileController.GetComponent<TileInfo>().ChangeText();
                     mapUIController.TrueTileInfo();
-                    Debug.Log(hit.transform.parent.GetComponent<TileInfo>().GetStructureName());
+                    //Debug.Log(hit.transform.parent.GetComponent<TileInfo>().GetStructureName());
                 }
                 else if (canPlayerMove)
                 {
@@ -254,27 +255,15 @@ public class MapManager : ManagementBase
 
     public void CheckRoutine()
     {
-        CheckResource();
         CheckZombies();
         CheckStructure();
-    }
-
-    public void CheckResource()
-    {
-        if (resourceManager.IsGetResource)
-        {
-            App.instance.GetNextDayController().AddResultAlarm();
-            resourceManager.IsGetResource = false;
-        }
-        else
-            return;
     }
 
     public void CheckZombies()
     {
         if (mapController.CheckZombies())
         {
-            App.instance.GetNextDayController().AddCautionAlarm();
+            UIManager.instance.GetAlertController().SetAlert("caution", true);
         }
         else
             return;

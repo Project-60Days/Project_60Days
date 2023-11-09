@@ -13,7 +13,7 @@
     "CombineSlotCount": 1,
     "Description": null,
     "Korean": "강철",
-    "English": -1,
+    "English": "Steel",
     "Japanese": -1,
     "Chinese": -1
   },
@@ -31,7 +31,7 @@
     "CombineSlotCount": 1,
     "Description": null,
     "Korean": "탄소섬유",
-    "English": -1,
+    "English": "Carbon",
     "Japanese": -1,
     "Chinese": -1
   },
@@ -49,7 +49,7 @@
     "CombineSlotCount": 1,
     "Description": null,
     "Korean": "플라즈마",
-    "English": -1,
+    "English": "Plasma",
     "Japanese": -1,
     "Chinese": -1
   },
@@ -67,7 +67,7 @@
     "CombineSlotCount": 1,
     "Description": null,
     "Korean": "화약",
-    "English": -1,
+    "English": "Powder",
     "Japanese": -1,
     "Chinese": -1
   },
@@ -85,7 +85,7 @@
     "CombineSlotCount": 1,
     "Description": null,
     "Korean": "가스",
-    "English": -1,
+    "English": "Gas",
     "Japanese": -1,
     "Chinese": -1
   },
@@ -103,7 +103,7 @@
     "CombineSlotCount": 1,
     "Description": null,
     "Korean": "고무",
-    "English": -1,
+    "English": "Rubber",
     "Japanese": -1,
     "Chinese": -1
   },

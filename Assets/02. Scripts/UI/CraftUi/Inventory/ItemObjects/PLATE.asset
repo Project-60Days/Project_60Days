@@ -12,15 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42165cb51ef0e8d4099b71eaf4f478c1, type: 3}
   m_Name: PLATE
   m_EditorClassIdentifier: 
-  itemCode: ITEM_TIER_1_PLATE
+  English: ITEM_TIER_1_PLATE
   data:
     Index: 1007
     Category: 1
     Tier: 1
     Code: ITEM_TIER_1_PLATE
     Rarity: 0
+    AppearTileType: 0
     TileIncludePossibility: 0
     Type: 0
+    EquipType: 0
     isCanBase: 0
     CombineSlotCount: 0
     Description: 
@@ -32,3 +34,4 @@ MonoBehaviour:
   itemCount: 0
   eItemType: 0
   prefab: {fileID: 0}
+  sfxName: 

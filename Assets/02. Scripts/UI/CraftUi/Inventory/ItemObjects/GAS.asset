@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42165cb51ef0e8d4099b71eaf4f478c1, type: 3}
   m_Name: GAS
   m_EditorClassIdentifier: 
-  itemCode: ITEM_TIER_3_GAS
+  English: ITEM_TIER_3_GAS
   data:
     Index: 1005
     Category: 0
@@ -27,7 +27,7 @@ MonoBehaviour:
     CombineSlotCount: 1
     Description: 
     Korean: "\uAC00\uC2A4"
-    English: -1
+    English: Gas
     Japanese: -1
     Chinese: -1
   itemImage: {fileID: 21300000, guid: f75befbdae4df9145acdd8433d032f71, type: 3}

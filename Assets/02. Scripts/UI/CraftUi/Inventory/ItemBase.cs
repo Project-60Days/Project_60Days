@@ -1,8 +1,9 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ItemBase : ScriptableObject
 {
-    public string itemCode;
+    [FormerlySerializedAs("itemCode")] public string English;
     public ItemData data;
     public Sprite itemImage;
     public int itemCount = 0;

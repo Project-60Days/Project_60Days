@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42165cb51ef0e8d4099b71eaf4f478c1, type: 3}
   m_Name: STEEL
   m_EditorClassIdentifier: 
-  itemCode: ITEM_TIER_1_STEEL
+  English: ITEM_TIER_1_STEEL
   data:
     Index: 1001
     Category: 0
@@ -27,7 +27,7 @@ MonoBehaviour:
     CombineSlotCount: 1
     Description: 
     Korean: "\uAC15\uCCA0"
-    English: -1
+    English: Steel
     Japanese: -1
     Chinese: -1
   itemImage: {fileID: 21300000, guid: 903743215b83aa34d936fe1e8fef8680, type: 3}

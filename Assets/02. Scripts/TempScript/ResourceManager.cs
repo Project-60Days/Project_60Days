@@ -27,8 +27,8 @@ public class ResourceManager : MonoBehaviour
         {
             foreach (var item in owendResources)
             {
-                var itemName = itemSO.items.ToList().Find(x => x.itemCode == item.ItemCode).data.Korean;
-                Debug.LogFormat("¿Ã∏ß : {0}, ∞≥ºˆ : {1}", itemName, item.ItemCount);
+                var itemName = itemSO.items.ToList().Find(x => x.English == item.ItemCode).data.Korean;
+                Debug.LogFormat("Ïù¥Î¶Ñ : {0}, Í∞úÏàò : {1}", itemName, item.ItemCount);
             }
         }
     }
@@ -52,18 +52,18 @@ public class ResourceManager : MonoBehaviour
                     else
                         resource.ItemCount += list[i].ItemCount;
 
-                    var item = itemSO.items.ToList().Find(x => x.itemCode == owendResources[owendResources.Count - 1].ItemCode);
+                    var item = itemSO.items.ToList().Find(x => x.English == owendResources[owendResources.Count - 1].ItemCode);
 
                     PlaySFX(item.sfxName);
-                    Debug.LogFormat("ªı∑ŒøÓ æ∆¿Ã≈€ {0} {1}∞≥ »πµÊ«ﬂ¥Ÿ.", item.data.Korean, list[i].ItemCount);
+                    Debug.LogFormat("ÏÉàÎ°úÏö¥ ÏïÑÏù¥ÌÖú {0} {1}Í∞ú ÌöçÎìùÌñàÎã§.", item.data.Korean, list[i].ItemCount);
                     isGetResource = true;
                 }
                 else
                 {
                     owendResources.Add(list[i]);
-                    var item = itemSO.items.ToList().Find(x => x.itemCode == owendResources[owendResources.Count - 1].ItemCode);
+                    var item = itemSO.items.ToList().Find(x => x.English == owendResources[owendResources.Count - 1].ItemCode);
                     PlaySFX(item.sfxName);
-                    Debug.LogFormat(item.data.Korean + " {0}∞≥ »πµÊ«ﬂ¥Ÿ.", owendResources[owendResources.Count - 1].ItemCount);
+                    Debug.LogFormat(item.data.Korean + " {0}Í∞ú ÌöçÎìùÌñàÎã§.", owendResources[owendResources.Count - 1].ItemCount);
                     isGetResource = true;
                 }
             }
@@ -71,11 +71,11 @@ public class ResourceManager : MonoBehaviour
 
         for (int i = 0; i < list.Count; i++)
         {
-            ItemBase item = itemSO.items.ToList().Find(x => x.itemCode == list[i].ItemCode);
+            ItemBase item = itemSO.items.ToList().Find(x => x.English == list[i].ItemCode);
 
             for (int j = 0; j < list[i].ItemCount; j++)
             {
-                //TODO :: SFX ¿Áª˝, æ∆¿Ã≈€ »πµÊ Ω∫≈©∏≥∆Æ √ﬂ√∑
+                //TODO :: SFX Ïû¨ÏÉù, ÏïÑÏù¥ÌÖú ÌöçÎìù Ïä§ÌÅ¨Î¶ΩÌä∏ Ï∂îÏ≤®
                 UIManager.instance.GetInventoryController().AddItem(item);
             }
         }

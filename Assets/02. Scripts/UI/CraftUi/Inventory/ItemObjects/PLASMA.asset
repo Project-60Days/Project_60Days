@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 42165cb51ef0e8d4099b71eaf4f478c1, type: 3}
-  m_Name: PLAZMA
+  m_Name: PLASMA
   m_EditorClassIdentifier: 
   itemCode: ITEM_TIER_2_PLASMA
   data:
@@ -27,7 +27,7 @@ MonoBehaviour:
     CombineSlotCount: 1
     Description: 
     Korean: "\uD50C\uB77C\uC988\uB9C8"
-    English: -1
+    English: Plasma
     Japanese: -1
     Chinese: -1
   itemImage: {fileID: 21300000, guid: bcc2f8eda25b412408626f8590cb7097, type: 3}

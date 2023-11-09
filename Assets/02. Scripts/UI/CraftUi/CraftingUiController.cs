@@ -21,7 +21,7 @@ public class CraftingUiController : ControllerBase
     [SerializeField] GameObject blueprintSlotPrefab;
 
     /// <summary>
-    /// ¾ÆÁ÷ ItemSO¿¡ Ãß°¡µÇÁö ¾ÊÀº ¾ÆÀÌÅÛ Á¶ÇÕ ½Ã¿¡ »ı¼ºµÉ ÀÓ½Ã ¾ÆÀÌÅÛ
+    /// ì•„ì§ ItemSOì— ì¶”ê°€ë˜ì§€ ì•Šì€ ì•„ì´í…œ ì¡°í•© ì‹œì— ìƒì„±ë  ì„ì‹œ ì•„ì´í…œ
     /// </summary>
     [SerializeField] ItemBase tempItem;
 
@@ -39,7 +39,7 @@ public class CraftingUiController : ControllerBase
         int i = 1001;
         while(true)
         {
-            App.instance.GetDataManager().itemCombineData.TryGetValue(i, out ItemCombineData itemData); //ItemCombineData³»ÀÇ ¸ğµç °ª itemComines ¸®½ºÆ®¿¡ Ãß°¡
+            App.instance.GetDataManager().itemCombineData.TryGetValue(i, out ItemCombineData itemData); //ItemCombineDataë‚´ì˜ ëª¨ë“  ê°’ itemComines ë¦¬ìŠ¤íŠ¸ì— ì¶”ê°€
 
             if (itemData == null) break;
 
@@ -80,7 +80,7 @@ public class CraftingUiController : ControllerBase
 
     #region Craft
     /// <summary>
-    /// CraftBag »õ·Î°íÄ§(?)
+    /// CraftBag ìƒˆë¡œê³ ì¹¨(?)
     /// </summary>
     public void UpdateCraft()
     {
@@ -105,11 +105,11 @@ public class CraftingUiController : ControllerBase
 
 
     /// <summary>
-    /// Á¶ÇÕÇ¥¿Í ºñ±³
+    /// ì¡°í•©í‘œì™€ ë¹„êµ
     /// </summary>
     public void CompareToCombineData()
     {
-        int flag; // 0: ÀÏÄ¡, 1: ºÒÀÏÄ¡
+        int flag; // 0: ì¼ì¹˜, 1: ë¶ˆì¼ì¹˜
 
         foreach(ItemCombineData combineData in itemCombines)
         {
@@ -121,7 +121,7 @@ public class CraftingUiController : ControllerBase
             {
                 for (int k = 0; k < 8; k++)
                 {
-                    if (combinationCodes[k] == craftItems[i].itemCode)
+                    if (combinationCodes[k] == craftItems[i].English)
                     {
                         combinationCodes[k] = "-1";
                         break;  
@@ -170,22 +170,22 @@ public class CraftingUiController : ControllerBase
 
 
     /// <summary>
-    /// Á¶ÇÕ °á°ú ¾ÆÀÌÅÛ ItemBase¿¡¼­ °Ë»ö ÈÄ ¸®ÅÏ
+    /// ì¡°í•© ê²°ê³¼ ì•„ì´í…œ ItemBaseì—ì„œ ê²€ìƒ‰ í›„ ë¦¬í„´
     /// </summary>
     public ItemBase GetResultItemByItemCode(string _resultItemCode)
     {
         foreach(ItemBase item in itemSO.items)
         {
-            if (item.itemCode == _resultItemCode)
+            if (item.English == _resultItemCode)
                 return item;
         }
 
-        Debug.Log("¾ÆÁ÷ Ãß°¡µÇÁö ¾ÊÀº ¾ÆÀÌÅÛ: " + _resultItemCode);
+        Debug.Log("ì•„ì§ ì¶”ê°€ë˜ì§€ ì•Šì€ ì•„ì´í…œ: " + _resultItemCode);
         return tempItem;
     }
 
     /// <summary>
-    /// Á¶ÇÕ °á°ú ¾ÆÀÌÅÛ CraftBag¿¡ Ç¥½Ã
+    /// ì¡°í•© ê²°ê³¼ ì•„ì´í…œ CraftBagì— í‘œì‹œ
     /// </summary>
     /// <param name="_item"></param>
     public void AddCombineItem(ItemBase _item)
@@ -200,7 +200,7 @@ public class CraftingUiController : ControllerBase
 
 
     /// <summary>
-    /// CraftBag¿¡ ¾ÆÀÌÅÛ Ãß°¡
+    /// CraftBagì— ì•„ì´í…œ ì¶”ê°€
     /// </summary>
     /// <param name="_item"></param>
     public void MoveInventoryToCraft(ItemBase _item)
@@ -229,7 +229,7 @@ public class CraftingUiController : ControllerBase
 
 
     /// <summary>
-    /// ÇØ´ç ¾ÆÀÌÅÛÀÌ Æ¯Á¤ °¹¼ö¸¸Å­ ÀÖ´ÂÁö Ã¼Å©ÇÏ´Â ÇÔ¼ö
+    /// í•´ë‹¹ ì•„ì´í…œì´ íŠ¹ì • ê°¯ìˆ˜ë§Œí¼ ìˆëŠ”ì§€ ì²´í¬í•˜ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <param name="itemCode"></param>
     /// <param name="count"></param>
@@ -240,7 +240,7 @@ public class CraftingUiController : ControllerBase
 
         for (int i = 0; i < craftItems.Count; i++)
         {
-            if (craftItems[i].itemCode == _itemCode)
+            if (craftItems[i].English == _itemCode)
                 cnt++;
         }
 
@@ -306,10 +306,10 @@ public class CraftingUiController : ControllerBase
 
         foreach (ItemCombineData combineData in itemCombines)
         {
-            if (combineData.Result == _item.itemCode)
+            if (combineData.Result == _item.English)
             {
                 blueprintCodes = GetCombinationCodes(combineData);
-                Debug.Log(_item.itemCode);
+                Debug.Log(_item.English);
                 break;
             }
         }
@@ -324,10 +324,10 @@ public class CraftingUiController : ControllerBase
     void AddItemByItemCode(string _itemCode)
     {
         for (int i = 0; i < itemSO.items.Length; i++)
-            if (itemSO.items[i].itemCode == _itemCode)
+            if (itemSO.items[i].English == _itemCode)
                 AddBlueprintItem(itemSO.items[i]);
 
-        Debug.Log("¾ÆÁ÷ Ãß°¡µÇÁö ¾ÊÀº ¾ÆÀÌÅÛ: " + _itemCode);
+        Debug.Log("ì•„ì§ ì¶”ê°€ë˜ì§€ ì•Šì€ ì•„ì´í…œ: " + _itemCode);
         AddBlueprintItem(tempItem);
     }
 
@@ -344,7 +344,7 @@ public class CraftingUiController : ControllerBase
 
 
     /// <summary>
-    /// Exit ¹öÆ° ´­·¶À» ¶§ ÀÎº¥Åä¸®·Î ¾ÆÀÌÅÛ ¹İÈ¯
+    /// Exit ë²„íŠ¼ ëˆŒë €ì„ ë•Œ ì¸ë²¤í† ë¦¬ë¡œ ì•„ì´í…œ ë°˜í™˜
     /// </summary>
     public void ExitUi()
     {
