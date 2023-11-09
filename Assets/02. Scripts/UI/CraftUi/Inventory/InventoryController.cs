@@ -41,7 +41,7 @@ public class InventoryController : ControllerBase
     }
 
     /// <summary>
-    /// slot¿¡ º¯°æ»çÇ× Àû¿ë ½Ã È£ÃâµÊ. ÀÎº¥Åä¸® ³»ÀÇ ½½·Ô¿¡ ¾ÆÀÌÅÛ Ãß°¡
+    /// slotì— ë³€ê²½ì‚¬í•­ ì ìš© ì‹œ í˜¸ì¶œë¨. ì¸ë²¤í† ë¦¬ ë‚´ì˜ ìŠ¬ë¡¯ì— ì•„ì´í…œ ì¶”ê°€
     /// </summary>
     public void UpdateSlot()
     {
@@ -59,7 +59,7 @@ public class InventoryController : ControllerBase
     }
 
     /// <summary>
-    /// slot ÃÊ±âÈ­
+    /// slot ì´ˆê¸°í™”
     /// </summary>
     void InitSlots()
     {
@@ -77,7 +77,7 @@ public class InventoryController : ControllerBase
 
 
     /// <summary>
-    /// ÀÎº¥Åä¸®¿¡ ItemBase¸¦ ÀÌ¿ëÇÏ¿© ¾ÆÀÌÅÛ Ãß°¡
+    /// ì¸ë²¤í† ë¦¬ì— ItemBaseë¥¼ ì´ìš©í•˜ì—¬ ì•„ì´í…œ ì¶”ê°€
     /// </summary>
     /// <param name="_item"></param>
     public void AddItem(ItemBase _item)
@@ -97,13 +97,13 @@ public class InventoryController : ControllerBase
     }
 
     /// <summary>
-    /// ÀÎº¥Åä¸®¿¡ itemCode¸¦ ÀÌ¿ëÇÏ¿© ¾ÆÀÌÅÛ Ãß°¡
+    /// ì¸ë²¤í† ë¦¬ì— itemCodeë¥¼ ì´ìš©í•˜ì—¬ ì•„ì´í…œ ì¶”ê°€
     /// </summary>
     /// <param name="itemCode"></param>
     public void AddItemByItemCode(string _itemCode)
     {
         for (int i = 0; i < itemSO.items.Length; i++)
-            if (itemSO.items[i].itemCode == _itemCode)
+            if (itemSO.items[i].English == _itemCode)
                 AddItem(itemSO.items[i]);
     }
 
@@ -112,7 +112,7 @@ public class InventoryController : ControllerBase
 
 
     /// <summary>
-    /// ÀÎº¥Åä¸®¿¡¼­ ¾ÆÀÌÅÛ »èÁ¦
+    /// ì¸ë²¤í† ë¦¬ì—ì„œ ì•„ì´í…œ ì‚­ì œ
     /// </summary>
     /// <param name="_item"></param>
     public void RemoveItem(ItemBase _item)
@@ -138,7 +138,7 @@ public class InventoryController : ControllerBase
     {
         ItemBase item;
         for (int i = 0; i < itemSO.items.Length; i++)
-            if (itemSO.items[i].itemCode == _itemCode)
+            if (itemSO.items[i].English == _itemCode)
             {
                 item = itemSO.items[i];
                 RemoveItem(item);
@@ -148,7 +148,7 @@ public class InventoryController : ControllerBase
 
 
     /// <summary>
-    /// ÀÎº¥Åä¸® ³»¿¡ Æ¯Á¤ ¾ÆÀÌÅÛ Á¸ÀçÇÏ´ÂÁö Ã¼Å©
+    /// ì¸ë²¤í† ë¦¬ ë‚´ì— íŠ¹ì • ì•„ì´í…œ ì¡´ì¬í•˜ëŠ”ì§€ ì²´í¬
     /// </summary>
     /// <param name="itemCode"></param>
     /// <returns></returns>
@@ -156,7 +156,7 @@ public class InventoryController : ControllerBase
     {
         foreach(var item in items)
         {
-            if (item.itemCode == _itemCode)
+            if (item.English == _itemCode)
                 return true;
         }
         return false;
@@ -164,7 +164,7 @@ public class InventoryController : ControllerBase
 
     #region temp
     /// <summary>
-    /// ½Ã¿¬È¸¿ë ÀÓ½Ã ÇÔ¼ö(¸Â³ª?)
+    /// ì‹œì—°íšŒìš© ì„ì‹œ í•¨ìˆ˜(ë§ë‚˜?)
     /// </summary>
     void Update()
     {
@@ -172,7 +172,7 @@ public class InventoryController : ControllerBase
     }
 
     /// <summary>
-    /// Á¤´ÙÀºÀÌ »ı¼ºÇÑ ÇÔ¼ö°¡ ¾Æ´Õ´Ï´Ù.. PÅ°¸¦ ´©¸£¸é ¾ÆÀÌÅÛÀÌ Ãß°¡µÇ´Â°Ç°¡ º¸³×¿ä~
+    /// ì •ë‹¤ì€ì´ ìƒì„±í•œ í•¨ìˆ˜ê°€ ì•„ë‹™ë‹ˆë‹¤.. Pí‚¤ë¥¼ ëˆ„ë¥´ë©´ ì•„ì´í…œì´ ì¶”ê°€ë˜ëŠ”ê±´ê°€ ë³´ë„¤ìš”~
     /// </summary>
     private void InputKey()
     {

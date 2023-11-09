@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Hexamap;
+using UnityEditor.ShaderKeywordFilter;
 
 public enum ETileMouseState
 {
@@ -141,8 +142,9 @@ public class MapManager : ManagementBase
 
                 if (!canPlayerMove && !isDronePrepared)
                 {
+                    tileController.GetComponent<TileInfo>().ChangeText();
                     mapUIController.TrueTileInfo();
-                    Debug.Log(hit.transform.parent.GetComponent<TileInfo>().GetStructureName());
+                    //Debug.Log(hit.transform.parent.GetComponent<TileInfo>().GetStructureName());
                 }
                 else if (canPlayerMove)
                 {
@@ -254,27 +256,16 @@ public class MapManager : ManagementBase
 
     public void CheckRoutine()
     {
-        CheckResource();
         CheckZombies();
         CheckStructure();
-    }
-
-    public void CheckResource()
-    {
-        if (resourceManager.IsGetResource)
-        {
-            App.instance.GetNextDayController().AddResultAlarm();
-            resourceManager.IsGetResource = false;
-        }
-        else
-            return;
+        CheckLandformPlayMusic();
     }
 
     public void CheckZombies()
     {
         if (mapController.CheckZombies())
         {
-            App.instance.GetNextDayController().AddCautionAlarm();
+            UIManager.instance.GetAlertController().SetAlert("caution", true);
         }
         else
             return;
@@ -293,5 +284,19 @@ public class MapManager : ManagementBase
         {
             return;
         }
+    }
+
+    public void CheckLandformPlayMusic()
+    {
+        var curTile = mapController.Player.TileController.GetComponent<TileInfo>();
+        
+        if(curTile is TundraTile)
+            App.instance.GetSoundManager().PlayBGM("Ambience_Tundra");
+        else if(curTile is JungleTile)
+            App.instance.GetSoundManager().PlayBGM("Ambience_Jungle");
+        else if(curTile is NoneTile)
+            App.instance.GetSoundManager().PlayBGM("Ambience_City");
+        else if(curTile is DesertTile)
+            App.instance.GetSoundManager().PlayBGM("Ambience_Desert");
     }
 }

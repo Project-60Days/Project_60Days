@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public interface ILoader<Key, Value>
 {
@@ -60,7 +61,7 @@ public class DataManager : ManagementBase
     {
         foreach(var item in itemSO.items)
         {
-            item.data = itemData[item.itemCode];
+            item.data = itemData[item.English];
         }
     }
 
@@ -161,10 +162,10 @@ public class TileData
     public int TileTypeAppearPosibility;
     public int TileSwarmMinCount;
     public int TileSwarmMaxCount;
-    public int RemainPossibility_Metal;
+    public int RemainPossibility_Steel;
     public int RemainPossibility_Carbon;
     public int RemainPossibility_Plasma;
-    public int RemainPossibility_Pawder;
+    public int RemainPossibility_Powder;
     public int RemainPossibility_Gas;
     public int RemainPossibility_Rubber;
     public string Korean;

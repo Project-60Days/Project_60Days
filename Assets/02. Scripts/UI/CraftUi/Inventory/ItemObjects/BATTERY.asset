@@ -12,26 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04865242a8028fc46a0079b51f0c8ad4, type: 3}
   m_Name: BATTERY
   m_EditorClassIdentifier: 
-  itemCode: ITEM_TUTORIAL_BATTERY
+  English: ITEM_TUTORIAL_BATTERY
   data:
     Index: 1010
+    Category: 1
     Tier: 0
     Code: ITEM_TUTORIAL_BATTERY
     Rarity: 0
+    AppearTileType: 0
     TileIncludePossibility: 0
     Type: 0
+    EquipType: 0
     isCanBase: 0
     CombineSlotCount: 0
-    Description: "\uC544\uC774\uD15C\uBA85:\uBC30\uD130\uB9AC\n\uBD84\uB958:[\uD569\uC131\uBB3C]\n\uD2F0\uC5B4:
-      2\n-\uC544\uC774\uD15C \uC124\uBA85\n\uAC00\uB3D9\uD615 \uBB34\uAE30\uC758
-      \uB3D9\uB825\uC744 \uACF5\uAE09\uD574\uC8FC\uB294 \uC5ED\uD560\uC744 \uD55C\uB2E4.\n\uAD50\uB780\uAE30\uC744
-      \uB9CC\uB4DC\uB294\uB370 \uD544\uC694\uD558\uB2E4."
+    Description: 
     Korean: "\uBC30\uD130\uB9AC"
-    English: 
-    Japanese: 
-    Chinese: 
+    English: -1
+    Japanese: -1
+    Chinese: -1
   itemImage: {fileID: 21300000, guid: 390fa402470db29468048aa7bb1c8fd4, type: 3}
-  slotImage: {fileID: 21300000, guid: dcf8f64dd8f731342b3857fb01a38a5b, type: 3}
   itemCount: 1
   eItemType: 4
   prefab: {fileID: 0}
+  sfxName: 
