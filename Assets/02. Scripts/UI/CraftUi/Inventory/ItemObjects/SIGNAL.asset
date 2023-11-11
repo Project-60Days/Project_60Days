@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42165cb51ef0e8d4099b71eaf4f478c1, type: 3}
   m_Name: SIGNAL
   m_EditorClassIdentifier: 
-  English: ITEM_TIER_2_SIGNAL
+  English: ITEM_SIGNAL
   data:
     Index: 1014
     Category: 2
     Tier: 2
-    Code: ITEM_TIER_2_SIGNAL
+    Code: ITEM_SIGNAL
     Rarity: 1
     AppearTileType: 0
     TileIncludePossibility: 0

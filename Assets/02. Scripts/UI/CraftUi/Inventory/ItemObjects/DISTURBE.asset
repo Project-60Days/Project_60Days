@@ -12,28 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f0ea30bb9a9559499f012b2cfe93d16, type: 3}
   m_Name: DISTURBE
   m_EditorClassIdentifier: 
-  itemCode: ITEM_TIER_2_DISTURBE
+  English: ITEM_DISTURBE
   data:
     Index: 1023
+    Category: 3
     Tier: 2
-    Code: ITEM_TIER_2_DISTURBE
+    Code: ITEM_DISTURBE
     Rarity: 1
+    AppearTileType: 0
     TileIncludePossibility: 0
     Type: 4
+    EquipType: 0
     isCanBase: 0
     CombineSlotCount: 0
-    Description: "\uC544\uC774\uD15C\uBA85: \uAD50\uB780\uAE30\n\uBD84\uB958:[\uAC00\uB3D9\uD615
-      \uBB34\uAE30]\n-\uC544\uC774\uD15C \uC124\uBA85\n\uB9F5\uC5D0\uC11C \uC774\uB3D9
-      \uC2DC\uC5D0 \uC0AC\uC6A9\uD560 \uC218 \uC788\uB2E4.\n\uC880\uBE44\uB85C\uBD80\uD130
-      \uB3C4\uB9DD\uCE60 \uB54C \uC720\uC6A9\uD558\uB2E4.\n\uCE90\uB9AD\uD130\uC5D0
-      \uC7A5\uCC29\uD560 \uC218 \uC5C6\uC73C\uBA70 \uC18C\uBAA8\uB418\uB294 \uD615\uC2DD\uC758
-      \uBB34\uAE30\uC774\uB2E4."
+    Description: 
     Korean: "\uAD50\uB780\uAE30"
-    English: 
-    Japanese: 
-    Chinese: 
+    English: -1
+    Japanese: -1
+    Chinese: -1
   itemImage: {fileID: 21300000, guid: f3ce1157fbc0a2940aa81a59d0ccbdb8, type: 3}
-  slotImage: {fileID: 21300000, guid: dcf8f64dd8f731342b3857fb01a38a5b, type: 3}
   itemCount: 0
   eItemType: 4
   prefab: {fileID: 0}
+  sfxName: 

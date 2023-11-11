@@ -35,9 +35,9 @@ public class InventoryController : ControllerBase
         foreach(var item in itemSO.items)
             item.itemCount = 0;
 
-        AddItemByItemCode("ITEM_TIER_2_PLASMA");
-        AddItemByItemCode("ITEM_TIER_1_CARBON");
-        AddItemByItemCode("ITEM_TIER_1_STEEL");
+        AddItemByItemCode("ITEM_PLASMA");
+        AddItemByItemCode("ITEM_CARBON");
+        AddItemByItemCode("ITEM_STEEL");
     }
 
     /// <summary>

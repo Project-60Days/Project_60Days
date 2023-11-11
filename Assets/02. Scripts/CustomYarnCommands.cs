@@ -21,7 +21,6 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         dialogueRunner.AddCommandHandler("hide", HideDialogue);
         dialogueRunner.AddCommandHandler("show", ShowDialogue);
         dialogueRunner.AddCommandHandler<string>("setQuest", SetQuest);
-        dialogueRunner.AddCommandHandler("checkQuest", CheckQuest);
 
         //01//
         dialogueRunner.AddCommandHandler("lightUpWorkBench", LightUpWorkBench);
@@ -80,11 +79,6 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     void SetQuest(string _questCode)
     {
         UIManager.instance.GetQuestController().CreateQuest(_questCode);
-    }
-
-    void CheckQuest()
-    {
-        UIManager.instance.GetQuestController().CheckCurrentQuest();
     }
     #endregion
 

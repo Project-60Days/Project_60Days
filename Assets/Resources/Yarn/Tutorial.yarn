@@ -20,14 +20,13 @@ A-48 시스템 진단 시작합니다.
 title: Tutorial_02
 tags:
 ---
-<<setQuest tutorialQuest02>>
+<<setQuest tutorial02>>
 <<show>>
 크래프팅 시스템은 생존에 필요한 아이템을 만들어 낼 수 있는 시스템으로 제일 우선시 됩니다.
 아이템을 제작해내려면 특정 순서대로 자원을 배치해야합니다.
 대상의 인벤토리에 가지고 있는 기본자원 강철, 플라스틱, 플라즈마를 이용하여 배터리를 제작해낼 수 있습니다.
 <<hide>>
-<<waitGetItem ITEM_TUTORIAL_BATTERY>>
-<<checkQuest>>
+<<waitGetItem ITEM_BATTERY>>
 <<show>>
 배터리를 제작하였습니다.
 거처로 돌아가 전력을 보급하십시오.
@@ -41,7 +40,6 @@ title: Tutorial_03
 tags:
 ---
 <<setAlert note true>>
-<<setQuest tutorialQuest03>>
 <<show>>
 왼쪽 노트 알림을 눌러 결단을 내리십시오
 해당 노트는 플레이어의 스토리와 결정을 내릴 수 있으며 퀘스트를 완료할 수 있습니다.
@@ -50,7 +48,6 @@ tags:
 <<hide>>
 <<waitUntil UI_NOTE>>
 <<waitLightUp>>
-<<checkQuest>>
 <<jump Tutorial_04>>
 ===
 title: Tutorial_04
@@ -58,7 +55,6 @@ tags:
 ---
 <<setAlert note false>>
 <<setAlert caution true>>
-<<setQuest tutorialQuest04>>
 <<show>>
 비상사태입니다. 감지시스템 재가동 결과 글리처가 거처주변에서 발견되었습니다.
 왼쪽 비상 알림은 거처 주변 1칸 내에 글리처가 존재함을 알려줍니다.
@@ -79,14 +75,12 @@ tags:
 거처를 누를 시 이동할 수 있는 반경이 표시됩니다.
 <<hide>>
 //<<wait~>>
-<<checkQuest>>
 <<jump Tutorial_06>>
 ===
 title: Tutorial_06
 tags:
 ---
 <<show>>
-<<setQuest tutorialQuest06>>
 거처를 이동시키는데 많은 동력을 필요로 하기 때문에 하루를 소모하게 됩니다.
 하루를 소모하기 때문에 현 거처에서 할 수 있는 모든 행동을 취해야합니다.
 행동 확인 이후 입력 완료 버튼을 눌러 다음날로 진행하십시오.
@@ -99,7 +93,6 @@ tags:
 <<setSelectNote tutorialSelect2>>
 <<setSelectNote tutorialSelect3>>
 <<waitNewDay>>
-<<checkQuest>>
 <<jump Tutorial_07>>
 ===
 title: Tutorial_07
@@ -107,14 +100,12 @@ tags:
 ---
 <<setAlert note true>>
 <<setAlert caution false>>
-<<setQuest tutorialQuest07>>
 <<show>>
 이동을 통하여 현 거처 위치의 자원이 자동수집 되었습니다.
 왼쪽 노트 알림을 눌러 아이템 수집 결과를 확인하십시오
 <<highlight Alert UI_NOTE>>
 <<hide>>
 <<waitUntil UI_NOTE>>
-<<checkQuest>>
 <<show>>
 현 필요 생존 프로세스를 모두 완료하였습니다.
 <<hide>>
@@ -124,12 +115,10 @@ tags:
 title: Tutorial_08
 tags: 
 ---
-<<setQuest tutorialQuest08>>
 <<show>>
 플레이어의 행동 기반에 따라 데이터베이스를 분석합니다.
 현재 접근 가능한 데이터를 수집하여 플레이어에 따른 전송방식을 구축합니다.
 플레이어에게 데이터를 전송합니다.
 <<hide>>
-<<checkQuest>>
 <<endTutorial>>
 ===

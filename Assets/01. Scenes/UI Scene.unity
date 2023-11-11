@@ -1775,7 +1775,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 235, y: 0}
   m_SizeDelta: {x: 470, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &90564327
@@ -14018,16 +14018,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 806694048}
-        m_TargetAssemblyTypeName: NextDayController, Assembly-CSharp
-        m_MethodName: AddSubQuestBtn
-        m_Mode: 1
+      - m_Target: {fileID: 2094758396}
+        m_TargetAssemblyTypeName: QuestController, Assembly-CSharp
+        m_MethodName: CreateQuest
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: tutorialQuest03
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &719455500
@@ -18260,7 +18260,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 377059907d1bf5b4ab138489a7c71241, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isMeetOnce: 0
 --- !u!114 &859594711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18273,7 +18272,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c74e2bc21ac8dd46823aff04630889a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isMeetOnce: 0
 --- !u!114 &859594712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18286,7 +18284,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75aaf318074d1624daaeece534c07bee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isMeetOnce: 0
 --- !u!114 &859594713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18299,7 +18296,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2791167179236bc4b9ead1d5fc9ebaf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isMeetOnce: 0
 --- !u!114 &859594714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18312,7 +18308,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d695478efcb8a649a57ef964ad64f49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isMeetOnce: 0
 --- !u!114 &859594715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18325,7 +18320,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42d5d4322c20faf47ae4acb15cba2d3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isMeetOnce: 0
 --- !u!1 &864586526
 GameObject:
   m_ObjectHideFlags: 0
@@ -24256,16 +24250,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 806694048}
-        m_TargetAssemblyTypeName: NextDayController, Assembly-CSharp
-        m_MethodName: AddMainQuestBtn
-        m_Mode: 1
+      - m_Target: {fileID: 2094758396}
+        m_TargetAssemblyTypeName: QuestController, Assembly-CSharp
+        m_MethodName: CreateQuest
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: tutorialQuest02
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1157066641
@@ -26598,7 +26592,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 5, y: 0}
   m_SizeDelta: {x: 600, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1311553836
@@ -29492,7 +29486,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.00012207031}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1496595108
@@ -29516,7 +29510,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1496595106}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
   m_Name: 
@@ -31471,7 +31465,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 235, y: 0}
   m_SizeDelta: {x: 470, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1594971350
@@ -34925,7 +34919,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 472.5, y: 0}
   m_SizeDelta: {x: 470, y: 0}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1719989332
@@ -39913,7 +39907,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 237.5, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2027636956
@@ -40926,7 +40920,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 472.5, y: 0}
   m_SizeDelta: {x: 470, y: 0}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &2057729917
@@ -41956,9 +41950,14 @@ MonoBehaviour:
   mainQuestPrefab: {fileID: 7396541321985787834, guid: ddcd522fe78ea5b40abac73609c61ca6, type: 3}
   subQuestPrefab: {fileID: 2249998334691941883, guid: 052a7b245b2ae744a9d7620a47e5c81e, type: 3}
   questParent: {fileID: 1496595107}
-  quests: []
+  tutorialQuests: []
+  mainQuests: []
+  subQuests: []
   currentQuest: []
   currentQuestPrefab: []
+  nextTutorialIndex: 0
+  nextMainIndex: 0
+  nextSubIndex: 0
 --- !u!1 &2103331119
 GameObject:
   m_ObjectHideFlags: 0
