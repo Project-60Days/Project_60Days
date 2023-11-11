@@ -7,21 +7,21 @@ using UnityEngine.EventSystems;
 public class AlertController : MonoBehaviour
 {
 
-    [SerializeField] GameObject selectionAlarm;
-    [SerializeField] GameObject cautionAlarm;
+    [SerializeField] GameObject noteAlert;
+    [SerializeField] GameObject cautionAlert;
 
     public void SetAlert(string _alertType, bool _isActive) 
     {
-        if (_alertType == "selection")
-            selectionAlarm.SetActive(_isActive);
+        if (_alertType == "note")
+            noteAlert.SetActive(_isActive);
         else if( _alertType =="caution")
-            cautionAlarm.SetActive(_isActive);
+            cautionAlert.SetActive(_isActive);
     }
 
     public void InitAlert()
     {
-        selectionAlarm.SetActive(false);
-        cautionAlarm.SetActive(false);
+        noteAlert.SetActive(false);
+        cautionAlert.SetActive(false);
     }
 
     public void ClickNoteAlert()

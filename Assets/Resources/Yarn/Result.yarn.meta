@@ -11,4 +11,358 @@ ScriptedImporter:
   LastImportHadImplicitStringIDs: 1
   LastImportHadAnyStrings: 1
   isSuccessfullyParsed: 1
-  parseErrorMessages: []
+  parseErrorMessages:
+  - '39:174: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_STEEL")
+
+'
+  - '44:248: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_STEEL")
+
+'
+  - '49:206: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_STEEL")
+
+'
+  - '54:207: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_STEEL")
+
+'
+  - '59:209: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_STEEL")
+
+'
+  - '64:160: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_STEEL")
+
+'
+  - '69:129: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_STEEL")
+
+'
+  - '74:134: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_STEEL")
+
+'
+  - '79:146: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_STEEL")
+
+'
+  - '84:156: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_STEEL")
+
+'
+  - '90:129: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_STEEL")
+
+'
+  - '95:147: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_STEEL")
+
+'
+  - '100:225: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_STEEL")
+
+'
+  - '105:105: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_STEEL")
+
+'
+  - '110:156: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_STEEL")
+
+'
+  - '115:224: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_STEEL")
+
+'
+  - '120:206: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_3_GAS")
+
+'
+  - '125:170: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_3_GAS")
+
+'
+  - '130:128: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_3_GAS")
+
+'
+  - '135:135: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_3_GAS")
+
+'
+  - '140:228: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_CARBON")
+
+'
+  - '145:196: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_CARBON")
+
+'
+  - '150:151: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_CARBON")
+
+'
+  - '155:149: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_CARBON")
+
+'
+  - '160:162: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_CARBON")
+
+'
+  - '165:183: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_CARBON")
+
+'
+  - '170:175: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_CARBON")
+
+'
+  - '175:178: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_CARBON")
+
+'
+  - '180:140: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_CARBON")
+
+'
+  - '185:170: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_CARBON")
+
+'
+  - '190:164: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_CARBON")
+
+'
+  - '195:195: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_CARBON")
+
+'
+  - '200:130: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_CARBON")
+
+'
+  - '205:140: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_CARBON")
+
+'
+  - '210:187: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_CARBON")
+
+'
+  - '215:100: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_CARBON")
+
+'
+  - '220:185: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_CARBON")
+
+'
+  - '225:143: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_CARBON")
+
+'
+  - '230:198: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_CARBON")
+
+'
+  - '235:126: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_CARBON")
+
+'
+  - '240:123: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_1_CARBON")
+
+'
+  - '245:181: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_2_PLASMA")
+
+'
+  - '250:197: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_2_PLASMA")
+
+'
+  - '255:179: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_2_PLASMA")
+
+'
+  - '260:145: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_2_PLASMA")
+
+'
+  - '265:140: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_2_PLASMA")
+
+'
+  - '270:160: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_2_PLASMA")
+
+'
+  - '275:163: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_2_PLASMA")
+
+'
+  - '280:173: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_2_PLASMA")
+
+'
+  - '285:164: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_2_PLASMA")
+
+'
+  - '290:148: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_2_PLASMA")
+
+'
+  - '295:149: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_2_PLASMA")
+
+'
+  - '300:219: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_2_PLASMA")
+
+'
+  - '305:165: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_3_POWDER")
+
+'
+  - '310:221: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_3_POWDER")
+
+'
+  - '315:155: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_3_POWDER")
+
+'
+  - '320:150: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_3_RUBBER")
+
+'
+  - '325:141: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_3_RUBBER")
+
+'
+  - '330:126: Error: Function getResourceCount expects 0 parameters, but received
+    1
+
+    getResourceCount("ITEM_TIER_3_RUBBER")
+
+'

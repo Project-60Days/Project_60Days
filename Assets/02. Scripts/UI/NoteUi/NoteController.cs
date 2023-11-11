@@ -55,7 +55,6 @@ public class NoteController : ControllerBase
     /// <param name="prevBtnEnable"></param>
     void ActiveNextBtnAndPrevBtn(bool _nextBtnEnable, bool _prevBtnEnable)
     {
-        Debug.Log(_nextBtnEnable + " " + _prevBtnEnable);
         nextPageBtn.gameObject.SetActive(_nextBtnEnable);
         prevPageBtn.gameObject.SetActive(_prevBtnEnable);
     }
@@ -92,7 +91,7 @@ public class NoteController : ControllerBase
             if (page.GetPageEnableToday() == true)
             {
                 todayPages.Add(page);
-                UIManager.instance.GetAlertController().SetAlert("selection", true);
+                UIManager.instance.GetAlertController().SetAlert("note", true);
             }
 
             page.gameObject.SetActive(false);
