@@ -12,6 +12,11 @@ public class TutorialManager : Singleton<TutorialManager>
         return tutorialController;
     }
 
+    void Start()
+    {
+        UIManager.instance.GetAlertController().SetAlert("note", false);
+    }
+
     public void StartTutorial()
     {
         tutorialController.LightDownBackground();
