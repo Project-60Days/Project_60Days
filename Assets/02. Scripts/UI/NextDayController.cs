@@ -108,9 +108,16 @@ public class NextDayController : ControllerBase
         Sequence sequence = DOTween.Sequence();
         sequence
             .Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 5f, 0.5f))
-            .OnComplete(() => App.instance.GetMapManager().SetMapCameraPriority(false))
+            .OnComplete(() =>
+            {
+                App.instance.GetMapManager().SetMapCameraPriority(false);
+                App.instance.GetSoundManager().PlaySFX("SFX_SceneChange_MapToBase");
+                App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
+            })
             .Append(shelterUi.DOFade(1f, 0.5f));
         sequence.Play();
+        
+        
     }
 
     /// <summary>
@@ -124,6 +131,7 @@ public class NextDayController : ControllerBase
             .Append(shelterUi.DOFade(0f, 0.5f))
             .Join(blackPanel.DOFade(1f, 0.5f))
             .OnComplete(() => ZoomInMap());
+            
         sequence.Play();
     }
 
@@ -135,6 +143,11 @@ public class NextDayController : ControllerBase
         App.instance.GetMapManager().SetMapCameraPriority(true);
         blackPanel.DOFade(0f, 0.5f);
         DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 10f, 0.5f)
-            .OnComplete(() => blackPanel.gameObject.SetActive(false));
+            .OnComplete(() =>
+            {
+                blackPanel.gameObject.SetActive(false);
+                App.instance.GetSoundManager().PlaySFX("SFX_SceneChange_BaseToMap");
+                App.instance.GetMapManager().CheckLandformPlayMusic();
+            });
     }
 }

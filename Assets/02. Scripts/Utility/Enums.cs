@@ -151,7 +151,9 @@ public enum ETileState
 public enum EMabPrefab
 {
     Player,
-    Zombie,
+    Zombie1,
+    Zombie2,
+    Zombie3,
     Disturbtor,
     Explorer,
     Signal

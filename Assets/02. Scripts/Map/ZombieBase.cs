@@ -79,6 +79,7 @@ public class ZombieBase : MonoBehaviour
         {
             Debug.Log(gameObject.name + "�� �÷��̾ �߰�!");
             StartCoroutine(MoveToTarget(MapController.instance.GetPlayerLocationTile()));
+            transform.LookAt(App.instance.GetMapManager().mapController.Player.transform.position);
         }
         else
         {
