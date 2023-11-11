@@ -10,4 +10,6 @@ public class Signal : Structure
         isPlayerInTile = false;
         Visit = false;
     }
+    
+    
 }

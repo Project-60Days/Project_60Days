@@ -276,9 +276,11 @@ public class MapManager : ManagementBase
     /// </summary>
     public void CheckStructure()
     {
-        if(mapController.CurrentTileStructure() != null)
+        if(mapController.Player.TileController.GetComponent<TileInfo>().ExistanceStructure() == true)
         {
-            Debug.Log(mapController.CurrentTileStructure());
+            // 구조물이 있으면 구조물 정보를 전달한다.
+            var structure = mapController.Player.TileController.GetComponent<TileInfo>().Structure;
+            UIManager.instance.GetNextDayController().AddQuest(EQuestType.Main);
         }
         else
         {

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Hexamap;
 using System.Linq;
+using UnityEngine.Experimental.Rendering;
 using Random = UnityEngine.Random;
 
 public class Resource
@@ -55,6 +56,13 @@ public class TileInfo : MonoBehaviour
     string structureName = "구조물 없음";
     string resourceText = "";
 
+    private Structure structure;
+
+    public Structure Structure
+    {
+        get => structure;
+    }
+
     #endregion
 
     void Start()
@@ -95,6 +103,9 @@ public class TileInfo : MonoBehaviour
 
     void ResourceUpdate(bool _isInPlayerSight)
     {
+        if (structure != null)
+            return;
+        
         if (_isInPlayerSight == true)
         {
             for (int i = 0; i < appearanceResources.Count; i++)
@@ -195,7 +206,7 @@ public class TileInfo : MonoBehaviour
 
         if (appearanceResources == null)
         {
-            Debug.Log("������ �� �ִ� �ڿ� ����.");
+            Debug.Log("자원이 없습니다.");
             return null;
         }
 
@@ -251,5 +262,22 @@ public class TileInfo : MonoBehaviour
     {
         App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Resource, resourceText);
     }
-    
+    public void SpawnSignal()
+    {
+        structure = new Signal();
+        structure.Init();
+        
+        resourceText = "";
+        for (int i = 0; i < resourceIcons.Length; i++)
+        {
+            SpriteRenderer item = resourceIcons[i];
+            item.sprite = null;
+            item.gameObject.SetActive(false);
+        }
+    }
+
+    public bool ExistanceStructure()
+    {
+        return structure != null ? true : false;
+    }
 }
