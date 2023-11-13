@@ -89,4 +89,9 @@ public class WorkBenchUiOpen : MonoBehaviour
                 App.instance.GetSoundManager().PlaySFX("SFX_SceneChange_CraftingToBase");
             });
     }
+
+    public void openuitest()
+    {
+        OpenUi();
+    }
 }

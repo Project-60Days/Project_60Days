@@ -66,6 +66,13 @@ public enum EScriptType
     SubQuest
 }
 
+public enum ESoundType
+{
+    SFX,
+    BGM,
+    ALL
+}
+
 #region Character
 
 public enum EHungerType

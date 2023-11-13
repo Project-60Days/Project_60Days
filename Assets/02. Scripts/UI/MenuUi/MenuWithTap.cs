@@ -8,7 +8,6 @@ public class MenuWithTap : MenuButtonBase
     GameObject backBtn;
     [SerializeField] GameObject detailsBack;
 
-    float initialY;
     int hierarchyIndex;
 
     public override void Set()
@@ -19,7 +18,6 @@ public class MenuWithTap : MenuButtonBase
         backBtn = transform.Find("Back_Btn").gameObject;
 
         hierarchyIndex = transform.GetSiblingIndex();
-        initialY = transform.position.y;
     }
     void SetChildrenStatus(bool _isOpen)
     {
@@ -37,19 +35,17 @@ public class MenuWithTap : MenuButtonBase
     public override void ClickEvent()
     {
         transform.SetAsLastSibling();
-        gameObject.GetComponent<Transform>().DOLocalMoveY(231f, 0.3f).OnComplete(() =>
+        gameObject.GetComponent<Transform>().DOLocalMoveY(209f, 0.3f).OnComplete(() =>
         {
             SetChildrenStatus(true);
             SetButtonHighlighted();
         });
     }
-    
-    
 
     public void CloseEvent()
     {
         SetChildrenStatus(false);
-        gameObject.GetComponent<Transform>().DOMoveY(initialY, 0.3f).OnComplete(() =>
+        gameObject.GetComponent<Transform>().DOLocalMoveY(initialY, 0.3f).OnComplete(() =>
         {
             transform.SetSiblingIndex(hierarchyIndex);
             isClicked = false;

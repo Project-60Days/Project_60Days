@@ -44,11 +44,11 @@ public class TitleLoad : MonoBehaviour
         videoPlayer = GetComponent<VideoPlayer>();
         videoPlayer.loopPointReached += OnVideoEnd;
 
-        string leftfilePath = "Assets/Text/Tittle_Log_LeftAccess.txt";
-        leftFileText = AssetDatabase.LoadAssetAtPath<TextAsset>(leftfilePath).text;
+        string leftfilePath = "Text/Tittle_Log_LeftAccess";
+        leftFileText = Resources.Load<TextAsset>(leftfilePath).text;
 
-        string rightfilePath = "Assets/Text/Tittle_Log_RightLog.txt";
-        rightFileText = AssetDatabase.LoadAssetAtPath<TextAsset>(rightfilePath).text;
+        string rightfilePath = "Text/Tittle_Log_RightLog";
+        rightFileText = Resources.Load<TextAsset>(rightfilePath).text;
 
         lines = rightFileText.Split('\n');
 

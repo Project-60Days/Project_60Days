@@ -2791,10 +2791,10 @@ RectTransform:
   m_Father: {fileID: 1782671770}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 355.7433, y: 0}
-  m_SizeDelta: {x: 711.4866, y: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &1076115634
 GameObject:
@@ -3539,6 +3539,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1248355822}
+  - component: {fileID: 1248355823}
   m_Layer: 5
   m_Name: Title_Panel
   m_TagString: Untagged
@@ -3573,6 +3574,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1248355823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1248355821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 130fc54667147164cbdc90d80f9da56a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1265048436
 GameObject:
   m_ObjectHideFlags: 0
@@ -4906,7 +4919,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb14e637225683e4b90cd12b587a817b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tutorialManager: {fileID: 3003010521460232636, guid: 104784fff42b230409f03a62b64739da, type: 3}
 --- !u!4 &2021571039
 Transform:
   m_ObjectHideFlags: 0

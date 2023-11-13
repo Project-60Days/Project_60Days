@@ -1,16 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using TMPro;
 
-public abstract class SoundButton : MonoBehaviour, IPointerDownHandler, IDragHandler
+public class SoundButton : MonoBehaviour, IPointerDownHandler, IDragHandler
 {
     [SerializeField] GameObject soundBar;
     [SerializeField] Transform parentTransform;
     [SerializeField] TextMeshProUGUI text;
+    
+    public ESoundType eSoundType;
+    [HideInInspector] public float currentWidth;
 
     float initWidth;
 
@@ -21,6 +20,7 @@ public abstract class SoundButton : MonoBehaviour, IPointerDownHandler, IDragHan
     void Awake()
     {
         initWidth = soundBar.transform.localScale.x;
+        currentWidth = initWidth;
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -53,15 +53,14 @@ public abstract class SoundButton : MonoBehaviour, IPointerDownHandler, IDragHan
 
             Vector3 newScale = soundBar.transform.localScale;
             newScale.x = clampedWidth;
-            
             soundBar.transform.localScale = newScale;
 
             float widthRatio = clampedWidth * 100;
             text.text = ((int)widthRatio).ToString();
 
-            SetVolume(clampedWidth);
+            currentWidth = clampedWidth;
+
+            UIManager.instance.GetSoundController().SetVolume(this);
         }
     }
-
-    public abstract void SetVolume(float _newVolume);
 }
