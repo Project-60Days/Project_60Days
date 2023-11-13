@@ -40,6 +40,7 @@ public enum ESlotType
 
 public enum EQuestType
 {
+    Tutorial,
     Main,
     Sub
 }

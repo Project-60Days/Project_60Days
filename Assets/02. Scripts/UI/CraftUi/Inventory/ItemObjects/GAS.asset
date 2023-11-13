@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42165cb51ef0e8d4099b71eaf4f478c1, type: 3}
   m_Name: GAS
   m_EditorClassIdentifier: 
-  English: ITEM_TIER_3_GAS
+  English: ITEM_GAS
   data:
     Index: 1005
     Category: 0
     Tier: 3
-    Code: ITEM_TIER_3_GAS
+    Code: ITEM_GAS
     Rarity: 2
     AppearTileType: 3
     TileIncludePossibility: 10

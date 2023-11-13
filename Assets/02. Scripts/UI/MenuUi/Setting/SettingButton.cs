@@ -4,8 +4,8 @@ using TMPro;
 
 public class SettingButton : MonoBehaviour
 {
-    protected TextMeshProUGUI buttonText;
-    protected Image buttonImage;
+    TextMeshProUGUI buttonText;
+    Image buttonImage;
 
     Color normalTextColor = Color.white;
     Color clickedTextColor = Color.black;

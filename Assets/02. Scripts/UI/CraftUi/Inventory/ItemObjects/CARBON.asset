@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42165cb51ef0e8d4099b71eaf4f478c1, type: 3}
   m_Name: CARBON
   m_EditorClassIdentifier: 
-  English: ITEM_TIER_1_CARBON
+  English: ITEM_CARBON
   data:
     Index: 1002
     Category: 0
     Tier: 2
-    Code: ITEM_TIER_1_CARBON
+    Code: ITEM_CARBON
     Rarity: 1
     AppearTileType: 0
     TileIncludePossibility: 25
@@ -31,7 +31,7 @@ MonoBehaviour:
     Japanese: -1
     Chinese: -1
   itemImage: {fileID: 21300000, guid: b382c41f6a534374390fe6d5e6e82ca8, type: 3}
-  itemCount: 0
+  itemCount: 1
   eItemType: 0
   prefab: {fileID: 3694379725030891960, guid: 60f46388473d3d24aacf728c308e42ba, type: 3}
   sfxName: 

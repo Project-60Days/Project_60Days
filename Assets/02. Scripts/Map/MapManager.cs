@@ -280,7 +280,7 @@ public class MapManager : ManagementBase
         {
             // 구조물이 있으면 구조물 정보를 전달한다.
             var structure = mapController.Player.TileController.GetComponent<TileInfo>().Structure;
-            UIManager.instance.GetNextDayController().AddQuest(EQuestType.Main);
+            //UIManager.instance.GetNextDayController().AddQuest(EQuestType.Main);
         }
         else
         {

@@ -6,7 +6,7 @@ using DG.Tweening;
 public class MenuWithTap : MenuButtonBase
 {
     GameObject backBtn;
-    GameObject detailsBack;
+    [SerializeField] GameObject detailsBack;
 
     float initialY;
     int hierarchyIndex;
@@ -17,7 +17,6 @@ public class MenuWithTap : MenuButtonBase
         buttonImage = GetComponent<Image>();
 
         backBtn = transform.Find("Back_Btn").gameObject;
-        detailsBack = transform.GetChild(2).gameObject;
 
         hierarchyIndex = transform.GetSiblingIndex();
         initialY = transform.position.y;
@@ -37,12 +36,12 @@ public class MenuWithTap : MenuButtonBase
 
     public override void ClickEvent()
     {
-        if (isClicked == false)
+        transform.SetAsLastSibling();
+        gameObject.GetComponent<Transform>().DOLocalMoveY(231f, 0.3f).OnComplete(() =>
         {
             SetChildrenStatus(true);
-            transform.SetAsLastSibling();
-            gameObject.GetComponent<Transform>().DOLocalMoveY(231f, 0.3f);
-        }
+            SetButtonHighlighted();
+        });
     }
     
     
@@ -53,6 +52,7 @@ public class MenuWithTap : MenuButtonBase
         gameObject.GetComponent<Transform>().DOMoveY(initialY, 0.3f).OnComplete(() =>
         {
             transform.SetSiblingIndex(hierarchyIndex);
+            isClicked = false;
             SetButtonNormal();
         });
     }

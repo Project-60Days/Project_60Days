@@ -7,11 +7,6 @@ public class NextDayController : ControllerBase
 {
     [SerializeField] Image blackPanel;
 
-    [Header("Quest Objects")]
-    [SerializeField] GameObject questPrefab;
-    [SerializeField] Transform questParent;
-    [SerializeField] GameObject questLogo;
-
     CanvasGroup shelterUi;
 
     CinemachineVirtualCamera mapCamera;
@@ -52,18 +47,13 @@ public class NextDayController : ControllerBase
         UIManager.instance.GetAlertController().InitAlert();
     }
 
-    #region Inits
-    /// <summary>
-    /// BlackPanel 초기화 --> BlackPanel: 다음 날로 넘어갈 때 깜빡거리는 용도
-    /// </summary>
     void InitBlackPanel()
     {
         Sequence sequence = DOTween.Sequence();
         sequence.Append(blackPanel.DOFade(0f, 1f))
             .OnComplete(() => blackPanel.gameObject.SetActive(false));
         sequence.Play();
-    }    
-    #endregion
+    }
 
 
 
@@ -80,7 +70,6 @@ public class NextDayController : ControllerBase
             .AppendInterval(0.5f)
             .Append(shelterUi.DOFade(1f, 0f))
             .OnComplete(() => NextDayEventCallBack());
-        sequence.Play();
     }
 
     /// <summary>
@@ -115,9 +104,6 @@ public class NextDayController : ControllerBase
                 App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
             })
             .Append(shelterUi.DOFade(1f, 0.5f));
-        sequence.Play();
-        
-        
     }
 
     /// <summary>
@@ -131,8 +117,6 @@ public class NextDayController : ControllerBase
             .Append(shelterUi.DOFade(0f, 0.5f))
             .Join(blackPanel.DOFade(1f, 0.5f))
             .OnComplete(() => ZoomInMap());
-            
-        sequence.Play();
     }
 
     /// <summary>
