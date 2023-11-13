@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class InventoryController : ControllerBase
@@ -17,27 +16,20 @@ public class InventoryController : ControllerBase
         return EControllerType.INVENTORY;
     }
 
-    void OnValidate()
+    void Awake()
     {
-        for (int i = 0; i < 6; i++) 
+        for (int i = 0; i < 6; i++)
             slots.Add(new List<ItemSlot>());
 
-        for (int i = 0; i < slotParent.childCount; i++) 
+        for (int i = 0; i < slotParent.childCount; i++)
         {
             var slot = slotParent.GetChild(i).GetComponent<ItemSlot>();
             int category = slot.category;
             slots[category].Add(slot);
         }
-    }
 
-    void Awake()
-    {
-        foreach(var item in itemSO.items)
+        foreach (var item in itemSO.items)
             item.itemCount = 0;
-
-        AddItemByItemCode("ITEM_PLASMA");
-        AddItemByItemCode("ITEM_CARBON");
-        AddItemByItemCode("ITEM_STEEL");
     }
 
     /// <summary>
@@ -67,9 +59,10 @@ public class InventoryController : ControllerBase
         {
             for (int j = 0; j < slots[i].Count; j++)
                 slots[i][j].gameObject.SetActive(false);
-
-            counts[i] = 0;
         }
+
+        for (int i = 0; i < counts.Length; i++)
+            counts[i] = 0;
     }
 
 
@@ -103,7 +96,7 @@ public class InventoryController : ControllerBase
     public void AddItemByItemCode(string _itemCode)
     {
         for (int i = 0; i < itemSO.items.Length; i++)
-            if (itemSO.items[i].English == _itemCode)
+            if (itemSO.items[i].data.Code == _itemCode)
                 AddItem(itemSO.items[i]);
     }
 

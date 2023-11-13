@@ -86,6 +86,8 @@ public class NextDayController : ControllerBase
 
         App.instance.GetMapManager().AllowMouseEvent(true);
 
+        App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
+
         StartCoroutine(App.instance.GetMapManager().NextDayCoroutine());
     }
 
@@ -100,8 +102,8 @@ public class NextDayController : ControllerBase
             .OnComplete(() =>
             {
                 App.instance.GetMapManager().SetMapCameraPriority(false);
-                App.instance.GetSoundManager().PlaySFX("SFX_SceneChange_MapToBase");
                 App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
+                App.instance.GetSoundManager().PlaySFX("SFX_SceneChange_MapToBase");
             })
             .Append(shelterUi.DOFade(1f, 0.5f));
     }

@@ -13,10 +13,13 @@ public class MenuButtonBase : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     Color normalTextColor = Color.white;
     Color highlightTextColor = Color.black;
 
+    public float initialY { get; private set; }
+
     void Awake()
     {
         Set();
         Init();
+        initialY = transform.localPosition.y;
     }
 
     public virtual void Set()
@@ -59,7 +62,8 @@ public class MenuButtonBase : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     }
     void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
     {
-        App.instance.GetSoundManager().PlaySFX("SFX_ButtonClick_01");
+        if (isClicked == false) 
+            App.instance.GetSoundManager().PlaySFX("SFX_ButtonClick_01");
         ClickEvent();
     }
 

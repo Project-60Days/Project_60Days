@@ -18,8 +18,6 @@ public class GameManager : Singleton<GameManager>
 {
     Controller controller;
     MapCamera mapCamera;
-
-    [SerializeField] GameObject tutorialManager;
     
     void Awake()
     {
