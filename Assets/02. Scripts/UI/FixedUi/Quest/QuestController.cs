@@ -77,7 +77,11 @@ public class QuestController : MonoBehaviour
         var nextQuestIndex = GetQuestIndex(_type);
         foreach (var quest in quests) 
         {
-            if (quest.questIndex == -1) return;
+            if (quest.questIndex == -1)
+            {
+                SetQuestList();
+                return;
+            }
             if (quest.questIndex == nextQuestIndex)
                 AddQuest(quest);
         }
@@ -107,11 +111,25 @@ public class QuestController : MonoBehaviour
     /// </summary>
     void SetQuestList()
     {
-        for (int i = 0; i < currentQuestPrefab.Count; i++)
+        if (currentQuest.Count >= 2)
         {
-            RectTransform questPrefab = currentQuestPrefab[i].GetComponent<RectTransform>();
-            float yPos = -i * (questPrefab.rect.height);
-            questPrefab.localPosition = new Vector3(questPrefab.localPosition.x, yPos, 0);
+            for (int i = 0; i < currentQuestPrefab.Count; i++)
+            {
+                RectTransform questPrefab = currentQuestPrefab[i].GetComponent<RectTransform>();
+
+                if (currentQuest[i].eQuestType == EQuestType.Main)
+                    questPrefab.localPosition = new Vector3(questPrefab.localPosition.x, 0, 0);
+                else
+                {
+                    float yPos = -i * (questPrefab.rect.height);
+                    questPrefab.localPosition = new Vector3(questPrefab.localPosition.x, yPos, 0);
+                }
+            }
+        }
+        else
+        {
+            RectTransform questPrefab = currentQuestPrefab[0].GetComponent<RectTransform>();
+            questPrefab.localPosition = new Vector3(questPrefab.localPosition.x, 0, 0);
         }
     }
 

@@ -46,9 +46,6 @@ public class MenuButtonBase : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     }
 
 
-
-
-
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (isClicked == false) 
@@ -62,6 +59,7 @@ public class MenuButtonBase : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     }
     void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
     {
+        App.instance.GetSoundManager().PlaySFX("SFX_ButtonClick_01");
         ClickEvent();
     }
 

@@ -69,8 +69,8 @@ public class WorkBenchUiOpen : MonoBehaviour
         sequence
             .Append(craftingUi.GetComponent<CanvasGroup>().DOFade(1f, 0.5f))
             .Append(inventoryUi.GetComponent<CanvasGroup>().DOFade(1f, 0.5f))
-            .Join(productionUi.GetComponent<CanvasGroup>().DOFade(1f, 0.5f));
-        sequence.Play();
+            .Join(productionUi.GetComponent<CanvasGroup>().DOFade(1f, 0.5f))
+            .OnComplete(() => App.instance.GetSoundManager().PlaySFX("SFX_SceneChange_BaseToCrafting"));
     }
 
     public void CloseUi()
@@ -83,7 +83,10 @@ public class WorkBenchUiOpen : MonoBehaviour
             .Append(inventoryUi.GetComponent<CanvasGroup>().DOFade(0f, 0.5f))
             .Join(productionUi.GetComponent<CanvasGroup>().DOFade(0f, 0.5f))
             .Append(craftingUi.GetComponent<CanvasGroup>().DOFade(0f, 0.5f))
-            .OnComplete(() => ActivateUiObjects(false));
-        sequence.Play();
+            .OnComplete(() =>
+            {
+                ActivateUiObjects(false);
+                App.instance.GetSoundManager().PlaySFX("SFX_SceneChange_CraftingToBase");
+            });
     }
 }

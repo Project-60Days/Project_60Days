@@ -11,13 +11,6 @@ public class SettingController : MonoBehaviour
     void Awake()
     {
         taps = GetComponentsInChildren<SettingButton>();
-
-        Init();
-    }
-
-    public void Init()
-    {
-        OpenSound();
     }
 
     public void OpenSound()
