@@ -51,9 +51,6 @@ public class CraftModeController : MonoBehaviour
         UIManager.instance.GetCraftingRawImageController().DestroyObject();
 
         inventoryImage.sprite = inventorySprite[0];
-        inventoryImage.SetNativeSize();
-        newPosition.y = 550f;
-        inventoryImage.transform.position = newPosition;
 
         modeText.text = "제작 모드";
     }
@@ -74,9 +71,6 @@ public class CraftModeController : MonoBehaviour
         UIManager.instance.GetCraftingRawImageController().DestroyObject();
 
         inventoryImage.sprite = inventorySprite[1];
-        inventoryImage.SetNativeSize();
-        newPosition.y = 547.5f;
-        inventoryImage.transform.position = newPosition;
 
         modeText.text = "장착 모드";
     }
@@ -99,9 +93,6 @@ public class CraftModeController : MonoBehaviour
         UIManager.instance.GetCraftingRawImageController().DestroyObject();
 
         inventoryImage.sprite = inventorySprite[2];
-        inventoryImage.SetNativeSize();
-        newPosition.y = 547.5f;
-        inventoryImage.transform.position = newPosition;
 
         modeText.text = "설계도 모드";
     }

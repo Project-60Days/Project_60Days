@@ -12,6 +12,14 @@ public class TutorialManager : Singleton<TutorialManager>
         return tutorialController;
     }
 
+    void Start()
+    {
+        UIManager.instance.GetAlertController().SetAlert("note", false);
+        UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_PLASMA");
+        UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_CARBON");
+        UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_STEEL");
+    }
+
     public void StartTutorial()
     {
         tutorialController.LightDownBackground();

@@ -3,27 +3,15 @@ using UnityEngine;
 
 public class SettingController : MonoBehaviour
 {
+    [SerializeField] SettingButton soundTap;
+    [SerializeField] SettingButton displayTap;
     [SerializeField] GameObject soundDetails;
     [SerializeField] GameObject displayDetails;
 
-    SettingButton[] taps;
-
-    void Awake()
-    {
-        taps = GetComponentsInChildren<SettingButton>();
-
-        Init();
-    }
-
-    public void Init()
-    {
-        OpenSound();
-    }
-
     public void OpenSound()
     {
-        taps[0].SetButtonClicked();
-        taps[1].SetButtonNormal();
+        soundTap.SetButtonClicked();
+        displayTap.SetButtonNormal();
 
         soundDetails.SetActive(true);
         displayDetails.SetActive(false);
@@ -31,8 +19,8 @@ public class SettingController : MonoBehaviour
 
     public void OpenDisplay()
     {
-        taps[0].SetButtonNormal();
-        taps[1].SetButtonClicked();
+        soundTap.SetButtonNormal();
+        displayTap.SetButtonClicked();
 
         soundDetails.SetActive(false);
         displayDetails.SetActive(true);

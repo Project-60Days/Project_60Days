@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42165cb51ef0e8d4099b71eaf4f478c1, type: 3}
   m_Name: POWDER
   m_EditorClassIdentifier: 
-  English: ITEM_TIER_3_POWDER
+  English: ITEM_POWDER
   data:
     Index: 0
     Category: 0

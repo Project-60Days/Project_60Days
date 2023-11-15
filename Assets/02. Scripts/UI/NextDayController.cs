@@ -7,11 +7,6 @@ public class NextDayController : ControllerBase
 {
     [SerializeField] Image blackPanel;
 
-    [Header("Quest Objects")]
-    [SerializeField] GameObject questPrefab;
-    [SerializeField] Transform questParent;
-    [SerializeField] GameObject questLogo;
-
     CanvasGroup shelterUi;
 
     CinemachineVirtualCamera mapCamera;
@@ -49,32 +44,16 @@ public class NextDayController : ControllerBase
     void Init()
     {
         InitBlackPanel();
-        InitQuestList();
         UIManager.instance.GetAlertController().InitAlert();
     }
 
-    #region Inits
-    /// <summary>
-    /// BlackPanel 초기화 --> BlackPanel: 다음 날로 넘어갈 때 깜빡거리는 용도
-    /// </summary>
     void InitBlackPanel()
     {
         Sequence sequence = DOTween.Sequence();
         sequence.Append(blackPanel.DOFade(0f, 1f))
             .OnComplete(() => blackPanel.gameObject.SetActive(false));
         sequence.Play();
-    }    
-
-    /// <summary>
-    /// 퀘스트 리스트 초기화
-    /// </summary>
-    void InitQuestList()
-    {
-        Quest[] quests = questParent.GetComponentsInChildren<Quest>();
-        foreach (Quest quest in quests)
-            Destroy(quest.gameObject);
     }
-    #endregion
 
 
 
@@ -91,7 +70,6 @@ public class NextDayController : ControllerBase
             .AppendInterval(0.5f)
             .Append(shelterUi.DOFade(1f, 0f))
             .OnComplete(() => NextDayEventCallBack());
-        sequence.Play();
     }
 
     /// <summary>
@@ -108,9 +86,14 @@ public class NextDayController : ControllerBase
 
         App.instance.GetMapManager().AllowMouseEvent(true);
 
+        App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
+
         StartCoroutine(App.instance.GetMapManager().NextDayCoroutine());
     }
 
+    /// <summary>
+    /// 맵->기지 카메라 이동
+    /// </summary>
     public void GoToLab()
     {
         Sequence sequence = DOTween.Sequence();
@@ -119,15 +102,15 @@ public class NextDayController : ControllerBase
             .OnComplete(() =>
             {
                 App.instance.GetMapManager().SetMapCameraPriority(false);
-                App.instance.GetSoundManager().PlaySFX("SFX_SceneChange_MapToBase");
                 App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
+                App.instance.GetSoundManager().PlaySFX("SFX_SceneChange_MapToBase");
             })
             .Append(shelterUi.DOFade(1f, 0.5f));
-        sequence.Play();
-        
-        
     }
 
+    /// <summary>
+    /// 기지->맵 카메라 이동
+    /// </summary>
     public void GoToMap()
     {
         blackPanel.gameObject.SetActive(true);
@@ -136,10 +119,11 @@ public class NextDayController : ControllerBase
             .Append(shelterUi.DOFade(0f, 0.5f))
             .Join(blackPanel.DOFade(1f, 0.5f))
             .OnComplete(() => ZoomInMap());
-            
-        sequence.Play();
     }
 
+    /// <summary>
+    /// GoToMap()에서 호출하는 콜백함수
+    /// </summary>
     void ZoomInMap()
     {
         App.instance.GetMapManager().SetMapCameraPriority(true);
@@ -152,58 +136,4 @@ public class NextDayController : ControllerBase
                 App.instance.GetMapManager().CheckLandformPlayMusic();
             });
     }
-    
-
-
-    #region QuestSetting
-    /// <summary>
-    /// 다음 날로 넘어갈 때 퀘스트 리스트 구성 함수
-    /// </summary>
-    /// <param name="type"></param>
-    /// <param name="text"></param>
-    public void AddQuest(EQuestType _type)
-    {
-        GameObject obj = Instantiate(questPrefab, questParent);
-        Quest quest = obj.GetComponent<Quest>();
-        quest.SetEQuestType(_type);
-        quest.SetQuestTypeText();
-        quest.SetQuestTypeImage();
-        SetQuestList();
-    }
-
-    /// <summary>
-    /// 퀘스트 리스트 순서 정렬 함수 (임시로 메인퀘스트는 위에, 서브퀘스트는 아래에 위치하게 설정)
-    /// </summary>
-    void SetQuestList()
-    {
-        Quest[] quests = questParent.GetComponentsInChildren<Quest>();
-
-        if (quests.Length > 0)
-            questLogo.SetActive(true);
-
-        foreach (Quest quest in quests)
-        {
-            if(quest.GetEQuestType() == EQuestType.Main)
-                quest.transform.SetAsFirstSibling();
-            else
-                quest.transform.SetAsLastSibling();
-        }
-    }
-    #endregion
-
-
-
-
-
-    #region ForTest
-    public void AddMainQuestBtn() //�׽�Ʈ�� �ӽ� �Լ�. ��������Ʈ �߰� ��ư
-    {
-        AddQuest(EQuestType.Main);
-    }
-
-    public void AddSubQuestBtn() //�׽�Ʈ�� �ӽ� �Լ�. ��������Ʈ �߰� ��ư
-    {
-        AddQuest(EQuestType.Sub);
-    }
-    #endregion
 }

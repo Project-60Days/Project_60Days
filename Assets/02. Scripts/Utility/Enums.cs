@@ -40,6 +40,7 @@ public enum ESlotType
 
 public enum EQuestType
 {
+    Tutorial,
     Main,
     Sub
 }
@@ -63,6 +64,13 @@ public enum EScriptType
     Resource,
     MainQuest,
     SubQuest
+}
+
+public enum ESoundType
+{
+    SFX,
+    BGM,
+    ALL
 }
 
 #region Character

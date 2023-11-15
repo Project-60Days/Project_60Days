@@ -20,6 +20,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         dialogueRunner.AddCommandHandler<string>("waitUntil", WaitUntilUIState);
         dialogueRunner.AddCommandHandler("hide", HideDialogue);
         dialogueRunner.AddCommandHandler("show", ShowDialogue);
+        dialogueRunner.AddCommandHandler<string>("setQuest", SetQuest);
 
         //01//
         dialogueRunner.AddCommandHandler("lightUpWorkBench", LightUpWorkBench);
@@ -55,12 +56,12 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
 
     #region common
-    private void HighLightObject(string _objectID, string _waitStatusName)
+    void HighLightObject(string _objectID, string _waitStatusName)
     {
         UIManager.instance.GetUIHighLightController().ShowHighLight(_objectID, _waitStatusName);
     }
 
-    private Coroutine WaitUntilUIState(string _UIName)
+    Coroutine WaitUntilUIState(string _UIName)
     {
         return StartCoroutine(new WaitUntil(() => UIManager.instance.isUIStatus(_UIName)));
     }
@@ -73,6 +74,11 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     void ShowDialogue()
     {
         TutorialManager.instance.GetTutorialController().Show();
+    }
+
+    void SetQuest(string _questCode)
+    {
+        UIManager.instance.GetQuestController().CreateQuest(_questCode);
     }
     #endregion
 
@@ -181,5 +187,11 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     void SetSelectPage(string _nodeName)
     {
         UIManager.instance.GetPageController().SetSelectPageTemp(_nodeName);
+    }
+
+    [YarnFunction("getResourceCount")]
+    public static int GetResourceCount(string _itemCode)
+    {
+        return 0;
     }
 }

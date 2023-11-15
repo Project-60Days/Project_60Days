@@ -2,22 +2,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class SettingButton : MonoBehaviour
+public class ScreenModeButton : ButtonBase
 {
-    protected TextMeshProUGUI buttonText;
-    protected Image buttonImage;
+    [SerializeField] TextMeshProUGUI buttonText;
+    [SerializeField] Image buttonImage;
 
     Color normalTextColor = Color.white;
     Color clickedTextColor = Color.black;
 
     Color normalImageColor = Color.black;
     Color clickedImageColor = Color.white;
-
-    void Awake()
-    {
-        buttonText = GetComponentInChildren<TextMeshProUGUI>();
-        buttonImage = GetComponent<Image>();
-    }
 
     public void SetButtonNormal()
     {

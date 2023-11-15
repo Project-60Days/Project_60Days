@@ -15,6 +15,8 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] AlertController alertController;
     [SerializeField] MenuController menuController;
     [SerializeField] PageController pageController;
+    [SerializeField] QuestController questController;
+    [SerializeField] SoundController soundController;
 
 
     public Stack<string> currUIStack = new Stack<string>();
@@ -105,5 +107,15 @@ public class UIManager : Singleton<UIManager>
     public PageController GetPageController()
     {
         return pageController;
+    }
+
+    public QuestController GetQuestController()
+    {
+        return questController;
+    }
+
+    public SoundController GetSoundController()
+    {
+        return soundController;
     }
 }

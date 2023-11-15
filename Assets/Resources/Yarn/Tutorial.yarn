@@ -20,12 +20,13 @@ A-48 시스템 진단 시작합니다.
 title: Tutorial_02
 tags:
 ---
+<<setQuest tutorial02>>
 <<show>>
 크래프팅 시스템은 생존에 필요한 아이템을 만들어 낼 수 있는 시스템으로 제일 우선시 됩니다.
 아이템을 제작해내려면 특정 순서대로 자원을 배치해야합니다.
 대상의 인벤토리에 가지고 있는 기본자원 강철, 플라스틱, 플라즈마를 이용하여 배터리를 제작해낼 수 있습니다.
 <<hide>>
-<<waitGetItem ITEM_TUTORIAL_BATTERY>>
+<<waitGetItem ITEM_BATTERY>>
 <<show>>
 배터리를 제작하였습니다.
 거처로 돌아가 전력을 보급하십시오.
@@ -38,7 +39,7 @@ tags:
 title: Tutorial_03
 tags:
 ---
-<<setAlert selection true>>
+<<setAlert note true>>
 <<show>>
 왼쪽 노트 알림을 눌러 결단을 내리십시오
 해당 노트는 플레이어의 스토리와 결정을 내릴 수 있으며 퀘스트를 완료할 수 있습니다.
@@ -52,7 +53,7 @@ tags:
 title: Tutorial_04
 tags:
 ---
-<<setAlert selection false>>
+<<setAlert note false>>
 <<setAlert caution true>>
 <<show>>
 비상사태입니다. 감지시스템 재가동 결과 글리처가 거처주변에서 발견되었습니다.
@@ -97,7 +98,7 @@ tags:
 title: Tutorial_07
 tags:
 ---
-<<setAlert selection true>>
+<<setAlert note true>>
 <<setAlert caution false>>
 <<show>>
 이동을 통하여 현 거처 위치의 자원이 자동수집 되었습니다.

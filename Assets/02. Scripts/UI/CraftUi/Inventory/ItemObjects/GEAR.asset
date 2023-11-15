@@ -12,26 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42165cb51ef0e8d4099b71eaf4f478c1, type: 3}
   m_Name: GEAR
   m_EditorClassIdentifier: 
-  itemCode: ITEM_TIER_2_GEAR
+  English: ITEM_GEAR
   data:
     Index: 1009
+    Category: 1
     Tier: 2
-    Code: ITEM_TIER_2_GEAR
+    Code: ITEM_GEAR
     Rarity: 1
+    AppearTileType: 0
     TileIncludePossibility: 0
     Type: 0
+    EquipType: 0
     isCanBase: 0
     CombineSlotCount: 0
-    Description: "\uC544\uC774\uD15C\uBA85: \uAE30\uC5B4\n\uD2F0\uC5B4: 1\n\uBD84\uB958:[\uD569\uC131\uBB3C]\n-\uC544\uC774\uD15C
-      \uC124\uBA85\n\uD569\uC131\uBB3C\uACFC \uD569\uC131\uBB3C\uAC04\uC758 \uC5F0\uACB0\uC744
-      \uB3C4\uC640\uC900\uB2E4.\n\uAC00\uB3D9\uB418\uB294 \uBB34\uAE30\uB098 \uD569\uC131\uBB3C\uC758
-      \uB9E4\uC6B0 \uAE30\uBCF8\uC801\uC778 \uC874\uC7AC\uC774\uB2E4."
+    Description: 
     Korean: "\uAE30\uC5B4"
-    English: 
-    Japanese: 
-    Chinese: 
+    English: -1
+    Japanese: -1
+    Chinese: -1
   itemImage: {fileID: 21300000, guid: 8eaf2613189293d41b334565e0e3b273, type: 3}
-  slotImage: {fileID: 21300000, guid: 363859dded875da46935b9afa0503363, type: 3}
   itemCount: 0
   eItemType: 0
   prefab: {fileID: 0}
+  sfxName: 
