@@ -8,13 +8,15 @@ public class WorkBenchUiOpen : MonoBehaviour
     [SerializeField] GameObject inventoryUi;
     [SerializeField] GameObject craftingUi;
     [SerializeField] GameObject productionUi;
-
+    CraftEffectAnim craftEffectAnim;
     
 
     void Start()
     {
         inventoryUi.GetComponent<CanvasGroup>().alpha = 0.0f;
         craftingUi.GetComponent<CanvasGroup>().alpha = 0.0f;
+
+        craftEffectAnim = craftingUi.GetComponentInChildren<CraftEffectAnim>();
 
         ActivateUiObjects(false);
     }
@@ -54,7 +56,10 @@ public class WorkBenchUiOpen : MonoBehaviour
     void OpenUi()
     {
         UIManager.instance.AddCurrUIName(StringUtility.UI_CRAFTING);
+
         ActivateUiObjects(true);
+        craftEffectAnim.Init();
+
         FadeInUiObjects();
     }
 
@@ -70,6 +75,8 @@ public class WorkBenchUiOpen : MonoBehaviour
 
     public void CloseUi()
     {
+        craftEffectAnim.isActive = false;
+
         Sequence sequence = DOTween.Sequence();
         UIManager.instance.PopCurrUI();
         sequence

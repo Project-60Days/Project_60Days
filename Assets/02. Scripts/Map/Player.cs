@@ -87,19 +87,19 @@ public class Player : MonoBehaviour
 
         UpdateCurrentTile(targetTileController);
 
-        // MapManager·Î ÀÌµ¿
+        // MapManagerë¡œ ì´ë™
         //resourceManager.GetResource(playerLocationTileController);
         //arrow.OffEffect();
     }
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾î°¡ ¼­ ÀÖ´Â Å¸ÀÏÀÇ À§Ä¡¸¦ °»½ÅÇÒ ¶§¸¶´Ù ±× Å¸ÀÏÀÇ Á¤º¸¸¦ ³Ñ°ÜÁÖ´Â ÀÌº¥Æ® ÇÔ¼ö
+    /// í”Œë ˆì´ì–´ê°€ ì„œ ìˆëŠ” íƒ€ì¼ì˜ ìœ„ì¹˜ë¥¼ ê°±ì‹ í•  ë•Œë§ˆë‹¤ ê·¸ íƒ€ì¼ì˜ ì •ë³´ë¥¼ ë„˜ê²¨ì£¼ëŠ” ì´ë²¤íŠ¸ í•¨ìˆ˜
     /// </summary>
     /// <returns></returns>
     IEnumerator DelaySightGetInfo()
     {
-        // AdditiveScene µô·¹ÀÌ 
-        yield return new WaitForEndOfFrame();
+        // AdditiveScene ë”œë ˆì´ 
+        yield return new WaitUntil(() => PlayerSightUpdate != null);
         PlayerSightUpdate?.Invoke(currentTileContorller.Model);
     }
 

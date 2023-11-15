@@ -1,8 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
-using DG.Tweening;
-using static Yarn.Unity.Effects;
-using Yarn.Unity;
 
 public class TutorialManager : Singleton<TutorialManager>
 {

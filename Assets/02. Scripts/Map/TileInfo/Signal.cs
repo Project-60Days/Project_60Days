@@ -7,10 +7,9 @@ public class Signal : Structure
     public override void Init()
     {
         structureName = "신호기";
+        isPlayerInTile = false;
+        Visit = false;
     }
-
-    public override string GetstructureName()
-    {
-        return structureName;
-    }
+    
+    
 }

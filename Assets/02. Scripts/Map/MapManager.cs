@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Hexamap;
+using UnityEditor.ShaderKeywordFilter;
 
 public enum ETileMouseState
 {
@@ -17,7 +18,7 @@ public class MapManager : ManagementBase
 
     Camera mainCamera;
     MapCamera mapCineCamera;
-    MapController mapController;
+    public MapController mapController;
     ResourceManager resourceManager;
     TileController curTileController;
 
@@ -141,8 +142,9 @@ public class MapManager : ManagementBase
 
                 if (!canPlayerMove && !isDronePrepared)
                 {
+                    tileController.GetComponent<TileInfo>().ChangeText();
                     mapUIController.TrueTileInfo();
-                    Debug.Log(hit.transform.parent.GetComponent<TileInfo>().GetStructureName());
+                    //Debug.Log(hit.transform.parent.GetComponent<TileInfo>().GetStructureName());
                 }
                 else if (canPlayerMove)
                 {
@@ -254,41 +256,49 @@ public class MapManager : ManagementBase
 
     public void CheckRoutine()
     {
-        CheckResource();
         CheckZombies();
         CheckStructure();
-    }
-
-    public void CheckResource()
-    {
-        if (resourceManager.IsGetResource)
-        {
-            App.instance.GetNextDayController().AddResultAlarm();
-            resourceManager.IsGetResource = false;
-        }
-        else
-            return;
+        CheckLandformPlayMusic();
     }
 
     public void CheckZombies()
     {
         if (mapController.CheckZombies())
         {
-            App.instance.GetNextDayController().AddCautionAlarm();
+            UIManager.instance.GetAlertController().SetAlert("caution", true);
         }
         else
             return;
     }
 
+    /// <summary>
+    /// 현재 타일에 구조물이 있는지 확인
+    /// </summary>
     public void CheckStructure()
     {
-        if(mapController.CurrentTileStructure() != null)
+        if(mapController.Player.TileController.GetComponent<TileInfo>().ExistanceStructure() == true)
         {
-            Debug.Log(mapController.CurrentTileStructure());
+            // 구조물이 있으면 구조물 정보를 전달한다.
+            var structure = mapController.Player.TileController.GetComponent<TileInfo>().Structure;
+            UIManager.instance.GetNextDayController().AddQuest(EQuestType.Main);
         }
         else
         {
             return;
         }
+    }
+
+    public void CheckLandformPlayMusic()
+    {
+        var curTile = mapController.Player.TileController.GetComponent<TileInfo>();
+        
+        if(curTile is TundraTile)
+            App.instance.GetSoundManager().PlayBGM("Ambience_Tundra");
+        else if(curTile is JungleTile)
+            App.instance.GetSoundManager().PlayBGM("Ambience_Jungle");
+        else if(curTile is NoneTile)
+            App.instance.GetSoundManager().PlayBGM("Ambience_City");
+        else if(curTile is DesertTile)
+            App.instance.GetSoundManager().PlayBGM("Ambience_Desert");
     }
 }

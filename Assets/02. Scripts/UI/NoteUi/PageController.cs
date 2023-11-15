@@ -1,0 +1,62 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class PageController : MonoBehaviour
+{
+    [SerializeField] Button yesBtn;
+    [SerializeField] Button noBtn;
+    NotePageBase resultPage;
+    NotePageBase selectPage;
+
+
+    void Awake()
+    {
+        NotePageBase[] pages = GetComponentsInChildren<NotePageBase>(includeInactive: true);
+        foreach (var page in pages)
+        {
+            if (page.GetENotePageType() == ENotePageType.Result)
+                resultPage = page;
+            else if (page.GetENotePageType() == ENotePageType.Select)
+                selectPage = page;
+        }
+    }
+
+    public void SetResultPage(string _nodeName)
+    {
+        //var nextDiaryData = App.instance.GetDataManager().diaryData[_code];
+        resultPage.SetNodeName(_nodeName);
+    }
+
+    public void SetSelectPageTemp(string _nodeName)
+    {
+        //var nextDiaryData = App.instance.GetDataManager().diaryData[_code];
+        selectPage.SetNodeName(_nodeName);
+    }
+
+    public void SetSelectPage(string _nodeName, Structure _structData)
+    {
+        //var nextDiaryData = App.instance.GetDataManager().diaryData[_code];
+        selectPage.SetNodeName(_nodeName);
+
+        yesBtn.onClick.RemoveAllListeners();
+        noBtn.onClick.RemoveAllListeners();
+    }
+
+    public void SetTutorialSelect()
+    {
+        selectPage.SetNodeName("tutorialSelect");
+        yesBtn.onClick.RemoveAllListeners();
+        noBtn.onClick.RemoveAllListeners();
+
+        yesBtn.onClick.AddListener(TutorialYesFunc);
+    }
+
+    public void TutorialYesFunc()
+    {
+        TutorialManager.instance.GetTutorialController().LightUpBackground();
+        UIManager.instance.GetInventoryController().RemoveItemByCode("ITEM_TIER_2_BATTERY");
+        UIManager.instance.GetNoteController().CloseNote();
+    }
+}

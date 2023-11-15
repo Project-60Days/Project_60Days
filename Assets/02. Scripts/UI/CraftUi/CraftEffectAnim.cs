@@ -1,18 +1,44 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class CraftEffectAnim : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public bool isActive = false;
+
+    float moveDistance = 1920f;
+    float moveDuration = 10.0f;
+
+    float initPositionX;
+
+    void Awake()
     {
-        
+        initPositionX = transform.position.x;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Init()
     {
-        
+        Vector3 newPosition = transform.position;
+        newPosition.x = initPositionX;
+        transform.position = newPosition;
+
+        isActive = true;
+
+        MoveRight();
+    }
+
+    void MoveRight()
+    {
+        if (isActive == false)
+            return;
+        transform.DOMoveX(transform.position.x + moveDistance, moveDuration)//.SetEase(Ease.Linear)
+           .OnComplete(MoveLeft);
+    }
+
+    void MoveLeft()
+    {
+        if (isActive == false)
+            return;
+        transform.DOMoveX(transform.position.x - moveDistance, moveDuration)//.SetEase(Ease.Linear)
+            .OnComplete(MoveRight);
     }
 }

@@ -12,7 +12,7 @@ public enum EUILayer
     Base,
     UI,
     Setting
-};
+}
 
 public enum EItemType
 {
@@ -131,12 +131,12 @@ public enum EWeatherType
 
 public enum EResourceType
 {
-    Metal,
+    Steel,
     Carbon,
     Plasma,
-    Pawder,
-    Gas,
-    Rubber
+    Powder,
+    Gas
+    //Rubber
 }
 
 public enum ETileState
@@ -150,7 +150,9 @@ public enum ETileState
 public enum EMabPrefab
 {
     Player,
-    Zombie,
+    Zombie1,
+    Zombie2,
+    Zombie3,
     Disturbtor,
     Explorer,
     Signal

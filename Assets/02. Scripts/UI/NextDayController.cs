@@ -1,22 +1,16 @@
 using Cinemachine;
 using DG.Tweening;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class NextDayController : ControllerBase
 {
     [SerializeField] Image blackPanel;
-    public NotePageBase[] pages;
 
     [Header("Quest Objects")]
     [SerializeField] GameObject questPrefab;
     [SerializeField] Transform questParent;
     [SerializeField] GameObject questLogo;
-
-    [Header("Alert Objects")]
-    [SerializeField] GameObject selectAlert;
-    [SerializeField] GameObject cautionAlert;
 
     CanvasGroup shelterUi;
 
@@ -35,7 +29,6 @@ public class NextDayController : ControllerBase
     void Awake()
     {
         Init();
-        pages = GameObject.Find("Page_Back").GetComponentsInChildren<NotePageBase>(includeInactive: true);
     }
 
     void Start()
@@ -56,9 +49,8 @@ public class NextDayController : ControllerBase
     void Init()
     {
         InitBlackPanel();
-        InitPageEnabled();
         InitQuestList();
-        InitAlert();
+        UIManager.instance.GetAlertController().InitAlert();
     }
 
     #region Inits
@@ -70,21 +62,8 @@ public class NextDayController : ControllerBase
         Sequence sequence = DOTween.Sequence();
         sequence.Append(blackPanel.DOFade(0f, 1f))
             .OnComplete(() => blackPanel.gameObject.SetActive(false));
-        sequence.Play();   
-    }
-
-    /// <summary>
-    /// 노트 페이지 초기화
-    /// </summary>
-    void InitPageEnabled()
-    {
-        foreach (NotePageBase page in pages)
-        {
-            page.StopDialogue();
-            page.gameObject.SetActive(false);
-            //page.SetPageEnabled()로 다음 날 사용할 페이지 결정
-        }
-    }
+        sequence.Play();
+    }    
 
     /// <summary>
     /// 퀘스트 리스트 초기화
@@ -94,15 +73,6 @@ public class NextDayController : ControllerBase
         Quest[] quests = questParent.GetComponentsInChildren<Quest>();
         foreach (Quest quest in quests)
             Destroy(quest.gameObject);
-    }
-
-    /// <summary>
-    /// 알림 리스트 초기화
-    /// </summary>
-    void InitAlert()
-    {
-        selectAlert.SetActive(false);
-        cautionAlert.SetActive(false);
     }
     #endregion
 
@@ -130,10 +100,14 @@ public class NextDayController : ControllerBase
     void NextDayEventCallBack()
     {
         Init();
+
         App.instance.GetMapManager().SetMapCameraPriority(false);
         transposer.m_CameraDistance = 15f;
+
         UIManager.instance.GetNoteController().SetNextDay();
+
         App.instance.GetMapManager().AllowMouseEvent(true);
+
         StartCoroutine(App.instance.GetMapManager().NextDayCoroutine());
     }
 
@@ -142,9 +116,16 @@ public class NextDayController : ControllerBase
         Sequence sequence = DOTween.Sequence();
         sequence
             .Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 5f, 0.5f))
-            .OnComplete(() => App.instance.GetMapManager().SetMapCameraPriority(false))
+            .OnComplete(() =>
+            {
+                App.instance.GetMapManager().SetMapCameraPriority(false);
+                App.instance.GetSoundManager().PlaySFX("SFX_SceneChange_MapToBase");
+                App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
+            })
             .Append(shelterUi.DOFade(1f, 0.5f));
         sequence.Play();
+        
+        
     }
 
     public void GoToMap()
@@ -155,6 +136,7 @@ public class NextDayController : ControllerBase
             .Append(shelterUi.DOFade(0f, 0.5f))
             .Join(blackPanel.DOFade(1f, 0.5f))
             .OnComplete(() => ZoomInMap());
+            
         sequence.Play();
     }
 
@@ -163,39 +145,14 @@ public class NextDayController : ControllerBase
         App.instance.GetMapManager().SetMapCameraPriority(true);
         blackPanel.DOFade(0f, 0.5f);
         DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 10f, 0.5f)
-            .OnComplete(()=> blackPanel.gameObject.SetActive(false));
+            .OnComplete(() =>
+            {
+                blackPanel.gameObject.SetActive(false);
+                App.instance.GetSoundManager().PlaySFX("SFX_SceneChange_BaseToMap");
+                App.instance.GetMapManager().CheckLandformPlayMusic();
+            });
     }
-
-
-
-    #region PageSetting
-    /// <summary>
-    /// 다음 날로 넘어갈 때 노트 페이지 구성 함수
-    /// </summary>
-    /// <returns></returns>
-    public NotePageBase[] GetNotePageArray()
-    {
-        List<NotePageBase> todayPages = new List<NotePageBase>();
-        foreach (NotePageBase page in pages)
-        {
-            if (page.GetPageEnableToday())
-                todayPages.Add(page);
-        }
-
-        return todayPages.ToArray(); ;
-    }
-
-    public void SetNote(string _noteType, bool _isActive)
-    {
-        if (_noteType == "result")
-            pages[0].SetPageEnabled(_isActive);
-        else if (_noteType == "select")
-            pages[1].SetPageEnabled(_isActive);
-    }
-    #endregion
-
-
-
+    
 
 
     #region QuestSetting
@@ -204,7 +161,7 @@ public class NextDayController : ControllerBase
     /// </summary>
     /// <param name="type"></param>
     /// <param name="text"></param>
-    void AddQuest(EQuestType _type)
+    public void AddQuest(EQuestType _type)
     {
         GameObject obj = Instantiate(questPrefab, questParent);
         Quest quest = obj.GetComponent<Quest>();
@@ -247,17 +204,6 @@ public class NextDayController : ControllerBase
     public void AddSubQuestBtn() //�׽�Ʈ�� �ӽ� �Լ�. ��������Ʈ �߰� ��ư
     {
         AddQuest(EQuestType.Sub);
-    }
-   
-    public void AddResultAlarm()
-    {
-        selectAlert.SetActive(true);
-        //resultAlarm.GetComponent<Alarm>().AddResult();
-    }
-    public void AddCautionAlarm()
-    {
-        cautionAlert.SetActive(true);
-        //cautionAlarm.GetComponent<Alarm>().AddCaution();
     }
     #endregion
 }

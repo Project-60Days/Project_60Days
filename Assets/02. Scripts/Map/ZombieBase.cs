@@ -79,6 +79,7 @@ public class ZombieBase : MonoBehaviour
         {
             Debug.Log(gameObject.name + "�� �÷��̾ �߰�!");
             StartCoroutine(MoveToTarget(MapController.instance.GetPlayerLocationTile()));
+            transform.LookAt(App.instance.GetMapManager().mapController.Player.transform.position);
         }
         else
         {
@@ -147,11 +148,11 @@ public class ZombieBase : MonoBehaviour
     {
         if (tile == curTile)
         {
-            App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Zombie, "���� �� " + zombieCount + "ü");
+            App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Zombie, "좀비 수 : " + zombieCount + "마리");
         }
         else
         {
-            App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Zombie, "�� �� ����");
+            App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Zombie, "좀비 수 : ???");
         }
     }
 
