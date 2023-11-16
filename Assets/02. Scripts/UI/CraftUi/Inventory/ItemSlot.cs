@@ -15,7 +15,7 @@ public class ItemSlot : SlotBase
 
     public override void OnPointerClick(PointerEventData eventData)
     {
-        var item = _item;
+        var tempItem = item;
         
         if (UIManager.instance.GetCraftModeController().eCraftModeType == ECraftModeType.Craft)
         {
@@ -27,5 +27,7 @@ public class ItemSlot : SlotBase
             if (item.eItemType != EItemType.Equipment) return;
             UIManager.instance.GetCraftingUiController().MoveInventoryToEquip(item);
         }
+
+        UIManager.instance.GetItemInfoController().HideInfo();
     }
 }

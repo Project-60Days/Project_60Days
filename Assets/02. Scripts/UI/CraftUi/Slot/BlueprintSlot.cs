@@ -5,6 +5,13 @@ using UnityEngine.EventSystems;
 
 public class BlueprintSlot : SlotBase
 {
+    public ItemBase bluePrintItem;
+
+    void Start()
+    {
+        item = bluePrintItem;
+    }
+
     public BlueprintSlot()
     {
         eSlotType = ESlotType.BlueprintSlot;
@@ -12,6 +19,6 @@ public class BlueprintSlot : SlotBase
 
     public override void OnPointerClick(PointerEventData eventData)
     {
-        UIManager.instance.GetCraftingUiController().ShowItemBlueprint(_item);
+        UIManager.instance.GetCraftingUiController().ShowItemBlueprint(item);
     }
 }
