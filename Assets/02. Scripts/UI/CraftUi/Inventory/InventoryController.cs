@@ -75,16 +75,17 @@ public class InventoryController : ControllerBase
     /// <param name="_item"></param>
     public void AddItem(ItemBase _item)
     {
+        _item.itemCount++;
+
         foreach (var item in items)
         {
             if (item == _item)
             {
-                item.itemCount++;
                 UpdateSlot();
                 return;
             }
         }
-        _item.itemCount++;
+
         items.Add(_item);
         UpdateSlot();
     }
