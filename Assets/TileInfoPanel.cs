@@ -16,7 +16,7 @@ public class TileInfoPanel : MonoBehaviour
     public Image illustration;
     public TMP_Text[] TMPs;
 
-    public void ChangeIllustration(Sprite sprite)
+    public void UpdateImage(Sprite sprite)
     {
         illustration.sprite = sprite;
     }

@@ -86,12 +86,7 @@ tags:
 행동 확인 이후 입력 완료 버튼을 눌러 다음날로 진행하십시오.
 <<highlight NextDay UI_NORMAL>>
 <<hide>>
-<<setResultNote tutorialResult>>
-<<setResultNote tutorialResult1>>
-<<setResultNote tutorialResult2>>
-<<setSelectNote tutorialSelect1>>
-<<setSelectNote tutorialSelect2>>
-<<setSelectNote tutorialSelect3>>
+<<setResourcesResult>>
 <<waitNewDay>>
 <<jump Tutorial_07>>
 ===

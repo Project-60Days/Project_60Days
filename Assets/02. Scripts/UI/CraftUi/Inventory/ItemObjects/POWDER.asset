@@ -14,22 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   English: ITEM_POWDER
   data:
-    Index: 0
+    Index: 1004
     Category: 0
-    Tier: 0
-    Code: 
-    Rarity: 0
-    AppearTileType: 0
-    TileIncludePossibility: 0
+    Tier: 3
+    Code: ITEM_POWDER
+    Rarity: 2
+    AppearTileType: 2
+    TileIncludePossibility: 10
     Type: 0
     EquipType: 0
-    isCanBase: 0
-    CombineSlotCount: 0
+    isCanBase: 1
+    CombineSlotCount: 1
     Description: 
     Korean: "\uD654\uC57D"
     English: Powder
-    Japanese: 
-    Chinese: 
+    Japanese: -1
+    Chinese: -1
   itemImage: {fileID: 21300000, guid: 240cd570e330c384b9e7efd555db2a9f, type: 3}
   itemCount: 0
   eItemType: 0

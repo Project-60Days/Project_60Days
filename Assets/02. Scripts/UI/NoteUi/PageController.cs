@@ -42,6 +42,9 @@ public class PageController : MonoBehaviour
 
         yesBtn.onClick.RemoveAllListeners();
         noBtn.onClick.RemoveAllListeners();
+
+        yesBtn.onClick.AddListener(_structData.YesFunction);
+        noBtn.onClick.AddListener(_structData.NoFunction);
     }
 
     public void SetTutorialSelect()

@@ -23,6 +23,7 @@ public class MapController : Singleton<MapController>
     [SerializeField] Transform zombiesTransform;
     [SerializeField] Transform mapTransform;
     [SerializeField] Transform mapParentTransform;
+    [SerializeField] Transform objectsTransform;
 
     [Header("프리팹")]
     [Space(5f)]
@@ -163,6 +164,7 @@ public class MapController : Singleton<MapController>
         {
             var tile = tileList[selectedTiles[i]];
             var spawnPos = ((GameObject)tile.GameEntity).transform.position;
+            spawnPos.y+=0.5f;
             
             var random = Random.Range(0, 3);
 
@@ -178,7 +180,7 @@ public class MapController : Singleton<MapController>
         var tile = GetTileFromCoords(new Coords(0, -1));
 
         var spawnPos = ((GameObject)tile.GameEntity).transform.position;
-
+        spawnPos.y+=0.5f;
         var random = Random.Range(0, 3);
 
         
@@ -625,26 +627,33 @@ public class MapController : Singleton<MapController>
         var tileList = hexaMap.Map.Tiles;
 
         var selectedTiles = RandomTileSelect(ETileRandomType.ExcludePlayer, 1);
-        //var tile = tileList[selectedTiles[0]];
 
-        var tile = GetTileFromCoords(new Coords(0, 1));
+        var tile = (GameObject)GetTileFromCoords(new Coords(0, 1)).GameEntity;
 
-        int random = Random.Range(0, System.Enum.GetValues(typeof(CompassPoint)).Length);
-        tile.Neighbours.TryGetValue((CompassPoint)random, out Tile randomTile);
-        
-        ((GameObject)tile.GameEntity).GetComponent<TileInfo>().SpawnSignal();
-        ((GameObject)randomTile.GameEntity).GetComponent<TileInfo>().SpawnSignal();
+        tile.GetComponent<TileInfo>().SpawnSignal();
 
-        var randPosition = Vector3.Lerp(((GameObject)tile.GameEntity).transform.position, ((GameObject)randomTile.GameEntity).transform.position, 0.5f);
+        var spawnPos = tile.transform.position;
+        spawnPos.y += 1.1f;
 
-        ((GameObject)tile.GameEntity).GetComponent<TileInfo>().SetStructureName("신호기 존재");
-        ((GameObject)randomTile.GameEntity).GetComponent<TileInfo>().SetStructureName("신호기 존재");
+        signal = Instantiate(mapPrefab.items[(int)EMabPrefab.Signal].prefab, spawnPos, Quaternion.Euler(0, 90, 0), objectsTransform);
+    }
 
-        // 신호기 생성
-        var spawnPos = randPosition;
-        spawnPos.y += 0.7f;
+    public Structure SensingStructure()
+    {
+        var tileList = player.TileController.Model.Neighbours.Values.ToList();
+        var tileinfoList = tileList.Select(t => t.GameEntity)
+        .Cast<GameObject>()
+        .Select(g => g.GetComponent<TileInfo>()).ToList();
 
-        signal = Instantiate(mapPrefab.items[(int)EMabPrefab.Signal].prefab, spawnPos, Quaternion.Euler(0, -90, 0), zombiesTransform);
+        foreach(var tile in tileinfoList)
+        {
+            if (tile.GetComponent<TileInfo>().ExistanceStructure() == true)
+            {
+                return tile.GetComponent<TileInfo>().Structure;
+            }
+        }
+
+        return null;
     }
 
     public List<int> RandomTileSelect(ETileRandomType type, int randomInt = 1)

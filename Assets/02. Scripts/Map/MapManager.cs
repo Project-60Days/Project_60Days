@@ -19,7 +19,7 @@ public class MapManager : ManagementBase
     Camera mainCamera;
     MapCamera mapCineCamera;
     public MapController mapController;
-    ResourceManager resourceManager;
+    public ResourceManager resourceManager;
     TileController curTileController;
 
     bool canPlayerMove;
@@ -60,6 +60,11 @@ public class MapManager : ManagementBase
 
     void MouseOverEvents()
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
+
         RaycastHit hit;
         TileController tileController;
 
@@ -142,7 +147,7 @@ public class MapManager : ManagementBase
 
                 if (!canPlayerMove && !isDronePrepared)
                 {
-                    tileController.GetComponent<TileInfo>().ChangeText();
+                    tileController.GetComponent<TileInfo>().TileInfoUpdate();
                     mapUIController.TrueTileInfo();
                     //Debug.Log(hit.transform.parent.GetComponent<TileInfo>().GetStructureName());
                 }
@@ -216,8 +221,8 @@ public class MapManager : ManagementBase
         yield return StartCoroutine(mapController.NextDay());
         resourceManager.GetResource(mapController.Player.TileController);
 
-        if (mapUIController.MovePointActivate())
-            mapUIController.OffPlayerMovePoint();
+        mapUIController.OffPlayerMovePoint();
+
         CheckRoutine();
     }
 
@@ -259,6 +264,7 @@ public class MapManager : ManagementBase
         CheckZombies();
         CheckStructure();
         CheckLandformPlayMusic();
+        AllowMouseEvent(true);
     }
 
     public void CheckZombies()
@@ -276,14 +282,15 @@ public class MapManager : ManagementBase
     /// </summary>
     public void CheckStructure()
     {
-        if(mapController.Player.TileController.GetComponent<TileInfo>().ExistanceStructure() == true)
+        var structure = mapController.SensingStructure();
+        if (structure != null)
         {
-            // 구조물이 있으면 구조물 정보를 전달한다.
-            var structure = mapController.Player.TileController.GetComponent<TileInfo>().Structure;
-            //UIManager.instance.GetNextDayController().AddQuest(EQuestType.Main);
+            UIManager.instance.GetAlertController().SetAlert("note", true);
+            UIManager.instance.GetPageController().SetSelectPage("structureSelect", structure);
         }
         else
         {
+            Debug.Log("근처에 구조물이 없습니다.");
             return;
         }
     }
@@ -291,14 +298,24 @@ public class MapManager : ManagementBase
     public void CheckLandformPlayMusic()
     {
         var curTile = mapController.Player.TileController.GetComponent<TileInfo>();
-        
-        if(curTile is TundraTile)
+
+        if (curTile is TundraTile)
             App.instance.GetSoundManager().PlayBGM("Ambience_Tundra");
-        else if(curTile is JungleTile)
+        else if (curTile is JungleTile)
             App.instance.GetSoundManager().PlayBGM("Ambience_Jungle");
-        else if(curTile is NoneTile)
+        else if (curTile is NoneTile)
             App.instance.GetSoundManager().PlayBGM("Ambience_City");
-        else if(curTile is DesertTile)
+        else if (curTile is DesertTile)
             App.instance.GetSoundManager().PlayBGM("Ambience_Desert");
+    }
+
+    public void ResearchStart()
+    {
+        Debug.Log("조사 시작!");
+    }
+
+    public void ResearchCancel()
+    {
+        Debug.Log("조사 취소!");
     }
 }

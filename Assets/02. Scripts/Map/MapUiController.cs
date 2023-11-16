@@ -30,9 +30,6 @@ public class MapUiController : ControllerBase
         return tileInfoPanel.gameObject.activeInHierarchy;
     }
 
-    /// <summary>
-    /// 마우스 위치에 따라 타일 인포 패널 다른 위치에 출력
-    /// </summary>
     public void TrueTileInfo()
     {
         // var screenPoint = Camera.main.WorldToScreenPoint(tilePos);
@@ -68,6 +65,11 @@ public class MapUiController : ControllerBase
     public void UpdateText(ETileInfoTMP infoTMP, string text)
     {
         tileInfoPanel.UpdateText(infoTMP, text);
+    }
+
+    public void UpdateImage(Sprite sprite)
+    {
+        tileInfoPanel.UpdateImage(sprite);
     }
 
     public bool MovePointActivate()

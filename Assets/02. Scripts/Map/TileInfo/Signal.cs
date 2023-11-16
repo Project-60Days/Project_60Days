@@ -10,6 +10,16 @@ public class Signal : Structure
         isPlayerInTile = false;
         Visit = false;
     }
-    
-    
+
+    public override void NoFunction()
+    {
+        App.instance.GetMapManager().ResearchCancel();
+        UIManager.instance.GetPageController().SetResultPage("Signal_No");
+    }
+
+    public override void YesFunction()
+    {
+        App.instance.GetMapManager().ResearchStart();
+        UIManager.instance.GetPageController().SetResultPage("Signal_Yes");
+    }
 }
