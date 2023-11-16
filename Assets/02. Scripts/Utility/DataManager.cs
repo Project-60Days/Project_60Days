@@ -131,9 +131,11 @@ public class ItemData
     public float TileIncludePossibility;
     public int Type;
     public int EquipType;
+    public string EquipArea;
     public int isCanBase;
     public int CombineSlotCount;
     public string Description;
+    public string EffectDescription;
     public string Korean;
     public string English;
     public string Japanese;

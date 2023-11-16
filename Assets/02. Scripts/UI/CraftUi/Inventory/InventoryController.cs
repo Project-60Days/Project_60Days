@@ -4,8 +4,8 @@ using TMPro;
 
 public class InventoryController : ControllerBase
 {
-    [SerializeField] Transform slotParent;
     [SerializeField] ItemSO itemSO;
+    Transform slotParent;
 
     List<List<ItemSlot>> slots = new List<List<ItemSlot>>();
     int[] counts = new int[6];
@@ -18,6 +18,8 @@ public class InventoryController : ControllerBase
 
     void Awake()
     {
+        slotParent = gameObject.GetComponent<Transform>();
+
         for (int i = 0; i < 6; i++)
             slots.Add(new List<ItemSlot>());
 

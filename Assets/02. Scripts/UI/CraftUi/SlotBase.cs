@@ -3,12 +3,24 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public abstract class SlotBase : MonoBehaviour, IPointerClickHandler
+public abstract class SlotBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] Image image;
     [SerializeField] public ESlotType eSlotType;
 
-    public ItemBase _item;
+    ItemBase _item;
+
+    bool isMouseEnter = false;
+
+    void Update()
+    {
+        if (isMouseEnter == true)
+        {
+            Vector3 mousePos = Input.mousePosition;
+            Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+            UIManager.instance.GetItemInfoController().ShowInfo(_item, mousePos);
+        }
+    }
 
     public ItemBase item
     {
@@ -30,4 +42,19 @@ public abstract class SlotBase : MonoBehaviour, IPointerClickHandler
     }
 
     public abstract void OnPointerClick(PointerEventData eventData);
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (item != null && isMouseEnter == false)
+            isMouseEnter = true;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (isMouseEnter == true) 
+        {
+            isMouseEnter = false;
+            UIManager.instance.GetItemInfoController().HideInfo();
+        }
+    }
 }
