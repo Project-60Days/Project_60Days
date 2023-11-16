@@ -17,10 +17,6 @@ public class NextDayController : ControllerBase
         return EControllerType.NEXTDAY;
     }
 
-
-
-
-
     void Awake()
     {
         Init();
@@ -34,9 +30,6 @@ public class NextDayController : ControllerBase
         transposer.m_CameraDistance = 5f;
         App.instance.AddController(this); //?
     }
-
-
-
 
     /// <summary>
     /// 초기화 함수 모음
@@ -54,10 +47,6 @@ public class NextDayController : ControllerBase
             .OnComplete(() => blackPanel.gameObject.SetActive(false));
         sequence.Play();
     }
-
-
-
-
 
     /// <summary>
     /// 다음 날로 넘어갈 때 호출되는 이벤트 --> blackPanel 깜빡거림

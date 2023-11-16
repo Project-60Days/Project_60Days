@@ -143,8 +143,8 @@ public enum EResourceType
     Carbon,
     Plasma,
     Powder,
-    Gas
-    //Rubber
+    Gas,
+    Rubber
 }
 
 public enum ETileState

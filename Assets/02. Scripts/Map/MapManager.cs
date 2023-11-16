@@ -142,7 +142,7 @@ public class MapManager : ManagementBase
 
                 if (!canPlayerMove && !isDronePrepared)
                 {
-                    tileController.GetComponent<TileInfo>().ChangeText();
+                    tileController.GetComponent<TileInfo>().TileInfoUpdate();
                     mapUIController.TrueTileInfo();
                     //Debug.Log(hit.transform.parent.GetComponent<TileInfo>().GetStructureName());
                 }
@@ -219,6 +219,8 @@ public class MapManager : ManagementBase
         if (mapUIController.MovePointActivate())
             mapUIController.OffPlayerMovePoint();
         CheckRoutine();
+
+        AllowMouseEvent(true);
     }
 
     public bool CheckCanInstallDrone()
@@ -276,11 +278,12 @@ public class MapManager : ManagementBase
     /// </summary>
     public void CheckStructure()
     {
-        if(mapController.Player.TileController.GetComponent<TileInfo>().ExistanceStructure() == true)
+        var structure = mapController.SensingStructure();
+        if(structure != null)
         {
-            // 구조물이 있으면 구조물 정보를 전달한다.
-            var structure = mapController.Player.TileController.GetComponent<TileInfo>().Structure;
-            //UIManager.instance.GetNextDayController().AddQuest(EQuestType.Main);
+            UIManager.instance.GetAlertController().SetAlert("note", true);
+            
+            UIManager.instance.GetPageController().SetSelectPage("structureSelect", structure);
         }
         else
         {
@@ -300,5 +303,15 @@ public class MapManager : ManagementBase
             App.instance.GetSoundManager().PlayBGM("Ambience_City");
         else if(curTile is DesertTile)
             App.instance.GetSoundManager().PlayBGM("Ambience_Desert");
+    }
+
+    public void ResearchStart()
+    {
+        Debug.Log("조사 시작!");
+    }
+
+    public void ResearchCancel()
+    {
+        Debug.Log("조사 취소!");
     }
 }

@@ -69,7 +69,7 @@ public class ZombieBase : MonoBehaviour
 
         if (nearthDistrubtor != null)
         {
-            Debug.Log(gameObject.name + "�� �����⸦ �߰�!");
+            Debug.Log(gameObject.name + "가 교란기를 쫓아갑니다!");
             StartCoroutine(MoveToTarget(nearthDistrubtor.currentTile));
 
             return;
@@ -77,21 +77,18 @@ public class ZombieBase : MonoBehaviour
 
         if (isChasingPlayer)
         {
-            Debug.Log(gameObject.name + "�� �÷��̾ �߰�!");
+            Debug.Log(gameObject.name + "가 플레이어를 발견했습니다!");
             StartCoroutine(MoveToTarget(MapController.instance.GetPlayerLocationTile()));
-            transform.LookAt(App.instance.GetMapManager().mapController.Player.transform.position);
+            var updatePos = App.instance.GetMapManager().mapController.Player.transform.position;
+            updatePos.y += 0.5f;
+            transform.LookAt(updatePos);
         }
         else
         {
-            var randomInt = GetRandom();
+            var randomInt = GetRandom();    
             if (randomInt == 0)
             {
-                //Debug.Log(gameObject.name + "�� ��ó���� ������ �ٴϰ� �ִ�...");
                 StartCoroutine(MoveToRandom());
-            }
-            else
-            {
-                //Debug.Log(gameObject.name + "�� �������� ������ �ʴ´�...");
             }
         }
     }

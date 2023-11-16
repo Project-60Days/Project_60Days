@@ -10,28 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 42165cb51ef0e8d4099b71eaf4f478c1, type: 3}
-  m_Name: STEEL
+  m_Name: RUBBER
   m_EditorClassIdentifier: 
-  English: ITEM_STEEL
+  English: ITEM_RUBBER
   data:
-    Index: 1001
+    Index: 1006
     Category: 0
-    Tier: 1
-    Code: ITEM_STEEL
-    Rarity: 0
-    AppearTileType: 0
-    TileIncludePossibility: 50
+    Tier: 3
+    Code: ITEM_RUBBER
+    Rarity: 2
+    AppearTileType: 3
+    TileIncludePossibility: 10
     Type: 0
     EquipType: 0
     isCanBase: 1
     CombineSlotCount: 1
     Description: 
-    Korean: "\uAC15\uCCA0"
-    English: Steel
+    Korean: "\uACE0\uBB34"
+    English: Rubber
     Japanese: -1
     Chinese: -1
-  itemImage: {fileID: 21300000, guid: 903743215b83aa34d936fe1e8fef8680, type: 3}
+  itemImage: {fileID: 21300000, guid: 23d16f0b2fbefb045a963c095c942746, type: 3}
   itemCount: 1
   eItemType: 0
-  prefab: {fileID: 5291711458905113346, guid: 03f13903e83b61e48b34af8e95fd217f, type: 3}
-  sfxName: SFX_Steel_Acquisition
+  prefab: {fileID: 5291711458905113346, guid: 11016ff4230542c478b9f13492f2b3d8, type: 3}
+  sfxName: SFX_Rubber_Acquisition

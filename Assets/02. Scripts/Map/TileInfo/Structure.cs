@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public abstract class Structure : MonoBehaviour
+public abstract class Structure
 {
     public string structureName;
     public Resource resource;
@@ -25,4 +25,6 @@ public abstract class Structure : MonoBehaviour
     }
 
     public abstract void Init();
+    public abstract void YesFunction();
+    public abstract void NoFunction();
 }

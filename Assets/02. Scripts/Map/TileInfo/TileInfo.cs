@@ -6,6 +6,7 @@ using Hexamap;
 using System.Linq;
 using UnityEngine.Experimental.Rendering;
 using Random = UnityEngine.Random;
+using Unity.VisualScripting;
 
 public class Resource
 {
@@ -43,6 +44,7 @@ public class TileInfo : MonoBehaviour
   
     [Space(5f)]
     [SerializeField] Sprite landformSprite;
+    [SerializeField] string landformName;
 
     protected List<EResourceType> gachaList =new List<EResourceType>();
     List<Resource> appearanceResources = new List<Resource>();
@@ -53,7 +55,8 @@ public class TileInfo : MonoBehaviour
     protected Dictionary<EResourceType, int> gachaRate = new Dictionary<EResourceType, int>();
     protected EResourceType choice;
 
-    string structureName = "구조물 없음";
+    
+
     string resourceText = "";
 
     private Structure structure;
@@ -147,7 +150,7 @@ public class TileInfo : MonoBehaviour
             }
             else
             {
-                resourceText = "자원 : 없음";
+                resourceText = "자원 없음";
                 for (int i = 0; i < resourceIcons.Length; i++)
                 {
                     SpriteRenderer item = resourceIcons[i];
@@ -248,26 +251,19 @@ public class TileInfo : MonoBehaviour
         }
     }
 
-    public void SetStructureName(string name)
-    {
-        structureName = name;
-    }
-
-    public string GetStructureName()
-    {
-        return structureName;
-    }
-
-    public void ChangeText()
+    public void TileInfoUpdate()
     {
         App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Resource, resourceText);
+        App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Landform, landformName);
+        App.instance.GetMapManager().mapUIController.UpdateImage(landformSprite);
     }
+
     public void SpawnSignal()
     {
-        structure = new Signal();
+        structure= new Signal();
         structure.Init();
         
-        resourceText = "";
+        resourceText = "자원 없음";
         for (int i = 0; i < resourceIcons.Length; i++)
         {
             SpriteRenderer item = resourceIcons[i];

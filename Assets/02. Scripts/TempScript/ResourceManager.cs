@@ -93,9 +93,9 @@ public class ResourceManager : MonoBehaviour
         return tileController.GetComponent<TileInfo>().CheckResources();
     }
 
-    public int LastGetResource(EResourceType resourceType)
+    public int LastGetResource(string _itemCode)
     {
-        return lastResources.Find(x => x.ItemCode == resourceType.ToString()).ItemCount;
+        return lastResources.Find(x => x.ItemCode == _itemCode).ItemCount;
+
     }
-    
 }
