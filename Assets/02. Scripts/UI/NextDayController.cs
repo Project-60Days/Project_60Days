@@ -66,6 +66,7 @@ public class NextDayController : ControllerBase
     /// </summary>
     void NextDayEventCallBack()
     {
+        App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
         Init();
 
         App.instance.GetMapManager().SetMapCameraPriority(false);
@@ -73,9 +74,6 @@ public class NextDayController : ControllerBase
 
         UIManager.instance.GetNoteController().SetNextDay();
 
-        App.instance.GetMapManager().AllowMouseEvent(true);
-
-        App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
 
         StartCoroutine(App.instance.GetMapManager().NextDayCoroutine());
     }
@@ -85,14 +83,15 @@ public class NextDayController : ControllerBase
     /// </summary>
     public void GoToLab()
     {
+        App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
+        App.instance.GetSoundManager().PlaySFX("SFX_SceneChange_MapToBase");
         Sequence sequence = DOTween.Sequence();
         sequence
             .Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 5f, 0.5f))
             .OnComplete(() =>
             {
                 App.instance.GetMapManager().SetMapCameraPriority(false);
-                App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
-                App.instance.GetSoundManager().PlaySFX("SFX_SceneChange_MapToBase");
+
             })
             .Append(shelterUi.DOFade(1f, 0.5f));
     }
@@ -115,13 +114,14 @@ public class NextDayController : ControllerBase
     /// </summary>
     void ZoomInMap()
     {
+        App.instance.GetSoundManager().PlaySFX("SFX_SceneChange_BaseToMap");
         App.instance.GetMapManager().SetMapCameraPriority(true);
         blackPanel.DOFade(0f, 0.5f);
         DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 10f, 0.5f)
             .OnComplete(() =>
             {
                 blackPanel.gameObject.SetActive(false);
-                App.instance.GetSoundManager().PlaySFX("SFX_SceneChange_BaseToMap");
+
                 App.instance.GetMapManager().CheckLandformPlayMusic();
             });
     }

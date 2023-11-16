@@ -11,7 +11,7 @@
     "RemainPossibility_Gas": 0,
     "RemainPossibility_Rubber": 0,
     "Korean": "파괴된 도시",
-    "English": -1,
+    "English": "None",
     "Japanese": -1,
     "Chinese": -1
   },
@@ -27,7 +27,7 @@
     "RemainPossibility_Gas": 0,
     "RemainPossibility_Rubber": 0,
     "Korean": "메마른 도시",
-    "English": -1,
+    "English": "Desert",
     "Japanese": -1,
     "Chinese": -1
   },
@@ -43,7 +43,7 @@
     "RemainPossibility_Gas": 20,
     "RemainPossibility_Rubber": 0,
     "Korean": "얼어붙은 도시",
-    "English": -1,
+    "English": "Tundra",
     "Japanese": -1,
     "Chinese": -1
   },
@@ -59,7 +59,7 @@
     "RemainPossibility_Gas": 0,
     "RemainPossibility_Rubber": 20,
     "Korean": "정글 도시",
-    "English": -1,
+    "English": "Jungle",
     "Japanese": -1,
     "Chinese": -1
   },

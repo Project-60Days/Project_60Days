@@ -19,7 +19,7 @@ public class MapManager : ManagementBase
     Camera mainCamera;
     MapCamera mapCineCamera;
     public MapController mapController;
-    ResourceManager resourceManager;
+    public ResourceManager resourceManager;
     TileController curTileController;
 
     bool canPlayerMove;
@@ -60,6 +60,11 @@ public class MapManager : ManagementBase
 
     void MouseOverEvents()
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
+
         RaycastHit hit;
         TileController tileController;
 
@@ -216,11 +221,9 @@ public class MapManager : ManagementBase
         yield return StartCoroutine(mapController.NextDay());
         resourceManager.GetResource(mapController.Player.TileController);
 
-        if (mapUIController.MovePointActivate())
-            mapUIController.OffPlayerMovePoint();
-        CheckRoutine();
+        mapUIController.OffPlayerMovePoint();
 
-        AllowMouseEvent(true);
+        CheckRoutine();
     }
 
     public bool CheckCanInstallDrone()
@@ -261,6 +264,7 @@ public class MapManager : ManagementBase
         CheckZombies();
         CheckStructure();
         CheckLandformPlayMusic();
+        AllowMouseEvent(true);
     }
 
     public void CheckZombies()
@@ -279,14 +283,14 @@ public class MapManager : ManagementBase
     public void CheckStructure()
     {
         var structure = mapController.SensingStructure();
-        if(structure != null)
+        if (structure != null)
         {
             UIManager.instance.GetAlertController().SetAlert("note", true);
-            
             UIManager.instance.GetPageController().SetSelectPage("structureSelect", structure);
         }
         else
         {
+            Debug.Log("근처에 구조물이 없습니다.");
             return;
         }
     }
@@ -294,14 +298,14 @@ public class MapManager : ManagementBase
     public void CheckLandformPlayMusic()
     {
         var curTile = mapController.Player.TileController.GetComponent<TileInfo>();
-        
-        if(curTile is TundraTile)
+
+        if (curTile is TundraTile)
             App.instance.GetSoundManager().PlayBGM("Ambience_Tundra");
-        else if(curTile is JungleTile)
+        else if (curTile is JungleTile)
             App.instance.GetSoundManager().PlayBGM("Ambience_Jungle");
-        else if(curTile is NoneTile)
+        else if (curTile is NoneTile)
             App.instance.GetSoundManager().PlayBGM("Ambience_City");
-        else if(curTile is DesertTile)
+        else if (curTile is DesertTile)
             App.instance.GetSoundManager().PlayBGM("Ambience_Desert");
     }
 

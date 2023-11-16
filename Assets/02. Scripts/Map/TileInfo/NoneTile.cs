@@ -16,6 +16,7 @@ public class NoneTile : TileInfo
         gachaRate.Add(EResourceType.Powder, tileData.RemainPossibility_Powder);
         gachaRate.Add(EResourceType.Gas, tileData.RemainPossibility_Gas);
         gachaRate.Add(EResourceType.Rubber, tileData.RemainPossibility_Rubber);
+        landformEnglishName = tileData.English;
         
         SpawnRandomResource();
         RotationCheck(transform.rotation.eulerAngles);

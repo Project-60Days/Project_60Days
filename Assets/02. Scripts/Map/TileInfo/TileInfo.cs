@@ -11,8 +11,8 @@ using Unity.VisualScripting;
 public class Resource
 {
     private string itemCode;
-    private int itemCount;
     public string ItemCode { get => itemCode; set => itemCode = value; }
+    private int itemCount;
     public int ItemCount
     {
         get => itemCount;
@@ -25,28 +25,35 @@ public class Resource
         }
     }
 
-    public Resource(string itemCode, int itemCount)
+    private ItemBase itemBase;
+    public ItemBase ItemBase { get => itemBase; set => itemBase = value; }
+
+
+    public Resource(string _itemCode, int _itemCount, ItemBase _itemBase)
     {
-        this.ItemCode = itemCode;
-        this.ItemCount = itemCount;
+        this.ItemCode = _itemCode;
+        this.ItemCount = _itemCount;
+        this.ItemBase = _itemBase;
     }
+
 }
 
 public class TileInfo : MonoBehaviour
 {
 
-#region PrivateVariables    
+    #region PrivateVariables    
 
     [Space(5f)]
     [SerializeField] SpriteRenderer[] resourceIcons;
     [SerializeField] protected ItemSO itemSO;
 
-  
+
     [Space(5f)]
     [SerializeField] Sprite landformSprite;
     [SerializeField] string landformName;
+    public string landformEnglishName;
 
-    protected List<EResourceType> gachaList =new List<EResourceType>();
+    protected List<EResourceType> gachaList = new List<EResourceType>();
     List<Resource> appearanceResources = new List<Resource>();
 
     protected Tile tileController;
@@ -55,7 +62,7 @@ public class TileInfo : MonoBehaviour
     protected Dictionary<EResourceType, int> gachaRate = new Dictionary<EResourceType, int>();
     protected EResourceType choice;
 
-    
+
 
     string resourceText = "";
 
@@ -84,23 +91,26 @@ public class TileInfo : MonoBehaviour
     protected void SpawnRandomResource()
     {
         var random = Random.Range(1, 3);
-        
+
         while (gachaList.Count != random)
         {
             var take = WeightedRandomizer.From(gachaRate).TakeOne();
-            if(gachaList.Contains(take) == false)
+            if (gachaList.Contains(take) == false)
                 gachaList.Add(take);
         }
-        
+
         for (int i = 0; i < gachaList.Count; i++)
         {
             var item = gachaList[i];
 
+            var itemBase = itemSO.items.ToList()
+            .Find(x => x.data.English == item.ToString());
+
             var randomCount = Random.Range(1, 16);
-            var resource = new Resource(item.ToString(), randomCount);
+            var resource = new Resource(item.ToString(), randomCount, itemBase);
             appearanceResources.Add(resource);
         }
-        
+
         gachaRate.Clear();
     }
 
@@ -108,7 +118,7 @@ public class TileInfo : MonoBehaviour
     {
         if (structure != null)
             return;
-        
+
         if (_isInPlayerSight == true)
         {
             for (int i = 0; i < appearanceResources.Count; i++)
@@ -133,19 +143,16 @@ public class TileInfo : MonoBehaviour
                 for (int i = 0; i < appearanceResources.Count; i++)
                 {
                     SpriteRenderer itemIcon;
-                    if(isItem == true)
+                    if (isItem == true)
                         itemIcon = resourceIcons[i + 1];
                     else
                     {
                         itemIcon = resourceIcons[i];
                     }
-                    
-                    var item = itemSO.items.ToList()
-                        .Find(x => x.data.English == appearanceResources[i].ItemCode);
 
-                    itemIcon.sprite = item.itemImage;
+                    itemIcon.sprite = appearanceResources[i].ItemBase.itemImage;
                     itemIcon.gameObject.SetActive(true);
-                    resourceText += item.data.Korean + " " + appearanceResources[i].ItemCount + "개\n";
+                    resourceText += appearanceResources[i].ItemBase.data.Korean + " " + appearanceResources[i].ItemCount + "개\n";
                 }
             }
             else
@@ -216,14 +223,16 @@ public class TileInfo : MonoBehaviour
         for (int i = 0; i < appearanceResources.Count; i++)
         {
             Resource item = appearanceResources[i];
+            var itemBase = itemSO.items.ToList()
+            .Find(x => x.data.English == appearanceResources[i].ItemCode);
             if (item.ItemCount - count >= 0)
             {
-                list.Add(new Resource(item.ItemCode, count));
+                list.Add(new Resource(item.ItemCode, count, itemBase));
                 item.ItemCount -= count;
             }
             else
             {
-                list.Add(new Resource(item.ItemCode, item.ItemCount));
+                list.Add(new Resource(item.ItemCode, item.ItemCount, itemBase));
                 item.ItemCount -= count;
             }
         }
@@ -260,9 +269,9 @@ public class TileInfo : MonoBehaviour
 
     public void SpawnSignal()
     {
-        structure= new Signal();
+        structure = new Signal();
         structure.Init();
-        
+
         resourceText = "자원 없음";
         for (int i = 0; i < resourceIcons.Length; i++)
         {
