@@ -8,11 +8,6 @@ public class SelectPage : NotePageBase
     [SerializeField] VerticalLayoutGroup content;
     [SerializeField] VerticalLayoutGroup lineView;
 
-    void Awake()
-    {
-        UIManager.instance.GetPageController().SetTutorialSelect();
-    }
-
     public override ENotePageType GetENotePageType()
     {
         return ENotePageType.Select;
