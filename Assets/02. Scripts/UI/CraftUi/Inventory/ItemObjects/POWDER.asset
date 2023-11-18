@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42165cb51ef0e8d4099b71eaf4f478c1, type: 3}
+  m_Script: {fileID: 11500000, guid: 04865242a8028fc46a0079b51f0c8ad4, type: 3}
   m_Name: POWDER
   m_EditorClassIdentifier: 
   English: ITEM_POWDER
@@ -23,14 +23,18 @@ MonoBehaviour:
     TileIncludePossibility: 10
     Type: 0
     EquipType: 0
+    EquipArea: 
     isCanBase: 1
     CombineSlotCount: 1
-    Description: 
-    Korean: "\uD654\uC57D"
+    Description: "\uC0AC\uB9C9\uC5D0\uC11C\uB9CC \uC5BB\uC744 \uC218 \uC788\uB294
+      \uBB3C\uC9C8 \uC911 \uD558\uB098\uB85C \uAD70\uC778\uB4E4\uC758 \uCD1D\uAE30\uB958\uC5D0\uC11C
+      \uC790\uC8FC \uBC1C\uACAC\uD560 \uC218 \uC788\uC5C8\uB2E4."
+    EffectDescription: 
+    Korean: "\uB354\uC2A4\uD2B8 \uD654\uC57D"
     English: Powder
     Japanese: -1
     Chinese: -1
-  itemImage: {fileID: 21300000, guid: 240cd570e330c384b9e7efd555db2a9f, type: 3}
+  itemImage: {fileID: 21300000, guid: 3d3cbc5935db2c347835e6f42c4310ae, type: 3}
   itemCount: 0
   eItemType: 0
   prefab: {fileID: 0}

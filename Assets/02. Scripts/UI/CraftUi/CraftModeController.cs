@@ -17,15 +17,12 @@ public class CraftModeController : MonoBehaviour
     Button[] buttons;
     Image inventoryImage;
 
-    Vector3 newPosition;
-
     public ECraftModeType eCraftModeType { get; private set; }
 
     void Awake()
     {
         inventoryImage = GameObject.Find("InventoryBackground_Img").GetComponent<Image>();
-        newPosition = inventoryImage.transform.position;
-        buttons = GetComponentsInChildren<Button>();
+        buttons = GameObject.Find("ModeBtn_Back").GetComponentsInChildren<Button>();
         SetCraftActive();
     }
     

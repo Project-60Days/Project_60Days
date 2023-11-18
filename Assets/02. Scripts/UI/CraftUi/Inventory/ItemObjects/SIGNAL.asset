@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42165cb51ef0e8d4099b71eaf4f478c1, type: 3}
+  m_Script: {fileID: 11500000, guid: 04865242a8028fc46a0079b51f0c8ad4, type: 3}
   m_Name: SIGNAL
   m_EditorClassIdentifier: 
   English: ITEM_SIGNAL
@@ -23,14 +23,18 @@ MonoBehaviour:
     TileIncludePossibility: 0
     Type: 0
     EquipType: 0
+    EquipArea: 
     isCanBase: 0
     CombineSlotCount: 0
-    Description: 
+    Description: "\uC8FC\uBCC0\uC73C\uB85C \uC2E0\uD638\uB97C \uBCF4\uB0BC \uC218
+      \uC788\uB294 \uBD80\uD488\uC73C\uB85C, \uD0D0\uC0C9\uAE30\uB97C \uB9CC\uB4E4
+      \uC218 \uC788\uB2E4."
+    EffectDescription: 
     Korean: "\uC2E0\uD638\uAE30"
     English: -1
     Japanese: -1
     Chinese: -1
-  itemImage: {fileID: 21300000, guid: 59bf8fb908afd8c47b6efcdf3332fc68, type: 3}
+  itemImage: {fileID: 21300000, guid: ff8b8fa8e6b891347b74fc2b39f50bd7, type: 3}
   itemCount: 0
   eItemType: 0
   prefab: {fileID: 3978186304727112820, guid: 98bbcb743baf8a543a79573cddba25e2, type: 3}

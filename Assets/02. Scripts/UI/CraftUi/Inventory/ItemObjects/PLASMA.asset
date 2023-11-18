@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42165cb51ef0e8d4099b71eaf4f478c1, type: 3}
+  m_Script: {fileID: 11500000, guid: 04865242a8028fc46a0079b51f0c8ad4, type: 3}
   m_Name: PLASMA
   m_EditorClassIdentifier: 
   English: ITEM_PLASMA
@@ -23,15 +23,18 @@ MonoBehaviour:
     TileIncludePossibility: 25
     Type: 0
     EquipType: 0
+    EquipArea: 
     isCanBase: 1
     CombineSlotCount: 1
-    Description: 
+    Description: "\uAC00\uC7A5 \uAE30\uCD08\uC801\uC778 \uC5D0\uB108\uC9C0 \uBB3C\uC9C8
+      \uC911 \uD558\uB098"
+    EffectDescription: 
     Korean: "\uD50C\uB77C\uC988\uB9C8"
     English: Plasma
     Japanese: -1
     Chinese: -1
-  itemImage: {fileID: 21300000, guid: bcc2f8eda25b412408626f8590cb7097, type: 3}
-  itemCount: 1
+  itemImage: {fileID: 21300000, guid: 1b6a326547522224a897cc3457c55ab9, type: 3}
+  itemCount: 0
   eItemType: 0
   prefab: {fileID: 7108736289300237860, guid: 510872e95816c8442b91f312d06dd23e, type: 3}
   sfxName: SFX_Plasma_Acquisition

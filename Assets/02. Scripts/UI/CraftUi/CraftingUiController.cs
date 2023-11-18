@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class CraftingUiController : ControllerBase
 {
@@ -17,7 +17,7 @@ public class CraftingUiController : ControllerBase
     [SerializeField] EquipSlot[] equipSlots;
 
     [Header("Blueprint Mode")]
-    [SerializeField] Transform blueprintSlotParent;
+    public Transform blueprintSlotParent;
     [SerializeField] GameObject blueprintSlotPrefab;
 
     /// <summary>
@@ -93,7 +93,7 @@ public class CraftingUiController : ControllerBase
             obj.GetComponentInChildren<CraftSlot>().item = craftItems[i];
             if (isFirst == true)
             {
-                obj.transform.GetChild(1).gameObject.SetActive(false);
+                obj.transform.GetComponentInChildren<TextMeshProUGUI>().gameObject.SetActive(false);
                 isFirst = false;
             }
         }
@@ -119,18 +119,18 @@ public class CraftingUiController : ControllerBase
          
             for (int i = 0; i < craftItems.Count; i++)
             {
-                for (int k = 0; k < 8; k++)
+                for (int k = 0; k < 3; k++)
                 {
-                    if (combinationCodes[k] == craftItems[i].English)
+                    if (combinationCodes[k] == craftItems[i].data.Code)
                     {
                         combinationCodes[k] = "-1";
                         break;  
                     }
-                    if (k == 7) flag = 1;
+                    if (k == 2) flag = 1;
                 }
             }
 
-            for (int k = 0; k < 8; k++)
+            for (int k = 0; k < 3; k++)
             {
                 if (combinationCodes[k] != "-1")
                 {
@@ -141,7 +141,7 @@ public class CraftingUiController : ControllerBase
 
             if (flag == 0)
             {
-                ItemBase item = GetResultItemByItemCode(combinationCodes[8]);
+                ItemBase item = GetResultItemByItemCode(combinationCodes[3]);
                 AddCombineItem(item);
                 break;
             }
@@ -150,17 +150,12 @@ public class CraftingUiController : ControllerBase
 
     string[] GetCombinationCodes(ItemCombineData _combineData)
     {
-        string[] codes = new string[9];
+        string[] codes = new string[4];
 
         codes[0] = _combineData.Material_1;
         codes[1] = _combineData.Material_2;
         codes[2] = _combineData.Material_3;
-        codes[3] = _combineData.Material_4;
-        codes[4] = _combineData.Material_5;
-        codes[5] = _combineData.Material_6;
-        codes[6] = _combineData.Material_7;
-        codes[7] = _combineData.Material_8;
-        codes[8] = _combineData.Result;
+        codes[3] = _combineData.Result;
 
         return codes;
     }
@@ -176,7 +171,7 @@ public class CraftingUiController : ControllerBase
     {
         foreach(ItemBase item in itemSO.items)
         {
-            if (item.English == _resultItemCode)
+            if (item.data.Code == _resultItemCode)
                 return item;
         }
 
@@ -193,6 +188,7 @@ public class CraftingUiController : ControllerBase
         GameObject obj = Instantiate(craftSlotPrefab, craftSlotParent);
         obj.GetComponentInChildren<CraftSlot>().item = _item;
         obj.GetComponentInChildren<CraftSlot>().eSlotType = ESlotType.ResultSlot;
+        obj.GetComponentInChildren<TextMeshProUGUI>().text = "=";
     }
 
 
@@ -240,7 +236,7 @@ public class CraftingUiController : ControllerBase
 
         for (int i = 0; i < craftItems.Count; i++)
         {
-            if (craftItems[i].English == _itemCode)
+            if (craftItems[i].data.Code == _itemCode)
                 cnt++;
         }
 
@@ -302,31 +298,36 @@ public class CraftingUiController : ControllerBase
     {
         InitBlueprintSlots();
 
-        string[] blueprintCodes = new string[9];
+        string[] blueprintCodes = GetItemCombineCodes(_item);
+        if (blueprintCodes == null) return;
 
+        for (int i = 0; i < blueprintCodes.Length - 1; i++)
+        {
+            if (blueprintCodes[i] == "-1") break;
+            AddItemByItemCode(blueprintCodes[i]);
+        }
+    }
+
+    public string[] GetItemCombineCodes(ItemBase _item)
+    {
         foreach (ItemCombineData combineData in itemCombines)
         {
-            if (combineData.Result == _item.English)
-            {
-                blueprintCodes = GetCombinationCodes(combineData);
-                Debug.Log(_item.English);
-                break;
-            }
+            if (combineData.Result == _item.data.Code)
+                return GetCombinationCodes(combineData);
         }
-
-        foreach (string blueprintCode in blueprintCodes)
-        {
-            if (blueprintCode == null || blueprintCode == "-1") break;
-            AddItemByItemCode(blueprintCode);
-        }
+            
+        return null;
     }
 
     void AddItemByItemCode(string _itemCode)
     {
         for (int i = 0; i < itemSO.items.Length; i++)
-            if (itemSO.items[i].English == _itemCode)
+            if (itemSO.items[i].data.Code == _itemCode)
+            {
                 AddBlueprintItem(itemSO.items[i]);
-
+                return;
+            }
+                
         Debug.Log("아직 추가되지 않은 아이템: " + _itemCode);
         AddBlueprintItem(tempItem);
     }

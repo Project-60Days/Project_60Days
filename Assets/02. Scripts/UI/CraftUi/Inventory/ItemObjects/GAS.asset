@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42165cb51ef0e8d4099b71eaf4f478c1, type: 3}
+  m_Script: {fileID: 11500000, guid: 04865242a8028fc46a0079b51f0c8ad4, type: 3}
   m_Name: GAS
   m_EditorClassIdentifier: 
   English: ITEM_GAS
@@ -23,14 +23,18 @@ MonoBehaviour:
     TileIncludePossibility: 10
     Type: 0
     EquipType: 0
+    EquipArea: 
     isCanBase: 1
     CombineSlotCount: 1
-    Description: 
-    Korean: "\uAC00\uC2A4"
+    Description: "\uD230\uB4DC\uB77C\uC5D0\uC11C\uB9CC \uC5BB\uC744 \uC218 \uC788\uB294
+      \uBB3C\uC9C8 \uC911 \uD558\uB098\uB85C \uACF5\uC7A5\uB4E4\uC758 \uC0DD\uC0B0\uD574\uB0B4\uB358
+      \uC8FC \uC6D0\uB8CC \uC911 \uD558\uB098\uC600\uB2E4."
+    EffectDescription: 
+    Korean: "\uC5D0\uD14C\uB974 \uAC00\uC2A4"
     English: Gas
     Japanese: -1
     Chinese: -1
-  itemImage: {fileID: 21300000, guid: f75befbdae4df9145acdd8433d032f71, type: 3}
+  itemImage: {fileID: 21300000, guid: b59cef1285586f7488f1d4aedc25ae98, type: 3}
   itemCount: 0
   eItemType: 0
   prefab: {fileID: 0}

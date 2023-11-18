@@ -149,11 +149,6 @@ public class ItemCombineData
     public string Material_1;
     public string Material_2;
     public string Material_3;
-    public string Material_4;
-    public string Material_5;
-    public string Material_6;
-    public string Material_7;
-    public string Material_8;
     public string Result;
 }
 
