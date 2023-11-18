@@ -81,7 +81,7 @@
     "Material_1": "ITEM_GEAR",
     "Material_2": "ITEM_STEEL",
     "Material_3": "ITEM_CARBON",
-    "Result": "ITEM_PUMB"
+    "Result": "ITEM_PUMP"
   },
   {
     "Index": 1013,
@@ -120,14 +120,14 @@
   },
   {
     "Index": 1018,
-    "Material_1": "ITEM_PUMB",
+    "Material_1": "ITEM_PUMP",
     "Material_2": "ITEM_STEEL",
     "Material_3": "ITEM_POWDER",
     "Result": "ITEM_RIFLE"
   },
   {
     "Index": 1019,
-    "Material_1": "ITEM_PUMB",
+    "Material_1": "ITEM_PUMP",
     "Material_2": "ITEM_PLATE",
     "Material_3": "ITEM_POWDER",
     "Result": "ITEM_CANNON"

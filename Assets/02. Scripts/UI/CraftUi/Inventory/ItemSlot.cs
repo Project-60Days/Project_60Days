@@ -20,7 +20,7 @@ public class ItemSlot : SlotBase
         if (UIManager.instance.GetCraftModeController().eCraftModeType == ECraftModeType.Craft)
         {
             UIManager.instance.GetCraftingUiController().MoveInventoryToCraft(item);
-            CraftItemClick?.Invoke(item.prefab);
+            //CraftItemClick?.Invoke(item.prefab);
         }
         else if (UIManager.instance.GetCraftModeController().eCraftModeType == ECraftModeType.Equip)
         {

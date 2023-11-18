@@ -5,7 +5,7 @@ using Yarn.Unity;
 
 public class TutorialController : MonoBehaviour
 {
-    [SerializeField] Transform tutorialBack;
+    [SerializeField] RectTransform tutorialBack;
     [SerializeField] Image whitePanel;
     [SerializeField] DialogueRunner dialogueRunner;
 
@@ -23,7 +23,8 @@ public class TutorialController : MonoBehaviour
 
         initIndex = workBenchImage.transform.GetSiblingIndex();
 
-        tutorialBack.DOMove(new Vector2(0f, -400f), 0f);
+        float newY = tutorialBack.rect.height * -2;
+        tutorialBack.DOMove(new Vector2(0f, newY), 0f);
     }
 
     public void StartDialogue()
@@ -40,7 +41,8 @@ public class TutorialController : MonoBehaviour
 
     public void Hide()
     {
-        tutorialBack.DOMove(new Vector2(0f, -400f), 0.3f).SetEase(Ease.OutQuad);
+        float newY = tutorialBack.rect.height * -2;
+        tutorialBack.DOMove(new Vector2(0f, newY), 0.3f).SetEase(Ease.OutQuad);
         whitePanel.raycastTarget = false;
     }
 

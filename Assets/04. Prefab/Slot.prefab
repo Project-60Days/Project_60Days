@@ -37,7 +37,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 80, y: 80}
+  m_SizeDelta: {x: 70, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6398543195735530562
 CanvasRenderer:
@@ -91,7 +91,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 6590567278598952939}
   eSlotType: 4
-  _item: {fileID: 11400000, guid: ca6199e43f48ece4f93e832a5d0a10d9, type: 2}
+  bluePrintItem: {fileID: 0}
 --- !u!1 &2689136502520971303
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,7 +159,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 363859dded875da46935b9afa0503363, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3d72fb9365f94ed4b9864f0e7652b93c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

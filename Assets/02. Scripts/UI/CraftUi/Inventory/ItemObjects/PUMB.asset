@@ -12,30 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04865242a8028fc46a0079b51f0c8ad4, type: 3}
   m_Name: PUMB
   m_EditorClassIdentifier: 
-  English: ITEM_PUMB
+  English: ITEM_PUMP
   data:
     Index: 1018
     Category: 2
-    Tier: 2
+    Tier: 0
     Code: ITEM_PUMB
-    Rarity: 1
+    Rarity: 0
     AppearTileType: 0
     TileIncludePossibility: 0
     Type: 0
-    EquipType: 0
+    EquipType: 4
     EquipArea: 
     isCanBase: 0
-    CombineSlotCount: 0
+    CombineSlotCount: 3
     Description: "\uACF5\uACA9\uD615 \uBB34\uAE30\uC758 \uD544\uC218 \uBD80\uD488\uC73C\uB85C,
       \uD6A8\uC728\uC801\uC73C\uB85C \uD0C4\uC744 \uC0AC\uC6A9\uD560 \uC218 \uC788\uAC8C
       \uB41C\uB2E4."
     EffectDescription: 
     Korean: "\uD38C\uD504"
-    English: -1
+    English: Pump
     Japanese: -1
     Chinese: -1
   itemImage: {fileID: 21300000, guid: c9f712c677e682b49b778e2c26a1197b, type: 3}
-  itemCount: 0
+  itemCount: 2
   eItemType: 0
   prefab: {fileID: 0}
   sfxName: 
