@@ -17,8 +17,7 @@ public abstract class SlotBase : MonoBehaviour, IPointerClickHandler, IPointerEn
         if (isMouseEnter == true)
         {
             Vector3 mousePos = Input.mousePosition;
-            Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
-            UIManager.instance.GetItemInfoController().ShowInfo(_item, mousePos);
+            UIManager.instance.GetItemInfoController().ShowInfo(item, mousePos);
         }
     }
 
@@ -46,7 +45,11 @@ public abstract class SlotBase : MonoBehaviour, IPointerClickHandler, IPointerEn
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (item != null && isMouseEnter == false)
+        {
             isMouseEnter = true;
+            UIManager.instance.GetItemInfoController().isNew = true;
+        }
+            
     }
 
     public void OnPointerExit(PointerEventData eventData)

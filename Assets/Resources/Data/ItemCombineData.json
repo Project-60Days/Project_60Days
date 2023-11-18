@@ -4,11 +4,6 @@
     "Material_1": "ITEM_STEEL",
     "Material_2": "ITEM_STEEL",
     "Material_3": "-1",
-    "Material_4": -1,
-    "Material_5": -1,
-    "Material_6": -1,
-    "Material_7": -1,
-    "Material_8": -1,
     "Result": "ITEM_PLATE"
   },
   {
@@ -16,11 +11,6 @@
     "Material_1": "ITEM_STEEL",
     "Material_2": "ITEM_PLASMA",
     "Material_3": "-1",
-    "Material_4": -1,
-    "Material_5": -1,
-    "Material_6": -1,
-    "Material_7": -1,
-    "Material_8": -1,
     "Result": "ITEM_WIRE"
   },
   {
@@ -28,11 +18,6 @@
     "Material_1": "ITEM_STEEL",
     "Material_2": "ITEM_CARBON",
     "Material_3": "-1",
-    "Material_4": -1,
-    "Material_5": -1,
-    "Material_6": -1,
-    "Material_7": -1,
-    "Material_8": -1,
     "Result": "ITEM_GEAR"
   },
   {
@@ -40,11 +25,6 @@
     "Material_1": "ITEM_STEEL",
     "Material_2": "ITEM_CARBON",
     "Material_3": "ITEM_PLASMA",
-    "Material_4": -1,
-    "Material_5": -1,
-    "Material_6": -1,
-    "Material_7": -1,
-    "Material_8": -1,
     "Result": "ITEM_BATTERY"
   },
   {
@@ -52,11 +32,6 @@
     "Material_1": "ITEM_PLATE",
     "Material_2": "ITEM_STEEL",
     "Material_3": "-1",
-    "Material_4": -1,
-    "Material_5": -1,
-    "Material_6": -1,
-    "Material_7": -1,
-    "Material_8": -1,
     "Result": "ITEM_ALLOY"
   },
   {
@@ -64,11 +39,6 @@
     "Material_1": "ITEM_PLATE",
     "Material_2": "ITEM_PLATE",
     "Material_3": "-1",
-    "Material_4": -1,
-    "Material_5": -1,
-    "Material_6": -1,
-    "Material_7": -1,
-    "Material_8": -1,
     "Result": "ITEM_DECK"
   },
   {
@@ -76,11 +46,6 @@
     "Material_1": "ITEM_PLATE",
     "Material_2": "ITEM_PLASMA",
     "Material_3": "-1",
-    "Material_4": -1,
-    "Material_5": -1,
-    "Material_6": -1,
-    "Material_7": -1,
-    "Material_8": -1,
     "Result": "ITEM_SEMICONDUCTOR"
   },
   {
@@ -88,23 +53,13 @@
     "Material_1": "ITEM_WIRE",
     "Material_2": "ITEM_PLASMA",
     "Material_3": "-1",
-    "Material_4": -1,
-    "Material_5": -1,
-    "Material_6": -1,
-    "Material_7": -1,
-    "Material_8": -1,
     "Result": "ITEM_SIGNAL"
   },
   {
     "Index": 1009,
     "Material_1": "ITEM_WIRE",
-    "Material_2": "ITEM_STEEL",
-    "Material_3": "ITEM_CARBON",
-    "Material_4": "ITEM_PLASMA",
-    "Material_5": -1,
-    "Material_6": -1,
-    "Material_7": -1,
-    "Material_8": -1,
+    "Material_2": "ITEM_CARBON",
+    "Material_3": "ITEM_PLASMA",
     "Result": "ITEM_GENERATOR"
   },
   {
@@ -112,11 +67,6 @@
     "Material_1": "ITEM_WIRE",
     "Material_2": "ITEM_CARBON",
     "Material_3": "-1",
-    "Material_4": -1,
-    "Material_5": -1,
-    "Material_6": -1,
-    "Material_7": -1,
-    "Material_8": -1,
     "Result": "ITEM_RESISTOR"
   },
   {
@@ -124,11 +74,6 @@
     "Material_1": "ITEM_GEAR",
     "Material_2": "ITEM_RUBBER",
     "Material_3": "-1",
-    "Material_4": -1,
-    "Material_5": -1,
-    "Material_6": -1,
-    "Material_7": -1,
-    "Material_8": -1,
     "Result": "ITEM_WHEEL"
   },
   {
@@ -136,11 +81,6 @@
     "Material_1": "ITEM_GEAR",
     "Material_2": "ITEM_STEEL",
     "Material_3": "ITEM_CARBON",
-    "Material_4": -1,
-    "Material_5": -1,
-    "Material_6": -1,
-    "Material_7": -1,
-    "Material_8": -1,
     "Result": "ITEM_PUMB"
   },
   {
@@ -148,11 +88,6 @@
     "Material_1": "ITEM_GEAR",
     "Material_2": "ITEM_STEEL",
     "Material_3": "ITEM_PLASMA",
-    "Material_4": -1,
-    "Material_5": -1,
-    "Material_6": -1,
-    "Material_7": -1,
-    "Material_8": -1,
     "Result": "ITEM_BLADE"
   },
   {
@@ -160,11 +95,6 @@
     "Material_1": "ITEM_DECK",
     "Material_2": "ITEM_STEEL",
     "Material_3": "-1",
-    "Material_4": -1,
-    "Material_5": -1,
-    "Material_6": -1,
-    "Material_7": -1,
-    "Material_8": -1,
     "Result": "ITEM_HARDSKIN"
   },
   {
@@ -172,11 +102,6 @@
     "Material_1": "ITEM_SEMICONDUCTOR",
     "Material_2": "ITEM_STEEL",
     "Material_3": "ITEM_CARBON",
-    "Material_4": null,
-    "Material_5": -1,
-    "Material_6": -1,
-    "Material_7": -1,
-    "Material_8": -1,
     "Result": "ITEM_MEMORY"
   },
   {
@@ -184,11 +109,6 @@
     "Material_1": "ITEM_SIGNAL",
     "Material_2": "ITEM_GENERATOR",
     "Material_3": "-1",
-    "Material_4": -1,
-    "Material_5": -1,
-    "Material_6": -1,
-    "Material_7": -1,
-    "Material_8": -1,
     "Result": "ITEM_FINDOR"
   },
   {
@@ -196,11 +116,6 @@
     "Material_1": "ITEM_RESISTOR",
     "Material_2": "ITEM_GENERATOR",
     "Material_3": "-1",
-    "Material_4": -1,
-    "Material_5": -1,
-    "Material_6": -1,
-    "Material_7": -1,
-    "Material_8": -1,
     "Result": "ITEM_DISTURBE"
   },
   {
@@ -208,11 +123,6 @@
     "Material_1": "ITEM_PUMB",
     "Material_2": "ITEM_STEEL",
     "Material_3": "ITEM_POWDER",
-    "Material_4": -1,
-    "Material_5": -1,
-    "Material_6": -1,
-    "Material_7": -1,
-    "Material_8": -1,
     "Result": "ITEM_RIFLE"
   },
   {
@@ -220,11 +130,6 @@
     "Material_1": "ITEM_PUMB",
     "Material_2": "ITEM_PLATE",
     "Material_3": "ITEM_POWDER",
-    "Material_4": -1,
-    "Material_5": -1,
-    "Material_6": -1,
-    "Material_7": -1,
-    "Material_8": -1,
     "Result": "ITEM_CANNON"
   },
   {
@@ -232,11 +137,6 @@
     "Material_1": "ITEM_HARDSKIN",
     "Material_2": "ITEM_ALLOY",
     "Material_3": "ITEM_RUBBER",
-    "Material_4": -1,
-    "Material_5": -1,
-    "Material_6": -1,
-    "Material_7": -1,
-    "Material_8": -1,
     "Result": "ITEM_SHAPEMETAL"
   },
   {
@@ -244,11 +144,6 @@
     "Material_1": "ITEM_MEMORY",
     "Material_2": "ITEM_FINDOR",
     "Material_3": "ITEM_WIRE",
-    "Material_4": -1,
-    "Material_5": -1,
-    "Material_6": -1,
-    "Material_7": -1,
-    "Material_8": -1,
     "Result": "ITEM_GPS"
   },
   {
@@ -256,11 +151,6 @@
     "Material_1": "ITEM_GENERATOR",
     "Material_2": "ITEM_PLATE",
     "Material_3": "ITEM_GAS",
-    "Material_4": -1,
-    "Material_5": -1,
-    "Material_6": -1,
-    "Material_7": -1,
-    "Material_8": -1,
     "Result": "ITEM_POWER"
   },
   {
@@ -268,11 +158,6 @@
     "Material_1": "ITEM_CANNON",
     "Material_2": "ITEM_STEEL",
     "Material_3": "ITEM_GAS",
-    "Material_4": -1,
-    "Material_5": -1,
-    "Material_6": -1,
-    "Material_7": -1,
-    "Material_8": -1,
     "Result": "ITEM_GRENADE"
   },
   {
@@ -280,11 +165,6 @@
     "Material_1": "ITEM_CANNON",
     "Material_2": "ITEM_RESISTOR",
     "Material_3": "ITEM_PLASMA",
-    "Material_4": -1,
-    "Material_5": -1,
-    "Material_6": -1,
-    "Material_7": -1,
-    "Material_8": -1,
     "Result": "ITEM_EMP"
   },
   {
@@ -292,11 +172,6 @@
     "Material_1": "ITEM_SHAPEMETAL",
     "Material_2": "ITEM_POWER",
     "Material_3": "ITEM_PLATE",
-    "Material_4": -1,
-    "Material_5": -1,
-    "Material_6": -1,
-    "Material_7": -1,
-    "Material_8": -1,
     "Result": "ITEM_REACTIVESKIN"
   },
   {
@@ -304,11 +179,6 @@
     "Material_1": "ITEM_POWER",
     "Material_2": "ITEM_GRENADE",
     "Material_3": "ITEM_GEAR",
-    "Material_4": -1,
-    "Material_5": -1,
-    "Material_6": -1,
-    "Material_7": -1,
-    "Material_8": -1,
     "Result": "ITEM_ENERGYCANNON"
   }
 ]

@@ -204,7 +204,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         for (int i = 0; i < resources.Count; i++)
         {
             string tileName = App.instance.GetMapManager().mapController.Player.TileController.GetComponent<TileInfo>().landformEnglishName;
-            string nodeName = resources[i].ItemBase.English + "_" +tileName +resources[i].ItemCount.ToString();
+            string nodeName = resources[i].ItemBase.data.Code + "_" + tileName + resources[i].ItemCount.ToString();
 
             Debug.Log(nodeName);
             UIManager.instance.GetPageController().SetResultPage(nodeName);

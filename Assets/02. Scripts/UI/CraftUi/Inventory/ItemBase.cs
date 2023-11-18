@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Serialization;
 
+[CreateAssetMenu]
 public class ItemBase : ScriptableObject
 {
     [FormerlySerializedAs("itemCode")] public string English;

@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42165cb51ef0e8d4099b71eaf4f478c1, type: 3}
+  m_Script: {fileID: 11500000, guid: 04865242a8028fc46a0079b51f0c8ad4, type: 3}
   m_Name: CARBON
   m_EditorClassIdentifier: 
   English: ITEM_CARBON
@@ -23,9 +23,12 @@ MonoBehaviour:
     TileIncludePossibility: 25
     Type: 0
     EquipType: 0
+    EquipArea: 
     isCanBase: 1
     CombineSlotCount: 1
-    Description: 
+    Description: "\uAC00\uC7A5 \uAE30\uCD08\uC801\uC778 \uC720\uC5F0\uD55C \uBB3C\uC9C8
+      \uC911 \uD558\uB098"
+    EffectDescription: 
     Korean: "\uD0C4\uC18C\uC12C\uC720"
     English: Carbon
     Japanese: -1

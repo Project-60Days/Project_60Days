@@ -1,13 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using Yarn.Unity;
 
 public class TutorialController : MonoBehaviour
 {
     [SerializeField] Transform tutorialBack;
     [SerializeField] Image whitePanel;
+    [SerializeField] DialogueRunner dialogueRunner;
 
-    GameObject workBench;
     Image lightBackground;
     Image workBenchImage;
     public bool isLightUp = false;
@@ -17,10 +18,18 @@ public class TutorialController : MonoBehaviour
     void Awake()
     {
         lightBackground = GameObject.FindWithTag("LightImage").GetComponent<Image>();
-        workBench = GameObject.FindWithTag("WorkBench");
-        workBenchImage = workBench.GetComponent<Image>();
+        lightBackground.gameObject.SetActive(false);
+        workBenchImage = GameObject.FindWithTag("WorkBench").GetComponent<Image>();
 
-        initIndex = workBench.transform.GetSiblingIndex();
+        initIndex = workBenchImage.transform.GetSiblingIndex();
+
+        tutorialBack.DOMove(new Vector2(0f, -400f), 0f);
+    }
+
+    public void StartDialogue()
+    {
+        Show();
+        dialogueRunner.StartDialogue("Tutorial_01");
     }
 
     public void Show()
@@ -39,13 +48,13 @@ public class TutorialController : MonoBehaviour
 
     public void LightUpWorkBench()
     {
-        workBench.transform.SetAsLastSibling();
+        workBenchImage.transform.SetAsLastSibling();
         Color color = new Color(0.15f, 0.15f, 0.15f, 1f);
         workBenchImage.DOColor(color, 0f);
     }
     public void LightDownWorkBench()
     {
-        workBench.transform.SetSiblingIndex(initIndex);
+        workBenchImage.transform.SetSiblingIndex(initIndex);
         Color color = new Color(1f, 1f, 1f, 1f);
         workBenchImage.DOColor(color, 0f);
     }

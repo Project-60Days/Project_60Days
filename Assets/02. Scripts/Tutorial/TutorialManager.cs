@@ -12,23 +12,18 @@ public class TutorialManager : Singleton<TutorialManager>
         return tutorialController;
     }
 
-    void Awake()
+    public void StartTutorial()
     {
-        UIManager.instance.GetPageController().SetTutorialSelect();
-    }
+        tutorialController.LightDownBackground();
 
-    void Start()
-    {
+        UIManager.instance.GetPageController().SetTutorialSelect();
+
         UIManager.instance.GetAlertController().SetAlert("note", false);
         UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_PLASMA");
         UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_CARBON");
         UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_STEEL");
-        
-    }
 
-    public void StartTutorial()
-    {
-        tutorialController.LightDownBackground();
+        tutorialController.StartDialogue();
     }
 
     public void EndTutorial()

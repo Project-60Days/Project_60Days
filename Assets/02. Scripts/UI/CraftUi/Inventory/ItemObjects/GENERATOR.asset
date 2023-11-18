@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42165cb51ef0e8d4099b71eaf4f478c1, type: 3}
+  m_Script: {fileID: 11500000, guid: 04865242a8028fc46a0079b51f0c8ad4, type: 3}
   m_Name: GENERATOR
   m_EditorClassIdentifier: 
   English: ITEM_GENERATOR
@@ -23,14 +23,18 @@ MonoBehaviour:
     TileIncludePossibility: 0
     Type: 0
     EquipType: 0
+    EquipArea: "\uD2B9\uC218\uD615 \uBD80\uD488"
     isCanBase: 0
     CombineSlotCount: 0
-    Description: 
+    Description: "\uACC4\uC18D\uD574\uC11C \uD50C\uB77C\uC988\uB9C8\uB97C \uC0DD\uC131\uD574\uB0B4\uB294
+      \uBD80\uD488\uC73C\uB85C, \uB9CE\uC740 \uC790\uC6D0\uC744 \uC18C\uBAA8\uD558\uC5EC
+      \uB9CC\uB4E4 \uC218 \uC788\uB2E4."
+    EffectDescription: "3\uD134 \uB2F9 \uD50C\uB77C\uC988\uB9C8 +1"
     Korean: "\uBC1C\uC804\uAE30"
     English: -1
     Japanese: -1
     Chinese: -1
-  itemImage: {fileID: 21300000, guid: f3ce1157fbc0a2940aa81a59d0ccbdb8, type: 3}
+  itemImage: {fileID: 21300000, guid: a58713982261c7346b15318307b337d2, type: 3}
   itemCount: 0
   eItemType: 0
   prefab: {fileID: 0}

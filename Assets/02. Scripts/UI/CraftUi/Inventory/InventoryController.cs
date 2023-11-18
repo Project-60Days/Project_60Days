@@ -32,6 +32,8 @@ public class InventoryController : ControllerBase
 
         foreach (var item in itemSO.items)
             item.itemCount = 0;
+
+        InitSlots();
     }
 
     /// <summary>
@@ -172,10 +174,10 @@ public class InventoryController : ControllerBase
     /// </summary>
     private void InputKey()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            for (int i = 0; i < 11; i++) 
-                AddItem(itemSO.items[i]);
+            foreach(var item in itemSO.items)
+                AddItem(item);
         }
     }
     #endregion
