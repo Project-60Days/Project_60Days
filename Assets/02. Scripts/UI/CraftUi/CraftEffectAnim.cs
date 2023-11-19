@@ -28,9 +28,11 @@ public class CraftEffectAnim : MonoBehaviour
 
     void MoveRight()
     {
+        float screenWidth = Screen.width;
+
         if (isActive == false)
             return;
-        transform.DOMoveX(transform.position.x + moveDistance, moveDuration)//.SetEase(Ease.Linear)
+        transform.DOMoveX(screenWidth, moveDuration)//.SetEase(Ease.Linear)
            .OnComplete(MoveLeft);
     }
 
@@ -38,7 +40,7 @@ public class CraftEffectAnim : MonoBehaviour
     {
         if (isActive == false)
             return;
-        transform.DOMoveX(transform.position.x - moveDistance, moveDuration)//.SetEase(Ease.Linear)
+        transform.DOMoveX(initPositionX, moveDuration)//.SetEase(Ease.Linear)
             .OnComplete(MoveRight);
     }
 }
