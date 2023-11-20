@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: HologramMat3
-  m_Shader: {fileID: -6465566751694194690, guid: 1a5e70943a85af8448f9b4c40d8a72af, type: 3}
+  m_Name: HologramMat4
+  m_Shader: {fileID: -6465566751694194690, guid: 70bd6f3cb747be1479324d7222f1f1e3, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
