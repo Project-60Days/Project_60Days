@@ -35,6 +35,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         dialogueRunner.AddCommandHandler("closeNote", CloseNote);
 
         //05//
+        dialogueRunner.AddCommandHandler("waitMovePoint", WaitMovePoint);
 
         //06//
         dialogueRunner.AddCommandHandler("waitNewDay", WaitNewDay);
@@ -130,6 +131,17 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     void CloseNote()
     {
         UIManager.instance.GetNoteController().CloseNote();
+    }
+    #endregion
+
+
+
+
+
+    #region 05
+    Coroutine WaitMovePoint()
+    {
+        return StartCoroutine(new WaitUntil(() => App.instance.GetMapManager().mapUIController.MovePointActivate()));
     }
     #endregion
 
