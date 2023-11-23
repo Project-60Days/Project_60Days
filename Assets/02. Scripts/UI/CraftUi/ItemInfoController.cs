@@ -67,15 +67,16 @@ public class ItemInfoController : MonoBehaviour
         float height = infoTransform.rect.height;
 
         float screenWidth = Screen.width;
+        float screenHeight = Screen.height;
 
         float newX = _mouseCoordinate.x;
         float newY = _mouseCoordinate.y;
 
-        if (_mouseCoordinate.x + width > screenWidth - 10)
-            newX -= width;
-        if (_mouseCoordinate.y - height < 10)
-            newY += height;
- 
+        if (newX + width > screenWidth * 0.95)
+            newX -= width * (screenWidth / 1920);
+        if (newY - height < screenHeight * 0.1)
+            newY += height * (screenHeight / 1080);
+
         infoTransform.position = new Vector3(newX, newY, infoTransform.position.z);
     }
 
