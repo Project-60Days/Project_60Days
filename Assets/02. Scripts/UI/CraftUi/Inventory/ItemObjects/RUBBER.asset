@@ -34,8 +34,8 @@ MonoBehaviour:
     English: Rubber
     Japanese: -1
     Chinese: -1
-  itemImage: {fileID: 21300000, guid: d4780dc1205c7c7478c970d8c61d24e8, type: 3}
-  itemCount: 0
+  itemImage: {fileID: 21300000, guid: d44bb0dc323807144b73f704a47ea3bf, type: 3}
+  itemCount: 1
   eItemType: 0
   prefab: {fileID: 5291711458905113346, guid: 11016ff4230542c478b9f13492f2b3d8, type: 3}
   sfxName: 
