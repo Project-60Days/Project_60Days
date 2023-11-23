@@ -51,7 +51,6 @@ public class ResourceManager : MonoBehaviour
                     resource.ItemCount += lastResources[i].ItemCount;
 
                 var item = itemSO.items.ToList().Find(x => x.data.English == resource.ItemCode);
-                PlaySFX(item.sfxName);
 
                 Debug.LogFormat("{0} 자원 {1}개 획득", item.data.Korean, lastResources[i].ItemCount);
  
@@ -62,7 +61,7 @@ public class ResourceManager : MonoBehaviour
             {
                 owendResources.Add(lastResources[i]);
                 var item = itemSO.items.ToList().Find(x => x.data.English == lastResources[i].ItemCode);
-                PlaySFX(item.sfxName);
+
                 Debug.LogFormat("새로운 자원 {0} {1}개 획득했다.", item.data.Korean, lastResources[i].ItemCount);
                 UIManager.instance.GetPageController().SetResultPage("ITEM_CARBON_None4");
                 isGetResource = true;
@@ -72,14 +71,13 @@ public class ResourceManager : MonoBehaviour
 
         for (int i = 0; i < lastResources.Count; i++)
         {
-            ItemBase item = itemSO.items.ToList().Find(x => x.English == lastResources[i].ItemCode);
+            ItemBase item = itemSO.items.ToList().Find(x => x == lastResources[i].ItemBase);
 
             for (int j = 0; j < lastResources[i].ItemCount; j++)
             {
-                Debug.Log(item);
-                Debug.Log(item.English);
                 //TODO :: SFX 재생, 아이템 획득 스크립트 추첨
                 UIManager.instance.GetInventoryController().AddItem(item);
+                PlaySFX(item.sfxName);
             }
         }
     }

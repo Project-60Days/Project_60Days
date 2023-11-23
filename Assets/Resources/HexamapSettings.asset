@@ -23,9 +23,9 @@ MonoBehaviour:
   WorldLimitsPrefabs:
   - {fileID: 307140750319210593, guid: ac48f32bd8226654e8066c1c6f86b3c1, type: 3}
   BiomeSettings:
-  - UUID: db92646d-79da-48fc-bbbb-1ec5f10f1b0d
+  - UUID: a1404a1d-c512-4a8c-b1e4-3b0fb23b27b0
     Name: Jungle
-    MinimumTilesCount: 50
+    MinimumTilesCount: 250
     Landforms:
     - TypeAsString: Hexamap.LandformRoad
       IsSelected: 0
@@ -118,22 +118,19 @@ MonoBehaviour:
       Prefabs:
       - {fileID: 2788441876337456543, guid: 622f6f47da177424d80811c8e3fb7762, type: 3}
     - TypeAsString: Hexamap.LandformForest
-      IsSelected: 0
-      Distribution: 0
+      IsSelected: 1
+      Distribution: 1
       Quantity: 0
       Order: 10
-      PrefabsArraySize: 6
+      PrefabsArraySize: 3
       PrefabsIsExpanded: 1
       PrefabPickingMethodTypeAsString: Hexamap.PickingMethodRandom
       PrefabPickingMethodPopupIndex: 3
       PrefabOrientationMethod: -1
       Prefabs:
-      - {fileID: 5174415870590476125, guid: a4efc3d3d64e33b47a3884d2f6f8e14e, type: 3}
-      - {fileID: 5174415870590476125, guid: 0bee7631f4c0a604badfcf37cff7e4bd, type: 3}
-      - {fileID: 5174415870590476125, guid: 020304d8d30893c489156c1e64d66f32, type: 3}
-      - {fileID: 5174415870590476125, guid: 1669c23f9226d634c84a74ab0cdd60bd, type: 3}
-      - {fileID: 5174415870590476125, guid: ddbd4c7e3699df746bef51d7ca0920b2, type: 3}
-      - {fileID: 5174415870590476125, guid: c424726def79eee4d99f14258795fcb4, type: 3}
+      - {fileID: 3049127846624766773, guid: 77ed05bbca7294241a22f6ffa6275716, type: 3}
+      - {fileID: 3049127846624766773, guid: e2d1cba5a13721547b1f34aabe5a9885, type: 3}
+      - {fileID: 3049127846624766773, guid: 7f066c6dab52bcc4f92db89d35a2845a, type: 3}
     - TypeAsString: Hexamap.LandformCity
       IsSelected: 0
       Distribution: 0
@@ -148,7 +145,7 @@ MonoBehaviour:
       - {fileID: 6999840904034914940, guid: 39bb7c4d0064ca845b366aa9f451713c, type: 3}
       - {fileID: 5130638035095197332, guid: 3b7607647ed6f4e418cb2566d7dd9d2d, type: 3}
     IsExpanded: 0
-  - UUID: a20ff23b-e291-4e70-b682-4edb95aa340c
+  - UUID: 6440f690-ad4a-420d-87a4-666ffafdd90b
     Name: None
     MinimumTilesCount: 250
     Landforms:
@@ -250,7 +247,7 @@ MonoBehaviour:
       IsSelected: 1
       Distribution: 1
       Quantity: 0
-      Order: 50
+      Order: 10
       PrefabsArraySize: 3
       PrefabsIsExpanded: 1
       PrefabPickingMethodTypeAsString: Hexamap.PickingMethodRandom
@@ -274,9 +271,9 @@ MonoBehaviour:
       - {fileID: 6999840904034914940, guid: 39bb7c4d0064ca845b366aa9f451713c, type: 3}
       - {fileID: 5130638035095197332, guid: 3b7607647ed6f4e418cb2566d7dd9d2d, type: 3}
     IsExpanded: 0
-  - UUID: 5bb956d8-e587-4e38-a687-70a858e21c09
+  - UUID: 53f4c41f-0322-40c9-b611-d85e6af7345e
     Name: Desert
-    MinimumTilesCount: 250
+    MinimumTilesCount: 50
     Landforms:
     - TypeAsString: Hexamap.LandformRoad
       IsSelected: 0
@@ -393,7 +390,7 @@ MonoBehaviour:
       - {fileID: 6999840904034914940, guid: 39bb7c4d0064ca845b366aa9f451713c, type: 3}
       - {fileID: 5130638035095197332, guid: 3b7607647ed6f4e418cb2566d7dd9d2d, type: 3}
     IsExpanded: 0
-  - UUID: d924b54b-2c63-4eea-b31f-aad82910bc2d
+  - UUID: 5b6e3e57-d54a-4ce7-af64-8791a8c26e38
     Name: Tundra
     MinimumTilesCount: 50
     Landforms:
@@ -485,22 +482,19 @@ MonoBehaviour:
       Prefabs:
       - {fileID: 2788441876337456543, guid: 622f6f47da177424d80811c8e3fb7762, type: 3}
     - TypeAsString: Hexamap.LandformForest
-      IsSelected: 0
-      Distribution: 0
+      IsSelected: 1
+      Distribution: 1
       Quantity: 0
       Order: 10
-      PrefabsArraySize: 6
+      PrefabsArraySize: 3
       PrefabsIsExpanded: 1
       PrefabPickingMethodTypeAsString: Hexamap.PickingMethodRandom
       PrefabPickingMethodPopupIndex: 3
       PrefabOrientationMethod: -1
       Prefabs:
-      - {fileID: 5174415870590476125, guid: a4efc3d3d64e33b47a3884d2f6f8e14e, type: 3}
-      - {fileID: 5174415870590476125, guid: 0bee7631f4c0a604badfcf37cff7e4bd, type: 3}
-      - {fileID: 5174415870590476125, guid: 020304d8d30893c489156c1e64d66f32, type: 3}
-      - {fileID: 5174415870590476125, guid: 1669c23f9226d634c84a74ab0cdd60bd, type: 3}
-      - {fileID: 5174415870590476125, guid: ddbd4c7e3699df746bef51d7ca0920b2, type: 3}
-      - {fileID: 5174415870590476125, guid: c424726def79eee4d99f14258795fcb4, type: 3}
+      - {fileID: 6753247292614250673, guid: 63ed117ac134b71499831a0a2361fa0b, type: 3}
+      - {fileID: 6753247292614250673, guid: 51dd4488340fb8d48a482206c2659c6f, type: 3}
+      - {fileID: 6753247292614250673, guid: 8e3a945b93b903a49ae407787eba5387, type: 3}
     - TypeAsString: Hexamap.LandformCity
       IsSelected: 0
       Distribution: 0

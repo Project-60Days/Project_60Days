@@ -48,7 +48,7 @@ public class MapManager : ManagementBase
         mapController = GameObject.FindGameObjectWithTag("MapController").GetComponent<MapController>();
 
         yield return new WaitUntil(() => mapController != null);
-        mapController.GenerateMap();
+        StartCoroutine(mapController.GenerateMap());
         mapCineCamera = GameObject.FindGameObjectWithTag("MapCamera").GetComponent<MapCamera>();
 
         AllowMouseEvent(true);
