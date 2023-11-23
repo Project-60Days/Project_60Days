@@ -258,7 +258,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 50
+    FieldOfView: 65
     OrthographicSize: 6
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -646,7 +646,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 50
+  field of view: 65
   orthographic: 0
   orthographic size: 6
   m_Depth: 0
@@ -882,8 +882,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fogRevealers: []
-  levelMidPoint: {fileID: 2032613207}
-  FogRefreshRate: 10
+  levelMidPoint: {fileID: 1982854166}
+  FogRefreshRate: 1
   fogPlaneHeight: 1
   fogPlaneMaterial: {fileID: 2100000, guid: 36b93ac6fcf129c449491654e397fe4a, type: 2}
   fogColor: {r: 0.019607844, g: 0.05882353, b: 0.09803922, a: 1}
@@ -894,7 +894,7 @@ MonoBehaviour:
   LevelDataToLoad: {fileID: 0}
   saveDataOnScan: 0
   levelNameToSave: Default
-  levelDimensionX: 60
+  levelDimensionX: 50
   levelDimensionY: 50
   unitScale: 1
   scanSpacingPerUnit: 10
@@ -939,6 +939,7 @@ MonoBehaviour:
   mouseState: 0
   mouseIntreractable: 0
   mapController: {fileID: 0}
+  resourceManager: {fileID: 0}
 --- !u!4 &1413516169
 Transform:
   m_ObjectHideFlags: 0

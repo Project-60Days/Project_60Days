@@ -123,18 +123,11 @@ public enum EPartsType
 
 public enum ETileType
 {
-    Grassland,
-    Machine,
+    None,
+    Jungle,
     Desert,
-    Water
-}
-
-public enum EWeatherType
-{
-    Sunny,
-    Cloudy,
-    Rainy,
-    Fog
+    Tundra,
+    Neo
 }
 
 public enum EResourceType
@@ -144,7 +137,8 @@ public enum EResourceType
     Plasma,
     Powder,
     Gas,
-    Rubber
+    Rubber,
+    Wire
 }
 
 public enum ETileState
@@ -163,10 +157,11 @@ public enum EMabPrefab
     Zombie3,
     Disturbtor,
     Explorer,
-    Signal
+    Tower,
+    NormalStructure
 }
 
-public enum ETileRandomType
+public enum EObjectSpawnType
 {
     ExcludePlayer,
     IncludePlayer,

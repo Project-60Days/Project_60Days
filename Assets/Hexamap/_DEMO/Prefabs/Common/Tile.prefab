@@ -77,7 +77,7 @@ GameObject:
   - component: {fileID: 5424364396517728388}
   - component: {fileID: 6362800062065676503}
   m_Layer: 7
-  m_Name: 2
+  m_Name: Two
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -161,7 +161,7 @@ GameObject:
   - component: {fileID: 1330506520817278450}
   - component: {fileID: 3556380363377903167}
   m_Layer: 7
-  m_Name: 1
+  m_Name: One
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -244,6 +244,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5066086824897611883}
   - component: {fileID: 7133404945534963477}
+  - component: {fileID: 7865597368564438005}
   m_Layer: 0
   m_Name: Tile
   m_TagString: Untagged
@@ -291,6 +292,25 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 82311c527c36cea499b0a142824f82dd, type: 2}
   - {fileID: 2100000, guid: 1e61c028ff3268d48898533862f445b5, type: 2}
   currentTileState: 0
+--- !u!114 &7865597368564438005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6069308404498233822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 828700fcdcc3f2f4e8244b21499ede6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemSO: {fileID: 11400000, guid: 9fbd54ca786ce174891a63e9312d8ea6, type: 2}
+  tileType: 0
+  landformSprite: {fileID: 0}
+  resourceIcons:
+  - {fileID: 8293395201210993440}
+  - {fileID: 3556380363377903167}
+  - {fileID: 6362800062065676503}
 --- !u!1 &8208493382476218951
 GameObject:
   m_ObjectHideFlags: 0

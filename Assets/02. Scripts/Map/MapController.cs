@@ -9,25 +9,25 @@ using TMPro;
 using Hexamap;
 using UnityEngine.EventSystems;
 using FischlWorks_FogWar;
+using UnityEditor;
 using Random = UnityEngine.Random;
 
 public class MapController : Singleton<MapController>
 {
-    [Header("컴포넌트")]
-    [Space(5f)]
-    [SerializeField] HexamapController hexaMap;
+    [Header("컴포넌트")] [Space(5f)] [SerializeField]
+    HexamapController hexaMap;
+
     [SerializeField] csFogWar fogOfWar;
 
-    [Header("트랜스폼")]
-    [Space(5f)]
-    [SerializeField] Transform zombiesTransform;
+    [Header("트랜스폼")] [Space(5f)] [SerializeField]
+    Transform zombiesTransform;
+
     [SerializeField] Transform mapTransform;
     [SerializeField] Transform mapParentTransform;
     [SerializeField] Transform objectsTransform;
 
-    [Header("프리팹")]
-    [Space(5f)]
-    [SerializeField] MapPrefabSO mapPrefab;
+    [Header("프리팹")] [Space(5f)] [SerializeField]
+    MapPrefabSO mapPrefab;
 
     List<TileController> selectedTiles = new List<TileController>();
     List<Tile> preemptiveTiles = new List<Tile>();
@@ -35,16 +35,15 @@ public class MapController : Singleton<MapController>
     List<GameObject> zombiesList = new List<GameObject>();
 
     Player player;
+
     public Player Player
     {
         get { return player; }
     }
 
-    [Header("테스트")]
-    [Space(5f)]
-    GameObject disturbtor;
+    [Header("테스트")] [Space(5f)] GameObject disturbtor;
     GameObject explorer;
-    GameObject signal;
+    GameObject tower;
 
     [SerializeField] MapTestManager mapTest;
     [SerializeField] bool isTest;
@@ -116,19 +115,19 @@ public class MapController : Singleton<MapController>
             App.instance.GetDataManager().gameData.TryGetValue("Data_MinCount_ZombieObject", out GameData min);
             App.instance.GetDataManager().gameData.TryGetValue("Data_MaxCount_ZombieObject", out GameData max);
             SpawnZombies((int)Random.Range(min.value, max.value));
-            SpawnTestZombie();
+            SpawnTutorialZombie();
         }
         else
         {
-            SpawnZombies((int)Random.Range(0, 30));
-            SpawnTestZombie();
+            //SpawnZombies((int)Random.Range(0, 30));
+            SpawnTutorialZombie();
         }
 
-        GenerateSignal();
-
-        fogOfWar.transform.position = player.transform.position;
-        csFogWar.instance.levelMidPoint = player.transform;
-        csFogWar.instance.InitializeMapControllerObjects(player.gameObject, 4.5f);
+        GenerateTower();
+        GenerateNormalStructure(new Coords(2,0),3);
+        GenerateNormalStructure(new Coords(-2,0),7);
+        
+        csFogWar.instance.InitializeMapControllerObjects(player.gameObject, 5f);
         DeselectAllBorderTiles();
     }
 
@@ -137,7 +136,8 @@ public class MapController : Singleton<MapController>
         Vector3 spawnPos = TileToTileController(hexaMap.Map.GetTileFromCoords(new Coords(0, 0))).transform.position;
         spawnPos.y += 0.7f;
 
-        var playerObject = Instantiate(mapPrefab.items[(int)EMabPrefab.Player].prefab, spawnPos, Quaternion.Euler(0, -90, 0));
+        var playerObject = Instantiate(mapPrefab.items[(int)EMabPrefab.Player].prefab, spawnPos,
+            Quaternion.Euler(0, -90, 0));
         player = playerObject.GetComponent<Player>();
         player.transform.parent = mapParentTransform;
 
@@ -157,40 +157,42 @@ public class MapController : Singleton<MapController>
     void SpawnZombies(int zombiesNumber)
     {
         var tileList = hexaMap.Map.Tiles;
-        var selectedTiles = RandomTileSelect(ETileRandomType.ExcludePlayer, zombiesNumber);
+        var selectedTiles = RandomTileSelect(EObjectSpawnType.ExcludePlayer, zombiesNumber);
 
         // 오브젝트 생성.
         for (int i = 0; i < zombiesNumber; i++)
         {
             var tile = tileList[selectedTiles[i]];
             var spawnPos = ((GameObject)tile.GameEntity).transform.position;
-            spawnPos.y+=0.5f;
-            
+            spawnPos.y += 0.5f;
+
             var random = Random.Range(0, 3);
 
-            var zombie = Instantiate(mapPrefab.items[(int)EMabPrefab.Zombie1+random].prefab, spawnPos, Quaternion.Euler(0, Random.Range(0,360), 0), zombiesTransform);
+            var zombie = Instantiate(mapPrefab.items[(int)EMabPrefab.Zombie1 + random].prefab, spawnPos,
+                Quaternion.Euler(0, Random.Range(0, 360), 0), zombiesTransform);
             zombie.name = "Zombie " + (i + 1);
             zombie.GetComponent<ZombieBase>().Init(tile);
             zombiesList.Add(zombie);
         }
     }
 
-    public void SpawnTestZombie()
+    public void SpawnTutorialZombie()
     {
-        var tile = GetTileFromCoords(new Coords(0, -1));
+        var tile = GetTileFromCoords(new Coords(0, -2));
 
         var spawnPos = ((GameObject)tile.GameEntity).transform.position;
-        spawnPos.y+=0.5f;
-        var random = Random.Range(0, 3);
+        spawnPos.y += 0.5f;
 
-        
-        var zombie = Instantiate(mapPrefab.items[(int)EMabPrefab.Zombie1 + random].prefab, spawnPos, Quaternion.Euler(0, Random.Range(0,360), 0), zombiesTransform);
-        zombie.name = "Zombie " + 1;
+        var random = Random.Range(0, 3);
+        var zombie = Instantiate(mapPrefab.items[(int)EMabPrefab.Zombie1 + random].prefab, spawnPos,
+            Quaternion.Euler(0, Random.Range(0, 360), 0), zombiesTransform);
+        zombie.name = "Tutorial Zombie";
         zombie.GetComponent<ZombieBase>().Init(tile);
 
         zombiesList.Add(zombie);
 
-        zombie.GetComponent<ZombieBase>().MoveTargetCoroutine(player.TileController.Model);
+        // 튜토리얼 이동
+        //zombie.GetComponent<ZombieBase>().MoveTargetCoroutine(player.TileController.Model);
     }
 
     public void DefalutMouseOverState(TileController tileController)
@@ -222,10 +224,10 @@ public class MapController : Singleton<MapController>
             }
         }
 
-        if (rangeOfMotion != num)
-            tileController.GetComponent<Borders>().GetAvailableBorder()?.SetActive(true);
-        else
+        if(rangeOfMotion == num || tileController.gameObject.GetComponent<TileBase>().Structure?.IsAccessible == false)
             tileController.GetComponent<Borders>().GetUnAvailableBorder()?.SetActive(true);
+        else if (rangeOfMotion != num)
+            tileController.GetComponent<Borders>().GetAvailableBorder()?.SetActive(true);
     }
 
     public void AddSelectedTilesList(TileController tileController)
@@ -237,11 +239,13 @@ public class MapController : Singleton<MapController>
     {
         if (hexaMap.Map.GetTilesInRange(player.TileController.Model, 1).Contains(tileController.Model))
         {
-            disturbtor.transform.position = ((GameObject)tileController.Model.GameEntity).transform.position + Vector3.up;
+            disturbtor.transform.position =
+                ((GameObject)tileController.Model.GameEntity).transform.position + Vector3.up;
             disturbtor.GetComponent<Disturbtor>().DirectionObjectOff();
             SelectBorder(tileController, ETileState.Moveable);
 
-            foreach (var item in player.TileController.Model.Neighbours.Where(item => item.Value == tileController.Model))
+            foreach (var item in player.TileController.Model.Neighbours.Where(
+                         item => item.Value == tileController.Model))
             {
                 disturbtor.GetComponent<Disturbtor>().GetDirectionObject(item.Key).SetActive(true);
             }
@@ -332,7 +336,8 @@ public class MapController : Singleton<MapController>
 
     void GenerateExampleDisturbtor()
     {
-        disturbtor = Instantiate(mapPrefab.items[(int)EMabPrefab.Disturbtor].prefab, player.transform.position + Vector3.up * 1.5f, Quaternion.Euler(0, -90, 0));
+        disturbtor = Instantiate(mapPrefab.items[(int)EMabPrefab.Disturbtor].prefab,
+            player.transform.position + Vector3.up * 1.5f, Quaternion.Euler(0, -90, 0));
         disturbtor.transform.parent = mapTransform;
         disturbtor.GetComponentInChildren<MeshRenderer>().material.DOFade(50, 0);
     }
@@ -370,7 +375,8 @@ public class MapController : Singleton<MapController>
 
     void GenerateExampleExplorer()
     {
-        explorer = Instantiate(mapPrefab.items[(int)EMabPrefab.Explorer].prefab, player.transform.position + Vector3.up * 1.5f, Quaternion.identity);
+        explorer = Instantiate(mapPrefab.items[(int)EMabPrefab.Explorer].prefab,
+            player.transform.position + Vector3.up * 1.5f, Quaternion.identity);
         explorer.transform.parent = mapTransform;
 
         explorer.GetComponentInChildren<MeshRenderer>().material.DOFade(50, 0);
@@ -459,6 +465,7 @@ public class MapController : Singleton<MapController>
                 tileController.GetComponent<Borders>().GetDisturbanceBorder().SetActive(true);
                 break;
         }
+
         selectedTiles.Add(tileController);
     }
 
@@ -477,6 +484,7 @@ public class MapController : Singleton<MapController>
             TileController tile = tiles[i];
             DeselectBorder(tile);
         }
+
         tiles.Clear();
     }
 
@@ -570,6 +578,7 @@ public class MapController : Singleton<MapController>
                 return true;
             }
         }
+
         return false;
     }
 
@@ -587,6 +596,7 @@ public class MapController : Singleton<MapController>
                 return disturbtor.GetComponent<Disturbtor>();
             }
         }
+
         return null;
     }
 
@@ -622,56 +632,161 @@ public class MapController : Singleton<MapController>
         return false;
     }
 
-    public void GenerateSignal()
+    public void GenerateTower()
     {
-        var tileList = hexaMap.Map.Tiles;
+        // 경계선으로부터 2칸 이내 범위 
+        List<int> selectedTiles = RandomTileSelect(ObjectSpawnDistanceCalculate(2),
+            EObjectSpawnType.ExcludeEntites, 1);
 
-        var selectedTiles = RandomTileSelect(ETileRandomType.ExcludePlayer, 1);
+        var tilelist = new List<Tile>();
+        // 튜토리얼 용 위치 고정
+        Tile tile = GetTileFromCoords(new Coords(0, 2));
 
-        var tile = (GameObject)GetTileFromCoords(new Coords(0, 1)).GameEntity;
+        tilelist.Add(tile);
 
-        tile.GetComponent<TileInfo>().SpawnSignal();
+        List<Tile> neighborList = SetNeighborStructure(tilelist);
 
-        var spawnPos = tile.transform.position;
-        spawnPos.y += 1.1f;
+        ((GameObject)tile.GameEntity).GetComponent<TileBase>().SpawnTower(neighborList);
 
-        signal = Instantiate(mapPrefab.items[(int)EMabPrefab.Signal].prefab, spawnPos, Quaternion.Euler(0, 90, 0), objectsTransform);
+        var spawnPos = ((GameObject)tile.GameEntity).transform.position;
+        spawnPos.y += 0.31f;
+
+        tower = Instantiate(mapPrefab.items[(int)EMabPrefab.Tower].prefab, spawnPos, Quaternion.Euler(0, 90, 0),
+            objectsTransform);
     }
-
-    public Structure SensingStructure()
+    
+    public void GenerateNormalStructure(Coords coords, int num =3)
     {
-        var tileList = player.TileController.Model.Neighbours.Values.ToList();
-        var tileinfoList = tileList.Select(t => t.GameEntity)
-        .Cast<GameObject>()
-        .Select(g => g.GetComponent<TileInfo>()).ToList();
+        // 경계선으로부터 2칸 이내 범위 
+        List<int> selectedTiles = RandomTileSelect(ObjectSpawnDistanceCalculate(2),
+            EObjectSpawnType.ExcludeEntites, 1);
 
-        foreach(var tile in tileinfoList)
+        var tilelist = new List<Tile>();
+        
+        // 튜토리얼 용 위치 고정
+        Tile tile = GetTileFromCoords(coords);
+        
+        tilelist.Add(tile);
+        
+        if (num == 3)
         {
-            if (tile.GetComponent<TileInfo>().ExistanceStructure() == true)
-            {
-                return tile.GetComponent<TileInfo>().Structure;
-            }
+            tilelist.Add(tile.Neighbours[CompassPoint.NE]);
+            tilelist.Add(tile.Neighbours[CompassPoint.SE]);
+        }
+        else if (num == 7)
+        {
+            tilelist.Add(tile.Neighbours[CompassPoint.N]);
+            tilelist.Add(tile.Neighbours[CompassPoint.S]);            
+            tilelist.Add(tile.Neighbours[CompassPoint.NE]);
+            tilelist.Add(tile.Neighbours[CompassPoint.SE]);            
+            tilelist.Add(tile.Neighbours[CompassPoint.NW]);
+            tilelist.Add(tile.Neighbours[CompassPoint.SW]);
         }
 
-        return null;
+        List<Tile> neighborList = SetNeighborStructure(tilelist);
+        
+        for (var index = 0; index < tilelist.Count; index++)
+        {
+            var value = tilelist[index];
+            ((GameObject)value.GameEntity).GetComponent<TileBase>().SpawnNormalStructure(neighborList);
+
+            var spawnPos = ((GameObject)value.GameEntity).transform.position;
+            spawnPos.y += 1.1f;
+
+            var structure = Instantiate(mapPrefab.items[(int)EMabPrefab.NormalStructure].prefab, spawnPos, Quaternion.Euler(0, 90, 0),
+                objectsTransform);
+            structure.name = "Structure" + index;
+        }
     }
 
-    public List<int> RandomTileSelect(ETileRandomType type, int randomInt = 1)
+    List<Tile> ObjectSpawnDistanceCalculate(int range)
     {
         var tileList = hexaMap.Map.Tiles;
+
+        Tile lastIndex = tileList.Last();
+
+        int biggerInt = Math.Abs(lastIndex.Coords.X) > Math.Abs(lastIndex.Coords.Y)
+            ? lastIndex.Coords.X
+            : lastIndex.Coords.Y;
+
+        List<Tile> excludeTileList = GetTilesInRange(GetTileFromCoords(new Coords(0, 0)), Math.Abs(biggerInt) - range);
+
+        return excludeTileList;
+    }
+
+    List<Tile> SetNeighborStructure(List<Tile> tiles)
+    {
+        List<Tile> neighborTiles = new List<Tile>();
+
+        for (int i = 0; i < tiles.Count; i++)
+        {
+            var tile = tiles[i];
+            var list = tile.Neighbours.Select(kvp => kvp.Value).ToList();
+            neighborTiles.AddRange(list);
+        }
+
+        neighborTiles = neighborTiles.Distinct().ToList();
+
+        foreach (var tile in neighborTiles)
+        {
+            ((GameObject)tile.GameEntity).GetComponent<TileBase>().SetNeighborStructure();
+        }
+
+        return neighborTiles;
+    }
+
+    public StructureBase SensingStructure()
+    {
+        var tile = (GameObject)(player.TileController.Model.GameEntity);
+
+        if (tile.GetComponent<TileBase>().IsStructureNeighbor == true)
+        {
+            return tile.GetComponent<TileBase>().Structure;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public List<int> RandomTileSelect(EObjectSpawnType type, int randomInt = 1)
+    {
+        var tiles = hexaMap.Map.Tiles;
+
         List<int> selectTileNumber = new List<int>();
 
         // 플레이어와 겹치지 않는 랜덤 타일 뽑기.
         while (selectTileNumber.Count != randomInt)
         {
-            randomInt = UnityEngine.Random.Range(0, tileList.Count);
+            randomInt = UnityEngine.Random.Range(0, tiles.Count);
 
-            if (ConditionalBranch(type, tileList[randomInt]) == true)
+            if (ConditionalBranch(type, tiles[randomInt]) == true)
             {
                 if (selectTileNumber.Contains(randomInt) == false)
                 {
                     selectTileNumber.Add(randomInt);
-                    preemptiveTiles.Add(tileList[randomInt]);
+                    preemptiveTiles.Add(tiles[randomInt]);
+                }
+            }
+        }
+        return selectTileNumber;
+    }
+
+    public List<int> RandomTileSelect(List<Tile> tiles, EObjectSpawnType type, int randomInt = 1)
+    {
+        List<int> selectTileNumber = new List<int>();
+
+        // 플레이어와 겹치지 않는 랜덤 타일 뽑기.
+        while (selectTileNumber.Count != randomInt)
+        {
+            randomInt = UnityEngine.Random.Range(0, tiles.Count);
+
+            if (ConditionalBranch(type, tiles[randomInt]) == true)
+            {
+                if (selectTileNumber.Contains(randomInt) == false)
+                {
+                    selectTileNumber.Add(randomInt);
+                    preemptiveTiles.Add(tiles[randomInt]);
                 }
             }
         }
@@ -679,36 +794,36 @@ public class MapController : Singleton<MapController>
         return selectTileNumber;
     }
 
-    bool ConditionalBranch(ETileRandomType type, Tile tile)
+    bool ConditionalBranch(EObjectSpawnType type, Tile tile)
     {
-        if(CheckTileType(tile, "LandformPlain") == false)
+        if (CheckTileType(tile, "LandformPlain") == false)
         {
             return false;
         }
 
         switch (type)
         {
-            case ETileRandomType.ExcludePlayer:
-                if(player.TileController.Model != tile)
+            case EObjectSpawnType.ExcludePlayer:
+                if (player.TileController.Model != tile)
                     return true;
                 else
                     return false;
 
-            case ETileRandomType.IncludePlayer:
+            case EObjectSpawnType.IncludePlayer:
                 return true;
 
-            case ETileRandomType.ExcludeEntites:
-                if(!preemptiveTiles.Contains(tile))
+            case EObjectSpawnType.ExcludeEntites:
+                if (!preemptiveTiles.Contains(tile))
                     return true;
                 else
                     return false;
-            
-            case ETileRandomType.IncludeEntites:
-                if(player.TileController.Model != tile)
+
+            case EObjectSpawnType.IncludeEntites:
+                if (player.TileController.Model != tile)
                     return true;
                 else
                     return false;
-            
+
             default:
                 break;
         }

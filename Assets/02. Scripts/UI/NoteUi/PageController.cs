@@ -35,7 +35,7 @@ public class PageController : MonoBehaviour
         selectPage.SetNodeName(_nodeName);
     }
 
-    public void SetSelectPage(string _nodeName, Structure _structData)
+    public void SetSelectPage(string _nodeName, StructureBase _structData)
     {
         //var nextDiaryData = App.instance.GetDataManager().diaryData[_code];
         selectPage.SetNodeName(_nodeName);
@@ -43,8 +43,8 @@ public class PageController : MonoBehaviour
         yesBtn.onClick.RemoveAllListeners();
         noBtn.onClick.RemoveAllListeners();
 
-        yesBtn.onClick.AddListener(_structData.YesFunction);
-        noBtn.onClick.AddListener(_structData.NoFunction);
+        yesBtn.onClick.AddListener(_structData.YesFunc);
+        noBtn.onClick.AddListener(_structData.NoFunc);
     }
 
     public void SetTutorialSelect()
