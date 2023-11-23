@@ -162,7 +162,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     #region temp
     private void SpawnTutorialGlicher()
     {
-        MapController.instance.SpawnTestZombie();
+        MapController.instance.SpawnTutorialZombie();
     }
 
     private void PlayBGM(string bgmName)
@@ -203,7 +203,8 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
         for (int i = 0; i < resources.Count; i++)
         {
-            string tileName = App.instance.GetMapManager().mapController.Player.TileController.GetComponent<TileInfo>().landformEnglishName;
+            string tileName = App.instance.GetMapManager().mapController
+                .Player.TileController.GetComponent<TileBase>().TileData.English;
             string nodeName = resources[i].ItemBase.data.Code + "_" + tileName + resources[i].ItemCount.ToString();
 
             Debug.Log(nodeName);
