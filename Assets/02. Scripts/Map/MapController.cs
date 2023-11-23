@@ -49,6 +49,9 @@ public class MapController : Singleton<MapController>
     [SerializeField] bool isTest;
 
     TileController targetTileController;
+    bool isLoadingComplete;
+
+    public bool LoadingComplete => isLoadingComplete;
 
     public TileController TargetPointTile
     {
@@ -63,7 +66,7 @@ public class MapController : Singleton<MapController>
             mapTest.TestStart();
     }
 
-    public void GenerateMap()
+    public IEnumerator GenerateMap()
     {
         hexaMap.Destroy();
 
@@ -85,9 +88,12 @@ public class MapController : Singleton<MapController>
             var noiseY = _fastNoise.GetValue(tile.Coords.X, tile.Coords.Y);
             (tile.GameEntity as GameObject).transform.position += new Vector3(0, noiseY * 2, 0);
         }
-
-        GenerateMapObjects();
+        
         mapParentTransform.position = Vector3.forward * 200f;
+        
+        yield return StartCoroutine(GenerateMapObjects());
+
+        isLoadingComplete = true;
     }
 
     public void RegenerateMap()
@@ -100,14 +106,14 @@ public class MapController : Singleton<MapController>
         }
 
         zombiesList.Clear();
-        GenerateMap();
+        StartCoroutine(GenerateMap());
     }
 
     /// <summary>
     /// 맵에서 스폰되는 오브젝트들에 대한 초기화를 하는 함수이다.
     /// 플레이어, 좀비, 안개를 생성하고, 플레이어의 위치를 리소스 매니저에게 전달한다.
     /// </summary>
-    void GenerateMapObjects()
+    IEnumerator GenerateMapObjects()
     {
         SpawnPlayer();
         if (!isTest)
@@ -129,6 +135,8 @@ public class MapController : Singleton<MapController>
         
         csFogWar.instance.InitializeMapControllerObjects(player.gameObject, 5f);
         DeselectAllBorderTiles();
+
+        yield return new WaitUntil(() => tower != null);
     }
 
     void SpawnPlayer()

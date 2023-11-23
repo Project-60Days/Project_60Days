@@ -9,6 +9,7 @@ public abstract class StructureBase
 
     protected Resource resource;
     public Resource Resource => resource;
+    
     protected bool isUse;
     public bool IsUse => isUse;
     
