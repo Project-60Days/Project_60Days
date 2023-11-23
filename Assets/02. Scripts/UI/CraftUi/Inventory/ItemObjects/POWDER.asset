@@ -16,16 +16,16 @@ MonoBehaviour:
   data:
     Index: 1004
     Category: 0
-    Tier: 3
+    Tier: 0
     Code: ITEM_POWDER
-    Rarity: 2
+    Rarity: 0
     AppearTileType: 2
-    TileIncludePossibility: 10
+    TileIncludePossibility: 0
     Type: 0
-    EquipType: 0
+    EquipType: 4
     EquipArea: 
-    isCanBase: 1
-    CombineSlotCount: 1
+    isCanBase: 0
+    CombineSlotCount: 0
     Description: "\uC0AC\uB9C9\uC5D0\uC11C\uB9CC \uC5BB\uC744 \uC218 \uC788\uB294
       \uBB3C\uC9C8 \uC911 \uD558\uB098\uB85C \uAD70\uC778\uB4E4\uC758 \uCD1D\uAE30\uB958\uC5D0\uC11C
       \uC790\uC8FC \uBC1C\uACAC\uD560 \uC218 \uC788\uC5C8\uB2E4."
@@ -34,8 +34,8 @@ MonoBehaviour:
     English: Powder
     Japanese: -1
     Chinese: -1
-  itemImage: {fileID: 21300000, guid: 3d3cbc5935db2c347835e6f42c4310ae, type: 3}
-  itemCount: 0
+  itemImage: {fileID: 21300000, guid: 222d039a270569d4cb4f1771fb120dbe, type: 3}
+  itemCount: 1
   eItemType: 0
   prefab: {fileID: 0}
   sfxName: 

@@ -16,16 +16,16 @@ MonoBehaviour:
   data:
     Index: 1002
     Category: 0
-    Tier: 2
+    Tier: 0
     Code: ITEM_CARBON
-    Rarity: 1
+    Rarity: 0
     AppearTileType: 0
-    TileIncludePossibility: 25
+    TileIncludePossibility: 0
     Type: 0
-    EquipType: 0
+    EquipType: 4
     EquipArea: 
-    isCanBase: 1
-    CombineSlotCount: 1
+    isCanBase: 0
+    CombineSlotCount: 0
     Description: "\uAC00\uC7A5 \uAE30\uCD08\uC801\uC778 \uC720\uC5F0\uD55C \uBB3C\uC9C8
       \uC911 \uD558\uB098"
     EffectDescription: 
@@ -33,8 +33,8 @@ MonoBehaviour:
     English: Carbon
     Japanese: -1
     Chinese: -1
-  itemImage: {fileID: 21300000, guid: b382c41f6a534374390fe6d5e6e82ca8, type: 3}
-  itemCount: 0
+  itemImage: {fileID: 21300000, guid: 2248000358233024f85f3dc2475a1eee, type: 3}
+  itemCount: 1
   eItemType: 0
   prefab: {fileID: 3694379725030891960, guid: 60f46388473d3d24aacf728c308e42ba, type: 3}
   sfxName: SFX_Carbon_Acquisition
