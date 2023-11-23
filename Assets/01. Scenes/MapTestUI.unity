@@ -386,7 +386,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 18748947}
   eSlotType: 0
-  _item: {fileID: 0}
   category: 4
 --- !u!114 &18748947
 MonoBehaviour:
@@ -480,7 +479,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 19890995}
   eSlotType: 0
-  _item: {fileID: 0}
   category: 3
 --- !u!114 &19890995
 MonoBehaviour:
@@ -914,7 +912,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &58000214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1797,6 +1795,7 @@ MonoBehaviour:
   pageController: {fileID: 806694047}
   questController: {fileID: 2094758396}
   soundController: {fileID: 135315344}
+  itemInfoController: {fileID: 0}
 --- !u!114 &105272568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3325,7 +3324,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 174124751}
   eSlotType: 0
-  _item: {fileID: 0}
   category: 0
 --- !u!114 &174124751
 MonoBehaviour:
@@ -3516,7 +3514,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 221416238}
   eSlotType: 4
-  _item: {fileID: 11400000, guid: 1bb9fab4c1bd20d4985ee1d7dd8340cb, type: 2}
+  bluePrintItem: {fileID: 0}
 --- !u!114 &221416238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3719,7 +3717,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 264015179}
   eSlotType: 0
-  _item: {fileID: 0}
   category: 5
 --- !u!114 &264015179
 MonoBehaviour:
@@ -3813,7 +3810,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 276744229}
   eSlotType: 0
-  _item: {fileID: 0}
   category: 2
 --- !u!114 &276744229
 MonoBehaviour:
@@ -4019,7 +4015,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 311476557}
   eSlotType: 0
-  _item: {fileID: 0}
   category: 1
 --- !u!114 &311476557
 MonoBehaviour:
@@ -4717,7 +4712,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 381764687}
   eSlotType: 4
-  _item: {fileID: 11400000, guid: 710577d35aa998843afd32f23c59e9e8, type: 2}
+  bluePrintItem: {fileID: 0}
 --- !u!114 &381764687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4887,7 +4882,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 405425835}
   eSlotType: 0
-  _item: {fileID: 0}
   category: 4
 --- !u!114 &405425835
 MonoBehaviour:
@@ -5348,7 +5342,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 425490059}
   eSlotType: 0
-  _item: {fileID: 0}
   category: 0
 --- !u!114 &425490059
 MonoBehaviour:
@@ -5611,7 +5604,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 430395178}
   eSlotType: 0
-  _item: {fileID: 0}
   category: 1
 --- !u!114 &430395178
 MonoBehaviour:
@@ -5705,7 +5697,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 432541809}
   eSlotType: 0
-  _item: {fileID: 0}
   category: 4
 --- !u!114 &432541809
 MonoBehaviour:
@@ -5799,7 +5790,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 439349132}
   eSlotType: 0
-  _item: {fileID: 0}
   category: 0
 --- !u!114 &439349132
 MonoBehaviour:
@@ -6451,7 +6441,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 498050774}
   eSlotType: 0
-  _item: {fileID: 0}
   category: 5
 --- !u!114 &498050774
 MonoBehaviour:
@@ -7007,7 +6996,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 520801231}
   eSlotType: 0
-  _item: {fileID: 0}
   category: 3
 --- !u!114 &520801231
 MonoBehaviour:
@@ -9711,7 +9699,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 681193971}
   eSlotType: 0
-  _item: {fileID: 0}
   category: 2
 --- !u!114 &681193971
 MonoBehaviour:
@@ -9805,7 +9792,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 684728459}
   eSlotType: 0
-  _item: {fileID: 0}
   category: 3
 --- !u!114 &684728459
 MonoBehaviour:
@@ -10191,7 +10177,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 698114859}
   eSlotType: 0
-  _item: {fileID: 0}
   category: 3
 --- !u!114 &698114859
 MonoBehaviour:
@@ -11014,7 +10999,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 734050334}
   eSlotType: 0
-  _item: {fileID: 0}
   category: 1
 --- !u!114 &734050334
 MonoBehaviour:
@@ -11360,7 +11344,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 749358595}
   eSlotType: 0
-  _item: {fileID: 0}
   category: 3
 --- !u!114 &749358595
 MonoBehaviour:
@@ -11764,7 +11747,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 771009377}
   eSlotType: 0
-  _item: {fileID: 0}
   category: 4
 --- !u!114 &771009377
 MonoBehaviour:
@@ -13735,7 +13717,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 842877855}
   eSlotType: 0
-  _item: {fileID: 0}
   category: 0
 --- !u!114 &842877855
 MonoBehaviour:
@@ -15652,7 +15633,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 953745504}
   eSlotType: 0
-  _item: {fileID: 0}
   category: 4
 --- !u!114 &953745504
 MonoBehaviour:
@@ -15957,7 +15937,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 969076783}
   eSlotType: 0
-  _item: {fileID: 0}
   category: 2
 --- !u!114 &969076783
 MonoBehaviour:
@@ -16932,8 +16911,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 98.20276, y: -367}
-  m_SizeDelta: {x: 228.4054, y: 100}
+  m_AnchoredPosition: {x: 139.83801, y: -367}
+  m_SizeDelta: {x: 311.6759, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1030807477
 MonoBehaviour:
@@ -17220,7 +17199,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 1050265613}
   eSlotType: 0
-  _item: {fileID: 0}
   category: 0
 --- !u!114 &1050265613
 MonoBehaviour:
@@ -17314,7 +17292,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 1054978026}
   eSlotType: 0
-  _item: {fileID: 0}
   category: 3
 --- !u!114 &1054978026
 MonoBehaviour:
@@ -17445,7 +17422,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 1055671339}
   eSlotType: 3
-  _item: {fileID: 0}
   eItemType: 1
   equipType: 0
 --- !u!1 &1084350564
@@ -18567,7 +18543,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 1161322877}
   eSlotType: 4
-  _item: {fileID: 11400000, guid: 1bb9fab4c1bd20d4985ee1d7dd8340cb, type: 2}
+  bluePrintItem: {fileID: 0}
 --- !u!114 &1161322877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20467,7 +20443,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 1336794241}
   eSlotType: 4
-  _item: {fileID: 11400000, guid: 1bb9fab4c1bd20d4985ee1d7dd8340cb, type: 2}
+  bluePrintItem: {fileID: 0}
 --- !u!114 &1336794241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20712,7 +20688,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 1351075227}
   eSlotType: 4
-  _item: {fileID: 11400000, guid: 5d4a3e4f7fb1fb846bfece5396347886, type: 2}
+  bluePrintItem: {fileID: 0}
 --- !u!114 &1351075227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22345,7 +22321,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 1479136759}
   eSlotType: 0
-  _item: {fileID: 0}
   category: 2
 --- !u!114 &1479136759
 MonoBehaviour:
@@ -23106,7 +23081,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 1546724569}
   eSlotType: 4
-  _item: {fileID: 11400000, guid: 87d206fe6794ac846b32e0d1b82f9810, type: 2}
+  bluePrintItem: {fileID: 0}
 --- !u!114 &1546724569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23199,7 +23174,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 1552743345}
   eSlotType: 0
-  _item: {fileID: 0}
   category: 3
 --- !u!114 &1552743345
 MonoBehaviour:
@@ -23549,7 +23523,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1571979698
 RectTransform:
   m_ObjectHideFlags: 0
@@ -23884,7 +23858,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97cf859755611c6458c5b8f590af99d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotParent: {fileID: 997032125}
   itemSO: {fileID: 11400000, guid: 9fbd54ca786ce174891a63e9312d8ea6, type: 2}
   items: []
 --- !u!114 &1582259497
@@ -26469,7 +26442,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 1708226545}
   eSlotType: 0
-  _item: {fileID: 0}
   category: 2
 --- !u!114 &1708226545
 MonoBehaviour:
@@ -27198,6 +27170,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tutorialBack: {fileID: 1668377331}
   whitePanel: {fileID: 1614351919}
+  dialogueRunner: {fileID: 0}
   isLightUp: 0
 --- !u!1 &1776536157
 GameObject:
@@ -27872,7 +27845,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1811381968
 RectTransform:
   m_ObjectHideFlags: 0
@@ -29349,7 +29322,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 1920058719}
   eSlotType: 0
-  _item: {fileID: 0}
   category: 2
 --- !u!114 &1920058719
 MonoBehaviour:
@@ -30112,7 +30084,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 1998464899}
   eSlotType: 0
-  _item: {fileID: 0}
   category: 2
 --- !u!114 &1998464899
 MonoBehaviour:
@@ -30319,7 +30290,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 2000137858}
   eSlotType: 3
-  _item: {fileID: 0}
   eItemType: 1
   equipType: 2
 --- !u!1 &2005375985
@@ -31078,7 +31048,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 2034109686}
   eSlotType: 0
-  _item: {fileID: 0}
   category: 0
 --- !u!114 &2034109686
 MonoBehaviour:
@@ -31209,7 +31178,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 2043526331}
   eSlotType: 3
-  _item: {fileID: 0}
   eItemType: 1
   equipType: 1
 --- !u!1 &2045154682
@@ -31342,7 +31310,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 2054329467}
   eSlotType: 0
-  _item: {fileID: 0}
   category: 1
 --- !u!114 &2054329467
 MonoBehaviour:
@@ -32410,7 +32377,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 2091927637}
   eSlotType: 0
-  _item: {fileID: 0}
   category: 2
 --- !u!114 &2091927637
 MonoBehaviour:

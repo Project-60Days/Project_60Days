@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04865242a8028fc46a0079b51f0c8ad4, type: 3}
+  m_Name: RUBBER
+  m_EditorClassIdentifier: 
+  English: ITEM_RUBBER
+  data:
+    Index: 1006
+    Category: 0
+    Tier: 0
+    Code: ITEM_RUBBER
+    Rarity: 0
+    AppearTileType: 4
+    TileIncludePossibility: 0
+    Type: 0
+    EquipType: 4
+    EquipArea: 
+    isCanBase: 0
+    CombineSlotCount: 0
+    Description: "\uC2B5\uC9C0\uC5D0\uC11C\uB9CC \uC5BB\uC744 \uC218 \uC788\uB294
+      \uBB3C\uC9C8 \uC911 \uD558\uB098\uB85C \uC8FC\uB85C \uB098\uBB34\uC5D0\uC11C
+      \uC5BB\uC744 \uC218 \uC788\uC5B4 \uC720\uC6A9\uD558\uAC8C \uC0AC\uC6A9\uB41C\uB2E4."
+    EffectDescription: 
+    Korean: "\uACE0\uBB34"
+    English: Rubber
+    Japanese: -1
+    Chinese: -1
+  itemImage: {fileID: 21300000, guid: d4780dc1205c7c7478c970d8c61d24e8, type: 3}
+  itemCount: 0
+  eItemType: 0
+  prefab: {fileID: 5291711458905113346, guid: 11016ff4230542c478b9f13492f2b3d8, type: 3}
+  sfxName: 

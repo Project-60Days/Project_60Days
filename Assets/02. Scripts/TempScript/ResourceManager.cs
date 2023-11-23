@@ -37,7 +37,7 @@ public class ResourceManager : MonoBehaviour
 
     public void GetResource(TileController tile)
     {
-        lastResources = tile.GetComponent<TileInfo>().GetResources(collectiveAbility);
+        lastResources = tile.GetComponent<TileBase>().GetResources(collectiveAbility);
 
         for (int i = 0; i < lastResources.Count; i++)
         {
@@ -89,7 +89,7 @@ public class ResourceManager : MonoBehaviour
 
     public bool CheckResource(TileController tileController)
     {
-        return tileController.GetComponent<TileInfo>().CheckResources();
+        return tileController.GetComponent<TileBase>().CheckResources();
     }
 
     public List<Resource> GetLastResources()
