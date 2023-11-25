@@ -15,7 +15,7 @@ public class SceneLoader : Singleton<SceneLoader>
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    public void LoadSceneAddtive(int _idx)
+    public void LoadSceneAdditive(int _idx)
     {
         SceneManager.LoadScene(_idx, LoadSceneMode.Additive);
 

@@ -5,7 +5,6 @@ public class CraftEffectAnim : MonoBehaviour
 {
     public bool isActive = false;
 
-    float moveDistance = 1920f;
     float moveDuration = 10.0f;
 
     float initPositionX;

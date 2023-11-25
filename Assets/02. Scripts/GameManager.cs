@@ -65,9 +65,9 @@ public class GameManager : Singleton<GameManager>
 
         // �� �̵�
         SceneLoader.instance.LoadScene((int)ESceneType.Game);
-        SceneLoader.instance.LoadSceneAddtive((int)ESceneType.UI);
-        SceneLoader.instance.LoadSceneAddtive((int)ESceneType.Map);
-        App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
+        SceneLoader.instance.LoadSceneAdditive((int)ESceneType.UI);
+        SceneLoader.instance.LoadSceneAdditive((int)ESceneType.Map);
+        App.instance.GetSoundManager().StopBGM();
     }
 
     public void Settings()

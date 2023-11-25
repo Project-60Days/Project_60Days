@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using Yarn.Unity;
+using System.Collections;
 
 public class TutorialController : MonoBehaviour
 {
@@ -11,6 +12,10 @@ public class TutorialController : MonoBehaviour
 
     Image lightBackground;
     Image workBenchImage;
+    Image batteryImage;
+
+    float lightUpDuration = 2f;
+
     public bool isLightUp = false;
 
     int initIndex;
@@ -20,6 +25,7 @@ public class TutorialController : MonoBehaviour
         lightBackground = GameObject.FindWithTag("LightImage").GetComponent<Image>();
         lightBackground.gameObject.SetActive(false);
         workBenchImage = GameObject.FindWithTag("WorkBench").GetComponent<Image>();
+        batteryImage = GameObject.FindWithTag("Battery").GetComponent<Image>();
 
         initIndex = workBenchImage.transform.GetSiblingIndex();
 
@@ -29,8 +35,10 @@ public class TutorialController : MonoBehaviour
 
     public void StartDialogue()
     {
+        LightDownBackground();
         Show();
         dialogueRunner.StartDialogue("Tutorial_01");
+
     }
 
     public void Show()
@@ -62,17 +70,37 @@ public class TutorialController : MonoBehaviour
     }
     public void LightUpBackground()
     {
-        lightBackground.DOFade(0f, 2f).SetEase(Ease.InBounce).OnComplete(() =>
+        StartCoroutine(FillBattery());
+        lightBackground.DOFade(0f, lightUpDuration).SetEase(Ease.InBounce).OnComplete(() =>
         {
             lightBackground.gameObject.SetActive(false);
             isLightUp = true;
         });
     }
-    public void LightDownBackground()
+    IEnumerator FillBattery()
     {
-        lightBackground.DOFade(1f, 0f).SetEase(Ease.InBounce).OnComplete(() =>
+        float timer = 0f;
+        float currentFill;
+        float targetFill = 1f; // 이미지를 채울 양 (0 ~ 1)
+
+        while (timer < lightUpDuration)
+        {
+            timer += Time.deltaTime;
+            currentFill = Mathf.Lerp(0f, targetFill, timer / lightUpDuration);
+            batteryImage.fillAmount = currentFill;
+
+            yield return null;
+        }
+
+        batteryImage.fillAmount = targetFill;
+    }
+
+    void LightDownBackground()
+    {
+        lightBackground.DOFade(1f, 0f).OnComplete(() =>
         {
             lightBackground.gameObject.SetActive(true);
+            batteryImage.fillAmount = 0;
             isLightUp = false;
         });
     }

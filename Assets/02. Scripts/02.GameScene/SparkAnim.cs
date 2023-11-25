@@ -1,21 +1,27 @@
 using UnityEngine;
+using UnityEngine.UI;
+using DG.Tweening;
 
 public class SparkAnim : MonoBehaviour
 {
-    [SerializeField] string animName;
-
     [Header("Interval")]
-    [SerializeField] float minInterval = 5f;
-    [SerializeField] float maxInterval = 15f;
+    [SerializeField] float minInterval = 15f;
+    [SerializeField] float maxInterval = 45f;
 
     Animator animator;
 
+    Image image;
+
     float timer = 0;
-    float interval = 5f;
+    float interval;
+
+    bool isFirst = true;
 
     void Start()
     {
         animator = GetComponent<Animator>();
+        image = GetComponent<Image>();
+        FadeOutSpark();
         GenerateNextInterval();
     }
 
@@ -36,7 +42,8 @@ public class SparkAnim : MonoBehaviour
     /// </summary>
     private void PlayAnimation()
     {
-        animator.SetTrigger(animName);
+        FadeInSpark();
+        animator.SetTrigger("LightUp");
     }
 
     /// <summary>
@@ -45,5 +52,31 @@ public class SparkAnim : MonoBehaviour
     private void GenerateNextInterval()
     {
         interval = Random.Range(minInterval, maxInterval);
+    }
+
+    public void FadeInSpark()
+    {
+        image.DOFade(1f, 0f);
+    }
+
+    public void FadeOutSpark()
+    {
+        image.DOFade(0f, 0f);
+    }
+
+    public void PlaySparkSFX()
+    {
+        if (isFirst == true)
+        {
+            isFirst = false;
+            return;
+        }
+
+        if (UIManager.instance.isUIStatus("UI_NORMAL"))
+        {
+            int sfxIndex = Random.Range(1, 5);
+            App.instance.GetSoundManager().StopSFX();
+            App.instance.GetSoundManager().PlaySFX("SFX_SPARK_" + sfxIndex.ToString());
+        }
     }
 }

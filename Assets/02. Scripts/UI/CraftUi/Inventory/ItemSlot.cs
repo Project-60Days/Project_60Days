@@ -21,7 +21,10 @@ public class ItemSlot : SlotBase
         {
             UIManager.instance.GetCraftingUiController().MoveInventoryToCraft(item);
             string sfxName = "SFX_Crafting_" + item.data.Code;
-            App.instance.GetSoundManager().PlaySFX(sfxName);
+            if (App.instance.GetSoundManager().CheckSFXExist(sfxName) == true)
+                App.instance.GetSoundManager().PlaySFX(sfxName);
+            else
+                App.instance.GetSoundManager().PlaySFX("SFX_Crafting_Item");
             //CraftItemClick?.Invoke(item.prefab);
         }
         else if (UIManager.instance.GetCraftModeController().eCraftModeType == ECraftModeType.Equip)
