@@ -14,8 +14,6 @@ public class TutorialManager : Singleton<TutorialManager>
 
     public void StartTutorial()
     {
-        tutorialController.LightDownBackground();
-
         UIManager.instance.GetPageController().SetTutorialSelect();
 
         UIManager.instance.GetAlertController().SetAlert("note", false);

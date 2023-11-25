@@ -60,7 +60,7 @@ public class PageController : MonoBehaviour
     public void TutorialYesFunc()
     {
         TutorialManager.instance.GetTutorialController().LightUpBackground();
-        UIManager.instance.GetInventoryController().RemoveItemByCode("ITEM_TIER_2_BATTERY");
+        UIManager.instance.GetInventoryController().RemoveItemByCode("ITEM_BATTERY");
         UIManager.instance.GetNoteController().CloseNote();
     }
 }

@@ -74,7 +74,7 @@ tags:
 현 상황 거처는 공격능력을 갖추고 있지 않습니다. 서둘러 글리처에게서 멀어지십시오.
 거처를 누를 시 이동할 수 있는 반경이 표시됩니다.
 <<hide>>
-<<waitMovePoint>>
+//<<waitMovePoint>>
 <<jump Tutorial_06>>
 ===
 title: Tutorial_06

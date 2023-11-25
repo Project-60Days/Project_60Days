@@ -23,6 +23,7 @@ TagManager:
   - Resource
   - LightImage
   - WorkBench
+  - Battery
   layers:
   - Default
   - TransparentFX
