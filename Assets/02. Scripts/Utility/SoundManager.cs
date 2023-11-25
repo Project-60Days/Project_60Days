@@ -84,6 +84,14 @@ public class SoundManager : ManagementBase
     }
 
     /// <summary>
+    /// SFX 멈춤
+    /// </summary>
+    public void StopSFX()
+    {
+        sfxPlayer.Stop();
+    }
+
+    /// <summary>
     /// BGM 볼륨 조절 (0 ~ 1)
     /// </summary>
     /// <param name="volume"></param>
@@ -103,6 +111,17 @@ public class SoundManager : ManagementBase
         sfxVolume = Mathf.Clamp01(volume);
 
         sfxPlayer.volume = sfxVolume;
+    }
+
+    /// <summary>
+    /// SFX 목록에 해당 SFX 있는지 확인
+    /// </summary>
+    /// <param name="sfxName"></param>
+    /// <returns></returns>
+    public bool CheckSFXExist(string sfxName)
+    {
+        if (dic_SFX.ContainsKey(sfxName)) return true;
+        else return false;
     }
 
     public override EManagerType GetManagemetType()

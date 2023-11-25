@@ -30,6 +30,7 @@ public class MenuController : MonoBehaviour
 
     public void EnterMenu()
     {
+        UIManager.instance.AddCurrUIName("UI_MENU");
         gameObject.SetActive(true);
         foreach (var button in buttons)
             button.Init();
@@ -37,6 +38,7 @@ public class MenuController : MonoBehaviour
 
     public void QuitMenu()
     {
+        UIManager.instance.PopCurrUI();
         gameObject.SetActive(false);
     }
 

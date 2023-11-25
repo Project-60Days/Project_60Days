@@ -1514,7 +1514,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
       propertyPath: array_sfx.Array.size
-      value: 18
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
       propertyPath: array_sfx.Array.data[8].clip
@@ -1559,42 +1559,90 @@ PrefabInstance:
     - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
       propertyPath: array_sfx.Array.data[13].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 13040b709979f1545b1a4561dd116931, type: 3}
+      objectReference: {fileID: 8300000, guid: 329adf83082ae124dbee0a0c0bf11007, type: 3}
     - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
       propertyPath: array_sfx.Array.data[13].name
-      value: SFX_Crafting_ITEM_GAS
+      value: SFX_Crafting_Item
       objectReference: {fileID: 0}
     - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
       propertyPath: array_sfx.Array.data[14].clip
       value: 
-      objectReference: {fileID: 8300000, guid: a388f670acdd34443a87fe566bf84acb, type: 3}
+      objectReference: {fileID: 8300000, guid: f72e73ebfb690724288e2c5f0381f661, type: 3}
     - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
       propertyPath: array_sfx.Array.data[14].name
-      value: SFX_Crafting_ITEM_STEEL
+      value: SFX_Crafting_Result
       objectReference: {fileID: 0}
     - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
       propertyPath: array_sfx.Array.data[15].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 7c37cb2b56cb15d4b9927f27a0bb4341, type: 3}
+      objectReference: {fileID: 8300000, guid: 13040b709979f1545b1a4561dd116931, type: 3}
     - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
       propertyPath: array_sfx.Array.data[15].name
-      value: SFX_Crafting_ITEM_RUBBER
+      value: SFX_Crafting_ITEM_GAS
       objectReference: {fileID: 0}
     - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
       propertyPath: array_sfx.Array.data[16].clip
       value: 
-      objectReference: {fileID: 8300000, guid: eed58fed14c568746ae50ffd5c39e3df, type: 3}
+      objectReference: {fileID: 8300000, guid: a388f670acdd34443a87fe566bf84acb, type: 3}
     - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
       propertyPath: array_sfx.Array.data[16].name
-      value: SFX_Crafting_ITEM_CARBON
+      value: SFX_Crafting_ITEM_STEEL
       objectReference: {fileID: 0}
     - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
       propertyPath: array_sfx.Array.data[17].clip
       value: 
-      objectReference: {fileID: 8300000, guid: dcdbe43f6b5b488479ba32fb57fcfb1e, type: 3}
+      objectReference: {fileID: 8300000, guid: 7c37cb2b56cb15d4b9927f27a0bb4341, type: 3}
     - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
       propertyPath: array_sfx.Array.data[17].name
+      value: SFX_Crafting_ITEM_RUBBER
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: array_sfx.Array.data[18].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: eed58fed14c568746ae50ffd5c39e3df, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: array_sfx.Array.data[18].name
+      value: SFX_Crafting_ITEM_CARBON
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: array_sfx.Array.data[19].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: dcdbe43f6b5b488479ba32fb57fcfb1e, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: array_sfx.Array.data[19].name
       value: SFX_Crafting_ITEM_PLASMA
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: array_sfx.Array.data[20].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 90ff527d0d9962c4aa912327e7a8cf4e, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: array_sfx.Array.data[20].name
+      value: SFX_SPARK_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: array_sfx.Array.data[21].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 150b4e80af302464f8ba0d80c77b6049, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: array_sfx.Array.data[21].name
+      value: SFX_SPARK_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: array_sfx.Array.data[22].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 04bb628f9215e3747b8f77a8d7bac6ec, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: array_sfx.Array.data[22].name
+      value: SFX_SPARK_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: array_sfx.Array.data[23].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 009267f0e5637ca4b9bec0d6190d87e0, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: array_sfx.Array.data[23].name
+      value: SFX_SPARK_4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}

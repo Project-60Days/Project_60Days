@@ -61,6 +61,7 @@ public class SelectController : ControllerBase
 
     void OpenSelectPanel()
     {
+        UIManager.instance.AddCurrUIName("UI_SELECT");
         gameObject.SetActive(true);
     }
 }
