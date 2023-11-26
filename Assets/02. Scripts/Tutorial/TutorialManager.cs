@@ -26,6 +26,7 @@ public class TutorialManager : Singleton<TutorialManager>
 
     public void EndTutorial()
     {
+        UIManager.instance.GetQuestController().CreateQuest("chapter01_GetNetworkChip"); //일단 임시.. pv나오면 그거 재생 끝나고 생성되게 수정하겠습니다.
         Destroy(this);
     }
 }

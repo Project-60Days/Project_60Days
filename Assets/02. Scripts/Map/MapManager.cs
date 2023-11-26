@@ -218,7 +218,7 @@ public class MapManager : ManagementBase
     {
         yield return StartCoroutine(mapController.NextDay());
         resourceManager.GetResource(mapController.Player.TileController);
-
+        UIManager.instance.GetNextDayController().SetResourcesResultPage();
         mapUIController.OffPlayerMovePoint();
 
         CheckRoutine();

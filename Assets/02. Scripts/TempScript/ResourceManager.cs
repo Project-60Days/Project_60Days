@@ -53,8 +53,6 @@ public class ResourceManager : MonoBehaviour
                 var item = itemSO.items.ToList().Find(x => x.data.English == resource.ItemCode);
 
                 Debug.LogFormat("{0} 자원 {1}개 획득", item.data.Korean, lastResources[i].ItemCount);
- 
-                UIManager.instance.GetPageController().SetResultPage("ITEM_CARBON_None4");
                 isGetResource = true;
             }
             else
@@ -63,7 +61,6 @@ public class ResourceManager : MonoBehaviour
                 var item = itemSO.items.ToList().Find(x => x.data.English == lastResources[i].ItemCode);
 
                 Debug.LogFormat("새로운 자원 {0} {1}개 획득했다.", item.data.Korean, lastResources[i].ItemCount);
-                UIManager.instance.GetPageController().SetResultPage("ITEM_CARBON_None4");
                 isGetResource = true;
             }
 
