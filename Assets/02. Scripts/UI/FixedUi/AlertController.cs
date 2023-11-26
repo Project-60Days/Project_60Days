@@ -26,11 +26,13 @@ public class AlertController : MonoBehaviour
 
     public void ClickNoteAlert()
     {
+        if (UIManager.instance.isUIStatus("UI_NORMAL") == false) return;
         UIManager.instance.GetNoteController().OpenNote();
     }
 
     public void CautionAlert()
     {
+        if (UIManager.instance.isUIStatus("UI_NORMAL") == false) return;
         UIManager.instance.GetNextDayController().GoToMap();
     }
 }

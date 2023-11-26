@@ -242,6 +242,12 @@ public class CraftingUiController : ControllerBase
 
             return (cnt == _count);
     }
+
+    public bool isMoreThanThree()
+    {
+        if (craftItems.Count >= 3) return true;
+        else return false;
+    }
     #endregion
 
 

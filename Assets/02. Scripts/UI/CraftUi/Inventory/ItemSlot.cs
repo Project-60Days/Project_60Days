@@ -15,7 +15,7 @@ public class ItemSlot : SlotBase
 
     public override void OnPointerClick(PointerEventData eventData)
     {
-        var tempItem = item;
+        if (UIManager.instance.GetCraftingUiController().isMoreThanThree() == true) return;
         
         if (UIManager.instance.GetCraftModeController().eCraftModeType == ECraftModeType.Craft)
         {

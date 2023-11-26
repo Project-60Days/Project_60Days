@@ -58,6 +58,7 @@ public class WorkBenchUiOpen : MonoBehaviour
         UIManager.instance.AddCurrUIName(StringUtility.UI_CRAFTING);
 
         ActivateUiObjects(true);
+        UIManager.instance.GetItemInfoController().HideInfo();
         craftEffectAnim.Init();
 
         FadeInUiObjects();
@@ -84,10 +85,5 @@ public class WorkBenchUiOpen : MonoBehaviour
             .Join(productionUi.GetComponent<CanvasGroup>().DOFade(0f, 0.5f))
             .Append(craftingUi.GetComponent<CanvasGroup>().DOFade(0f, 0.5f))
             .OnComplete(() => ActivateUiObjects(false));
-    }
-
-    public void openuitest()
-    {
-        OpenUi();
     }
 }
