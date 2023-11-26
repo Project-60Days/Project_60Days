@@ -758,6 +758,16 @@ public class MapController : Singleton<MapController>
         return null;
     }
 
+    public bool SensingSignalTower()
+    {
+        var structure = SensingStructure();
+        
+        if (structure is Tower)
+            return true;
+        else
+            return false;
+    }
+
     public List<int> RandomTileSelect(EObjectSpawnType type, int randomInt = 1)
     {
         var tiles = hexaMap.Map.Tiles;

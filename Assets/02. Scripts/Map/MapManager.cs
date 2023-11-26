@@ -261,9 +261,8 @@ public class MapManager : ManagementBase
     {
         CheckZombies();
         CheckStructureNeighbor();
-        CheckLandformPlayMusic();
         
-        if(isVisitNoneTile)
+        if(isVisitNoneTile == false)
         {
             TutorialTileCheck();
         }
@@ -288,8 +287,6 @@ public class MapManager : ManagementBase
         var structure = mapController.SensingStructure();
         if (structure != null)
         {
-            Debug.Log("있습니다.");
-            UIManager.instance.GetAlertController().SetAlert("note", true);
             UIManager.instance.GetPageController().SetSelectPage("structureSelect", structure);
         }
         else
@@ -305,7 +302,7 @@ public class MapManager : ManagementBase
 
         switch (curTile.TileData.English)
         {
-            case "City":
+            case "None":
                 App.instance.GetSoundManager().PlayBGM("Ambience_City");
                 break;
             case "Jungle":
@@ -332,11 +329,15 @@ public class MapManager : ManagementBase
 
     public void TutorialTileCheck()
     {
-        if(mapController.Player.TileController.GetComponent<TileBase>().TileData.English == "City")
+        if(mapController.Player.TileController.GetComponent<TileBase>().TileData.English == "None")
         {
-            Debug.Log("도시 타일 위에 있음");
-            //도시 타일 일 경우
-            // 퀘스트 아이템 획득
+            UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_NETWORKCHIP");
+            isVisitNoneTile = true;
         }
+    }
+
+    public bool SensingSignalTower()
+    {
+        return mapController.SensingSignalTower();
     }
 }
