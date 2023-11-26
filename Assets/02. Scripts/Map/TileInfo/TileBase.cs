@@ -7,8 +7,8 @@ using Random = UnityEngine.Random;
 [SelectionBase]
 public class TileBase : MonoBehaviour
 {
-    #region Variables    
-    
+    #region Variables
+
     [SerializeField] ItemSO itemSO;
     [SerializeField] ETileType tileType;
     [SerializeField] Sprite landformSprite;
@@ -54,10 +54,10 @@ public class TileBase : MonoBehaviour
         gachaList = new List<EResourceType>();
         appearanceResources = new List<Resource>();
         tile = gameObject.transform.GetComponent<TileController>().Model;
-        
+
         App.instance.GetDataManager().tileData.TryGetValue(GetTileDataIndex(), out TileData data);
         tileData = data;
-        
+
         gachaProbability.Add(EResourceType.Steel, tileData.RemainPossibility_Steel);
         gachaProbability.Add(EResourceType.Carbon, tileData.RemainPossibility_Carbon);
         gachaProbability.Add(EResourceType.Plasma, tileData.RemainPossibility_Plasma);
@@ -82,8 +82,8 @@ public class TileBase : MonoBehaviour
         for (int i = 0; i < gachaList.Count; i++)
         {
             var itemBase = itemSO.items.ToList()
-            .Find(x => x.data.English == gachaList[i].ToString());
-            
+                .Find(x => x.data.English == gachaList[i].ToString());
+
             var resource = new Resource(gachaList[i].ToString(), Random.Range(1, 16), itemBase);
             appearanceResources.Add(resource);
         }
@@ -132,14 +132,14 @@ public class TileBase : MonoBehaviour
                 if (appearanceResources.Count == 1)
                 {
                     resourceText = appearanceResources[0].ItemBase.data.Korean + " " +
-                               appearanceResources[0].ItemCount + "EA\n";
+                                   appearanceResources[0].ItemCount + "EA\n";
                 }
                 else
                 {
                     resourceText = appearanceResources[0].ItemBase.data.Korean + " " +
-                               appearanceResources[0].ItemCount + "EA\n" +
-                               appearanceResources[1].ItemBase.data.Korean + " " +
-                               appearanceResources[1].ItemCount + "EA\n";
+                                   appearanceResources[0].ItemCount + "EA\n" +
+                                   appearanceResources[1].ItemBase.data.Korean + " " +
+                                   appearanceResources[1].ItemCount + "EA\n";
                 }
             }
             else
@@ -186,7 +186,8 @@ public class TileBase : MonoBehaviour
             }
             else
             {
-                resourceIcons[resourceIcons.Length - 1].transform.parent.transform.localEulerAngles = new Vector3(90, -rotationValue.y, 0);
+                resourceIcons[resourceIcons.Length - 1].transform.parent.transform.localEulerAngles =
+                    new Vector3(90, -rotationValue.y, 0);
 
                 for (int i = 0; i < resourceIcons.Length; i++)
                 {
@@ -211,7 +212,7 @@ public class TileBase : MonoBehaviour
         {
             Resource item = appearanceResources[i];
             var itemBase = itemSO.items.ToList()
-            .Find(x => x.data.English == appearanceResources[i].ItemCode);
+                .Find(x => x.data.English == appearanceResources[i].ItemCode);
             if (item.ItemCount - count >= 0)
             {
                 list.Add(new Resource(item.ItemCode, count, itemBase));
@@ -223,6 +224,7 @@ public class TileBase : MonoBehaviour
                 item.ItemCount -= count;
             }
         }
+
         ResourceUpdate(true);
         return list;
     }
@@ -237,7 +239,8 @@ public class TileBase : MonoBehaviour
 
     void CheckPlayerTIle(Tile tile)
     {
-        if (App.instance.GetMapManager().mapController.GetTilesInRange(tile, 3).Contains(this.tile) || this.tile == tile)
+        if (App.instance.GetMapManager().mapController.GetTilesInRange(tile, 3).Contains(this.tile) ||
+            this.tile == tile)
         {
             ResourceUpdate(true);
         }
@@ -256,11 +259,12 @@ public class TileBase : MonoBehaviour
 
     public void SpawnTower(List<Tile> neighborTiles)
     {
-        var NeighborBases =neighborTiles
+        var neighborBases = neighborTiles
             .Select(x => ((GameObject)x.GameEntity).GetComponent<TileBase>()).ToList();
-        
+
+
         structure = new Tower();
-        ((Tower)structure).Init(NeighborBases);
+        ((Tower)structure).Init(neighborBases);
 
         resourceText = "구조물";
         for (int i = 0; i < resourceIcons.Length; i++)
@@ -270,14 +274,18 @@ public class TileBase : MonoBehaviour
             item.gameObject.SetActive(false);
         }
     }
-    
-    public void SpawnNormalStructure(List<Tile> neighborTiles)
+
+    public void SpawnNormalStructure(List<Tile> neighborTiles, List<Tile> colleagueTiles)
     {
-        var neighborBases =neighborTiles
+        var neighborBases = neighborTiles
             .Select(x => ((GameObject)x.GameEntity).GetComponent<TileBase>()).ToList();
-        
+
+        var colleagueBases = colleagueTiles
+            .Select(x => ((GameObject)x.GameEntity).GetComponent<TileBase>()).ToList();
+
         structure = new NormalStructure();
         ((NormalStructure)structure).Init(neighborBases);
+        ((NormalStructure)structure).SetColleagues(colleagueBases);
 
         resourceText = "구조물";
         for (int i = 0; i < resourceIcons.Length; i++)
@@ -287,12 +295,12 @@ public class TileBase : MonoBehaviour
             item.gameObject.SetActive(false);
         }
     }
-    
+
     public void SetNeighborStructure()
     {
         isStructureNeighbor = true;
     }
-    
+
     int GetTileDataIndex()
     {
         switch (tileType)
@@ -308,6 +316,7 @@ public class TileBase : MonoBehaviour
             case ETileType.Neo:
                 return 1005;
         }
+
         return 0;
     }
 }
