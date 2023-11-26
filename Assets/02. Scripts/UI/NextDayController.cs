@@ -72,10 +72,25 @@ public class NextDayController : ControllerBase
         App.instance.GetMapManager().SetMapCameraPriority(false);
         transposer.m_CameraDistance = 15f;
 
+        SetResourcesResultPage();
         UIManager.instance.GetNoteController().SetNextDay();
 
-
         StartCoroutine(App.instance.GetMapManager().NextDayCoroutine());
+    }
+
+    void SetResourcesResultPage()
+    {
+        var resources = App.instance.GetMapManager().resourceManager.GetLastResources();
+
+        for (int i = 0; i < resources.Count; i++)
+        {
+            string tileName = App.instance.GetMapManager().mapController
+                .Player.TileController.GetComponent<TileBase>().TileData.English;
+            string nodeName = resources[i].ItemBase.data.Code + "_" + tileName + "1" + ToString();
+
+            Debug.Log(nodeName);
+            UIManager.instance.GetPageController().SetResultPage(nodeName);
+        }
     }
 
     /// <summary>

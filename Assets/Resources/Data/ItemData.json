@@ -542,5 +542,22 @@
     "English": "Energycannon",
     "Japanese": -1,
     "Chinese": -1
+  },
+  {
+    "Index": 1032,
+    "Category": 1,
+    "Tier": null,
+    "Code": "ITEM_NETWORKCHIP",
+    "AppearTileType": 1,
+    "Type": 1,
+    "EquipType": 0,
+    "EquipArea": "공격형 부품",
+    "CombineSlotCount": 0,
+    "Description": "네트워크칩임",
+    "EffectDescription": "",
+    "Korean": "네트워크 칩",
+    "English": "Network Chip",
+    "Japanese": -1,
+    "Chinese": -1
   }
 ]
