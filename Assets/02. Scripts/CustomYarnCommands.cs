@@ -47,11 +47,6 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         //dialogueRunner.AddCommandHandler<string>("play_bgm", PlayBGM);
         //dialogueRunner.AddCommandHandler<string>("play_sfx", PlaySFX);
         //dialogueRunner.AddCommandHandler<string>("stop_bgm", StopBGM);
-
-        dialogueRunner.AddCommandHandler<string>("setResultNote", SetResultPage);
-        dialogueRunner.AddCommandHandler<string>("setSelectNote", SetSelectPage);
-
-        dialogueRunner.AddCommandHandler("setResourcesResult", getResourcesResult);
     }
 
 
@@ -194,33 +189,19 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     #endregion
 
 
-    void SetResultPage(string _nodeName)
-    {
-        UIManager.instance.GetPageController().SetResultPage(_nodeName);
-    }
-    void SetSelectPage(string _nodeName)
-    {
-        UIManager.instance.GetPageController().SetSelectPageTemp(_nodeName);
-    }
-
     [YarnFunction("getResourceCount")]
     public static int GetResourceCount(string _itemCode)
     {
-        return 0;
-    }
-
-    void getResourcesResult()
-    {
         var resources = App.instance.GetMapManager().resourceManager.GetLastResources();
+
+        int count = 0;
 
         for (int i = 0; i < resources.Count; i++)
         {
-            string tileName = App.instance.GetMapManager().mapController
-                .Player.TileController.GetComponent<TileBase>().TileData.English;
-            string nodeName = resources[i].ItemBase.data.Code + "_" + tileName + resources[i].ItemCount.ToString();
-
-            Debug.Log(nodeName);
-            UIManager.instance.GetPageController().SetResultPage(nodeName);
+            if (resources[i].ItemBase.data.Code == _itemCode)
+                count++;
         }
+
+        return count;
     }
 }

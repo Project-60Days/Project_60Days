@@ -14,7 +14,7 @@ public class NoteController : ControllerBase
     [SerializeField] Button closeBtn;
 
     NotePageBase[] pages;
-    NotePageBase[] notePages;
+    public NotePageBase[] notePages;
 
     bool isNewDay = true;
     bool isOpen = false;

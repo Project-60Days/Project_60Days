@@ -25,19 +25,11 @@ public class PageController : MonoBehaviour
 
     public void SetResultPage(string _nodeName)
     {
-        //var nextDiaryData = App.instance.GetDataManager().diaryData[_code];
         resultPage.SetNodeName(_nodeName);
-    }
-
-    public void SetSelectPageTemp(string _nodeName)
-    {
-        //var nextDiaryData = App.instance.GetDataManager().diaryData[_code];
-        selectPage.SetNodeName(_nodeName);
     }
 
     public void SetSelectPage(string _nodeName, StructureBase _structData)
     {
-        //var nextDiaryData = App.instance.GetDataManager().diaryData[_code];
         selectPage.SetNodeName(_nodeName);
 
         yesBtn.onClick.RemoveAllListeners();
