@@ -45,7 +45,6 @@ public class NextDayController : ControllerBase
         Sequence sequence = DOTween.Sequence();
         sequence.Append(blackPanel.DOFade(0f, 1f))
             .OnComplete(() => blackPanel.gameObject.SetActive(false));
-        sequence.Play();
     }
 
     /// <summary>
