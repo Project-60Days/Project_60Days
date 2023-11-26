@@ -54,6 +54,7 @@ public class NextDayController : ControllerBase
     public void NextDayEvent()
     {
         blackPanel.gameObject.SetActive(true);
+        
         Sequence sequence = DOTween.Sequence();
         sequence.Append(blackPanel.DOFade(1f, 0.5f)).SetEase(Ease.InQuint)
             .AppendInterval(0.5f)
@@ -72,13 +73,10 @@ public class NextDayController : ControllerBase
         App.instance.GetMapManager().SetMapCameraPriority(false);
         transposer.m_CameraDistance = 15f;
 
-        SetResourcesResultPage();
-        UIManager.instance.GetNoteController().SetNextDay();
-
         StartCoroutine(App.instance.GetMapManager().NextDayCoroutine());
     }
 
-    void SetResourcesResultPage()
+    public void SetResourcesResultPage()
     {
         var resources = App.instance.GetMapManager().resourceManager.GetLastResources();
 
@@ -86,11 +84,12 @@ public class NextDayController : ControllerBase
         {
             string tileName = App.instance.GetMapManager().mapController
                 .Player.TileController.GetComponent<TileBase>().TileData.English;
-            string nodeName = resources[i].ItemBase.data.Code + "_" + tileName + "1" + ToString();
+            string nodeName = resources[i].ItemBase.data.Code + "_" + tileName + "1";
 
-            Debug.Log(nodeName);
             UIManager.instance.GetPageController().SetResultPage(nodeName);
         }
+
+        UIManager.instance.GetNoteController().SetNextDay();
     }
 
     /// <summary>
