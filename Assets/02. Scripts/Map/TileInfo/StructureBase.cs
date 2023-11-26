@@ -20,7 +20,13 @@ public abstract class StructureBase
 
     public List<TileBase> NeighborTiles => neighborTiles;
 
+    protected List<TileBase> colleagues;
+
+    public List<TileBase> Colleagues => colleagues;
+    
     public abstract void Init(List<TileBase> _neighborTiles);
     public abstract void YesFunc();
     public abstract void NoFunc();
+    
+
 }

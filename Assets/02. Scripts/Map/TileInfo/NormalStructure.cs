@@ -12,10 +12,19 @@ public class NormalStructure : StructureBase
         resource = new Resource("Wire", 10);
         neighborTiles = _neighborTiles;
     }
+    
+    public void SetColleagues(List<TileBase> _colleagues)
+    {
+        colleagues = _colleagues;
+    }
 
     public override void YesFunc()
     {
-        isAccessible = true;
+        foreach (var tile in colleagues)
+        {
+            ((NormalStructure)tile.Structure).AllowAccess();
+        }
+        
         App.instance.GetMapManager().ResearchStart();
         
         //이후 자원 수집 시 isUse도 true로 변경
@@ -25,5 +34,10 @@ public class NormalStructure : StructureBase
     {
         // 접근 불가 장애물 타일로 변경
         throw new System.NotImplementedException();
+    }
+    
+    public void AllowAccess()
+    {
+        isAccessible = true;
     }
 }

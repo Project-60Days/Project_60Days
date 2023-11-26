@@ -130,8 +130,6 @@ public class MapController : Singleton<MapController>
         }
 
         GenerateTower();
-        GenerateNormalStructure(new Coords(2,0),3);
-        GenerateNormalStructure(new Coords(-2,0),7);
         
         csFogWar.instance.InitializeMapControllerObjects(player.gameObject, 5f);
         DeselectAllBorderTiles();
@@ -419,8 +417,9 @@ public class MapController : Singleton<MapController>
         if (explorer != null)
             StartCoroutine(explorer.GetComponent<Explorer>().Move());
 
-        foreach (var zombie in zombiesList)
+        for (var index = 0; index < zombiesList.Count; index++)
         {
+            var zombie = zombiesList[index];
             zombie.GetComponent<ZombieBase>().DetectionAndAct();
         }
 
@@ -696,13 +695,14 @@ public class MapController : Singleton<MapController>
         for (var index = 0; index < tilelist.Count; index++)
         {
             var value = tilelist[index];
-            ((GameObject)value.GameEntity).GetComponent<TileBase>().SpawnNormalStructure(neighborList);
+            ((GameObject)value.GameEntity).GetComponent<TileBase>().SpawnNormalStructure(neighborList, tilelist);
 
             var spawnPos = ((GameObject)value.GameEntity).transform.position;
             spawnPos.y += 1.1f;
 
             var structure = Instantiate(mapPrefab.items[(int)EMabPrefab.NormalStructure].prefab, spawnPos, Quaternion.Euler(0, 90, 0),
                 objectsTransform);
+            
             structure.name = "Structure" + index;
         }
     }
@@ -745,16 +745,27 @@ public class MapController : Singleton<MapController>
 
     public StructureBase SensingStructure()
     {
-        var tile = (GameObject)(player.TileController.Model.GameEntity);
+        var tileList = player.TileController.Model.Neighbours;
+        
+        foreach (var item in tileList)
+        {
+            var tileBase = ((GameObject)item.Value.GameEntity).GetComponent<TileBase>();
+            
+            if(tileBase.Structure != null)
+                return tileBase.Structure;
+        }
 
-        if (tile.GetComponent<TileBase>().IsStructureNeighbor == true)
-        {
-            return tile.GetComponent<TileBase>().Structure;
-        }
+        return null;
+    }
+
+    public bool SensingSignalTower()
+    {
+        var structure = SensingStructure();
+        
+        if (structure is Tower)
+            return true;
         else
-        {
-            return null;
-        }
+            return false;
     }
 
     public List<int> RandomTileSelect(EObjectSpawnType type, int randomInt = 1)
