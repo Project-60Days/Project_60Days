@@ -236,4 +236,10 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
         return count;
     }
+
+    [YarnFunction("getResourceIndex")]
+    static int GetResourceIndex(string _itemCode)
+    {
+        return UIManager.instance.GetInventoryController().GetItemIndex(_itemCode);
+    }
 }

@@ -48,7 +48,7 @@ tags:
 <<highlight Alert UI_NOTE>>
 <<hide>>
 <<waitUntil UI_NOTE>>
-<<waitForSeconds>>
+<<wait  1>>
 <<waitMoveScroll>>
 <<setScrollBar false>>
 <<highlight ClickYesBtn UI_NORMAL>>
