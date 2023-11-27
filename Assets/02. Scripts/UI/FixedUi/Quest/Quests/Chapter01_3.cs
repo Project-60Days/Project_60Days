@@ -19,12 +19,12 @@ public class Chapter01_3 : QuestBase
 
     public override bool CheckMeetCondition()
     {
-        return true;
+        return false;
     }
 
     public override string SetQuestText()
     {
-        return "송신기 접근 어쩌구 퀘스트";
+        return "네트워크 칩 연결하기";
     }
 }
 

@@ -16,7 +16,7 @@ public abstract class QuestBase : MonoBehaviour
     public IEnumerator CheckQuestComplete()
     {
         yield return new WaitUntil(() => CheckMeetCondition());
-        UIManager.instance.GetQuestController().nextTutorialIndex = nextQuestIndex;
+        UIManager.instance.GetQuestController().SetNextQuestIndex(eQuestType, nextQuestIndex);
         UIManager.instance.GetQuestController().StartNextQuest(this);
     }
 }

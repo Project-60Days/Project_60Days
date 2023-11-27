@@ -1,3 +1,4 @@
+using System.Collections;
 using Cinemachine;
 using DG.Tweening;
 using UnityEngine;
@@ -7,8 +8,6 @@ public class NextDayController : ControllerBase
 {
     [SerializeField] Image blackPanel;
 
-    CanvasGroup shelterUi;
-
     CinemachineVirtualCamera mapCamera;
     CinemachineFramingTransposer transposer;
 
@@ -17,35 +16,19 @@ public class NextDayController : ControllerBase
         return EControllerType.NEXTDAY;
     }
 
-    void Awake()
-    {
-        Init();
-    }
-
     void Start()
     {
-        shelterUi = GameObject.FindGameObjectWithTag("ShelterUi").GetComponent<CanvasGroup>();
         mapCamera = GameObject.FindGameObjectWithTag("MapCamera").GetComponent<CinemachineVirtualCamera>();
         transposer = mapCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
         transposer.m_CameraDistance = 5f;
         App.instance.AddController(this); //?
     }
 
-    /// <summary>
-    /// 초기화 함수 모음
-    /// </summary>
-    void Init()
-    {
-        InitBlackPanel();
-        UIManager.instance.GetAlertController().InitAlert();
-    }
-
-    void InitBlackPanel()
+    public void InitBlackPanel()
     {
         Sequence sequence = DOTween.Sequence();
         sequence.Append(blackPanel.DOFade(0f, 1f))
             .OnComplete(() => blackPanel.gameObject.SetActive(false));
-        sequence.Play();
     }
 
     /// <summary>
@@ -57,23 +40,31 @@ public class NextDayController : ControllerBase
         
         Sequence sequence = DOTween.Sequence();
         sequence.Append(blackPanel.DOFade(1f, 0.5f)).SetEase(Ease.InQuint)
-            .AppendInterval(0.5f)
-            .Append(shelterUi.DOFade(1f, 0f))
-            .OnComplete(() => NextDayEventCallBack());
+            .OnComplete(() => {
+                StartCoroutine(NextDayEventCallBack(()=> {
+                    UIManager.instance.GetNoteController().SetNextDay();
+                    InitBlackPanel();
+                }));
+            });
     }
 
     /// <summary>
     /// NextDayEvent 콜백함수
     /// </summary>
-    void NextDayEventCallBack()
+    IEnumerator NextDayEventCallBack(System.Action callback)
     {
         App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
-        Init();
+
+        UIManager.instance.GetAlertController().InitAlert();
 
         App.instance.GetMapManager().SetMapCameraPriority(false);
         transposer.m_CameraDistance = 15f;
 
-        StartCoroutine(App.instance.GetMapManager().NextDayCoroutine());
+        yield return StartCoroutine(App.instance.GetMapManager().NextDayCoroutine());
+
+        UIManager.instance.GetNextDayController().SetResourcesResultPage();
+
+        callback?.Invoke();
     }
 
     public void SetResourcesResultPage()
@@ -88,8 +79,6 @@ public class NextDayController : ControllerBase
 
             UIManager.instance.GetPageController().SetResultPage(nodeName);
         }
-
-        UIManager.instance.GetNoteController().SetNextDay();
     }
 
     /// <summary>
@@ -97,17 +86,21 @@ public class NextDayController : ControllerBase
     /// </summary>
     public void GoToLab()
     {
-        App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
+        blackPanel.gameObject.SetActive(true);
+        
         App.instance.GetSoundManager().PlaySFX("SFX_SceneChange_MapToBase");
+        
         Sequence sequence = DOTween.Sequence();
         sequence
-            .Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 5f, 0.5f))
-            .OnComplete(() =>
+            .Append(blackPanel.DOFade(1f, 0.5f))
+            .Join(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 5f, 0.5f))
+            .AppendCallback(() =>
             {
                 App.instance.GetMapManager().SetMapCameraPriority(false);
-
+                App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
             })
-            .Append(shelterUi.DOFade(1f, 0.5f));
+            .Append(blackPanel.DOFade(0f, 1f))
+            .OnComplete(() => blackPanel.gameObject.SetActive(false));
     }
 
     /// <summary>
@@ -116,27 +109,19 @@ public class NextDayController : ControllerBase
     public void GoToMap()
     {
         blackPanel.gameObject.SetActive(true);
+
         Sequence sequence = DOTween.Sequence();
         sequence
-            .Append(shelterUi.DOFade(0f, 0.5f))
-            .Join(blackPanel.DOFade(1f, 0.5f))
-            .OnComplete(() => ZoomInMap());
-    }
-
-    /// <summary>
-    /// GoToMap()에서 호출하는 콜백함수
-    /// </summary>
-    void ZoomInMap()
-    {
-        App.instance.GetSoundManager().PlaySFX("SFX_SceneChange_BaseToMap");
-        App.instance.GetMapManager().SetMapCameraPriority(true);
-        blackPanel.DOFade(0f, 0.5f);
-        DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 10f, 0.5f)
-            .OnComplete(() =>
+            .Append(blackPanel.DOFade(1f, 0.5f))
+            .AppendCallback(() =>
             {
-                blackPanel.gameObject.SetActive(false);
+                App.instance.GetSoundManager().PlaySFX("SFX_SceneChange_BaseToMap");
 
+                App.instance.GetMapManager().SetMapCameraPriority(true);
                 App.instance.GetMapManager().CheckLandformPlayMusic();
-            });
+            })
+            .Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 10f, 0.5f))
+            .Join(blackPanel.DOFade(0f, 0.5f))
+            .OnComplete(() => blackPanel.gameObject.SetActive(false));
     }
 }

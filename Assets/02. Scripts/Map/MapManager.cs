@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Hexamap;
-using UnityEditor.ShaderKeywordFilter;
 
 public enum ETileMouseState
 {
@@ -28,7 +27,7 @@ public class MapManager : ManagementBase
     bool canPlayerMove;
     bool isDronePrepared;
     bool isDisturbtorPrepared;
-    bool isVisitNoneTile;
+    bool isVisitNoneTile = false;
 
     void Update()
     {
@@ -218,7 +217,6 @@ public class MapManager : ManagementBase
     {
         yield return StartCoroutine(mapController.NextDay());
         resourceManager.GetResource(mapController.Player.TileController);
-        UIManager.instance.GetNextDayController().SetResourcesResultPage();
         mapUIController.OffPlayerMovePoint();
 
         CheckRoutine();
@@ -261,7 +259,6 @@ public class MapManager : ManagementBase
     {
         CheckZombies();
         CheckStructureNeighbor();
-        
         if(isVisitNoneTile == false)
         {
             TutorialTileCheck();

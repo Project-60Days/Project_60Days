@@ -37,11 +37,15 @@ public class PageController : MonoBehaviour
 
         yesBtn.onClick.AddListener(_structData.YesFunc);
         noBtn.onClick.AddListener(_structData.NoFunc);
+
+        yesBtn.onClick.AddListener(UIManager.instance.GetNoteController().CloseNote);
+        noBtn.onClick.AddListener(UIManager.instance.GetNoteController().CloseNote);
     }
 
     public void SetTutorialSelect()
     {
         selectPage.SetNodeName("tutorialSelect");
+        UIManager.instance.GetNoteController().dayCount = -1;
         UIManager.instance.GetNoteController().SetNextDay();
         yesBtn.onClick.RemoveAllListeners();
         noBtn.onClick.RemoveAllListeners();

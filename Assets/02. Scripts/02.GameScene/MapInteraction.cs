@@ -15,6 +15,7 @@ public class MapInteraction : MonoBehaviour, IPointerClickHandler
     /// <param name="eventData"></param>
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (UIManager.instance.isUIStatus("UI_NORMAL") == false) return;
         UIManager.instance.GetNextDayController().GoToMap();
     }
 }
