@@ -149,12 +149,6 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         return StartCoroutine(new WaitUntil(() => UIManager.instance.GetNoteController().CheckIfScrolledToEnd()));
     }
 
-    [YarnCommand("waitForSeconds")]
-    static IEnumerator WaitForSeconds()
-    {
-        yield return new WaitForSeconds(1f);
-    }
-
     void SetScrollBar(bool _isInteractable)
     {
         UIManager.instance.GetNoteController().SetScrollBarInteractable(_isInteractable);
@@ -235,11 +229,5 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         }
 
         return count;
-    }
-
-    [YarnFunction("getResourceIndex")]
-    static int GetResourceIndex(string _itemCode)
-    {
-        return UIManager.instance.GetInventoryController().GetItemIndex(_itemCode);
     }
 }

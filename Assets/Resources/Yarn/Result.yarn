@@ -13,6 +13,11 @@ tags:
 ---
 송신탑 안들어감
 ===
+
+
+
+
+
 title: ITEM_STEEL_None1
 tags:
 ---
@@ -43,6 +48,7 @@ tags:
 <<appendNode>>
 <br>   찬란했던 시대의 거대 기계들 사이로 우리는 발을 딛었다. 여기저기 고장난, 부서진 파편들이 이곳에서 우리를 맞이했다. 분열된 벽과 고장난 로봇은 우리를 지나가며 우리의 목표에 한 발짝 더 가까이 다가가게 했다. 고대의 기계들이 우리 주변을 둘러싸고 있었고, 그들은 우리의 시선을 사로잡았다. 우리는 거대 기계 속에서 아직 사용 가능해 보이는 부품들을 떼어냈다.<br><color=\#38cddc>   (  <sprite index=0>  +  {getResourceCount("ITEM_STEEL")}  )</color><br><br>
 ===
+
 title: ITEM_STEEL_Desert1
 tags:
 ---
@@ -73,24 +79,7 @@ tags:
 <<appendNode>>
 <br>   사막의 수많은 모래사장 사이에서, 과거엔 번성했던 버려진 도시를 발견했다. 우리는 고대의 건물들과 기계들의 유물을 발견했다. 우리는 그들이 이 곳에 세웠던 네오-뉴웨이브 건물들과 거리들을 상상해보며, 이제는 죽은 사막 속에서 고독히 서있는 이 유물들을 보게 되었다.<br><color=\#38cddc>   (  <sprite index=0>  +  {getResourceCount("ITEM_STEEL")}  )</color><br><br>
 ===
-title: ITEM_STEEL_Jungle1
-tags:
----
-<<appendNode>>
-<br>   습지의 산란한 풀이 내 발을 감싸고 있었다. 무거운 공기가 거의 나를 짓누르는 듯했다. 나는 습지의 강가를 따라서 걷고 있었고, 강물은 침묵으로 내 속삭임을 덮어버리고 있었다. 이 곳은 살아 있는 것조차 어려워 보였다.<br>   나의 눈은 강물을 따라 흩어진 강철 조각을 발견했다. 그것들은 습지의 살아있는 푸른 물과 대비되어 빛나고 있었다. 이곳에 강철이 있을 줄은 예상치 못했다. 더욱이 이 고립된 곳에서 강철은 더욱 소중한 것으로 느껴졌다.<br><color=\#38cddc>   (  <sprite index=0>  +  {getResourceCount("ITEM_STEEL")}  )</color><br><br>
-===
-title: ITEM_STEEL_Jungle2
-tags:
----
-<<appendNode>>
-<br>   습지의 장대한 식생이 살아숨쉬는 것처럼 보였다. 나는 이들 사이로 돌아다니며, 이 늪지대의 은밀한 비밀을 찾아나섰다. 가시덩굴과 거대한 나무들 사이로, 나는 한 숨겨진 상자를 발견했다. 그것은 녹슨 강철로 만들어져 있었고, 어두운 습기에 잠겨있었다.<br><color=\#38cddc>   (  <sprite index=0>  +  {getResourceCount("ITEM_STEEL")}  )</color><br><br>
-===
-title: ITEM_STEEL_Jungle3
-tags:
----
-<<appendNode>>
-<br>   하늘이 우리 위로 무거운 장막을 놓았고, 우리 주변엔 짐승들의 귓가에 거슬리는 울음소리가 울려퍼졌다. 우리는 습기에 적시는 땀을 흘리며, 그때까지는 모르던 무언가를 찾아 나섰다. 우리는 마침내 큰 나무 덤불 사이에서 야만적인 나뭇잎이 쌓인 뭉치를 발견했다. 그 뭉치 속에는 단단한 화강암처럼 단단한 물체가 숨어 있었다. 우리는 그것을 밖으로 끌어내었고, 놀랍게도 그것은 빛나는 강철이었다.<br><color=\#38cddc>   (  <sprite index=0>  +  {getResourceCount("ITEM_STEEL")}  )</color><br><br>
-===
+
 title: ITEM_STEEL_Tundra1
 tags:
 ---
@@ -109,6 +98,54 @@ tags:
 <<appendNode>>
 <br>   툰드라의 광활한 눈 덮인 풍경에 떨어져 있는 얼어붙은 연구소가 우리의 시선을 사로잡았다. 우리는 안으로 들어가며 오래 전 전소된 연구소라는 것을 알게 되었지만, 무엇이든 찾아내야 했다. 우리는 깊이 숨겨진 방에서 여러 생명 포드와 함께 내부에 저장된 냉동 인간들을 발견했다. 하지만 그들은 모두 관리되지 않아 이미 생체 반응이 없었다. 우리는 생명 포드를 해체하고 소량의 강철을 얻었다.<br><color=\#38cddc>   (  <sprite index=0>  +  {getResourceCount("ITEM_STEEL")}  )</color><br><br>
 ===
+title: ITEM_STEEL_Tundra4
+tags:
+---
+<<appendNode>>
+<br>   아직 적히지 않은 스크립트입니다.<br><color=\#38cddc>   (  <sprite index=0>  +  {getResourceCount("ITEM_STEEL")}  )</color><br><br>
+===
+title: ITEM_STEEL_Tundra5
+tags:
+---
+<<appendNode>>
+<br>   아직 적히지 않은 스크립트입니다.<br><color=\#38cddc>   (  <sprite index=0>  +  {getResourceCount("ITEM_STEEL")}  )</color><br><br>
+===
+
+title: ITEM_STEEL_Jungle1
+tags:
+---
+<<appendNode>>
+<br>   습지의 산란한 풀이 내 발을 감싸고 있었다. 무거운 공기가 거의 나를 짓누르는 듯했다. 나는 습지의 강가를 따라서 걷고 있었고, 강물은 침묵으로 내 속삭임을 덮어버리고 있었다. 이 곳은 살아 있는 것조차 어려워 보였다.<br>   나의 눈은 강물을 따라 흩어진 강철 조각을 발견했다. 그것들은 습지의 살아있는 푸른 물과 대비되어 빛나고 있었다. 이곳에 강철이 있을 줄은 예상치 못했다. 더욱이 이 고립된 곳에서 강철은 더욱 소중한 것으로 느껴졌다.<br><color=\#38cddc>   (  <sprite index=0>  +  {getResourceCount("ITEM_STEEL")}  )</color><br><br>
+===
+title: ITEM_STEEL_Jungle2
+tags:
+---
+<<appendNode>>
+<br>   습지의 장대한 식생이 살아숨쉬는 것처럼 보였다. 나는 이들 사이로 돌아다니며, 이 늪지대의 은밀한 비밀을 찾아나섰다. 가시덩굴과 거대한 나무들 사이로, 나는 한 숨겨진 상자를 발견했다. 그것은 녹슨 강철로 만들어져 있었고, 어두운 습기에 잠겨있었다.<br><color=\#38cddc>   (  <sprite index=0>  +  {getResourceCount("ITEM_STEEL")}  )</color><br><br>
+===
+title: ITEM_STEEL_Jungle3
+tags:
+---
+<<appendNode>>
+<br>   하늘이 우리 위로 무거운 장막을 놓았고, 우리 주변엔 짐승들의 귓가에 거슬리는 울음소리가 울려퍼졌다. 우리는 습기에 적시는 땀을 흘리며, 그때까지는 모르던 무언가를 찾아 나섰다. 우리는 마침내 큰 나무 덤불 사이에서 야만적인 나뭇잎이 쌓인 뭉치를 발견했다. 그 뭉치 속에는 단단한 화강암처럼 단단한 물체가 숨어 있었다. 우리는 그것을 밖으로 끌어내었고, 놀랍게도 그것은 빛나는 강철이었다.<br><color=\#38cddc>   (  <sprite index=0>  +  {getResourceCount("ITEM_STEEL")}  )</color><br><br>
+===
+title: ITEM_STEEL_Jungle4
+tags:
+---
+<<appendNode>>
+<br>   아직 적히지 않은 스크립트입니다.<br><color=\#38cddc>   (  <sprite index=0>  +  {getResourceCount("ITEM_STEEL")}  )</color><br><br>
+===
+title: ITEM_STEEL_Jungle5
+tags:
+---
+<<appendNode>>
+<br>   아직 적히지 않은 스크립트입니다.<br><color=\#38cddc>   (  <sprite index=0>  +  {getResourceCount("ITEM_STEEL")}  )</color><br><br>
+===
+
+
+
+
+
 title: ITEM_CARBON_None1
 tags:
 ---
@@ -139,12 +176,14 @@ tags:
 <<appendNode>>
 <br>   우리는 폐허로 뒤덮인 도시의 길을 따라 걷다가, 구석진 건물 안에서 빛나는 무언가를 발견했다. 그것은 녹슨 금속 잔해와 함께 감싸여 있었는데, 우리가 더 가까이 다가가니 강철 섬유로 이루어진 희귀한 패션 아이템이라는 것을 알게 되었다. 옛 문화는 참.. 난해한 것 같다.<br><color=\#38cddc>   (  <sprite index=1>  +  {getResourceCount("ITEM_CARBON")}  )</color><br><br>
 ===
+
 title: ITEM_CARBON_None6
 tags:
 ---
 <<appendNode>>
 <br>   길들여지지 않은 도시 지역에서 우리는 거대한 강철 기계가 무너진 상태로 쓰러져 있는 것을 발견했다. 기계가 쓰러진 까닭은 불분명했지만, 그 안에 강철 섬유가 녹아있는 것을 발견했다. 이 도시는 한 때 과학과 혁신의 중심지였다. 우리는 그 강철 섬유가 이 도시의 기술적인 유산과 관련이 있는지 알아보기로 했다.<br><color=\#38cddc>   (  <sprite index=1>  +  {getResourceCount("ITEM_CARBON")}  )</color><br><br>
 ===
+
 title: ITEM_CARBON_Desert1
 tags:
 ---
@@ -175,6 +214,7 @@ tags:
 <<appendNode>>
 <br>   모래 뒤에 숨겨진 도시의 유적에서 우리는 강철 섬유로 된 안테나를 발견했다. 안테나는 사막의 환경에 적응해 만들어진 것으로 보였다. 이 안테나는 예로부터 사막을 지키고 외계 생명체로부터 보호하기 위해 만들어진 것이었다. 지킬 사람들이 없어졌으니, 이제는 쓸모가 없어 보인다.<br><color=\#38cddc>   (  <sprite index=1>  +  {getResourceCount("ITEM_CARBON")}  )</color><br><br>
 ===
+
 title: ITEM_CARBON_Tundra1
 tags:
 ---
@@ -205,6 +245,7 @@ tags:
 <<appendNode>>
 <br>   얼어붙은 툰드라에서 우리는 옛날 화물선의 남은 부분에서 탄소 섬유를 찾아냈다. 그 선박은 한 때 툰드라의 얼어붙은 바다를 탐험하며 무역을 펼쳤던 것으로 보였다.<br><color=\#38cddc>   (  <sprite index=1>  +  {getResourceCount("ITEM_CARBON")}  )</color><br><br>
 ===
+
 title: ITEM_CARBON_Jungle1
 tags:
 ---
@@ -235,6 +276,11 @@ tags:
 <<appendNode>>
 <br>   우리는 녹음으로 가득찬 도시의 한 구석에서 낡은 태양열 발전기를 발견했다. 그 속에서 우리는 강철 섬유가 드러나 있었다. 이 발전기는 한 때 도시의 에너지 문제를 해결하기 위해 만들어진 것처럼 보인다.<br><color=\#38cddc>   (  <sprite index=1>  +  {getResourceCount("ITEM_CARBON")}  )</color><br><br>
 ===
+
+
+
+
+
 title: ITEM_PLASMA_None1
 tags:
 ---
@@ -253,6 +299,19 @@ tags:
 <<appendNode>>
 <br>   캄캄한 어둠 속 불이 들어오는 한 건물을 발견하였다. 우리는 엄청난 긴장감 속에 건물로 다가갔고, 이는 주인이 없는 숙박업소였다. 그 안에 부식된 기계들이 목적없이 계속해서 돌아가고 있었고 들려오는 녹슨 기계소리는 마치 비명소리 같았다. 우리는 기계들을 그만 쉬게 해주었고, 남은 플라즈마를 수거해왔다.<br><color=\#38cddc>   (  <sprite index=2>  +  {getResourceCount("ITEM_PLASMA")}  )</color><br><br>
 ===
+title: ITEM_PLASMA_None4
+tags:
+---
+<<appendNode>>
+<br>   아직 적히지 않은 스크립트입니다.<br><color=\#38cddc>   (  <sprite index=2>  +  {getResourceCount("ITEM_PLASMA")}  )</color><br><br>
+===
+title: ITEM_PLASMA_None5
+tags:
+---
+<<appendNode>>
+<br>   아직 적히지 않은 스크립트입니다.<br><color=\#38cddc>   (  <sprite index=2>  +  {getResourceCount("ITEM_PLASMA")}  )</color><br><br>
+===
+
 title: ITEM_PLASMA_Desert1
 tags:
 ---
@@ -271,24 +330,19 @@ tags:
 <<appendNode>>
 <br>   사막의 수많은 모래사장 사이에서, 돌아다니고 있는 작은 로봇을 발견하였다. 그 로봇은 정부에서 사막을 탐색하기 위한 탐사산업로봇이였고, 우리는 이를 수상하게 여겼다. 하지만 그 로봇은 경로를 잃은 듯 사경을 헤매었고, 그 로봇을 잡아 우리의 좋은 플라즈마로 치환하였다.<br><color=\#38cddc>   (  <sprite index=2>  +  {getResourceCount("ITEM_PLASMA")}  )</color><br><br>
 ===
-title: ITEM_PLASMA_Jungle1
+title: ITEM_PLASMA_Desert4
 tags:
 ---
 <<appendNode>>
-<br>   습지의 강가를 따라서 걷던 도중 부르르 떨고 있는 물고기들의 시체를 발견하였다. 우리는 이를 보고 물 속 전기가 통하고 있다고 판단한 뒤 물에서 멀어져 주변을 살폈다. 이후 구석에 있던 파손된 발전기의 전선이 물에 닿고 있었고. 우리는 물에 안 들어가길 천만다행으로 여겼다.<br><color=\#38cddc>   (  <sprite index=2>  +  {getResourceCount("ITEM_PLASMA")}  )</color><br><br>
+<br>   아직 적히지 않은 스크립트입니다.<br><color=\#38cddc>   (  <sprite index=2>  +  {getResourceCount("ITEM_PLASMA")}  )</color><br><br>
 ===
-title: ITEM_PLASMA_Jungle2
+title: ITEM_PLASMA_Desert5
 tags:
 ---
 <<appendNode>>
-<br>   습지의 무너진 건물들 사이 속 폐차된 버스를 발견하였다. 버스 안엔 여러 넝쿨들이 창문과 문을 뚫고 침투하였고, 하나의 화분이 되어있었다. 시동을 확인하던 중 라디오 버튼을 누르자 음악이 흘러나왔고 그 잠시동안은 생각에 잠겼다. 우리가 정신을 차렸을 땐 이미 플라즈마를 빼내고 음악이 꺼졌다.<br><color=\#38cddc>   (  <sprite index=2>  +  {getResourceCount("ITEM_PLASMA")}  )</color><br><br>
+<br>   아직 적히지 않은 스크립트입니다.<br><color=\#38cddc>   (  <sprite index=2>  +  {getResourceCount("ITEM_PLASMA")}  )</color><br><br>
 ===
-title: ITEM_PLASMA_Jungle3
-tags:
----
-<<appendNode>>
-<br>   우리는 습지 속 폐허에서 비를 피하던 중, 어디선가 전기 튀기는 소리가 났다. 근원지를 찾아가보니 폐허를 연결하고 있던 전기가 끊기지 않고 있었고, 전깃줄에 비가 닿아 소리를 냈던 것이다. 정말 운이 좋았던 우리는 기쁨을 감출 수 없었고, 든든하게 플라즈마를 챙겨서 돌아갔다.<br><color=\#38cddc>   (  <sprite index=2>  +  {getResourceCount("ITEM_PLASMA")}  )</color><br><br>
-===
+
 title: ITEM_PLASMA_Tundra1
 tags:
 ---
@@ -307,6 +361,54 @@ tags:
 <<appendNode>>
 <br>   이동 중 눈에 띄게 큰 중장비 하나 발견하였다. 자세히 살펴보니 도시개발을 위한 공사현장이였고, 사람 한명도 없었다. 우리는 중장비의 모든 시동을 걸어보았고 거짓말같게도 하나같이 다 방전이 되어있었다. 그런 절망 속에서 서리가 끼지 않은 중장비 하나를 발견하였고 그 안엔 미세하게 바람를 내고 있는 열풍기 하나가 있었다. 따스한 바람은 우리의 몸을 사르르 녹게 만들어주었다.<br><color=\#38cddc>   (  <sprite index=2>  +  {getResourceCount("ITEM_PLASMA")}  )</color><br><br>
 ===
+title: ITEM_PLASMA_Tundra4
+tags:
+---
+<<appendNode>>
+<br>   아직 적히지 않은 스크립트입니다.<br><color=\#38cddc>   (  <sprite index=2>  +  {getResourceCount("ITEM_PLASMA")}  )</color><br><br>
+===
+title: ITEM_PLASMA_Tundra5
+tags:
+---
+<<appendNode>>
+<br>   아직 적히지 않은 스크립트입니다.<br><color=\#38cddc>   (  <sprite index=2>  +  {getResourceCount("ITEM_PLASMA")}  )</color><br><br>
+===
+
+title: ITEM_PLASMA_Jungle1
+tags:
+---
+<<appendNode>>
+<br>   습지의 강가를 따라서 걷던 도중 부르르 떨고 있는 물고기들의 시체를 발견하였다. 우리는 이를 보고 물 속 전기가 통하고 있다고 판단한 뒤 물에서 멀어져 주변을 살폈다. 이후 구석에 있던 파손된 발전기의 전선이 물에 닿고 있었고. 우리는 물에 안 들어가길 천만다행으로 여겼다.<br><color=\#38cddc>   (  <sprite index=2>  +  {getResourceCount("ITEM_PLASMA")}  )</color><br><br>
+===
+title: ITEM_PLASMA_Jungle2
+tags:
+---
+<<appendNode>>
+<br>   습지의 무너진 건물들 사이 속 폐차된 버스를 발견하였다. 버스 안엔 여러 넝쿨들이 창문과 문을 뚫고 침투하였고, 하나의 화분이 되어있었다. 시동을 확인하던 중 라디오 버튼을 누르자 음악이 흘러나왔고 그 잠시동안은 생각에 잠겼다. 우리가 정신을 차렸을 땐 이미 플라즈마를 빼내고 음악이 꺼졌다.<br><color=\#38cddc>   (  <sprite index=2>  +  {getResourceCount("ITEM_PLASMA")}  )</color><br><br>
+===
+title: ITEM_PLASMA_Jungle3
+tags:
+---
+<<appendNode>>
+<br>   우리는 습지 속 폐허에서 비를 피하던 중, 어디선가 전기 튀기는 소리가 났다. 근원지를 찾아가보니 폐허를 연결하고 있던 전기가 끊기지 않고 있었고, 전깃줄에 비가 닿아 소리를 냈던 것이다. 정말 운이 좋았던 우리는 기쁨을 감출 수 없었고, 든든하게 플라즈마를 챙겨서 돌아갔다.<br><color=\#38cddc>   (  <sprite index=2>  +  {getResourceCount("ITEM_PLASMA")}  )</color><br><br>
+===
+title: ITEM_PLASMA_Jungle4
+tags:
+---
+<<appendNode>>
+<br>   아직 적히지 않은 스크립트입니다.<br><color=\#38cddc>   (  <sprite index=2>  +  {getResourceCount("ITEM_PLASMA")}  )</color><br><br>
+===
+title: ITEM_PLASMA_Jungle5
+tags:
+---
+<<appendNode>>
+<br>   아직 적히지 않은 스크립트입니다.<br><color=\#38cddc>   (  <sprite index=2>  +  {getResourceCount("ITEM_PLASMA")}  )</color><br><br>
+===
+
+
+
+
+
 title: ITEM_POWDER_Desert1
 tags:
 ---
@@ -325,30 +427,79 @@ tags:
 <<appendNode>>
 <br>   모래 바람 속에서 무너진 도시를 찾아내었다. 그 곳엔 군수창고가 있었고, 이미 많은 사람들이 약탈해 간듯 헤집어져있었다. 우리도 급한 마음에 무엇이라도 찾기를 빌었고, 구석에 있던 정체모를 검은 가루가 있었다. 그것은 더스트였고 뜻밖의 횡재를 하게 되었다.<br><color=\#38cddc>   (  <sprite index=3>  +  {getResourceCount("ITEM_POWDER")}  )</color><br><br>
 ===
+title: ITEM_POWDER_Desert4
+tags:
+---
+<<appendNode>>
+<br>   아직 적히지 않은 스크립트입니다.<br><color=\#38cddc>   (  <sprite index=3>  +  {getResourceCount("ITEM_POWDER")}  )</color><br><br>
+===
+title: ITEM_POWDER_Desert5
+tags:
+---
+<<appendNode>>
+<br>   아직 적히지 않은 스크립트입니다.<br><color=\#38cddc>   (  <sprite index=3>  +  {getResourceCount("ITEM_POWDER")}  )</color><br><br>
+===
+
+
+
+
+
 title: ITEM_GAS_None1
 tags:
 ---
 <<appendNode>>
 <br>   우리는 황량한 도시 지역을 수색하던 중 무서운 소용돌이가 우리를 포위했다. 그 소용돌이 안에서, 우리는 이상한 빛을 발견했다. 우리는 그 빛을 따라가며 무너진 건물들 사이로 끼어들었다. 거대한 가스 탱크가 눈에 들어왔고, 그 안에는 끝없는 에테르 가스가 가득 차 있었다. 우리는 각별한 조심을 기울여 중독되기 전에 일부 가스를 수집하고 빠져나왔다.<br><color=\#38cddc>   (  <sprite index=4>  +  {getResourceCount("ITEM_GAS")}  )</color><br><br>
 ===
+
 title: ITEM_GAS_Desert1
 tags:
 ---
 <<appendNode>>
 <br>   하얀 모래 사이로 솟아나는 가스의 증기는 사막에 새로운 생명을 불어넣었다. 가림막으로 덮인 가스의 이상한 빛깔은 모래 속 균열에서 새어나오던 것이었다. 우리는 가스가 뜨거운 태양을 향해 솟아오르며 투명한 파동을 만드는 모습을 눈으로 볼 수 있었고, 적당량 에테르를 수집할 수 있었다.<br><color=\#38cddc>   (  <sprite index=4>  +  {getResourceCount("ITEM_GAS")}  )</color><br><br>
 ===
+
 title: ITEM_GAS_Tundra1
 tags:
 ---
 <<appendNode>>
 <br>   얼음 기둥 사이에서, 우리는 깨어진 가스 관을 발견했고, 거기에는 얼어붙은 액체 상태의 에테르 가스가 흐르고 있었다. A-48이 액체 상태는 매우 불안정한 물질 상태로, 수집에 각별한 주의가 필요하다고 한다.<br><color=\#38cddc>   (  <sprite index=4>  +  {getResourceCount("ITEM_GAS")}  )</color><br><br>
 ===
+title: ITEM_GAS_Tundra2
+tags:
+---
+<<appendNode>>
+<br>   아직 적히지 않은 스크립트입니다.<br><color=\#38cddc>   (  <sprite index=4>  +  {getResourceCount("ITEM_GAS")}  )</color><br><br>
+===
+title: ITEM_GAS_Tundra3
+tags:
+---
+<<appendNode>>
+<br>   아직 적히지 않은 스크립트입니다.<br><color=\#38cddc>   (  <sprite index=4>  +  {getResourceCount("ITEM_GAS")}  )</color><br><br>
+===
+title: ITEM_GAS_Tundra4
+tags:
+---
+<<appendNode>>
+<br>   아직 적히지 않은 스크립트입니다.<br><color=\#38cddc>   (  <sprite index=4>  +  {getResourceCount("ITEM_GAS")}  )</color><br><br>
+===
+title: ITEM_GAS_Tundra5
+tags:
+---
+<<appendNode>>
+<br>   아직 적히지 않은 스크립트입니다.<br><color=\#38cddc>   (  <sprite index=4>  +  {getResourceCount("ITEM_GAS")}  )</color><br><br>
+===
+
 title: ITEM_GAS_Jungle1
 tags:
 ---
 <<appendNode>>
 <br>   정글 속에서 무거운 공기를 뚫고 우리는 빛나는 식물을 발견했다. 그 식물을 조사하던 중, 식물이 에테르 가스를 생산하는 것으로 밝혀졌다. 아마도 오랜 기간 에테르 가스에 노출된 식물이 새로운 종으로 진화한 것처럼 보였다.<br><color=\#38cddc>   (  <sprite index=4>  +  {getResourceCount("ITEM_GAS")}  )</color><br><br>
 ===
+
+
+
+
+
 title: ITEM_RUBBER_Jungle1
 tags:
 ---
@@ -366,4 +517,16 @@ tags:
 ---
 <<appendNode>>
 <br>   우거진 수풀 사이를 지나던 중 기분 나쁜 액체가 얼굴에 묻었다. 우리 모두가 놀랐고, 빠르게 얼굴을 닦아냈다. 다행히도 그 액체는 인간에게 해를 가하지 않는 고무액이였고, 흐르는 근원지를 찾아 고무를 추출해냈다.<br><color=\#38cddc>   (  <sprite index=5>  +  {getResourceCount("ITEM_RUBBER")}  )</color><br><br>
+===
+title: ITEM_RUBBER_Jungle4
+tags:
+---
+<<appendNode>>
+<br>   아직 적히지 않은 스크립트입니다.<br><color=\#38cddc>   (  <sprite index=5>  +  {getResourceCount("ITEM_RUBBER")}  )</color><br><br>
+===
+title: ITEM_RUBBER_Jungle5
+tags:
+---
+<<appendNode>>
+<br>   아직 적히지 않은 스크립트입니다.<br><color=\#38cddc>   (  <sprite index=5>  +  {getResourceCount("ITEM_RUBBER")}  )</color><br><br>
 ===

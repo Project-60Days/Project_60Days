@@ -76,7 +76,10 @@ public class NextDayController : ControllerBase
         {
             string tileName = App.instance.GetMapManager().mapController
                 .Player.TileController.GetComponent<TileBase>().TileData.English;
-            string nodeName = resources[i].ItemBase.data.Code + "_" + tileName + "1";
+
+            int randomNumber = Random.Range(1, 6);
+
+            string nodeName = resources[i].ItemBase.data.Code + "_" + tileName + randomNumber.ToString();
 
             UIManager.instance.GetPageController().SetResultPage(nodeName, true);
         }

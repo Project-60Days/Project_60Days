@@ -160,17 +160,9 @@ public class InventoryController : ControllerBase
         return false;
     }
 
-    public int GetItemIndex(string _itemCode)
-    {
-        foreach (var item in itemSO.items)
-        {
-            if (item.data.Code == _itemCode)
-                return (item.data.Index - 1001);
-        }
 
-        return -1;
-            
-    }
+
+
 
     #region temp
     /// <summary>
