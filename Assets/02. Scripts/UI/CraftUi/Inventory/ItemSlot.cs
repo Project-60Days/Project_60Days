@@ -26,13 +26,17 @@ public class ItemSlot : SlotBase
             else
                 App.instance.GetSoundManager().PlaySFX("SFX_Crafting_Item");
             //CraftItemClick?.Invoke(item.prefab);
+
+            UIManager.instance.GetItemInfoController().HideInfo();
         }
         else if (UIManager.instance.GetCraftModeController().eCraftModeType == ECraftModeType.Equip)
         {
             if (item.eItemType == EItemType.Equipment || item.eItemType == EItemType.Both)
+            {
                 UIManager.instance.GetCraftingUiController().MoveInventoryToEquip(item);
-        }
 
-        UIManager.instance.GetItemInfoController().HideInfo();
+                UIManager.instance.GetItemInfoController().HideInfo();
+            }   
+        }
     }
 }

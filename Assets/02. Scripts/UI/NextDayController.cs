@@ -44,8 +44,8 @@ public class NextDayController : ControllerBase
         sequence.Append(blackPanel.DOFade(1f, 0.5f)).SetEase(Ease.InQuint)
             .OnComplete(() => {
                 StartCoroutine(NextDayEventCallBack(()=> {
-                    UIManager.instance.GetNoteController().SetNextDay();
                     InitBlackPanel();
+                    UIManager.instance.GetNoteController().SetNextDay();
                     App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
                 }));
             });
@@ -59,7 +59,7 @@ public class NextDayController : ControllerBase
         UIManager.instance.GetAlertController().InitAlert();
 
         App.instance.GetMapManager().SetMapCameraPriority(false);
-        transposer.m_CameraDistance = 15f;
+        transposer.m_CameraDistance = 5f;
 
         yield return StartCoroutine(App.instance.GetMapManager().NextDayCoroutine());
 

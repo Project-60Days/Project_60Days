@@ -6,8 +6,7 @@ using Yarn.Unity;
 public class ResultPage : NotePageBase
 {
     [SerializeField] DialogueRunner dialogueRunner;
-    [SerializeField] VerticalLayoutGroup content;
-    [SerializeField] Transform prefabParent;
+    [SerializeField] RectTransform content;
 
     List<string> tomorrowResourceNodeNames = new List<string>();
 
@@ -20,15 +19,15 @@ public class ResultPage : NotePageBase
     {
         resourceIndex = 0;
 
-        for (int i = 1; i < prefabParent.childCount; i++)
-            if(prefabParent.GetChild(i).name == "ResultPage(Clone)")
-                Destroy(prefabParent.GetChild(i).gameObject);
+        for (int i = 1; i < content.childCount; i++)
+            if(content.GetChild(i).name == "ResultPage(Clone)")
+                Destroy(content.GetChild(i).gameObject);
 
         if (dialogueRunner.IsDialogueRunning == true)
             dialogueRunner.Stop();
 
         dialogueRunner.StartDialogue(_nodeName);
-        LayoutRebuilder.ForceRebuildLayoutImmediate(content.GetComponent<RectTransform>());
+        LayoutRebuilder.ForceRebuildLayoutImmediate(content);
     }
 
     public override void SetNodeName(string _nodeName, bool _isResourceNode)

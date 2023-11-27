@@ -10,7 +10,7 @@ public abstract class SlotBase : MonoBehaviour, IPointerClickHandler, IPointerEn
 
     ItemBase _item;
 
-    bool isMouseEnter = false;
+    public bool isMouseEnter = false;
 
     void Update()
     {

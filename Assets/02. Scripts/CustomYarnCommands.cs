@@ -58,7 +58,6 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     {
         string nodeName = UIManager.instance.GetPageController().GetNextResourceNodeName();
 
-        Debug.Log(nodeName);
         if (nodeName == "-1") return;
 
         UIManager.instance.GetPageController().CreateDialogueRunner(nodeName);

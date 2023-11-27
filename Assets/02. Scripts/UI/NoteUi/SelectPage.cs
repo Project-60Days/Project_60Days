@@ -5,7 +5,8 @@ using Yarn.Unity;
 public class SelectPage : NotePageBase
 {
     [SerializeField] DialogueRunner dialogueRunner;
-    [SerializeField] VerticalLayoutGroup content;
+    [SerializeField] RectTransform content;
+    [SerializeField] RectTransform lineView;
 
     public override ENotePageType GetENotePageType()
     {
@@ -24,6 +25,8 @@ public class SelectPage : NotePageBase
             dialogueRunner.Stop();
 
         dialogueRunner.StartDialogue(_nodeName);
-        LayoutRebuilder.ForceRebuildLayoutImmediate(content.GetComponent<RectTransform>());
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(content);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(lineView);
     }
 }
