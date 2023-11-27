@@ -55,6 +55,8 @@ public class WorkBenchUiOpen : MonoBehaviour
 
     void OpenUi()
     {
+        if (UIManager.instance.isUIStatus("UI_NORMAL") == false) return;
+
         UIManager.instance.AddCurrUIName(StringUtility.UI_CRAFTING);
 
         ActivateUiObjects(true);

@@ -24,6 +24,7 @@ public class QuestController : MonoBehaviour
     int nextMainIndex = 0;
     int nextSubIndex = 0;
 
+
     void Awake()
     {
         quests = questList.GetComponentsInChildren<QuestBase>();
@@ -36,7 +37,10 @@ public class QuestController : MonoBehaviour
             else
                 subQuests.Add(quest);
         }
+    }
 
+    public void StartMainQuest()
+    {
         CreateQuest("chapter01_GetNetworkChip");
     }
 
@@ -75,6 +79,7 @@ public class QuestController : MonoBehaviour
 
         StartCoroutine(_quest.CheckQuestComplete());
     }
+
 
     /// <summary>
     /// 퀘스트 리스트 순서 정렬 함수 (임시로 메인퀘스트는 위에, 서브퀘스트는 아래에 위치하게 설정)
@@ -161,16 +166,16 @@ public class QuestController : MonoBehaviour
     {
         var quests = GetQuestList(_type);
         var nextQuestIndex = GetQuestIndex(_type);
-        foreach (var quest in quests)
+
+        if (nextQuestIndex == -1)
         {
-            if (quest.questIndex == -1)
-            {
-                SetQuestList();
-                return;
-            }
+            SetQuestList();
+            return;
+        }
+
+        foreach (var quest in quests)
             if (quest.questIndex == nextQuestIndex)
                 AddQuest(quest);
-        }
     }
 
     /// <summary>

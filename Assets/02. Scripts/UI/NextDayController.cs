@@ -37,13 +37,16 @@ public class NextDayController : ControllerBase
     public void NextDayEvent()
     {
         blackPanel.gameObject.SetActive(true);
-        
+
+        App.instance.GetSoundManager().StopBGM();
+
         Sequence sequence = DOTween.Sequence();
         sequence.Append(blackPanel.DOFade(1f, 0.5f)).SetEase(Ease.InQuint)
             .OnComplete(() => {
                 StartCoroutine(NextDayEventCallBack(()=> {
-                    UIManager.instance.GetNoteController().SetNextDay();
                     InitBlackPanel();
+                    UIManager.instance.GetNoteController().SetNextDay();
+                    App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
                 }));
             });
     }
@@ -53,12 +56,10 @@ public class NextDayController : ControllerBase
     /// </summary>
     IEnumerator NextDayEventCallBack(System.Action callback)
     {
-        App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
-
         UIManager.instance.GetAlertController().InitAlert();
 
         App.instance.GetMapManager().SetMapCameraPriority(false);
-        transposer.m_CameraDistance = 15f;
+        transposer.m_CameraDistance = 5f;
 
         yield return StartCoroutine(App.instance.GetMapManager().NextDayCoroutine());
 
@@ -77,7 +78,7 @@ public class NextDayController : ControllerBase
                 .Player.TileController.GetComponent<TileBase>().TileData.English;
             string nodeName = resources[i].ItemBase.data.Code + "_" + tileName + "1";
 
-            UIManager.instance.GetPageController().SetResultPage(nodeName);
+            UIManager.instance.GetPageController().SetResultPage(nodeName, true);
         }
     }
 
@@ -87,7 +88,8 @@ public class NextDayController : ControllerBase
     public void GoToLab()
     {
         blackPanel.gameObject.SetActive(true);
-        
+
+        App.instance.GetSoundManager().StopBGM();
         App.instance.GetSoundManager().PlaySFX("SFX_SceneChange_MapToBase");
         
         Sequence sequence = DOTween.Sequence();
@@ -109,6 +111,8 @@ public class NextDayController : ControllerBase
     public void GoToMap()
     {
         blackPanel.gameObject.SetActive(true);
+
+        App.instance.GetSoundManager().StopBGM();
 
         Sequence sequence = DOTween.Sequence();
         sequence

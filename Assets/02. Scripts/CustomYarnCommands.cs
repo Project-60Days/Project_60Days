@@ -11,12 +11,12 @@ using System.Xml.Serialization;
 public class CustomYarnCommands : Singleton<CustomYarnCommands>
 {
     [SerializeField] DialogueRunner dialogueRunner;
-    [SerializeField] CustomDialogueView dialogueView;
 
     void Awake()
     {
         //common//
         dialogueRunner.AddCommandHandler<string, string>("highlight", HighLightObject);
+        dialogueRunner.AddCommandHandler<string>("highlightBtn", HighLightBtn);
         dialogueRunner.AddCommandHandler<string>("waitUntil", WaitUntilUIState);
         dialogueRunner.AddCommandHandler("hide", HideDialogue);
         dialogueRunner.AddCommandHandler("show", ShowDialogue);
@@ -32,7 +32,8 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         //03//
         dialogueRunner.AddCommandHandler("waitLightUp", WaitLightUp);
         dialogueRunner.AddCommandHandler<string, bool>("setAlert", SetAlertState);
-        dialogueRunner.AddCommandHandler("closeNote", CloseNote);
+        dialogueRunner.AddCommandHandler("waitMoveScroll", WaitMoveScroll);
+        dialogueRunner.AddCommandHandler<bool>("setScrollBar", SetScrollBar);
 
         //05//
         dialogueRunner.AddCommandHandler("waitMovePoint", WaitMovePoint);
@@ -42,6 +43,8 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
         //08//
         dialogueRunner.AddCommandHandler("endTutorial", EndTutorial);
+
+        dialogueRunner.AddCommandHandler("appendNode", AppendNode);
 
         //dialogueRunner.AddCommandHandler("spawnTutorialGlicher", SpawnTutorialGlicher);
         //dialogueRunner.AddCommandHandler<string>("play_bgm", PlayBGM);
@@ -53,10 +56,28 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
 
 
+    void AppendNode()
+    {
+        string nodeName = UIManager.instance.GetPageController().GetNextResourceNodeName();
+
+        if (nodeName == "-1") return;
+
+        UIManager.instance.GetPageController().CreateDialogueRunner(nodeName);
+    }
+
+
+
+
+
     #region common
     void HighLightObject(string _objectID, string _waitStatusName)
     {
         UIManager.instance.GetUIHighLightController().ShowHighLight(_objectID, _waitStatusName);
+    }
+
+    void HighLightBtn(string _objectID)
+    {
+        UIManager.instance.GetUIHighLightController().ShowBtnHighLight(_objectID);
     }
 
     Coroutine WaitUntilUIState(string _UIName)
@@ -102,7 +123,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
 
     #region 02
-    private Coroutine WaitGetItem(string _itemCode)
+    Coroutine WaitGetItem(string _itemCode)
     {
         return StartCoroutine(new WaitUntil(() => UIManager.instance.GetInventoryController().CheckInventoryItem(_itemCode)));
     }
@@ -113,7 +134,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
 
     #region 03
-    private Coroutine WaitLightUp()
+    Coroutine WaitLightUp()
     {
         return StartCoroutine(new WaitUntil(() => TutorialManager.instance.GetTutorialController().isLightUp));
     }
@@ -123,9 +144,20 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         UIManager.instance.GetAlertController().SetAlert(_alertType, _isActive);
     }
 
-    void CloseNote()
+    Coroutine WaitMoveScroll()
     {
-        UIManager.instance.GetNoteController().CloseNote();
+        return StartCoroutine(new WaitUntil(() => UIManager.instance.GetNoteController().CheckIfScrolledToEnd()));
+    }
+
+    [YarnCommand("waitForSeconds")]
+    static IEnumerator WaitForSeconds()
+    {
+        yield return new WaitForSeconds(1f);
+    }
+
+    void SetScrollBar(bool _isInteractable)
+    {
+        UIManager.instance.GetNoteController().SetScrollBarInteractable(_isInteractable);
     }
     #endregion
 
@@ -167,22 +199,22 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
 
     #region temp
-    private void SpawnTutorialGlicher()
+    void SpawnTutorialGlicher()
     {
         MapController.instance.SpawnTutorialZombie();
     }
 
-    private void PlayBGM(string bgmName)
+    void PlayBGM(string bgmName)
     {
         App.instance.GetSoundManager().PlayBGM(bgmName);
     }
 
-    private void PlaySFX(string sfxName)
+    void PlaySFX(string sfxName)
     {
         App.instance.GetSoundManager().PlaySFX(sfxName);
     }
 
-    private void StopBGM(string soundName)
+    void StopBGM(string soundName)
     {
         App.instance.GetSoundManager().StopBGM();
     }
@@ -190,7 +222,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
 
     [YarnFunction("getResourceCount")]
-    public static int GetResourceCount(string _itemCode)
+    static int GetResourceCount(string _itemCode)
     {
         var resources = App.instance.GetMapManager().resourceManager.GetLastResources();
 

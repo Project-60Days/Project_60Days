@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class ItemInfoController : MonoBehaviour
@@ -57,12 +58,13 @@ public class ItemInfoController : MonoBehaviour
     {
         if (isNew == true)
         {
-            gameObject.SetActive(true);
             SetObejcts(_item);
             SetBlueprint(_item);
             isNew = false;
         }
-        
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(infoTransform);
+
         float width = infoTransform.rect.width;
         float height = infoTransform.rect.height;
 
@@ -78,6 +80,8 @@ public class ItemInfoController : MonoBehaviour
             newY += height * (screenHeight / 1080);
 
         infoTransform.position = new Vector3(newX, newY, infoTransform.position.z);
+
+        gameObject.SetActive(true);
     }
 
     void SetObejcts(ItemBase _item)

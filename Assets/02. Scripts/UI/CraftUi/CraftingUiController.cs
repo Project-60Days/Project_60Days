@@ -20,6 +20,8 @@ public class CraftingUiController : ControllerBase
     public Transform blueprintSlotParent;
     [SerializeField] GameObject blueprintSlotPrefab;
 
+    SlotBase[] slots;
+
     /// <summary>
     /// 아직 ItemSO에 추가되지 않은 아이템 조합 시에 생성될 임시 아이템
     /// </summary>
@@ -47,9 +49,12 @@ public class CraftingUiController : ControllerBase
             i++;
         }
 
+        slots = GetComponentsInChildren<SlotBase>();
+
         InitCraftSlots();
         InitEquipSlots();
         InitBlueprintSlots();
+        InitSlots();
     }
 
 
@@ -72,6 +77,12 @@ public class CraftingUiController : ControllerBase
     {
         for (int i = 0; i < blueprintSlotParent.childCount; i++)
             Destroy(blueprintSlotParent.GetChild(i).gameObject);
+    }
+
+    void InitSlots()
+    {
+        foreach (var slot in slots)
+            slot.isMouseEnter = false;
     }
 
 
@@ -363,7 +374,7 @@ public class CraftingUiController : ControllerBase
         ExitCraftBag();
         ExitEquipBag();
         ExitBlueprintBag();
-        UIManager.instance.GetItemInfoController().HideInfo();
+        InitSlots();
     }
 
     public void ExitCraftBag()
