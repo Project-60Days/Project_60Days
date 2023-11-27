@@ -17,5 +17,6 @@ public class LoadingUiController : MonoBehaviour
 
         App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
         gameObject.SetActive(false);
+        UIManager.instance.GetNextDayController().InitBlackPanel();
     }
 }

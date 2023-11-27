@@ -349,6 +349,11 @@ public class CraftingUiController : ControllerBase
 
 
 
+    public void EnterUi()
+    {
+        UIManager.instance.GetCraftModeController().SetCraftActive();
+        UIManager.instance.GetItemInfoController().HideInfo();
+    }
 
     /// <summary>
     /// Exit 버튼 눌렀을 때 인벤토리로 아이템 반환
@@ -358,6 +363,7 @@ public class CraftingUiController : ControllerBase
         ExitCraftBag();
         ExitEquipBag();
         ExitBlueprintBag();
+        UIManager.instance.GetItemInfoController().HideInfo();
     }
 
     public void ExitCraftBag()

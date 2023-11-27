@@ -19,11 +19,11 @@ public class Chapter01_2 : QuestBase
 
     public override bool CheckMeetCondition()
     {
-        return UIManager.instance.GetInventoryController().CheckInventoryItem("ITEM_NETWORKCHIP");
+        return App.instance.GetMapManager().SensingSignalTower();
     }
 
     public override string SetQuestText()
     {
-        return "송신기 접근 어쩌구 퀘스트";
+        return "송신탑 찾기";
     }
 }

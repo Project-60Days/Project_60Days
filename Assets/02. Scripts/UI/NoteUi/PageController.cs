@@ -45,6 +45,7 @@ public class PageController : MonoBehaviour
     public void SetTutorialSelect()
     {
         selectPage.SetNodeName("tutorialSelect");
+        UIManager.instance.GetNoteController().dayCount = -1;
         UIManager.instance.GetNoteController().SetNextDay();
         yesBtn.onClick.RemoveAllListeners();
         noBtn.onClick.RemoveAllListeners();

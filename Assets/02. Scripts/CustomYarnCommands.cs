@@ -199,7 +199,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         for (int i = 0; i < resources.Count; i++)
         {
             if (resources[i].ItemBase.data.Code == _itemCode)
-                count++;
+                count = resources[i].ItemCount;
         }
 
         return count;

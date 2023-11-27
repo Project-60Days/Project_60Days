@@ -16,7 +16,10 @@ public class TutorialManager : Singleton<TutorialManager>
     {
         UIManager.instance.GetPageController().SetTutorialSelect();
 
+        UIManager.instance.GetQuestController().DestoryQuest(0);
+
         UIManager.instance.GetAlertController().SetAlert("note", false);
+
         UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_PLASMA");
         UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_CARBON");
         UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_STEEL");

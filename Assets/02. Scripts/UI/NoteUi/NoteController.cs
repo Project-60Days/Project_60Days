@@ -18,7 +18,7 @@ public class NoteController : ControllerBase
 
     bool isNewDay = true;
     bool isOpen = false;
-    int dayCount = 0;
+    public int dayCount = 0;
     int pageNum = 0;
 
 

@@ -58,7 +58,7 @@ public class WorkBenchUiOpen : MonoBehaviour
         UIManager.instance.AddCurrUIName(StringUtility.UI_CRAFTING);
 
         ActivateUiObjects(true);
-        UIManager.instance.GetItemInfoController().HideInfo();
+        UIManager.instance.GetCraftingUiController().EnterUi();
         craftEffectAnim.Init();
 
         FadeInUiObjects();
@@ -76,10 +76,18 @@ public class WorkBenchUiOpen : MonoBehaviour
 
     public void CloseUi()
     {
+        UIManager.instance.PopCurrUI();
+
         craftEffectAnim.isActive = false;
+        UIManager.instance.GetCraftingUiController().ExitUi();
+
+        FadeOutUiObjects();
+    }
+
+    void FadeOutUiObjects()
+    {
         App.instance.GetSoundManager().PlaySFX("SFX_SceneChange_CraftingToBase");
         Sequence sequence = DOTween.Sequence();
-        UIManager.instance.PopCurrUI();
         sequence
             .Append(inventoryUi.GetComponent<CanvasGroup>().DOFade(0f, 0.5f))
             .Join(productionUi.GetComponent<CanvasGroup>().DOFade(0f, 0.5f))
