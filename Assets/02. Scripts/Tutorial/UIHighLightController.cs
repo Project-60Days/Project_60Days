@@ -52,4 +52,40 @@ public class UIHighLightController : MonoBehaviour
         _h.Hide();
         highLightImg.SetActive(false);
     }
+
+    public void ShowBtnHighLight(string _objectID)
+    {
+        if (dic_highLights.TryGetValue(_objectID, out HighLight h))
+        {
+            highLightImg.GetComponent<RectTransform>().sizeDelta = h.area.sizeDelta;
+
+            StartCoroutine(WaitForPositionUpdate(h));
+
+            if (_objectID == "ClickCraftItems")
+                StartCoroutine(HideClickCraftItems(h));
+            else if (_objectID == "ClickResultItem")
+                StartCoroutine(HideClickResultItem(h));
+        }
+        else
+        {
+            Debug.LogError($"invalid highlight object name : {_objectID}");
+        }
+    }
+
+    private IEnumerator HideClickCraftItems(HighLight _h)
+    {
+        yield return new WaitUntil(() => UIManager.instance.GetCraftingUiController().isMoreThanThree());
+
+        _h.Hide();
+        highLightImg.SetActive(false);
+        ShowBtnHighLight("ClickResultItem");
+    }
+
+    private IEnumerator HideClickResultItem(HighLight _h)
+    {
+        yield return new WaitUntil(() => UIManager.instance.GetInventoryController().CheckInventoryItem("ITEM_BATTERY"));
+
+        _h.Hide();
+        highLightImg.SetActive(false);
+    }
 }

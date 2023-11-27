@@ -18,10 +18,13 @@ public class NoteController : ControllerBase
 
     bool isNewDay = true;
     bool isOpen = false;
-    public int dayCount = 0;
+    [HideInInspector] public int dayCount = 0;
     int pageNum = 0;
 
-
+    [Header("For Tutorial")]
+    [SerializeField] ScrollRect scrollRect;
+    [SerializeField] Scrollbar scrollBar;
+    float threshold = 0.1f;
 
 
 
@@ -261,6 +264,20 @@ public class NoteController : ControllerBase
     public bool GetNewDay()
     {
         return isNewDay;
+    }
+
+    public bool CheckIfScrolledToEnd()
+    {
+        Debug.Log(scrollBar.value);
+        if (scrollBar.value <= threshold)
+            return true;
+        else return false;
+    }
+
+    public void SetScrollBarInteractable(bool _isInteractable)
+    {
+        scrollBar.enabled = _isInteractable;
+        scrollRect.enabled = _isInteractable;
     }
     #endregion
 }

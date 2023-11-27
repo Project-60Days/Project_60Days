@@ -25,6 +25,7 @@ tags:
 크래프팅 시스템은 생존에 필요한 아이템을 만들어 낼 수 있는 시스템으로 제일 우선시 됩니다.
 아이템을 제작해내려면 특정 순서대로 자원을 배치해야합니다.
 대상의 인벤토리에 가지고 있는 기본자원 강철, 플라스틱, 플라즈마를 이용하여 배터리를 제작해낼 수 있습니다.
+<<highlightBtn ClickCraftItems>>
 <<hide>>
 <<waitGetItem ITEM_BATTERY>>
 <<show>>
@@ -47,12 +48,17 @@ tags:
 <<highlight Alert UI_NOTE>>
 <<hide>>
 <<waitUntil UI_NOTE>>
+<<waitForSeconds>>
+<<waitMoveScroll>>
+<<setScrollBar false>>
+<<highlight ClickYesBtn UI_NORMAL>>
 <<waitLightUp>>
 <<jump Tutorial_04>>
 ===
 title: Tutorial_04
 tags:
 ---
+<<setScrollBar true>>
 <<setAlert note false>>
 <<setAlert caution true>>
 <<show>>
