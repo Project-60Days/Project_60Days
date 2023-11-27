@@ -8,11 +8,13 @@ public abstract class NotePageBase : MonoBehaviour
     [SerializeField] protected List<string> todayNodeNames = new List<string>();
     [SerializeField] protected List<string> tomorrowNodeNames = new List<string>();
 
-    [SerializeField] public List<string> todayResourceNodeNames = new List<string>();
+    public List<string> todayResourceNodeNames = new List<string>();
 
-    [SerializeField] protected int index = 0;
+    protected int index = 0;
 
     public abstract ENotePageType GetENotePageType();
+
+    public int resourceIndex = 0;
 
     public virtual void SetNodeName(string _nodeName)
     {
@@ -26,6 +28,8 @@ public abstract class NotePageBase : MonoBehaviour
 
     public virtual void InitNodeName()
     {
+        resourceIndex = 0;
+
         todayNodeNames.Clear();
 
         InitResourceNodeName();

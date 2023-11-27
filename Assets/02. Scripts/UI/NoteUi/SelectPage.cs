@@ -6,7 +6,6 @@ public class SelectPage : NotePageBase
 {
     [SerializeField] DialogueRunner dialogueRunner;
     [SerializeField] VerticalLayoutGroup content;
-    [SerializeField] VerticalLayoutGroup lineView;
 
     public override ENotePageType GetENotePageType()
     {
@@ -26,6 +25,5 @@ public class SelectPage : NotePageBase
 
         dialogueRunner.StartDialogue(_nodeName);
         LayoutRebuilder.ForceRebuildLayoutImmediate(content.GetComponent<RectTransform>());
-        LayoutRebuilder.ForceRebuildLayoutImmediate(lineView.GetComponent<RectTransform>());
     }
 }

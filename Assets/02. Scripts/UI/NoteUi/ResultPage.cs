@@ -7,9 +7,9 @@ public class ResultPage : NotePageBase
 {
     [SerializeField] DialogueRunner dialogueRunner;
     [SerializeField] VerticalLayoutGroup content;
-    [SerializeField] VerticalLayoutGroup lineView;
+    [SerializeField] Transform prefabParent;
 
-    [SerializeField] protected List<string> tomorrowResourceNodeNames = new List<string>();
+    List<string> tomorrowResourceNodeNames = new List<string>();
 
     public override ENotePageType GetENotePageType()
     {
@@ -18,12 +18,17 @@ public class ResultPage : NotePageBase
 
     public override void PlayNode(string _nodeName)
     {
+        resourceIndex = 0;
+
+        for (int i = 1; i < prefabParent.childCount; i++)
+            if(prefabParent.GetChild(i).name == "ResultPage(Clone)")
+                Destroy(prefabParent.GetChild(i).gameObject);
+
         if (dialogueRunner.IsDialogueRunning == true)
             dialogueRunner.Stop();
 
         dialogueRunner.StartDialogue(_nodeName);
         LayoutRebuilder.ForceRebuildLayoutImmediate(content.GetComponent<RectTransform>());
-        LayoutRebuilder.ForceRebuildLayoutImmediate(lineView.GetComponent<RectTransform>());
     }
 
     public override void SetNodeName(string _nodeName, bool _isResourceNode)
@@ -41,7 +46,7 @@ public class ResultPage : NotePageBase
         for (int i = 0; i < tomorrowResourceNodeNames.Count; i++)
             todayResourceNodeNames.Add(tomorrowResourceNodeNames[i]);
 
-        tomorrowNodeNames.Clear();
+        tomorrowResourceNodeNames.Clear();
 
         if (todayResourceNodeNames.Count > 0)
             todayNodeNames.Add(todayResourceNodeNames[0]);

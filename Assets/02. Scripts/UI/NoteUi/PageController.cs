@@ -2,14 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Yarn.Unity;
 
 public class PageController : MonoBehaviour
 {
     [SerializeField] Button yesBtn;
     [SerializeField] Button noBtn;
+
+    [SerializeField] GameObject resultPrefab;
+    [SerializeField] RectTransform resultParent;
+
     NotePageBase resultPage;
     NotePageBase selectPage;
-
 
     void Awake()
     {
@@ -65,9 +69,21 @@ public class PageController : MonoBehaviour
         if (resultPage.todayResourceNodeNames.Count == 0) return "-1";
         else
         {
-            string temp = resultPage.todayResourceNodeNames[0];
-            resultPage.todayResourceNodeNames.RemoveAt(0);
+            resultPage.resourceIndex++;
+            if (resultPage.resourceIndex > resultPage.todayResourceNodeNames.Count - 1) return "-1";
+            string temp = resultPage.todayResourceNodeNames[resultPage.resourceIndex];
             return temp;
         }
+    }
+
+    public void CreateDialogueRunner(string _nodeName)
+    {
+        GameObject obj = Instantiate(resultPrefab, resultParent);
+
+        DialogueRunner dialogueRunner = obj.GetComponent<DialogueRunner>();
+
+        dialogueRunner.StartDialogue(_nodeName);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(resultParent);
+        Debug.Log("Ω««‡«‘");
     }
 }

@@ -37,7 +37,9 @@ public class NextDayController : ControllerBase
     public void NextDayEvent()
     {
         blackPanel.gameObject.SetActive(true);
-        
+
+        App.instance.GetSoundManager().StopBGM();
+
         Sequence sequence = DOTween.Sequence();
         sequence.Append(blackPanel.DOFade(1f, 0.5f)).SetEase(Ease.InQuint)
             .OnComplete(() => {
@@ -86,7 +88,8 @@ public class NextDayController : ControllerBase
     public void GoToLab()
     {
         blackPanel.gameObject.SetActive(true);
-        
+
+        App.instance.GetSoundManager().StopBGM();
         App.instance.GetSoundManager().PlaySFX("SFX_SceneChange_MapToBase");
         
         Sequence sequence = DOTween.Sequence();
@@ -108,6 +111,8 @@ public class NextDayController : ControllerBase
     public void GoToMap()
     {
         blackPanel.gameObject.SetActive(true);
+
+        App.instance.GetSoundManager().StopBGM();
 
         Sequence sequence = DOTween.Sequence();
         sequence

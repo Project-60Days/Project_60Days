@@ -11,7 +11,6 @@ using System.Xml.Serialization;
 public class CustomYarnCommands : Singleton<CustomYarnCommands>
 {
     [SerializeField] DialogueRunner dialogueRunner;
-    [SerializeField] CustomDialogueView dialogueView;
 
     void Awake()
     {
@@ -43,10 +42,26 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         //08//
         dialogueRunner.AddCommandHandler("endTutorial", EndTutorial);
 
+        dialogueRunner.AddCommandHandler("appendNode", AppendNode);
+
         //dialogueRunner.AddCommandHandler("spawnTutorialGlicher", SpawnTutorialGlicher);
         //dialogueRunner.AddCommandHandler<string>("play_bgm", PlayBGM);
         //dialogueRunner.AddCommandHandler<string>("play_sfx", PlaySFX);
         //dialogueRunner.AddCommandHandler<string>("stop_bgm", StopBGM);
+    }
+
+
+
+
+
+    void AppendNode()
+    {
+        string nodeName = UIManager.instance.GetPageController().GetNextResourceNodeName();
+
+        Debug.Log(nodeName);
+        if (nodeName == "-1") return;
+
+        UIManager.instance.GetPageController().CreateDialogueRunner(nodeName);
     }
 
 
@@ -203,11 +218,5 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         }
 
         return count;
-    }
-
-    [YarnFunction("getNextResourceNodeName")]
-    public static string GetNextResourceNodeName()
-    {
-        return UIManager.instance.GetPageController().GetNextResourceNodeName();
     }
 }
