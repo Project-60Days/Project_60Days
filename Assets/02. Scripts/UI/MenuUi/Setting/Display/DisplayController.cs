@@ -4,7 +4,7 @@ public class DisplayController : MonoBehaviour
 {
     [SerializeField] GameObject resolutionList;
 
-    public ScreenModeButton[] screenModeBtns;
+    ScreenModeButton[] screenModeBtns;
     ResolutionButton[] resolutionBtns;
 
     void Start()
