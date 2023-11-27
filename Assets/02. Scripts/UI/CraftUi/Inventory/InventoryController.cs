@@ -152,13 +152,17 @@ public class InventoryController : ControllerBase
     /// <returns></returns>
     public bool CheckInventoryItem(string _itemCode)
     {
-        foreach(var item in items)
+        foreach (var item in items) 
         {
             if (item.English == _itemCode)
                 return true;
         }
         return false;
     }
+
+
+
+
 
     #region temp
     /// <summary>
