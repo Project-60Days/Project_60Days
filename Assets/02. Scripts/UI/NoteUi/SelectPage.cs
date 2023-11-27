@@ -13,6 +13,12 @@ public class SelectPage : NotePageBase
         return ENotePageType.Select;
     }
 
+    public override void SetNodeName(string _nodeName)
+    {
+        tomorrowNodeNames.Add(_nodeName);
+    }
+
+
     public override void PlayNode(string _nodeName)
     {
         if (dialogueRunner.IsDialogueRunning == true)

@@ -23,9 +23,9 @@ public class PageController : MonoBehaviour
         }
     }
 
-    public void SetResultPage(string _nodeName)
+    public void SetResultPage(string _nodeName, bool _isResourceNode)
     {
-        resultPage.SetNodeName(_nodeName);
+        resultPage.SetNodeName(_nodeName, _isResourceNode);
     }
 
     public void SetSelectPage(string _nodeName, StructureBase _structData)
@@ -58,5 +58,16 @@ public class PageController : MonoBehaviour
         TutorialManager.instance.GetTutorialController().LightUpBackground();
         UIManager.instance.GetInventoryController().RemoveItemByCode("ITEM_BATTERY");
         UIManager.instance.GetNoteController().CloseNote();
+    }
+
+    public string GetNextResourceNodeName()
+    {
+        if (resultPage.todayResourceNodeNames.Count == 0) return "-1";
+        else
+        {
+            string temp = resultPage.todayResourceNodeNames[0];
+            resultPage.todayResourceNodeNames.RemoveAt(0);
+            return temp;
+        }
     }
 }

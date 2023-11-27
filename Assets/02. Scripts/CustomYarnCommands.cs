@@ -204,4 +204,10 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
         return count;
     }
+
+    [YarnFunction("getNextResourceNodeName")]
+    public static string GetNextResourceNodeName()
+    {
+        return UIManager.instance.GetPageController().GetNextResourceNodeName();
+    }
 }

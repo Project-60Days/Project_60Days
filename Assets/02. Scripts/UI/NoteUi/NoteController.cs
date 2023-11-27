@@ -13,7 +13,7 @@ public class NoteController : ControllerBase
     [SerializeField] Button prevPageBtn;
     [SerializeField] Button closeBtn;
 
-    NotePageBase[] pages;
+    public NotePageBase[] pages;
     public NotePageBase[] notePages;
 
     bool isNewDay = true;

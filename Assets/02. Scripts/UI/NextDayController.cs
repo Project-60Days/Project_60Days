@@ -44,6 +44,7 @@ public class NextDayController : ControllerBase
                 StartCoroutine(NextDayEventCallBack(()=> {
                     UIManager.instance.GetNoteController().SetNextDay();
                     InitBlackPanel();
+                    App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
                 }));
             });
     }
@@ -53,8 +54,6 @@ public class NextDayController : ControllerBase
     /// </summary>
     IEnumerator NextDayEventCallBack(System.Action callback)
     {
-        App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
-
         UIManager.instance.GetAlertController().InitAlert();
 
         App.instance.GetMapManager().SetMapCameraPriority(false);
@@ -77,7 +76,7 @@ public class NextDayController : ControllerBase
                 .Player.TileController.GetComponent<TileBase>().TileData.English;
             string nodeName = resources[i].ItemBase.data.Code + "_" + tileName + "1";
 
-            UIManager.instance.GetPageController().SetResultPage(nodeName);
+            UIManager.instance.GetPageController().SetResultPage(nodeName, true);
         }
     }
 
