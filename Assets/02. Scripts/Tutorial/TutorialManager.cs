@@ -16,6 +16,8 @@ public class TutorialManager : Singleton<TutorialManager>
     {
         UIManager.instance.GetPageController().SetTutorialSelect();
 
+        UIManager.instance.GetCraftingUiController().AddBatteryCombine();
+
         UIManager.instance.GetAlertController().SetAlert("note", false);
 
         UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_PLASMA");
@@ -27,7 +29,10 @@ public class TutorialManager : Singleton<TutorialManager>
 
     public void EndTutorial()
     {
+        UIManager.instance.GetCraftingUiController().RemoveBatteryCombine();
+
         UIManager.instance.GetQuestController().CreateQuest("chapter01_GetNetworkChip"); //일단 임시.. pv나오면 그거 재생 끝나고 생성되게 수정하겠습니다.
+
         Destroy(this);
     }
 }

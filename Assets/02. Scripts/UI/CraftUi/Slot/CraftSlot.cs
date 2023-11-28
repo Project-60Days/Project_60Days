@@ -27,6 +27,7 @@ public class CraftSlot : SlotBase
 
         CraftItemClick?.Invoke();
 
-        UIManager.instance.GetItemInfoController().HideInfo();
+
+        HideItemInfo();
     }
 }

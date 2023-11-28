@@ -16,7 +16,6 @@ MonoBehaviour:
   data:
     Index: 1014
     Category: 2
-    Tier: 2
     Code: ITEM_SIGNAL
     Rarity: 1
     AppearTileType: 0
@@ -37,5 +36,5 @@ MonoBehaviour:
   itemImage: {fileID: 21300000, guid: ff8b8fa8e6b891347b74fc2b39f50bd7, type: 3}
   itemCount: 0
   eItemType: 0
-  prefab: {fileID: 3978186304727112820, guid: 98bbcb743baf8a543a79573cddba25e2, type: 3}
+  sprite: {fileID: 21300000, guid: f002b46945356824d91dc5b6622c1383, type: 3}
   sfxName: 

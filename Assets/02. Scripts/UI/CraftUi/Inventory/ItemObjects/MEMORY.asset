@@ -16,7 +16,6 @@ MonoBehaviour:
   data:
     Index: 1021
     Category: 3
-    Tier: 2
     Code: ITEM_MEMORY
     Rarity: 1
     AppearTileType: 0
@@ -36,5 +35,5 @@ MonoBehaviour:
   itemImage: {fileID: 21300000, guid: 962421f61552ec54ca7555d3d067850e, type: 3}
   itemCount: 0
   eItemType: 2
-  prefab: {fileID: 0}
+  sprite: {fileID: 21300000, guid: bc2a7e511fe407b4eb46d4dfd71214c5, type: 3}
   sfxName: 

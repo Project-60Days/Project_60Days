@@ -10,7 +10,7 @@ public abstract class SlotBase : MonoBehaviour, IPointerClickHandler, IPointerEn
 
     ItemBase _item;
 
-    public bool isMouseEnter = false;
+    bool isMouseEnter = false;
 
     void Update()
     {
@@ -56,8 +56,15 @@ public abstract class SlotBase : MonoBehaviour, IPointerClickHandler, IPointerEn
     {
         if (isMouseEnter == true) 
         {
-            isMouseEnter = false;
             UIManager.instance.GetItemInfoController().HideInfo();
+            isMouseEnter = false;
         }
+    }
+
+    protected void HideItemInfo()
+    {
+        UIManager.instance.GetItemInfoController().HideInfo();
+        if (item == null)
+            isMouseEnter = false;
     }
 }

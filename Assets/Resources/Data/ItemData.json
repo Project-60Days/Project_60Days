@@ -2,7 +2,6 @@
   {
     "Index": 1001,
     "Category": 0,
-    "Tier": 0,
     "Code": "ITEM_STEEL",
     "AppearTileType": 0,
     "Type": 0,
@@ -19,7 +18,6 @@
   {
     "Index": 1002,
     "Category": 0,
-    "Tier": 0,
     "Code": "ITEM_CARBON",
     "AppearTileType": 0,
     "Type": 0,
@@ -36,7 +34,6 @@
   {
     "Index": 1003,
     "Category": 0,
-    "Tier": 0,
     "Code": "ITEM_PLASMA",
     "AppearTileType": 0,
     "Type": 0,
@@ -53,7 +50,6 @@
   {
     "Index": 1004,
     "Category": 0,
-    "Tier": 0,
     "Code": "ITEM_POWDER",
     "AppearTileType": 2,
     "Type": 0,
@@ -70,7 +66,6 @@
   {
     "Index": 1005,
     "Category": 0,
-    "Tier": 0,
     "Code": "ITEM_GAS",
     "AppearTileType": 3,
     "Type": 0,
@@ -87,7 +82,6 @@
   {
     "Index": 1006,
     "Category": 0,
-    "Tier": 0,
     "Code": "ITEM_RUBBER",
     "AppearTileType": 4,
     "Type": 0,
@@ -104,7 +98,6 @@
   {
     "Index": 1007,
     "Category": 1,
-    "Tier": 1,
     "Code": "ITEM_PLATE",
     "AppearTileType": 0,
     "Type": 0,
@@ -121,7 +114,6 @@
   {
     "Index": 1008,
     "Category": 1,
-    "Tier": 1,
     "Code": "ITEM_WIRE",
     "AppearTileType": 0,
     "Type": 0,
@@ -138,7 +130,6 @@
   {
     "Index": 1009,
     "Category": 1,
-    "Tier": 1,
     "Code": "ITEM_GEAR",
     "AppearTileType": 0,
     "Type": 0,
@@ -155,7 +146,6 @@
   {
     "Index": 1010,
     "Category": 1,
-    "Tier": 1,
     "Code": "ITEM_BATTERY",
     "AppearTileType": 5,
     "Type": 4,
@@ -172,10 +162,9 @@
   {
     "Index": 1011,
     "Category": 2,
-    "Tier": 2,
     "Code": "ITEM_ALLOY",
     "AppearTileType": 0,
-    "Type": 0,
+    "Type": 2,
     "EquipType": 0,
     "EquipArea": "방어형 부품",
     "CombineSlotCount": 2,
@@ -189,10 +178,9 @@
   {
     "Index": 1012,
     "Category": 2,
-    "Tier": 2,
     "Code": "ITEM_DECK",
     "AppearTileType": 0,
-    "Type": 0,
+    "Type": 2,
     "EquipType": 0,
     "EquipArea": "방어형 부품",
     "CombineSlotCount": 2,
@@ -206,10 +194,9 @@
   {
     "Index": 1013,
     "Category": 2,
-    "Tier": 2,
     "Code": "ITEM_SEMICONDUCTOR",
     "AppearTileType": 0,
-    "Type": 0,
+    "Type": 2,
     "EquipType": 0,
     "EquipArea": "방어형 부품",
     "CombineSlotCount": 2,
@@ -223,7 +210,6 @@
   {
     "Index": 1014,
     "Category": 2,
-    "Tier": 2,
     "Code": "ITEM_SIGNAL",
     "AppearTileType": 0,
     "Type": 0,
@@ -240,10 +226,9 @@
   {
     "Index": 1015,
     "Category": 2,
-    "Tier": 2,
     "Code": "ITEM_GENERATOR",
     "AppearTileType": 0,
-    "Type": 0,
+    "Type": 2,
     "EquipType": 2,
     "EquipArea": "특수형 부품",
     "CombineSlotCount": 3,
@@ -257,7 +242,6 @@
   {
     "Index": 1016,
     "Category": 2,
-    "Tier": 2,
     "Code": "ITEM_RESISTOR",
     "AppearTileType": 0,
     "Type": 0,
@@ -274,7 +258,6 @@
   {
     "Index": 1017,
     "Category": 2,
-    "Tier": 2,
     "Code": "ITEM_BULLET",
     "AppearTileType": 0,
     "Type": 4,
@@ -291,7 +274,6 @@
   {
     "Index": 1018,
     "Category": 2,
-    "Tier": 2,
     "Code": "ITEM_PUMP",
     "AppearTileType": 0,
     "Type": 0,
@@ -308,7 +290,6 @@
   {
     "Index": 1019,
     "Category": 3,
-    "Tier": 3,
     "Code": "ITEM_BLADE",
     "AppearTileType": 0,
     "Type": 2,
@@ -325,7 +306,6 @@
   {
     "Index": 1020,
     "Category": 3,
-    "Tier": 3,
     "Code": "ITEM_HARDSKIN",
     "AppearTileType": 0,
     "Type": 2,
@@ -342,7 +322,6 @@
   {
     "Index": 1021,
     "Category": 3,
-    "Tier": 3,
     "Code": "ITEM_MEMORY",
     "AppearTileType": 0,
     "Type": 2,
@@ -359,7 +338,6 @@
   {
     "Index": 1022,
     "Category": 3,
-    "Tier": 3,
     "Code": "ITEM_FINDOR",
     "AppearTileType": 0,
     "Type": 4,
@@ -376,7 +354,6 @@
   {
     "Index": 1023,
     "Category": 3,
-    "Tier": 3,
     "Code": "ITEM_DISTURBE",
     "AppearTileType": 0,
     "Type": 4,
@@ -393,7 +370,6 @@
   {
     "Index": 1024,
     "Category": 3,
-    "Tier": 3,
     "Code": "ITEM_RIFLE",
     "AppearTileType": 2,
     "Type": 2,
@@ -410,7 +386,6 @@
   {
     "Index": 1025,
     "Category": 3,
-    "Tier": 3,
     "Code": "ITEM_CANNON",
     "AppearTileType": 2,
     "Type": 2,
@@ -427,7 +402,6 @@
   {
     "Index": 1026,
     "Category": 4,
-    "Tier": 4,
     "Code": "ITEM_SHAPEMETAL",
     "AppearTileType": 4,
     "Type": 2,
@@ -444,7 +418,6 @@
   {
     "Index": 1027,
     "Category": 4,
-    "Tier": 4,
     "Code": "ITEM_GPS",
     "AppearTileType": 0,
     "Type": 2,
@@ -461,7 +434,6 @@
   {
     "Index": 1028,
     "Category": 4,
-    "Tier": 4,
     "Code": "ITEM_POWER",
     "AppearTileType": 3,
     "Type": 2,
@@ -478,7 +450,6 @@
   {
     "Index": 1029,
     "Category": 4,
-    "Tier": 4,
     "Code": "ITEM_GRENADE",
     "AppearTileType": 3,
     "Type": 2,
@@ -495,7 +466,6 @@
   {
     "Index": 1030,
     "Category": 4,
-    "Tier": 4,
     "Code": "ITEM_EMP",
     "AppearTileType": 4,
     "Type": 2,
@@ -512,7 +482,6 @@
   {
     "Index": 1031,
     "Category": 5,
-    "Tier": 5,
     "Code": "ITEM_REACTIVESKIN",
     "AppearTileType": 3,
     "Type": 1,
@@ -529,7 +498,6 @@
   {
     "Index": 1032,
     "Category": 5,
-    "Tier": 5,
     "Code": "ITEM_ENERGYCANNON",
     "AppearTileType": 4,
     "Type": 1,
@@ -544,7 +512,7 @@
     "Chinese": -1
   },
   {
-    "Index": 1032,
+    "Index": 1033,
     "Category": 1,
     "Tier": 1,
     "Code": "ITEM_NETWORKCHIP",
@@ -561,3 +529,4 @@
     "Chinese": -1
   }
 ]
+  

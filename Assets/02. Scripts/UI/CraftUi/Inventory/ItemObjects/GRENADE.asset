@@ -16,7 +16,6 @@ MonoBehaviour:
   data:
     Index: 1029
     Category: 4
-    Tier: 3
     Code: ITEM_GRENADE
     Rarity: 2
     AppearTileType: 3
@@ -38,5 +37,5 @@ MonoBehaviour:
   itemImage: {fileID: 21300000, guid: b6fc4da4e34692e48bab69aff4334360, type: 3}
   itemCount: 0
   eItemType: 2
-  prefab: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 04a45d8b2687d494c90bfa84afa5c4fc, type: 3}
   sfxName: 

@@ -65,6 +65,7 @@ public class GameManager : Singleton<GameManager>
 
         // �� �̵�
         SceneLoader.instance.LoadScene((int)ESceneType.Game);
+        SceneLoader.instance.LoadSceneAdditive((int)ESceneType.Crafting);
         SceneLoader.instance.LoadSceneAdditive((int)ESceneType.UI);
         SceneLoader.instance.LoadSceneAdditive((int)ESceneType.Map);
         App.instance.GetSoundManager().StopBGM();

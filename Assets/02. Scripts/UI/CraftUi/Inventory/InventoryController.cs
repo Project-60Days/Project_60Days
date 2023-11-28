@@ -62,7 +62,10 @@ public class InventoryController : ControllerBase
         for (int i = 0; i < slots.Count; i++)
         {
             for (int j = 0; j < slots[i].Count; j++)
+            {
                 slots[i][j].gameObject.SetActive(false);
+                slots[i][j].item = null;
+            }
         }
 
         for (int i = 0; i < counts.Length; i++)

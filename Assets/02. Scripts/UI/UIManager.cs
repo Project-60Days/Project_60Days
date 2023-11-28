@@ -33,7 +33,7 @@ public class UIManager : Singleton<UIManager>
 
     public void InputKey()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && isUIStatus("UI_MENU") == false)
             menuController.EnterMenu();
     }
 

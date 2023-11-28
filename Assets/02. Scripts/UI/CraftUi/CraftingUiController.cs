@@ -17,10 +17,13 @@ public class CraftingUiController : ControllerBase
     [SerializeField] EquipSlot[] equipSlots;
 
     [Header("Blueprint Mode")]
-    public Transform blueprintSlotParent;
+    [HideInInspector] public Transform blueprintSlotParent;
     [SerializeField] GameObject blueprintSlotPrefab;
 
-    SlotBase[] slots;
+    [Header("Hologram")]
+    [SerializeField] GameObject hologramBack;
+
+    ItemCombineData batteryCombine;
 
     /// <summary>
     /// 아직 ItemSO에 추가되지 않은 아이템 조합 시에 생성될 임시 아이템
@@ -36,7 +39,7 @@ public class CraftingUiController : ControllerBase
 
 
 
-    void Start()
+    void Awake()
     {
         int i = 1001;
         while(true)
@@ -45,16 +48,20 @@ public class CraftingUiController : ControllerBase
 
             if (itemData == null) break;
 
+            if (itemData.Result == "ITEM_BATTERY")
+            {
+                batteryCombine = itemData;
+                i++;
+                continue;
+            }
+
             itemCombines.Add(itemData);
             i++;
         }
 
-        slots = GetComponentsInChildren<SlotBase>();
-
         InitCraftSlots();
         InitEquipSlots();
         InitBlueprintSlots();
-        InitSlots();
     }
 
 
@@ -79,10 +86,18 @@ public class CraftingUiController : ControllerBase
             Destroy(blueprintSlotParent.GetChild(i).gameObject);
     }
 
-    void InitSlots()
+
+
+
+
+    public void TurnOnHologram()
     {
-        foreach (var slot in slots)
-            slot.isMouseEnter = false;
+        hologramBack.SetActive(true);
+    } 
+
+    public void TurnOffHologram()
+    {
+        hologramBack.SetActive(false);
     }
 
 
@@ -200,6 +215,16 @@ public class CraftingUiController : ControllerBase
         obj.GetComponentInChildren<CraftSlot>().item = _item;
         obj.GetComponentInChildren<CraftSlot>().eSlotType = ESlotType.ResultSlot;
         obj.GetComponentInChildren<TextMeshProUGUI>().text = "=";
+    }
+
+    public void AddBatteryCombine()
+    {
+        itemCombines.Add(batteryCombine);
+    }
+
+    public void RemoveBatteryCombine()
+    {
+        itemCombines.Remove(batteryCombine);
     }
 
 
@@ -372,9 +397,7 @@ public class CraftingUiController : ControllerBase
     public void ExitUi()
     {
         ExitCraftBag();
-        ExitEquipBag();
         ExitBlueprintBag();
-        InitSlots();
     }
 
     public void ExitCraftBag()
@@ -384,16 +407,6 @@ public class CraftingUiController : ControllerBase
 
         InitCraftSlots();
         craftItems.Clear();
-    }
-
-    public void ExitEquipBag()
-    {
-        for (int i = 0; i < equipSlots.Length; i++) 
-        {
-            if (equipSlots[i].item == null) continue;
-            UIManager.instance.GetInventoryController().AddItem(equipSlots[i].item);
-            equipSlots[i].item = null;
-        }
     }
 
     public void ExitBlueprintBag()

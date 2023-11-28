@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 using System.Collections.Generic;
 
 public class NoteController : ControllerBase
@@ -7,6 +8,7 @@ public class NoteController : ControllerBase
     [Header("Note Objects")]
     [SerializeField] Text dayText;
     [SerializeField] GameObject noteBackground;
+    [SerializeField] NoteScroll scrollImg;
 
     [Header("Buttons")]
     [SerializeField] Button nextPageBtn;
@@ -23,8 +25,7 @@ public class NoteController : ControllerBase
 
     [Header("For Tutorial")]
     [SerializeField] ScrollRect scrollRect;
-    [SerializeField] Scrollbar scrollBar;
-    float threshold = 0.1f;
+    [SerializeField] Scrollbar[] scrolls;
 
 
 
@@ -143,6 +144,8 @@ public class NoteController : ControllerBase
 
             notePages[pageNum].gameObject.SetActive(false);
 
+            scrollImg.StopAnim();
+
             App.instance.GetSoundManager().PlaySFX("SFX_Note_Close");
             UIManager.instance.PopCurrUI();
         }
@@ -223,6 +226,28 @@ public class NoteController : ControllerBase
     {
         notePages[pageNum].gameObject.SetActive(true);
         notePages[pageNum].PlayPageAciton();
+
+        StartCoroutine(CheckScrollEnabled());
+    }
+
+    IEnumerator CheckScrollEnabled()
+    {
+        yield return null;
+
+        foreach (var scroll in scrolls)
+        {
+            if (scroll.value >= 0.8f)
+            {
+                scrollImg.StartAnim();
+                StartCoroutine(WaitScrollToEnd(scroll));
+            }
+        }
+    }
+
+    IEnumerator WaitScrollToEnd(Scrollbar _scroll)
+    {
+        yield return new WaitUntil(() => _scroll.value <= 0.1f);
+        scrollImg.StopAnim();
     }
 
 
@@ -268,15 +293,14 @@ public class NoteController : ControllerBase
 
     public bool CheckIfScrolledToEnd()
     {
-        Debug.Log(scrollBar.value);
-        if (scrollBar.value <= threshold)
+        if (scrolls[1].value <= 0.1f)
             return true;
         else return false;
     }
 
     public void SetScrollBarInteractable(bool _isInteractable)
     {
-        scrollBar.enabled = _isInteractable;
+        scrolls[1].enabled = _isInteractable;
         scrollRect.enabled = _isInteractable;
     }
     #endregion

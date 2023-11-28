@@ -16,7 +16,6 @@ MonoBehaviour:
   data:
     Index: 1020
     Category: 3
-    Tier: 2
     Code: ITEM_HARDSKIN
     Rarity: 1
     AppearTileType: 0
@@ -37,5 +36,5 @@ MonoBehaviour:
   itemImage: {fileID: 21300000, guid: c1c83e358ce418c45bbf8f8f549ad1fd, type: 3}
   itemCount: 0
   eItemType: 2
-  prefab: {fileID: 0}
+  sprite: {fileID: 21300000, guid: a126b72088127504fa2eb582ae0306a0, type: 3}
   sfxName: 

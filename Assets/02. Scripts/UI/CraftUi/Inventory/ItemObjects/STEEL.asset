@@ -16,16 +16,15 @@ MonoBehaviour:
   data:
     Index: 1001
     Category: 0
-    Tier: 1
     Code: ITEM_STEEL
     Rarity: 0
     AppearTileType: 0
-    TileIncludePossibility: 50
+    TileIncludePossibility: 0
     Type: 0
-    EquipType: 0
+    EquipType: 4
     EquipArea: 
-    isCanBase: 1
-    CombineSlotCount: 1
+    isCanBase: 0
+    CombineSlotCount: 0
     Description: "\uAC00\uC7A5 \uAE30\uCD08\uC801\uC778 \uB2E8\uB2E8\uD55C \uBB3C\uC9C8
       \uC911 \uD558\uB098"
     EffectDescription: 
@@ -36,5 +35,5 @@ MonoBehaviour:
   itemImage: {fileID: 21300000, guid: 351a9799c30acca41a51ea5f6ca7da9d, type: 3}
   itemCount: 1
   eItemType: 0
-  prefab: {fileID: 5291711458905113346, guid: 03f13903e83b61e48b34af8e95fd217f, type: 3}
+  sprite: {fileID: 21300000, guid: 8e4913b00b5e1c24ca23dd2a65297769, type: 3}
   sfxName: SFX_Steel_Acquisition

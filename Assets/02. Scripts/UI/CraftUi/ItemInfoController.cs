@@ -31,6 +31,7 @@ public class ItemInfoController : MonoBehaviour
     {
         isNew = true;
         InitObjects();
+        InitBlueprintSlots();
     }
 
     void InitObjects()
@@ -42,7 +43,6 @@ public class ItemInfoController : MonoBehaviour
 
         contour.SetActive(false);
 
-        InitBlueprintSlots();
         blueprintSlotParent.gameObject.SetActive(false);
 
         gameObject.SetActive(false);
@@ -58,6 +58,7 @@ public class ItemInfoController : MonoBehaviour
     {
         if (isNew == true)
         {
+            HideInfo();
             SetObejcts(_item);
             SetBlueprint(_item);
             isNew = false;

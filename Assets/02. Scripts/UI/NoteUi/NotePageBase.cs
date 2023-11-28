@@ -32,7 +32,7 @@ public abstract class NotePageBase : MonoBehaviour
 
         todayNodeNames.Clear();
 
-        InitResourceNodeName();
+        InitInChildren();
 
         for (int i = 0; i < tomorrowNodeNames.Count; i++)
             todayNodeNames.Add(tomorrowNodeNames[i]);
@@ -41,10 +41,7 @@ public abstract class NotePageBase : MonoBehaviour
         index = 0;
     }
 
-    public virtual void InitResourceNodeName()
-    {
-
-    }
+    public abstract void InitInChildren();
 
     public virtual void PlayPageAciton()
     {

@@ -4,7 +4,7 @@ using System;
 
 public class ItemSlot : SlotBase
 {
-    public static Action<GameObject> CraftItemClick;
+    public static Action<Sprite> CraftItemClick;
 
     public int category;
 
@@ -14,20 +14,22 @@ public class ItemSlot : SlotBase
     }
 
     public override void OnPointerClick(PointerEventData eventData)
-    {
-        if (UIManager.instance.GetCraftingUiController().isMoreThanThree() == true) return;
-        
+    {        
         if (UIManager.instance.GetCraftModeController().eCraftModeType == ECraftModeType.Craft)
         {
-            UIManager.instance.GetCraftingUiController().MoveInventoryToCraft(item);
+            if (UIManager.instance.GetCraftingUiController().isMoreThanThree() == true) return;
+
             string sfxName = "SFX_Crafting_" + item.data.Code;
             if (App.instance.GetSoundManager().CheckSFXExist(sfxName) == true)
                 App.instance.GetSoundManager().PlaySFX(sfxName);
             else
                 App.instance.GetSoundManager().PlaySFX("SFX_Crafting_Item");
-            //CraftItemClick?.Invoke(item.prefab);
 
-            UIManager.instance.GetItemInfoController().HideInfo();
+            CraftItemClick?.Invoke(item.sprite);
+
+            UIManager.instance.GetCraftingUiController().MoveInventoryToCraft(item);
+
+            HideItemInfo();
         }
         else if (UIManager.instance.GetCraftModeController().eCraftModeType == ECraftModeType.Equip)
         {
@@ -35,7 +37,7 @@ public class ItemSlot : SlotBase
             {
                 UIManager.instance.GetCraftingUiController().MoveInventoryToEquip(item);
 
-                UIManager.instance.GetItemInfoController().HideInfo();
+                HideItemInfo();
             }   
         }
     }

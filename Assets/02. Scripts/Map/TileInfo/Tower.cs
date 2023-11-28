@@ -26,5 +26,6 @@ public class Tower : StructureBase
         isAccessible = true;
         App.instance.GetMapManager().ResearchStart();
         UIManager.instance.GetPageController().SetResultPage("Signal_Yes", false);
+        UIManager.instance.GetPageController().CreateSelectDialogueRunner("signalSequence");
     }
 }

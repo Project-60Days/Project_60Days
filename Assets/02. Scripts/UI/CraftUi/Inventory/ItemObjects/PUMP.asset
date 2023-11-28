@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 04865242a8028fc46a0079b51f0c8ad4, type: 3}
-  m_Name: PUMB
+  m_Name: PUMP
   m_EditorClassIdentifier: 
   English: ITEM_PUMP
   data:
     Index: 1018
     Category: 2
-    Tier: 0
     Code: ITEM_PUMB
     Rarity: 0
     AppearTileType: 0
@@ -37,5 +36,5 @@ MonoBehaviour:
   itemImage: {fileID: 21300000, guid: c9f712c677e682b49b778e2c26a1197b, type: 3}
   itemCount: 2
   eItemType: 0
-  prefab: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 2367fcc4ea9923748a027d516be4e4a9, type: 3}
   sfxName: 

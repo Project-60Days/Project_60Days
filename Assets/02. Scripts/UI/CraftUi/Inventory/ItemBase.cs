@@ -9,6 +9,6 @@ public class ItemBase : ScriptableObject
     public Sprite itemImage;
     public int itemCount = 0;
     public EItemType eItemType;
-    public GameObject prefab;
+    public Sprite sprite;
     public string sfxName;
 }

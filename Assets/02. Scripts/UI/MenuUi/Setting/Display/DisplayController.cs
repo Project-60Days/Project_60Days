@@ -11,22 +11,23 @@ public class DisplayController : MonoBehaviour
     {
         screenModeBtns = GetComponentsInChildren<ScreenModeButton>();
         resolutionBtns = GetComponentsInChildren<ResolutionButton>();
-        SetFullScreen();
+
+        SetWindowedMode();
         SetResolution(resolutionBtns[2]);
     }
 
     public void SetFullScreen()
     {
-        screenModeBtns[0].SetButtonClicked();
-        screenModeBtns[1].SetButtonNormal();
+        screenModeBtns[0].SetButtonNormal();
+        screenModeBtns[1].SetButtonClicked();
 
         Screen.fullScreen = true;
     }
 
     public void SetWindowedMode()
     {
-        screenModeBtns[0].SetButtonNormal();
-        screenModeBtns[1].SetButtonClicked();
+        screenModeBtns[0].SetButtonClicked();
+        screenModeBtns[1].SetButtonNormal(); //이 버튼만 선택 시 배경이 검정색이 되어서 ..
 
         Screen.fullScreen = false;
     }
@@ -36,7 +37,7 @@ public class DisplayController : MonoBehaviour
         resolutionList.SetActive(true);
     }
 
-    void CloseResolutionList()
+    public void CloseResolutionList()
     {
         resolutionList.SetActive(false);
     }

@@ -16,7 +16,6 @@ MonoBehaviour:
   data:
     Index: 1025
     Category: 3
-    Tier: 3
     Code: ITEM_CANNON
     Rarity: 2
     AppearTileType: 2
@@ -39,5 +38,5 @@ MonoBehaviour:
   itemImage: {fileID: 21300000, guid: 28ebd9f3363fc86428a4f931fd604b15, type: 3}
   itemCount: 0
   eItemType: 2
-  prefab: {fileID: 0}
+  sprite: {fileID: 21300000, guid: c51d0797183b8d442a21c9a2933798d1, type: 3}
   sfxName: 

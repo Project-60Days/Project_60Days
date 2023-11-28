@@ -9,13 +9,22 @@ public class PageController : MonoBehaviour
     [SerializeField] Button yesBtn;
     [SerializeField] Button noBtn;
 
+    Image yesImage;
+    Image noImage;
+
     [SerializeField] GameObject resultPrefab;
     [SerializeField] RectTransform resultParent;
+    [SerializeField] GameObject selectPrefab;
+    [SerializeField] RectTransform selectParent;
 
     NotePageBase resultPage;
     NotePageBase selectPage;
 
+    [SerializeField] Button skipButton;
+
     Color clickedColor = new Color(56 / 255f, 221 / 255f, 205 / 255f);
+    Color unclickedColor = new Color(1f, 1f, 1f, 0.5f);
+    Color normalColor = new Color(1f, 1f, 1f, 1f);
 
     void Awake()
     {
@@ -27,6 +36,9 @@ public class PageController : MonoBehaviour
             else if (page.GetENotePageType() == ENotePageType.Select)
                 selectPage = page;
         }
+
+        yesImage = yesBtn.GetComponent<Image>();
+        noImage = noBtn.GetComponent<Image>();
     }
 
     public void SetResultPage(string _nodeName, bool _isResourceNode)
@@ -38,11 +50,7 @@ public class PageController : MonoBehaviour
     {
         selectPage.SetNodeName(_nodeName);
 
-        yesBtn.enabled = true;
-        noBtn.enabled = true;
-
-        yesBtn.onClick.RemoveAllListeners();
-        noBtn.onClick.RemoveAllListeners();
+        InitBtns();
 
         yesBtn.onClick.AddListener(_structData.YesFunc);
         noBtn.onClick.AddListener(_structData.NoFunc);
@@ -50,11 +58,20 @@ public class PageController : MonoBehaviour
         AddDefaultListener();
     }
 
+    void InitBtns()
+    {
+        yesBtn.enabled = true;
+        noBtn.enabled = true;
+
+        yesImage.color = normalColor;
+        noImage.color = normalColor;
+
+        yesBtn.onClick.RemoveAllListeners();
+        noBtn.onClick.RemoveAllListeners();
+    }
+
     void AddDefaultListener()
     {
-        yesBtn.onClick.AddListener(UIManager.instance.GetNoteController().CloseNote);
-        noBtn.onClick.AddListener(UIManager.instance.GetNoteController().CloseNote);
-
         yesBtn.onClick.AddListener(SetYesBtnColored);
         noBtn.onClick.AddListener(SetNoBtnColored);
 
@@ -64,12 +81,14 @@ public class PageController : MonoBehaviour
 
     void SetYesBtnColored()
     {
-        yesBtn.GetComponent<Image>().color = clickedColor;
+        yesImage.color = clickedColor;
+        noImage.color = unclickedColor;
     }
 
     void SetNoBtnColored()
     {
-        noBtn.GetComponent<Image>().color = clickedColor;
+        yesImage.color = unclickedColor;
+        noImage.color = clickedColor;
     }
 
     void SetBtnsEnbled()
@@ -109,7 +128,7 @@ public class PageController : MonoBehaviour
         }
     }
 
-    public void CreateDialogueRunner(string _nodeName)
+    public void CreateResultDialogueRunner(string _nodeName)
     {
         GameObject obj = Instantiate(resultPrefab, resultParent);
 
@@ -118,5 +137,18 @@ public class PageController : MonoBehaviour
         dialogueRunner.StartDialogue(_nodeName);
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(resultParent);
+    }
+
+    public void CreateSelectDialogueRunner(string _nodeName)
+    {
+        GameObject obj = Instantiate(selectPrefab, selectParent);
+
+        obj.GetComponent<CustomDialogueView>().skipButton = skipButton;
+
+        DialogueRunner dialogueRunner = obj.GetComponent<DialogueRunner>();
+
+        dialogueRunner.StartDialogue(_nodeName);
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(selectParent);
     }
 }

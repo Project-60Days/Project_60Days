@@ -16,7 +16,6 @@ MonoBehaviour:
   data:
     Index: 1032
     Category: 5
-    Tier: 3
     Code: ITEM_ENERGYCANNON
     Rarity: 2
     AppearTileType: 4
@@ -38,5 +37,5 @@ MonoBehaviour:
   itemImage: {fileID: 21300000, guid: 58aaadfccf5cfde43b3c3e8b7edbe240, type: 3}
   itemCount: 0
   eItemType: 1
-  prefab: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 81899ac721264d040be3031146f57547, type: 3}
   sfxName: 

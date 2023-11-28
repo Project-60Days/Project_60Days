@@ -15,6 +15,7 @@ public class EquipSlot : SlotBase
     public override void OnPointerClick(PointerEventData eventData)
     {
         UIManager.instance.GetCraftingUiController().MoveEquipToInventory(item);
-        UIManager.instance.GetItemInfoController().HideInfo();
+
+        HideItemInfo();
     }
 }
