@@ -24,8 +24,8 @@ public class NoteController : ControllerBase
     int pageNum = 0;
 
     [Header("For Tutorial")]
-    [SerializeField] ScrollRect scrollRect;
-    [SerializeField] Scrollbar[] scrolls;
+    [SerializeField] ScrollRect[] scrollRects;
+    [SerializeField] Scrollbar[] scrollBars;
 
 
 
@@ -140,6 +140,7 @@ public class NoteController : ControllerBase
         {
             isOpen = false;
             ActiveObjects(false);
+
             ActiveNextBtnAndPrevBtn(false, false);
 
             notePages[pageNum].gameObject.SetActive(false);
@@ -234,9 +235,9 @@ public class NoteController : ControllerBase
     {
         yield return null;
 
-        foreach (var scroll in scrolls)
+        foreach (var scroll in scrollBars)
         {
-            if (scroll.value >= 0.8f)
+            if (scroll.value >= 0.1f)
             {
                 scrollImg.StartAnim();
                 StartCoroutine(WaitScrollToEnd(scroll));
@@ -293,15 +294,15 @@ public class NoteController : ControllerBase
 
     public bool CheckIfScrolledToEnd()
     {
-        if (scrolls[1].value <= 0.1f)
+        if (scrollBars[1].value <= 0.1f)
             return true;
         else return false;
     }
 
     public void SetScrollBarInteractable(bool _isInteractable)
     {
-        scrolls[1].enabled = _isInteractable;
-        scrollRect.enabled = _isInteractable;
+        scrollBars[1].enabled = _isInteractable;
+        scrollRects[1].enabled = _isInteractable;
     }
     #endregion
 }

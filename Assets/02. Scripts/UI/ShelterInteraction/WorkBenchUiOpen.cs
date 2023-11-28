@@ -8,6 +8,7 @@ public class WorkBenchUiOpen : MonoBehaviour
     [SerializeField] GameObject inventoryUi;
     [SerializeField] GameObject craftingUi;
     [SerializeField] GameObject productionUi;
+    [SerializeField] GameObject decorationUi;
     CraftEffectAnim craftEffectAnim;
     
 
@@ -15,6 +16,8 @@ public class WorkBenchUiOpen : MonoBehaviour
     {
         inventoryUi.GetComponent<CanvasGroup>().alpha = 0.0f;
         craftingUi.GetComponent<CanvasGroup>().alpha = 0.0f;
+        productionUi.GetComponent<CanvasGroup>().alpha = 0.0f;
+        decorationUi.GetComponent<CanvasGroup>().alpha = 0.0f;
 
         craftEffectAnim = craftingUi.GetComponentInChildren<CraftEffectAnim>();
 
@@ -25,6 +28,8 @@ public class WorkBenchUiOpen : MonoBehaviour
     {
         inventoryUi.SetActive(_isActive);
         craftingUi.SetActive(_isActive);
+        productionUi.SetActive(_isActive);
+        decorationUi.SetActive(_isActive);
     }
 
     void OnEnable()
@@ -73,7 +78,8 @@ public class WorkBenchUiOpen : MonoBehaviour
         sequence
             .Append(craftingUi.GetComponent<CanvasGroup>().DOFade(1f, 0.5f))
             .Append(inventoryUi.GetComponent<CanvasGroup>().DOFade(1f, 0.5f))
-            .Join(productionUi.GetComponent<CanvasGroup>().DOFade(1f, 0.5f));
+            .Join(productionUi.GetComponent<CanvasGroup>().DOFade(1f, 0.5f))
+            .Join(decorationUi.GetComponent<CanvasGroup>().DOFade(1f, 0.5f));
     }
 
     public void CloseUi()
@@ -93,6 +99,7 @@ public class WorkBenchUiOpen : MonoBehaviour
         sequence
             .Append(inventoryUi.GetComponent<CanvasGroup>().DOFade(0f, 0.5f))
             .Join(productionUi.GetComponent<CanvasGroup>().DOFade(0f, 0.5f))
+            .Join(decorationUi.GetComponent<CanvasGroup>().DOFade(0f, 0.5f))
             .Append(craftingUi.GetComponent<CanvasGroup>().DOFade(0f, 0.5f))
             .OnComplete(() => ActivateUiObjects(false));
     }

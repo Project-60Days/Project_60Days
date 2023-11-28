@@ -7,7 +7,7 @@ public class DisplayController : MonoBehaviour
     ScreenModeButton[] screenModeBtns;
     ResolutionButton[] resolutionBtns;
 
-    void Start()
+    void Awake()
     {
         screenModeBtns = GetComponentsInChildren<ScreenModeButton>();
         resolutionBtns = GetComponentsInChildren<ResolutionButton>();
