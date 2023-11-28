@@ -63,7 +63,6 @@ public class CraftingUiController : ControllerBase
         InitCraftSlots();
         InitEquipSlots();
         InitBlueprintSlots();
-        InitSlots();
     }
 
 
@@ -86,12 +85,6 @@ public class CraftingUiController : ControllerBase
     {
         for (int i = 0; i < blueprintSlotParent.childCount; i++)
             Destroy(blueprintSlotParent.GetChild(i).gameObject);
-    }
-
-    void InitSlots()
-    {
-        foreach (var slot in slots)
-            slot.isMouseEnter = false;
     }
 
 
@@ -392,7 +385,6 @@ public class CraftingUiController : ControllerBase
     {
         ExitCraftBag();
         ExitBlueprintBag();
-        InitSlots();
     }
 
     public void ExitCraftBag()
