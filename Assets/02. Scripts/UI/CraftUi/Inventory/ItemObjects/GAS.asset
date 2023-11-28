@@ -16,16 +16,15 @@ MonoBehaviour:
   data:
     Index: 1005
     Category: 0
-    Tier: 3
     Code: ITEM_GAS
-    Rarity: 2
+    Rarity: 0
     AppearTileType: 3
-    TileIncludePossibility: 10
+    TileIncludePossibility: 0
     Type: 0
-    EquipType: 0
+    EquipType: 4
     EquipArea: 
-    isCanBase: 1
-    CombineSlotCount: 1
+    isCanBase: 0
+    CombineSlotCount: 0
     Description: "\uD230\uB4DC\uB77C\uC5D0\uC11C\uB9CC \uC5BB\uC744 \uC218 \uC788\uB294
       \uBB3C\uC9C8 \uC911 \uD558\uB098\uB85C \uACF5\uC7A5\uB4E4\uC758 \uC0DD\uC0B0\uD574\uB0B4\uB358
       \uC8FC \uC6D0\uB8CC \uC911 \uD558\uB098\uC600\uB2E4."
@@ -37,5 +36,5 @@ MonoBehaviour:
   itemImage: {fileID: 21300000, guid: b59cef1285586f7488f1d4aedc25ae98, type: 3}
   itemCount: 0
   eItemType: 0
-  prefab: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 1d4ad60e84ad65d4693b2b70eb083d87, type: 3}
   sfxName: SFX_Gas_Acquisition

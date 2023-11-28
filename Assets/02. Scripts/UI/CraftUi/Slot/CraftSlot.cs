@@ -14,8 +14,6 @@ public class CraftSlot : SlotBase
 
     public override void OnPointerClick(PointerEventData eventData)
     {
-        HideItemInfo();
-
         switch (eSlotType)
         {
             case ESlotType.CraftingSlot:
@@ -28,5 +26,8 @@ public class CraftSlot : SlotBase
         }
 
         CraftItemClick?.Invoke();
+
+
+        HideItemInfo();
     }
 }

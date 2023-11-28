@@ -29,7 +29,6 @@ public class ItemInfoController : MonoBehaviour
 
     public void HideInfo()
     {
-        Debug.Log("hide");
         isNew = true;
         InitObjects();
         InitBlueprintSlots();
@@ -57,7 +56,6 @@ public class ItemInfoController : MonoBehaviour
 
     public void ShowInfo(ItemBase _item, Vector3 _mouseCoordinate)
     {
-        Debug.Log("show");
         if (isNew == true)
         {
             HideInfo();

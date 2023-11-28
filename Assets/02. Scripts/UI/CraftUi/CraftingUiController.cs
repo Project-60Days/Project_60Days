@@ -20,7 +20,8 @@ public class CraftingUiController : ControllerBase
     [HideInInspector] public Transform blueprintSlotParent;
     [SerializeField] GameObject blueprintSlotPrefab;
 
-    SlotBase[] slots;
+    [Header("Hologram")]
+    [SerializeField] GameObject hologramBack;
 
     ItemCombineData batteryCombine;
 
@@ -58,8 +59,6 @@ public class CraftingUiController : ControllerBase
             i++;
         }
 
-        slots = GetComponentsInChildren<SlotBase>();
-
         InitCraftSlots();
         InitEquipSlots();
         InitBlueprintSlots();
@@ -85,6 +84,20 @@ public class CraftingUiController : ControllerBase
     {
         for (int i = 0; i < blueprintSlotParent.childCount; i++)
             Destroy(blueprintSlotParent.GetChild(i).gameObject);
+    }
+
+
+
+
+
+    public void TurnOnHologram()
+    {
+        hologramBack.SetActive(true);
+    } 
+
+    public void TurnOffHologram()
+    {
+        hologramBack.SetActive(false);
     }
 
 

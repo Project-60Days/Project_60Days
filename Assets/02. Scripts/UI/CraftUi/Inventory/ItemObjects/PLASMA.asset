@@ -16,16 +16,15 @@ MonoBehaviour:
   data:
     Index: 1003
     Category: 0
-    Tier: 2
     Code: ITEM_PLASMA
-    Rarity: 1
+    Rarity: 0
     AppearTileType: 0
-    TileIncludePossibility: 25
+    TileIncludePossibility: 0
     Type: 0
-    EquipType: 0
+    EquipType: 4
     EquipArea: 
-    isCanBase: 1
-    CombineSlotCount: 1
+    isCanBase: 0
+    CombineSlotCount: 0
     Description: "\uAC00\uC7A5 \uAE30\uCD08\uC801\uC778 \uC5D0\uB108\uC9C0 \uBB3C\uC9C8
       \uC911 \uD558\uB098"
     EffectDescription: 
@@ -36,5 +35,5 @@ MonoBehaviour:
   itemImage: {fileID: 21300000, guid: 1b6a326547522224a897cc3457c55ab9, type: 3}
   itemCount: 0
   eItemType: 0
-  prefab: {fileID: 7108736289300237860, guid: 510872e95816c8442b91f312d06dd23e, type: 3}
+  sprite: {fileID: 21300000, guid: b18c3b80b50f18642b926000beb84f11, type: 3}
   sfxName: SFX_Plasma_Acquisition
