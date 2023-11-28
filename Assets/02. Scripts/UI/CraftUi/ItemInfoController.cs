@@ -29,8 +29,10 @@ public class ItemInfoController : MonoBehaviour
 
     public void HideInfo()
     {
+        Debug.Log("hide");
         isNew = true;
         InitObjects();
+        InitBlueprintSlots();
     }
 
     void InitObjects()
@@ -42,7 +44,6 @@ public class ItemInfoController : MonoBehaviour
 
         contour.SetActive(false);
 
-        InitBlueprintSlots();
         blueprintSlotParent.gameObject.SetActive(false);
 
         gameObject.SetActive(false);
@@ -56,8 +57,10 @@ public class ItemInfoController : MonoBehaviour
 
     public void ShowInfo(ItemBase _item, Vector3 _mouseCoordinate)
     {
+        Debug.Log("show");
         if (isNew == true)
         {
+            HideInfo();
             SetObejcts(_item);
             SetBlueprint(_item);
             isNew = false;

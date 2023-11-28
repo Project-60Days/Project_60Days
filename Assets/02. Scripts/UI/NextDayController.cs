@@ -3,10 +3,12 @@ using Cinemachine;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class NextDayController : ControllerBase
 {
     [SerializeField] Image blackPanel;
+    [SerializeField] GameObject dayCountText;
 
     CinemachineVirtualCamera mapCamera;
     CinemachineFramingTransposer transposer;
@@ -21,7 +23,10 @@ public class NextDayController : ControllerBase
         mapCamera = GameObject.FindGameObjectWithTag("MapCamera").GetComponent<CinemachineVirtualCamera>();
         transposer = mapCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
         transposer.m_CameraDistance = 5f;
+
         App.instance.AddController(this); //?
+
+        dayCountText.SetActive(false);
     }
 
     public void InitBlackPanel()
@@ -38,12 +43,18 @@ public class NextDayController : ControllerBase
     {
         blackPanel.gameObject.SetActive(true);
 
+        int today = UIManager.instance.GetNoteController().dayCount;
+        dayCountText.GetComponent<TextMeshProUGUI>().text = "Day " + (++today).ToString();
+
         App.instance.GetSoundManager().StopBGM();
 
         Sequence sequence = DOTween.Sequence();
         sequence.Append(blackPanel.DOFade(1f, 0.5f)).SetEase(Ease.InQuint)
-            .OnComplete(() => {
+            .AppendCallback(() => dayCountText.SetActive(true))
+            .AppendInterval(0.5f)
+            .OnComplete(() => {   
                 StartCoroutine(NextDayEventCallBack(()=> {
+                    dayCountText.SetActive(false);
                     InitBlackPanel();
                     UIManager.instance.GetNoteController().SetNextDay();
                     App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
@@ -64,6 +75,8 @@ public class NextDayController : ControllerBase
         yield return StartCoroutine(App.instance.GetMapManager().NextDayCoroutine());
 
         UIManager.instance.GetNextDayController().SetResourcesResultPage();
+
+        yield return new WaitForSeconds(1f);
 
         callback?.Invoke();
     }

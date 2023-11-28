@@ -29,4 +29,11 @@ public class SelectPage : NotePageBase
         LayoutRebuilder.ForceRebuildLayoutImmediate(content);
         LayoutRebuilder.ForceRebuildLayoutImmediate(lineView);
     }
+
+    public override void InitInChildren()
+    {
+        for (int i = 1; i < content.childCount; i++)
+            if (content.GetChild(i).name == "SelectPage(Clone)")
+                Destroy(content.GetChild(i).gameObject);
+    }
 }

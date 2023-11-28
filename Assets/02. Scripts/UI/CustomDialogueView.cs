@@ -8,7 +8,7 @@ using System;
 
 public class CustomDialogueView : DialogueViewBase
 {
-    [SerializeField] private Button skipButton;
+    public Button skipButton;
     [SerializeField] private TextMeshProUGUI lineText;
 
     //private bool isRunningLine = false;

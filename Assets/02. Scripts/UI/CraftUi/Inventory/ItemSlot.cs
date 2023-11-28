@@ -14,28 +14,30 @@ public class ItemSlot : SlotBase
     }
 
     public override void OnPointerClick(PointerEventData eventData)
-    {
-        if (UIManager.instance.GetCraftingUiController().isMoreThanThree() == true) return;
-        
+    {        
         if (UIManager.instance.GetCraftModeController().eCraftModeType == ECraftModeType.Craft)
         {
+            if (UIManager.instance.GetCraftingUiController().isMoreThanThree() == true) return;
+
+            HideItemInfo();
+
             UIManager.instance.GetCraftingUiController().MoveInventoryToCraft(item);
+
             string sfxName = "SFX_Crafting_" + item.data.Code;
             if (App.instance.GetSoundManager().CheckSFXExist(sfxName) == true)
                 App.instance.GetSoundManager().PlaySFX(sfxName);
             else
                 App.instance.GetSoundManager().PlaySFX("SFX_Crafting_Item");
-            //CraftItemClick?.Invoke(item.prefab);
 
-            UIManager.instance.GetItemInfoController().HideInfo();
+            //CraftItemClick?.Invoke(item.prefab);
         }
         else if (UIManager.instance.GetCraftModeController().eCraftModeType == ECraftModeType.Equip)
         {
             if (item.eItemType == EItemType.Equipment || item.eItemType == EItemType.Both)
             {
-                UIManager.instance.GetCraftingUiController().MoveInventoryToEquip(item);
+                HideItemInfo();
 
-                UIManager.instance.GetItemInfoController().HideInfo();
+                UIManager.instance.GetCraftingUiController().MoveInventoryToEquip(item);
             }   
         }
     }

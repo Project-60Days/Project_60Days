@@ -444,20 +444,6 @@ tags:
 
 
 
-title: ITEM_GAS_None1
-tags:
----
-<<appendNode>>
-<br>   우리는 황량한 도시 지역을 수색하던 중 무서운 소용돌이가 우리를 포위했다. 그 소용돌이 안에서, 우리는 이상한 빛을 발견했다. 우리는 그 빛을 따라가며 무너진 건물들 사이로 끼어들었다. 거대한 가스 탱크가 눈에 들어왔고, 그 안에는 끝없는 에테르 가스가 가득 차 있었다. 우리는 각별한 조심을 기울여 중독되기 전에 일부 가스를 수집하고 빠져나왔다.<br><color=\#38cddc>   (  <sprite index=4>  +  {getResourceCount("ITEM_GAS")}  )</color><br><br>
-===
-
-title: ITEM_GAS_Desert1
-tags:
----
-<<appendNode>>
-<br>   하얀 모래 사이로 솟아나는 가스의 증기는 사막에 새로운 생명을 불어넣었다. 가림막으로 덮인 가스의 이상한 빛깔은 모래 속 균열에서 새어나오던 것이었다. 우리는 가스가 뜨거운 태양을 향해 솟아오르며 투명한 파동을 만드는 모습을 눈으로 볼 수 있었고, 적당량 에테르를 수집할 수 있었다.<br><color=\#38cddc>   (  <sprite index=4>  +  {getResourceCount("ITEM_GAS")}  )</color><br><br>
-===
-
 title: ITEM_GAS_Tundra1
 tags:
 ---
@@ -487,13 +473,6 @@ tags:
 ---
 <<appendNode>>
 <br>   아직 적히지 않은 스크립트입니다.<br><color=\#38cddc>   (  <sprite index=4>  +  {getResourceCount("ITEM_GAS")}  )</color><br><br>
-===
-
-title: ITEM_GAS_Jungle1
-tags:
----
-<<appendNode>>
-<br>   정글 속에서 무거운 공기를 뚫고 우리는 빛나는 식물을 발견했다. 그 식물을 조사하던 중, 식물이 에테르 가스를 생산하는 것으로 밝혀졌다. 아마도 오랜 기간 에테르 가스에 노출된 식물이 새로운 종으로 진화한 것처럼 보였다.<br><color=\#38cddc>   (  <sprite index=4>  +  {getResourceCount("ITEM_GAS")}  )</color><br><br>
 ===
 
 

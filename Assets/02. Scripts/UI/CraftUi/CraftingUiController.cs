@@ -17,10 +17,12 @@ public class CraftingUiController : ControllerBase
     [SerializeField] EquipSlot[] equipSlots;
 
     [Header("Blueprint Mode")]
-    public Transform blueprintSlotParent;
+    [HideInInspector] public Transform blueprintSlotParent;
     [SerializeField] GameObject blueprintSlotPrefab;
 
     SlotBase[] slots;
+
+    ItemCombineData batteryCombine;
 
     /// <summary>
     /// 아직 ItemSO에 추가되지 않은 아이템 조합 시에 생성될 임시 아이템
@@ -36,7 +38,7 @@ public class CraftingUiController : ControllerBase
 
 
 
-    void Start()
+    void Awake()
     {
         int i = 1001;
         while(true)
@@ -44,6 +46,13 @@ public class CraftingUiController : ControllerBase
             App.instance.GetDataManager().itemCombineData.TryGetValue(i, out ItemCombineData itemData); //ItemCombineData내의 모든 값 itemComines 리스트에 추가
 
             if (itemData == null) break;
+
+            if (itemData.Result == "ITEM_BATTERY")
+            {
+                batteryCombine = itemData;
+                i++;
+                continue;
+            }
 
             itemCombines.Add(itemData);
             i++;
@@ -200,6 +209,16 @@ public class CraftingUiController : ControllerBase
         obj.GetComponentInChildren<CraftSlot>().item = _item;
         obj.GetComponentInChildren<CraftSlot>().eSlotType = ESlotType.ResultSlot;
         obj.GetComponentInChildren<TextMeshProUGUI>().text = "=";
+    }
+
+    public void AddBatteryCombine()
+    {
+        itemCombines.Add(batteryCombine);
+    }
+
+    public void RemoveBatteryCombine()
+    {
+        itemCombines.Remove(batteryCombine);
     }
 
 
@@ -372,7 +391,6 @@ public class CraftingUiController : ControllerBase
     public void ExitUi()
     {
         ExitCraftBag();
-        ExitEquipBag();
         ExitBlueprintBag();
         InitSlots();
     }
@@ -384,16 +402,6 @@ public class CraftingUiController : ControllerBase
 
         InitCraftSlots();
         craftItems.Clear();
-    }
-
-    public void ExitEquipBag()
-    {
-        for (int i = 0; i < equipSlots.Length; i++) 
-        {
-            if (equipSlots[i].item == null) continue;
-            UIManager.instance.GetInventoryController().AddItem(equipSlots[i].item);
-            equipSlots[i].item = null;
-        }
     }
 
     public void ExitBlueprintBag()

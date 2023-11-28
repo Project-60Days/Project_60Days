@@ -75,7 +75,6 @@ public class CraftModeController : MonoBehaviour
     void EquipInActiveMode()
     {
         equipBag.SetActive(false);
-        UIManager.instance.GetCraftingUiController().ExitEquipBag();
     }
 
     void BlueprintActiveMode()

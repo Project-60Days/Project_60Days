@@ -62,7 +62,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
         if (nodeName == "-1") return;
 
-        UIManager.instance.GetPageController().CreateDialogueRunner(nodeName);
+        UIManager.instance.GetPageController().CreateResultDialogueRunner(nodeName);
     }
 
 

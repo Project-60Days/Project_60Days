@@ -38,7 +38,7 @@ public class ResultPage : NotePageBase
             tomorrowNodeNames.Add(_nodeName);
     }
 
-    public override void InitResourceNodeName()
+    public override void InitInChildren()
     {
         todayResourceNodeNames.Clear();
 
