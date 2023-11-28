@@ -36,6 +36,8 @@ public class TutorialController : MonoBehaviour
     public void StartDialogue()
     {
         LightDownBackground();
+        Color color = new Color(0.15f, 0.15f, 0.15f, 1f);
+        workBenchImage.DOColor(color, 0f);
         Show();
         dialogueRunner.StartDialogue("Tutorial_01");
 
@@ -58,8 +60,6 @@ public class TutorialController : MonoBehaviour
 
     public void LightUpWorkBench()
     {
-        Color color = new Color(0.15f, 0.15f, 0.15f, 1f);
-        workBenchImage.DOColor(color, 0f);
         workBenchImage.transform.SetAsLastSibling();
     }
     public void LightDownWorkBench()
