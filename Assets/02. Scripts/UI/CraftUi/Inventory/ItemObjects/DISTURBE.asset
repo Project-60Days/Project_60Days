@@ -16,7 +16,6 @@ MonoBehaviour:
   data:
     Index: 1023
     Category: 3
-    Tier: 2
     Code: ITEM_DISTURBE
     Rarity: 1
     AppearTileType: 0
@@ -39,5 +38,5 @@ MonoBehaviour:
   itemImage: {fileID: 21300000, guid: d78a1f730cb83b64baa00bf6b4c673cf, type: 3}
   itemCount: 0
   eItemType: 4
-  prefab: {fileID: 0}
+  sprite: {fileID: 21300000, guid: e7348865336784f41a8999545c493165, type: 3}
   sfxName: 

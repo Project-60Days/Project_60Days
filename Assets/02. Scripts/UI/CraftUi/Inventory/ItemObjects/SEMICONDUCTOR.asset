@@ -16,7 +16,6 @@ MonoBehaviour:
   data:
     Index: 1013
     Category: 2
-    Tier: 2
     Code: ITEM_SEMICONDUCTOR
     Rarity: 1
     AppearTileType: 0
@@ -37,5 +36,5 @@ MonoBehaviour:
   itemImage: {fileID: 21300000, guid: 5c7538833c4fc0d46a06b967689f3123, type: 3}
   itemCount: 0
   eItemType: 0
-  prefab: {fileID: 0}
+  sprite: {fileID: 21300000, guid: c28d66f6b33a11c45baedb935e90a9e3, type: 3}
   sfxName: 

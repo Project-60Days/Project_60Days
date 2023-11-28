@@ -16,7 +16,6 @@ MonoBehaviour:
   data:
     Index: 1019
     Category: 3
-    Tier: 2
     Code: ITEM_BLADE
     Rarity: 1
     AppearTileType: 0
@@ -38,5 +37,5 @@ MonoBehaviour:
   itemImage: {fileID: 21300000, guid: 00a75f6ab3d59304ca766f17c01cf49d, type: 3}
   itemCount: 0
   eItemType: 2
-  prefab: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 08bde13825d3c1547890a8e2104ee0cb, type: 3}
   sfxName: 

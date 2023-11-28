@@ -7,7 +7,7 @@ public class TempTitle : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        Screen.fullScreen = true;
+        Screen.fullScreen = false;
         Screen.SetResolution(1920, 1080, Screen.fullScreen);
     }
 

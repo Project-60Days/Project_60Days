@@ -21,7 +21,12 @@ public class CraftingRawImageController : MonoBehaviour
 
     public void ChangerTarget(Sprite itemSprite)
     {
-        if (itemSprite == null) return;
+        if (itemSprite == null)
+        {
+            DestroyObject();
+            return;
+        }
+
         UIManager.instance.GetCraftingUiController().TurnOnHologram();
         targetObject.SetActive(true);
         targetObject.GetComponent<SpriteRenderer>().sprite = itemSprite;

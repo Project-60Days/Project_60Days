@@ -58,9 +58,9 @@ public class TutorialController : MonoBehaviour
 
     public void LightUpWorkBench()
     {
-        workBenchImage.transform.SetAsLastSibling();
         Color color = new Color(0.15f, 0.15f, 0.15f, 1f);
         workBenchImage.DOColor(color, 0f);
+        workBenchImage.transform.SetAsLastSibling();
     }
     public void LightDownWorkBench()
     {
@@ -77,6 +77,7 @@ public class TutorialController : MonoBehaviour
             isLightUp = true;
         });
     }
+
     IEnumerator FillBattery()
     {
         float timer = 0f;

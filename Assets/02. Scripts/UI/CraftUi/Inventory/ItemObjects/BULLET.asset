@@ -16,7 +16,6 @@ MonoBehaviour:
   data:
     Index: 1017
     Category: 2
-    Tier: 0
     Code: ITEM_BULLET
     Rarity: 0
     AppearTileType: 0
@@ -38,5 +37,5 @@ MonoBehaviour:
   itemImage: {fileID: 21300000, guid: ebffaf87b55104243ad56e856f6e000d, type: 3}
   itemCount: 1
   eItemType: 0
-  prefab: {fileID: 0}
+  sprite: {fileID: 21300000, guid: e7a15c606b4c5b9469c1511fb8cd4659, type: 3}
   sfxName: 

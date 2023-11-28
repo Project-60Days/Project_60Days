@@ -16,7 +16,6 @@ MonoBehaviour:
   data:
     Index: 1012
     Category: 2
-    Tier: 1
     Code: ITEM_DECK
     Rarity: 1
     AppearTileType: 0
@@ -36,5 +35,5 @@ MonoBehaviour:
   itemImage: {fileID: 21300000, guid: bcd90ff00cc5efc44abe63d03cfb6e60, type: 3}
   itemCount: 0
   eItemType: 0
-  prefab: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 4a16737fba0e9334eb0447ac7dbf3385, type: 3}
   sfxName: 
