@@ -2,19 +2,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class InventoryController : ControllerBase
+public class InventoryController : MonoBehaviour
 {
     [SerializeField] ItemSO itemSO;
     Transform slotParent;
 
     List<List<ItemSlot>> slots = new List<List<ItemSlot>>();
     int[] counts = new int[6];
-    public List<ItemBase> items;
+    List<ItemBase> items = new List<ItemBase>();
 
-    public override EControllerType GetControllerType()
-    {
-        return EControllerType.INVENTORY;
-    }
 
     void Awake()
     {

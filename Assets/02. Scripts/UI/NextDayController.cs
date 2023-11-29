@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class NextDayController : ControllerBase
+public class NextDayController : MonoBehaviour
 {
     [SerializeField] Image blackPanel;
     [SerializeField] GameObject dayCountText;
@@ -13,18 +13,12 @@ public class NextDayController : ControllerBase
     CinemachineVirtualCamera mapCamera;
     CinemachineFramingTransposer transposer;
 
-    public override EControllerType GetControllerType()
-    {
-        return EControllerType.NEXTDAY;
-    }
-
+  
     void Start()
     {
         mapCamera = GameObject.FindGameObjectWithTag("MapCamera").GetComponent<CinemachineVirtualCamera>();
         transposer = mapCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
         transposer.m_CameraDistance = 5f;
-
-        App.instance.AddController(this); //?
 
         dayCountText.SetActive(false);
     }
