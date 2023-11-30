@@ -16,12 +16,12 @@ public class MapManager : ManagementBase
     Camera mainCamera;
     MapCamera mapCineCamera;
     TileController curTileController;
+    StructureBase curStructure;
 
     bool canPlayerMove;
     bool isDronePrepared;
     bool isDisturbtorPrepared;
     bool isVisitNoneTile;
-    bool isTutorialQuestClear;
 
     void Update()
     {
@@ -90,7 +90,7 @@ public class MapManager : ManagementBase
                     break;
 
                 case ETileMouseState.CanPlayerMove:
-                    mapController.TilePathFinder(tileController);
+                    mapController.TilePathFinderSurroundings(tileController);
                     mapController.AddSelectedTilesList(tileController);
                     break;
                 
@@ -309,7 +309,7 @@ public class MapManager : ManagementBase
         }
     }
 
-    public void ResearchStart()
+    public void ResearchStart(StructureBase structure)
     {
         Debug.Log("조사 시작!");
         
@@ -319,7 +319,8 @@ public class MapManager : ManagementBase
         // 경로 삭제
         MovePathDelete();
 
-        isTutorialQuestClear = true;
+        curStructure = structure;
+        curStructure.SetIsUse(true);
     }
 
     public void ResearchCancel()
@@ -349,9 +350,20 @@ public class MapManager : ManagementBase
     {
         return mapController.SensingSignalTower();
     }
-
-    public bool ConnectToTower()
+    
+    public bool SignalTowerQuestCheck()
     {
-        return isTutorialQuestClear;
+        if(curStructure == null)
+            return false;
+        
+        if(curStructure.VisitDay != UIManager.instance.GetNoteController().dayCount)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
+
 }
