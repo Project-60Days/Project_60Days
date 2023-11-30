@@ -19,12 +19,12 @@ public class Chapter01_3 : QuestBase
 
     public override bool CheckMeetCondition()
     {
-        return App.instance.GetMapManager().ConnectToTower();
+        return App.instance.GetMapManager().SignalTowerQuestCheck();
     }
 
     public override string SetQuestText()
     {
-        return "��Ʈ��ũ Ĩ �����ϱ�";
+        return "네트워크 칩 연결하기";
     }
 }
 

@@ -40,20 +40,6 @@ public class Player : MonoBehaviour
         StartCoroutine(DelaySightGetInfo());
     }
 
-    void SavePlayerMovePath(TileController tileController)
-    {
-        movePath = AStar.FindPath(currentTileContorller.Model.Coords, tileController.Model.Coords);
-
-        //targetTileController = tileController;
-        //arrow.OnEffect(tileController.transform);
-
-        //isPlayerSelected = false;
-        //isPlayerCanMove = false;
-
-        //DeselectAllBorderTiles();
-    }
-
-
     public IEnumerator MoveToTarget(TileController targetTileController, float time = 0.4f)
     {
         //isPlayerMoving = true;
