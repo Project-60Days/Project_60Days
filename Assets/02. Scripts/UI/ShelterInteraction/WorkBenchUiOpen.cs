@@ -79,7 +79,8 @@ public class WorkBenchUiOpen : MonoBehaviour
             .Append(craftingUi.GetComponent<CanvasGroup>().DOFade(1f, 0.5f))
             .Append(inventoryUi.GetComponent<CanvasGroup>().DOFade(1f, 0.5f))
             .Join(productionUi.GetComponent<CanvasGroup>().DOFade(1f, 0.5f))
-            .Join(decorationUi.GetComponent<CanvasGroup>().DOFade(1f, 0.5f));
+            .Join(decorationUi.GetComponent<CanvasGroup>().DOFade(1f, 0.5f))
+            .OnComplete(() => UIManager.instance.GetItemInfoController().isOpen = true);
     }
 
     public void CloseUi()
@@ -87,6 +88,7 @@ public class WorkBenchUiOpen : MonoBehaviour
         UIManager.instance.PopCurrUI();
 
         craftEffectAnim.isActive = false;
+        UIManager.instance.GetItemInfoController().isOpen = false;
         UIManager.instance.GetCraftingUiController().ExitUi();
 
         FadeOutUiObjects();

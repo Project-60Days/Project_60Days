@@ -20,6 +20,8 @@ public class ItemInfoController : MonoBehaviour
 
     public bool isNew = true;
 
+    public bool isOpen = false;
+
     void Awake()
     {
         infoTransform = gameObject.GetComponent<RectTransform>();
@@ -56,6 +58,8 @@ public class ItemInfoController : MonoBehaviour
 
     public void ShowInfo(ItemBase _item, Vector3 _mouseCoordinate)
     {
+        if (isOpen == false) return;
+
         if (isNew == true)
         {
             HideInfo();
