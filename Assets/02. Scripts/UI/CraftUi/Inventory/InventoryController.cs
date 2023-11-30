@@ -39,6 +39,8 @@ public class InventoryController : MonoBehaviour
     {
         InitSlots();
 
+        UIManager.instance.GetUpperController().UpdateBar();
+
         for (int i = 0; i < items.Count; i++)
         {
             int category = items[i].data.Category;

@@ -17,16 +17,6 @@ public class CustomDialogueView : DialogueViewBase
 
     Effects.CoroutineInterruptToken typingCoroutineStopToken;
 
-    private void Awake()
-    {
-        Init();
-    }
-
-    public void Init()
-    {
-
-    }
-
     // 유저가 스킵 버튼 눌렀을 때 호출되는 함수
     public override void UserRequestedViewAdvancement()
     {
