@@ -25,7 +25,7 @@ public class NormalStructure : StructureBase
             ((NormalStructure)tile.Structure).AllowAccess();
         }
         
-        App.instance.GetMapManager().ResearchStart();
+        App.instance.GetMapManager().ResearchStart(this);
         
         //이후 자원 수집 시 isUse도 true로 변경
     }

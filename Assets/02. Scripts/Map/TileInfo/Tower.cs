@@ -24,7 +24,7 @@ public class Tower : StructureBase
         // 맵 씬 강제 이동 + 조사 애니메이션
         isUse = true;
         isAccessible = true;
-        App.instance.GetMapManager().ResearchStart();
+        App.instance.GetMapManager().ResearchStart(this);
         UIManager.instance.GetPageController().SetResultPage("Signal_Yes", false);
         UIManager.instance.GetPageController().CreateSelectDialogueRunner("signalSequence");
     }

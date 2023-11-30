@@ -8,6 +8,7 @@ public abstract class QuestBase : MonoBehaviour
 
     public int questIndex { get; protected set; }
     protected int nextQuestIndex;
+    private int compareDay;
 
     public abstract string SetQuestText();
 

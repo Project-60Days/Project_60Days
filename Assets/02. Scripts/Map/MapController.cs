@@ -120,7 +120,7 @@ public class MapController : Singleton<MapController>
         {
             App.instance.GetDataManager().gameData.TryGetValue("Data_MinCount_ZombieObject", out GameData min);
             App.instance.GetDataManager().gameData.TryGetValue("Data_MaxCount_ZombieObject", out GameData max);
-            SpawnZombies((int)Random.Range(min.value, max.value));
+            SpawnZombies((int)Random.Range(100f, 150f));
             SpawnTutorialZombie();
         }
         else
@@ -132,6 +132,7 @@ public class MapController : Singleton<MapController>
         GenerateTower();
         
         csFogWar.instance.InitializeMapControllerObjects(player.gameObject, 5f);
+        
         DeselectAllBorderTiles();
 
         yield return new WaitUntil(() => tower != null);
@@ -214,33 +215,49 @@ public class MapController : Singleton<MapController>
         if (num == 0)
             num = player.HealthPoint;
 
-        int rangeOfMotion = 0;
+        int moveRange = 0;
 
         if (tileController.Model != player.TileController.Model)
         {
             foreach (Coords coords in AStar.FindPath(player.TileController.Model.Coords, tileController.Model.Coords))
             {
-                if (rangeOfMotion == player.HealthPoint)
+                if (moveRange == player.HealthPoint)
                     break;
 
                 GameObject border = (GameObject)GetTileFromCoords(coords).GameEntity;
                 border.GetComponent<Borders>().GetNormalBorder()?.SetActive(true);
                 pathTiles.Add(TileToTileController(GetTileFromCoords(coords)));
-                rangeOfMotion++;
+                moveRange++;
             }
         }
 
-        if(rangeOfMotion == num || tileController.gameObject.GetComponent<TileBase>().Structure?.IsAccessible == false)
+        if(moveRange == num || tileController.gameObject.GetComponent<TileBase>().Structure?.IsAccessible == false)
             tileController.GetComponent<Borders>().GetUnAvailableBorder()?.SetActive(true);
-        else if (rangeOfMotion != num)
+        else if (moveRange != num)
             tileController.GetComponent<Borders>().GetAvailableBorder()?.SetActive(true);
     }
 
     public void TilePathFinderSurroundings(TileController tileController)
     {
-        if (hexaMap.Map.GetTilesInRange(player.TileController.Model, 1).Contains(tileController.Model))
+        var neighborTiles = hexaMap.Map.GetTilesInRange(player.TileController.Model, 1);
+        
+        var neighborController = neighborTiles
+            .Select(x => ((GameObject)x.GameEntity).GetComponent<TileController>()).ToList();
+
+        for (var index = 0; index < neighborController.Count; index++)
+        {
+            var value = neighborController[index];
+            selectedTiles.Add(value);
+            SelectBorder(value, ETileState.None);
+        }
+
+        if (neighborTiles.Contains(tileController.Model))
         {
             SelectBorder(tileController, ETileState.Moveable);
+        }
+        else
+        {
+            SelectBorder(tileController, ETileState.Unable);
         }
     }
 
@@ -276,6 +293,7 @@ public class MapController : Singleton<MapController>
 
     public bool SelectPlayerMovePoint(TileController tileController)
     {
+        DeselectAllBorderTiles();
         if (tileController.GetComponent<Borders>().GetEtileState() == ETileState.Moveable
             && player.TileController.Model != tileController.Model)
         {
@@ -790,23 +808,23 @@ public class MapController : Singleton<MapController>
             return false;
     }
 
-    public List<int> RandomTileSelect(EObjectSpawnType type, int randomInt = 1)
+    public List<int> RandomTileSelect(EObjectSpawnType type, int count = 1)
     {
         var tiles = hexaMap.Map.Tiles;
 
         List<int> selectTileNumber = new List<int>();
 
         // 플레이어와 겹치지 않는 랜덤 타일 뽑기.
-        while (selectTileNumber.Count != randomInt)
+        while (selectTileNumber.Count != count)
         {
-            randomInt = UnityEngine.Random.Range(0, tiles.Count);
+            count = UnityEngine.Random.Range(0, tiles.Count);
 
-            if (ConditionalBranch(type, tiles[randomInt]) == true)
+            if (ConditionalBranch(type, tiles[count]) == true)
             {
-                if (selectTileNumber.Contains(randomInt) == false)
+                if (selectTileNumber.Contains(count) == false)
                 {
-                    selectTileNumber.Add(randomInt);
-                    preemptiveTiles.Add(tiles[randomInt]);
+                    selectTileNumber.Add(count);
+                    preemptiveTiles.Add(tiles[count]);
                 }
             }
         }
