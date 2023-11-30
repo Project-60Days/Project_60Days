@@ -19,12 +19,12 @@ public class Chapter01_3 : QuestBase
 
     public override bool CheckMeetCondition()
     {
-        return false;
+        return App.instance.GetMapManager().ConnectToTower();
     }
 
     public override string SetQuestText()
     {
-        return "³×Æ®¿öÅ© Ä¨ ¿¬°áÇÏ±â";
+        return "ï¿½ï¿½Æ®ï¿½ï¿½Å© Ä¨ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½";
     }
 }
 

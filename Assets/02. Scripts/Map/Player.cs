@@ -114,9 +114,14 @@ public class Player : MonoBehaviour
         movePath = path;
     }
 
-    public void HealthCharging()
+    public void SetHealth(bool isMax,int num = 0)
     {
-        currentHealth = maxHealth;
+        if(isMax == true)
+            currentHealth = maxHealth;
+        else
+        {
+            currentHealth = num;
+        }
     }
 
     public void StartFloatingAnimation()
