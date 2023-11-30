@@ -236,7 +236,7 @@ public class MapController : Singleton<MapController>
             tileController.GetComponent<Borders>().GetAvailableBorder()?.SetActive(true);
     }
 
-    public void TilePathFinderSurroundings()
+    public void TilePathFinderSurroundings(TileController tileController)
     {
         if (hexaMap.Map.GetTilesInRange(player.TileController.Model, 1).Contains(tileController.Model))
         {

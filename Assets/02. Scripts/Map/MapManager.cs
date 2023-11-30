@@ -20,7 +20,8 @@ public class MapManager : ManagementBase
     bool canPlayerMove;
     bool isDronePrepared;
     bool isDisturbtorPrepared;
-    bool isVisitNoneTile = false;
+    bool isVisitNoneTile;
+    bool isTutorialQuestClear;
 
     void Update()
     {
@@ -317,6 +318,8 @@ public class MapManager : ManagementBase
         
         // 경로 삭제
         MovePathDelete();
+
+        isTutorialQuestClear = true;
     }
 
     public void ResearchCancel()
@@ -345,5 +348,10 @@ public class MapManager : ManagementBase
     public bool SensingSignalTower()
     {
         return mapController.SensingSignalTower();
+    }
+
+    public bool ConnectToTower()
+    {
+        return isTutorialQuestClear;
     }
 }
