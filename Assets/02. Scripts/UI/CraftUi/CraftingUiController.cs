@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class CraftingUiController : ControllerBase
+public class CraftingUiController : MonoBehaviour
 {
     [Header ("Craft Mode")]
     [SerializeField] Transform craftSlotParent;
@@ -29,12 +29,6 @@ public class CraftingUiController : ControllerBase
     /// 아직 ItemSO에 추가되지 않은 아이템 조합 시에 생성될 임시 아이템
     /// </summary>
     [SerializeField] ItemBase tempItem;
-
-    public override EControllerType GetControllerType()
-    {
-        return EControllerType.CRAFT;
-    }
-
 
 
 

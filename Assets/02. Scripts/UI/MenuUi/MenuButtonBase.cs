@@ -60,11 +60,14 @@ public class MenuButtonBase : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         if (isClicked == false)
             SetButtonNormal();
     }
+
     void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
     {
-        if (isClicked == false) 
+        if (isClicked == false)
+        {
             App.instance.GetSoundManager().PlaySFX("SFX_ButtonClick_01");
-        ClickEvent();
+            ClickEvent();
+        }
     }
 
     public virtual void ClickEvent()

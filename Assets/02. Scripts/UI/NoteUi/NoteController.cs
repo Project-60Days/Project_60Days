@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
-public class NoteController : ControllerBase
+public class NoteController : MonoBehaviour
 {
     [Header("Note Objects")]
     [SerializeField] Text dayText;
@@ -26,14 +26,6 @@ public class NoteController : ControllerBase
     [Header("For Tutorial")]
     [SerializeField] ScrollRect[] scrollRects;
     [SerializeField] Scrollbar[] scrollBars;
-
-
-
-    public override EControllerType GetControllerType()
-    {
-        return EControllerType.NOTE;
-    }
-
 
 
 

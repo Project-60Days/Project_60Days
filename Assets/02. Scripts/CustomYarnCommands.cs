@@ -1,12 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Yarn.Unity;
-using DG.Tweening;
-using Yarn;
-using UnityEngine.UIElements;
-using System;
-using System.Xml.Serialization;
 
 public class CustomYarnCommands : Singleton<CustomYarnCommands>
 {
@@ -14,7 +8,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
     void Awake()
     {
-        //common//
+        //tutorial//
         dialogueRunner.AddCommandHandler<string, string>("highlight", HighLightObject);
         dialogueRunner.AddCommandHandler<string>("highlightBtn", HighLightBtn);
         dialogueRunner.AddCommandHandler<string>("waitUntil", WaitUntilUIState);
@@ -44,6 +38,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         //08//
         dialogueRunner.AddCommandHandler("endTutorial", EndTutorial);
 
+        //common//
         dialogueRunner.AddCommandHandler("appendNode", AppendNode);
 
         //dialogueRunner.AddCommandHandler("spawnTutorialGlicher", SpawnTutorialGlicher);
@@ -69,7 +64,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
 
 
-    #region common
+    #region tutorial
     void HighLightObject(string _objectID, string _waitStatusName)
     {
         UIManager.instance.GetUIHighLightController().ShowHighLight(_objectID, _waitStatusName);
@@ -229,5 +224,11 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         }
 
         return count;
+    }
+
+    [YarnCommand("custom_wait")]
+    static IEnumerator CustomWait(float _time)
+    {
+        yield return new WaitForSeconds(_time);
     }
 }
