@@ -169,4 +169,12 @@ public enum EObjectSpawnType
     IncludeEntites
 }
 
+public enum ETileMouseState
+{
+    Nothing,
+    CanClick,
+    CanPlayerMove,
+    DronePrepared
+}
+
 #endregion

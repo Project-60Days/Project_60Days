@@ -3,31 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Hexamap;
-
-public enum ETileMouseState
-{
-    Nothing,
-    CanClick,
-    CanPlayerMove,
-    DronePrepared
-}
-
+using Yarn.Compiler;
 public class MapManager : ManagementBase
 {
     public MapUiController mapUIController;
-    public ETileMouseState mouseState;
+    public MapController mapController;
+    public ResourceManager resourceManager;
     public bool mouseIntreractable;
+    
+    [SerializeField] ETileMouseState mouseState;
 
     Camera mainCamera;
     MapCamera mapCineCamera;
-    public MapController mapController;
-    public ResourceManager resourceManager;
     TileController curTileController;
 
     bool canPlayerMove;
     bool isDronePrepared;
     bool isDisturbtorPrepared;
-    bool isVisitNoneTile = false;
+    bool isVisitNoneTile;
+    bool isTutorialQuestClear;
 
     void Update()
     {
@@ -59,8 +53,7 @@ public class MapManager : ManagementBase
     {
         StartCoroutine(GetAdditiveSceneObjects());
     }
-
-
+    
     void MouseOverEvents()
     {
         if (EventSystem.current.IsPointerOverGameObject())
@@ -94,13 +87,13 @@ public class MapManager : ManagementBase
 
                     if (tileController != curTileController)
                         mapUIController.FalseTileInfo();
-
                     break;
 
                 case ETileMouseState.CanPlayerMove:
                     mapController.TilePathFinder(tileController);
                     mapController.AddSelectedTilesList(tileController);
                     break;
+                
                 case ETileMouseState.DronePrepared:
                     if (isDisturbtorPrepared)
                     {
@@ -110,10 +103,8 @@ public class MapManager : ManagementBase
                     {
                         mapController.TilePathFinder(tileController, 5);
                     }
-
                     break;
             }
-
             curTileController = tileController;
         }
         else
@@ -121,8 +112,6 @@ public class MapManager : ManagementBase
             mapController.DeselectAllBorderTiles();
             mapUIController.FalseTileInfo();
         }
-
-
         MouseClickEvents();
     }
 
@@ -136,6 +125,7 @@ public class MapManager : ManagementBase
 
         if (Input.GetMouseButtonDown(0))
         {
+            // 플레이어를 클릭한 경우
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskPlayer))
             {
                 if (!isDronePrepared && !mapUIController.MovePointActivate())
@@ -183,6 +173,8 @@ public class MapManager : ManagementBase
             {
                 canPlayerMove = false;
             }
+            
+            // 목적지 정한 이후 취소 가능
 
             if (isDronePrepared)
             {
@@ -195,6 +187,8 @@ public class MapManager : ManagementBase
                     mapController.PreparingExplorer(false);
                 }
             }
+            
+            MovePathDelete();
         }
     }
 
@@ -228,7 +222,6 @@ public class MapManager : ManagementBase
         {
             return false;
         }
-
         return true;
     }
 
@@ -259,10 +252,12 @@ public class MapManager : ManagementBase
     {
         CheckZombies();
         CheckStructureNeighbor();
+        
         if(isVisitNoneTile == false)
         {
             TutorialTileCheck();
         }
+        
         AllowMouseEvent(true);
     }
 
@@ -317,11 +312,28 @@ public class MapManager : ManagementBase
     public void ResearchStart()
     {
         Debug.Log("조사 시작!");
+        
+        // 플레이어 체력 0으로 만들어서 경로 선택 막기
+        mapController.Player.SetHealth(false);
+        
+        // 경로 삭제
+        MovePathDelete();
+
+        isTutorialQuestClear = true;
     }
 
     public void ResearchCancel()
     {
         Debug.Log("조사 취소!");
+    }
+
+    public void MovePathDelete()
+    {
+        if (mapController.IsMovePathSaved() == false)
+            return;
+        
+        mapUIController.OffPlayerMovePoint();
+        mapController.DeletePlayerMovePath();
     }
 
     public void TutorialTileCheck()
@@ -336,5 +348,10 @@ public class MapManager : ManagementBase
     public bool SensingSignalTower()
     {
         return mapController.SensingSignalTower();
+    }
+
+    public bool ConnectToTower()
+    {
+        return isTutorialQuestClear;
     }
 }
