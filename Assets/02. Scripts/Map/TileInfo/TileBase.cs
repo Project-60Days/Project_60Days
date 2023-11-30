@@ -29,7 +29,8 @@ public class TileBase : MonoBehaviour
 
     public bool IsStructureNeighbor => isStructureNeighbor;
 
-    string resourceText = "";
+    string resourceText;
+    string landformText;
 
     StructureBase structure;
 
@@ -57,6 +58,7 @@ public class TileBase : MonoBehaviour
 
         App.instance.GetDataManager().tileData.TryGetValue(GetTileDataIndex(), out TileData data);
         tileData = data;
+        landformText = tileData.Korean;
 
         gachaProbability.Add(EResourceType.Steel, tileData.RemainPossibility_Steel);
         gachaProbability.Add(EResourceType.Carbon, tileData.RemainPossibility_Carbon);
@@ -64,7 +66,7 @@ public class TileBase : MonoBehaviour
         gachaProbability.Add(EResourceType.Powder, tileData.RemainPossibility_Powder);
         gachaProbability.Add(EResourceType.Gas, tileData.RemainPossibility_Gas);
         gachaProbability.Add(EResourceType.Rubber, tileData.RemainPossibility_Rubber);
-
+        
         SpawnRandomResource();
         RotationCheck(transform.rotation.eulerAngles);
     }
@@ -252,9 +254,10 @@ public class TileBase : MonoBehaviour
 
     public void TileInfoUpdate()
     {
-        App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Resource, resourceText);
-        App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Landform, tileData.Korean);
         App.instance.GetMapManager().mapUIController.UpdateImage(landformSprite);
+        App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Landform, landformText);
+        App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Resource, resourceText);
+        App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Zombie, "좀비 수 : ???");
     }
 
     public void SpawnTower(List<Tile> neighborTiles)
@@ -262,11 +265,12 @@ public class TileBase : MonoBehaviour
         var neighborBases = neighborTiles
             .Select(x => ((GameObject)x.GameEntity).GetComponent<TileBase>()).ToList();
 
-
         structure = new Tower();
         ((Tower)structure).Init(neighborBases);
 
-        resourceText = "구조물";
+        landformText = "타워";
+        resourceText = "자원 : ???";
+        
         for (int i = 0; i < resourceIcons.Length; i++)
         {
             SpriteRenderer item = resourceIcons[i];
@@ -287,7 +291,9 @@ public class TileBase : MonoBehaviour
         ((NormalStructure)structure).Init(neighborBases);
         ((NormalStructure)structure).SetColleagues(colleagueBases);
 
-        resourceText = "구조물";
+        landformText = "건물";
+        resourceText = "자원 : ???";
+        
         for (int i = 0; i < resourceIcons.Length; i++)
         {
             SpriteRenderer item = resourceIcons[i];

@@ -236,6 +236,14 @@ public class MapController : Singleton<MapController>
             tileController.GetComponent<Borders>().GetAvailableBorder()?.SetActive(true);
     }
 
+    public void TilePathFinderSurroundings()
+    {
+        if (hexaMap.Map.GetTilesInRange(player.TileController.Model, 1).Contains(tileController.Model))
+        {
+            SelectBorder(tileController, ETileState.Moveable);
+        }
+    }
+
     public void AddSelectedTilesList(TileController tileController)
     {
         selectedTiles.Add(tileController);
@@ -305,6 +313,20 @@ public class MapController : Singleton<MapController>
 
         DeselectAllBorderTiles();
         //isPlayerSelected = false;
+    }
+
+    public void DeletePlayerMovePath()
+    {
+        player.UpdateMovePath(null);
+        DeselectAllBorderTiles();
+    }
+
+    public bool IsMovePathSaved()
+    {
+        if(player.MovePath != null)
+            return true;
+        else
+            return false;
     }
 
     TileController TileToTileController(Tile tile)
@@ -423,7 +445,7 @@ public class MapController : Singleton<MapController>
             zombie.GetComponent<ZombieBase>().DetectionAndAct();
         }
 
-        player.HealthCharging();
+        player.SetHealth(true);
     }
 
     public void CheckSumZombies()
@@ -625,7 +647,7 @@ public class MapController : Singleton<MapController>
 
     public bool CheckZombies()
     {
-        var playerNearthTiles = GetTilesInRange(player.TileController.Model, 1);
+        var playerNearthTiles = GetTilesInRange(player.TileController.Model, 2);
 
         for (int i = 0; i < zombiesList.Count; i++)
         {

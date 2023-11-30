@@ -52,7 +52,6 @@ public class ZombieBase : MonoBehaviour
 
     public void DetectionAndAct()
     {
-        // ���� ��Ʈ�ѷ����� ���� ������.
         isChasingPlayer = MapController.instance.CalculateDistanceToPlayer(curTile, 2);
         nearthDistrubtor = MapController.instance.CalculateDistanceToDistrubtor(curTile, 2);
         ActionDecision();
@@ -62,7 +61,6 @@ public class ZombieBase : MonoBehaviour
     {
         if (remainStunTime > 0)
         {
-            //Debug.Log(gameObject.name + "�� ������ ������ ���ϰ� �ִ�.");
             remainStunTime--;
             return;
         }
@@ -143,14 +141,17 @@ public class ZombieBase : MonoBehaviour
 
     public void CurrentTileInfoUpdate(Tile tile)
     {
-        if (tile == curTile)
-        {
-            App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Zombie, "좀비 수 : " + zombieCount + "마리");
-        }
-        else
-        {
-            App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Zombie, "좀비 수 : ???");
-        }
+        // 텍스트 업데이트는 TileBase로 이전
+        // 여기있는 것은 TileBase연결 관련 해줘야함
+        
+        // if (tile == curTile)
+        // {
+        //     App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Zombie, "좀비 수 : " + zombieCount + "마리");
+        // }
+        // else
+        // {
+        //     App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Zombie, "좀비 수 : ???");
+        // }
     }
 
     public void SumZombies(ZombieBase zombie)
