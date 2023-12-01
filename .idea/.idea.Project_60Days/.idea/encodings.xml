@@ -3,5 +3,6 @@
   <component name="Encoding" addBOMForNewFiles="with BOM under Windows, with no BOM otherwise">
     <file url="file://$PROJECT_DIR$/Assets/02. Scripts/UI/FixedUi/Quest/Quests/Chapter01_1.cs" charset="x-windows-949" />
     <file url="file://$PROJECT_DIR$/Assets/02. Scripts/UI/FixedUi/Quest/Quests/Chapter01_2.cs" charset="x-windows-949" />
+    <file url="file://$PROJECT_DIR$/Assets/02. Scripts/Utility/SoundManager.cs" charset="x-windows-949" />
   </component>
 </project>

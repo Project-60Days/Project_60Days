@@ -11,27 +11,20 @@ public class Player : MonoBehaviour
     public static Action<Tile> PlayerSightUpdate;
 
     int maxHealth = 1;
+    int durability = 10;
+    public int Durability => durability;
+    
+    int bulletsNum = 10;
+    public int BulletsNum => bulletsNum;
+    
     int currentHealth;
-
-    public int HealthPoint
-    {
-        get { return currentHealth; }
-    }
-
+    public int HealthPoint => currentHealth;
+    
     List<Coords> movePath;
-
-    public List<Coords> MovePath
-    {
-        get { return movePath; }
-    }
-
+    public List<Coords> MovePath => movePath;
 
     TileController currentTileContorller;
-
-    public TileController TileController
-    {
-        get { return currentTileContorller; }
-    }
+    public TileController TileController => currentTileContorller;
 
     void Start()
     {
@@ -113,5 +106,44 @@ public class Player : MonoBehaviour
     public void StartFloatingAnimation()
     {
         StartCoroutine(floating.FloatingAnimation());
+    }
+
+    public void AttackZombies(ZombieBase zombies)
+    {
+        // 공격 애니메이션
+        // 탄의 개수 0이면 게임 오버
+        
+        // 플레이어 내구도 - 무리 개체 수 감소
+        if(bulletsNum - zombies.zombieData.count > 0)
+        {
+            zombies.TakeDamage(bulletsNum);
+            bulletsNum -= zombies.zombieData.count;
+        }
+        else if(bulletsNum - zombies.zombieData.count < 0)
+        {
+            bulletsNum = 0;
+            Debug.Log("탄이 없습니다. 게임 오버");
+            Application.Quit();
+        }
+        
+        // 좀비 제거
+    }
+
+    public void TakeDamage(int zombieCount)
+    {
+        // 피격 애니메이션
+        // 내구도 감소
+
+        // 내구도가 0이 되면 게임 오버
+        if( durability - zombieCount > 0)
+        {
+            durability -= zombieCount;
+        }
+        else if(durability - zombieCount < 0)
+        {
+            durability = 0;
+            Debug.Log("내구도 부족. 게임 오버");
+            Application.Quit();
+        }
     }
 }

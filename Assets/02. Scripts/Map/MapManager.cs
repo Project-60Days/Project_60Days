@@ -128,7 +128,7 @@ public class MapManager : ManagementBase
             // 플레이어를 클릭한 경우
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskPlayer))
             {
-                if (!isDronePrepared && !mapUIController.MovePointActivate())
+                if (!isDronePrepared)
                     canPlayerMove = mapController.PlayerCanMoveCheck();
             }
             else if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile))
@@ -365,5 +365,7 @@ public class MapManager : ManagementBase
             return false;
         }
     }
+    
+    
 
 }

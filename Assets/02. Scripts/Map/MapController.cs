@@ -43,7 +43,6 @@ public class MapController : Singleton<MapController>
 
     [Header("테스트")] [Space(5f)] GameObject disturbtor;
     GameObject explorer;
-    GameObject tower;
 
     [SerializeField] MapTestManager mapTest;
     [SerializeField] bool isTest;
@@ -115,27 +114,28 @@ public class MapController : Singleton<MapController>
     /// </summary>
     IEnumerator GenerateMapObjects()
     {
+        App.instance.GetDataManager().gameData.TryGetValue("Data_MinCount_ZombieObject", out GameData min);
+        App.instance.GetDataManager().gameData.TryGetValue("Data_MaxCount_ZombieObject", out GameData max);
+        int randomInt = (int)Random.Range(min.value, max.value);
+        
         SpawnPlayer();
+        GenerateTower();
+        
         if (!isTest)
         {
-            App.instance.GetDataManager().gameData.TryGetValue("Data_MinCount_ZombieObject", out GameData min);
-            App.instance.GetDataManager().gameData.TryGetValue("Data_MaxCount_ZombieObject", out GameData max);
-            SpawnZombies((int)Random.Range(100f, 150f));
+            SpawnZombies(randomInt);
             SpawnTutorialZombie();
         }
         else
         {
-            //SpawnZombies((int)Random.Range(0, 30));
             SpawnTutorialZombie();
         }
-
-        GenerateTower();
         
         csFogWar.instance.InitializeMapControllerObjects(player.gameObject, 5f);
         
         DeselectAllBorderTiles();
 
-        yield return new WaitUntil(() => tower != null);
+        yield return null;
     }
 
     void SpawnPlayer()
@@ -167,15 +167,13 @@ public class MapController : Singleton<MapController>
         var selectedTiles = RandomTileSelect(EObjectSpawnType.ExcludePlayer, zombiesNumber);
 
         // 오브젝트 생성.
-        for (int i = 0; i < zombiesNumber; i++)
+        for (int i = 0; i < selectedTiles.Count; i++)
         {
             var tile = tileList[selectedTiles[i]];
             var spawnPos = ((GameObject)tile.GameEntity).transform.position;
             spawnPos.y += 0.5f;
-
-            var random = Random.Range(0, 3);
-
-            var zombie = Instantiate(mapPrefab.items[(int)EMabPrefab.Zombie1 + random].prefab, spawnPos,
+            
+            var zombie = Instantiate(mapPrefab.items[(int)EMabPrefab.Zombie].prefab, spawnPos,
                 Quaternion.Euler(0, Random.Range(0, 360), 0), zombiesTransform);
             zombie.name = "Zombie " + (i + 1);
             zombie.GetComponent<ZombieBase>().Init(tile);
@@ -189,9 +187,8 @@ public class MapController : Singleton<MapController>
 
         var spawnPos = ((GameObject)tile.GameEntity).transform.position;
         spawnPos.y += 0.5f;
-
-        var random = Random.Range(0, 3);
-        var zombie = Instantiate(mapPrefab.items[(int)EMabPrefab.Zombie1 + random].prefab, spawnPos,
+        
+        var zombie = Instantiate(mapPrefab.items[(int)EMabPrefab.Zombie].prefab, spawnPos,
             Quaternion.Euler(0, Random.Range(0, 360), 0), zombiesTransform);
         zombie.name = "Tutorial Zombie";
         zombie.GetComponent<ZombieBase>().Init(tile);
@@ -251,13 +248,17 @@ public class MapController : Singleton<MapController>
             SelectBorder(value, ETileState.None);
         }
 
-        if (neighborTiles.Contains(tileController.Model))
-        {
-            SelectBorder(tileController, ETileState.Moveable);
-        }
-        else
+        if (tileController.gameObject.GetComponent<TileBase>().Structure?.IsAccessible == false)
         {
             SelectBorder(tileController, ETileState.Unable);
+        }
+        else if (neighborTiles.Contains(tileController.Model) == false)
+        {
+            SelectBorder(tileController, ETileState.Unable);
+        }
+        else if (neighborTiles.Contains(tileController.Model) == true)
+        {
+            SelectBorder(tileController, ETileState.Moveable);
         }
     }
 
@@ -293,7 +294,6 @@ public class MapController : Singleton<MapController>
 
     public bool SelectPlayerMovePoint(TileController tileController)
     {
-        DeselectAllBorderTiles();
         if (tileController.GetComponent<Borders>().GetEtileState() == ETileState.Moveable
             && player.TileController.Model != tileController.Model)
         {
@@ -618,15 +618,7 @@ public class MapController : Singleton<MapController>
     {
         var searchTiles = hexaMap.Map.GetTilesInRange(tile, range);
 
-        foreach (var item in searchTiles)
-        {
-            if (player.TileController.Model == item)
-            {
-                return true;
-            }
-        }
-
-        return false;
+        return searchTiles.Exists(x => x == player.TileController.Model);
     }
 
     public Disturbtor CalculateDistanceToDistrubtor(Tile tile, int range)
@@ -686,6 +678,7 @@ public class MapController : Singleton<MapController>
             EObjectSpawnType.ExcludeEntites, 1);
 
         var tilelist = new List<Tile>();
+        
         // 튜토리얼 용 위치 고정
         Tile tile = GetTileFromCoords(new Coords(0, 2));
 
@@ -698,7 +691,7 @@ public class MapController : Singleton<MapController>
         var spawnPos = ((GameObject)tile.GameEntity).transform.position;
         spawnPos.y += 0.31f;
 
-        tower = Instantiate(mapPrefab.items[(int)EMabPrefab.Tower].prefab, spawnPos, Quaternion.Euler(0, 90, 0),
+        Instantiate(mapPrefab.items[(int)EMabPrefab.Tower].prefab, spawnPos, Quaternion.Euler(0, 90, 0),
             objectsTransform);
     }
     
@@ -794,7 +787,6 @@ public class MapController : Singleton<MapController>
             if(tileBase.Structure != null)
                 return tileBase.Structure;
         }
-
         return null;
     }
 
@@ -808,35 +800,15 @@ public class MapController : Singleton<MapController>
             return false;
     }
 
-    public List<int> RandomTileSelect(EObjectSpawnType type, int count = 1)
+    public List<int> RandomTileSelect(EObjectSpawnType type, int choiceNum = 1)
     {
         var tiles = hexaMap.Map.Tiles;
 
         List<int> selectTileNumber = new List<int>();
 
+        int randomInt = 0;
         // 플레이어와 겹치지 않는 랜덤 타일 뽑기.
-        while (selectTileNumber.Count != count)
-        {
-            count = UnityEngine.Random.Range(0, tiles.Count);
-
-            if (ConditionalBranch(type, tiles[count]) == true)
-            {
-                if (selectTileNumber.Contains(count) == false)
-                {
-                    selectTileNumber.Add(count);
-                    preemptiveTiles.Add(tiles[count]);
-                }
-            }
-        }
-        return selectTileNumber;
-    }
-
-    public List<int> RandomTileSelect(List<Tile> tiles, EObjectSpawnType type, int randomInt = 1)
-    {
-        List<int> selectTileNumber = new List<int>();
-
-        // 플레이어와 겹치지 않는 랜덤 타일 뽑기.
-        while (selectTileNumber.Count != randomInt)
+        while (selectTileNumber.Count != choiceNum)
         {
             randomInt = UnityEngine.Random.Range(0, tiles.Count);
 
@@ -849,7 +821,31 @@ public class MapController : Singleton<MapController>
                 }
             }
         }
+        return selectTileNumber;
+    }
 
+    public List<int> RandomTileSelect(List<Tile> tiles, EObjectSpawnType type, int choiceNum = 1)
+    {
+        List<int> selectTileNumber = new List<int>();
+        int randomInt;
+        
+        if(tiles==null)
+            Debug.Log("비어있음");
+        
+        // 플레이어와 겹치지 않는 랜덤 타일 뽑기.
+        while (selectTileNumber.Count != choiceNum)
+        {
+            randomInt = Random.Range(0, tiles.Count-1);
+
+            if (ConditionalBranch(type, tiles[randomInt]) == true)
+            {
+                if (selectTileNumber.Contains(randomInt) == false)
+                {
+                    selectTileNumber.Add(randomInt);
+                    preemptiveTiles.Add(tiles[randomInt]);
+                }
+            }
+        }
         return selectTileNumber;
     }
 
@@ -896,5 +892,11 @@ public class MapController : Singleton<MapController>
             return true;
         else
             return false;
+    }
+
+    public void DeleteZombie(ZombieBase zombieBase)
+    {
+        zombiesList.Remove(zombieBase.gameObject);
+        Destroy(zombieBase.gameObject);
     }
 }

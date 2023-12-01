@@ -1,33 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Hexamap;
 using DG.Tweening;
 using TMPro;
 
+public class ZombieData
+{
+    public int count;
+    public float movePossibility;
+    public float stayPossibility;
+    public float specailZombiePossibility;
+    public float minCount;
+    public float maxCount;
+}
+
 public class ZombieBase : MonoBehaviour
 {
-    public int zombieCount;
-    public int foodCount;
-    public int drinkCount;
-    public GameObject equipment;
-    public bool isChasingPlayer;
+    [SerializeField] GameObject[] zombieModels;
+    public ZombieData zombieData = new ZombieData();
     public Disturbtor nearthDistrubtor;
-    public int remainStunTime;
-
-    public float zombieMovePossibility;
-    public float zombieStayPossibility;
-    public float specailZombiePossibility;
-    public float zombieMinCount;
-    public float zombieMaxCount;
-
-    public int moveCost = 1;
     public Tile curTile;
     public Tile lastTile;
     public Tile targetTile;
+    public bool isChasingPlayer;
+    
     List<Coords> movePath;
-
-    //public SpecialZombie[] specialZombies;
+    int remainStunTime;
+    int moveCost = 1;
 
     public void Init(Tile tile)
     {
@@ -37,17 +38,61 @@ public class ZombieBase : MonoBehaviour
         App.instance.GetDataManager().gameData.TryGetValue("Data_MinCount_ZombieSwarm", out GameData min);
         App.instance.GetDataManager().gameData.TryGetValue("Data_MaxCount_ZombieSwarm", out GameData max);
 
-        zombieMovePossibility = move.value;
-        zombieStayPossibility = stay.value;
-        specailZombiePossibility = special.value;
-        zombieMinCount = min.value;
-        zombieMaxCount = max.value;
+        zombieData.movePossibility = move.value;
+        zombieData.stayPossibility = stay.value;
+        zombieData.specailZombiePossibility = special.value;
+        zombieData.minCount = min.value;
+        zombieData.maxCount = max.value;
 
-        zombieCount = (int)Random.Range(zombieMinCount, zombieMaxCount);
+        ZombieCountChoice();
         curTile = tile;
         lastTile = curTile;
 
-        CurrentTileInfoUpdate(curTile);
+        CurrentTileUpdate(curTile);
+    }
+
+    void ZombieCountChoice()
+    {
+        var randomInt = (int)Random.Range(zombieData.minCount, zombieData.maxCount);
+        zombieData.count = randomInt;
+        ZombieModelChoice(randomInt);
+    }
+
+    public void ZombieModelChoice(int count)
+    {
+        var num = (int)Mathf.Lerp(zombieData.minCount, zombieData.maxCount, 0.3f);
+        num -= (int)zombieData.minCount;
+        
+        if (zombieData.minCount <= count && count <= zombieData.minCount + num)
+        {
+            for (int i = 0; i < zombieModels.Length; i++)
+            {
+                if(i==0)
+                    zombieModels[i].SetActive(true);
+                else
+                    zombieModels[i].SetActive(false);
+            }
+        }
+        else if (zombieData.minCount + num <= count && count <=zombieData.minCount + num * 2)
+        {
+            for (int i = 0; i < zombieModels.Length; i++)
+            {
+                if(i==1)
+                    zombieModels[i].SetActive(true);
+                else
+                    zombieModels[i].SetActive(false);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < zombieModels.Length; i++)
+            {
+                if(i==2)
+                    zombieModels[i].SetActive(true);
+                else
+                    zombieModels[i].SetActive(false);
+            }
+        }
     }
 
     public void DetectionAndAct()
@@ -76,7 +121,9 @@ public class ZombieBase : MonoBehaviour
         if (isChasingPlayer)
         {
             Debug.Log(gameObject.name + "가 플레이어를 발견했습니다!");
-            StartCoroutine(MoveToTarget(MapController.instance.GetPlayerLocationTile()));
+            StartCoroutine(MoveToTarget(App.instance.GetMapManager().mapController.Player.TileController.Model));
+            
+            // 플레이어 바라보기
             var updatePos = App.instance.GetMapManager().mapController.Player.transform.position;
             updatePos.y += 0.5f;
             transform.LookAt(updatePos);
@@ -91,28 +138,43 @@ public class ZombieBase : MonoBehaviour
         }
     }
 
-    public IEnumerator MoveToTarget(Tile target, int walkCount = 1, float time = 0.5f)
+    public IEnumerator MoveToTarget(Tile target, int walkCount = 1, float time = 0.25f)
     {
         movePath = AStar.FindPath(curTile.Coords, target.Coords);
 
-        Tile targetTile;
-        Vector3 targetPos;
+        Tile pointTile;
+        Vector3 pointPos;
 
         for (int i = 0; i < walkCount; i++)
         {
-            if (movePath.Count <= 0)
+            if (movePath.Count == 0)
                 break;
 
-            targetTile = MapController.instance.GetTileFromCoords(movePath[i]);
-            targetPos = ((GameObject)targetTile.GameEntity).transform.position;
-            targetPos.y += 1;
-            gameObject.transform.DOMove(targetPos, time);
+            if (App.instance.GetMapManager().mapController.Player.TileController.Model.Neighbours
+                .Select(x => x.Value).ToList().Contains(lastTile))
+            {
+                pointTile = target;
+            }
+            else
+            {
+                pointTile = MapController.instance.GetTileFromCoords(movePath[i]);
+            }
+            
+            pointPos = ((GameObject)pointTile.GameEntity).transform.position;
+            pointPos.y += 1;
+            
+            gameObject.transform.DOMove(pointPos, time);
+            
             yield return new WaitForSeconds(time);
-            curTile = targetTile;
+            
+            curTile = pointTile;
         }
+        
         MapController.instance.CheckSumZombies();
-        CurrentTileInfoUpdate(curTile);
-        CurrentTileInfoUpdate(lastTile);
+        
+        CurrentTileUpdate(curTile);
+        CurrentTileUpdate(lastTile);
+        
         lastTile = curTile;
     }
 
@@ -134,37 +196,34 @@ public class ZombieBase : MonoBehaviour
 
         curTile = candidate[rand];
         MapController.instance.CheckSumZombies();
-        CurrentTileInfoUpdate(curTile);
-        CurrentTileInfoUpdate(lastTile);
+        CurrentTileUpdate(curTile);
+        CurrentTileUpdate(lastTile);
         lastTile = curTile;
     }
 
-    public void CurrentTileInfoUpdate(Tile tile)
+    public void CurrentTileUpdate(Tile tile)
     {
-        // 텍스트 업데이트는 TileBase로 이전
-        // 여기있는 것은 TileBase연결 관련 해줘야함
-        
-        // if (tile == curTile)
-        // {
-        //     App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Zombie, "좀비 수 : " + zombieCount + "마리");
-        // }
-        // else
-        // {
-        //     App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Zombie, "좀비 수 : ???");
-        // }
+        if (tile == curTile)
+        {
+            ((GameObject)(curTile.GameEntity)).GetComponent<TileBase>().UpdateZombieInfo(this);
+        }
+        else
+        {
+            ((GameObject)(curTile.GameEntity)).GetComponent<TileBase>().UpdateZombieInfo(null);
+        }
     }
 
     public void SumZombies(ZombieBase zombie)
     {
-        zombieCount += zombie.zombieCount;
-        foodCount += zombie.foodCount;
-        drinkCount += zombie.drinkCount;
+        zombieData.count += zombie.zombieData.count;
+        ZombieModelChoice(zombieData.count);
+        CurrentTileUpdate(curTile);
     }
 
     public int GetRandom()
     {
-        float percentage = zombieMovePossibility + zombieStayPossibility;
-        float probability = zombieMovePossibility / percentage;
+        float percentage = zombieData.movePossibility + zombieData.stayPossibility;
+        float probability = zombieData.movePossibility / percentage;
         float rate = percentage - (percentage * probability);
         int tmp = (int)Random.Range(0, percentage);
 
@@ -174,9 +233,26 @@ public class ZombieBase : MonoBehaviour
         }
         return 1;
     }
-
-    public void MoveTargetCoroutine(Tile tile)
+    
+    public void AttackPlayer(Player player)
     {
-        StartCoroutine(MoveToTarget(tile));
+        // 공격 애니메이션
+        player.TakeDamage(zombieData.count);
+    }
+
+    public void TakeDamage(int bulletNum)
+    {
+        // 피격 애니메이션
+
+        // 내구도 감소
+        zombieData.count -= bulletNum;
+        
+        // 좀비 수가 0이 되면 게임 오버
+        if(zombieData.count <= 0)
+        {
+            zombieData.count = 0;
+            Debug.Log(gameObject.name+" 처치 완료.");
+            App.instance.GetMapManager().mapController.DeleteZombie(this);
+        }
     }
 }

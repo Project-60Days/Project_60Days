@@ -31,6 +31,10 @@ public class TileBase : MonoBehaviour
 
     string resourceText;
     string landformText;
+    
+    ZombieBase curZombies;
+
+    ZombieBase CurZombies => curZombies;
 
     StructureBase structure;
 
@@ -257,7 +261,13 @@ public class TileBase : MonoBehaviour
         App.instance.GetMapManager().mapUIController.UpdateImage(landformSprite);
         App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Landform, landformText);
         App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Resource, resourceText);
-        App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Zombie, "좀비 수 : ???");
+        
+        if(curZombies == null)
+            App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Zombie, "좀비 수 : ???");
+        else
+        {
+            App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Zombie, "좀비 수 : " + curZombies.zombieData.count + "마리");
+        }
     }
 
     public void SpawnTower(List<Tile> neighborTiles)
@@ -324,5 +334,17 @@ public class TileBase : MonoBehaviour
         }
 
         return 0;
+    }
+    
+    public void UpdateZombieInfo(ZombieBase zombie)
+    {
+        if (zombie == null)
+        {
+            curZombies = null;
+        }
+        else
+        {
+            curZombies = zombie;
+        }
     }
 }
