@@ -13,6 +13,7 @@ public class NextDayController : MonoBehaviour
     CinemachineVirtualCamera mapCamera;
     CinemachineFramingTransposer transposer;
 
+    [HideInInspector] public bool isOver = false;
   
     void Start()
     {
@@ -20,7 +21,7 @@ public class NextDayController : MonoBehaviour
         transposer = mapCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
         transposer.m_CameraDistance = 5f;
 
-        dayCountText.SetActive(false);
+        isOver = false;
     }
 
     public void InitBlackPanel()
@@ -28,7 +29,10 @@ public class NextDayController : MonoBehaviour
         Sequence sequence = DOTween.Sequence();
         sequence.Append(blackPanel.DOFade(0f, 1f))
             .OnComplete(() => blackPanel.gameObject.SetActive(false));
+
+        dayCountText.SetActive(false);
     }
+
 
     /// <summary>
     /// 다음 날로 넘어갈 때 호출되는 이벤트 --> blackPanel 깜빡거림
@@ -37,21 +41,16 @@ public class NextDayController : MonoBehaviour
     {
         blackPanel.gameObject.SetActive(true);
 
-        int today = UIManager.instance.GetNoteController().dayCount;
-        dayCountText.GetComponent<TextMeshProUGUI>().text = "Day " + (++today).ToString();
-
         App.instance.GetSoundManager().StopBGM();
 
         Sequence sequence = DOTween.Sequence();
         sequence.Append(blackPanel.DOFade(1f, 0.5f)).SetEase(Ease.InQuint)
-            .AppendCallback(() => dayCountText.SetActive(true))
-            .AppendInterval(0.5f)
             .OnComplete(() => {   
                 StartCoroutine(NextDayEventCallBack(()=> {
-                    dayCountText.SetActive(false);
-                    InitBlackPanel();
-                    UIManager.instance.GetNoteController().SetNextDay();
-                    App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
+                    if (isOver == true)
+                        StartCoroutine(ShowGameOver());
+                    else
+                        StartCoroutine(ShowNextDate());
                 }));
             });
     }
@@ -68,14 +67,41 @@ public class NextDayController : MonoBehaviour
 
         yield return StartCoroutine(App.instance.GetMapManager().NextDayCoroutine());
 
-        UIManager.instance.GetNextDayController().SetResourcesResultPage();
-
-        yield return new WaitForSeconds(1f);
+        SetResourcesResultPage();
 
         callback?.Invoke();
     }
 
-    public void SetResourcesResultPage()
+    IEnumerator ShowNextDate()
+    {
+        UIManager.instance.GetNoteController().SetNextDay();
+        UIManager.instance.GetUpperController().UpdateAfterFight();
+
+        int today = UIManager.instance.GetNoteController().dayCount;
+        dayCountText.GetComponent<TextMeshProUGUI>().text = "Day " + today.ToString();
+        dayCountText.SetActive(true);
+
+        yield return new WaitForSeconds(2f);
+
+        InitBlackPanel();
+
+        App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
+    }
+
+
+    IEnumerator ShowGameOver()
+    {
+        dayCountText.GetComponent<TextMeshProUGUI>().text = "GAME OVER";
+        dayCountText.GetComponent<TextMeshProUGUI>().color = Color.red;
+        dayCountText.SetActive(true);
+
+        yield return new WaitForSeconds(2f);
+
+        GameManager.instance.QuitGame();
+    }
+
+
+    void SetResourcesResultPage()
     {
         var resources = App.instance.GetMapManager().resourceManager.GetLastResources();
 

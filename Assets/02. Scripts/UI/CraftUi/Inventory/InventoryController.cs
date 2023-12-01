@@ -39,7 +39,7 @@ public class InventoryController : MonoBehaviour
     {
         InitSlots();
 
-        UIManager.instance.GetUpperController().UpdateBar();
+        UIManager.instance.GetUpperController().UpdateItemCount();
 
         for (int i = 0; i < items.Count; i++)
         {

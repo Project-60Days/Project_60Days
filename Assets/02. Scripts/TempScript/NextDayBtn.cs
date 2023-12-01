@@ -25,7 +25,7 @@ public class NextDayBtn : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             if (currentGaugeValue >= maxGaugeValue) //게이지가 다 차면 다음 날로 이동
             {
                 InitGauageUI();
-                UIManager.instance.GetNextDayController().NextDayEvent();
+                //UIManager.instance.GetNextDayController().NextDayEvent();
             }
         }
     }
