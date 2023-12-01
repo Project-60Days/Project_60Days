@@ -12,7 +12,6 @@ public class CraftModeController : MonoBehaviour
 
     [SerializeField] Sprite[] inventorySprite;
     [SerializeField] Sprite[] buttonSprite;
-    [SerializeField] TextMeshProUGUI modeText;
 
     Button[] buttons;
     Image inventoryImage;
@@ -48,8 +47,6 @@ public class CraftModeController : MonoBehaviour
         UIManager.instance.GetCraftingRawImageController().DestroyObject();
 
         inventoryImage.sprite = inventorySprite[0];
-
-        modeText.text = "제작 모드";
     }
 
     void CraftInActiveMode()
@@ -68,8 +65,6 @@ public class CraftModeController : MonoBehaviour
         UIManager.instance.GetCraftingRawImageController().DestroyObject();
 
         inventoryImage.sprite = inventorySprite[1];
-
-        modeText.text = "장착 모드";
     }
 
     void EquipInActiveMode()
@@ -89,8 +84,6 @@ public class CraftModeController : MonoBehaviour
         UIManager.instance.GetCraftingRawImageController().DestroyObject();
 
         inventoryImage.sprite = inventorySprite[2];
-
-        modeText.text = "설계도 모드";
     }
 
     void BlueprintInActiveMode()
