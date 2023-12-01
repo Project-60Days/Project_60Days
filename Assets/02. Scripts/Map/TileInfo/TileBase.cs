@@ -34,7 +34,7 @@ public class TileBase : MonoBehaviour
     
     ZombieBase curZombies;
 
-    ZombieBase CurZombies => curZombies;
+    public ZombieBase CurZombies => curZombies;
 
     StructureBase structure;
 

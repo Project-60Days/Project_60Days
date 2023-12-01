@@ -148,10 +148,6 @@ public class ZombieBase : MonoBehaviour
         for (int i = 0; i < walkCount; i++)
         {
             if (movePath.Count == 0)
-                break;
-
-            if (App.instance.GetMapManager().mapController.Player.TileController.Model.Neighbours
-                .Select(x => x.Value).ToList().Contains(lastTile))
             {
                 pointTile = target;
             }
@@ -170,12 +166,21 @@ public class ZombieBase : MonoBehaviour
             curTile = pointTile;
         }
         
+        
         MapController.instance.CheckSumZombies();
         
         CurrentTileUpdate(curTile);
         CurrentTileUpdate(lastTile);
         
         lastTile = curTile;
+
+        //이동한 타일에 플레이어가 있다면 공격
+        if (curTile == target)
+        {
+            // 게임 오버
+                
+            //AttackPlayer(App.instance.GetMapManager().mapController.Player);
+        }
     }
 
     public IEnumerator MoveToRandom(int num = 1, float time = 0.5f)
