@@ -113,9 +113,9 @@ public class TileBase : MonoBehaviour
 
             for (int i = 0; i < resourceIcons.Length; i++)
             {
-                SpriteRenderer item = resourceIcons[i];
-                item.sprite = null;
-                item.gameObject.SetActive(false);
+                SpriteRenderer icon = resourceIcons[i];
+                icon.sprite = null;
+                icon.gameObject.SetActive(false);
             }
 
             if (appearanceResources.Count > 0)
@@ -217,8 +217,9 @@ public class TileBase : MonoBehaviour
         for (int i = 0; i < appearanceResources.Count; i++)
         {
             Resource item = appearanceResources[i];
-            var itemBase = itemSO.items.ToList()
-                .Find(x => x.data.English == appearanceResources[i].ItemCode);
+
+            var itemBase = item.ItemBase;
+            
             if (item.ItemCount - count >= 0)
             {
                 list.Add(new Resource(item.ItemCode, count, itemBase));
@@ -227,7 +228,7 @@ public class TileBase : MonoBehaviour
             else
             {
                 list.Add(new Resource(item.ItemCode, item.ItemCount, itemBase));
-                item.ItemCount -= count;
+                item.ItemCount = 0;
             }
         }
 

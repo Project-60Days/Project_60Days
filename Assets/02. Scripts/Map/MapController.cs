@@ -835,7 +835,7 @@ public class MapController : Singleton<MapController>
         // 플레이어와 겹치지 않는 랜덤 타일 뽑기.
         while (selectTileNumber.Count != choiceNum)
         {
-            randomInt = Random.Range(0, tiles.Count-1);
+            randomInt = (int)Random.Range(0, tiles.Count);
 
             if (ConditionalBranch(type, tiles[randomInt]) == true)
             {

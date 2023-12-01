@@ -65,13 +65,13 @@ public class Player : MonoBehaviour
         currentHealth = 0;
 
         UpdateCurrentTile(targetTileController);
-
         
         // 이동한 타일에 좀비가 있다면 공격
         if(currentTileContorller.GetComponent<TileBase>().CurZombies != null)
         {
             // 게임 오버
-            
+            Debug.Log("좀비 <- 플레이어 공격. 게임 오버.");
+            UIManager.instance.GetNextDayController().isOver = true; 
             //AttackZombies(currentTileContorller.GetComponent<TileBase>().CurZombies);
         }
         

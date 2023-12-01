@@ -23,44 +23,32 @@ public class ResourceManager : MonoBehaviour
         lastResources = new List<Resource>();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Z) && owendResources != null)
-        {
-            foreach (var item in owendResources)
-            {
-                var itemName = itemSO.items.ToList().Find(x => x.data.English == item.ItemCode).data.Korean;
-                Debug.LogFormat("이름 : {0}, 개수 : {1}", itemName, item.ItemCount);
-            }
-        }
-    }
-
     public void GetResource(TileController tile)
     {
         lastResources = tile.GetComponent<TileBase>().GetResources(collectiveAbility);
 
         for (int i = 0; i < lastResources.Count; i++)
         {
-            if (owendResources.Exists(x => x.ItemCode == lastResources[i].ItemCode))
+            if (owendResources.Exists(x => x.ItemBase == lastResources[i].ItemBase))
             {
-                var resource = owendResources.Find(x => x.ItemCode == lastResources[i].ItemCode);
+                var resource = owendResources.Find(x => x.ItemBase == lastResources[i].ItemBase);
 
                 if (resource.ItemCount <= 0)
                     return;
                 else
                     resource.ItemCount += lastResources[i].ItemCount;
 
-                var item = itemSO.items.ToList().Find(x => x.data.English == resource.ItemCode);
+                var item = itemSO.items.ToList().Find(x => x == resource.ItemBase);
 
-                Debug.LogFormat("{0} 자원 {1}개 획득", item.data.Korean, lastResources[i].ItemCount);
+                //Debug.LogFormat("{0} 자원 {1}개 획득", item.data.Korean, lastResources[i].ItemCount);
                 isGetResource = true;
             }
             else
             {
                 owendResources.Add(lastResources[i]);
-                var item = itemSO.items.ToList().Find(x => x.data.English == lastResources[i].ItemCode);
+                var item = itemSO.items.ToList().Find(x => x == lastResources[i].ItemBase);
 
-                Debug.LogFormat("새로운 자원 {0} {1}개 획득했다.", item.data.Korean, lastResources[i].ItemCount);
+                //Debug.LogFormat("새로운 자원 {0} {1}개 획득했다.", item.data.Korean, lastResources[i].ItemCount);
                 isGetResource = true;
             }
 

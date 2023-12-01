@@ -178,7 +178,8 @@ public class ZombieBase : MonoBehaviour
         if (curTile == target)
         {
             // 게임 오버
-                
+            Debug.Log("좀비 -> 플레이어 공격. 게임 오버.");
+            UIManager.instance.GetNextDayController().isOver = true;
             //AttackPlayer(App.instance.GetMapManager().mapController.Player);
         }
     }

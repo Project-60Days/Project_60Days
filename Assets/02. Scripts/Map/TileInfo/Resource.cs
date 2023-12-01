@@ -15,10 +15,10 @@
         get => itemCount;
         set
         {
-            if (itemCount + value < 0)
+            if(value < 0)
                 itemCount = 0;
             else
-                itemCount += value;
+                itemCount = value;
         }
     }
 
