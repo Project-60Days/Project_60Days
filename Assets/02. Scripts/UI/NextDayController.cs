@@ -67,6 +67,8 @@ public class NextDayController : MonoBehaviour
 
         yield return StartCoroutine(App.instance.GetMapManager().NextDayCoroutine());
 
+        yield return new WaitForSeconds(1f);
+
         SetResourcesResultPage();
 
         callback?.Invoke();
