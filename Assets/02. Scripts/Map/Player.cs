@@ -66,9 +66,15 @@ public class Player : MonoBehaviour
 
         UpdateCurrentTile(targetTileController);
 
-        // MapManager로 이동
-        //resourceManager.GetResource(playerLocationTileController);
-        //arrow.OffEffect();
+        
+        // 이동한 타일에 좀비가 있다면 공격
+        if(currentTileContorller.GetComponent<TileBase>().CurZombies != null)
+        {
+            // 게임 오버
+            
+            //AttackZombies(currentTileContorller.GetComponent<TileBase>().CurZombies);
+        }
+        
     }
 
     /// <summary>
