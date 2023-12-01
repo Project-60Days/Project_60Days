@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class UpperController : MonoBehaviour
@@ -16,6 +17,16 @@ public class UpperController : MonoBehaviour
     [SerializeField] TextMeshProUGUI powderText;
     [SerializeField] TextMeshProUGUI gasText;
     [SerializeField] TextMeshProUGUI rubberText;
+
+    [Header("TempText")]
+    [SerializeField] Text steelTextTemp;
+    [SerializeField] Text carbonTextTemp;
+    [SerializeField] Text plasmaTextTemp;
+    [SerializeField] Text bulletTextTemp;
+    [SerializeField] Text durabilityTextTemp;
+    [SerializeField] Text powderTextTemp;
+    [SerializeField] Text gasTextTemp;
+    [SerializeField] Text rubberTextTemp;
 
     ItemBase steel;
     ItemBase carbon;
@@ -38,17 +49,32 @@ public class UpperController : MonoBehaviour
             else if (item.data.Code == "ITEM_BULLET") bullet = item;
         }
 
-        UpdateBar();
+        StartCoroutine(InitData());
     }
 
-    public void UpdateBar()
+    IEnumerator InitData()
     {
-        steelText.text = steel.itemCount.ToString("D3");
-        carbonText.text = carbon.itemCount.ToString("D3");
-        plasmaText.text = plasma.itemCount.ToString("D3");
-        bulletText.text = powder.itemCount.ToString("D3");
-        powderText.text = gas.itemCount.ToString("D3");
-        gasText.text = rubber.itemCount.ToString("D3");
-        rubberText.text = bullet.itemCount.ToString("D3");
+        yield return new WaitUntil(() => App.instance.GetMapManager().mapController);
+        yield return new WaitUntil(() => App.instance.GetMapManager().mapController.Player);
+
+        UpdateItemCount();
+        UpdateAfterFight();
+    }
+
+    public void UpdateItemCount()
+    {
+        steelTextTemp.text = steel.itemCount.ToString("D3");
+        carbonTextTemp.text = carbon.itemCount.ToString("D3");
+        plasmaTextTemp.text = plasma.itemCount.ToString("D3");
+        powderTextTemp.text = powder.itemCount.ToString("D3");
+        gasTextTemp.text = gas.itemCount.ToString("D3");
+        rubberTextTemp.text = rubber.itemCount.ToString("D3");
+        bulletTextTemp.text = bullet.itemCount.ToString("D3");
+    }
+
+    public void UpdateAfterFight()
+    {
+        bulletTextTemp.text = bullet.itemCount.ToString("D3");
+        durabilityTextTemp.text = App.instance.GetMapManager().mapController.Player.Durability.ToString("D3");
     }
 }
