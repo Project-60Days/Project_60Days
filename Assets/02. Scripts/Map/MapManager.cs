@@ -283,7 +283,7 @@ public class MapManager : ManagementBase
         }
         else
         {
-            Debug.Log("근처에 구조물이 없습니다.");
+            //Debug.Log("근처에 구조물이 없습니다.");
             return;
         }
     }

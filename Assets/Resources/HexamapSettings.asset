@@ -23,10 +23,24 @@ MonoBehaviour:
   WorldLimitsPrefabs:
   - {fileID: 307140750319210593, guid: ac48f32bd8226654e8066c1c6f86b3c1, type: 3}
   BiomeSettings:
-  - UUID: a1404a1d-c512-4a8c-b1e4-3b0fb23b27b0
+  - UUID: d5a113f5-6523-4c0c-ad3b-563353e1777f
     Name: Jungle
     MinimumTilesCount: 250
     Landforms:
+    - TypeAsString: LandformRocks
+      IsSelected: 1
+      Distribution: 0
+      Quantity: 25
+      Order: 0
+      PrefabsArraySize: 3
+      PrefabsIsExpanded: 1
+      PrefabPickingMethodTypeAsString: Hexamap.PickingMethodRandom
+      PrefabPickingMethodPopupIndex: 3
+      PrefabOrientationMethod: -1
+      Prefabs:
+      - {fileID: 3049127846624766773, guid: 77ed05bbca7294241a22f6ffa6275716, type: 3}
+      - {fileID: 3049127846624766773, guid: e2d1cba5a13721547b1f34aabe5a9885, type: 3}
+      - {fileID: 3049127846624766773, guid: 7f066c6dab52bcc4f92db89d35a2845a, type: 3}
     - TypeAsString: Hexamap.LandformRoad
       IsSelected: 0
       Distribution: 0
@@ -118,10 +132,10 @@ MonoBehaviour:
       Prefabs:
       - {fileID: 2788441876337456543, guid: 622f6f47da177424d80811c8e3fb7762, type: 3}
     - TypeAsString: Hexamap.LandformForest
-      IsSelected: 1
-      Distribution: 1
+      IsSelected: 0
+      Distribution: 0
       Quantity: 0
-      Order: 10
+      Order: 100
       PrefabsArraySize: 3
       PrefabsIsExpanded: 1
       PrefabPickingMethodTypeAsString: Hexamap.PickingMethodRandom
@@ -145,10 +159,24 @@ MonoBehaviour:
       - {fileID: 6999840904034914940, guid: 39bb7c4d0064ca845b366aa9f451713c, type: 3}
       - {fileID: 5130638035095197332, guid: 3b7607647ed6f4e418cb2566d7dd9d2d, type: 3}
     IsExpanded: 0
-  - UUID: 6440f690-ad4a-420d-87a4-666ffafdd90b
+  - UUID: 4a8b1149-9193-46c9-baa9-441e8fc66b72
     Name: None
     MinimumTilesCount: 250
     Landforms:
+    - TypeAsString: LandformRocks
+      IsSelected: 1
+      Distribution: 0
+      Quantity: 25
+      Order: 0
+      PrefabsArraySize: 3
+      PrefabsIsExpanded: 1
+      PrefabPickingMethodTypeAsString: Hexamap.PickingMethodRandom
+      PrefabPickingMethodPopupIndex: 3
+      PrefabOrientationMethod: -1
+      Prefabs:
+      - {fileID: 3920179334152304794, guid: 632d1a0bd1061c84e96d49068036c170, type: 3}
+      - {fileID: 3920179334152304794, guid: c98ab38bbf9c0194c8074c6a712c541e, type: 3}
+      - {fileID: 3920179334152304794, guid: cdcd843edae78b24ea332996b7476d91, type: 3}
     - TypeAsString: Hexamap.LandformRoad
       IsSelected: 0
       Distribution: 0
@@ -244,8 +272,8 @@ MonoBehaviour:
       Prefabs:
       - {fileID: 2788441876337456543, guid: 622f6f47da177424d80811c8e3fb7762, type: 3}
     - TypeAsString: Hexamap.LandformForest
-      IsSelected: 1
-      Distribution: 1
+      IsSelected: 0
+      Distribution: 0
       Quantity: 0
       Order: 10
       PrefabsArraySize: 3
@@ -271,10 +299,24 @@ MonoBehaviour:
       - {fileID: 6999840904034914940, guid: 39bb7c4d0064ca845b366aa9f451713c, type: 3}
       - {fileID: 5130638035095197332, guid: 3b7607647ed6f4e418cb2566d7dd9d2d, type: 3}
     IsExpanded: 0
-  - UUID: 53f4c41f-0322-40c9-b611-d85e6af7345e
+  - UUID: 128f5823-f4e6-4bf3-a509-9c93cfd896f8
     Name: Desert
     MinimumTilesCount: 50
     Landforms:
+    - TypeAsString: LandformRocks
+      IsSelected: 1
+      Distribution: 0
+      Quantity: 20
+      Order: 0
+      PrefabsArraySize: 3
+      PrefabsIsExpanded: 1
+      PrefabPickingMethodTypeAsString: Hexamap.PickingMethodRandom
+      PrefabPickingMethodPopupIndex: 3
+      PrefabOrientationMethod: -1
+      Prefabs:
+      - {fileID: 6862705341232772740, guid: 290aec983852b04468093863f7269589, type: 3}
+      - {fileID: 6862705341232772740, guid: 4f6529947d300164d9aa5734879355af, type: 3}
+      - {fileID: 6862705341232772740, guid: 679968bbd7ae0b542bf68484519d011c, type: 3}
     - TypeAsString: Hexamap.LandformRoad
       IsSelected: 0
       Distribution: 0
@@ -363,8 +405,8 @@ MonoBehaviour:
       Prefabs:
       - {fileID: 2788441876337456543, guid: 622f6f47da177424d80811c8e3fb7762, type: 3}
     - TypeAsString: Hexamap.LandformForest
-      IsSelected: 1
-      Distribution: 1
+      IsSelected: 0
+      Distribution: 0
       Quantity: 0
       Order: 30
       PrefabsArraySize: 3
@@ -390,10 +432,24 @@ MonoBehaviour:
       - {fileID: 6999840904034914940, guid: 39bb7c4d0064ca845b366aa9f451713c, type: 3}
       - {fileID: 5130638035095197332, guid: 3b7607647ed6f4e418cb2566d7dd9d2d, type: 3}
     IsExpanded: 0
-  - UUID: 5b6e3e57-d54a-4ce7-af64-8791a8c26e38
+  - UUID: 481f7158-d9ed-4ff6-aafd-f9dd10bb8c70
     Name: Tundra
     MinimumTilesCount: 50
     Landforms:
+    - TypeAsString: LandformRocks
+      IsSelected: 1
+      Distribution: 0
+      Quantity: 20
+      Order: 0
+      PrefabsArraySize: 3
+      PrefabsIsExpanded: 1
+      PrefabPickingMethodTypeAsString: Hexamap.PickingMethodRandom
+      PrefabPickingMethodPopupIndex: 3
+      PrefabOrientationMethod: -1
+      Prefabs:
+      - {fileID: 6753247292614250673, guid: 63ed117ac134b71499831a0a2361fa0b, type: 3}
+      - {fileID: 6753247292614250673, guid: 51dd4488340fb8d48a482206c2659c6f, type: 3}
+      - {fileID: 6753247292614250673, guid: 8e3a945b93b903a49ae407787eba5387, type: 3}
     - TypeAsString: Hexamap.LandformRoad
       IsSelected: 0
       Distribution: 0
@@ -482,8 +538,8 @@ MonoBehaviour:
       Prefabs:
       - {fileID: 2788441876337456543, guid: 622f6f47da177424d80811c8e3fb7762, type: 3}
     - TypeAsString: Hexamap.LandformForest
-      IsSelected: 1
-      Distribution: 1
+      IsSelected: 0
+      Distribution: 0
       Quantity: 0
       Order: 10
       PrefabsArraySize: 3
