@@ -34,6 +34,8 @@ public class MapController : Singleton<MapController>
     List<TileController> pathTiles = new List<TileController>();
     List<GameObject> zombiesList = new List<GameObject>();
 
+    List<Tile> sightTiles = new List<Tile>();
+
     Player player;
 
     public Player Player
@@ -134,6 +136,8 @@ public class MapController : Singleton<MapController>
         csFogWar.instance.InitializeMapControllerObjects(player.gameObject, 5f);
         
         DeselectAllBorderTiles();
+
+        PlayerSightCheck();
 
         yield return null;
     }
@@ -442,6 +446,7 @@ public class MapController : Singleton<MapController>
 
     public IEnumerator NextDay()
     {
+        // 플레이어 이동
         if (player.MovePath != null)
         {
             yield return StartCoroutine(player.MoveToTarget(targetTileController));
@@ -451,19 +456,25 @@ public class MapController : Singleton<MapController>
             DeselectAllBorderTiles();
         }
 
+        // 교란기
         if (disturbtor != null)
             disturbtor.GetComponent<Disturbtor>().Move();
 
+        // 탐사기
         if (explorer != null)
             StartCoroutine(explorer.GetComponent<Explorer>().Move());
 
+        // 좀비 행동
         for (var index = 0; index < zombiesList.Count; index++)
         {
             var zombie = zombiesList[index];
             zombie.GetComponent<ZombieBase>().DetectionAndAct();
         }
 
+        // 이동 거리 충전
         player.SetHealth(true);
+
+        PlayerSightCheck();
     }
 
     public void CheckSumZombies()
@@ -898,5 +909,27 @@ public class MapController : Singleton<MapController>
     {
         zombiesList.Remove(zombieBase.gameObject);
         Destroy(zombieBase.gameObject);
+    }
+
+    public void PlayerSightCheck()
+    {
+        sightTiles = GetTilesInRange(player.TileController.Model, 6);
+        sightTiles.Add(player.TileController.Model);
+
+        for (int i = 0; i < hexaMap.Map.Tiles.Count; i++)
+        {
+            Tile item =hexaMap.Map.Tiles[i];
+
+            if (sightTiles.Contains(item) == false)
+                ((GameObject)item.GameEntity).SetActive(false);
+            else
+                ((GameObject)item.GameEntity).SetActive(true);
+        }
+
+    }
+
+    public List<Tile> GetSightTiles()
+    {
+        return sightTiles;
     }
 }

@@ -58,7 +58,7 @@ public class TileBase : MonoBehaviour
         gachaProbability = new Dictionary<EResourceType, int>();
         gachaList = new List<EResourceType>();
         appearanceResources = new List<Resource>();
-        tile = gameObject.transform.GetComponent<TileController>().Model;
+        tile = GetComponent<TileController>().Model;
 
         App.instance.GetDataManager().tileData.TryGetValue(GetTileDataIndex(), out TileData data);
         tileData = data;
@@ -244,10 +244,9 @@ public class TileBase : MonoBehaviour
             return false;
     }
 
-    void CheckPlayerTIle(Tile tile)
+    void CheckPlayerTIle()
     {
-        if (App.instance.GetMapManager().mapController.GetTilesInRange(tile, 3).Contains(this.tile) ||
-            this.tile == tile)
+        if ( App.instance.GetMapManager().mapController.GetSightTiles().Contains(tile))
         {
             ResourceUpdate(true);
         }
@@ -342,10 +341,12 @@ public class TileBase : MonoBehaviour
         if (zombie == null)
         {
             curZombies = null;
+            App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Zombie, "좀비 수 : ???");
         }
         else
         {
             curZombies = zombie;
+            App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Zombie, "좀비 수 : " + curZombies.zombieData.count + "마리");
         }
     }
 }

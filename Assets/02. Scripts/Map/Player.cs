@@ -8,13 +8,13 @@ using DG.Tweening;
 public class Player : MonoBehaviour
 {
     [SerializeField] FloatingEffect floating;
-    public static Action<Tile> PlayerSightUpdate;
+    public static Action PlayerSightUpdate;
 
     int maxHealth = 1;
-    int durability = 10;
+    int durability = 100;
     public int Durability => durability;
     
-    int bulletsNum = 10;
+    int bulletsNum = 5;
     public int BulletsNum => bulletsNum;
     
     int currentHealth;
@@ -26,6 +26,8 @@ public class Player : MonoBehaviour
     TileController currentTileContorller;
     public TileController TileController => currentTileContorller;
 
+    bool isDead;
+
     void Start()
     {
         movePath = new List<Coords>();
@@ -35,45 +37,46 @@ public class Player : MonoBehaviour
 
     public IEnumerator MoveToTarget(TileController targetTileController, float time = 0.4f)
     {
-        //isPlayerMoving = true;
-
-        //DeselectAllBorderTiles();
-
         Tile targetTile;
         Vector3 targetPos;
         Vector3 lastTargetPos = targetTileController.transform.position;
 
-        foreach (var item in movePath)
+        var zombies = targetTileController.GetComponent<TileBase>().CurZombies;
+
+        // 이동한 타일에 좀비가 있다면 공격
+        if(zombies != null)
         {
-            targetTile = MapController.instance.GetTileFromCoords(item);
-            if (targetTile == null)
-                break;
+            Debug.Log("플레이어 -> 좀비 공격.");
+            AttackZombies(zombies);
+        }
+        else
+        {
+            // 이동한 타일에 좀비가 없다면 이동
+            for (int i = 0; i < movePath.Count; i++)
+            {
+                Coords coords = movePath[i];
+                targetTile = MapController.instance.GetTileFromCoords(coords);
 
-            targetPos = ((GameObject)targetTile.GameEntity).transform.position;
-            targetPos.y += 0.5f;
+                if (targetTile == null)
+                    break;
 
-            transform.DOMove(targetPos, time);
-            currentHealth--;
+                targetPos = ((GameObject)targetTile.GameEntity).transform.position;
+                targetPos.y += 0.5f;
+
+                transform.DOMove(targetPos, time);
+                currentHealth--;
+                yield return new WaitForSeconds(time);
+            }
+
+            lastTargetPos.y += 0.5f;
+            yield return transform.DOMove(lastTargetPos, time);
             yield return new WaitForSeconds(time);
         }
-
-        lastTargetPos.y += 0.5f;
-        yield return transform.DOMove(lastTargetPos, time);
-        yield return new WaitForSeconds(time);
 
         movePath.Clear();
         currentHealth = 0;
 
         UpdateCurrentTile(targetTileController);
-        
-        // 이동한 타일에 좀비가 있다면 공격
-        if(currentTileContorller.GetComponent<TileBase>().CurZombies != null)
-        {
-            // 게임 오버
-            Debug.Log("좀비 <- 플레이어 공격. 게임 오버.");
-            UIManager.instance.GetNextDayController().isOver = true; 
-            //AttackZombies(currentTileContorller.GetComponent<TileBase>().CurZombies);
-        }
         
     }
 
@@ -85,13 +88,13 @@ public class Player : MonoBehaviour
     {
         // AdditiveScene 딜레이 
         yield return new WaitUntil(() => PlayerSightUpdate != null);
-        PlayerSightUpdate?.Invoke(currentTileContorller.Model);
+        PlayerSightUpdate?.Invoke();
     }
 
     public void UpdateCurrentTile(TileController tileController)
     {
         currentTileContorller = tileController;
-        PlayerSightUpdate?.Invoke(currentTileContorller.Model);
+        PlayerSightUpdate?.Invoke();
     }
 
     public void UpdateMovePath(List<Coords> path)
@@ -116,40 +119,41 @@ public class Player : MonoBehaviour
 
     public void AttackZombies(ZombieBase zombies)
     {
-        // 공격 애니메이션
-        // 탄의 개수 0이면 게임 오버
-        
-        // 플레이어 내구도 - 무리 개체 수 감소
-        if(bulletsNum - zombies.zombieData.count > 0)
-        {
-            zombies.TakeDamage(bulletsNum);
-            bulletsNum -= zombies.zombieData.count;
-        }
-        else if(bulletsNum - zombies.zombieData.count < 0)
-        {
-            bulletsNum = 0;
-            Debug.Log("탄이 없습니다. 게임 오버");
-            Application.Quit();
-        }
-        
         // 좀비 제거
+        if(bulletsNum > 0)
+        {
+            // 공격 애니메이션
+            zombies.TakeDamage();
+            bulletsNum -= 1;
+            Debug.Log("남은 펄스탄 개수 : " + bulletsNum);
+        }
+        else if(bulletsNum <= 0)
+        {
+            // 탄 없을 시 행동 불가
+            return;
+        }
     }
 
     public void TakeDamage(int zombieCount)
     {
+        if(isDead)
+            return;
+        
         // 피격 애니메이션
-        // 내구도 감소
-
-        // 내구도가 0이 되면 게임 오버
+  
         if( durability - zombieCount > 0)
         {
             durability -= zombieCount;
         }
-        else if(durability - zombieCount < 0)
+        else if(durability - zombieCount <= 0)
         {
+            // 내구도가 0이 되면 게임 오버
             durability = 0;
+            isDead=true;
             Debug.Log("내구도 부족. 게임 오버");
-            Application.Quit();
+
+            // 게임 오버
+            UIManager.instance.GetNextDayController().isOver = true;
         }
     }
 }

@@ -25,10 +25,10 @@ public class ZombieBase : MonoBehaviour
     public Tile lastTile;
     public Tile targetTile;
     public bool isChasingPlayer;
-    
+
     List<Coords> movePath;
     int remainStunTime;
-    int moveCost = 1;
+    //int moveCost = 1;
 
     public void Init(Tile tile)
     {
@@ -62,22 +62,22 @@ public class ZombieBase : MonoBehaviour
     {
         var num = (int)Mathf.Lerp(zombieData.minCount, zombieData.maxCount, 0.3f);
         num -= (int)zombieData.minCount;
-        
+
         if (zombieData.minCount <= count && count <= zombieData.minCount + num)
         {
             for (int i = 0; i < zombieModels.Length; i++)
             {
-                if(i==0)
+                if (i == 0)
                     zombieModels[i].SetActive(true);
                 else
                     zombieModels[i].SetActive(false);
             }
         }
-        else if (zombieData.minCount + num <= count && count <=zombieData.minCount + num * 2)
+        else if (zombieData.minCount + num <= count && count <= zombieData.minCount + num * 2)
         {
             for (int i = 0; i < zombieModels.Length; i++)
             {
-                if(i==1)
+                if (i == 1)
                     zombieModels[i].SetActive(true);
                 else
                     zombieModels[i].SetActive(false);
@@ -87,7 +87,7 @@ public class ZombieBase : MonoBehaviour
         {
             for (int i = 0; i < zombieModels.Length; i++)
             {
-                if(i==2)
+                if (i == 2)
                     zombieModels[i].SetActive(true);
                 else
                     zombieModels[i].SetActive(false);
@@ -113,7 +113,7 @@ public class ZombieBase : MonoBehaviour
         if (nearthDistrubtor != null)
         {
             Debug.Log(gameObject.name + "가 교란기를 쫓아갑니다!");
-            StartCoroutine(MoveToTarget(nearthDistrubtor.currentTile));
+            StartCoroutine(MoveOrAttack(nearthDistrubtor.currentTile));
 
             return;
         }
@@ -121,8 +121,8 @@ public class ZombieBase : MonoBehaviour
         if (isChasingPlayer)
         {
             Debug.Log(gameObject.name + "가 플레이어를 발견했습니다!");
-            StartCoroutine(MoveToTarget(App.instance.GetMapManager().mapController.Player.TileController.Model));
-            
+            StartCoroutine(MoveOrAttack(App.instance.GetMapManager().mapController.Player.TileController.Model));
+
             // 플레이어 바라보기
             var updatePos = App.instance.GetMapManager().mapController.Player.transform.position;
             updatePos.y += 0.5f;
@@ -130,7 +130,7 @@ public class ZombieBase : MonoBehaviour
         }
         else
         {
-            var randomInt = GetRandom();    
+            var randomInt = GetRandom();
             if (randomInt == 0)
             {
                 StartCoroutine(MoveToRandom());
@@ -138,50 +138,39 @@ public class ZombieBase : MonoBehaviour
         }
     }
 
-    public IEnumerator MoveToTarget(Tile target, int walkCount = 1, float time = 0.25f)
+    public IEnumerator MoveOrAttack(Tile target, int walkCount = 1, float time = 0.25f)
     {
         movePath = AStar.FindPath(curTile.Coords, target.Coords);
 
         Tile pointTile;
         Vector3 pointPos;
 
-        for (int i = 0; i < walkCount; i++)
+        if (movePath.Count == 0)
         {
-            if (movePath.Count == 0)
-            {
-                pointTile = target;
-            }
-            else
+            // 플레이어가 1칸 내에 있는 경우
+            AttackPlayer(App.instance.GetMapManager().mapController.Player);
+        }
+        else
+        {
+            for (int i = 0; i < walkCount; i++)
             {
                 pointTile = MapController.instance.GetTileFromCoords(movePath[i]);
+                pointPos = ((GameObject)pointTile.GameEntity).transform.position;
+                pointPos.y += 1;
+
+                gameObject.transform.DOMove(pointPos, time);
+
+                yield return new WaitForSeconds(time);
+                curTile = pointTile;
             }
-            
-            pointPos = ((GameObject)pointTile.GameEntity).transform.position;
-            pointPos.y += 1;
-            
-            gameObject.transform.DOMove(pointPos, time);
-            
-            yield return new WaitForSeconds(time);
-            
-            curTile = pointTile;
         }
-        
-        
+
         MapController.instance.CheckSumZombies();
-        
+
         CurrentTileUpdate(curTile);
         CurrentTileUpdate(lastTile);
-        
-        lastTile = curTile;
 
-        //이동한 타일에 플레이어가 있다면 공격
-        if (curTile == target)
-        {
-            // 게임 오버
-            Debug.Log("좀비 -> 플레이어 공격. 게임 오버.");
-            UIManager.instance.GetNextDayController().isOver = true;
-            //AttackPlayer(App.instance.GetMapManager().mapController.Player);
-        }
+        lastTile = curTile;
     }
 
     public IEnumerator MoveToRandom(int num = 1, float time = 0.5f)
@@ -224,6 +213,7 @@ public class ZombieBase : MonoBehaviour
         zombieData.count += zombie.zombieData.count;
         ZombieModelChoice(zombieData.count);
         CurrentTileUpdate(curTile);
+        zombie.DeleteZombie();
     }
 
     public int GetRandom()
@@ -239,26 +229,28 @@ public class ZombieBase : MonoBehaviour
         }
         return 1;
     }
-    
+
     public void AttackPlayer(Player player)
     {
         // 공격 애니메이션
         player.TakeDamage(zombieData.count);
     }
 
-    public void TakeDamage(int bulletNum)
+    public void TakeDamage()
     {
         // 피격 애니메이션
-
-        // 내구도 감소
-        zombieData.count -= bulletNum;
         
-        // 좀비 수가 0이 되면 게임 오버
-        if(zombieData.count <= 0)
-        {
-            zombieData.count = 0;
-            Debug.Log(gameObject.name+" 처치 완료.");
-            App.instance.GetMapManager().mapController.DeleteZombie(this);
-        }
+        // 사망
+        zombieData.count = 0;
+        Debug.Log(gameObject.name + " 처치 완료.");
+        DeleteZombie();
+        
+        // 시체 오브젝트 생성
+    }
+
+    public void DeleteZombie()
+    {
+        App.instance.GetMapManager().mapController.DeleteZombie(this);
+        ((GameObject)curTile.GameEntity).GetComponent<TileBase>().UpdateZombieInfo(null);
     }
 }
