@@ -35,5 +35,5 @@ MonoBehaviour:
   itemImage: {fileID: 21300000, guid: 2248000358233024f85f3dc2475a1eee, type: 3}
   itemCount: 1
   eItemType: 0
-  sprite: {fileID: 21300000, guid: 1c80519ae7c0c8849bf8cf1636bcf9cb, type: 3}
+  sprite: {fileID: 21300000, guid: 1bb0b2c6477631c49a99e2522d21db2c, type: 3}
   sfxName: SFX_Carbon_Acquisition

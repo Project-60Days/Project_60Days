@@ -36,5 +36,5 @@ MonoBehaviour:
   itemImage: {fileID: 21300000, guid: b59cef1285586f7488f1d4aedc25ae98, type: 3}
   itemCount: 0
   eItemType: 0
-  sprite: {fileID: 21300000, guid: 1d4ad60e84ad65d4693b2b70eb083d87, type: 3}
+  sprite: {fileID: 21300000, guid: d7f2c2e9a8ddbe94d9a6a0b12a6960d5, type: 3}
   sfxName: SFX_Gas_Acquisition

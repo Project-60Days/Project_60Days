@@ -35,5 +35,5 @@ MonoBehaviour:
   itemImage: {fileID: 21300000, guid: 1b6a326547522224a897cc3457c55ab9, type: 3}
   itemCount: 0
   eItemType: 0
-  sprite: {fileID: 21300000, guid: b18c3b80b50f18642b926000beb84f11, type: 3}
+  sprite: {fileID: 21300000, guid: 6a2e7105bb94919448fb8f9a39160e36, type: 3}
   sfxName: SFX_Plasma_Acquisition
