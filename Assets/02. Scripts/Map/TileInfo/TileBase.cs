@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Hexamap;
 using System.Linq;
+using Unity.VisualScripting;
 using Random = UnityEngine.Random;
 
 [SelectionBase]
@@ -31,7 +33,7 @@ public class TileBase : MonoBehaviour
 
     string resourceText;
     string landformText;
-    
+
     ZombieBase curZombies;
 
     public ZombieBase CurZombies => curZombies;
@@ -39,8 +41,18 @@ public class TileBase : MonoBehaviour
     StructureBase structure;
 
     public StructureBase Structure => structure;
+    
+    GameObject structureObject;
+    public GameObject StructureObject => structureObject;
 
     #endregion
+
+    private void Awake()
+    {
+        gachaProbability = new Dictionary<EResourceType, int>();
+        gachaList = new List<EResourceType>();
+        appearanceResources = new List<Resource>();
+    }
 
     void Start()
     {
@@ -55,9 +67,6 @@ public class TileBase : MonoBehaviour
 
     public void Init()
     {
-        gachaProbability = new Dictionary<EResourceType, int>();
-        gachaList = new List<EResourceType>();
-        appearanceResources = new List<Resource>();
         tile = GetComponent<TileController>().Model;
 
         App.instance.GetDataManager().tileData.TryGetValue(GetTileDataIndex(), out TileData data);
@@ -70,7 +79,7 @@ public class TileBase : MonoBehaviour
         gachaProbability.Add(EResourceType.Powder, tileData.RemainPossibility_Powder);
         gachaProbability.Add(EResourceType.Gas, tileData.RemainPossibility_Gas);
         gachaProbability.Add(EResourceType.Rubber, tileData.RemainPossibility_Rubber);
-        
+
         SpawnRandomResource();
         RotationCheck(transform.rotation.eulerAngles);
     }
@@ -105,6 +114,7 @@ public class TileBase : MonoBehaviour
             for (int i = 0; i < appearanceResources.Count; i++)
             {
                 Resource item = appearanceResources[i];
+
                 if (item.ItemCount == 0)
                 {
                     appearanceResources.Remove(item);
@@ -120,32 +130,38 @@ public class TileBase : MonoBehaviour
 
             if (appearanceResources.Count > 0)
             {
-                bool isItem = appearanceResources.Count > 1 ? true : false;
+                var text = "";
                 for (int i = 0; i < appearanceResources.Count; i++)
                 {
-                    SpriteRenderer itemIcon;
-                    if (isItem == true)
-                        itemIcon = resourceIcons[i + 1];
-                    else
-                    {
-                        itemIcon = resourceIcons[i];
-                    }
-
-                    itemIcon.sprite = appearanceResources[i].ItemBase.itemImage;
-                    itemIcon.gameObject.SetActive(true);
+                    text += appearanceResources[i].ItemBase.data.Korean + " " +
+                            appearanceResources[i].ItemCount + "EA\n";
                 }
+
+                resourceText = text;
 
                 if (appearanceResources.Count == 1)
                 {
-                    resourceText = appearanceResources[0].ItemBase.data.Korean + " " +
-                                   appearanceResources[0].ItemCount + "EA\n";
+                    resourceIcons[0].sprite = appearanceResources[0].ItemBase.itemImage;
+                    resourceIcons[0].gameObject.SetActive(true);
+                }
+                else if (appearanceResources.Count == 2)
+                {
+                    resourceIcons[1].sprite = appearanceResources[0].ItemBase.itemImage;
+                    resourceIcons[1].gameObject.SetActive(true);
+
+                    resourceIcons[2].sprite = appearanceResources[1].ItemBase.itemImage;
+                    resourceIcons[2].gameObject.SetActive(true);
                 }
                 else
                 {
-                    resourceText = appearanceResources[0].ItemBase.data.Korean + " " +
-                                   appearanceResources[0].ItemCount + "EA\n" +
-                                   appearanceResources[1].ItemBase.data.Korean + " " +
-                                   appearanceResources[1].ItemCount + "EA\n";
+                    resourceIcons[3].sprite = appearanceResources[0].ItemBase.itemImage;
+                    resourceIcons[3].gameObject.SetActive(true);
+
+                    resourceIcons[4].sprite = appearanceResources[1].ItemBase.itemImage;
+                    resourceIcons[4].gameObject.SetActive(true);
+
+                    resourceIcons[5].sprite = appearanceResources[2].ItemBase.itemImage;
+                    resourceIcons[5].gameObject.SetActive(true);
                 }
             }
             else
@@ -174,11 +190,8 @@ public class TileBase : MonoBehaviour
     {
         if (appearanceResources.Count == 1)
         {
-            for (int i = 0; i < resourceIcons.Length; i++)
-            {
-                SpriteRenderer item = resourceIcons[i];
-                item.gameObject.transform.Rotate(0, 0, rotationValue.y + 90);
-            }
+            SpriteRenderer item = resourceIcons[0];
+            item.gameObject.transform.Rotate(0, 0, rotationValue.y + 90);
         }
         else
         {
@@ -219,7 +232,7 @@ public class TileBase : MonoBehaviour
             Resource item = appearanceResources[i];
 
             var itemBase = item.ItemBase;
-            
+
             if (item.ItemCount - count >= 0)
             {
                 list.Add(new Resource(item.ItemCode, count, itemBase));
@@ -246,7 +259,7 @@ public class TileBase : MonoBehaviour
 
     void CheckPlayerTIle()
     {
-        if ( App.instance.GetMapManager().mapController.GetSightTiles().Contains(tile))
+        if (App.instance.GetMapManager().mapController.GetSightTiles().Contains(tile))
         {
             ResourceUpdate(true);
         }
@@ -261,12 +274,13 @@ public class TileBase : MonoBehaviour
         App.instance.GetMapManager().mapUIController.UpdateImage(landformSprite);
         App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Landform, landformText);
         App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Resource, resourceText);
-        
-        if(curZombies == null)
+
+        if (curZombies == null)
             App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Zombie, "좀비 수 : ???");
         else
         {
-            App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Zombie, "좀비 수 : " + curZombies.zombieData.count + "마리");
+            App.instance.GetMapManager().mapUIController
+                .UpdateText(ETileInfoTMP.Zombie, "좀비 수 : " + curZombies.zombieData.count + "마리");
         }
     }
 
@@ -280,7 +294,7 @@ public class TileBase : MonoBehaviour
 
         landformText = "타워";
         resourceText = "자원 : ???";
-        
+
         for (int i = 0; i < resourceIcons.Length; i++)
         {
             SpriteRenderer item = resourceIcons[i];
@@ -289,7 +303,7 @@ public class TileBase : MonoBehaviour
         }
     }
 
-    public void SpawnNormalStructure(List<Tile> neighborTiles, List<Tile> colleagueTiles)
+    public void SpawnNormalStructure(List<Tile> neighborTiles, List<Tile> colleagueTiles, GameObject _structureObject)
     {
         var neighborBases = neighborTiles
             .Select(x => ((GameObject)x.GameEntity).GetComponent<TileBase>()).ToList();
@@ -297,19 +311,32 @@ public class TileBase : MonoBehaviour
         var colleagueBases = colleagueTiles
             .Select(x => ((GameObject)x.GameEntity).GetComponent<TileBase>()).ToList();
 
-        structure = new NormalStructure();
-        ((NormalStructure)structure).Init(neighborBases);
-        ((NormalStructure)structure).SetColleagues(colleagueBases);
-
-        landformText = "건물";
-        resourceText = "자원 : ???";
+        structureObject = _structureObject;
         
+        structure = new ProductionStructure();
+        ((ProductionStructure)structure).Init(neighborBases);
+        ((ProductionStructure)structure).SetColleagues(colleagueBases);
+
+        landformText = "생산 라인";
+        resourceText = "자원 : ???";
+
         for (int i = 0; i < resourceIcons.Length; i++)
         {
             SpriteRenderer item = resourceIcons[i];
             item.sprite = null;
             item.gameObject.SetActive(false);
         }
+    }
+
+    public void AddSpecialItem()
+    {
+        // 특수 자원 추가
+        var itemBase = itemSO.items.ToList()
+            .Find(x => x.data.English == structure.specialItem.English);
+
+        appearanceResources.Add(new Resource(structure.specialItem.English, 1, itemBase));
+        ResourceUpdate(inPlayerSight);
+        TileInfoUpdate();
     }
 
     public void SetNeighborStructure()
@@ -335,7 +362,7 @@ public class TileBase : MonoBehaviour
 
         return 0;
     }
-    
+
     public void UpdateZombieInfo(ZombieBase zombie)
     {
         if (zombie == null)
@@ -346,7 +373,8 @@ public class TileBase : MonoBehaviour
         else
         {
             curZombies = zombie;
-            App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Zombie, "좀비 수 : " + curZombies.zombieData.count + "마리");
+            App.instance.GetMapManager().mapUIController
+                .UpdateText(ETileInfoTMP.Zombie, "좀비 수 : " + curZombies.zombieData.count + "마리");
         }
     }
 }

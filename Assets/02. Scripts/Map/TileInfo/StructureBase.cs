@@ -23,11 +23,13 @@ public abstract class StructureBase
     protected List<TileBase> colleagues;
 
     public List<TileBase> Colleagues => colleagues;
-
+    
     protected int visitDay;
 
     public int VisitDay => visitDay;
 
+    public ItemData specialItem;
+    
     public abstract void Init(List<TileBase> _neighborTiles);
     public abstract void YesFunc();
     public abstract void NoFunc();

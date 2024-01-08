@@ -1326,10 +1326,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapUIController: {fileID: 0}
-  mouseState: 0
-  mouseIntreractable: 0
   mapController: {fileID: 0}
   resourceManager: {fileID: 0}
+  mouseIntreractable: 0
+  mouseState: 0
 --- !u!4 &1979804631 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4495825778294196506, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}

@@ -11,10 +11,10 @@ public class Player : MonoBehaviour
     public static Action PlayerSightUpdate;
 
     int maxHealth = 1;
-    int durability = 100;
+    [SerializeField] int durability = 100;
     public int Durability => durability;
     
-    int bulletsNum = 5;
+    [SerializeField] int bulletsNum = 5;
     public int BulletsNum => bulletsNum;
     
     int currentHealth;
