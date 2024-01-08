@@ -135,11 +135,9 @@ public class MapController : Singleton<MapController>
         }
 
         csFogWar.instance.InitializeMapControllerObjects(player.gameObject, 5f);
-
         DeselectAllBorderTiles();
 
         PlayerSightCheck();
-
         yield return null;
     }
 
@@ -235,7 +233,7 @@ public class MapController : Singleton<MapController>
     public void TilePathFinder(TileController tileController, int num = 0)
     {
         if (num == 0)
-            num = player.HealthPoint;
+            num = player.MoveRange;
 
         int moveRange = 0;
 
@@ -243,7 +241,7 @@ public class MapController : Singleton<MapController>
         {
             foreach (Coords coords in AStar.FindPath(player.TileController.Model.Coords, tileController.Model.Coords))
             {
-                if (moveRange == player.HealthPoint)
+                if (moveRange == player.MoveRange)
                     break;
 
                 GameObject border = (GameObject)GetTileFromCoords(coords).GameEntity;
@@ -311,7 +309,7 @@ public class MapController : Singleton<MapController>
 
     public bool PlayerCanMoveCheck()
     {
-        if (player.HealthPoint != 0)
+        if (player.MoveRange != 0)
             return true;
         else
             return false;

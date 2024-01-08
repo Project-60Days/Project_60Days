@@ -5,6 +5,7 @@ using UnityEngine;
 using Hexamap;
 using DG.Tweening;
 using TMPro;
+using Unity.VisualScripting;
 
 public class ZombieData
 {
@@ -98,6 +99,13 @@ public class ZombieBase : MonoBehaviour
     public void DetectionAndAct()
     {
         isChasingPlayer = MapController.instance.CalculateDistanceToPlayer(curTile, 2);
+        
+        if(App.instance.GetMapManager().mapController.Player.GetIsClocking())
+        {
+            Debug.Log("좀비가 플레이어를 놓쳤습니다");
+            isChasingPlayer = false;
+        }
+        
         nearthDistrubtor = MapController.instance.CalculateDistanceToDistrubtor(curTile, 2);
         ActionDecision();
     }
