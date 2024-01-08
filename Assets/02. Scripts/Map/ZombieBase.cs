@@ -191,8 +191,10 @@ public class ZombieBase : MonoBehaviour
 
         curTile = candidate[rand];
         MapController.instance.CheckSumZombies();
+        
         CurrentTileUpdate(curTile);
         CurrentTileUpdate(lastTile);
+        
         lastTile = curTile;
     }
 
@@ -252,5 +254,10 @@ public class ZombieBase : MonoBehaviour
     {
         App.instance.GetMapManager().mapController.DeleteZombie(this);
         ((GameObject)curTile.GameEntity).GetComponent<TileBase>().UpdateZombieInfo(null);
+    }
+    
+    public void Stun(int time=1)
+    {
+        remainStunTime = time;
     }
 }

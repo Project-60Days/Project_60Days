@@ -67,7 +67,8 @@ public class MapManager : ManagementBase
 
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         int onlyLayerMaskTile = 1 << LayerMask.NameToLayer("Tile");
-
+        
+        
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile))
         {
             tileController = hit.transform.parent.GetComponent<TileController>();
@@ -253,10 +254,11 @@ public class MapManager : ManagementBase
         CheckZombies();
         CheckStructureNeighbor();
         
-        if(isVisitNoneTile == false)
-        {
-            TutorialTileCheck();
-        }
+        // 튜토리얼 네트워크 칩
+        // if(isVisitNoneTile == false)
+        // {
+        //     TutorialTileCheck();
+        // }
         
         AllowMouseEvent(true);
     }
@@ -277,7 +279,7 @@ public class MapManager : ManagementBase
     public void CheckStructureNeighbor()
     {
         var structure = mapController.SensingStructure();
-        if (structure != null)
+        if (structure != null && structure.IsUse == false)
         {
             UIManager.instance.GetPageController().SetSelectPage("structureSelect", structure);
         }
@@ -311,7 +313,10 @@ public class MapManager : ManagementBase
 
     public void ResearchStart(StructureBase structure)
     {
-        Debug.Log("조사 시작!");
+        // 자원 보이게
+        
+        // 좀비 생성
+        mapController.SpawnStructureZombie(structure.NeighborTiles);
         
         // 플레이어 체력 0으로 만들어서 경로 선택 막기
         mapController.Player.SetHealth(false);
@@ -365,7 +370,4 @@ public class MapManager : ManagementBase
             return false;
         }
     }
-    
-    
-
 }
