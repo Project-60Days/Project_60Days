@@ -35,5 +35,5 @@ MonoBehaviour:
   itemImage: {fileID: 21300000, guid: 351a9799c30acca41a51ea5f6ca7da9d, type: 3}
   itemCount: 1
   eItemType: 0
-  sprite: {fileID: 21300000, guid: 8e4913b00b5e1c24ca23dd2a65297769, type: 3}
+  sprite: {fileID: 21300000, guid: 818f441e825888340ac723be909e0dec, type: 3}
   sfxName: SFX_Steel_Acquisition

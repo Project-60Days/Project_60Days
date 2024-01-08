@@ -36,5 +36,5 @@ MonoBehaviour:
   itemImage: {fileID: 21300000, guid: d44bb0dc323807144b73f704a47ea3bf, type: 3}
   itemCount: 1
   eItemType: 0
-  sprite: {fileID: 21300000, guid: 3a53b89c46aba09458cdd1b84c5e7481, type: 3}
+  sprite: {fileID: 21300000, guid: 0432cae3e0c722841b4bc3ec2a6f1383, type: 3}
   sfxName: SFX_Rubber_Acquisition

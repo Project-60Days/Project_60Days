@@ -37,5 +37,5 @@ MonoBehaviour:
   itemImage: {fileID: 21300000, guid: 1ba64665d99cf9145a17f610d6666240, type: 3}
   itemCount: 0
   eItemType: 2
-  sprite: {fileID: 21300000, guid: 4ded864612a3b9f4b836140a73ba4324, type: 3}
+  sprite: {fileID: 21300000, guid: bfe51498022f5e44e872eaa6f946f4e2, type: 3}
   sfxName: 
