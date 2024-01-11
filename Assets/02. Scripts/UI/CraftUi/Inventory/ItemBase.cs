@@ -11,4 +11,5 @@ public class ItemBase : ScriptableObject
     public EItemType eItemType;
     public Sprite sprite;
     public string sfxName;
+    public bool isMadeOnce = false;
 }

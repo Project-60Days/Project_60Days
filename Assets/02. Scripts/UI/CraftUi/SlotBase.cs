@@ -15,10 +15,13 @@ public abstract class SlotBase : MonoBehaviour, IPointerClickHandler, IPointerEn
     void Update()
     {
         if (isMouseEnter == true)
-        {
-            Vector3 mousePos = Input.mousePosition;
-            UIManager.instance.GetItemInfoController().ShowInfo(item, mousePos);
-        }
+            ShowItemInfo();
+    }
+
+    public virtual void ShowItemInfo()
+    {
+        Vector3 mousePos = Input.mousePosition;
+        UIManager.instance.GetItemInfoController().ShowInfo(item, mousePos);
     }
 
     public ItemBase item

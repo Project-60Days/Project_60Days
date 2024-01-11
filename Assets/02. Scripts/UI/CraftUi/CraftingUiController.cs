@@ -163,6 +163,8 @@ public class CraftingUiController : MonoBehaviour
             {
                 ItemBase item = GetResultItemByItemCode(combinationCodes[3]);
                 AddCombineItem(item);
+                if (item.isMadeOnce == false)
+                    item.isMadeOnce = true;
                 break;
             }
         }

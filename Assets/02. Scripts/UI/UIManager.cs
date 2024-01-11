@@ -34,8 +34,13 @@ public class UIManager : Singleton<UIManager>
 
     public void InputKey()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && isUIStatus("UI_MENU") == false)
-            menuController.EnterMenu();
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (isUIStatus("UI_MENU") == false)
+                menuController.EnterMenu();
+            else
+                menuController.QuitMenu();
+        }
     }
 
     public void AddCurrUIName(string _uiName)
