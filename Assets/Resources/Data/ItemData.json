@@ -527,6 +527,23 @@
     "English": "Network Chip",
     "Japanese": -1,
     "Chinese": -1
+  },
+  {
+    "Index": 1034,
+    "Category": 0,
+    "Tier": 0,
+    "Code": "ITEM_UNKNOWN",
+    "AppearTileType": 1,
+    "Type": 0,
+    "EquipType": 0,
+    "EquipArea": "???",
+    "CombineSlotCount": 0,
+    "Description": "???",
+    "EffectDescription": "???",
+    "Korean": "???",
+    "English": "???",
+    "Japanese": -1,
+    "Chinese": -1
   }
 ]
   

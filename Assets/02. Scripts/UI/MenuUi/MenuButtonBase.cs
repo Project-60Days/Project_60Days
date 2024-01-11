@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class MenuButtonBase : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    protected bool isClicked = false;
+    public bool isClicked = false;
 
     protected TextMeshProUGUI buttonText;
     protected Image buttonImage;
@@ -73,5 +73,10 @@ public class MenuButtonBase : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public virtual void ClickEvent()
     {
         SetButtonNormal();
+    }
+
+    public virtual void CloseEvent()
+    {
+
     }
 }
