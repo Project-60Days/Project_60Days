@@ -502,7 +502,7 @@ MonoBehaviour:
       Quantity: 0
       Order: 0
       PrefabsArraySize: 3
-      PrefabsIsExpanded: 1
+      PrefabsIsExpanded: 0
       PrefabPickingMethodTypeAsString: Hexamap.PickingMethodRandom
       PrefabPickingMethodPopupIndex: 3
       PrefabOrientationMethod: -1

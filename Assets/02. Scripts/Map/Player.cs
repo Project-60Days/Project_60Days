@@ -44,6 +44,12 @@ public class Player : MonoBehaviour
         moveRange = maxMoveRange;
         StartCoroutine(DelaySightGetInfo());
     }
+    
+    public void SetMoveRange(int _moveRange)
+    {
+        maxMoveRange = _moveRange;
+        moveRange = maxMoveRange;
+    }
 
     public IEnumerator MoveToTarget(TileController targetTileController, float time = 0.4f)
     {

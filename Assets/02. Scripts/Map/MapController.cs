@@ -9,6 +9,7 @@ using TMPro;
 using Hexamap;
 using UnityEngine.EventSystems;
 using FischlWorks_FogWar;
+using Unity.VisualScripting.ReorderableList;
 using UnityEditor;
 using Random = UnityEngine.Random;
 
@@ -43,11 +44,15 @@ public class MapController : Singleton<MapController>
         get { return player; }
     }
 
-    [Header("테스트")] [Space(5f)] GameObject disturbtor;
-    GameObject explorer;
 
-    [SerializeField] MapTestManager mapTest;
-    [SerializeField] bool isTest;
+    private int resourcePercent;
+
+    private int zombieCount;
+    
+    private int playerMovementPoint;
+
+    GameObject disturbtor;
+    GameObject explorer;
 
     TileController targetTileController;
     bool isLoadingComplete;
@@ -61,10 +66,7 @@ public class MapController : Singleton<MapController>
 
     private void Start()
     {
-        if (!isTest)
-            App.instance.GetMapManager().GetAdditiveSceneObjectsCoroutine();
-        else
-            mapTest.TestStart();
+        App.instance.GetMapManager().GetAdditiveSceneObjectsCoroutine();
     }
 
     public IEnumerator GenerateMap()
@@ -84,6 +86,7 @@ public class MapController : Singleton<MapController>
         _fastNoise.SetFrequency(0.1f);
         _fastNoise.SetNoiseType(FastNoise.NoiseType.Perlin);
         _fastNoise.SetSeed(hexaMap.Map.Seed);
+
         foreach (Tile tile in hexaMap.Map.Tiles)
         {
             var noiseY = _fastNoise.GetValue(tile.Coords.X, tile.Coords.Y);
@@ -118,27 +121,49 @@ public class MapController : Singleton<MapController>
     {
         App.instance.GetDataManager().gameData.TryGetValue("Data_MinCount_ZombieObject", out GameData min);
         App.instance.GetDataManager().gameData.TryGetValue("Data_MaxCount_ZombieObject", out GameData max);
-        int randomInt = (int)Random.Range(min.value, max.value);
-
+        
         SpawnPlayer();
         GenerateTower();
         GenerateProductionStructure(new Coords(0, 0), 7);
 
-        if (!isTest)
-        {
-            SpawnZombies(randomInt);
-            //SpawnTutorialZombie();
-        }
-        else
-        {
-            //SpawnTutorialZombie();
-        }
+        SpawnZombies(zombieCount);
 
         csFogWar.instance.InitializeMapControllerObjects(player.gameObject, 5f);
         DeselectAllBorderTiles();
-
-        PlayerSightCheck();
+        
+        StartCoroutine(RandomTileResource(resourcePercent));
         yield return null;
+    }
+
+    IEnumerator RandomTileResource(float _percent)
+    {
+        bool complete = false;
+        
+         List<TileBase> tileBaseList = hexaMap.Map.Tiles
+            .Where(x => x.Landform.GetType().Name == "LandformPlain")
+            .Select(x => ((GameObject)x.GameEntity).GetComponent<TileBase>())
+            .ToList();
+        
+        float randomTileCount = tileBaseList.Count * (_percent * 0.01f);
+        
+        for (int i = 0; i < randomTileCount; ++i)
+        {
+            int randNum = Random.Range(0, tileBaseList.Count);
+            tileBaseList.RemoveAt(randNum);
+        }
+        
+        for (int i = 0; i < tileBaseList.Count; i++)
+        {
+            TileBase tile = tileBaseList[i];
+            tile.SpawnRandomResource();
+            
+            if(i == tileBaseList.Count - 1)
+                complete = true;
+        }
+        
+        yield return new WaitUntil(() => complete);
+        
+        PlayerSightCheck();
     }
 
     void SpawnPlayer()
@@ -150,6 +175,7 @@ public class MapController : Singleton<MapController>
             Quaternion.Euler(0, -90, 0));
         player = playerObject.GetComponent<Player>();
         player.transform.parent = mapParentTransform;
+        player.SetMoveRange(playerMovementPoint);
 
         player.UpdateCurrentTile(TileToTileController(hexaMap.Map.GetTileFromCoords(new Coords(0, 0))));
         targetTileController = player.TileController;
@@ -180,6 +206,7 @@ public class MapController : Singleton<MapController>
                 Quaternion.Euler(0, Random.Range(0, 360), 0), zombiesTransform);
             zombie.name = "Zombie " + (i + 1);
             zombie.GetComponent<ZombieBase>().Init(tile);
+            zombie.GetComponent<ZombieBase>().SetMoveCost(playerMovementPoint);
             zombiesList.Add(zombie);
         }
     }
@@ -259,7 +286,7 @@ public class MapController : Singleton<MapController>
 
     public void TilePathFinderSurroundings(TileController tileController)
     {
-        var neighborTiles = hexaMap.Map.GetTilesInRange(player.TileController.Model, 1);
+        var neighborTiles = hexaMap.Map.GetTilesInRange(player.TileController.Model, player.MoveRange);
 
         var neighborController = neighborTiles
             .Select(x => ((GameObject)x.GameEntity).GetComponent<TileController>()).ToList();
@@ -279,7 +306,7 @@ public class MapController : Singleton<MapController>
         {
             SelectBorder(tileController, ETileState.Unable);
         }
-        else if (neighborTiles.Contains(tileController.Model) == true)
+        else if (neighborTiles.Contains(tileController.Model))
         {
             SelectBorder(tileController, ETileState.Moveable);
         }
@@ -490,6 +517,9 @@ public class MapController : Singleton<MapController>
             zombie.GetComponent<ZombieBase>().DetectionAndAct();
         }
 
+        yield return new WaitForSeconds(0.25f);
+        CheckSumZombies();
+        
         // 이동 거리 충전
         player.SetHealth(true);
 
@@ -961,5 +991,12 @@ public class MapController : Singleton<MapController>
     public List<Tile> GetSightTiles()
     {
         return sightTiles;
+    }
+
+    public void InputMapData(int _resourcePercent, int _zombieCount, int _playerMovementPoint)
+    {
+        resourcePercent = _resourcePercent;
+        zombieCount = _zombieCount;
+        playerMovementPoint = _playerMovementPoint;
     }
 }
