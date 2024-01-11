@@ -16,12 +16,15 @@ public class CraftModeController : MonoBehaviour
     Button[] buttons;
     Image inventoryImage;
 
+    BlueprintSlot[] blueprintSlots;
+
     public ECraftModeType eCraftModeType { get; private set; }
 
     void Awake()
     {
         inventoryImage = GameObject.Find("InventoryBackground_Img").GetComponent<Image>();
         buttons = GameObject.Find("ModeBtn_Back").GetComponentsInChildren<Button>();
+        blueprintSlots = GetComponentsInChildren<BlueprintSlot>();
         SetCraftActive();
     }
     
@@ -84,6 +87,12 @@ public class CraftModeController : MonoBehaviour
         UIManager.instance.GetCraftingRawImageController().DestroyObject();
 
         inventoryImage.sprite = inventorySprite[2];
+
+        foreach (var slot in blueprintSlots)
+        {
+            if (slot.isAlreadyShow == true) continue;
+            slot.SetBlueprintShow();
+        }
     }
 
     void BlueprintInActiveMode()

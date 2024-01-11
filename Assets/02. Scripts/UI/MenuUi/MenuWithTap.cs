@@ -42,7 +42,7 @@ public class MenuWithTap : MenuButtonBase
         });
     }
 
-    public void CloseEvent()
+    public override void CloseEvent()
     {
         SetChildrenStatus(false);
         gameObject.GetComponent<Transform>().DOLocalMoveY(initialY, 0.3f).OnComplete(() =>

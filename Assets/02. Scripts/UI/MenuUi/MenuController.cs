@@ -38,6 +38,11 @@ public class MenuController : MonoBehaviour
 
     public void QuitMenu()
     {
+        foreach (var button in buttons) 
+        {
+            if (button.isClicked == true)
+                button.CloseEvent();
+        }
         UIManager.instance.PopCurrUI();
         gameObject.SetActive(false);
     }
