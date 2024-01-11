@@ -190,8 +190,9 @@ MonoBehaviour:
   mapParentTransform: {fileID: 2032613207}
   objectsTransform: {fileID: 848818347}
   mapPrefab: {fileID: 11400000, guid: 2ac150942be86a042a3493eb2029b8cd, type: 2}
-  mapTest: {fileID: 0}
-  isTest: 0
+  resourcePercent: 50
+  zombieCount: 15
+  playerMovementPoint: 2
 --- !u!1 &70614907
 GameObject:
   m_ObjectHideFlags: 0

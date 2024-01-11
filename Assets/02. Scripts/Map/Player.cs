@@ -4,22 +4,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using Hexamap;
 using DG.Tweening;
+using FischlWorks_FogWar;
 
 public class Player : MonoBehaviour
 {
     [SerializeField] FloatingEffect floating;
     public static Action PlayerSightUpdate;
 
-    int maxHealth = 1;
+    int maxMoveRange = 1;
+
     [SerializeField] int durability = 100;
     public int Durability => durability;
-    
+
     [SerializeField] int bulletsNum = 5;
     public int BulletsNum => bulletsNum;
-    
-    int currentHealth;
-    public int HealthPoint => currentHealth;
-    
+
+    int moveRange;
+    public int MoveRange => moveRange;
+
+    private int temporaryRange;
+    private int temporaryDurability;
+
     List<Coords> movePath;
     public List<Coords> MovePath => movePath;
 
@@ -27,12 +32,23 @@ public class Player : MonoBehaviour
     public TileController TileController => currentTileContorller;
 
     bool isDead;
+    bool isClockingCheck;
+
+    int moveBuffDuration;
+    int durabilityBuffDuration;
+    int clockBuffDuration;
 
     void Start()
     {
         movePath = new List<Coords>();
-        currentHealth = maxHealth;
+        moveRange = maxMoveRange;
         StartCoroutine(DelaySightGetInfo());
+    }
+    
+    public void SetMoveRange(int _moveRange)
+    {
+        maxMoveRange = _moveRange;
+        moveRange = maxMoveRange;
     }
 
     public IEnumerator MoveToTarget(TileController targetTileController, float time = 0.4f)
@@ -43,8 +59,19 @@ public class Player : MonoBehaviour
 
         var zombies = targetTileController.GetComponent<TileBase>().CurZombies;
 
+        if (moveBuffDuration > 0)
+        {
+            moveBuffDuration--;
+            moveRange = temporaryRange;
+        }
+        else
+        {
+            moveBuffDuration = 0;
+            moveRange = maxMoveRange;
+        }
+
         // 이동한 타일에 좀비가 있다면 공격
-        if(zombies != null)
+        if (zombies != null)
         {
             Debug.Log("플레이어 -> 좀비 공격.");
             AttackZombies(zombies);
@@ -64,7 +91,7 @@ public class Player : MonoBehaviour
                 targetPos.y += 0.5f;
 
                 transform.DOMove(targetPos, time);
-                currentHealth--;
+                moveRange--;
                 yield return new WaitForSeconds(time);
             }
 
@@ -74,10 +101,9 @@ public class Player : MonoBehaviour
         }
 
         movePath.Clear();
-        currentHealth = 0;
+        moveRange = 0;
 
         UpdateCurrentTile(targetTileController);
-        
     }
 
     /// <summary>
@@ -102,13 +128,13 @@ public class Player : MonoBehaviour
         movePath = path;
     }
 
-    public void SetHealth(bool isMax,int num = 0)
+    public void SetHealth(bool isMax, int num = 0)
     {
-        if(isMax == true)
-            currentHealth = maxHealth;
+        if (isMax == true)
+            moveRange = maxMoveRange;
         else
         {
-            currentHealth = num;
+            moveRange = num;
         }
     }
 
@@ -119,41 +145,79 @@ public class Player : MonoBehaviour
 
     public void AttackZombies(ZombieBase zombies)
     {
-        // 좀비 제거
-        if(bulletsNum > 0)
-        {
-            // 공격 애니메이션
-            zombies.TakeDamage();
-            bulletsNum -= 1;
-            Debug.Log("남은 펄스탄 개수 : " + bulletsNum);
-        }
-        else if(bulletsNum <= 0)
+        if (bulletsNum <= 0)
         {
             // 탄 없을 시 행동 불가
             return;
         }
+
+        // 공격 애니메이션
+        zombies.TakeDamage();
+        bulletsNum -= 1;
+        Debug.Log("남은 펄스탄 개수 : " + bulletsNum);
     }
 
     public void TakeDamage(int zombieCount)
     {
-        if(isDead)
+        if (isDead)
             return;
-        
+
         // 피격 애니메이션
-  
-        if( durability - zombieCount > 0)
+        if (durability - zombieCount > 0)
         {
             durability -= zombieCount;
         }
-        else if(durability - zombieCount <= 0)
+        else if (durability - zombieCount <= 0)
         {
             // 내구도가 0이 되면 게임 오버
             durability = 0;
-            isDead=true;
+            isDead = true;
             Debug.Log("내구도 부족. 게임 오버");
 
             // 게임 오버
             UIManager.instance.GetNextDayController().isOver = true;
         }
+    }
+
+    public void AddMoveRange(int _amount)
+    {
+        maxMoveRange += _amount;
+        maxMoveRange = moveRange;
+    }
+
+    public void AddMoveRangeUntil(int _duration, int _amount)
+    {
+        moveBuffDuration = _duration;
+        temporaryRange = maxMoveRange + _amount;
+    }
+
+    public void ClockUntil(int _duration)
+    {
+        clockBuffDuration = _duration;
+    }
+    
+    public void AddDurability(int _durability ,int _amount)
+    {
+        durabilityBuffDuration = _durability;
+        temporaryDurability = durability + _amount;
+    }
+
+    public bool GetIsClocking()
+    {
+        if (clockBuffDuration > 0)
+        {
+            clockBuffDuration--;
+            return true;
+        }
+        else
+        {
+            clockBuffDuration = 0;
+            return false;
+        }
+    }
+
+    public void AddSightRange(int _amount)
+    {
+        csFogWar.instance.AddSightRange(_amount);
     }
 }

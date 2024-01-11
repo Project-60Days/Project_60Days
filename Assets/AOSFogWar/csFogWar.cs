@@ -600,6 +600,11 @@ namespace FischlWorks_FogWar
             fogRevealers.Add(new FogRevealer(player.transform, sightRange, true));
         }
 
+        public void AddSightRange(int _amount)
+        {
+            fogRevealers.Last().sightRange += _amount;
+        }
+
         /// Adds a new FogRevealer instance to the list and returns its index
         public int AddFogRevealer(FogRevealer fogRevealer)
         {

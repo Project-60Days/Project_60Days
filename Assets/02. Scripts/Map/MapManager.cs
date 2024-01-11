@@ -12,7 +12,19 @@ public class MapManager : ManagementBase
     public bool mouseIntreractable;
     
     [SerializeField] ETileMouseState mouseState;
+    
+    [Header("밸런스 테스트 용")] 
+    [Space(5f)] 
+    
+    [Header("자원 등장 확률")] 
+    [SerializeField] private int resourcePercent;
 
+    [Header("좀비 등장 수")] 
+    [SerializeField] private int zombieCount;
+
+    [Header("플레이어 이동 거리")] 
+    [SerializeField] private int playerMovementPoint;
+    
     Camera mainCamera;
     MapCamera mapCineCamera;
     TileController curTileController;
@@ -39,6 +51,8 @@ public class MapManager : ManagementBase
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         mapUIController = GameObject.FindGameObjectWithTag("MapUi").GetComponent<MapUiController>();
         mapController = GameObject.FindGameObjectWithTag("MapController").GetComponent<MapController>();
+        
+        mapController.InputMapData(resourcePercent, zombieCount, playerMovementPoint);
 
         yield return new WaitUntil(() => mapController != null);
         StartCoroutine(mapController.GenerateMap());
@@ -232,11 +246,6 @@ public class MapManager : ManagementBase
         isDronePrepared = false;
         isDisturbtorPrepared = false;
         mouseIntreractable = isAllow;
-    }
-
-    public void OnTargetPointUI()
-    {
-        mapUIController.OnPlayerMovePoint(mapController.TargetPointTile.transform);
     }
 
     public override EManagerType GetManagemetType()

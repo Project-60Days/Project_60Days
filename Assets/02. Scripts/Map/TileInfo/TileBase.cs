@@ -56,8 +56,8 @@ public class TileBase : MonoBehaviour
 
     void Start()
     {
-        Player.PlayerSightUpdate += CheckPlayerTIle;
         Init();
+        Player.PlayerSightUpdate += CheckPlayerTIle;
     }
 
     void OnDestroy()
@@ -68,25 +68,26 @@ public class TileBase : MonoBehaviour
     public void Init()
     {
         tile = GetComponent<TileController>().Model;
-
         App.instance.GetDataManager().tileData.TryGetValue(GetTileDataIndex(), out TileData data);
         tileData = data;
         landformText = tileData.Korean;
+    }
 
+    public void SpawnRandomResource()
+    {
+        App.instance.GetDataManager().tileData.TryGetValue(GetTileDataIndex(), out TileData data);
+        tileData = data;
+        landformText = tileData.Korean;
+        
         gachaProbability.Add(EResourceType.Steel, tileData.RemainPossibility_Steel);
         gachaProbability.Add(EResourceType.Carbon, tileData.RemainPossibility_Carbon);
         gachaProbability.Add(EResourceType.Plasma, tileData.RemainPossibility_Plasma);
         gachaProbability.Add(EResourceType.Powder, tileData.RemainPossibility_Powder);
         gachaProbability.Add(EResourceType.Gas, tileData.RemainPossibility_Gas);
         gachaProbability.Add(EResourceType.Rubber, tileData.RemainPossibility_Rubber);
-
-        SpawnRandomResource();
-        RotationCheck(transform.rotation.eulerAngles);
-    }
-
-    void SpawnRandomResource()
-    {
+        
         var randomInt = Random.Range(1, 3);
+        
         while (gachaList.Count != randomInt)
         {
             var take = WeightedRandomizer.From(gachaProbability).TakeOne();
@@ -102,6 +103,8 @@ public class TileBase : MonoBehaviour
             var resource = new Resource(gachaList[i].ToString(), Random.Range(1, 16), itemBase);
             appearanceResources.Add(resource);
         }
+        
+        RotationCheck(transform.rotation.eulerAngles);
     }
 
     void ResourceUpdate(bool _isInPlayerSight)
