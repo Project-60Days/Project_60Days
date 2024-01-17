@@ -71,10 +71,10 @@
   },
   {
     "Index": 1011,
-    "Material_1": "ITEM_GEAR",
-    "Material_2": "ITEM_RUBBER",
-    "Material_3": "-1",
-    "Result": "ITEM_WHEEL"
+    "Material_1": "ITEM_POWDER",
+    "Material_2": "ITEM_PLASMA",
+    "Material_3": "ITEM_STEEL",
+    "Result": "ITEM_BULLET"
   },
   {
     "Index": 1012,
