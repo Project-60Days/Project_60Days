@@ -190,9 +190,6 @@ MonoBehaviour:
   mapParentTransform: {fileID: 2032613207}
   objectsTransform: {fileID: 848818347}
   mapPrefab: {fileID: 11400000, guid: 2ac150942be86a042a3493eb2029b8cd, type: 2}
-  resourcePercent: 50
-  zombieCount: 15
-  playerMovementPoint: 2
 --- !u!1 &70614907
 GameObject:
   m_ObjectHideFlags: 0
@@ -269,7 +266,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 70614907}
-  m_LocalRotation: {x: 0.42554748, y: -0.56472063, z: 0.42554748, w: 0.56472063}
+  m_LocalRotation: {x: 0.3535534, y: -0.61237246, z: 0.3535534, w: 0.61237246}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -277,7 +274,7 @@ Transform:
   - {fileID: 1905312115}
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 74, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 60, y: -90, z: 0}
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,8 +553,8 @@ Camera:
   m_GameObject: {fileID: 991915579}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

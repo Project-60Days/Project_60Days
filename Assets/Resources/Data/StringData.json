@@ -46,5 +46,53 @@
     "English": -1,
     "Japanese": -1,
     "Chinese": -1
+  },
+  {
+    "Index": 2001,
+    "Code": "STR_NOTE_LOOSE_RESROUCE",
+    "Korean": "분석에 따르면 {0}의 보유량이 감소했다고 한다. 소실인가? 혹은 잘못 센 것인가? [{0} 보유량 - 1]",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 2002,
+    "Code": "STR_NOTE_DESERT_STORM",
+    "Korean": "<color=red> 경고 : 강력한 모래 폭풍이 감지되었습니다. 강제 안전 조율 시스템을 가동합니다. 다음 1턴동안 선체를 이동할 수 없습니다. </color>",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 2003,
+    "Code": "STR_NOTE_SEARCH_TUNDRA",
+    "Korean": "이 구조물은 얼어붙어 있다. 탐사에 오랜 시간이 소요될 것 같다.\n(접근 승인 선택 시 1턴 동안 이동 불가 [선택 시점에 이동 불가])",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 2004,
+    "Code": "STR_NOTE_ACIDENT_ETHER",
+    "Korean": "<color=red>경고 : 에테르 가스 수집 중 예상치 못한 폭발이 감지되었습니다. 선체 추출 기능이 비활성화되었습니다. 자가 수복 프로토콜을 시작합니다.\n다음 1턴 동안 선체를 이동할 수 없습니다.</color>",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 2005,
+    "Code": "STR_NOTE_LOOSE_WAY",
+    "Korean": "<color=red> 경고 : 선체의 방향타 시스템에 오류가 발생하였습니다. 이전에 선택한 경로가 아닌 다른 방향으로 이동하였을 가능성이 있습니다.\n선체 위치를 확인, 조정해 주십시오. </color>",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 2006,
+    "Code": "STR_NOTE_SWAMP",
+    "Korean": "<color=red> 경고 : 선체가 정글의 거대한 늪에 빠졌습니다. 자가 수복 프로토콜을 시작합니다.\n다음 1턴 동안 선체를 이동할 수 없습니다.</color>",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
   }
 ]
