@@ -390,4 +390,10 @@ public class MapManager : ManagementBase
             return false;
         }
     }
+    
+    public void ToolUIOpen()
+    {
+        mapUIController.SetDisturbtorButtonInteractable(true);
+        mapUIController.SetExplorerButtonInteractable(true);
+    }
 }

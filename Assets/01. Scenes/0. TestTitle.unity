@@ -379,6 +379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5426cfcaa57fccd43adea69c194d2e57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isClicked: 0
 --- !u!114 &720321161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1330,9 +1331,12 @@ MonoBehaviour:
   resourceManager: {fileID: 0}
   mouseIntreractable: 0
   mouseState: 0
-  resourcePercent: 50
-  zombieCount: 10
-  playerMovementPoint: 2
+  mapData:
+    resourcePercent: 50
+    fogSightRange: 3
+    playerMovementPoint: 1
+    zombieDetectionRange: 2
+    zombieCount: 10
 --- !u!4 &1979804631 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4495825778294196506, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}

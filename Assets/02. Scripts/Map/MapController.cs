@@ -9,7 +9,6 @@ using TMPro;
 using Hexamap;
 using UnityEngine.EventSystems;
 using FischlWorks_FogWar;
-using Unity.VisualScripting.ReorderableList;
 using UnityEditor;
 using Random = UnityEngine.Random;
 
@@ -43,7 +42,6 @@ public class MapController : Singleton<MapController>
     {
         get { return player; }
     }
-
 
     private int resourcePercent;
 
@@ -995,7 +993,8 @@ public class MapController : Singleton<MapController>
 
     public List<Tile> GetSightTiles()
     {
-        return sightTiles;
+        var list = GetTilesInRange(player.TileController.Model, 1);
+        return list;
     }
 
     public void InputMapData(MapData mapData)

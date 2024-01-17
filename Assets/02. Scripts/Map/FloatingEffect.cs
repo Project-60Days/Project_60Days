@@ -9,7 +9,7 @@ public class FloatingEffect : MonoBehaviour
         while (true)
         {
             var tr = transform.position;
-            tr.y = transform.parent.position.y + 0.5f + Mathf.Sin(Time.time) * 0.5f;
+            tr.y = transform.parent.position.y + 0.2f + Mathf.Sin(Time.time) * 0.25f;
             transform.position = tr;
             yield return null;
         }
