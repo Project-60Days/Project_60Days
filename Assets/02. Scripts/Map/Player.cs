@@ -13,23 +13,47 @@ public class Player : MonoBehaviour
 
     int maxMoveRange = 1;
 
-    [SerializeField] int durability = 100;
-    public int Durability => durability;
+    [SerializeField] int durability = 0;
+    public int Durability
+    {
+        get => durability;
+        set 
+        { 
+            if (value > 0)
+                durability = value; 
+        }
+    }
 
     [SerializeField] int bulletsNum = 5;
-    public int BulletsNum => bulletsNum;
+    public int BulletsNum
+    {
+        get => bulletsNum;
+        set => bulletsNum = value;
+    }
 
     int moveRange;
-    public int MoveRange => moveRange;
+    public int MoveRange
+    {
+        get => moveRange;
+        set => moveRange = value;
+    }
 
     private int temporaryRange;
     private int temporaryDurability;
 
     List<Coords> movePath;
-    public List<Coords> MovePath => movePath;
+    public List<Coords> MovePath
+    {
+        get => movePath;
+        set => movePath = value;
+    }
 
     TileController currentTileContorller;
-    public TileController TileController => currentTileContorller;
+    public TileController TileController
+    {
+        get => currentTileContorller;
+        set => currentTileContorller = value;
+    }
 
     bool isDead;
     bool isClockingCheck;
