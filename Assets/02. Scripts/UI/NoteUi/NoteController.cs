@@ -255,9 +255,15 @@ public class NoteController : MonoBehaviour
         if (notePages.Length == 1)
         {
             if (notePages[pageNum].CompareIndex() == 2)
+            {
                 ActiveNextBtnAndPrevBtn(false, false);
+                UIManager.instance.GetAlertController().SetAlert("note", false);
+            }
             else if (notePages[pageNum].CompareIndex() == -1)
+            {
                 ActiveNextBtnAndPrevBtn(true, false);
+                UIManager.instance.GetAlertController().SetAlert("note", false);
+            }
             else if (notePages[pageNum].CompareIndex() == 1) 
                 ActiveNextBtnAndPrevBtn(false, true);
             else
@@ -266,7 +272,10 @@ public class NoteController : MonoBehaviour
         else
         {
             if (pageNum == 0 && (notePages[pageNum].CompareIndex() == -1 || notePages[pageNum].CompareIndex() == 2))
+            {
                 ActiveNextBtnAndPrevBtn(true, false);
+                UIManager.instance.GetAlertController().SetAlert("note", false);
+            }
             else if (pageNum == notePages.Length - 1 && (notePages[pageNum].CompareIndex() == 1 || notePages[pageNum].CompareIndex() == 2))
                 ActiveNextBtnAndPrevBtn(false, true);
             else
