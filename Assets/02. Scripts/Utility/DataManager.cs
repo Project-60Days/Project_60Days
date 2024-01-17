@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -125,13 +126,10 @@ public class ItemData
     public int Index;
     public int Category;
     public string Code;
-    public int Rarity;
     public int AppearTileType;
-    public float TileIncludePossibility;
     public int Type;
     public int EquipType;
     public string EquipArea;
-    public int isCanBase;
     public int CombineSlotCount;
     public string Description;
     public string EffectDescription;
@@ -139,6 +137,9 @@ public class ItemData
     public string English;
     public string Japanese;
     public string Chinese;
+    public float value1;
+    public float value2;
+    public float value3;
 }
 
 [Serializable]
