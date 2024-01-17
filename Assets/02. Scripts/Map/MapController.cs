@@ -50,6 +50,10 @@ public class MapController : Singleton<MapController>
     private int zombieCount;
     
     private int playerMovementPoint;
+    
+    private int zombieDetectionRange;
+    
+    private int fogSightRange;
 
     GameObject disturbtor;
     GameObject explorer;
@@ -128,7 +132,7 @@ public class MapController : Singleton<MapController>
 
         SpawnZombies(zombieCount);
 
-        csFogWar.instance.InitializeMapControllerObjects(player.gameObject, 5f);
+        csFogWar.instance.InitializeMapControllerObjects(player.gameObject, fogSightRange);
         DeselectAllBorderTiles();
         
         StartCoroutine(RandomTileResource(resourcePercent));
@@ -206,7 +210,7 @@ public class MapController : Singleton<MapController>
                 Quaternion.Euler(0, Random.Range(0, 360), 0), zombiesTransform);
             zombie.name = "Zombie " + (i + 1);
             zombie.GetComponent<ZombieBase>().Init(tile);
-            zombie.GetComponent<ZombieBase>().SetMoveCost(playerMovementPoint);
+            zombie.GetComponent<ZombieBase>().SetValue(playerMovementPoint, zombieDetectionRange);
             zombiesList.Add(zombie);
         }
     }
@@ -539,8 +543,9 @@ public class MapController : Singleton<MapController>
             .Distinct()
             .ToList();
 
-        foreach (var item in result)
+        for (var index = 0; index < result.Count; index++)
         {
+            var item = result[index];
             var num = tiles.IndexOf(item);
             for (int i = num + 1; i < tiles.Count; i++)
             {
@@ -993,10 +998,12 @@ public class MapController : Singleton<MapController>
         return sightTiles;
     }
 
-    public void InputMapData(int _resourcePercent, int _zombieCount, int _playerMovementPoint)
+    public void InputMapData(MapData mapData)
     {
-        resourcePercent = _resourcePercent;
-        zombieCount = _zombieCount;
-        playerMovementPoint = _playerMovementPoint;
+        resourcePercent = mapData.resourcePercent;
+        zombieCount = mapData.zombieCount;
+        playerMovementPoint = mapData.playerMovementPoint;
+        zombieDetectionRange = mapData.zombieDetectionRange;
+        fogSightRange = mapData.fogSightRange;
     }
 }

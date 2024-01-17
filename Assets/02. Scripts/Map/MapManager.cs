@@ -1,30 +1,37 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Hexamap;
 using Yarn.Compiler;
+
+[System.Serializable]
+public class MapData
+{
+    [Tooltip("자원 등장 확률")] public int resourcePercent;
+    
+    [Tooltip("시야")] public int fogSightRange;
+
+    [Tooltip("이동 거리")] public int playerMovementPoint;
+
+    [Tooltip("좀비 감지 범위")] public int zombieDetectionRange;
+
+    [Tooltip("등장 좀비 수")] public int zombieCount;
+}
+
 public class MapManager : ManagementBase
 {
     public MapUiController mapUIController;
     public MapController mapController;
     public ResourceManager resourceManager;
     public bool mouseIntreractable;
-    
+
     [SerializeField] ETileMouseState mouseState;
-    
-    [Header("밸런스 테스트 용")] 
-    [Space(5f)] 
-    
-    [Header("자원 등장 확률")] 
-    [SerializeField] private int resourcePercent;
 
-    [Header("좀비 등장 수")] 
-    [SerializeField] private int zombieCount;
+    [Header("밸런스 테스트 용")] [Space(5f)] [SerializeField]
+    MapData mapData;
 
-    [Header("플레이어 이동 거리")] 
-    [SerializeField] private int playerMovementPoint;
-    
     Camera mainCamera;
     MapCamera mapCineCamera;
     TileController curTileController;
@@ -51,8 +58,8 @@ public class MapManager : ManagementBase
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         mapUIController = GameObject.FindGameObjectWithTag("MapUi").GetComponent<MapUiController>();
         mapController = GameObject.FindGameObjectWithTag("MapController").GetComponent<MapController>();
-        
-        mapController.InputMapData(resourcePercent, zombieCount, playerMovementPoint);
+
+        mapController.InputMapData(mapData);
 
         yield return new WaitUntil(() => mapController != null);
         StartCoroutine(mapController.GenerateMap());
@@ -67,7 +74,7 @@ public class MapManager : ManagementBase
     {
         StartCoroutine(GetAdditiveSceneObjects());
     }
-    
+
     void MouseOverEvents()
     {
         if (EventSystem.current.IsPointerOverGameObject())
@@ -81,8 +88,8 @@ public class MapManager : ManagementBase
 
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         int onlyLayerMaskTile = 1 << LayerMask.NameToLayer("Tile");
-        
-        
+
+
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile))
         {
             tileController = hit.transform.parent.GetComponent<TileController>();
@@ -108,7 +115,7 @@ public class MapManager : ManagementBase
                     mapController.TilePathFinderSurroundings(tileController);
                     mapController.AddSelectedTilesList(tileController);
                     break;
-                
+
                 case ETileMouseState.DronePrepared:
                     if (isDisturbtorPrepared)
                     {
@@ -118,8 +125,10 @@ public class MapManager : ManagementBase
                     {
                         mapController.TilePathFinder(tileController, 5);
                     }
+
                     break;
             }
+
             curTileController = tileController;
         }
         else
@@ -127,6 +136,7 @@ public class MapManager : ManagementBase
             mapController.DeselectAllBorderTiles();
             mapUIController.FalseTileInfo();
         }
+
         MouseClickEvents();
     }
 
@@ -188,7 +198,7 @@ public class MapManager : ManagementBase
             {
                 canPlayerMove = false;
             }
-            
+
             // 목적지 정한 이후 취소 가능
 
             if (isDronePrepared)
@@ -202,7 +212,7 @@ public class MapManager : ManagementBase
                     mapController.PreparingExplorer(false);
                 }
             }
-            
+
             MovePathDelete();
         }
     }
@@ -237,6 +247,7 @@ public class MapManager : ManagementBase
         {
             return false;
         }
+
         return true;
     }
 
@@ -262,13 +273,13 @@ public class MapManager : ManagementBase
     {
         CheckZombies();
         CheckStructureNeighbor();
-        
+
         // 튜토리얼 네트워크 칩
         // if(isVisitNoneTile == false)
         // {
         //     TutorialTileCheck();
         // }
-        
+
         AllowMouseEvent(true);
     }
 
@@ -323,13 +334,13 @@ public class MapManager : ManagementBase
     public void ResearchStart(StructureBase structure)
     {
         // 자원 보이게
-        
+
         // 좀비 생성
         mapController.SpawnStructureZombie(structure.NeighborTiles);
-        
+
         // 플레이어 체력 0으로 만들어서 경로 선택 막기
         mapController.Player.SetHealth(false);
-        
+
         // 경로 삭제
         MovePathDelete();
 
@@ -346,14 +357,14 @@ public class MapManager : ManagementBase
     {
         if (mapController.IsMovePathSaved() == false)
             return;
-        
+
         mapUIController.OffPlayerMovePoint();
         mapController.DeletePlayerMovePath();
     }
 
     public void TutorialTileCheck()
     {
-        if(mapController.Player.TileController.GetComponent<TileBase>().TileData.English == "None")
+        if (mapController.Player.TileController.GetComponent<TileBase>().TileData.English == "None")
         {
             UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_NETWORKCHIP");
             isVisitNoneTile = true;
@@ -364,13 +375,13 @@ public class MapManager : ManagementBase
     {
         return mapController.SensingSignalTower();
     }
-    
+
     public bool SignalTowerQuestCheck()
     {
-        if(curStructure == null)
+        if (curStructure == null)
             return false;
-        
-        if(curStructure.VisitDay != UIManager.instance.GetNoteController().dayCount)
+
+        if (curStructure.VisitDay != UIManager.instance.GetNoteController().dayCount)
         {
             return true;
         }
