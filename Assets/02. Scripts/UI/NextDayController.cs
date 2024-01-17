@@ -4,33 +4,48 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Febucci.UI;
 
 public class NextDayController : MonoBehaviour
 {
     [SerializeField] Image blackPanel;
     [SerializeField] GameObject dayCountText;
+    [SerializeField] TextMeshProUGUI durabillityText;
+    TextMeshProUGUI dayCountTextTmp;
+    TypewriterByCharacter textAnimatorPlayer;
 
     CinemachineVirtualCamera mapCamera;
+    CameraShake normalCamera;
     CinemachineFramingTransposer transposer;
 
     [HideInInspector] public bool isOver = false;
+    public bool isHit = false;
+
   
     void Start()
     {
         mapCamera = GameObject.FindGameObjectWithTag("MapCamera").GetComponent<CinemachineVirtualCamera>();
+        normalCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraShake>();
+
         transposer = mapCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
         transposer.m_CameraDistance = 5f;
+
+        dayCountTextTmp = dayCountText.GetComponent<TextMeshProUGUI>();
+        textAnimatorPlayer = dayCountText.GetComponent<TypewriterByCharacter>();
 
         isOver = false;
     }
 
     public void InitBlackPanel()
     {
+        if (isHit == true) normalCamera.Shake(durabillityText);
+
         Sequence sequence = DOTween.Sequence();
-        sequence.Append(blackPanel.DOFade(0f, 1f))
+        sequence.Append(blackPanel.DOFade(0f, 2f))
             .OnComplete(() => blackPanel.gameObject.SetActive(false));
 
         dayCountText.SetActive(false);
+        isHit = false;
     }
 
 
@@ -77,10 +92,20 @@ public class NextDayController : MonoBehaviour
     IEnumerator ShowNextDate()
     {
         UIManager.instance.GetNoteController().SetNextDay();
-        UIManager.instance.GetUpperController().UpdateAfterFight();
+        //UIManager.instance.GetUpperController().UpdateAfterFight();
 
         int today = UIManager.instance.GetNoteController().dayCount;
-        dayCountText.GetComponent<TextMeshProUGUI>().text = "Day " + today.ToString();
+
+        string text = "Day " + "{vertexp}" + today.ToString() + "{/vertexp}";
+        dayCountTextTmp.color = Color.white;
+
+        if (isHit == true)
+        {
+            text = "<shake>" + "Day " + "{vertexp}" + today.ToString() + "{/vertexp}</shake>";
+            dayCountTextTmp.color = Color.red;
+        }
+       
+        textAnimatorPlayer.ShowText(text);
         dayCountText.SetActive(true);
 
         yield return new WaitForSeconds(2f);
@@ -93,9 +118,10 @@ public class NextDayController : MonoBehaviour
 
     IEnumerator ShowGameOver()
     {
-        dayCountText.GetComponent<TextMeshProUGUI>().text = "GAME OVER";
-        dayCountText.GetComponent<TextMeshProUGUI>().color = Color.red;
         dayCountText.SetActive(true);
+        string text = "<shake>GAME OVER</>";
+        dayCountTextTmp.color = Color.red;
+        textAnimatorPlayer.ShowText(text);
 
         yield return new WaitForSeconds(2f);
 

@@ -1069,6 +1069,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5426cfcaa57fccd43adea69c194d2e57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isClicked: 0
 --- !u!1 &720321156
 GameObject:
   m_ObjectHideFlags: 0
@@ -1190,6 +1191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5426cfcaa57fccd43adea69c194d2e57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isClicked: 0
 --- !u!114 &720321161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2043,6 +2045,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5426cfcaa57fccd43adea69c194d2e57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isClicked: 0
 --- !u!1 &998670747
 GameObject:
   m_ObjectHideFlags: 0
@@ -3311,6 +3314,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5426cfcaa57fccd43adea69c194d2e57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isClicked: 0
 --- !u!114 &1202390746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4542,6 +4546,9 @@ MonoBehaviour:
   resourceManager: {fileID: 0}
   mouseIntreractable: 0
   mouseState: 0
+  resourcePercent: 0
+  zombieCount: 0
+  playerMovementPoint: 0
 --- !u!1 &1898475813
 GameObject:
   m_ObjectHideFlags: 0
@@ -5012,7 +5019,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
       propertyPath: array_sfx.Array.size
-      value: 24
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
       propertyPath: array_sfx.Array.data[8].clip
@@ -5141,6 +5148,38 @@ PrefabInstance:
     - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
       propertyPath: array_sfx.Array.data[23].name
       value: SFX_SPARK_4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: array_sfx.Array.data[24].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: bd9e992dde48a7947a4e7b0fbbf2a710, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: array_sfx.Array.data[24].name
+      value: SFX_HIT_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: array_sfx.Array.data[25].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: ade373e4fd186d44b9af483b9ec2af1b, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: array_sfx.Array.data[25].name
+      value: SFX_HIT_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: array_sfx.Array.data[26].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 9676ec93283eec14cb0b37562f5a0ae4, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: array_sfx.Array.data[26].name
+      value: SFX_HIT_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: array_sfx.Array.data[27].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: e1f8560e3aca4fe4086faece64553572, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: array_sfx.Array.data[27].name
+      value: SFX_HIT_4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
