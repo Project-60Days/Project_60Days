@@ -30,6 +30,7 @@ public class ZombieBase : MonoBehaviour
     List<Coords> movePath;
     int remainStunTime;
     int moveCost = 1;
+    int dectectionRange = 2;
 
     public void Init(Tile tile)
     {
@@ -96,14 +97,15 @@ public class ZombieBase : MonoBehaviour
         }
     }
     
-    public void SetMoveCost(int cost)
+    public void SetValue(int cost, int _detectionRange)
     {
         moveCost = cost;
+        dectectionRange = _detectionRange;
     }
 
     public void DetectionAndAct()
     {
-        isChasingPlayer = MapController.instance.CalculateDistanceToPlayer(curTile, 2);
+        isChasingPlayer = MapController.instance.CalculateDistanceToPlayer(curTile, dectectionRange);
         
         if(App.instance.GetMapManager().mapController.Player.GetIsClocking())
         {
@@ -192,12 +194,12 @@ public class ZombieBase : MonoBehaviour
     public IEnumerator MoveToRandom(int num = 1, float time = 0.25f)
     {
         var candidate = MapController.instance.GetTilesInRange(curTile, num);
-        int rand = UnityEngine.Random.Range(0, candidate.Count);
+        int rand = Random.Range(0, candidate.Count);
 
         while (((GameObject)candidate[rand].GameEntity).gameObject.layer == 8)
         {
             candidate.RemoveAt(rand);
-            rand = UnityEngine.Random.Range(0, candidate.Count);
+            rand = Random.Range(0, candidate.Count);
         }
 
         var targetPos = ((GameObject)candidate[rand].GameEntity).transform.position;

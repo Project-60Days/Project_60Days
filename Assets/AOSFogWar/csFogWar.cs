@@ -595,7 +595,7 @@ namespace FischlWorks_FogWar
             Debug.LogFormat("Successfully loaded level scan data with the name of \"{0}\"", LevelDataToLoad.name);
         }
 
-        public void InitializeMapControllerObjects(GameObject player, float sightRange)
+        public void InitializeMapControllerObjects(GameObject player, int sightRange)
         {
             fogRevealers.Add(new FogRevealer(player.transform, sightRange, true));
         }
