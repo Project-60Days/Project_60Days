@@ -72,6 +72,11 @@ public class UpperController : MonoBehaviour
         bulletTextTemp.text = bullet.itemCount.ToString("D3");
     }
 
+    public void UpdateDurabillity()
+    {
+        durabilityTextTemp.text = App.instance.GetMapManager().mapController.Player.Durability.ToString("D3");
+    }
+
     public void UpdateAfterFight()
     {
         bulletTextTemp.text = bullet.itemCount.ToString("D3");

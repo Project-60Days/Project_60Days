@@ -17,13 +17,10 @@ MonoBehaviour:
     Index: 1015
     Category: 2
     Code: ITEM_GENERATOR
-    Rarity: 1
     AppearTileType: 0
-    TileIncludePossibility: 0
     Type: 0
     EquipType: 0
     EquipArea: "\uD2B9\uC218\uD615 \uBD80\uD488"
-    isCanBase: 0
     CombineSlotCount: 0
     Description: "\uACC4\uC18D\uD574\uC11C \uD50C\uB77C\uC988\uB9C8\uB97C \uC0DD\uC131\uD574\uB0B4\uB294
       \uBD80\uD488\uC73C\uB85C, \uB9CE\uC740 \uC790\uC6D0\uC744 \uC18C\uBAA8\uD558\uC5EC
@@ -33,8 +30,12 @@ MonoBehaviour:
     English: -1
     Japanese: -1
     Chinese: -1
+    value1: 0
+    value2: 0
+    value3: 0
   itemImage: {fileID: 21300000, guid: a58713982261c7346b15318307b337d2, type: 3}
   itemCount: 0
-  eItemType: 0
+  eItemType: 2
   sprite: {fileID: 21300000, guid: b128eb4430ffe5a4491390e233ae818c, type: 3}
   sfxName: 
+  isMadeOnce: 0

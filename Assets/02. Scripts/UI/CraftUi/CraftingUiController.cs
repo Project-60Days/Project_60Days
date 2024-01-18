@@ -295,9 +295,13 @@ public class CraftingUiController : MonoBehaviour
                 continue;
 
             if (equipSlots[i].item != null)
+            {
+                equipSlots[i].item.UnEquip();
                 UIManager.instance.GetInventoryController().AddItem(equipSlots[i].item);
+            }
 
             equipSlots[i].item = _item;
+            _item.Equip();
         }
     }
 
@@ -309,7 +313,10 @@ public class CraftingUiController : MonoBehaviour
                 continue;
 
             if (equipSlots[i].item != null)
+            {
+                equipSlots[i].item.UnEquip();
                 UIManager.instance.GetInventoryController().AddItem(equipSlots[i].item);
+            }
 
             equipSlots[i].item = null;
         }

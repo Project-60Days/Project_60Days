@@ -9,31 +9,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04865242a8028fc46a0079b51f0c8ad4, type: 3}
+  m_Script: {fileID: 11500000, guid: a7cc22cdf01af234b813482fe1142b77, type: 3}
   m_Name: DECK
   m_EditorClassIdentifier: 
   English: ITEM_DECK
   data:
-    Index: 1012
-    Category: 2
-    Code: ITEM_DECK
-    Rarity: 1
+    Index: 0
+    Category: 0
+    Code: 
     AppearTileType: 0
-    TileIncludePossibility: 0
     Type: 0
     EquipType: 0
-    EquipArea: "\uBC29\uC5B4\uD615 \uBD80\uD488"
-    isCanBase: 0
+    EquipArea: 
     CombineSlotCount: 0
-    Description: "\uB0B4\uAD6C\uB3C4\uAC00 \uB192\uC740 \uAE30\uCD08 \uBC29\uC5B4\uD615
-      \uBD80\uD488\uC73C\uB85C, \uC258\uD130\uB97C \uBCF4\uD638\uD558\uAE30 \uC720\uC6A9\uD558\uB2E4."
-    EffectDescription: "\uB0B4\uAD6C\uB3C4 +2"
-    Korean: "\uAC11\uD310"
-    English: -1
-    Japanese: -1
-    Chinese: -1
+    Description: 
+    EffectDescription: 
+    Korean: 
+    English: 
+    Japanese: 
+    Chinese: 
+    value1: 0
+    value2: 0
+    value3: 0
   itemImage: {fileID: 21300000, guid: bcd90ff00cc5efc44abe63d03cfb6e60, type: 3}
   itemCount: 0
-  eItemType: 0
+  eItemType: 2
   sprite: {fileID: 21300000, guid: 89dd009c23d339e46a7e924d86e33f2e, type: 3}
   sfxName: 
+  isMadeOnce: 0

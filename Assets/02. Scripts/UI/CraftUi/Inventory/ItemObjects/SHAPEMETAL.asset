@@ -9,33 +9,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04865242a8028fc46a0079b51f0c8ad4, type: 3}
+  m_Script: {fileID: 11500000, guid: 9937e4419a43d424e9f8f0bbe7153f10, type: 3}
   m_Name: SHAPEMETAL
   m_EditorClassIdentifier: 
   English: ITEM_SHAPEMETAL
   data:
-    Index: 1026
-    Category: 4
-    Code: ITEM_SHAPEMETAL
-    Rarity: 2
-    AppearTileType: 4
-    TileIncludePossibility: 0
-    Type: 2
-    EquipType: 2
-    EquipArea: "\uBC29\uC5B4\uD615 \uBD80\uD488"
-    isCanBase: 0
+    Index: 0
+    Category: 0
+    Code: 
+    AppearTileType: 0
+    Type: 0
+    EquipType: 0
+    EquipArea: 
     CombineSlotCount: 0
-    Description: "\uAC15\uD654\uC678\uD53C\uC758 \uC790\uB3D9\uD654 \uBC29\uC5B4
-      \uBCF5\uC6D0 \uBD80\uD488\uC73C\uB85C, \uACC4\uC18D\uD574\uC11C \uB0B4\uAD6C\uB3C4\uB97C
-      \uCDA9\uC804\uC2DC\uD0AC \uC218 \uC788\uB2E4."
-    EffectDescription: "\uB0B4\uAD6C\uB3C4 + 7\n\uD55C \uD134\uB2F9 \uB0B4\uAD6C\uB3C4
-      +1"
-    Korean: "\uD615\uC0C1\uAE30\uC5B5\uAE08\uC18D"
-    English: -1
-    Japanese: -1
-    Chinese: -1
+    Description: 
+    EffectDescription: 
+    Korean: 
+    English: 
+    Japanese: 
+    Chinese: 
+    value1: 0
+    value2: 0
+    value3: 0
   itemImage: {fileID: 21300000, guid: 4797b63fe1f318c41ac4c108248e1383, type: 3}
   itemCount: 0
-  eItemType: 2
+  eItemType: 0
   sprite: {fileID: 21300000, guid: 602e85c58039a5c4e9b0909eb3c952db, type: 3}
   sfxName: 
+  isMadeOnce: 0
