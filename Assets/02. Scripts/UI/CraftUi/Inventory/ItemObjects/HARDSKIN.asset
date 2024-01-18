@@ -9,32 +9,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04865242a8028fc46a0079b51f0c8ad4, type: 3}
+  m_Script: {fileID: 11500000, guid: 527772d4644993a41bc286083a7184c5, type: 3}
   m_Name: HARDSKIN
   m_EditorClassIdentifier: 
   English: ITEM_HARDSKIN
   data:
-    Index: 1020
-    Category: 3
-    Code: ITEM_HARDSKIN
-    Rarity: 1
+    Index: 0
+    Category: 0
+    Code: 
     AppearTileType: 0
-    TileIncludePossibility: 0
-    Type: 2
-    EquipType: 2
-    EquipArea: "\uBC29\uC5B4\uD615 \uBD80\uD488"
-    isCanBase: 0
+    Type: 0
+    EquipType: 0
+    EquipArea: 
     CombineSlotCount: 0
-    Description: "\uAC11\uD310\uC758 \uAC15\uD654\uB41C \uD615\uD0DC\uB85C, \uC5C4\uCCAD\uB09C
-      \uB0B4\uAD6C\uB3C4\uB97C \uBCF4\uC720\uD558\uACE0 \uC788\uC5B4 \uC548\uC804\uD55C
-      \uD658\uACBD\uC744 \uAD6C\uCD95\uD560 \uC218 \uC788\uB2E4."
-    EffectDescription: "\uB0B4\uAD6C\uB3C4 + 4"
-    Korean: "\uAC15\uD654\uC678\uD53C"
-    English: -1
-    Japanese: -1
-    Chinese: -1
+    Description: 
+    EffectDescription: 
+    Korean: 
+    English: 
+    Japanese: 
+    Chinese: 
+    value1: 0
+    value2: 0
+    value3: 0
   itemImage: {fileID: 21300000, guid: c1c83e358ce418c45bbf8f8f549ad1fd, type: 3}
   itemCount: 0
   eItemType: 2
   sprite: {fileID: 21300000, guid: ca8d329b36982874d9e726041b994f00, type: 3}
   sfxName: 
+  isMadeOnce: 0

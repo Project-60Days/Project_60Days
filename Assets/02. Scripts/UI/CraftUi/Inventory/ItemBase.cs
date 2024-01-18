@@ -12,4 +12,13 @@ public class ItemBase : ScriptableObject
     public Sprite sprite;
     public string sfxName;
     public bool isMadeOnce = false;
+
+    public virtual void Equip()
+    {
+
+    }
+    public virtual void UnEquip()
+    {
+
+    }
 }

@@ -9,32 +9,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04865242a8028fc46a0079b51f0c8ad4, type: 3}
+  m_Script: {fileID: 11500000, guid: 1a9dac3b3b6e54c40b7297d3adbe00e2, type: 3}
   m_Name: SEMICONDUCTOR
   m_EditorClassIdentifier: 
   English: ITEM_SEMICONDUCTOR
   data:
-    Index: 1013
-    Category: 2
-    Code: ITEM_SEMICONDUCTOR
-    Rarity: 1
+    Index: 0
+    Category: 0
+    Code: 
     AppearTileType: 0
-    TileIncludePossibility: 0
     Type: 0
     EquipType: 0
-    EquipArea: "\uBC29\uC5B4\uD615 \uBD80\uD488"
-    isCanBase: 0
+    EquipArea: 
     CombineSlotCount: 0
-    Description: "\uD50C\uB77C\uC988\uB9C8\uAC00 \uCCA8\uAC00\uB41C \uBC29\uC5B4\uD615
-      \uBD80\uD488\uC73C\uB85C, \uD2B9\uC218 \uD6A8\uACFC\uB97C \uC9C0\uB2CC \uC544\uC774\uD15C\uC744
-      \uB9CC\uB4E4\uAE30\uC5D0 \uCDA9\uBD84\uD558\uB2E4."
-    EffectDescription: "\uB0B4\uAD6C\uB3C4 +1"
-    Korean: "\uBC18\uB3C4\uCCB4"
-    English: -1
-    Japanese: -1
-    Chinese: -1
+    Description: 
+    EffectDescription: 
+    Korean: 
+    English: 
+    Japanese: 
+    Chinese: 
+    value1: 0
+    value2: 0
+    value3: 0
   itemImage: {fileID: 21300000, guid: 5c7538833c4fc0d46a06b967689f3123, type: 3}
   itemCount: 0
-  eItemType: 0
+  eItemType: 2
   sprite: {fileID: 21300000, guid: 978b2ea5e58e6834aac00b22e212e138, type: 3}
   sfxName: 
+  isMadeOnce: 0
