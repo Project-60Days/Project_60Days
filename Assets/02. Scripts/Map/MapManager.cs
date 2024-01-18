@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Hexamap;
+using UnityEngine.Rendering.UI;
 using Yarn.Compiler;
 
 [System.Serializable]
@@ -41,7 +42,10 @@ public class MapManager : ManagementBase
     bool isDronePrepared;
     bool isDisturbtorPrepared;
     bool isVisitNoneTile;
+    bool isCameraMove;
 
+    private GameObject cameraTarget;
+    
     void Update()
     {
         SetETileMoveState();
@@ -214,6 +218,16 @@ public class MapManager : ManagementBase
             }
 
             MovePathDelete();
+        }
+
+        if (Input.GetMouseButton(2))
+        {
+            isCameraMove = true;
+            Debug.Log("눌림");
+        }
+        else if (Input.GetMouseButtonUp(2))
+        {
+            isCameraMove = false;
         }
     }
 
@@ -389,5 +403,11 @@ public class MapManager : ManagementBase
         {
             return false;
         }
+    }
+    
+    public void ToolUIOpen()
+    {
+        mapUIController.SetDisturbtorButtonInteractable(true);
+        mapUIController.SetExplorerButtonInteractable(true);
     }
 }

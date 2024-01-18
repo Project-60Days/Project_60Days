@@ -76,4 +76,16 @@ public class MapUiController : ControllerBase
     {
         return targetPoint.ActivateStatus();
     }
+    
+    public void SetExplorerButtonInteractable(bool isOn)
+    {
+        explorerButton.SetActive(true);
+        explorerButton.GetComponentInChildren<Button>().interactable = isOn;
+    }
+    
+    public void SetDisturbtorButtonInteractable(bool isOn)
+    {
+        explorerButton.SetActive(true);
+        disturbtorButton.GetComponentInChildren<Button>().interactable = isOn;
+    }
 }

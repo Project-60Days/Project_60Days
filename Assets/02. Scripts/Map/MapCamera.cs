@@ -21,7 +21,7 @@ public class MapCamera : MonoBehaviour
 
     public void SetPrioryty(bool isOn)
     {
-        // 230726 JHJ ÀÓ½Ã·Î Ä«¸Ş¶ó priority ¼öÁ¤ ÇâÈÄ ¼öÁ¤ ÇÊ¿ä
+        // 230726 JHJ ì„ì‹œë¡œ ì¹´ë©”ë¼ priority ìˆ˜ì • í–¥í›„ ìˆ˜ì • í•„ìš”
         if (isOn)
         {
             mapCamera.Priority = 11;
