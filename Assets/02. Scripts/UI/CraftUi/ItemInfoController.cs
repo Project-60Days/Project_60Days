@@ -103,7 +103,7 @@ public class ItemInfoController : MonoBehaviour
             itemDescribe.text = _item.data.Description;
         }
        
-        if (!string.IsNullOrEmpty(_item.data.EquipArea))
+        if (_item.data.EquipArea != "-1")
         {
             itemEquip.gameObject.SetActive(true);
             contour.SetActive(true);
@@ -114,7 +114,8 @@ public class ItemInfoController : MonoBehaviour
         {
             itemEffect.gameObject.SetActive(true);
             contour.SetActive(true);
-            itemEffect.text = _item.data.EffectDescription;
+
+            itemEffect.text = string.Format(_item.data.EffectDescription, _item.data.value1, _item.data.value2, _item.data.value3);
         }
     }
 
