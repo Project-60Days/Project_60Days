@@ -254,6 +254,8 @@ MonoBehaviour:
   isAlreadyShowItem: 0
   parentItems:
   - {fileID: 11400000, guid: 0e017faadbbbd754ba0301dc0573c2e3, type: 2}
+  lockSlot: {fileID: 21300000, guid: 5d716da5cb463724293e0f6d8ce3e8d3, type: 3}
+  openSlot: {fileID: 21300000, guid: d36e55f1aae80f7448aecad2d87a5811, type: 3}
 --- !u!114 &8884204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1646,6 +1648,8 @@ MonoBehaviour:
   parentItems:
   - {fileID: 11400000, guid: f70caada551980a4bbb0f6e4d4dff20a, type: 2}
   - {fileID: 11400000, guid: f7d94a5cd2ba4e34fb5d65cecfd75107, type: 2}
+  lockSlot: {fileID: 21300000, guid: 5d716da5cb463724293e0f6d8ce3e8d3, type: 3}
+  openSlot: {fileID: 21300000, guid: 2f092ea2b4c7fd440b8d9ea10185f1a4, type: 3}
 --- !u!114 &83919455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3206,6 +3210,8 @@ MonoBehaviour:
   isAlreadyShowItem: 0
   parentItems:
   - {fileID: 11400000, guid: 5074dbf44cd9a3c43a984a6d25cc1efe, type: 2}
+  lockSlot: {fileID: 21300000, guid: 5d716da5cb463724293e0f6d8ce3e8d3, type: 3}
+  openSlot: {fileID: 21300000, guid: 2a0f81dd750a83c41b478c12ea5bdc55, type: 3}
 --- !u!114 &141425183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3303,6 +3309,8 @@ MonoBehaviour:
   parentItems:
   - {fileID: 11400000, guid: d4e7cd75bfed7c04c8f3a433fbc923cf, type: 2}
   - {fileID: 11400000, guid: 18e3895851417bf449f1414f6dac2dd5, type: 2}
+  lockSlot: {fileID: 21300000, guid: 5d716da5cb463724293e0f6d8ce3e8d3, type: 3}
+  openSlot: {fileID: 21300000, guid: 2f092ea2b4c7fd440b8d9ea10185f1a4, type: 3}
 --- !u!114 &142290260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4315,6 +4323,8 @@ MonoBehaviour:
   parentItems:
   - {fileID: 11400000, guid: f9506714996f40442b1501eee394d3fe, type: 2}
   - {fileID: 11400000, guid: 8d71d1012b1bc514aad4dee53cfd65de, type: 2}
+  lockSlot: {fileID: 21300000, guid: 5d716da5cb463724293e0f6d8ce3e8d3, type: 3}
+  openSlot: {fileID: 21300000, guid: 20d1ddb8aad995642a96e3e77b5e00ff, type: 3}
 --- !u!114 &194800409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5952,6 +5962,8 @@ MonoBehaviour:
   parentItems:
   - {fileID: 11400000, guid: 87d206fe6794ac846b32e0d1b82f9810, type: 2}
   - {fileID: 11400000, guid: 18e3895851417bf449f1414f6dac2dd5, type: 2}
+  lockSlot: {fileID: 21300000, guid: 5d716da5cb463724293e0f6d8ce3e8d3, type: 3}
+  openSlot: {fileID: 21300000, guid: 2a0f81dd750a83c41b478c12ea5bdc55, type: 3}
 --- !u!114 &364303229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6661,6 +6673,8 @@ MonoBehaviour:
   isAlreadyShowItem: 0
   parentItems:
   - {fileID: 11400000, guid: e3a2b2c5a7b3e194d9befdc7d01e2916, type: 2}
+  lockSlot: {fileID: 21300000, guid: 5d716da5cb463724293e0f6d8ce3e8d3, type: 3}
+  openSlot: {fileID: 21300000, guid: 2a0f81dd750a83c41b478c12ea5bdc55, type: 3}
 --- !u!114 &384579576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9507,6 +9521,8 @@ MonoBehaviour:
   isAlreadyShowItem: 0
   parentItems:
   - {fileID: 11400000, guid: 8372d3a0382618341965bc96c7fdd6f1, type: 2}
+  lockSlot: {fileID: 21300000, guid: 5d716da5cb463724293e0f6d8ce3e8d3, type: 3}
+  openSlot: {fileID: 21300000, guid: 2a0f81dd750a83c41b478c12ea5bdc55, type: 3}
 --- !u!114 &546374638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10310,6 +10326,8 @@ MonoBehaviour:
   isAlreadyShowItem: 0
   parentItems:
   - {fileID: 11400000, guid: d4e7cd75bfed7c04c8f3a433fbc923cf, type: 2}
+  lockSlot: {fileID: 21300000, guid: 5d716da5cb463724293e0f6d8ce3e8d3, type: 3}
+  openSlot: {fileID: 21300000, guid: 2f092ea2b4c7fd440b8d9ea10185f1a4, type: 3}
 --- !u!114 &581294545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10991,6 +11009,8 @@ MonoBehaviour:
   isAlreadyShowItem: 0
   parentItems:
   - {fileID: 11400000, guid: 0e017faadbbbd754ba0301dc0573c2e3, type: 2}
+  lockSlot: {fileID: 21300000, guid: 5d716da5cb463724293e0f6d8ce3e8d3, type: 3}
+  openSlot: {fileID: 21300000, guid: d36e55f1aae80f7448aecad2d87a5811, type: 3}
 --- !u!114 &590785959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11793,6 +11813,8 @@ MonoBehaviour:
   unknownItem: {fileID: 11400000, guid: 874971ca95bf7dd4dbb750df87bb1530, type: 2}
   isAlreadyShowItem: 0
   parentItems: []
+  lockSlot: {fileID: 21300000, guid: 5d716da5cb463724293e0f6d8ce3e8d3, type: 3}
+  openSlot: {fileID: 21300000, guid: 462407fa7429fe84289f7e7184ac9e4f, type: 3}
 --- !u!114 &645981507
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17495,6 +17517,8 @@ MonoBehaviour:
   isAlreadyShowItem: 0
   parentItems:
   - {fileID: 11400000, guid: 87d206fe6794ac846b32e0d1b82f9810, type: 2}
+  lockSlot: {fileID: 21300000, guid: 5d716da5cb463724293e0f6d8ce3e8d3, type: 3}
+  openSlot: {fileID: 21300000, guid: 2f092ea2b4c7fd440b8d9ea10185f1a4, type: 3}
 --- !u!114 &837966866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19835,6 +19859,8 @@ MonoBehaviour:
   isAlreadyShowItem: 0
   parentItems:
   - {fileID: 11400000, guid: 4ca3e8f9f6f01c54f8dffd6feb109fd7, type: 2}
+  lockSlot: {fileID: 21300000, guid: 5d716da5cb463724293e0f6d8ce3e8d3, type: 3}
+  openSlot: {fileID: 21300000, guid: 2f092ea2b4c7fd440b8d9ea10185f1a4, type: 3}
 --- !u!114 &924312842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21183,6 +21209,8 @@ MonoBehaviour:
   parentItems:
   - {fileID: 11400000, guid: 1bb9fab4c1bd20d4985ee1d7dd8340cb, type: 2}
   - {fileID: 11400000, guid: 87d206fe6794ac846b32e0d1b82f9810, type: 2}
+  lockSlot: {fileID: 21300000, guid: 5d716da5cb463724293e0f6d8ce3e8d3, type: 3}
+  openSlot: {fileID: 21300000, guid: 2a0f81dd750a83c41b478c12ea5bdc55, type: 3}
 --- !u!114 &1017728243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22448,6 +22476,8 @@ MonoBehaviour:
   parentItems:
   - {fileID: 11400000, guid: 8d71d1012b1bc514aad4dee53cfd65de, type: 2}
   - {fileID: 11400000, guid: de0d71e78d6e31541a780f8cf886744e, type: 2}
+  lockSlot: {fileID: 21300000, guid: 5d716da5cb463724293e0f6d8ce3e8d3, type: 3}
+  openSlot: {fileID: 21300000, guid: 20d1ddb8aad995642a96e3e77b5e00ff, type: 3}
 --- !u!114 &1094748562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24445,6 +24475,8 @@ MonoBehaviour:
   isAlreadyShowItem: 0
   parentItems:
   - {fileID: 11400000, guid: 710577d35aa998843afd32f23c59e9e8, type: 2}
+  lockSlot: {fileID: 21300000, guid: 5d716da5cb463724293e0f6d8ce3e8d3, type: 3}
+  openSlot: {fileID: 21300000, guid: d36e55f1aae80f7448aecad2d87a5811, type: 3}
 --- !u!114 &1265446610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26495,6 +26527,8 @@ MonoBehaviour:
   isAlreadyShowItem: 0
   parentItems:
   - {fileID: 11400000, guid: 0e017faadbbbd754ba0301dc0573c2e3, type: 2}
+  lockSlot: {fileID: 21300000, guid: 5d716da5cb463724293e0f6d8ce3e8d3, type: 3}
+  openSlot: {fileID: 21300000, guid: d36e55f1aae80f7448aecad2d87a5811, type: 3}
 --- !u!114 &1363622672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27584,6 +27618,8 @@ MonoBehaviour:
   unknownItem: {fileID: 11400000, guid: 874971ca95bf7dd4dbb750df87bb1530, type: 2}
   isAlreadyShowItem: 0
   parentItems: []
+  lockSlot: {fileID: 21300000, guid: 5d716da5cb463724293e0f6d8ce3e8d3, type: 3}
+  openSlot: {fileID: 21300000, guid: 462407fa7429fe84289f7e7184ac9e4f, type: 3}
 --- !u!114 &1435379611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28703,6 +28739,8 @@ MonoBehaviour:
   isAlreadyShowItem: 0
   parentItems:
   - {fileID: 11400000, guid: 710577d35aa998843afd32f23c59e9e8, type: 2}
+  lockSlot: {fileID: 21300000, guid: 5d716da5cb463724293e0f6d8ce3e8d3, type: 3}
+  openSlot: {fileID: 21300000, guid: d36e55f1aae80f7448aecad2d87a5811, type: 3}
 --- !u!114 &1498122677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29146,6 +29184,8 @@ MonoBehaviour:
   isAlreadyShowItem: 0
   parentItems:
   - {fileID: 11400000, guid: 8483c031d7928804f9ea85f818059d8a, type: 2}
+  lockSlot: {fileID: 21300000, guid: 5d716da5cb463724293e0f6d8ce3e8d3, type: 3}
+  openSlot: {fileID: 21300000, guid: 2a0f81dd750a83c41b478c12ea5bdc55, type: 3}
 --- !u!114 &1517794945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29241,6 +29281,8 @@ MonoBehaviour:
   unknownItem: {fileID: 11400000, guid: 874971ca95bf7dd4dbb750df87bb1530, type: 2}
   isAlreadyShowItem: 0
   parentItems: []
+  lockSlot: {fileID: 21300000, guid: 5d716da5cb463724293e0f6d8ce3e8d3, type: 3}
+  openSlot: {fileID: 21300000, guid: 462407fa7429fe84289f7e7184ac9e4f, type: 3}
 --- !u!114 &1519286836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29525,6 +29567,8 @@ MonoBehaviour:
   isAlreadyShowItem: 0
   parentItems:
   - {fileID: 11400000, guid: 6f81622aeadbc5140aa27ecfb77f7ac5, type: 2}
+  lockSlot: {fileID: 21300000, guid: 5d716da5cb463724293e0f6d8ce3e8d3, type: 3}
+  openSlot: {fileID: 21300000, guid: 2a0f81dd750a83c41b478c12ea5bdc55, type: 3}
 --- !u!114 &1550327372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29994,6 +30038,8 @@ MonoBehaviour:
   isAlreadyShowItem: 0
   parentItems:
   - {fileID: 11400000, guid: 5d4a3e4f7fb1fb846bfece5396347886, type: 2}
+  lockSlot: {fileID: 21300000, guid: 5d716da5cb463724293e0f6d8ce3e8d3, type: 3}
+  openSlot: {fileID: 21300000, guid: d36e55f1aae80f7448aecad2d87a5811, type: 3}
 --- !u!114 &1562436421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38546,6 +38592,8 @@ MonoBehaviour:
   isAlreadyShowItem: 0
   parentItems:
   - {fileID: 11400000, guid: 710577d35aa998843afd32f23c59e9e8, type: 2}
+  lockSlot: {fileID: 21300000, guid: 5d716da5cb463724293e0f6d8ce3e8d3, type: 3}
+  openSlot: {fileID: 21300000, guid: d36e55f1aae80f7448aecad2d87a5811, type: 3}
 --- !u!114 &2007566479
 MonoBehaviour:
   m_ObjectHideFlags: 0

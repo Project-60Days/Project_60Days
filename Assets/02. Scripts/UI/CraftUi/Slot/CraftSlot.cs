@@ -5,6 +5,8 @@ using System;
 
 public class CraftSlot : SlotBase
 {
+    public static Action CraftItemClick;
+
     public CraftSlot()
     {
         eSlotType = ESlotType.CraftingSlot;
@@ -23,7 +25,7 @@ public class CraftSlot : SlotBase
                 break;
         }
 
-        //CraftItemClick?.Invoke();
+        CraftItemClick?.Invoke();
 
         HideItemInfo();
     }

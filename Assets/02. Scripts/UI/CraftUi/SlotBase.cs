@@ -8,8 +8,6 @@ public abstract class SlotBase : MonoBehaviour, IPointerClickHandler, IPointerEn
     [SerializeField] protected Image image;
     [SerializeField] public ESlotType eSlotType;
 
-    public static Action<Sprite> CraftItemClick;
-
     ItemBase _item;
 
     bool isMouseEnter = false;
