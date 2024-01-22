@@ -17,24 +17,26 @@ MonoBehaviour:
     Index: 1014
     Category: 2
     Code: ITEM_SIGNAL
-    Rarity: 1
     AppearTileType: 0
-    TileIncludePossibility: 0
     Type: 0
-    EquipType: 0
-    EquipArea: 
-    isCanBase: 0
-    CombineSlotCount: 0
+    EquipType: 4
+    EquipArea: -1
+    CombineSlotCount: 2
     Description: "\uC8FC\uBCC0\uC73C\uB85C \uC2E0\uD638\uB97C \uBCF4\uB0BC \uC218
       \uC788\uB294 \uBD80\uD488\uC73C\uB85C, \uD0D0\uC0C9\uAE30\uB97C \uB9CC\uB4E4
       \uC218 \uC788\uB2E4."
     EffectDescription: 
     Korean: "\uC2E0\uD638\uAE30"
-    English: -1
+    English: Signer
     Japanese: -1
     Chinese: -1
+    value1: -1
+    value2: -1
+    value3: -1
   itemImage: {fileID: 21300000, guid: ff8b8fa8e6b891347b74fc2b39f50bd7, type: 3}
-  itemCount: 0
+  itemCount: 1
   eItemType: 0
   sprite: {fileID: 21300000, guid: 78ab6563c3e68254c81b6a13f2409ed4, type: 3}
   sfxName: 
+  isMadeOnce: 0
+  isBlueprintOpen: 0

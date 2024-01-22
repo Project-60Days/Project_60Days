@@ -57,6 +57,7 @@ public class BlueprintSlot : SlotBase
     public void SetIconShow()
     {
         image.sprite = bluePrintItem.itemImage;
+        bluePrintItem.isBlueprintOpen = true;
     }
     void CheckItemShowCondition()
     {

@@ -14,26 +14,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   English: ITEM_ALLOY
   data:
-    Index: 0
-    Category: 0
-    Code: 
+    Index: 1011
+    Category: 2
+    Code: ITEM_ALLOY
     AppearTileType: 0
-    Type: 0
+    Type: 2
     EquipType: 0
-    EquipArea: 
-    CombineSlotCount: 0
-    Description: 
-    EffectDescription: 
-    Korean: 
-    English: 
-    Japanese: 
-    Chinese: 
-    value1: 0
-    value2: 0
-    value3: 0
+    EquipArea: "\uBC29\uC5B4\uD615 \uBD80\uD488"
+    CombineSlotCount: 2
+    Description: "\uD65C\uC6A9\uC131\uC774 \uB192\uC740 \uBC29\uC5B4\uD615 \uBD80\uD488
+      \uC911 \uD558\uB098\uB85C, \uB0B4\uAD6C\uB3C4\uB294 \uADF8\uB807\uAC8C \uC88B\uC740
+      \uD3B8\uC740 \uC544\uB2C8\uB2E4."
+    EffectDescription: "\uB0B4\uAD6C\uB3C4 + {0}"
+    Korean: "\uD569\uAE08"
+    English: Alloy
+    Japanese: -1
+    Chinese: -1
+    value1: 20
+    value2: -1
+    value3: -1
   itemImage: {fileID: 21300000, guid: d426735c8a23d0e42875684a613ccd58, type: 3}
-  itemCount: 0
+  itemCount: 1
   eItemType: 2
   sprite: {fileID: 21300000, guid: 7f0aa595b4ab2e94c8d36466cf5e1d06, type: 3}
   sfxName: 
   isMadeOnce: 0
+  isBlueprintOpen: 0

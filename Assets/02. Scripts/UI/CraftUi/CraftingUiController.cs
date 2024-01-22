@@ -162,6 +162,8 @@ public class CraftingUiController : MonoBehaviour
             if (flag == 0)
             {
                 ItemBase item = GetResultItemByItemCode(combinationCodes[3]);
+                if (item.isBlueprintOpen == false)
+                    return;
                 AddCombineItem(item);
                 if (item.isMadeOnce == false)
                     item.isMadeOnce = true;
