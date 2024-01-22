@@ -127,7 +127,7 @@ public class ZombieBase : MonoBehaviour
 
         if (nearthDistrubtor != null)
         {
-            Debug.Log(gameObject.name + "가 교란기를 쫓아갑니다!");
+            //Debug.Log(gameObject.name + "가 교란기를 쫓아갑니다!");
             StartCoroutine(MoveOrAttack(nearthDistrubtor.currentTile));
 
             return;
@@ -135,7 +135,7 @@ public class ZombieBase : MonoBehaviour
 
         if (isChasingPlayer)
         {
-            Debug.Log(gameObject.name + "가 플레이어를 발견했습니다!");
+            //Debug.Log(gameObject.name + "가 플레이어를 발견했습니다!");
             StartCoroutine(MoveOrAttack(App.instance.GetMapManager().mapController.Player.TileController.Model));
 
             // 플레이어 바라보기
@@ -185,8 +185,8 @@ public class ZombieBase : MonoBehaviour
 
         MapController.instance.CheckSumZombies();
 
-        CurrentTileUpdate(curTile);
         CurrentTileUpdate(lastTile);
+        CurrentTileUpdate(curTile);
 
         lastTile = curTile;
     }
@@ -209,8 +209,8 @@ public class ZombieBase : MonoBehaviour
 
         curTile = candidate[rand];
         
-        CurrentTileUpdate(curTile);
         CurrentTileUpdate(lastTile);
+        CurrentTileUpdate(curTile);
         
         lastTile = curTile;
     }
@@ -234,11 +234,6 @@ public class ZombieBase : MonoBehaviour
         
         ZombieModelChoice(zombieData.count);
         CurrentTileUpdate(curTile);
-    }
-    public void DeleteZombie()
-    {
-        ((GameObject)curTile.GameEntity).GetComponent<TileBase>().UpdateZombieInfo(null);
-        Destroy(this);
     }
 
     public int GetRandom()
@@ -268,8 +263,8 @@ public class ZombieBase : MonoBehaviour
         // 사망
         zombieData.count = 0;
         Debug.Log(gameObject.name + " 처치 완료.");
-        DeleteZombie();
-        
+        CurrentTileUpdate(null);
+        Destroy(this);
         // 시체 오브젝트 생성
     }
 

@@ -551,7 +551,7 @@ public class MapController : Singleton<MapController>
         {
             var item = removeZombies[i];
             zombiesList.Remove(item.gameObject);
-            item.DeleteZombie();
+            Destroy(item.gameObject);
         }
     }
 
@@ -702,7 +702,7 @@ public class MapController : Singleton<MapController>
     // 시야 바꾸기
     public bool CheckPlayersView(TileController tileController)
     {
-        var getTiles = GetTilesInRange(player.TileController.Model, 3);
+        var getTiles = GetTilesInRange(player.TileController.Model, 2);
 
         if (player.TileController == tileController)
             return true;
