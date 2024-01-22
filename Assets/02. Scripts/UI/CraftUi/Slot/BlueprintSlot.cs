@@ -6,16 +6,9 @@ using UnityEngine.EventSystems;
 public class BlueprintSlot : SlotBase
 {
     public ItemBase bluePrintItem;
-    public bool isReadyToShowIcon = false;
-    public bool isAlreadyShow = false;
-    [SerializeField] BlueprintSlot[] childSlot;
-
-    void Start()
-    {
-        if (isReadyToShowIcon == true)
-            item = bluePrintItem;
-        else item = UIManager.instance.GetInventoryController().unknownItem;
-    }
+    [SerializeField] ItemBase unknownItem;
+    public bool isAlreadyShowItem = false;
+    [SerializeField] ItemBase[] parentItems;
 
     public BlueprintSlot()
     {
@@ -29,23 +22,54 @@ public class BlueprintSlot : SlotBase
 
     public override void ShowItemInfo()
     {
-        if (item.isMadeOnce == true)
-            base.ShowItemInfo();
+        if (item == unknownItem)
+            return;
+
+        base.ShowItemInfo();
     }
+
+    public void CheckShowCondition()
+    {
+        CheckItemShowCondition();
+        CheckIconShowCondition();
+
+        Debug.Log(bluePrintItem + " " + item);
+    }
+
+    void CheckIconShowCondition()
+    {
+        if (parentItems.Length == 0)
+        {
+            SetIconShow();
+            return;
+        }
+
+        foreach (var item in parentItems)
+        {
+            if (item.isMadeOnce == false)
+                return;
+        }
+
+        SetIconShow();
+    }
+
 
     public void SetIconShow()
     {
-        isReadyToShowIcon = true;
-        item = bluePrintItem;
+        image.sprite = bluePrintItem.itemImage;
+    }
+    void CheckItemShowCondition()
+    {
+        if (isAlreadyShowItem == true)
+            return;
+
+        if (bluePrintItem.isMadeOnce == true)
+        {
+            item = bluePrintItem;
+            isAlreadyShowItem = true;
+        }
+        else
+            item = unknownItem;
     }
 
-    public void SetBlueprintShow()
-    {
-        if (item.isMadeOnce == true) 
-        {
-            isAlreadyShow = true;
-            foreach (var child in childSlot)
-                child.SetIconShow();
-        }
-    }
 }

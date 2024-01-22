@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public abstract class SlotBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField] Image image;
+    [SerializeField] protected Image image;
     [SerializeField] public ESlotType eSlotType;
 
     ItemBase _item;
@@ -21,7 +21,7 @@ public abstract class SlotBase : MonoBehaviour, IPointerClickHandler, IPointerEn
     public virtual void ShowItemInfo()
     {
         Vector3 mousePos = Input.mousePosition;
-        UIManager.instance.GetItemInfoController().ShowInfo(item, mousePos);
+        UIManager.instance.GetItemInfoController().ShowInfo(_item, mousePos);
     }
 
     public ItemBase item

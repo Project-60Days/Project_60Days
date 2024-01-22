@@ -90,8 +90,7 @@ public class CraftModeController : MonoBehaviour
 
         foreach (var slot in blueprintSlots)
         {
-            if (slot.isAlreadyShow == true) continue;
-            slot.SetBlueprintShow();
+            slot.CheckShowCondition();
         }
     }
 
@@ -100,6 +99,8 @@ public class CraftModeController : MonoBehaviour
         inventoryBack.SetActive(true);
         blueprintBag.SetActive(false);
         blueprintBack.SetActive(false);
+
+        UIManager.instance.GetCraftingUiController().ExitBlueprintBag();
     }
 
 

@@ -11,8 +11,6 @@ public class InventoryController : MonoBehaviour
     int[] counts = new int[6];
     List<ItemBase> items = new List<ItemBase>();
 
-    public ItemBase unknownItem;
-
 
     void Awake()
     {
@@ -31,9 +29,6 @@ public class InventoryController : MonoBehaviour
         foreach (var item in itemSO.items)
         {
             item.itemCount = 0;
-            if (item.data.Code == "ITEM_UNKNOWN")
-                unknownItem = item;
-
         }
             
 
