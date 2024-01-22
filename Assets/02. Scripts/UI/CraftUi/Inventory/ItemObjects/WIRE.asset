@@ -17,24 +17,26 @@ MonoBehaviour:
     Index: 1008
     Category: 1
     Code: ITEM_WIRE
-    Rarity: 1
     AppearTileType: 0
-    TileIncludePossibility: 0
     Type: 0
-    EquipType: 0
-    EquipArea: 
-    isCanBase: 0
-    CombineSlotCount: 0
+    EquipType: 4
+    EquipArea: -1
+    CombineSlotCount: 2
     Description: "\uD50C\uB77C\uC988\uB9C8\uB97C \uC720\uC6A9\uD558\uAC8C \uC0AC\uC6A9\uD560
       \uC218 \uC788\uAC8C \uD574\uC8FC\uB294 \uBD80\uD488\uC73C\uB85C, \uBAA8\uB4E0
       \uD2B9\uC218\uD615 \uBD80\uD488\uC758 \uAE30\uBC18\uC774 \uB41C\uB2E4."
     EffectDescription: 
     Korean: "\uC804\uC120\uBB49\uCE58"
-    English: -1
+    English: Wire
     Japanese: -1
     Chinese: -1
+    value1: -1
+    value2: -1
+    value3: -1
   itemImage: {fileID: 21300000, guid: 4de8e01e1a2da5143bd8da11062996b4, type: 3}
   itemCount: 0
   eItemType: 0
   sprite: {fileID: 21300000, guid: 53728e5bc98a0614a844d82b70396e7f, type: 3}
   sfxName: 
+  isMadeOnce: 1
+  isBlueprintOpen: 0

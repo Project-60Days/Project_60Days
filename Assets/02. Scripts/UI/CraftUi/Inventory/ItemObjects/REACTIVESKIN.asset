@@ -17,25 +17,28 @@ MonoBehaviour:
     Index: 1031
     Category: 5
     Code: ITEM_REACTIVESKIN
-    Rarity: 2
     AppearTileType: 3
-    TileIncludePossibility: 0
     Type: 1
-    EquipType: 2
+    EquipType: 0
     EquipArea: "\uBC29\uC5B4\uD615 \uBD80\uD488"
-    isCanBase: 0
-    CombineSlotCount: 0
+    CombineSlotCount: 3
     Description: "\uD615\uC0C1\uAE30\uC5B5\uAE08\uC18D\uC758 \uC9C4\uD654\uB41C \uD615\uD0DC\uB85C,
       \uAE00\uB9AC\uCC98\uB4E4\uC758 \uACF5\uACA9\uD615\uD0DC\uC5D0 \uB530\uB77C
       \uC790\uB3D9\uC73C\uB85C \uBC29\uC5B4\uD615\uD0DC\uB97C \uBC14\uAFBC\uB2E4."
-    EffectDescription: "\uB0B4\uAD6C\uB3C4 +10\n2\uD134\uB2F9 \uB0B4\uAD6C\uB3C4
-      +3\n\uC2DC\uC57C \uAC70\uB9AC +1"
+    EffectDescription: "{0}\uC77C\uB3D9\uC548 \uD06C\uB798\uD504\uD305 \uAE30\uB2A5\uC744
+      \uC0AC\uC6A9\uD560 \uC218 \uC5C6\uC74C\n{1}\uC77C\uC774 \uC9C0\uB0A0 \uB54C\uB9C8\uB2E4
+      \uC120\uCCB4 \uB0B4\uAD6C\uB3C4\uAC00 +{2}\uB9CC\uD07C \uC99D\uAC00"
     Korean: "\uBC18\uC751\uD615\uC678\uAC11"
-    English: -1
+    English: Reactiveskin
     Japanese: -1
     Chinese: -1
+    value1: 4
+    value2: 2
+    value3: 5
   itemImage: {fileID: 21300000, guid: 8bea053375d7bb04a94087d80e5f0cec, type: 3}
-  itemCount: 0
+  itemCount: 1
   eItemType: 1
   sprite: {fileID: 21300000, guid: 7ea7fc7f6daa2ce468b3eb06b2abdc6c, type: 3}
   sfxName: 
+  isMadeOnce: 0
+  isBlueprintOpen: 0

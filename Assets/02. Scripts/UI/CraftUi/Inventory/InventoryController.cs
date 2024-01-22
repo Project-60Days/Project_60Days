@@ -11,8 +11,8 @@ public class InventoryController : MonoBehaviour
     int[] counts = new int[6];
     List<ItemBase> items = new List<ItemBase>();
 
-    public ItemBase unknownItem;
-
+    ItemBase disturbe;
+    ItemBase findor;
 
     void Awake()
     {
@@ -31,9 +31,11 @@ public class InventoryController : MonoBehaviour
         foreach (var item in itemSO.items)
         {
             item.itemCount = 0;
-            if (item.data.Code == "ITEM_UNKNOWN")
-                unknownItem = item;
 
+            if (item.data.Code == "ITEM_DISTURBE")
+                disturbe = item;
+            else if (item.data.Code == "ITEM_FINDOR")
+                findor = item;
         }
             
 
@@ -90,13 +92,10 @@ public class InventoryController : MonoBehaviour
     {
         _item.itemCount++;
 
-        foreach (var item in items)
+        if (items.Contains(_item))
         {
-            if (item == _item)
-            {
-                UpdateSlot();
-                return;
-            }
+            UpdateSlot();
+            return;
         }
 
         items.Add(_item);
@@ -127,17 +126,8 @@ public class InventoryController : MonoBehaviour
         _item.itemCount--;
 
         if (_item.itemCount == 0)
-        {
-            for (int i = 0; i < items.Count; i++)
-            {
-                if (items[i] == _item)
-                {
-                    items.RemoveAt(i);
-                    break;
-                }
-            }
-        }
-        
+            items.Remove(_item);
+
         UpdateSlot();
     }
 
@@ -173,6 +163,27 @@ public class InventoryController : MonoBehaviour
 
 
 
+    public bool CheckFindorUsage()
+    {
+        if (findor.itemCount <= 0)
+            return false;
+        else
+        {
+            RemoveItem(findor);
+            return true;
+        }
+    }
+
+    public bool CheckDisturbeUsage()
+    {
+        if (disturbe.itemCount <= 0)
+            return false;
+        else
+        {
+            RemoveItem(disturbe);
+            return true;
+        }
+    }
     #region temp
     /// <summary>
     /// 시연회용 임시 함수(맞나?)

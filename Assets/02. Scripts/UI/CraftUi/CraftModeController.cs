@@ -24,7 +24,7 @@ public class CraftModeController : MonoBehaviour
     {
         inventoryImage = GameObject.Find("InventoryBackground_Img").GetComponent<Image>();
         buttons = GameObject.Find("ModeBtn_Back").GetComponentsInChildren<Button>();
-        blueprintSlots = GetComponentsInChildren<BlueprintSlot>();
+        blueprintSlots = GetComponentsInChildren<BlueprintSlot>(includeInactive: true);
         SetCraftActive();
     }
     
@@ -90,8 +90,7 @@ public class CraftModeController : MonoBehaviour
 
         foreach (var slot in blueprintSlots)
         {
-            if (slot.isAlreadyShow == true) continue;
-            slot.SetBlueprintShow();
+            slot.CheckShowCondition();
         }
     }
 
@@ -100,6 +99,8 @@ public class CraftModeController : MonoBehaviour
         inventoryBack.SetActive(true);
         blueprintBag.SetActive(false);
         blueprintBack.SetActive(false);
+
+        UIManager.instance.GetCraftingUiController().ExitBlueprintBag();
     }
 
 

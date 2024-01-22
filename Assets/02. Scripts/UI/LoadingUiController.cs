@@ -12,6 +12,8 @@ public class LoadingUiController : MonoBehaviour
 
     IEnumerator LoadScene()
     {
+        UIManager.instance.AddCurrUIName("UI_LOADING");
+
         yield return new WaitUntil(() => App.instance.GetMapManager().mapController != null);
         yield return new WaitUntil(() => App.instance.GetMapManager().mapController.LoadingComplete == true);
 

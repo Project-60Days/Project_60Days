@@ -94,5 +94,37 @@
     "English": -1,
     "Japanese": -1,
     "Chinese": -1
+  },
+  {
+    "Index": 3001,
+    "Code": "STR_TILE_CITY_DESCRIPTION",
+    "Korean": "파괴된 도시\n포장된 도로 : 선체 이동 거리 + 1",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 3002,
+    "Code": "STR_TILE_JUNGLE_DESCRIPTION",
+    "Korean": "습지\n풍부한 자원 : 자원 획득 개수 + 1",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 3003,
+    "Code": "STR_TILE_DESERT_DESCRIPTION",
+    "Korean": "황야\n부식성 바람 : 턴당 선체 내구도 - 1",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 3004,
+    "Code": "STR_TILE_TUNDRA_DESCRIPTION",
+    "Korean": "툰드라\n얼어붙은 문 : 구조물 탐사 시 2턴 소모",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
   }
 ]

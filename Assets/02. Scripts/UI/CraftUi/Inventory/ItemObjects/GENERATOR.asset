@@ -18,24 +18,26 @@ MonoBehaviour:
     Category: 2
     Code: ITEM_GENERATOR
     AppearTileType: 0
-    Type: 0
-    EquipType: 0
+    Type: 2
+    EquipType: 2
     EquipArea: "\uD2B9\uC218\uD615 \uBD80\uD488"
-    CombineSlotCount: 0
+    CombineSlotCount: 3
     Description: "\uACC4\uC18D\uD574\uC11C \uD50C\uB77C\uC988\uB9C8\uB97C \uC0DD\uC131\uD574\uB0B4\uB294
       \uBD80\uD488\uC73C\uB85C, \uB9CE\uC740 \uC790\uC6D0\uC744 \uC18C\uBAA8\uD558\uC5EC
       \uB9CC\uB4E4 \uC218 \uC788\uB2E4."
-    EffectDescription: "3\uD134 \uB2F9 \uD50C\uB77C\uC988\uB9C8 +1"
+    EffectDescription: "{0}\uC77C\uC774 \uC9C0\uB0A0 \uB54C\uB9C8\uB2E4 \uD50C\uB77C\uC988\uB9C8
+      \uBCF4\uC720\uB7C9\uC774 {1}\uB9CC\uD07C \uC99D\uAC00"
     Korean: "\uBC1C\uC804\uAE30"
-    English: -1
+    English: Generator
     Japanese: -1
     Chinese: -1
-    value1: 0
-    value2: 0
-    value3: 0
+    value1: 3
+    value2: 1
+    value3: -1
   itemImage: {fileID: 21300000, guid: a58713982261c7346b15318307b337d2, type: 3}
   itemCount: 0
   eItemType: 2
   sprite: {fileID: 21300000, guid: b128eb4430ffe5a4491390e233ae818c, type: 3}
   sfxName: 
   isMadeOnce: 0
+  isBlueprintOpen: 0
