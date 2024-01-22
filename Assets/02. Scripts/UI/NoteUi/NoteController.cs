@@ -19,16 +19,13 @@ public class NoteController : MonoBehaviour
     NotePageBase[] pages;
     NotePageBase[] notePages;
 
-    bool isNewDay = true;
+    [HideInInspector] public bool isNewDay = true;
     bool isOpen = false;
     [HideInInspector] public int dayCount = 0;
     int pageNum = 0;
 
     [SerializeField] ScrollRect[] scrollRects;
     [SerializeField] Scrollbar[] scrollBars;
-    [SerializeField] RectTransform[] scrollRectTransforms;
-    [SerializeField] RectTransform[] contents;
-
 
 
 
@@ -74,7 +71,6 @@ public class NoteController : MonoBehaviour
     void InitVariables()
     {
         dayText.text = "Day " + ++dayCount;
-        isNewDay = true;
         pageNum = 0;
         notePages = GetNotePageArray();
     }
@@ -222,16 +218,11 @@ public class NoteController : MonoBehaviour
         notePages[pageNum].gameObject.SetActive(true);
         notePages[pageNum].PlayPageAciton();
 
-        foreach (var scrollBar in scrollBars)
-            scrollBar.value = 1;
-
         StartCoroutine(CheckScrollEnabled());
     }
 
     IEnumerator CheckScrollEnabled()
     {
-        yield return null;
-
         foreach (var scrollRect in scrollRects) 
         {
             if (scrollRect.gameObject.activeSelf == false)
@@ -239,11 +230,17 @@ public class NoteController : MonoBehaviour
 
             int index = Array.IndexOf(scrollRects, scrollRect);
 
-            if (scrollRectTransforms[index].rect.height < contents[index].rect.height) 
+            scrollBars[index].value = 1;
+
+            yield return null;
+
+            if (scrollBars[index].size < 1 && scrollBars[index].gameObject.activeSelf) 
             {
                 scrollImg.StartAnim();
                 StartCoroutine(WaitScrollToEnd(scrollBars[index]));
             }
+
+            break;
         }
     }
 

@@ -19540,7 +19540,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -114, y: -263}
+  m_AnchoredPosition: {x: -114, y: -253}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &917204168
@@ -33714,6 +33714,7 @@ MonoBehaviour:
   tutorialBack: {fileID: 1668377331}
   whitePanel: {fileID: 1614351919}
   dialogueRunner: {fileID: 790758830}
+  skipButton: {fileID: 769921462}
   isLightUp: 0
 --- !u!1 &1776536157
 GameObject:

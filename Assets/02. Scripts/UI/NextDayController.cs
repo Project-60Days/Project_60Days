@@ -21,7 +21,6 @@ public class NextDayController : MonoBehaviour
     [HideInInspector] public bool isOver = false;
     public bool isHit = false;
 
-
     void Start()
     {
         mapCamera = GameObject.FindGameObjectWithTag("MapCamera").GetComponent<CinemachineVirtualCamera>();
@@ -48,6 +47,8 @@ public class NextDayController : MonoBehaviour
         isHit = false;
 
         UIManager.instance.PopCurrUI();
+
+        UIManager.instance.GetNoteController().isNewDay = true;
     }
 
 
