@@ -24,7 +24,7 @@ public class CraftModeController : MonoBehaviour
     {
         inventoryImage = GameObject.Find("InventoryBackground_Img").GetComponent<Image>();
         buttons = GameObject.Find("ModeBtn_Back").GetComponentsInChildren<Button>();
-        blueprintSlots = GetComponentsInChildren<BlueprintSlot>();
+        blueprintSlots = GetComponentsInChildren<BlueprintSlot>(includeInactive: true);
         SetCraftActive();
     }
     

@@ -14,26 +14,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   English: ITEM_SEMICONDUCTOR
   data:
-    Index: 0
-    Category: 0
-    Code: 
+    Index: 1013
+    Category: 2
+    Code: ITEM_SEMICONDUCTOR
     AppearTileType: 0
-    Type: 0
+    Type: 2
     EquipType: 0
-    EquipArea: 
-    CombineSlotCount: 0
-    Description: 
-    EffectDescription: 
-    Korean: 
-    English: 
-    Japanese: 
-    Chinese: 
-    value1: 0
-    value2: 0
-    value3: 0
+    EquipArea: "\uBC29\uC5B4\uD615 \uBD80\uD488"
+    CombineSlotCount: 2
+    Description: "\uD50C\uB77C\uC988\uB9C8\uAC00 \uCCA8\uAC00\uB41C \uBC29\uC5B4\uD615
+      \uBD80\uD488\uC73C\uB85C, \uD2B9\uC218 \uD6A8\uACFC\uB97C \uC9C0\uB2CC \uC544\uC774\uD15C\uC744
+      \uB9CC\uB4E4\uAE30\uC5D0 \uCDA9\uBD84\uD558\uB2E4."
+    EffectDescription: "\uB0B4\uAD6C\uB3C4 +{0}"
+    Korean: "\uBC18\uB3C4\uCCB4"
+    English: Semiconductor
+    Japanese: -1
+    Chinese: -1
+    value1: 15
+    value2: -1
+    value3: -1
   itemImage: {fileID: 21300000, guid: 5c7538833c4fc0d46a06b967689f3123, type: 3}
-  itemCount: 0
+  itemCount: 1
   eItemType: 2
   sprite: {fileID: 21300000, guid: 978b2ea5e58e6834aac00b22e212e138, type: 3}
   sfxName: 
   isMadeOnce: 0
+  isBlueprintOpen: 0

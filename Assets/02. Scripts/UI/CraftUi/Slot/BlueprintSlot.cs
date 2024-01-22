@@ -17,7 +17,11 @@ public class BlueprintSlot : SlotBase
 
     public override void OnPointerClick(PointerEventData eventData)
     {
+        if (item == unknownItem)
+            return;
+
         UIManager.instance.GetCraftingUiController().ShowItemBlueprint(item);
+        CraftItemClick?.Invoke(item.sprite);
     }
 
     public override void ShowItemInfo()
@@ -32,8 +36,6 @@ public class BlueprintSlot : SlotBase
     {
         CheckItemShowCondition();
         CheckIconShowCondition();
-
-        Debug.Log(bluePrintItem + " " + item);
     }
 
     void CheckIconShowCondition()

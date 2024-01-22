@@ -4,8 +4,6 @@ using System;
 
 public class ItemSlot : SlotBase
 {
-    public static Action<Sprite> CraftItemClick;
-
     public int category;
 
     public ItemSlot()
