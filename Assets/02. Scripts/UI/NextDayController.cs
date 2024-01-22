@@ -46,6 +46,8 @@ public class NextDayController : MonoBehaviour
 
         dayCountText.SetActive(false);
         isHit = false;
+
+        UIManager.instance.PopCurrUI();
     }
 
 
@@ -54,6 +56,8 @@ public class NextDayController : MonoBehaviour
     /// </summary>
     public void NextDayEvent()
     {
+        UIManager.instance.AddCurrUIName("UI_LOADING");
+
         blackPanel.gameObject.SetActive(true);
 
         App.instance.GetSoundManager().StopBGM();
