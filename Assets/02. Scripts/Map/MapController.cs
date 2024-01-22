@@ -146,7 +146,7 @@ public class MapController : Singleton<MapController>
             .Select(x => ((GameObject)x.GameEntity).GetComponent<TileBase>())
             .ToList();
         
-        float randomTileCount = tileBaseList.Count * (_percent * 0.01f);
+        float randomTileCount = tileBaseList.Count - (tileBaseList.Count * (_percent * 0.01f));
         
         for (int i = 0; i < randomTileCount; ++i)
         {
@@ -165,7 +165,7 @@ public class MapController : Singleton<MapController>
         
         yield return new WaitUntil(() => complete);
         
-        PlayerSightCheck();
+        SightCheck(player.TileController.Model);
     }
 
     void SpawnPlayer()
@@ -525,7 +525,7 @@ public class MapController : Singleton<MapController>
         // 이동 거리 충전
         player.SetHealth(true);
 
-        PlayerSightCheck();
+        SightCheck(player.TileController.Model);
     }
 
     public void CheckSumZombies()
@@ -975,10 +975,10 @@ public class MapController : Singleton<MapController>
         Destroy(zombieBase.gameObject);
     }
 
-    public void PlayerSightCheck()
+    public void SightCheck(Tile _targetTile)
     {
-        sightTiles = GetTilesInRange(player.TileController.Model, 6);
-        sightTiles.Add(player.TileController.Model);
+        sightTiles = GetTilesInRange(_targetTile, 4);
+        sightTiles.Add(_targetTile);
 
         for (int i = 0; i < hexaMap.Map.Tiles.Count; i++)
         {
@@ -989,6 +989,11 @@ public class MapController : Singleton<MapController>
             else
                 ((GameObject)item.GameEntity).SetActive(true);
         }
+    }
+    
+    public void SightCheckInit()
+    {
+        SightCheck(GetTileFromCoords(new Coords(0,0)));
     }
 
     public List<Tile> GetSightTiles()

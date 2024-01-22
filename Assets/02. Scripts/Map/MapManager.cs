@@ -7,20 +7,6 @@ using Hexamap;
 using UnityEngine.Rendering.UI;
 using Yarn.Compiler;
 
-[System.Serializable]
-public class MapData
-{
-    [Tooltip("자원 등장 확률")] public int resourcePercent;
-    
-    [Tooltip("시야")] public int fogSightRange;
-
-    [Tooltip("이동 거리")] public int playerMovementPoint;
-
-    [Tooltip("좀비 감지 범위")] public int zombieDetectionRange;
-
-    [Tooltip("등장 좀비 수")] public int zombieCount;
-}
-
 public class MapManager : ManagementBase
 {
     public MapUiController mapUIController;
@@ -28,7 +14,8 @@ public class MapManager : ManagementBase
     public ResourceManager resourceManager;
     public bool mouseIntreractable;
 
-    [SerializeField] ETileMouseState mouseState;
+    [SerializeField] 
+    ETileMouseState mouseState;
 
     [Header("밸런스 테스트 용")] [Space(5f)] [SerializeField]
     MapData mapData;
@@ -41,17 +28,19 @@ public class MapManager : ManagementBase
     bool canPlayerMove;
     bool isDronePrepared;
     bool isDisturbtorPrepared;
-    bool isVisitNoneTile;
     bool isCameraMove;
 
-    private GameObject cameraTarget;
+    private TileController cameraTarget;
     
     void Update()
     {
         SetETileMoveState();
-
+        
         if (mouseState != ETileMouseState.Nothing)
         {
+            if(isCameraMove)
+                GetCameraCenterTile();
+            
             MouseOverEvents();
         }
     }
@@ -72,6 +61,8 @@ public class MapManager : ManagementBase
         AllowMouseEvent(true);
         resourceManager = GameObject.FindGameObjectWithTag("Resource").GetComponent<ResourceManager>();
         StartCoroutine(mapCineCamera.GetMapInfo());
+        
+        mapController.SightCheckInit();
     }
 
     public void GetAdditiveSceneObjectsCoroutine()
@@ -93,7 +84,6 @@ public class MapManager : ManagementBase
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         int onlyLayerMaskTile = 1 << LayerMask.NameToLayer("Tile");
 
-
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile))
         {
             tileController = hit.transform.parent.GetComponent<TileController>();
@@ -103,7 +93,6 @@ public class MapManager : ManagementBase
             if (!mapController.CheckPlayersView(tileController))
             {
                 mapUIController.FalseTileInfo();
-                return;
             }
 
             switch (mouseState)
@@ -137,7 +126,7 @@ public class MapManager : ManagementBase
         }
         else
         {
-            mapController.DeselectAllBorderTiles();
+            //mapController.DeselectAllBorderTiles();
             mapUIController.FalseTileInfo();
         }
 
@@ -223,7 +212,6 @@ public class MapManager : ManagementBase
         if (Input.GetMouseButton(2))
         {
             isCameraMove = true;
-            Debug.Log("눌림");
         }
         else if (Input.GetMouseButtonUp(2))
         {
@@ -376,14 +364,14 @@ public class MapManager : ManagementBase
         mapController.DeletePlayerMovePath();
     }
 
-    public void TutorialTileCheck()
-    {
-        if (mapController.Player.TileController.GetComponent<TileBase>().TileData.English == "None")
-        {
-            UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_NETWORKCHIP");
-            isVisitNoneTile = true;
-        }
-    }
+    // public void TutorialTileCheck()
+    // {
+    //     if (mapController.Player.TileController.GetComponent<TileBase>().TileData.English == "None")
+    //     {
+    //         UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_NETWORKCHIP");
+    //         isVisitNoneTile = true;
+    //     }
+    // }
 
     public bool SensingSignalTower()
     {
@@ -409,5 +397,43 @@ public class MapManager : ManagementBase
     {
         mapUIController.SetDisturbtorButtonInteractable(true);
         mapUIController.SetExplorerButtonInteractable(true);
+    }
+
+    // 카메라 안에 변수가 존재하는지 확인하는 함수
+    public bool CheckObjectInCamera(GameObject _target)
+    {
+        Vector3 screenPoint = mainCamera.WorldToViewportPoint(_target.transform.position);
+        bool onScreen = screenPoint.z > 0 
+                        && screenPoint.x > 0 
+                        && screenPoint.x < 1 
+                        && screenPoint.y > 0 
+                        && screenPoint.y < 1;
+
+        return onScreen;
+    }
+    
+    // 카메라 정중앙 좌표를 반환하는 함수
+    public void GetCameraCenterTile()
+    {
+        Vector3 centerPos = new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2);
+        Ray ray = Camera.main.ScreenPointToRay(centerPos);
+        
+        int onlyLayerMaskTile = 1 << LayerMask.NameToLayer("Tile");
+        
+        if(Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, onlyLayerMaskTile))
+        {
+            var target = hit.transform.parent.GetComponent<TileController>();
+            
+            if(target == null)
+            {
+                return;
+            }
+            
+            if(cameraTarget != target)
+            {
+                cameraTarget = target;
+                mapController.SightCheck(cameraTarget.Model);
+            }
+        }
     }
 }
