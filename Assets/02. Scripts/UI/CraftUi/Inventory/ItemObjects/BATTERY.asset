@@ -17,24 +17,26 @@ MonoBehaviour:
     Index: 1010
     Category: 1
     Code: ITEM_BATTERY
-    Rarity: 0
-    AppearTileType: 0
-    TileIncludePossibility: 0
-    Type: 0
-    EquipType: 0
-    EquipArea: 
-    isCanBase: 0
-    CombineSlotCount: 0
+    AppearTileType: 5
+    Type: 4
+    EquipType: 4
+    EquipArea: -1
+    CombineSlotCount: 3
     Description: "\uC258\uD130\uB97C \uC7AC\uAC00\uB3D9\uC2DC\uD0A4\uAE30 \uC704\uD55C
       \uAE30\uCD08\uBD80\uD488\uC774\uC790, \uCCAB \uC0DD\uC0B0 \uC774\uD6C4 \uB9CC\uB4E4
       \uC218 \uC5C6\uB2E4."
     EffectDescription: 
     Korean: "\uBC30\uD130\uB9AC"
-    English: -1
+    English: Battery
     Japanese: -1
     Chinese: -1
+    value1: -1
+    value2: -1
+    value3: -1
   itemImage: {fileID: 21300000, guid: 98476225743af1a49af2181f1ea0945e, type: 3}
   itemCount: 0
   eItemType: 4
   sprite: {fileID: 21300000, guid: bcb02c44c6cb67c4ab35f955643bd2f3, type: 3}
   sfxName: 
+  isMadeOnce: 1
+  isBlueprintOpen: 1

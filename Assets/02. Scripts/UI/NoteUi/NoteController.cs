@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class NoteController : MonoBehaviour
 {
@@ -23,9 +24,10 @@ public class NoteController : MonoBehaviour
     [HideInInspector] public int dayCount = 0;
     int pageNum = 0;
 
-    [Header("For Tutorial")]
     [SerializeField] ScrollRect[] scrollRects;
     [SerializeField] Scrollbar[] scrollBars;
+    [SerializeField] RectTransform[] scrollRectTransforms;
+    [SerializeField] RectTransform[] contents;
 
 
 
@@ -220,6 +222,9 @@ public class NoteController : MonoBehaviour
         notePages[pageNum].gameObject.SetActive(true);
         notePages[pageNum].PlayPageAciton();
 
+        foreach (var scrollBar in scrollBars)
+            scrollBar.value = 1;
+
         StartCoroutine(CheckScrollEnabled());
     }
 
@@ -227,12 +232,17 @@ public class NoteController : MonoBehaviour
     {
         yield return null;
 
-        foreach (var scroll in scrollBars)
+        foreach (var scrollRect in scrollRects) 
         {
-            if (scroll.value >= 0.1f)
+            if (scrollRect.gameObject.activeSelf == false)
+                continue;
+
+            int index = Array.IndexOf(scrollRects, scrollRect);
+
+            if (scrollRectTransforms[index].rect.height < contents[index].rect.height) 
             {
                 scrollImg.StartAnim();
-                StartCoroutine(WaitScrollToEnd(scroll));
+                StartCoroutine(WaitScrollToEnd(scrollBars[index]));
             }
         }
     }
