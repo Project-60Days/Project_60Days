@@ -26,5 +26,10 @@ public class Chapter01_3 : QuestBase
     {
         return "네트워크 칩 연결하기";
     }
+
+    public override void AfterQuest()
+    {
+        UIManager.instance.GetPopUpController().EndGamePopUp();
+    }
 }
 
