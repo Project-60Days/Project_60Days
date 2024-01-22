@@ -311,6 +311,8 @@ public class TileBase : MonoBehaviour
             item.sprite = null;
             item.gameObject.SetActive(false);
         }
+        
+        TileInfoUpdate();
     }
 
     public void SpawnNormalStructure(List<Tile> neighborTiles, List<Tile> colleagueTiles, GameObject _structureObject)
@@ -336,6 +338,8 @@ public class TileBase : MonoBehaviour
             item.sprite = null;
             item.gameObject.SetActive(false);
         }
+        
+        TileInfoUpdate();
     }
 
     public void AddSpecialItem()

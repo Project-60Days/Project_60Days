@@ -490,6 +490,8 @@ public class MapController : Singleton<MapController>
 
     public IEnumerator NextDay()
     {
+        bool zombieActEnd = false;
+        
         // 플레이어 이동
         if (player.MovePath != null)
         {
@@ -513,9 +515,13 @@ public class MapController : Singleton<MapController>
         {
             var zombie = zombiesList[index];
             zombie.GetComponent<ZombieBase>().DetectionAndAct();
+            
+            if(index == zombiesList.Count - 1)
+                zombieActEnd = true;
         }
 
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitUntil(() => zombieActEnd);
+        yield return new WaitForSeconds(1f);
         CheckSumZombies();
 
         // 이동 거리 충전

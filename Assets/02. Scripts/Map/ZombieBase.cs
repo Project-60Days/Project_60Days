@@ -128,7 +128,7 @@ public class ZombieBase : MonoBehaviour
         if (nearthDistrubtor != null)
         {
             //Debug.Log(gameObject.name + "가 교란기를 쫓아갑니다!");
-            StartCoroutine(MoveOrAttack(nearthDistrubtor.currentTile));
+            StartCoroutine(MoveToAttack(nearthDistrubtor.currentTile));
 
             return;
         }
@@ -136,7 +136,7 @@ public class ZombieBase : MonoBehaviour
         if (isChasingPlayer)
         {
             //Debug.Log(gameObject.name + "가 플레이어를 발견했습니다!");
-            StartCoroutine(MoveOrAttack(App.instance.GetMapManager().mapController.Player.TileController.Model));
+            StartCoroutine(MoveToAttack(App.instance.GetMapManager().mapController.Player.TileController.Model));
 
             // 플레이어 바라보기
             var updatePos = App.instance.GetMapManager().mapController.Player.transform.position;
@@ -153,7 +153,7 @@ public class ZombieBase : MonoBehaviour
         }
     }
 
-    public IEnumerator MoveOrAttack(Tile target, float time = 0.25f)
+    public IEnumerator MoveToAttack(Tile target, float time = 0.25f)
     {
         movePath = AStar.FindPath(curTile.Coords, target.Coords);
 
@@ -182,8 +182,6 @@ public class ZombieBase : MonoBehaviour
                     break;
             }
         }
-
-        MapController.instance.CheckSumZombies();
 
         CurrentTileUpdate(lastTile);
         CurrentTileUpdate(curTile);
