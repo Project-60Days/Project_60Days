@@ -25,6 +25,7 @@ TagManager:
   - WorkBench
   - Battery
   - NormalCamera
+  - Tile
   layers:
   - Default
   - TransparentFX

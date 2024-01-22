@@ -171,7 +171,7 @@ public class ZombieBase : MonoBehaviour
             {
                 pointTile = MapController.instance.GetTileFromCoords(movePath[i]);
                 pointPos = ((GameObject)pointTile.GameEntity).transform.position;
-                pointPos.y += 1;
+                pointPos.y += 0.5f;
 
                 gameObject.transform.DOMove(pointPos, time);
 
@@ -203,7 +203,7 @@ public class ZombieBase : MonoBehaviour
         }
 
         var targetPos = ((GameObject)candidate[rand].GameEntity).transform.position;
-        targetPos.y += 1;
+        targetPos.y += 0.5f;
 
         yield return gameObject.transform.DOMove(targetPos, time);
 
@@ -230,9 +230,15 @@ public class ZombieBase : MonoBehaviour
     public void SumZombies(ZombieBase zombie)
     {
         zombieData.count += zombie.zombieData.count;
+        zombie.zombieData.count = 0;
+        
         ZombieModelChoice(zombieData.count);
         CurrentTileUpdate(curTile);
-        zombie.DeleteZombie();
+    }
+    public void DeleteZombie()
+    {
+        ((GameObject)curTile.GameEntity).GetComponent<TileBase>().UpdateZombieInfo(null);
+        Destroy(this);
     }
 
     public int GetRandom()
@@ -267,11 +273,6 @@ public class ZombieBase : MonoBehaviour
         // 시체 오브젝트 생성
     }
 
-    public void DeleteZombie()
-    {
-        App.instance.GetMapManager().mapController.DeleteZombie(this);
-        ((GameObject)curTile.GameEntity).GetComponent<TileBase>().UpdateZombieInfo(null);
-    }
     
     public void Stun(int time=1)
     {
