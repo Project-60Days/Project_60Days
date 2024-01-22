@@ -12,6 +12,7 @@ public class ItemBase : ScriptableObject
     public Sprite sprite;
     public string sfxName;
     public bool isMadeOnce = false;
+    public bool isBlueprintOpen = false;
 
     public virtual void Equip()
     {

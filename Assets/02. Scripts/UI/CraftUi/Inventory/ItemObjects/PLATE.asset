@@ -38,3 +38,4 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 577b93f5bc48707469ef01361ea9aa47, type: 3}
   sfxName: 
   isMadeOnce: 1
+  isBlueprintOpen: 0

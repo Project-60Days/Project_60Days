@@ -16,5 +16,6 @@ public static class StringUtility
     public static string UI_NORMAL = "UI_NORMAL";
     public static string UI_MENU = "UI_MENU";
     public static string UI_SELECT = "UI_SELECT";
+    public static string UI_LOADING = "UI_LOADING";
     #endregion
 }

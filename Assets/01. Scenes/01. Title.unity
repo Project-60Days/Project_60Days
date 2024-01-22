@@ -2687,8 +2687,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 355.7433, y: 0}
+  m_SizeDelta: {x: 711.4866, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &1076115634
 GameObject:
@@ -4546,9 +4546,12 @@ MonoBehaviour:
   resourceManager: {fileID: 0}
   mouseIntreractable: 0
   mouseState: 0
-  resourcePercent: 0
-  zombieCount: 0
-  playerMovementPoint: 0
+  mapData:
+    resourcePercent: 60
+    fogSightRange: 4
+    playerMovementPoint: 2
+    zombieDetectionRange: 3
+    zombieCount: 80
 --- !u!1 &1898475813
 GameObject:
   m_ObjectHideFlags: 0
@@ -5019,7 +5022,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
       propertyPath: array_sfx.Array.size
-      value: 28
+      value: 29
       objectReference: {fileID: 0}
     - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
       propertyPath: array_sfx.Array.data[8].clip
@@ -5180,6 +5183,14 @@ PrefabInstance:
     - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
       propertyPath: array_sfx.Array.data[27].name
       value: SFX_HIT_4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: array_sfx.Array.data[28].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: ee58786ff13deb5458a81e8fdef854da, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: array_sfx.Array.data[28].name
+      value: SFX_Title_LogIn
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}

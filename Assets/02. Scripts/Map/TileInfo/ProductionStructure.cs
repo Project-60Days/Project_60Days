@@ -30,6 +30,7 @@ public class ProductionStructure : StructureBase
         App.instance.GetMapManager().ResearchStart(this);
         isUse = false;
         isAccessible = true;
+        UIManager.instance.GetPageController().CreateSelectDialogueRunner("sequence");
     }
 
     public override void NoFunc()

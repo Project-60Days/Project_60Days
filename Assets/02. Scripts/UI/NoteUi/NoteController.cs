@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class NoteController : MonoBehaviour
 {
@@ -18,15 +19,13 @@ public class NoteController : MonoBehaviour
     NotePageBase[] pages;
     NotePageBase[] notePages;
 
-    bool isNewDay = true;
+    [HideInInspector] public bool isNewDay = true;
     bool isOpen = false;
     [HideInInspector] public int dayCount = 0;
     int pageNum = 0;
 
-    [Header("For Tutorial")]
     [SerializeField] ScrollRect[] scrollRects;
     [SerializeField] Scrollbar[] scrollBars;
-
 
 
 
@@ -72,7 +71,6 @@ public class NoteController : MonoBehaviour
     void InitVariables()
     {
         dayText.text = "Day " + ++dayCount;
-        isNewDay = true;
         pageNum = 0;
         notePages = GetNotePageArray();
     }
@@ -225,15 +223,24 @@ public class NoteController : MonoBehaviour
 
     IEnumerator CheckScrollEnabled()
     {
-        yield return null;
-
-        foreach (var scroll in scrollBars)
+        foreach (var scrollRect in scrollRects) 
         {
-            if (scroll.value >= 0.1f)
+            if (scrollRect.gameObject.activeSelf == false)
+                continue;
+
+            int index = Array.IndexOf(scrollRects, scrollRect);
+
+            scrollBars[index].value = 1;
+
+            yield return null;
+
+            if (scrollBars[index].size < 1 && scrollBars[index].gameObject.activeSelf) 
             {
                 scrollImg.StartAnim();
-                StartCoroutine(WaitScrollToEnd(scroll));
+                StartCoroutine(WaitScrollToEnd(scrollBars[index]));
             }
+
+            break;
         }
     }
 

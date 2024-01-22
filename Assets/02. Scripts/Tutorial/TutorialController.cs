@@ -9,6 +9,7 @@ public class TutorialController : MonoBehaviour
     [SerializeField] RectTransform tutorialBack;
     [SerializeField] Image whitePanel;
     [SerializeField] DialogueRunner dialogueRunner;
+    [SerializeField] Selectable skipButton;
 
     Image lightBackground;
     Image workBenchImage;
@@ -31,6 +32,11 @@ public class TutorialController : MonoBehaviour
 
         float newY = tutorialBack.rect.height * -2;
         tutorialBack.DOMove(new Vector2(0f, newY), 0f);
+    }
+
+    void Update()
+    {
+        skipButton.Select();
     }
 
     public void StartDialogue()
