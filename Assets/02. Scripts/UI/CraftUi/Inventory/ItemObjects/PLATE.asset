@@ -33,7 +33,7 @@ MonoBehaviour:
     value2: -1
     value3: -1
   itemImage: {fileID: 21300000, guid: c8aa88b3ebf26c8419935af39d8b3535, type: 3}
-  itemCount: 1
+  itemCount: 0
   eItemType: 0
   sprite: {fileID: 21300000, guid: 577b93f5bc48707469ef01361ea9aa47, type: 3}
   sfxName: 

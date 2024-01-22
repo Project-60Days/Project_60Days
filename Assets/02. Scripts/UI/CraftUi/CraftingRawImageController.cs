@@ -8,6 +8,7 @@ public class CraftingRawImageController : MonoBehaviour
     void Awake()
     {
         ItemSlot.CraftItemClick += ChangerTarget;
+        BlueprintSlot.CraftItemClick += ChangerTarget;
         CraftSlot.CraftItemClick += DestroyObject;
 
         targetObject = GameObject.FindWithTag("RenderTextureObject");
@@ -16,6 +17,7 @@ public class CraftingRawImageController : MonoBehaviour
     void OnDestroy()
     {
         ItemSlot.CraftItemClick -= ChangerTarget;
+        BlueprintSlot.CraftItemClick -= ChangerTarget;
         CraftSlot.CraftItemClick -= DestroyObject;
     }
 

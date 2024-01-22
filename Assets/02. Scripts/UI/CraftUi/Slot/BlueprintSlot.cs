@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System;
 
 public class BlueprintSlot : SlotBase
 {
@@ -9,6 +11,10 @@ public class BlueprintSlot : SlotBase
     [SerializeField] ItemBase unknownItem;
     public bool isAlreadyShowItem = false;
     [SerializeField] ItemBase[] parentItems;
+    [SerializeField] Sprite lockSlot;
+    [SerializeField] Sprite openSlot;
+
+    public static Action<Sprite> CraftItemClick;
 
     public BlueprintSlot()
     {
@@ -17,7 +23,11 @@ public class BlueprintSlot : SlotBase
 
     public override void OnPointerClick(PointerEventData eventData)
     {
+        if (item == unknownItem)
+            return;
+
         UIManager.instance.GetCraftingUiController().ShowItemBlueprint(item);
+        CraftItemClick?.Invoke(item.sprite);
     }
 
     public override void ShowItemInfo()
@@ -32,22 +42,17 @@ public class BlueprintSlot : SlotBase
     {
         CheckItemShowCondition();
         CheckIconShowCondition();
-
-        Debug.Log(bluePrintItem + " " + item);
     }
 
     void CheckIconShowCondition()
     {
-        if (parentItems.Length == 0)
-        {
-            SetIconShow();
-            return;
-        }
-
         foreach (var item in parentItems)
         {
             if (item.isMadeOnce == false)
+            {
+                transform.parent.GetComponent<Image>().sprite = lockSlot;
                 return;
+            }    
         }
 
         SetIconShow();
@@ -57,6 +62,7 @@ public class BlueprintSlot : SlotBase
     public void SetIconShow()
     {
         image.sprite = bluePrintItem.itemImage;
+        transform.parent.GetComponent<Image>().sprite = openSlot;
         bluePrintItem.isBlueprintOpen = true;
     }
     void CheckItemShowCondition()

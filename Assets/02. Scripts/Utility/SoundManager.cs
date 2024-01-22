@@ -113,6 +113,20 @@ public class SoundManager : ManagementBase
         sfxPlayer.volume = sfxVolume;
     }
 
+    public float SetBGMVolumeTweening(float _duration)
+    {
+        float volume = bgmPlayer.volume;
+
+        var bgmTween = DOTween.To(() => bgmVolume, x => bgmVolume = x, 0f, _duration)
+            .SetEase(Ease.Linear)
+            .OnUpdate(() =>
+            {
+                bgmPlayer.volume = bgmVolume;
+            });
+
+        return volume;
+    }
+
     /// <summary>
     /// SFX 목록에 해당 SFX 있는지 확인
     /// </summary>

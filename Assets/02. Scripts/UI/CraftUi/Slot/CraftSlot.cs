@@ -27,7 +27,6 @@ public class CraftSlot : SlotBase
 
         CraftItemClick?.Invoke();
 
-
         HideItemInfo();
     }
 }

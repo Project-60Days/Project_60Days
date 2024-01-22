@@ -35,7 +35,7 @@ public enum ESlotType
     CraftingSlot,
     ResultSlot,
     EquipSlot,
-    BlueprintSlot
+    BlueprintSlot,
 }
 
 public enum EQuestType

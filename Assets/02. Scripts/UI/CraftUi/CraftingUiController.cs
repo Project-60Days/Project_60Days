@@ -18,7 +18,6 @@ public class CraftingUiController : MonoBehaviour
 
     [Header("Blueprint Mode")]
     [HideInInspector] public Transform blueprintSlotParent;
-    [SerializeField] GameObject blueprintSlotPrefab;
 
     [Header("Hologram")]
     [SerializeField] GameObject hologramBack;
@@ -348,10 +347,27 @@ public class CraftingUiController : MonoBehaviour
         string[] blueprintCodes = GetItemCombineCodes(_item);
         if (blueprintCodes == null) return;
 
+        bool isFirst = true;
+
         for (int i = 0; i < blueprintCodes.Length - 1; i++)
         {
-            if (blueprintCodes[i] == "-1") break;
-            AddItemByItemCode(blueprintCodes[i]);
+            GameObject obj = Instantiate(craftSlotPrefab, blueprintSlotParent);
+
+            if (blueprintCodes[i] == "-1")
+            {
+                obj.GetComponentInChildren<CraftSlot>().item = GetItemByItemCode(blueprintCodes[blueprintCodes.Length - 1]);
+                obj.GetComponentInChildren<TextMeshProUGUI>().text = "=";
+            }
+            else
+                obj.GetComponentInChildren<CraftSlot>().item = GetItemByItemCode(blueprintCodes[i]);
+
+            if (isFirst == true)
+            {
+                obj.transform.GetComponentInChildren<TextMeshProUGUI>().gameObject.SetActive(false);
+                isFirst = false;
+            }
+
+            obj.GetComponentInChildren<CraftSlot>().enabled = false;
         }
     }
 
@@ -366,25 +382,16 @@ public class CraftingUiController : MonoBehaviour
         return null;
     }
 
-    void AddItemByItemCode(string _itemCode)
+    ItemBase GetItemByItemCode(string _itemCode)
     {
         for (int i = 0; i < itemSO.items.Length; i++)
             if (itemSO.items[i].data.Code == _itemCode)
-            {
-                AddBlueprintItem(itemSO.items[i]);
-                return;
-            }
-                
+                return itemSO.items[i];
+
         Debug.Log("아직 추가되지 않은 아이템: " + _itemCode);
-        AddBlueprintItem(tempItem);
+        return tempItem;
     }
 
-    void AddBlueprintItem(ItemBase _item)
-    {
-        GameObject obj = Instantiate(blueprintSlotPrefab, blueprintSlotParent);
-        obj.GetComponentInChildren<BlueprintSlot>().item = _item;
-        obj.GetComponentInChildren<BlueprintSlot>().enabled = false;
-    }
     #endregion
 
 
