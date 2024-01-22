@@ -41,6 +41,8 @@ public class TitleLoad : MonoBehaviour
 
     void Init()
     {
+        App.instance.GetSoundManager().PlaySFX("SFX_Title_LogIn");
+
         videoPlayer = GetComponent<VideoPlayer>();
         videoPlayer.loopPointReached += OnVideoEnd;
 
