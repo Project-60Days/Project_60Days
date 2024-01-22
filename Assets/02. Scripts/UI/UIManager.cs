@@ -20,6 +20,7 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] ItemInfoController itemInfoController;
     [SerializeField] UpperController upperController;
     [SerializeField] PopUpController popUpController;
+    [SerializeField] AlertInfoController alertInfoController;
 
 
     public Stack<string> currUIStack = new Stack<string>();
@@ -140,5 +141,10 @@ public class UIManager : Singleton<UIManager>
     public PopUpController GetPopUpController()
     {
         return popUpController;
+    }
+
+    public AlertInfoController GetAlertInfoController()
+    {
+        return alertInfoController;
     }
 }
