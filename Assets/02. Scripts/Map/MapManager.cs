@@ -93,6 +93,7 @@ public class MapManager : ManagementBase
             if (!mapController.CheckPlayersView(tileController))
             {
                 mapUIController.FalseTileInfo();
+                return;
             }
 
             switch (mouseState)
@@ -255,10 +256,10 @@ public class MapManager : ManagementBase
 
     public void AllowMouseEvent(bool isAllow)
     {
+        mouseIntreractable = isAllow;
         canPlayerMove = false;
         isDronePrepared = false;
         isDisturbtorPrepared = false;
-        mouseIntreractable = isAllow;
     }
 
     public override EManagerType GetManagemetType()
@@ -341,7 +342,7 @@ public class MapManager : ManagementBase
         mapController.SpawnStructureZombie(structure.NeighborTiles);
 
         // 플레이어 체력 0으로 만들어서 경로 선택 막기
-        mapController.Player.SetHealth(false);
+        //mapController.Player.SetHealth(false);
 
         // 경로 삭제
         MovePathDelete();
@@ -350,7 +351,7 @@ public class MapManager : ManagementBase
         curStructure.SetIsUse(true);
     }
 
-    public void ResearchCancel()
+    public void ResearchCancel(StructureBase structure)
     {
         Debug.Log("조사 취소!");
     }
@@ -397,19 +398,6 @@ public class MapManager : ManagementBase
     {
         mapUIController.SetDisturbtorButtonInteractable(true);
         mapUIController.SetExplorerButtonInteractable(true);
-    }
-
-    // 카메라 안에 변수가 존재하는지 확인하는 함수
-    public bool CheckObjectInCamera(GameObject _target)
-    {
-        Vector3 screenPoint = mainCamera.WorldToViewportPoint(_target.transform.position);
-        bool onScreen = screenPoint.z > 0 
-                        && screenPoint.x > 0 
-                        && screenPoint.x < 1 
-                        && screenPoint.y > 0 
-                        && screenPoint.y < 1;
-
-        return onScreen;
     }
     
     // 카메라 정중앙 좌표를 반환하는 함수

@@ -1332,11 +1332,12 @@ MonoBehaviour:
   mouseIntreractable: 0
   mouseState: 0
   mapData:
-    resourcePercent: 50
-    fogSightRange: 3
-    playerMovementPoint: 1
-    zombieDetectionRange: 2
-    zombieCount: 10
+    resourcePercent: 60
+    fogSightRange: 4
+    playerMovementPoint: 2
+    zombieDetectionRange: 3
+    zombieCount: 80
+    durability: 100
 --- !u!4 &1979804631 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4495825778294196506, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}

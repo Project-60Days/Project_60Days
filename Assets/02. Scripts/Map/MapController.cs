@@ -43,15 +43,7 @@ public class MapController : Singleton<MapController>
         get { return player; }
     }
 
-    private int resourcePercent;
-
-    private int zombieCount;
-    
-    private int playerMovementPoint;
-    
-    private int zombieDetectionRange;
-    
-    private int fogSightRange;
+    private MapData mapData;
 
     GameObject disturbtor;
     GameObject explorer;
@@ -123,49 +115,53 @@ public class MapController : Singleton<MapController>
     {
         App.instance.GetDataManager().gameData.TryGetValue("Data_MinCount_ZombieObject", out GameData min);
         App.instance.GetDataManager().gameData.TryGetValue("Data_MaxCount_ZombieObject", out GameData max);
-        
+
         SpawnPlayer();
         GenerateTower();
         GenerateProductionStructure(new Coords(0, 0), 7);
 
-        SpawnZombies(zombieCount);
+        SpawnZombies(mapData.zombieCount);
 
-        csFogWar.instance.InitializeMapControllerObjects(player.gameObject, fogSightRange);
+        csFogWar.instance.InitializeMapControllerObjects(player.gameObject, mapData.fogSightRange);
         DeselectAllBorderTiles();
-        
-        StartCoroutine(RandomTileResource(resourcePercent));
+
+        StartCoroutine(RandomTileResource(mapData.resourcePercent));
         yield return null;
     }
 
     IEnumerator RandomTileResource(float _percent)
     {
         bool complete = false;
-        
-         List<TileBase> tileBaseList = hexaMap.Map.Tiles
-            .Where(x => x.Landform.GetType().Name == "LandformPlain")
+
+        List<TileBase> tileBaseList = GetAllTiles()
             .Select(x => ((GameObject)x.GameEntity).GetComponent<TileBase>())
             .ToList();
-        
+
         float randomTileCount = tileBaseList.Count - (tileBaseList.Count * (_percent * 0.01f));
-        
+
         for (int i = 0; i < randomTileCount; ++i)
         {
             int randNum = Random.Range(0, tileBaseList.Count);
             tileBaseList.RemoveAt(randNum);
         }
-        
+
         for (int i = 0; i < tileBaseList.Count; i++)
         {
             TileBase tile = tileBaseList[i];
             tile.SpawnRandomResource();
-            
-            if(i == tileBaseList.Count - 1)
+
+            if (i == tileBaseList.Count - 1)
                 complete = true;
         }
-        
+
         yield return new WaitUntil(() => complete);
-        
+
         SightCheck(player.TileController.Model);
+    }
+
+    public List<Tile> GetAllTiles()
+    {
+        return hexaMap.Map.Tiles.Where(x => ((GameObject)x.GameEntity).CompareTag("Tile")).ToList();
     }
 
     void SpawnPlayer()
@@ -177,7 +173,7 @@ public class MapController : Singleton<MapController>
             Quaternion.Euler(0, -90, 0));
         player = playerObject.GetComponent<Player>();
         player.transform.parent = mapParentTransform;
-        player.SetMoveRange(playerMovementPoint);
+        player.InputDefaultData(mapData.playerMovementPoint, mapData.durability);
 
         player.UpdateCurrentTile(TileToTileController(hexaMap.Map.GetTileFromCoords(new Coords(0, 0))));
         targetTileController = player.TileController;
@@ -194,7 +190,7 @@ public class MapController : Singleton<MapController>
 
     void SpawnZombies(int zombiesNumber)
     {
-        var tileList = hexaMap.Map.Tiles;
+        var tileList = GetAllTiles();
         var selectedTiles = RandomTileSelect(EObjectSpawnType.ExcludePlayer, zombiesNumber);
 
         // 오브젝트 생성.
@@ -208,7 +204,7 @@ public class MapController : Singleton<MapController>
                 Quaternion.Euler(0, Random.Range(0, 360), 0), zombiesTransform);
             zombie.name = "Zombie " + (i + 1);
             zombie.GetComponent<ZombieBase>().Init(tile);
-            zombie.GetComponent<ZombieBase>().SetValue(playerMovementPoint, zombieDetectionRange);
+            zombie.GetComponent<ZombieBase>().SetValue(mapData.playerMovementPoint, mapData.zombieDetectionRange);
             zombiesList.Add(zombie);
         }
     }
@@ -521,7 +517,7 @@ public class MapController : Singleton<MapController>
 
         yield return new WaitForSeconds(0.25f);
         CheckSumZombies();
-        
+
         // 이동 거리 충전
         player.SetHealth(true);
 
@@ -530,31 +526,32 @@ public class MapController : Singleton<MapController>
 
     public void CheckSumZombies()
     {
-        List<Tile> tiles = new List<Tile>();
+        List<ZombieBase> zombieBases = zombiesList.Select(x => x.GetComponent<ZombieBase>()).ToList();
+        List<ZombieBase> removeZombies = new List<ZombieBase>();
 
-        foreach (var item in zombiesList)
-            tiles.Add(item.GetComponent<ZombieBase>().curTile);
-
-        var result = tiles.GroupBy(x => x)
-            .Where(g => g.Count() > 1)
-            .Select(x => x.Key)
-            .Distinct()
-            .ToList();
-
-        for (var index = 0; index < result.Count; index++)
+        for (int i = 0; i < zombieBases.Count; i++)
         {
-            var item = result[index];
-            var num = tiles.IndexOf(item);
-            for (int i = num + 1; i < tiles.Count; i++)
+            for (int j = i + 1; j < zombieBases.Count; j++)
             {
-                if (tiles[num] == tiles[i])
+                var firstZombies = zombieBases[i];
+                var secondZombies = zombieBases[j];
+
+                if(firstZombies.zombieData.count == 0 || secondZombies.zombieData.count == 0)
+                    continue;
+                
+                if (firstZombies.curTile == secondZombies.curTile)
                 {
-                    var secondZombieSwarm = zombiesList[i].GetComponent<ZombieBase>();
-                    zombiesList[num].GetComponent<ZombieBase>().SumZombies(secondZombieSwarm);
-                    zombiesList.RemoveAt(i);
-                    Destroy(secondZombieSwarm.gameObject, 0.5f);
+                    firstZombies.SumZombies(secondZombies);
+                    removeZombies.Add(secondZombies);
                 }
             }
+        }
+
+        for (int i = 0; i < removeZombies.Count(); i++)
+        {
+            var item = removeZombies[i];
+            zombiesList.Remove(item.gameObject);
+            Destroy(item.gameObject);
         }
     }
 
@@ -705,7 +702,7 @@ public class MapController : Singleton<MapController>
     // 시야 바꾸기
     public bool CheckPlayersView(TileController tileController)
     {
-        var getTiles = GetTilesInRange(player.TileController.Model, 3);
+        var getTiles = GetTilesInRange(player.TileController.Model, 2);
 
         if (player.TileController == tileController)
             return true;
@@ -749,7 +746,7 @@ public class MapController : Singleton<MapController>
 
         List<Tile> neighborList = SetNeighborStructure(tilelist);
 
-        ((GameObject)tile.GameEntity).GetComponent<TileBase>().SpawnTower(neighborList);
+        ((GameObject)tile.GameEntity).GetComponent<TileBase>().SpawnQuestStructure(neighborList);
 
         var spawnPos = ((GameObject)tile.GameEntity).transform.position;
         spawnPos.y += 0.31f;
@@ -814,7 +811,7 @@ public class MapController : Singleton<MapController>
 
     List<Tile> ObjectSpawnDistanceCalculate(int range)
     {
-        var tileList = hexaMap.Map.Tiles;
+        var tileList = GetAllTiles();
 
         Tile lastIndex = tileList.Last();
 
@@ -875,7 +872,7 @@ public class MapController : Singleton<MapController>
 
     public List<int> RandomTileSelect(EObjectSpawnType type, int choiceNum = 1)
     {
-        var tiles = hexaMap.Map.Tiles;
+        var tiles = GetAllTiles();
 
         List<int> selectTileNumber = new List<int>();
 
@@ -903,13 +900,13 @@ public class MapController : Singleton<MapController>
         List<int> selectTileNumber = new List<int>();
         int randomInt;
 
-        if (tiles == null)
+        if (tiles == null || tiles.Count == 0)
             Debug.Log("비어있음");
 
         // 플레이어와 겹치지 않는 랜덤 타일 뽑기.
         while (selectTileNumber.Count != choiceNum)
         {
-            randomInt = (int)Random.Range(0, tiles.Count);
+            randomInt = Random.Range(0, tiles.Count);
 
             if (ConditionalBranch(type, tiles[randomInt]) == true)
             {
@@ -969,20 +966,16 @@ public class MapController : Singleton<MapController>
             return false;
     }
 
-    public void DeleteZombie(ZombieBase zombieBase)
-    {
-        zombiesList.Remove(zombieBase.gameObject);
-        Destroy(zombieBase.gameObject);
-    }
-
     public void SightCheck(Tile _targetTile)
     {
-        sightTiles = GetTilesInRange(_targetTile, 4);
+        sightTiles = GetTilesInRange(_targetTile, 5);
         sightTiles.Add(_targetTile);
 
-        for (int i = 0; i < hexaMap.Map.Tiles.Count; i++)
+        var allTiles = GetAllTiles();
+
+        for (int i = 0; i < allTiles.Count; i++)
         {
-            Tile item = hexaMap.Map.Tiles[i];
+            Tile item = allTiles[i];
 
             if (sightTiles.Contains(item) == false)
                 ((GameObject)item.GameEntity).SetActive(false);
@@ -990,24 +983,20 @@ public class MapController : Singleton<MapController>
                 ((GameObject)item.GameEntity).SetActive(true);
         }
     }
-    
+
     public void SightCheckInit()
     {
-        SightCheck(GetTileFromCoords(new Coords(0,0)));
+        SightCheck(GetTileFromCoords(new Coords(0, 0)));
     }
 
     public List<Tile> GetSightTiles()
     {
-        var list = GetTilesInRange(player.TileController.Model, 1);
+        var list = GetTilesInRange(player.TileController.Model, 2);
         return list;
     }
 
-    public void InputMapData(MapData mapData)
+    public void InputMapData(MapData _mapData)
     {
-        resourcePercent = mapData.resourcePercent;
-        zombieCount = mapData.zombieCount;
-        playerMovementPoint = mapData.playerMovementPoint;
-        zombieDetectionRange = mapData.zombieDetectionRange;
-        fogSightRange = mapData.fogSightRange;
+        mapData = _mapData;
     }
 }

@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
 
     int maxMoveRange = 1;
 
-    [SerializeField] int durability = 0;
+    int durability;
     public int Durability
     {
         get => durability;
@@ -23,14 +23,7 @@ public class Player : MonoBehaviour
                 durability = value; 
         }
     }
-
-    [SerializeField] int bulletsNum = 5;
-    public int BulletsNum
-    {
-        get => bulletsNum;
-        set => bulletsNum = value;
-    }
-
+    
     int moveRange;
     public int MoveRange
     {
@@ -69,10 +62,11 @@ public class Player : MonoBehaviour
         StartCoroutine(DelaySightGetInfo());
     }
     
-    public void SetMoveRange(int _moveRange)
+    public void InputDefaultData(int _moveRange, int _durability)
     {
         maxMoveRange = _moveRange;
         moveRange = maxMoveRange;
+        durability = _durability;
     }
 
     public IEnumerator MoveToTarget(TileController targetTileController, float time = 0.4f)
@@ -169,16 +163,17 @@ public class Player : MonoBehaviour
 
     public void AttackZombies(ZombieBase zombies)
     {
-        if (bulletsNum <= 0)
-        {
-            // 탄 없을 시 행동 불가
-            return;
-        }
+        // if (bulletsNum <= 0)
+        // {
+        //     // 탄 없을 시 행동 불가
+        //     return;
+        // }
 
         // 공격 애니메이션
         zombies.TakeDamage();
-        bulletsNum -= 1;
-        Debug.Log("남은 펄스탄 개수 : " + bulletsNum);
+        
+        //bulletsNum -= 1;
+        //Debug.Log("남은 펄스탄 개수 : " + bulletsNum);
     }
 
     public void TakeDamage(int zombieCount)
