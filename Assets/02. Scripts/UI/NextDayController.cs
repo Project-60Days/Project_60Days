@@ -21,7 +21,7 @@ public class NextDayController : MonoBehaviour
     [HideInInspector] public bool isOver = false;
     public bool isHit = false;
 
-  
+
     void Start()
     {
         mapCamera = GameObject.FindGameObjectWithTag("MapCamera").GetComponent<CinemachineVirtualCamera>();
@@ -60,8 +60,10 @@ public class NextDayController : MonoBehaviour
 
         Sequence sequence = DOTween.Sequence();
         sequence.Append(blackPanel.DOFade(1f, 0.5f)).SetEase(Ease.InQuint)
-            .OnComplete(() => {   
-                StartCoroutine(NextDayEventCallBack(()=> {
+            .OnComplete(() =>
+            {
+                StartCoroutine(NextDayEventCallBack(() =>
+                {
                     if (isOver == true)
                         StartCoroutine(ShowGameOver());
                     else
@@ -104,7 +106,7 @@ public class NextDayController : MonoBehaviour
             text = "<shake>" + "Day " + "{vertexp}" + today.ToString() + "{/vertexp}</shake>";
             dayCountTextTmp.color = Color.red;
         }
-       
+
         textAnimatorPlayer.ShowText(text);
         dayCountText.SetActive(true);
 
@@ -155,7 +157,7 @@ public class NextDayController : MonoBehaviour
 
         App.instance.GetSoundManager().StopBGM();
         App.instance.GetSoundManager().PlaySFX("SFX_SceneChange_MapToBase");
-        
+
         Sequence sequence = DOTween.Sequence();
         sequence
             .Append(blackPanel.DOFade(1f, 0.5f))
@@ -190,6 +192,11 @@ public class NextDayController : MonoBehaviour
             })
             .Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 10f, 0.5f))
             .Join(blackPanel.DOFade(0f, 0.5f))
-            .OnComplete(() => blackPanel.gameObject.SetActive(false));
+            .OnComplete(() =>
+                {
+                    blackPanel.gameObject.SetActive(false);
+                    App.instance.GetMapManager().GetCameraCenterTile();
+                }
+            );
     }
 }

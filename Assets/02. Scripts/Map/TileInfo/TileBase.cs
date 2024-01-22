@@ -41,7 +41,7 @@ public class TileBase : MonoBehaviour
     StructureBase structure;
 
     public StructureBase Structure => structure;
-    
+
     GameObject structureObject;
     public GameObject StructureObject => structureObject;
 
@@ -78,16 +78,16 @@ public class TileBase : MonoBehaviour
         App.instance.GetDataManager().tileData.TryGetValue(GetTileDataIndex(), out TileData data);
         tileData = data;
         landformText = tileData.Korean;
-        
+
         gachaProbability.Add(EResourceType.Steel, tileData.RemainPossibility_Steel);
         gachaProbability.Add(EResourceType.Carbon, tileData.RemainPossibility_Carbon);
         gachaProbability.Add(EResourceType.Plasma, tileData.RemainPossibility_Plasma);
         gachaProbability.Add(EResourceType.Powder, tileData.RemainPossibility_Powder);
         gachaProbability.Add(EResourceType.Gas, tileData.RemainPossibility_Gas);
         gachaProbability.Add(EResourceType.Rubber, tileData.RemainPossibility_Rubber);
-        
+
         var randomInt = Random.Range(1, 3);
-        
+
         while (gachaList.Count != randomInt)
         {
             var take = WeightedRandomizer.From(gachaProbability).TakeOne();
@@ -103,7 +103,7 @@ public class TileBase : MonoBehaviour
             var resource = new Resource(gachaList[i].ToString(), Random.Range(1, 16), itemBase);
             appearanceResources.Add(resource);
         }
-        
+
         RotationCheck(transform.rotation.eulerAngles);
     }
 
@@ -114,26 +114,12 @@ public class TileBase : MonoBehaviour
 
         if (_isInPlayerSight == true)
         {
-            for (int i = 0; i < appearanceResources.Count; i++)
-            {
-                Resource item = appearanceResources[i];
-
-                if (item.ItemCount == 0)
-                {
-                    appearanceResources.Remove(item);
-                }
-            }
-
-            for (int i = 0; i < resourceIcons.Length; i++)
-            {
-                SpriteRenderer icon = resourceIcons[i];
-                icon.sprite = null;
-                icon.gameObject.SetActive(false);
-            }
-
+            ResourceInit();
+            
             if (appearanceResources.Count > 0)
             {
                 var text = "";
+                
                 for (int i = 0; i < appearanceResources.Count; i++)
                 {
                     text += appearanceResources[i].ItemBase.data.Korean + " " +
@@ -149,27 +135,27 @@ public class TileBase : MonoBehaviour
                 }
                 else if (appearanceResources.Count == 2)
                 {
-                    resourceIcons[1].sprite = appearanceResources[0].ItemBase.itemImage;
-                    resourceIcons[1].gameObject.SetActive(true);
-
-                    resourceIcons[2].sprite = appearanceResources[1].ItemBase.itemImage;
-                    resourceIcons[2].gameObject.SetActive(true);
+                    for (int i = 0; i < appearanceResources.Count; i++)
+                    {
+                        SpriteRenderer item = resourceIcons[i + 1];
+                        item.sprite = appearanceResources[i].ItemBase.itemImage;
+                        item.gameObject.SetActive(true);
+                    }
                 }
                 else
                 {
-                    resourceIcons[3].sprite = appearanceResources[0].ItemBase.itemImage;
-                    resourceIcons[3].gameObject.SetActive(true);
-
-                    resourceIcons[4].sprite = appearanceResources[1].ItemBase.itemImage;
-                    resourceIcons[4].gameObject.SetActive(true);
-
-                    resourceIcons[5].sprite = appearanceResources[2].ItemBase.itemImage;
-                    resourceIcons[5].gameObject.SetActive(true);
+                    for (int i = 0; i < appearanceResources.Count; i++)
+                    {
+                        SpriteRenderer item = resourceIcons[i + 3];
+                        item.sprite = appearanceResources[i].ItemBase.itemImage;
+                        item.gameObject.SetActive(true);
+                    }
                 }
             }
             else
             {
                 resourceText = "자원 없음";
+                
                 for (int i = 0; i < resourceIcons.Length; i++)
                 {
                     SpriteRenderer item = resourceIcons[i];
@@ -188,6 +174,27 @@ public class TileBase : MonoBehaviour
             }
         }
     }
+
+    void ResourceInit()
+    {
+        for (int i = 0; i < appearanceResources.Count; i++)
+        {
+            Resource item = appearanceResources[i];
+
+            if (item.ItemCount == 0)
+            {
+                appearanceResources.Remove(item);
+            }
+        }
+
+        for (int i = 0; i < resourceIcons.Length; i++)
+        {
+            SpriteRenderer icon = resourceIcons[i];
+            icon.sprite = null;
+            icon.gameObject.SetActive(false);
+        }
+    }
+    
 
     protected void RotationCheck(Vector3 rotationValue)
     {
@@ -208,7 +215,7 @@ public class TileBase : MonoBehaviour
             }
             else
             {
-                resourceIcons[resourceIcons.Length - 1].transform.parent.transform.localEulerAngles =
+                resourceIcons[appearanceResources.Count].transform.parent.transform.localEulerAngles =
                     new Vector3(90, -rotationValue.y, 0);
 
                 for (int i = 0; i < resourceIcons.Length; i++)
@@ -315,7 +322,7 @@ public class TileBase : MonoBehaviour
             .Select(x => ((GameObject)x.GameEntity).GetComponent<TileBase>()).ToList();
 
         structureObject = _structureObject;
-        
+
         structure = new ProductionStructure();
         ((ProductionStructure)structure).Init(neighborBases);
         ((ProductionStructure)structure).SetColleagues(colleagueBases);
