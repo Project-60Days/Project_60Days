@@ -11,6 +11,8 @@ public class CameraShake : MonoBehaviour
     float shakeRange = 0.05f;
     float duration = 1f;
 
+    Color cyan = new Color(56f / 255f, 221f / 255f, 205f / 255f);
+
     // Start is called before the first frame update
     public void Shake(TextMeshProUGUI _numberText)
     {
@@ -38,7 +40,7 @@ public class CameraShake : MonoBehaviour
         int currentNumber = int.Parse(_numberText.text);
         DOTween.To(() => currentNumber, x => currentNumber = x, endNumber, 1f)
             .OnUpdate(() => _numberText.text = currentNumber.ToString())
-            .OnComplete(() => _numberText.color = Color.white);
+            .OnComplete(() => _numberText.color = cyan);
     }
 
     void StartShake()
