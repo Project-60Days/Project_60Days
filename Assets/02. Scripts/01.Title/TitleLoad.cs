@@ -34,6 +34,11 @@ public class TitleLoad : MonoBehaviour
 
 
 
+    void Awake()
+    {
+        Screen.SetResolution(1920, 1080, false);
+    }
+
     void Start()
     {
         Init();
@@ -90,13 +95,23 @@ public class TitleLoad : MonoBehaviour
     void OnVideoEnd(VideoPlayer vp)
     {
         loadingVideo.SetActive(false);
-        StartCoroutine(LeftLog());
+        Left();
+        //StartCoroutine(LeftLog());
     }
 
 
 
 
 
+    void Left()
+    {
+        leftLogField.DOText(leftFileText, 2f)
+            .SetEase(Ease.InSine)
+            .OnComplete(() =>
+            {
+                StartCoroutine(RightLog());
+            });
+    }
     /// <summary>
     /// 좌측상단 로그 재생
     /// </summary>

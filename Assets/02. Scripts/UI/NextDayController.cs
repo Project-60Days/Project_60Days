@@ -12,7 +12,7 @@ public class NextDayController : MonoBehaviour
     [SerializeField] GameObject dayCountText;
     [SerializeField] TextMeshProUGUI durabillityText;
     TextMeshProUGUI dayCountTextTmp;
-    TypewriterByCharacter textAnimatorPlayer;
+    TypewriterByWord textAnimatorPlayer;
 
     CinemachineVirtualCamera mapCamera;
     CameraShake normalCamera;
@@ -30,7 +30,7 @@ public class NextDayController : MonoBehaviour
         transposer.m_CameraDistance = 5f;
 
         dayCountTextTmp = dayCountText.GetComponent<TextMeshProUGUI>();
-        textAnimatorPlayer = dayCountText.GetComponent<TypewriterByCharacter>();
+        textAnimatorPlayer = dayCountText.GetComponent<TypewriterByWord>();
 
         isOver = false;
     }
