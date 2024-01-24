@@ -15,6 +15,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         dialogueRunner.AddCommandHandler("hide", HideDialogue);
         dialogueRunner.AddCommandHandler("show", ShowDialogue);
         dialogueRunner.AddCommandHandler<string>("setQuest", SetQuest);
+        dialogueRunner.AddCommandHandler<bool>("setCloseBtnEnabled", SetCloseBtnEnabled);
 
         //01//
         dialogueRunner.AddCommandHandler("lightUpWorkBench", LightUpWorkBench);
@@ -93,6 +94,11 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     void SetQuest(string _questCode)
     {
         UIManager.instance.GetQuestController().CreateQuest(_questCode);
+    }
+
+    void SetCloseBtnEnabled(bool _isEnabled)
+    {
+        UIManager.instance.GetNoteController().SetCloseBtnEnabled(_isEnabled);
     }
     #endregion
 

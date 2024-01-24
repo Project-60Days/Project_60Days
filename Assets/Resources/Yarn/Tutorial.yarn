@@ -41,6 +41,7 @@ title: Tutorial_03
 tags:
 ---
 <<setAlert note true>>
+<<setCloseBtnEnabled false>>
 <<show>>
 왼쪽 노트 알림을 눌러 결단을 내리십시오
 해당 노트는 플레이어의 스토리와 결정을 내릴 수 있으며 퀘스트를 완료할 수 있습니다.
@@ -61,6 +62,7 @@ tags:
 <<setScrollBar true>>
 <<setAlert note false>>
 <<setAlert caution true>>
+<<setCloseBtnEnabled true>>
 <<show>>
 비상사태입니다. 감지시스템 재가동 결과 글리처가 거처 주변에서 발견되었습니다.
 왼쪽 비상 알림은 거처 주변 1칸 내에 글리처가 존재함을 알려줍니다.
