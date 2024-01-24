@@ -34,8 +34,12 @@ public class InventoryController : MonoBehaviour
             item.isMadeOnce = false;
             item.isBlueprintOpen = false;
 
-            if (item.data.Code == "ITEM_PLATE" || item.data.Code == "ITEM_WIRE" || item.data.Code == "ITEM_GEAR")
+            if (item.data.Code == "ITEM_PLATE" || item.data.Code == "ITEM_WIRE" || item.data.Code == "ITEM_GEAR" || item.data.Code == "ITEM_BATTERY")
+            {
                 item.isMadeOnce = true;
+                item.isBlueprintOpen = true;
+            }
+                
 
             if (item.data.Code == "ITEM_DISTURBE")
                 disturbe = item;

@@ -21,6 +21,7 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] UpperController upperController;
     [SerializeField] PopUpController popUpController;
     [SerializeField] InfoController infoController;
+    [SerializeField] PVController pvController;
 
 
     public Stack<string> currUIStack = new Stack<string>();
@@ -146,5 +147,10 @@ public class UIManager : Singleton<UIManager>
     public InfoController GetInfoController()
     {
         return infoController;
+    }
+
+    public PVController GetPVController()
+    {
+        return pvController;
     }
 }

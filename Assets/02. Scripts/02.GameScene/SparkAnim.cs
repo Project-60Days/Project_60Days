@@ -75,8 +75,8 @@ public class SparkAnim : MonoBehaviour
         if (UIManager.instance.isUIStatus("UI_NORMAL"))
         {
             int sfxIndex = Random.Range(1, 5);
-            //App.instance.GetSoundManager().StopSFX();
-            App.instance.GetSoundManager().PlaySFX("SFX_SPARK_" + sfxIndex.ToString());
+            if (App.instance.GetSoundManager().CheckSFXPlayNow() == false) 
+                App.instance.GetSoundManager().PlaySFX("SFX_SPARK_" + sfxIndex.ToString());
         }
     }
 }

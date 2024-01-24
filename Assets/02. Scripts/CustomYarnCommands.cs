@@ -37,6 +37,10 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         dialogueRunner.AddCommandHandler("waitNewDay", WaitNewDay);
 
         //08//
+        dialogueRunner.AddCommandHandler("startPV", StartPV);
+        dialogueRunner.AddCommandHandler("waitPVEnd", WaitPVEnd);
+
+        //09//
         dialogueRunner.AddCommandHandler("endTutorial", EndTutorial);
 
         //common//
@@ -181,8 +185,23 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
 
 
-
     #region 08
+    void StartPV()
+    {
+        UIManager.instance.GetPVController().Start01();
+    }
+
+    Coroutine WaitPVEnd()
+    {
+        return StartCoroutine(new WaitUntil(() => UIManager.instance.GetPVController().isEnd));
+    }
+    #endregion
+
+
+
+
+
+    #region 09
     void EndTutorial()
     {
         TutorialManager.instance.EndTutorial();
