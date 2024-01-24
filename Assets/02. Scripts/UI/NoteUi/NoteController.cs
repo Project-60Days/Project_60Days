@@ -223,24 +223,21 @@ public class NoteController : MonoBehaviour
 
     IEnumerator CheckScrollEnabled()
     {
-        foreach (var scrollRect in scrollRects) 
+        int index;
+
+        if (notePages[pageNum].GetENotePageType() == ENotePageType.Result)
+            index = 0;
+        else
+            index = 1;
+
+        scrollRects[index].verticalNormalizedPosition = 1.0f;
+
+        yield return null;
+
+        if (scrollBars[index].gameObject.activeSelf)
         {
-            if (scrollRect.gameObject.activeSelf == false)
-                continue;
-
-            int index = Array.IndexOf(scrollRects, scrollRect);
-
-            scrollBars[index].value = 1;
-
-            yield return null;
-
-            if (scrollBars[index].size < 1 && scrollBars[index].gameObject.activeSelf) 
-            {
-                scrollImg.StartAnim();
-                StartCoroutine(WaitScrollToEnd(scrollBars[index]));
-            }
-
-            break;
+            scrollImg.StartAnim();
+            StartCoroutine(WaitScrollToEnd(scrollBars[index]));
         }
     }
 
