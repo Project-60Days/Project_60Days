@@ -832,8 +832,16 @@ public class MapController : Singleton<MapController>
             tileBase.transform.position = position;
         }
         
-        int randomInt = Random.Range(0, tilelist.Count);
-        var randomTile = ((GameObject)tilelist[randomInt].GameEntity).GetComponent<TileBase>();
+    }
+
+    public void SpawnSpecialItemRandomTile(List<TileBase> tileBases)
+    {
+        int randomInt = Random.Range(0, tileBases.Count);
+        var randomTile = tileBases[randomInt];
+        
+        if(randomTile.Structure==null)
+            Debug.Log("비어있음");
+        
         randomTile.AddSpecialItem();
     }
 

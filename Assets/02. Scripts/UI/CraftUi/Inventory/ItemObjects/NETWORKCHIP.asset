@@ -31,11 +31,9 @@ MonoBehaviour:
     value1: -1
     value2: -1
     value3: -1
-  itemImage: {fileID: 21300000, guid: 98e4a22fbebe6114f96fc68a5f45b174, type: 3}
-
-  itemCount: 1
-
-  eItemType: 0
+  itemImage: {fileID: 1576075925, guid: 4ba032e30c897264a8175c57457405f0, type: 3}
+  itemCount: 0
+  eItemType: 1
   sprite: {fileID: 21300000, guid: 351a9799c30acca41a51ea5f6ca7da9d, type: 3}
   sfxName: 
   isMadeOnce: 0

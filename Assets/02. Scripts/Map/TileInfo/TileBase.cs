@@ -325,6 +325,8 @@ public class TileBase : MonoBehaviour
     {
         var neighborBases = neighborTiles
             .Select(x => ((GameObject)x.GameEntity).GetComponent<TileBase>()).ToList();
+        
+        
 
         var colleagueBases = colleagueTiles
             .Select(x => ((GameObject)x.GameEntity).GetComponent<TileBase>()).ToList();
@@ -351,9 +353,11 @@ public class TileBase : MonoBehaviour
         // 특수 자원 추가
         var itemBase = itemSO.items.ToList()
             .Find(x => x.data == structure.specialItem);
-
+        
         appearanceResources.Add(new Resource(structure.specialItem.English, 1, itemBase));
-        ResourceUpdate(inPlayerSight);
+        
+        RotationCheck(transform.rotation.eulerAngles);
+        ResourceUpdate(true);
     }
 
     public void SetNeighborStructure()
