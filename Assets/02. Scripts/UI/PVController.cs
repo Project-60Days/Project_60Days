@@ -62,6 +62,6 @@ public class PVController : MonoBehaviour
     {
         Sequence sequence = DOTween.Sequence();
         sequence.AppendInterval(3f)
-                .Append(text.DOFade(0f, 2f));
+                .Append(text.DOFade(0f, 1f));
     }
 }

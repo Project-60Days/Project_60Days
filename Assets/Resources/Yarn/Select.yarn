@@ -25,10 +25,10 @@ tags:
 title: structureSelect
 tags:
 ---
-<br>   근처에 건물이 있습니다.<br><br><size=24><color=\#38cddc>   조사를 시작할까요?<br><br>
+<br>   근처에 <color=\#38cddc>{getStructName()}</color>이 있습니다.<br><br><size=24><color=\#38cddc>   조사를 시작할까요?</color><br><br>
 ===
 title: sequence
 tags:
 ---
-<br><br>   시퀀스 로딩 중 . <br> . <br> . <br> 진입 완료 <br> 이제 들어갈 수 있다.
+<br><br>시퀀스 로딩 중 <br>. <br> . <br> . <br> 진입 완료 <br> 이제 들어갈 수 있다.
 ===

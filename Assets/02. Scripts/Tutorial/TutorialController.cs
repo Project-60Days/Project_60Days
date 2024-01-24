@@ -104,7 +104,7 @@ public class TutorialController : MonoBehaviour
 
     void LightDownBackground()
     {
-        lightBackground.DOFade(1f, 0f).OnComplete(() =>
+        lightBackground.DOFade(0.95f, 0f).OnComplete(() =>
         {
             lightBackground.gameObject.SetActive(true);
             batteryImage.fillAmount = 0;

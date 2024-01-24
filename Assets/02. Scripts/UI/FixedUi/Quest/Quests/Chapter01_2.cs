@@ -24,6 +24,6 @@ public class Chapter01_2 : QuestBase
 
     public override string SetQuestText()
     {
-        return "송신탑 찾기";
+        return "송신 탑 찾기";
     }
 }

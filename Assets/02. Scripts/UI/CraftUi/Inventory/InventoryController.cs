@@ -13,6 +13,7 @@ public class InventoryController : MonoBehaviour
 
     ItemBase disturbe;
     ItemBase findor;
+    ItemBase netCard;
 
     void Awake()
     {
@@ -36,6 +37,8 @@ public class InventoryController : MonoBehaviour
                 disturbe = item;
             else if (item.data.Code == "ITEM_FINDOR")
                 findor = item;
+            else if (item.data.Code == "ITEM_NETWORKCHIP")
+                netCard = item;
         }
 
         InitSlots();
@@ -184,6 +187,18 @@ public class InventoryController : MonoBehaviour
             return true;
         }
     }
+
+    public bool CheckNetCardUsage()
+    {
+        if (netCard.itemCount <= 0)
+            return false;
+        else
+        {
+            RemoveItem(netCard);
+            return true;
+        }
+    }
+
     #region temp
     /// <summary>
     /// 시연회용 임시 함수(맞나?)

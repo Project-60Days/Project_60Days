@@ -26,6 +26,8 @@ public class PageController : MonoBehaviour
     Color unclickedColor = new Color(1f, 1f, 1f, 0.5f);
     Color normalColor = new Color(1f, 1f, 1f, 1f);
 
+    [HideInInspector] public string currStruct;
+
     void Awake()
     {
         NotePageBase[] pages = GetComponentsInChildren<NotePageBase>(includeInactive: true);
@@ -39,6 +41,8 @@ public class PageController : MonoBehaviour
 
         yesImage = yesBtn.GetComponent<Image>();
         noImage = noBtn.GetComponent<Image>();
+
+        currStruct = null;
     }
 
     public void SetResultPage(string _nodeName, bool _isResourceNode)
@@ -49,6 +53,7 @@ public class PageController : MonoBehaviour
     public void SetSelectPage(string _nodeName, StructureBase _structData)
     {
         selectPage.SetNodeName(_nodeName);
+        currStruct = _structData.StructureName;
 
         InitBtns();
 

@@ -6,12 +6,12 @@ tags:
 title: Signal_Yes
 tags:
 ---
-<br>   송신탑 들어감
+<br>   송신 탑에 접근 승인되었습니다.
 ===
 title: Signal_No
 tags:
 ---
-<br>   송신탑 안들어감
+<br>   송신 탑에 접근 거부되었습니다.
 ===
 
 

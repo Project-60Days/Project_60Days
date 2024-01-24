@@ -24,7 +24,7 @@ public class Chapter01_3 : QuestBase
 
     public override string SetQuestText()
     {
-        return "네트워크 칩 연결하기";
+        return "넷 카드 연결하기";
     }
 
     public override void AfterQuest()
