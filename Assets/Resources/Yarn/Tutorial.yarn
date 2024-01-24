@@ -80,6 +80,7 @@ tags:
 선체의 이동시간은 1턴입니다. 이동 전에 현재 위치에서 할 수 있는 모든 행동을 취해야 합니다. <br>입력 완료 버튼을 눌러 다음날로 진행하십시오.
 <<highlight NextDay UI_NORMAL>>
 <<hide>>
+<<addResource>>
 <<waitNewDay>>
 <<jump Tutorial_07>>
 ===
