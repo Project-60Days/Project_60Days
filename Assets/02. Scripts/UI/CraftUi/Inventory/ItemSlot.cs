@@ -32,7 +32,7 @@ public class ItemSlot : SlotBase
         }
         else if (UIManager.instance.GetCraftModeController().eCraftModeType == ECraftModeType.Equip)
         {
-            if (item.eItemType == EItemType.Equipment || item.eItemType == EItemType.Both)
+            if (item.eItemType == EItemType.Equipment)
             {
                 UIManager.instance.GetCraftingUiController().MoveInventoryToEquip(item);
 

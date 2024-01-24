@@ -22,17 +22,19 @@ MonoBehaviour:
     EquipType: 0
     EquipArea: -1
     CombineSlotCount: 0
-    Description: "\uB124\uD2B8\uC6CC\uD06C \uCE69"
+    Description: "\uB137 \uCE74\uB4DC"
     EffectDescription: 
-    Korean: "\uB124\uD2B8\uC6CC\uD06C \uCE69"
-    English: Network Chip
+    Korean: "\uB137 \uCE74\uB4DC"
+    English: Net Card
     Japanese: -1
     Chinese: -1
     value1: -1
     value2: -1
     value3: -1
   itemImage: {fileID: 21300000, guid: 98e4a22fbebe6114f96fc68a5f45b174, type: 3}
-  itemCount: 0
+
+  itemCount: 1
+
   eItemType: 0
   sprite: {fileID: 21300000, guid: 351a9799c30acca41a51ea5f6ca7da9d, type: 3}
   sfxName: 

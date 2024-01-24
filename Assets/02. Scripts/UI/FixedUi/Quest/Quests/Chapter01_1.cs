@@ -24,6 +24,6 @@ public class Chapter01_1 : QuestBase
 
     public override string SetQuestText()
     {
-        return "네트워크 칩 회수하기";
+        return "넷 카드 회수하기";
     }
 }

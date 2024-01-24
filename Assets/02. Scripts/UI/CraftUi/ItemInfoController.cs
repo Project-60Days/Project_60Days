@@ -17,6 +17,7 @@ public class ItemInfoController : MonoBehaviour
     [SerializeField] ItemSO itemSO;
 
     RectTransform infoTransform;
+    CanvasGroup canvasGroup;
 
     public bool isNew = true;
 
@@ -25,6 +26,7 @@ public class ItemInfoController : MonoBehaviour
     void Awake()
     {
         infoTransform = gameObject.GetComponent<RectTransform>();
+        canvasGroup = gameObject.GetComponent<CanvasGroup>();
 
         HideInfo();
     }
@@ -47,6 +49,7 @@ public class ItemInfoController : MonoBehaviour
 
         blueprintSlotParent.gameObject.SetActive(false);
 
+        canvasGroup.alpha = 0f;
         gameObject.SetActive(false);
     }
 
@@ -68,6 +71,8 @@ public class ItemInfoController : MonoBehaviour
             isNew = false;
         }
 
+        gameObject.SetActive(true);
+
         LayoutRebuilder.ForceRebuildLayoutImmediate(infoTransform);
 
         float width = infoTransform.rect.width;
@@ -86,7 +91,7 @@ public class ItemInfoController : MonoBehaviour
 
         infoTransform.position = new Vector3(newX, newY, infoTransform.position.z);
 
-        gameObject.SetActive(true);
+        canvasGroup.alpha = 1f;
     }
 
     void SetObejcts(ItemBase _item)

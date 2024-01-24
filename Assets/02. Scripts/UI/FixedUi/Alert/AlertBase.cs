@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class AlertBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     bool isMouseEnter = false;
-    [SerializeField] string alertText;
+    [SerializeField] string alertCode;
 
     void Update()
     {
@@ -17,7 +17,7 @@ public class AlertBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
     public virtual void ShowItemInfo()
     {
         Vector3 mousePos = Input.mousePosition;
-        UIManager.instance.GetInfoController().ShowAlertInfo(alertText, mousePos);
+        UIManager.instance.GetInfoController().ShowAlertInfo(alertCode, mousePos);
     }
 
     public void OnPointerClick(PointerEventData eventData)

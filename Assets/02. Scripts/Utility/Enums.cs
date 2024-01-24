@@ -18,8 +18,6 @@ public enum EItemType
 {
     Material,
     Equipment,
-    Both,
-    UnCraftable,
     Special
 }
 
