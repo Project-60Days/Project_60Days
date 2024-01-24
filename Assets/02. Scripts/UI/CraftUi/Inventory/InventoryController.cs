@@ -13,6 +13,7 @@ public class InventoryController : MonoBehaviour
 
     ItemBase disturbe;
     ItemBase findor;
+    ItemBase netCard;
 
     void Awake()
     {
@@ -30,26 +31,19 @@ public class InventoryController : MonoBehaviour
 
         foreach (var item in itemSO.items)
         {
-            item.itemCount = 0;
-            item.isMadeOnce = false;
-            item.isBlueprintOpen = false;
-
-            if (item.data.Code == "ITEM_PLATE" || item.data.Code == "ITEM_WIRE" || item.data.Code == "ITEM_GEAR" || item.data.Code == "ITEM_BATTERY")
-            {
-                item.isMadeOnce = true;
-                item.isBlueprintOpen = true;
-            }
-                
+            item.Init();
 
             if (item.data.Code == "ITEM_DISTURBE")
                 disturbe = item;
             else if (item.data.Code == "ITEM_FINDOR")
                 findor = item;
+            else if (item.data.Code == "ITEM_NETWORKCHIP")
+                netCard = item;
         }
-            
 
         InitSlots();
     }
+
 
     /// <summary>
     /// slot에 변경사항 적용 시 호출됨. 인벤토리 내의 슬롯에 아이템 추가
@@ -193,6 +187,18 @@ public class InventoryController : MonoBehaviour
             return true;
         }
     }
+
+    public bool CheckNetCardUsage()
+    {
+        if (netCard.itemCount <= 0)
+            return false;
+        else
+        {
+            RemoveItem(netCard);
+            return true;
+        }
+    }
+
     #region temp
     /// <summary>
     /// 시연회용 임시 함수(맞나?)

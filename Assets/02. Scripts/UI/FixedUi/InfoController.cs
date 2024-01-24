@@ -7,42 +7,41 @@ using UnityEngine.UI;
 public class InfoController : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI text;
+    
 
     public bool isNew = true;
 
     RectTransform infoTransform;
+    CanvasGroup canvasGroup;
 
     void Awake()
     {
         infoTransform = gameObject.GetComponent<RectTransform>();
+        canvasGroup = gameObject.GetComponent<CanvasGroup>();
 
         HideInfo();
     }
 
     public void HideInfo()
     {
-        InitObjects();
-    }
-
-    void InitObjects()
-    {
         text.gameObject.SetActive(false);
-        
+        canvasGroup.alpha = 0f;
         gameObject.SetActive(false);
     }
 
-    public void ShowAlertInfo(string _text, Vector3 _mouseCoordinate)
+    public void ShowAlertInfo(string _code, Vector3 _mouseCoordinate)
     {
         if (isNew == true)
         {
             HideInfo();
-            SetObjects(_text);
+            SetObjects(_code);
             isNew = false;
         }
 
         SetTransform(_mouseCoordinate);
 
         gameObject.SetActive(true);
+        canvasGroup.alpha = 1f;
     }
 
     public void ShowMapInfo(ETileType _type, Vector3 _mouseCoordinate)
@@ -57,24 +56,22 @@ public class InfoController : MonoBehaviour
         SetTransform(_mouseCoordinate);
 
         gameObject.SetActive(true);
+        canvasGroup.alpha = 1f;
     }
 
-    void SetObjects(string _text)
+    void SetObjects(string _code)
     {
-        if (_text != null)
-        {
-            text.gameObject.SetActive(true);
-            text.text = _text;
-        }
+        text.text = App.instance.GetDataManager().GetString(_code);
+        text.gameObject.SetActive(true);
     }
 
     void SetObjects(ETileType _type)
     {
         string type = _type.ToString().ToUpper();
         string code = "STR_TILE_" + type + "_DESCRIPTION";
-  
-        text.gameObject.SetActive(true);
+         
         text.text = App.instance.GetDataManager().GetString(code);
+        text.gameObject.SetActive(true);
     }
 
     void SetTransform(Vector3 _mouseCoordinate)

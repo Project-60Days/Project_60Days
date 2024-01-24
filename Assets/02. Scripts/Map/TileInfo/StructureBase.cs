@@ -7,6 +7,8 @@ public abstract class StructureBase
 {
     protected string structureName;
 
+    public string StructureName => structureName;
+
     protected Resource resource;
     public Resource Resource => resource;
     

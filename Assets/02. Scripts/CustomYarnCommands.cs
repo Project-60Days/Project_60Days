@@ -251,9 +251,18 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         return count;
     }
 
+
     [YarnCommand("custom_wait")]
     static IEnumerator CustomWait(float _time)
     {
         yield return new WaitForSeconds(_time);
+    }
+
+    [YarnFunction("getStructName")]
+    static string GetStructName()
+    {
+        string structName = UIManager.instance.GetPageController().currStruct;
+        
+        return structName;
     }
 }

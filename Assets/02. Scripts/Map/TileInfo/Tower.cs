@@ -6,7 +6,7 @@ public class Tower : StructureBase
 {
     public override void Init(List<TileBase> _neighborTiles, GameObject _structureModel)
     {
-        structureName = "신호기";
+        structureName = "송신 탑";
         isUse = false;
         isAccessible = false;
         resource = new Resource("Wire", 10);

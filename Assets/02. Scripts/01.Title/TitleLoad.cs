@@ -165,7 +165,7 @@ public class TitleLoad : MonoBehaviour
         TextMeshProUGUI text = titleText.GetComponent<TextMeshProUGUI>();
 
         text.alpha = 0f;
-        text.DOFade(1f, 0.1f).SetEase(Ease.InOutBounce);
+        text.DOFade(1f, 0f).SetEase(Ease.Linear);
     }
 
     void SetTitleImage()
@@ -173,6 +173,6 @@ public class TitleLoad : MonoBehaviour
         Image title = titleImage.GetComponent<Image>();
 
         title.color = new Color(1f, 1f, 1f, 0f);
-        title.DOFade(1f, 0.1f).SetEase(Ease.InOutBounce);
+        title.DOFade(1f, 1f).SetEase(Ease.Linear);
     }
 }

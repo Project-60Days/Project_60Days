@@ -6,12 +6,12 @@ tags:
 title: Signal_Yes
 tags:
 ---
-<br>   송신탑 들어감
+<br>   송신 탑에 접근 승인되었습니다.
 ===
 title: Signal_No
 tags:
 ---
-<br>   송신탑 안들어감
+<br>   송신 탑에 접근 거부되었습니다.
 ===
 
 
@@ -508,4 +508,132 @@ tags:
 ---
 <<appendNode>>
 <br>   우리는 습지 속 숲을 지나가던 중 고무가 잔뜩 적재된 로봇을 발견했다. 이 로봇은 예전의 산업용 로봇 중 하나였던 것 같다. 우리는 그 로봇의 저장 공간을 떼어내 고무를 얻어냈고 고무를 두둑이 챙겨나갔다.<br><color=\#38cddc>   (  <sprite index=5>  +  {getResourceCount("ITEM_RUBBER")}  )</color><br><br>
+===
+
+
+
+
+
+title: ITEM_NETWORKCHIP_None1
+tags:
+---
+<<appendNode>>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+===
+title: ITEM_NETWORKCHIP_None2
+tags: 
+---
+<<appendNode>>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+===
+title: ITEM_NETWORKCHIP_None3
+tags:
+---
+<<appendNode>>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+===
+title: ITEM_NETWORKCHIP_None4
+tags:
+---
+<<appendNode>>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+===
+title: ITEM_NETWORKCHIP_None5
+tags:
+---
+<<appendNode>>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+===
+
+title: ITEM_NETWORKCHIP_Desert1
+tags:
+---
+<<appendNode>>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+===
+title: ITEM_NETWORKCHIP_Desert2
+tags:
+---
+<<appendNode>>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+===
+title: ITEM_NETWORKCHIP_Desert3
+tags:
+---
+<<appendNode>>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+===
+title: ITEM_NETWORKCHIP_Desert4
+tags:
+---
+<<appendNode>>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+===
+title: ITEM_NETWORKCHIP_Desert5
+tags:
+---
+<<appendNode>>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+===
+
+title: ITEM_NETWORKCHIP_Tundra1
+tags:
+---
+<<appendNode>>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+===
+title: ITEM_NETWORKCHIP_Tundra2
+tags:
+---
+<<appendNode>>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+===
+title: ITEM_NETWORKCHIP_Tundra3
+tags:
+---
+<<appendNode>>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+===
+title: ITEM_NETWORKCHIP_Tundra4
+tags:
+---
+<<appendNode>>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+===
+title: ITEM_NETWORKCHIP_Tundra5
+tags:
+---
+<<appendNode>>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+===
+
+title: ITEM_NETWORKCHIP_Jungle1
+tags:
+---
+<<appendNode>>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+===
+title: ITEM_NETWORKCHIP_Jungle2
+tags:
+---
+<<appendNode>>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+===
+title: ITEM_NETWORKCHIP_Jungle3
+tags:
+---
+<<appendNode>>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+===
+title: ITEM_NETWORKCHIP_Jungle4
+tags:
+---
+<<appendNode>>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+===
+title: ITEM_NETWORKCHIP_Jungle5
+tags:
+---
+<<appendNode>>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
 ===
