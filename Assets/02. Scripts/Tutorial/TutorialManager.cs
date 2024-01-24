@@ -31,7 +31,7 @@ public class TutorialManager : Singleton<TutorialManager>
     {
         UIManager.instance.GetCraftingUiController().RemoveBatteryCombine();
 
-        UIManager.instance.GetQuestController().CreateQuest("chapter01_GetNetworkChip"); //일단 임시.. pv나오면 그거 재생 끝나고 생성되게 수정하겠습니다.
+        UIManager.instance.GetQuestController().CreateQuest("chapter01_GetNetworkChip");
 
         Destroy(this);
     }
