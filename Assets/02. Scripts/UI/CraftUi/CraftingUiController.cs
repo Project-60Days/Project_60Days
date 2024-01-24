@@ -164,8 +164,6 @@ public class CraftingUiController : MonoBehaviour
                 if (item.isBlueprintOpen == false)
                     return;
                 AddCombineItem(item);
-                if (item.isMadeOnce == false)
-                    item.isMadeOnce = true;
                 break;
             }
         }

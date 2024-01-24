@@ -16,6 +16,8 @@ public class CraftEffectAnim : MonoBehaviour
 
     public void Init()
     {
+        transform.DOKill();
+
         Vector3 newPosition = transform.position;
         newPosition.x = initPositionX;
         transform.position = newPosition;
