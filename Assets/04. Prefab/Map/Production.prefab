@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2586955457436457108}
-  - component: {fileID: 336135236916218371}
-  m_Layer: 0
+  - component: {fileID: 723695154236300220}
+  m_Layer: 10
   m_Name: Production
-  m_TagString: Untagged
+  m_TagString: Structure
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33,7 +33,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &336135236916218371
+--- !u!114 &723695154236300220
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,7 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a4628e5deb37f9469d5c29d5c94b5e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _renderer: {fileID: 7897427080753285963}
+  rend: {fileID: 7897427080753285963}
+  cloakingMaterial: {fileID: 2100000, guid: f48a8af5e0cb79b40bead9be06b65230, type: 2}
 --- !u!1001 &8816035653691840463
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -120,6 +121,14 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 818b42bb55c482140b8f85101f5ce61d, type: 3}
       propertyPath: m_Name
       value: production_line
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 818b42bb55c482140b8f85101f5ce61d, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 818b42bb55c482140b8f85101f5ce61d, type: 3}
+      propertyPath: m_TagString
+      value: Structure
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 818b42bb55c482140b8f85101f5ce61d, type: 3}

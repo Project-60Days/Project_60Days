@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class ProductionStructure : StructureBase
 {
-    public override void Init(List<TileBase> _neighborTiles)
+    public override void Init(List<TileBase> _neighborTiles,GameObject _structureModel)
     {
-        structureName = "일반 건물";
+        structureName = "생산 건물";
         isUse = false;
         isAccessible = false;
+        
         resource = new Resource("Wire", 10);
         neighborTiles = _neighborTiles;
+        structureModel = _structureModel;
+        
         App.instance.GetDataManager().itemData.TryGetValue("ITEM_NETWORKCHIP", out ItemData itemData);
         specialItem = itemData;
     }
-    
+
     public void SetColleagues(List<TileBase> _colleagues)
     {
         colleagues = _colleagues;
@@ -22,13 +25,14 @@ public class ProductionStructure : StructureBase
 
     public override void YesFunc()
     {
-        foreach (var tile in colleagues)
+        for (var index = 0; index < colleagues.Count; index++)
         {
+            var tile = colleagues[index];
             ((ProductionStructure)tile.Structure).AllowAccess();
         }
-        
-        App.instance.GetMapManager().ResearchStart(this);
-        isUse = false;
+
+        App.instance.GetMapManager().NormalStructureResearch(this);
+        isUse = true;
         isAccessible = true;
         UIManager.instance.GetPageController().CreateSelectDialogueRunner("sequence");
     }
@@ -41,6 +45,7 @@ public class ProductionStructure : StructureBase
     
     public void AllowAccess()
     {
+        isUse = true;
         isAccessible = true;
     }
 }

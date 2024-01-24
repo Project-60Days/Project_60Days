@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class Tower : StructureBase
 {
-    public override void Init(List<TileBase> _neighborTiles)
+    public override void Init(List<TileBase> _neighborTiles, GameObject _structureModel)
     {
         structureName = "신호기";
         isUse = false;
         isAccessible = false;
         resource = new Resource("Wire", 10);
         neighborTiles = _neighborTiles;
+        structureModel = _structureModel;
     }
     
     public override void NoFunc()
@@ -23,8 +24,7 @@ public class Tower : StructureBase
     {
         // 맵 씬 강제 이동 + 조사 애니메이션
         isUse = true;
-        isAccessible = true;
-        App.instance.GetMapManager().ResearchStart(this);
+
         UIManager.instance.GetPageController().SetResultPage("Signal_Yes", false);
         UIManager.instance.GetPageController().CreateSelectDialogueRunner("sequence");
     }

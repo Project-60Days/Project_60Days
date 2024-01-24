@@ -26,6 +26,7 @@ TagManager:
   - Battery
   - NormalCamera
   - Tile
+  - Structure
   layers:
   - Default
   - TransparentFX
@@ -37,7 +38,7 @@ TagManager:
   - Tile
   - Wall
   - Zombie
-  - 
+  - Structure
   - 
   - 
   - 

@@ -1,27 +1,32 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using DG.Tweening;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
+using DG.Tweening;
+using UnityEngine.EventSystems;
+using Sequence = DG.Tweening.Sequence;
+using UnityEngine.EventSystems;
 
 public class StructureFade : MonoBehaviour
 {
-    Sequence sequence;
+    private Material curMaterial;
+    [SerializeField] private Renderer rend;
+    [SerializeField] Material cloakingMaterial;
 
-    [SerializeField] private MeshRenderer _renderer;
-
-    private void Start()
+    void Start()
     {
-        FadeOut();
-    }
-
-    public void FadeOut()
-    {
-        _renderer.material.DOFade(0.5f, 0.25f);
+        curMaterial = rend.material;
     }
 
     public void FadeIn()
     {
-        _renderer.material.DOFade(1, 0.25f);
+        rend.material = cloakingMaterial;
+    }
+    
+    public void FadeOut()
+    {
+        rend.material = curMaterial;
     }
 }

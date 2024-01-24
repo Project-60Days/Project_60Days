@@ -39,10 +39,10 @@ public class TileBase : MonoBehaviour
     public ZombieBase CurZombies => curZombies;
 
     StructureBase structure;
+    GameObject structureObject;
 
     public StructureBase Structure => structure;
 
-    GameObject structureObject;
     public GameObject StructureObject => structureObject;
 
     public ETileType TileType => tileType;
@@ -54,16 +54,16 @@ public class TileBase : MonoBehaviour
         gachaProbability = new Dictionary<EResourceType, int>();
         gachaList = new List<EResourceType>();
         appearanceResources = new List<Resource>();
+        
+        App.instance.GetDataManager().tileData.TryGetValue(GetTileDataIndex(), out TileData data);
+        tileData = data;
+        landformText = tileData.Korean;
     }
 
     void Start()
     {
         Player.PlayerSightUpdate += CheckPlayerTIle;
-        
         tile = GetComponent<TileController>().Model;
-        App.instance.GetDataManager().tileData.TryGetValue(GetTileDataIndex(), out TileData data);
-        tileData = data;
-        landformText = tileData.Korean;
     }
 
     void OnDestroy()
@@ -73,10 +73,10 @@ public class TileBase : MonoBehaviour
 
     void GetTilData()
     {
-        App.instance.GetDataManager().tileData.TryGetValue(GetTileDataIndex(), out TileData data);
-        tileData = data;
-        landformText = tileData.Korean;
-
+        gachaList.Clear();
+        appearanceResources.Clear();
+        gachaProbability.Clear();
+        
         gachaProbability.Add(EResourceType.Steel, tileData.RemainPossibility_Steel);
         gachaProbability.Add(EResourceType.Carbon, tileData.RemainPossibility_Carbon);
         gachaProbability.Add(EResourceType.Plasma, tileData.RemainPossibility_Plasma);
@@ -88,7 +88,7 @@ public class TileBase : MonoBehaviour
     public void SpawnRandomResource()
     {
         GetTilData();
-
+        
         var randomInt = Random.Range(1, 3);
 
         while (gachaList.Count != randomInt)
@@ -110,12 +110,15 @@ public class TileBase : MonoBehaviour
         RotationCheck(transform.rotation.eulerAngles);
     }
 
-    void ResourceUpdate(bool _isInPlayerSight)
+    public void ResourceUpdate(bool _isInPlayerSight)
     {
         if (structure != null)
-            return;
-
-        if (_isInPlayerSight == true)
+        {
+            if (structure.IsAccessible == false)
+                return;
+        }
+        
+        if (_isInPlayerSight)
         {
             ResourceInit();
 
@@ -197,6 +200,7 @@ public class TileBase : MonoBehaviour
             icon.gameObject.SetActive(false);
         }
     }
+    
 
     protected void RotationCheck(Vector3 rotationValue)
     {
@@ -296,13 +300,13 @@ public class TileBase : MonoBehaviour
         }
     }
 
-    public void SpawnQuestStructure(List<Tile> neighborTiles)
+    public void SpawnQuestStructure(List<Tile> neighborTiles, GameObject _structureObject)
     {
         var neighborBases = neighborTiles
             .Select(x => ((GameObject)x.GameEntity).GetComponent<TileBase>()).ToList();
 
         structure = new Tower();
-        ((Tower)structure).Init(neighborBases);
+        ((Tower)structure).Init(neighborBases,_structureObject);
 
         landformText = "타워";
         resourceText = "자원 : ???";
@@ -313,6 +317,8 @@ public class TileBase : MonoBehaviour
             item.sprite = null;
             item.gameObject.SetActive(false);
         }
+        
+        TileInfoUpdate();
     }
 
     public void SpawnNormalStructure(List<Tile> neighborTiles, List<Tile> colleagueTiles, GameObject _structureObject)
@@ -326,7 +332,7 @@ public class TileBase : MonoBehaviour
         structureObject = _structureObject;
 
         structure = new ProductionStructure();
-        ((ProductionStructure)structure).Init(neighborBases);
+        ((ProductionStructure)structure).Init(neighborBases,_structureObject);
         ((ProductionStructure)structure).SetColleagues(colleagueBases);
 
         landformText = "생산 라인";
@@ -344,11 +350,10 @@ public class TileBase : MonoBehaviour
     {
         // 특수 자원 추가
         var itemBase = itemSO.items.ToList()
-            .Find(x => x.data.English == structure.specialItem.English);
+            .Find(x => x.data == structure.specialItem);
 
         appearanceResources.Add(new Resource(structure.specialItem.English, 1, itemBase));
         ResourceUpdate(inPlayerSight);
-        TileInfoUpdate();
     }
 
     public void SetNeighborStructure()
@@ -389,6 +394,6 @@ public class TileBase : MonoBehaviour
                 .UpdateText(ETileInfoTMP.Zombie, "좀비 수 : " + curZombies.zombieData.count + "마리");
         }
     }
-
+    
     public virtual void TileEffectInit(Player player, ZombieBase zombie) { }
 }
