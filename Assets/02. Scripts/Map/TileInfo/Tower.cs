@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Tower : StructureBase
 {
-    public override void Init(List<TileBase> _neighborTiles, GameObject _structureModel)
+    public override void Init(List<TileBase> _neighborTiles, GameObject _structureModel, ItemSO _itemSO)
     {
         structureName = "송신 탑";
         isUse = false;

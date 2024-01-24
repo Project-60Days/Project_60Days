@@ -154,8 +154,8 @@ public enum EMabPrefab
     Disturbtor,
     Explorer,
     Tower,
-    NormalStructure,
-    Production
+    Production,
+    Army
 }
 
 public enum EObjectSpawnType

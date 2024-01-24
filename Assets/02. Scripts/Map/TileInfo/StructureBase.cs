@@ -34,7 +34,7 @@ public abstract class StructureBase
     
     public GameObject structureModel;
     
-    public abstract void Init(List<TileBase> _neighborTiles, GameObject _structureModel);
+    public abstract void Init(List<TileBase> _neighborTiles, GameObject _structureModel, ItemSO _itemSO);
     public abstract void YesFunc();
     public abstract void NoFunc();
     
@@ -42,5 +42,16 @@ public abstract class StructureBase
     {
         isUse = _isUse;
         visitDay = UIManager.instance.GetNoteController().dayCount;
+    }
+    
+    public void SetColleagues(List<TileBase> _colleagues)
+    {
+        colleagues = _colleagues;
+    }
+    
+    public void AllowAccess()
+    {
+        isUse = true;
+        isAccessible = true;
     }
 }
