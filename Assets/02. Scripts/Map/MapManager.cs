@@ -324,8 +324,24 @@ public class MapManager : ManagementBase
         var structure = mapController.SensingStructure();
         if (structure != null)
         {
-            if (structure.IsUse == false)
-                UIManager.instance.GetPageController().SetSelectPage("structureSelect", structure);
+            if (structure is Tower)
+            {
+                if (UIManager.instance.GetInventoryController().CheckNetCardUsage())
+                {
+                    // 네트워크 칩 사용
+                    // 퀘스트 클리어 엔딩
+                }
+                else
+                {
+                    // 네트워크 칩 없다.
+                    return;
+                }
+            }
+            else
+            {
+                if (structure.IsUse == false)
+                    UIManager.instance.GetPageController().SetSelectPage("structureSelect", structure);
+            }
         }
         else
         {
@@ -360,7 +376,7 @@ public class MapManager : ManagementBase
         int randomNumber = UnityEngine.Random.Range(1, 4);
 
         if (randomNumber == 3)
-            mapController.SpawnStructureObjects(structure.NeighborTiles);
+            mapController.SpawnStructureObjects(structure.Colleagues);
 
         // 플레이어 체력 0으로 만들어서 경로 선택 막기
         //mapController.Player.SetHealth(false);
@@ -369,8 +385,10 @@ public class MapManager : ManagementBase
         MovePathDelete();
 
         structure.structureModel.GetComponent<StructureFade>().FadeIn();
-        structure.NeighborTiles.ForEach(tile => tile.ResourceUpdate(true));
+        structure.Colleagues.ForEach(tile => tile.ResourceUpdate(true));
 
+        mapController.SpawnSpecialItemRandomTile(structure.Colleagues);
+        
         curStructure = structure;
     }
 
