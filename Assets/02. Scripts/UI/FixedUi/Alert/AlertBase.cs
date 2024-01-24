@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class AlertBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     bool isMouseEnter = false;
-    public string alertText;
+    [SerializeField] string alertText;
 
     void Update()
     {
@@ -17,13 +17,13 @@ public class AlertBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
     public virtual void ShowItemInfo()
     {
         Vector3 mousePos = Input.mousePosition;
-        UIManager.instance.GetAlertInfoController().ShowInfo(alertText, mousePos);
+        UIManager.instance.GetInfoController().ShowAlertInfo(alertText, mousePos);
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         isMouseEnter = false;
-        UIManager.instance.GetAlertInfoController().HideInfo();
+        UIManager.instance.GetInfoController().HideInfo();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -31,7 +31,7 @@ public class AlertBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
         if (isMouseEnter == false && UIManager.instance.isUIStatus("UI_NORMAL"))
         {
             isMouseEnter = true;
-            UIManager.instance.GetAlertInfoController().isNew = true;
+            UIManager.instance.GetInfoController().isNew = true;
         }
 
     }
@@ -40,8 +40,8 @@ public class AlertBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
     {
         if (isMouseEnter == true)
         {
-            UIManager.instance.GetAlertInfoController().HideInfo();
             isMouseEnter = false;
+            UIManager.instance.GetInfoController().HideInfo();
         }
     }
 }

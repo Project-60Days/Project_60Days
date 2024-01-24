@@ -12,6 +12,7 @@ public class NextDayController : MonoBehaviour
     [SerializeField] TextMeshProUGUI durabillityText;
     [SerializeField] GameObject dayCountPrefab;
     GameObject dayCount;
+    [SerializeField] MapIcon mapIcon;
 
     CinemachineVirtualCamera mapCamera;
     CameraShake normalCamera;
@@ -105,6 +106,7 @@ public class NextDayController : MonoBehaviour
             text = "<color=red><shake a=0.1>" + "Day " + "{vertexp}" + today.ToString() + "{/vertexp}</shake></color>";
 
         CreateDayCountTxt(text);
+        mapIcon.SetIconImage();
 
         yield return new WaitForSeconds(2f);
 
