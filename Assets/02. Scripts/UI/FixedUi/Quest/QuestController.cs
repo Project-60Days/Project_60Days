@@ -24,6 +24,8 @@ public class QuestController : MonoBehaviour
     int nextMainIndex = 0;
     int nextSubIndex = 0;
 
+    [HideInInspector] public bool isClear = false;
+
 
     void Awake()
     {
