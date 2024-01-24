@@ -19,7 +19,7 @@ public class Chapter01_3 : QuestBase
 
     public override bool CheckMeetCondition()
     {
-        return App.instance.GetMapManager().SignalTowerQuestCheck();
+        return UIManager.instance.GetQuestController().isClear;
     }
 
     public override string SetQuestText()
