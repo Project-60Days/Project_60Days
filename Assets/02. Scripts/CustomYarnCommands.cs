@@ -32,6 +32,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
         //05//
         dialogueRunner.AddCommandHandler("waitMovePoint", WaitMovePoint);
+        dialogueRunner.AddCommandHandler("addResource", AddResource);
 
         //06//
         dialogueRunner.AddCommandHandler("waitNewDay", WaitNewDay);
@@ -168,6 +169,11 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     Coroutine WaitMovePoint()
     {
         return StartCoroutine(new WaitUntil(() => App.instance.GetMapManager().mapUIController.MovePointActivate()));
+    }
+
+    void AddResource()
+    {
+        TutorialManager.instance.GetTutorialController().AddSteel();
     }
     #endregion
 

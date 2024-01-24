@@ -27,6 +27,7 @@ TagManager:
   - NormalCamera
   - Tile
   - Structure
+  - WorkBenchDeco
   layers:
   - Default
   - TransparentFX

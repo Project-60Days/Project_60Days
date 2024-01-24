@@ -30,7 +30,18 @@ public class AlertController : MonoBehaviour
 
     public void ClickNoteAlert()
     {
-        if (UIManager.instance.isUIStatus("UI_NORMAL") == false) return;
+        if (UIManager.instance.isUIStatus("UI_NORMAL") == true)
+            UIManager.instance.GetNoteController().OpenNote();
+        else if (UIManager.instance.isUIStatus("UI_MAP") == true)
+            StartCoroutine(OpenNoteInMap());
+        else
+            return;
+    }
+
+    IEnumerator OpenNoteInMap()
+    {
+        UIManager.instance.GetNextDayController().GoToLab();
+        yield return new WaitUntil(() => UIManager.instance.isUIStatus("UI_NORMAL"));
         UIManager.instance.GetNoteController().OpenNote();
     }
 
