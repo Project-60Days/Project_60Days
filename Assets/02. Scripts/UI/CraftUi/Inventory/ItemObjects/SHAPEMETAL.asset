@@ -14,26 +14,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   English: ITEM_SHAPEMETAL
   data:
-    Index: 0
-    Category: 0
-    Code: 
-    AppearTileType: 0
-    Type: 0
+    Index: 1026
+    Category: 4
+    Code: ITEM_SHAPEMETAL
+    AppearTileType: 4
+    Type: 2
     EquipType: 0
-    EquipArea: 
-    CombineSlotCount: 0
-    Description: 
-    EffectDescription: 
-    Korean: 
-    English: 
-    Japanese: 
-    Chinese: 
-    value1: 0
-    value2: 0
-    value3: 0
+    EquipArea: "\uBC29\uC5B4\uD615 \uBD80\uD488"
+    CombineSlotCount: 3
+    Description: "\uAC15\uD654\uC678\uD53C\uC758 \uC790\uB3D9\uD654 \uBC29\uC5B4
+      \uBCF5\uC6D0 \uBD80\uD488\uC73C\uB85C, \uACC4\uC18D\uD574\uC11C \uB0B4\uAD6C\uB3C4\uB97C
+      \uCDA9\uC804\uC2DC\uD0AC \uC218 \uC788\uB2E4."
+    EffectDescription: "\uB0B4\uAD6C\uB3C4 + {0}\n{1}\uC77C \uB9CC\uD07C \uAE00\uB9AC\uCC98\uC758
+      \uB208\uC5D0 \uB744\uC9C0 \uC54A\uC74C"
+    Korean: "\uD615\uC0C1\uAE30\uC5B5\uAE08\uC18D"
+    English: Shapemetal
+    Japanese: -1
+    Chinese: -1
+    value1: 25
+    value2: 6
+    value3: -1
   itemImage: {fileID: 21300000, guid: 4797b63fe1f318c41ac4c108248e1383, type: 3}
-  itemCount: 0
-  eItemType: 0
+  itemCount: 1
+  eItemType: 2
   sprite: {fileID: 21300000, guid: 602e85c58039a5c4e9b0909eb3c952db, type: 3}
   sfxName: 
   isMadeOnce: 0
+  isBlueprintOpen: 0

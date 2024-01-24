@@ -19,8 +19,6 @@ public class TitleLoad : MonoBehaviour
     string[] lines;
 
     [SerializeField] ScrollRect rightLogScrollRect;
-
-    [SerializeField] float leftLogShowInterval;
     [SerializeField] float rightLogShowInterval;
 
     [Header("Title Objects")]
@@ -33,6 +31,11 @@ public class TitleLoad : MonoBehaviour
 
 
 
+
+    void Awake()
+    {
+        Screen.SetResolution(1920, 1080, false);
+    }
 
     void Start()
     {
@@ -90,7 +93,7 @@ public class TitleLoad : MonoBehaviour
     void OnVideoEnd(VideoPlayer vp)
     {
         loadingVideo.SetActive(false);
-        StartCoroutine(LeftLog());
+        Left();
     }
 
 
@@ -100,26 +103,14 @@ public class TitleLoad : MonoBehaviour
     /// <summary>
     /// 좌측상단 로그 재생
     /// </summary>
-    /// <returns></returns>
-    IEnumerator LeftLog()
+    void Left()
     {
-        int currentIndex = 0;
-        leftLogField.text = "";
-
-        while (currentIndex < leftFileText.Length)
-        {
-            char currentChar = leftFileText[currentIndex];
-            leftLogField.text += currentChar;
-
-            if (currentChar != '=')
+        leftLogField.DOText(leftFileText, 2f)
+            .SetEase(Ease.InSine)
+            .OnComplete(() =>
             {
-                yield return new WaitForSeconds(leftLogShowInterval);
-            }
-
-            currentIndex++;
-        }
-
-        StartCoroutine(RightLog());
+                StartCoroutine(RightLog());
+            });
     }
 
     /// <summary>

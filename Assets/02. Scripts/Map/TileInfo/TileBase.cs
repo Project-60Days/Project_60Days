@@ -45,6 +45,8 @@ public class TileBase : MonoBehaviour
 
     public GameObject StructureObject => structureObject;
 
+    public ETileType TileType => tileType;
+
     #endregion
 
     private void Awake()

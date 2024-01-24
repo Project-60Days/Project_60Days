@@ -37,7 +37,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 70, y: 70}
+  m_SizeDelta: {x: 65, y: 65}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7987901936590002417
 CanvasRenderer:
@@ -92,6 +92,11 @@ MonoBehaviour:
   image: {fileID: 5434636936531232865}
   eSlotType: 4
   bluePrintItem: {fileID: 0}
+  unknownItem: {fileID: 0}
+  isAlreadyShowItem: 0
+  parentItems: []
+  lockSlot: {fileID: 0}
+  openSlot: {fileID: 0}
 --- !u!1 &8476506548896354890
 GameObject:
   m_ObjectHideFlags: 0

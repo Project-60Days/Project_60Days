@@ -31,6 +31,11 @@ public class InventoryController : MonoBehaviour
         foreach (var item in itemSO.items)
         {
             item.itemCount = 0;
+            item.isMadeOnce = false;
+            item.isBlueprintOpen = false;
+
+            if (item.data.Code == "ITEM_PLATE" || item.data.Code == "ITEM_WIRE" || item.data.Code == "ITEM_GEAR")
+                item.isMadeOnce = true;
 
             if (item.data.Code == "ITEM_DISTURBE")
                 disturbe = item;
