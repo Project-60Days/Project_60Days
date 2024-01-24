@@ -14,6 +14,7 @@ public class TutorialController : MonoBehaviour
     Image lightBackground;
     Image workBenchImage;
     Image batteryImage;
+    CanvasGroup workBenchDeco;
 
     float lightUpDuration = 2f;
 
@@ -27,6 +28,7 @@ public class TutorialController : MonoBehaviour
         lightBackground.gameObject.SetActive(false);
         workBenchImage = GameObject.FindWithTag("WorkBench").GetComponent<Image>();
         batteryImage = GameObject.FindWithTag("Battery").GetComponent<Image>();
+        workBenchDeco = GameObject.FindWithTag("WorkBenchDeco").GetComponent<CanvasGroup>();
 
         initIndex = workBenchImage.transform.GetSiblingIndex();
 
@@ -44,6 +46,7 @@ public class TutorialController : MonoBehaviour
         LightDownBackground();
         Color color = new Color(0.15f, 0.15f, 0.15f, 1f);
         workBenchImage.DOColor(color, 0f);
+        workBenchDeco.DOFade(0f, 0f);
         Show();
         dialogueRunner.StartDialogue("Tutorial_01");
 
@@ -77,6 +80,7 @@ public class TutorialController : MonoBehaviour
     public void LightUpBackground()
     {
         StartCoroutine(FillBattery());
+        workBenchDeco.DOFade(1f, lightUpDuration * 2).SetEase(Ease.InOutBounce);
         lightBackground.DOFade(0f, lightUpDuration).SetEase(Ease.InBounce).OnComplete(() =>
         {
             lightBackground.gameObject.SetActive(false);
@@ -110,5 +114,15 @@ public class TutorialController : MonoBehaviour
             batteryImage.fillAmount = 0;
             isLightUp = false;
         });
+    }
+
+    public void AddSteel()
+    {
+        UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_CARBON");
+        UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_CARBON");
+
+        string nodeName = "ITEM_CARBON_None6";
+
+        UIManager.instance.GetPageController().SetResultPage(nodeName, true);
     }
 }
