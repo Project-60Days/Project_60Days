@@ -126,5 +126,21 @@
     "English": -1,
     "Japanese": -1,
     "Chinese": -1
+  },
+  {
+    "Index": 4001,
+    "Code": "STR_NEW_NOTICE_ALERT",
+    "Korean": "새로운 알림이 있습니다.",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 4002,
+    "Code": "STR_WARNING_NOTICE_ALERT",
+    "Korean": "경고 : 주변 1타일 이내에 글리처가 있습니다.",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
   }
 ]
