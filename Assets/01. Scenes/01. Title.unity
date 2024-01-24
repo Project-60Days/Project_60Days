@@ -2112,7 +2112,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &998670750
 MonoBehaviour:
@@ -2130,7 +2130,6 @@ MonoBehaviour:
   leftLogField: {fileID: 1027408797}
   rightLogField: {fileID: 1069463923}
   rightLogScrollRect: {fileID: 754211149}
-  leftLogShowInterval: 0.01
   rightLogShowInterval: 0.1
   titleText: {fileID: 226033570}
   titleImage: {fileID: 1653897647}
@@ -2685,8 +2684,8 @@ RectTransform:
   m_Father: {fileID: 1782671770}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 355.7433, y: 0}
   m_SizeDelta: {x: 711.4866, y: 0}
   m_Pivot: {x: 0.5, y: 1}
@@ -3676,7 +3675,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1388149741
 GameObject:

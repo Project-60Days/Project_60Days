@@ -18,5 +18,6 @@ public static class StringUtility
     public static string UI_SELECT = "UI_SELECT";
     public static string UI_LOADING = "UI_LOADING";
     public static string UI_POPUP = "UI_POPUP";
+    public static string UI_PV = "UI_PV";
     #endregion
 }

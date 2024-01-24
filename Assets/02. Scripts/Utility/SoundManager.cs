@@ -138,6 +138,11 @@ public class SoundManager : ManagementBase
         else return false;
     }
 
+    public bool CheckSFXPlayNow()
+    {
+        return sfxPlayer.isPlaying;
+    }
+
     public override EManagerType GetManagemetType()
     {
         return EManagerType.SOUND;
