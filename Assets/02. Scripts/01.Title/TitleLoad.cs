@@ -19,8 +19,6 @@ public class TitleLoad : MonoBehaviour
     string[] lines;
 
     [SerializeField] ScrollRect rightLogScrollRect;
-
-    [SerializeField] float leftLogShowInterval;
     [SerializeField] float rightLogShowInterval;
 
     [Header("Title Objects")]
@@ -96,13 +94,15 @@ public class TitleLoad : MonoBehaviour
     {
         loadingVideo.SetActive(false);
         Left();
-        //StartCoroutine(LeftLog());
     }
 
 
 
 
 
+    /// <summary>
+    /// 좌측상단 로그 재생
+    /// </summary>
     void Left()
     {
         leftLogField.DOText(leftFileText, 2f)
@@ -111,30 +111,6 @@ public class TitleLoad : MonoBehaviour
             {
                 StartCoroutine(RightLog());
             });
-    }
-    /// <summary>
-    /// 좌측상단 로그 재생
-    /// </summary>
-    /// <returns></returns>
-    IEnumerator LeftLog()
-    {
-        int currentIndex = 0;
-        leftLogField.text = "";
-
-        while (currentIndex < leftFileText.Length)
-        {
-            char currentChar = leftFileText[currentIndex];
-            leftLogField.text += currentChar;
-
-            if (currentChar != '=')
-            {
-                yield return new WaitForSeconds(leftLogShowInterval);
-            }
-
-            currentIndex++;
-        }
-
-        StartCoroutine(RightLog());
     }
 
     /// <summary>

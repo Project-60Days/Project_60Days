@@ -18,7 +18,7 @@ public class NextDayController : MonoBehaviour
     CinemachineFramingTransposer transposer;
 
     [HideInInspector] public bool isOver = false;
-    public bool isHit = false;
+    [HideInInspector] public bool isHit = false;
 
     void Start()
     {

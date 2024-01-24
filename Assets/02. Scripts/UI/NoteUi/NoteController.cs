@@ -230,7 +230,7 @@ public class NoteController : MonoBehaviour
         else
             index = 1;
 
-        scrollBars[index].value = 1;
+        scrollRects[index].verticalNormalizedPosition = 1.0f;
 
         yield return null;
 
