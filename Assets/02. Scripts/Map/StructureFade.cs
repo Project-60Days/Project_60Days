@@ -6,8 +6,6 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using DG.Tweening;
 using UnityEngine.EventSystems;
-using Sequence = DG.Tweening.Sequence;
-using UnityEngine.EventSystems;
 
 public class StructureFade : MonoBehaviour
 {
@@ -17,16 +15,23 @@ public class StructureFade : MonoBehaviour
 
     void Start()
     {
-        curMaterial = rend.material;
+        if (rend != null)
+            curMaterial = rend.material;
     }
 
     public void FadeIn()
     {
+        if (rend == null)
+            return;
+
         rend.material = cloakingMaterial;
     }
-    
+
     public void FadeOut()
     {
+        if (rend == null)
+            return;
+
         rend.material = curMaterial;
     }
 }

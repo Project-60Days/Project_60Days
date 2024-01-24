@@ -64,6 +64,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Layer1
+  - name: Object
     uniqueID: 2242238391
+    locked: 0
+  - name: Icons
+    uniqueID: 3194346965
     locked: 0

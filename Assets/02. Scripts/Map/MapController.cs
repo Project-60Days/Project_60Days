@@ -828,6 +828,7 @@ public class MapController : Singleton<MapController>
             tileBase.SpawnNormalStructure(neighborList, tilelist, structure);
             
             var position = tileBase.transform.position;
+            position.y = ((GameObject)tile.GameEntity).transform.position.y;
             tileBase.transform.position = position;
         }
         
