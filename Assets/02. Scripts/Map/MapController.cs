@@ -227,10 +227,10 @@ public class MapController : Singleton<MapController>
         //zombie.GetComponent<ZombieBase>().MoveTargetCoroutine(player.TileController.Model);
     }
 
-    public void SpawnStructureZombie(List<TileBase> tiles)
+    public void SpawnStructureObjects(List<TileBase> tiles)
     {
-        var randomTile = Random.Range(0, tiles.Count);
-        var tile = tiles[randomTile];
+        var randomInt = Random.Range(0, tiles.Count);
+        var tile = tiles[randomInt];
 
         var spawnPos = tile.transform.position;
         spawnPos.y += 0.5f;
@@ -250,8 +250,6 @@ public class MapController : Singleton<MapController>
         if (tileController != null && !selectedTiles.Contains(tileController))
         {
             SelectBorder(tileController, ETileState.Unable);
-
-            var structure = tileController.gameObject.GetComponent<TileBase>().Structure;
         }
     }
 
@@ -301,6 +299,10 @@ public class MapController : Singleton<MapController>
             SelectBorder(tileController, ETileState.Unable);
         }
         else if (neighborTiles.Contains(tileController.Model) == false)
+        {
+            SelectBorder(tileController, ETileState.Unable);
+        }
+        else if (tileController.gameObject.GetComponent<TileBase>().CurZombies != null)
         {
             SelectBorder(tileController, ETileState.Unable);
         }
@@ -491,7 +493,7 @@ public class MapController : Singleton<MapController>
     public IEnumerator NextDay()
     {
         bool zombieActEnd = false;
-        
+
         // 플레이어 이동
         if (player.MovePath != null)
         {
@@ -514,9 +516,10 @@ public class MapController : Singleton<MapController>
         for (var index = 0; index < zombiesList.Count; index++)
         {
             var zombie = zombiesList[index];
+
             zombie.GetComponent<ZombieBase>().DetectionAndAct();
-            
-            if(index == zombiesList.Count - 1)
+
+            if (index == zombiesList.Count - 1)
                 zombieActEnd = true;
         }
 
@@ -542,9 +545,9 @@ public class MapController : Singleton<MapController>
                 var firstZombies = zombieBases[i];
                 var secondZombies = zombieBases[j];
 
-                if(firstZombies.zombieData.count == 0 || secondZombies.zombieData.count == 0)
+                if (firstZombies.zombieData.count == 0 || secondZombies.zombieData.count == 0)
                     continue;
-                
+
                 if (firstZombies.curTile == secondZombies.curTile)
                 {
                     firstZombies.SumZombies(secondZombies);
@@ -588,6 +591,25 @@ public class MapController : Singleton<MapController>
 
         if (selectedTiles.Contains(tileController))
             selectedTiles.Remove(tileController);
+    }
+
+    public bool CheckPlayerInStructureTile(TileController tileController)
+    {
+        var structure = tileController.gameObject.GetComponent<TileBase>().Structure;
+
+        if (structure != null)
+        {
+            if (tileController.gameObject.GetComponent<TileBase>().Structure.IsAccessible)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+            return false;
     }
 
     void ClearTiles(List<TileController> tiles)
@@ -740,8 +762,8 @@ public class MapController : Singleton<MapController>
     public void GenerateTower()
     {
         // 경계선으로부터 2칸 이내 범위 
-        List<int> selectedTiles = RandomTileSelect(ObjectSpawnDistanceCalculate(2),
-            EObjectSpawnType.ExcludeEntites, 1);
+        // List<int> selectedTiles = RandomTileSelect(ObjectSpawnDistanceCalculate(2),
+        //     EObjectSpawnType.ExcludeEntites, 1);
 
         var tilelist = new List<Tile>();
 
@@ -751,21 +773,20 @@ public class MapController : Singleton<MapController>
         tilelist.Add(tile);
 
         List<Tile> neighborList = SetNeighborStructure(tilelist);
-
-        ((GameObject)tile.GameEntity).GetComponent<TileBase>().SpawnQuestStructure(neighborList);
-
+        
         var spawnPos = ((GameObject)tile.GameEntity).transform.position;
         spawnPos.y += 0.31f;
 
-        Instantiate(mapPrefab.items[(int)EMabPrefab.Tower].prefab, spawnPos, Quaternion.Euler(0, 90, 0),
+        var tower  = Instantiate(mapPrefab.items[(int)EMabPrefab.Tower].prefab, spawnPos, Quaternion.Euler(0, 90, 0),
             objectsTransform);
+        ((GameObject)tile.GameEntity).GetComponent<TileBase>().SpawnQuestStructure(neighborList,tower);
     }
 
     public void GenerateProductionStructure(Coords coords, int num = 3)
     {
         // 경계선으로부터 2칸 이내 범위 
-        List<int> selectedTiles = RandomTileSelect(ObjectSpawnDistanceCalculate(2),
-            EObjectSpawnType.ExcludeEntites, 1);
+        // List<int> selectedTiles = RandomTileSelect(ObjectSpawnDistanceCalculate(2),
+        //     EObjectSpawnType.ExcludeEntites, 1);
 
         var tilelist = new List<Tile>();
 
@@ -803,16 +824,16 @@ public class MapController : Singleton<MapController>
 
         for (var index = 0; index < tilelist.Count; index++)
         {
-            var value = tilelist[index];
-
-            ((GameObject)value.GameEntity).GetComponent<TileBase>()
-                .SpawnNormalStructure(neighborList, tilelist, structure);
-            var position = ((GameObject)value.GameEntity).transform.position;
-            position.y = ((GameObject)tile.GameEntity).transform.position.y;
-            ((GameObject)value.GameEntity).transform.position = position;
+            var tileBase = ((GameObject)tilelist[index].GameEntity).GetComponent<TileBase>();
+            tileBase.SpawnNormalStructure(neighborList, tilelist, structure);
+            
+            var position = tileBase.transform.position;
+            tileBase.transform.position = position;
         }
-
-        ((GameObject)tile.GameEntity).GetComponent<TileBase>().AddSpecialItem();
+        
+        int randomInt = Random.Range(0, tilelist.Count);
+        var randomTile = ((GameObject)tilelist[randomInt].GameEntity).GetComponent<TileBase>();
+        randomTile.AddSpecialItem();
     }
 
     List<Tile> ObjectSpawnDistanceCalculate(int range)
@@ -822,10 +843,10 @@ public class MapController : Singleton<MapController>
         Tile lastIndex = tileList.Last();
 
         int biggerInt = Math.Abs(lastIndex.Coords.X) > Math.Abs(lastIndex.Coords.Y)
-            ? lastIndex.Coords.X
-            : lastIndex.Coords.Y;
+            ? Math.Abs(lastIndex.Coords.X)
+            : Math.Abs(lastIndex.Coords.Y);
 
-        List<Tile> excludeTileList = GetTilesInRange(GetTileFromCoords(new Coords(0, 0)), Math.Abs(biggerInt) - range);
+        List<Tile> excludeTileList = GetTilesInRange(GetTileFromCoords(new Coords(0, 0)), biggerInt - range);
 
         return excludeTileList;
     }
@@ -843,8 +864,9 @@ public class MapController : Singleton<MapController>
 
         neighborTiles = neighborTiles.Distinct().ToList();
 
-        foreach (var tile in neighborTiles)
+        for (var index = 0; index < neighborTiles.Count; index++)
         {
+            var tile = neighborTiles[index];
             ((GameObject)tile.GameEntity).GetComponent<TileBase>().SetNeighborStructure();
         }
 
@@ -914,7 +936,7 @@ public class MapController : Singleton<MapController>
         {
             randomInt = Random.Range(0, tiles.Count);
 
-            if (ConditionalBranch(type, tiles[randomInt]) == true)
+            if (ConditionalBranch(type, tiles[randomInt]))
             {
                 if (selectTileNumber.Contains(randomInt) == false)
                 {

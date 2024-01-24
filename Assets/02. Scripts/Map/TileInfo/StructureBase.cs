@@ -30,7 +30,9 @@ public abstract class StructureBase
 
     public ItemData specialItem;
     
-    public abstract void Init(List<TileBase> _neighborTiles);
+    public GameObject structureModel;
+    
+    public abstract void Init(List<TileBase> _neighborTiles, GameObject _structureModel);
     public abstract void YesFunc();
     public abstract void NoFunc();
     

@@ -215,6 +215,9 @@ public class ZombieBase : MonoBehaviour
 
     public void CurrentTileUpdate(Tile tile)
     {
+        if (tile == null)
+            return;
+        
         if (tile == curTile)
         {
             ((GameObject)(tile.GameEntity)).GetComponent<TileBase>().UpdateZombieInfo(this);

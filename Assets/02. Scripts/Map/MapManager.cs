@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using Hexamap;
 using UnityEngine.Rendering.UI;
 using Yarn.Compiler;
+using Random = System.Random;
 
 public class MapManager : ManagementBase
 {
@@ -14,8 +15,7 @@ public class MapManager : ManagementBase
     public ResourceManager resourceManager;
     public bool mouseIntreractable;
 
-    [SerializeField] 
-    ETileMouseState mouseState;
+    [SerializeField] ETileMouseState mouseState;
 
     [Header("밸런스 테스트 용")] [Space(5f)] [SerializeField]
     MapData mapData;
@@ -30,17 +30,19 @@ public class MapManager : ManagementBase
     bool isDisturbtorPrepared;
     bool isCameraMove;
 
+    TileBase structureTileBase;
+
     private TileController cameraTarget;
-    
+
     void Update()
     {
         SetETileMoveState();
-        
+
         if (mouseState != ETileMouseState.Nothing)
         {
-            if(isCameraMove)
+            if (isCameraMove)
                 GetCameraCenterTile();
-            
+
             MouseOverEvents();
         }
     }
@@ -61,7 +63,7 @@ public class MapManager : ManagementBase
         AllowMouseEvent(true);
         resourceManager = GameObject.FindGameObjectWithTag("Resource").GetComponent<ResourceManager>();
         StartCoroutine(mapCineCamera.GetMapInfo());
-        
+
         mapController.SightCheckInit();
     }
 
@@ -95,6 +97,24 @@ public class MapManager : ManagementBase
                 mapUIController.FalseTileInfo();
                 return;
             }
+
+            // if (structureTileBase != tileController.GetComponent<TileBase>())
+            // {
+            //     structureTileBase = tileController.GetComponent<TileBase>();
+            //     
+            //     if (structureTileBase.Structure != null)
+            //     {
+            //         structureTileBase.StructureFade(false);
+            //     }
+            // }
+            //
+            // if (structureTileBase.Structure != null)
+            // {
+            //     if (structureTileBase.Structure.IsAccessible)
+            //     {
+            //         structureTileBase.StructureFade(true);
+            //     }
+            // }
 
             switch (mouseState)
             {
@@ -302,13 +322,14 @@ public class MapManager : ManagementBase
     public void CheckStructureNeighbor()
     {
         var structure = mapController.SensingStructure();
-        if (structure != null && structure.IsUse == false)
+        if (structure != null)
         {
-            UIManager.instance.GetPageController().SetSelectPage("structureSelect", structure);
+            if (structure.IsUse == false)
+                UIManager.instance.GetPageController().SetSelectPage("structureSelect", structure);
         }
         else
         {
-            //Debug.Log("근처에 구조물이 없습니다.");
+            Debug.Log("근처에 구조물이 없습니다.");
             return;
         }
     }
@@ -334,12 +355,12 @@ public class MapManager : ManagementBase
         }
     }
 
-    public void ResearchStart(StructureBase structure)
+    public void NormalStructureResearch(StructureBase structure)
     {
-        // 자원 보이게
+        int randomNumber = UnityEngine.Random.Range(1, 4);
 
-        // 좀비 생성
-        mapController.SpawnStructureZombie(structure.NeighborTiles);
+        if (randomNumber == 3)
+            mapController.SpawnStructureObjects(structure.NeighborTiles);
 
         // 플레이어 체력 0으로 만들어서 경로 선택 막기
         //mapController.Player.SetHealth(false);
@@ -347,8 +368,10 @@ public class MapManager : ManagementBase
         // 경로 삭제
         MovePathDelete();
 
+        structure.structureModel.GetComponent<StructureFade>().FadeIn();
+        structure.NeighborTiles.ForEach(tile => tile.ResourceUpdate(true));
+
         curStructure = structure;
-        curStructure.SetIsUse(true);
     }
 
     public void ResearchCancel(StructureBase structure)
@@ -393,31 +416,31 @@ public class MapManager : ManagementBase
             return false;
         }
     }
-    
+
     public void ToolUIOpen()
     {
         mapUIController.SetDisturbtorButtonInteractable(true);
         mapUIController.SetExplorerButtonInteractable(true);
     }
-    
+
     // 카메라 정중앙 좌표를 반환하는 함수
     public void GetCameraCenterTile()
     {
         Vector3 centerPos = new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2);
         Ray ray = Camera.main.ScreenPointToRay(centerPos);
-        
+
         int onlyLayerMaskTile = 1 << LayerMask.NameToLayer("Tile");
-        
-        if(Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, onlyLayerMaskTile))
+
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, onlyLayerMaskTile))
         {
             var target = hit.transform.parent.GetComponent<TileController>();
-            
-            if(target == null)
+
+            if (target == null)
             {
                 return;
             }
-            
-            if(cameraTarget != target)
+
+            if (cameraTarget != target)
             {
                 cameraTarget = target;
                 mapController.SightCheck(cameraTarget.Model);
