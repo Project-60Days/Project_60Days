@@ -329,7 +329,7 @@ public class MapManager : ManagementBase
                 if (UIManager.instance.GetInventoryController().CheckNetCardUsage())
                 {
                     // 네트워크 칩 사용
-                    // 퀘스트 클리어 엔딩
+                    UIManager.instance.GetQuestController().isClear = true;
                 }
                 else
                 {
@@ -376,7 +376,7 @@ public class MapManager : ManagementBase
         int randomNumber = UnityEngine.Random.Range(1, 4);
 
         if (randomNumber == 3)
-            mapController.SpawnStructureObjects(structure.Colleagues);
+            mapController.SpawnStructureZombies(structure.Colleagues);
 
         // 플레이어 체력 0으로 만들어서 경로 선택 막기
         //mapController.Player.SetHealth(false);
@@ -461,7 +461,7 @@ public class MapManager : ManagementBase
             if (cameraTarget != target)
             {
                 cameraTarget = target;
-                mapController.SightCheck(cameraTarget.Model);
+                mapController.OcclusionCheck(cameraTarget.Model);
             }
         }
     }

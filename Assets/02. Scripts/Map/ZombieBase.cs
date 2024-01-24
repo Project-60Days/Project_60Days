@@ -21,7 +21,7 @@ public class ZombieBase : MonoBehaviour
 {
     [SerializeField] GameObject[] zombieModels;
     public ZombieData zombieData = new ZombieData();
-    public Disturbtor nearthDistrubtor;
+    public Distrubtor nearthDistrubtor;
     public Tile curTile;
     public Tile lastTile;
     public Tile targetTile;
@@ -140,7 +140,7 @@ public class ZombieBase : MonoBehaviour
 
             // 플레이어 바라보기
             var updatePos = App.instance.GetMapManager().mapController.Player.transform.position;
-            updatePos.y += 0.5f;
+            updatePos.y += 0.6f;
             transform.LookAt(updatePos);
         }
         else
@@ -171,7 +171,7 @@ public class ZombieBase : MonoBehaviour
             {
                 pointTile = MapController.instance.GetTileFromCoords(movePath[i]);
                 pointPos = ((GameObject)pointTile.GameEntity).transform.position;
-                pointPos.y += 0.5f;
+                pointPos.y += 0.6f;
 
                 gameObject.transform.DOMove(pointPos, time);
 
@@ -201,7 +201,7 @@ public class ZombieBase : MonoBehaviour
         }
 
         var targetPos = ((GameObject)candidate[rand].GameEntity).transform.position;
-        targetPos.y += 0.5f;
+        targetPos.y += 0.6f;
 
         yield return gameObject.transform.DOMove(targetPos, time);
 

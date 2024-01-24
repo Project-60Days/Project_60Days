@@ -209,7 +209,7 @@ public class TileBase : MonoBehaviour
             SpriteRenderer item = resourceIcons[0];
             item.gameObject.transform.Rotate(0, 0, rotationValue.y + 90);
         }
-        else
+        else if(appearanceResources.Count == 2)
         {
             if (Mathf.Abs(rotationValue.y) == 0 || Mathf.Abs(rotationValue.y) == 180)
             {
@@ -217,6 +217,28 @@ public class TileBase : MonoBehaviour
                 {
                     SpriteRenderer item = resourceIcons[i];
                     item.gameObject.transform.Rotate(0, 0, rotationValue.y + 90);
+                }
+            }
+            else
+            {
+                resourceIcons[1].transform.parent.transform.localEulerAngles =
+                    new Vector3(90, -rotationValue.y, 0);
+
+                for (int i = 0; i < resourceIcons.Length; i++)
+                {
+                    SpriteRenderer item = resourceIcons[i];
+                    item.gameObject.transform.Rotate(0, 0, 90);
+                }
+            }
+        }
+        else if(appearanceResources.Count == 3)
+        {
+            if (Mathf.Abs(rotationValue.y) == 0 || Mathf.Abs(rotationValue.y) == 180)
+            {
+                for (int i = 0; i < resourceIcons.Length; i++)
+                {
+                    SpriteRenderer item = resourceIcons[i];
+                    item.gameObject.transform.Rotate(0, 0, rotationValue.y -90);
                 }
             }
             else
@@ -306,7 +328,7 @@ public class TileBase : MonoBehaviour
             .Select(x => ((GameObject)x.GameEntity).GetComponent<TileBase>()).ToList();
 
         structure = new Tower();
-        ((Tower)structure).Init(neighborBases,_structureObject);
+        ((Tower)structure).Init(neighborBases,_structureObject,itemSO);
 
         landformText = "타워";
         resourceText = "자원 : ???";
@@ -321,12 +343,10 @@ public class TileBase : MonoBehaviour
         TileInfoUpdate();
     }
 
-    public void SpawnNormalStructure(List<Tile> neighborTiles, List<Tile> colleagueTiles, GameObject _structureObject)
+    public void SpawnNormalStructure(List<Tile> neighborTiles, List<Tile> colleagueTiles, GameObject _structureObject, string _name)
     {
         var neighborBases = neighborTiles
             .Select(x => ((GameObject)x.GameEntity).GetComponent<TileBase>()).ToList();
-        
-        
 
         var colleagueBases = colleagueTiles
             .Select(x => ((GameObject)x.GameEntity).GetComponent<TileBase>()).ToList();
@@ -334,10 +354,10 @@ public class TileBase : MonoBehaviour
         structureObject = _structureObject;
 
         structure = new ProductionStructure();
-        ((ProductionStructure)structure).Init(neighborBases,_structureObject);
+        ((ProductionStructure)structure).Init(neighborBases,_structureObject, itemSO);
         ((ProductionStructure)structure).SetColleagues(colleagueBases);
 
-        landformText = "생산 라인";
+        landformText = _name;
         resourceText = "자원 : ???";
 
         for (int i = 0; i < resourceIcons.Length; i++)
@@ -350,11 +370,20 @@ public class TileBase : MonoBehaviour
 
     public void AddSpecialItem()
     {
-        // 특수 자원 추가
-        var itemBase = itemSO.items.ToList()
-            .Find(x => x.data == structure.specialItem);
+        ItemBase itemBase;
+        if (structure.specialItem != null)
+        {
+            itemBase = itemSO.items.ToList()
+                .Find(x => x.data == structure.specialItem);
+        }
+        else
+        {
+            itemBase = itemSO.items.ToList()
+                .Find(x => x.data == structure.Resource.ItemBase.data);
+        }
         
-        appearanceResources.Add(new Resource(structure.specialItem.English, 1, itemBase));
+        // 특수 자원 추가
+        appearanceResources.Add(new Resource(itemBase.English, 1, itemBase));
         
         RotationCheck(transform.rotation.eulerAngles);
         ResourceUpdate(true);

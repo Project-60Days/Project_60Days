@@ -68,6 +68,9 @@ TagManager:
   - name: Object
     uniqueID: 2242238391
     locked: 0
+  - name: Entity
+    uniqueID: 2920128459
+    locked: 0
   - name: Icons
     uniqueID: 3194346965
     locked: 0

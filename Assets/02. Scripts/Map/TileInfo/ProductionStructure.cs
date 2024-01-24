@@ -1,26 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class ProductionStructure : StructureBase
 {
-    public override void Init(List<TileBase> _neighborTiles,GameObject _structureModel)
+    public override void Init(List<TileBase> _neighborTiles, GameObject _structureModel, ItemSO _itemSO)
     {
         structureName = "생산 건물";
         isUse = false;
         isAccessible = false;
-        
-        resource = new Resource("Wire", 10);
+
+        var itemBase = _itemSO.items.ToList()
+            .Find(x => x.data.Code == "ITEM_WIRE");
+
+        resource = new Resource(itemBase.data.English, 2, itemBase);
         neighborTiles = _neighborTiles;
         structureModel = _structureModel;
-        
+
         App.instance.GetDataManager().itemData.TryGetValue("ITEM_NETWORKCHIP", out ItemData itemData);
         specialItem = itemData;
-    }
-
-    public void SetColleagues(List<TileBase> _colleagues)
-    {
-        colleagues = _colleagues;
     }
 
     public override void YesFunc()
@@ -41,11 +40,5 @@ public class ProductionStructure : StructureBase
     {
         // 접근 불가 장애물 타일로 변경
         isUse = true;
-    }
-    
-    public void AllowAccess()
-    {
-        isUse = true;
-        isAccessible = true;
     }
 }
