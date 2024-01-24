@@ -17,13 +17,10 @@ MonoBehaviour:
     Index: 1002
     Category: 0
     Code: ITEM_CARBON
-    Rarity: 0
     AppearTileType: 0
-    TileIncludePossibility: 0
     Type: 0
     EquipType: 4
-    EquipArea: 
-    isCanBase: 0
+    EquipArea: -1
     CombineSlotCount: 0
     Description: "\uAC00\uC7A5 \uAE30\uCD08\uC801\uC778 \uC720\uC5F0\uD55C \uBB3C\uC9C8
       \uC911 \uD558\uB098"
@@ -32,8 +29,13 @@ MonoBehaviour:
     English: Carbon
     Japanese: -1
     Chinese: -1
+    value1: -1
+    value2: -1
+    value3: -1
   itemImage: {fileID: 21300000, guid: 2248000358233024f85f3dc2475a1eee, type: 3}
-  itemCount: 1
+  itemCount: 0
   eItemType: 0
   sprite: {fileID: 21300000, guid: 1bb0b2c6477631c49a99e2522d21db2c, type: 3}
   sfxName: SFX_Carbon_Acquisition
+  isMadeOnce: 0
+  isBlueprintOpen: 0
