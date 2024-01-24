@@ -17,25 +17,27 @@ MonoBehaviour:
     Index: 1027
     Category: 4
     Code: ITEM_GPS
-    Rarity: 2
     AppearTileType: 0
-    TileIncludePossibility: 0
     Type: 2
     EquipType: 2
     EquipArea: "\uD2B9\uC218\uD615 \uBD80\uD488"
-    isCanBase: 0
-    CombineSlotCount: 0
+    CombineSlotCount: 3
     Description: "\uAE00\uB9AC\uCC98\uB4E4\uC758 \uC704\uCE58\uB97C \uC54C \uC218
       \uC788\uB294 \uBD80\uD488\uC73C\uB85C, \uAE00\uB9AC\uCC98\uC758 \uB0B4\uBD80\uC758
-      \uC804\uAE30\uC2E0\uD638\uB97C \uD1B5\uD574\uC54C \uC218 \uC788\uB2E4."
-    EffectDescription: "5\uD134\uB9C8\uB2E4 \uC8FC\uBCC0 5\uCE78\uC758 \uAE00\uB9AC\uCC98\uB4E4\uC758
-      \uC704\uCE58 \uACF5\uC720"
+      \uC804\uAE30\uC2E0\uD638\uB97C \uD1B5\uD574 \uC54C \uC218 \uC788\uB2E4."
+    EffectDescription: "\uD50C\uB808\uC774\uC5B4 \uC2DC\uC57C\uB97C \uC601\uAD6C\uD788
+      +{0} \uC99D\uAC00"
     Korean: "\uC704\uCE58\uCD94\uC801\uAE30"
-    English: -1
+    English: GPS
     Japanese: -1
     Chinese: -1
+    value1: 1
+    value2: -1
+    value3: -1
   itemImage: {fileID: 21300000, guid: 1ba64665d99cf9145a17f610d6666240, type: 3}
-  itemCount: 0
+  itemCount: 1
   eItemType: 2
   sprite: {fileID: 21300000, guid: bfe51498022f5e44e872eaa6f946f4e2, type: 3}
   sfxName: 
+  isMadeOnce: 0
+  isBlueprintOpen: 0

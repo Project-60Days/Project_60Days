@@ -4,9 +4,9 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class AlertInfoController : MonoBehaviour
+public class InfoController : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI alertText;
+    [SerializeField] TextMeshProUGUI text;
 
     public bool isNew = true;
 
@@ -26,20 +26,59 @@ public class AlertInfoController : MonoBehaviour
 
     void InitObjects()
     {
-        alertText.gameObject.SetActive(false);
+        text.gameObject.SetActive(false);
         
         gameObject.SetActive(false);
     }
 
-    public void ShowInfo(string _text, Vector3 _mouseCoordinate)
+    public void ShowAlertInfo(string _text, Vector3 _mouseCoordinate)
     {
         if (isNew == true)
         {
             HideInfo();
-            SetObejcts(_text);
+            SetObjects(_text);
             isNew = false;
         }
 
+        SetTransform(_mouseCoordinate);
+
+        gameObject.SetActive(true);
+    }
+
+    public void ShowMapInfo(ETileType _type, Vector3 _mouseCoordinate)
+    {
+        if (isNew == true)
+        {
+            HideInfo();
+            SetObjects(_type);
+            isNew = false;
+        }
+
+        SetTransform(_mouseCoordinate);
+
+        gameObject.SetActive(true);
+    }
+
+    void SetObjects(string _text)
+    {
+        if (_text != null)
+        {
+            text.gameObject.SetActive(true);
+            text.text = _text;
+        }
+    }
+
+    void SetObjects(ETileType _type)
+    {
+        string type = _type.ToString().ToUpper();
+        string code = "STR_TILE_" + type + "_DESCRIPTION";
+  
+        text.gameObject.SetActive(true);
+        text.text = App.instance.GetDataManager().GetString(code);
+    }
+
+    void SetTransform(Vector3 _mouseCoordinate)
+    {
         LayoutRebuilder.ForceRebuildLayoutImmediate(infoTransform);
 
         float width = infoTransform.rect.width;
@@ -57,16 +96,5 @@ public class AlertInfoController : MonoBehaviour
             newY += height * (screenHeight / 1080);
 
         infoTransform.position = new Vector3(newX, newY, infoTransform.position.z);
-
-        gameObject.SetActive(true);
-    }
-
-    void SetObejcts(string _text)
-    {
-        if (_text != null)
-        {
-            alertText.gameObject.SetActive(true);
-            alertText.text = _text;
-        }
     }
 }

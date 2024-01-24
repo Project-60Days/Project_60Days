@@ -309,5 +309,10 @@ public class NoteController : MonoBehaviour
         scrollBars[1].enabled = _isInteractable;
         scrollRects[1].enabled = _isInteractable;
     }
+
+    public void SetCloseBtnEnabled(bool _isEnabled)
+    {
+        closeBtn.enabled = _isEnabled;
+    }
     #endregion
 }
