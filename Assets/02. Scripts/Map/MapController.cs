@@ -1050,16 +1050,22 @@ public class MapController : Singleton<MapController>
         sightTiles = GetTilesInRange(_targetTile, 5);
         sightTiles.Add(_targetTile);
 
-        List<StructureObject> structureObjects = objectsTransform.GetComponentsInChildren<StructureObject>().ToList();
+        List<StructureObject> structureObjects = objectsTransform.GetComponentsInChildren<StructureObject>(true).ToList();
 
         for (int i = 0; i < structureObjects.Count; i++)
         {
             StructureObject item = structureObjects[i];
-            
+
             if (sightTiles.Contains(item.CurTile) == false)
+            {
+                Debug.Log(item.gameObject.name+"건물 꺼짐");
                 item.gameObject.SetActive(false);
+            }
             else
+            {
+                Debug.Log(item.gameObject.name+"건물 켜짐");
                 item.gameObject.SetActive(true);
+            }
         }
 
         var allTiles = GetAllTiles();

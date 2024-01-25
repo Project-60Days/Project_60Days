@@ -159,10 +159,10 @@ public class InventoryController : MonoBehaviour
             if(items[random].data.Code != "ITEM_NETWORKCHIP")
                 break;
         }
-        RemoveItem(items[random]);
-        
         UIManager.instance.GetPageController().SetCurrResource(items[random]);
         UIManager.instance.GetPageController().SetResultPage("LOOSE_RESOURCE", false);
+        
+        RemoveItem(items[random]);
     }
 
 

@@ -14,7 +14,7 @@ public class TundraTile : TileBase, ITileLandformEffect
     {
         App.instance.GetMapManager().TundraTileCheck();
 
-        if (RandomPercent.GetRandom(50))
+        if (RandomPercent.GetRandom(10))
         {
             App.instance.GetMapManager().EtherResourceCheck();
         }
