@@ -50,6 +50,7 @@ public class NoteController : MonoBehaviour
     /// <param name="prevBtnEnable"></param>
     void ActiveNextBtnAndPrevBtn(bool _nextBtnEnable, bool _prevBtnEnable)
     {
+        if (_nextBtnEnable == false) UIManager.instance.GetAlertController().SetAlert("note", false);
         nextPageBtn.gameObject.SetActive(_nextBtnEnable);
         prevPageBtn.gameObject.SetActive(_prevBtnEnable);
     }
@@ -259,16 +260,10 @@ public class NoteController : MonoBehaviour
         if (notePages.Length == 1)
         {
             if (notePages[pageNum].CompareIndex() == 2)
-            {
                 ActiveNextBtnAndPrevBtn(false, false);
-                UIManager.instance.GetAlertController().SetAlert("note", false);
-            }
             else if (notePages[pageNum].CompareIndex() == -1)
-            {
                 ActiveNextBtnAndPrevBtn(true, false);
-                UIManager.instance.GetAlertController().SetAlert("note", false);
-            }
-            else if (notePages[pageNum].CompareIndex() == 1) 
+            else if (notePages[pageNum].CompareIndex() == 1)
                 ActiveNextBtnAndPrevBtn(false, true);
             else
                 ActiveNextBtnAndPrevBtn(true, true);
@@ -276,10 +271,7 @@ public class NoteController : MonoBehaviour
         else
         {
             if (pageNum == 0 && (notePages[pageNum].CompareIndex() == -1 || notePages[pageNum].CompareIndex() == 2))
-            {
                 ActiveNextBtnAndPrevBtn(true, false);
-                UIManager.instance.GetAlertController().SetAlert("note", false);
-            }
             else if (pageNum == notePages.Length - 1 && (notePages[pageNum].CompareIndex() == 1 || notePages[pageNum].CompareIndex() == 2))
                 ActiveNextBtnAndPrevBtn(false, true);
             else

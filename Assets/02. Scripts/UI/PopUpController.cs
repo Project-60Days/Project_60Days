@@ -49,8 +49,6 @@ public class PopUpController : MonoBehaviour
 
     public IEnumerator EndGamePopUp()
     {
-        yield return new WaitUntil(() => UIManager.instance.isUIStatus("UI_LOADING"));
-        yield return new WaitUntil(() => UIManager.instance.isUIStatus("UI_NORMAL"));
         yield return new WaitUntil(() => UIManager.instance.isUIStatus("UI_NOTE"));
         yield return new WaitUntil(() => UIManager.instance.isUIStatus("UI_NORMAL"));
         UIManager.instance.AddCurrUIName("UI_POPUP");

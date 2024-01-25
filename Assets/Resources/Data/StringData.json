@@ -97,7 +97,7 @@
   },
   {
     "Index": 3001,
-    "Code": "STR_TILE_CITY_DESCRIPTION",
+    "Code": "STR_TILE_NONE_DESCRIPTION",
     "Korean": "파괴된 도시\n<size=18>포장된 도로 <color=grey>: 선체 이동 거리 + 1</size></color>",
     "English": -1,
     "Japanese": -1,
