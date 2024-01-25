@@ -27,5 +27,6 @@ public class Tower : StructureBase
 
         UIManager.instance.GetPageController().SetResultPage("Signal_Yes", false);
         UIManager.instance.GetPageController().CreateSelectDialogueRunner("sequence");
+        UIManager.instance.GetPageController().isClickYesBtnInTower = true;
     }
 }

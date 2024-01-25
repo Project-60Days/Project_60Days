@@ -29,6 +29,7 @@ public class PageController : MonoBehaviour
     [HideInInspector] public string currStruct;
     [HideInInspector] public string currResource;
     [HideInInspector] public int currResourceIndex = 0;
+    [HideInInspector] public bool isClickYesBtnInTower = false;
 
     void Awake()
     {
@@ -45,6 +46,7 @@ public class PageController : MonoBehaviour
         noImage = noBtn.GetComponent<Image>();
 
         currStruct = null;
+        isClickYesBtnInTower = false;
     }
 
     public void SetResultPage(string _nodeName, bool _isResourceNode)

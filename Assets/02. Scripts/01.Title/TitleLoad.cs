@@ -57,6 +57,8 @@ public class TitleLoad : MonoBehaviour
 
         lines = rightFileText.Split('\n');
 
+        Screen.SetResolution(1920, 1080, false);
+
         InitObjects();
     }
 
@@ -92,6 +94,7 @@ public class TitleLoad : MonoBehaviour
     /// <param name="vp"></param>
     void OnVideoEnd(VideoPlayer vp)
     {
+        Screen.SetResolution(1920, 1080, false);
         loadingVideo.SetActive(false);
         Left();
     }

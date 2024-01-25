@@ -13,16 +13,15 @@ public abstract class QuestBase : MonoBehaviour
 
     public abstract bool CheckMeetCondition();
 
-    public virtual void AfterQuest()
-    {
-
-    }
-
-    public IEnumerator CheckQuestComplete()
+    public virtual IEnumerator CheckQuestComplete()
     {
         yield return new WaitUntil(() => CheckMeetCondition());
+        AfterQuest();
+    }
+
+    public virtual void AfterQuest()
+    {
         UIManager.instance.GetQuestController().SetNextQuestIndex(eQuestType, nextQuestIndex);
         UIManager.instance.GetQuestController().StartNextQuest(this);
-        AfterQuest();
     }
 }
