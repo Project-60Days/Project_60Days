@@ -16,6 +16,8 @@ public class TutorialController : MonoBehaviour
     Image batteryImage;
     CanvasGroup workBenchDeco;
 
+    WorkBenchInteraction workBenchScript;
+
     float lightUpDuration = 2f;
 
     public bool isLightUp = false;
@@ -29,6 +31,7 @@ public class TutorialController : MonoBehaviour
         workBenchImage = GameObject.FindWithTag("WorkBench").GetComponent<Image>();
         batteryImage = GameObject.FindWithTag("Battery").GetComponent<Image>();
         workBenchDeco = GameObject.FindWithTag("WorkBenchDeco").GetComponent<CanvasGroup>();
+        workBenchScript = workBenchImage.GetComponent<WorkBenchInteraction>();
 
         initIndex = workBenchImage.transform.GetSiblingIndex();
 
@@ -80,9 +83,13 @@ public class TutorialController : MonoBehaviour
     public void LightUpBackground()
     {
         StartCoroutine(FillBattery());
-        workBenchDeco.DOFade(1f, lightUpDuration * 2).SetEase(Ease.InOutBounce);
+        
         lightBackground.DOFade(0f, lightUpDuration).SetEase(Ease.InBounce).OnComplete(() =>
         {
+            workBenchDeco.DOFade(1f, lightUpDuration).SetEase(Ease.InOutBounce).OnComplete(() =>
+            {
+                workBenchScript.StartAnim();
+            });
             lightBackground.gameObject.SetActive(false);
             isLightUp = true;
         });
