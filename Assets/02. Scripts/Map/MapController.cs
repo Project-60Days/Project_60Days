@@ -183,7 +183,7 @@ public class MapController : Singleton<MapController>
 
         preemptiveTiles.Add(player.TileController.Model);
         
-        player.TileEffectCheck();
+        //player.TileEffectCheck();
     }
 
     IEnumerator FloatingAnimation()
