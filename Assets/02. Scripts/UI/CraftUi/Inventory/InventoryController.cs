@@ -144,6 +144,20 @@ public class InventoryController : MonoBehaviour
                 RemoveItem(item);
             }
     }
+    
+    public void RemoveRandomItem()
+    {
+        int random;
+        
+        while (true)
+        {
+            random = Random.Range(0, items.Count);
+
+            if(items[random].English != "ITEM_NETWORKCHIP")
+                break;
+        }
+        RemoveItem(items[random]);
+    }
 
 
 
@@ -161,7 +175,7 @@ public class InventoryController : MonoBehaviour
         }
         return false;
     }
-
+    
 
 
 

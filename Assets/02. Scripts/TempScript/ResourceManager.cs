@@ -25,6 +25,11 @@ public class ResourceManager : MonoBehaviour
 
     public void GetResource(TileController tile)
     {
+        int collectiveCount = collectiveAbility;
+        
+        if(App.instance.GetMapManager().IsJungleTile(tile))
+            collectiveCount += 1;
+        
         lastResources = tile.GetComponent<TileBase>().GetResources(collectiveAbility);
 
         for (int i = 0; i < lastResources.Count; i++)
