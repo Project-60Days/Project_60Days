@@ -17,9 +17,16 @@ public class Chapter01_3 : QuestBase
         nextQuestIndex = thisNextIndex;
     }
 
+    public override IEnumerator CheckQuestComplete()
+    {
+        yield return new WaitUntil(() => CheckMeetCondition());
+        yield return new WaitUntil(() => UIManager.instance.isUIStatus("UI_LOADING"));
+        AfterQuest();
+    }
+
     public override bool CheckMeetCondition()
     {
-        return UIManager.instance.GetQuestController().isClear;
+        return UIManager.instance.GetPageController().isClickYesBtnInTower;
     }
 
     public override string SetQuestText()
@@ -29,6 +36,8 @@ public class Chapter01_3 : QuestBase
 
     public override void AfterQuest()
     {
+        UIManager.instance.GetQuestController().SetNextQuestIndex(eQuestType, nextQuestIndex);
+        UIManager.instance.GetQuestController().StartNextQuest(this);
         UIManager.instance.GetPopUpController().EndGamePopUp();
     }
 }

@@ -326,23 +326,10 @@ public class MapManager : ManagementBase
         if (structure != null)
         {
             if (structure is Tower)
-            {
-                if (UIManager.instance.GetInventoryController().CheckNetCardUsage())
-                {
-                    // 네트워크 칩 사용
-                    UIManager.instance.GetQuestController().isClear = true;
-                }
-                else
-                {
-                    // 네트워크 칩 없다.
-                    return;
-                }
-            }
-            else
-            {
-                if (structure.IsUse == false)
-                    UIManager.instance.GetPageController().SetSelectPage("structureSelect", structure);
-            }
+                if (UIManager.instance.GetInventoryController().CheckNetCardUsage() == false) return;
+
+            if (structure.IsUse == false)
+                UIManager.instance.GetPageController().SetSelectPage("structureSelect", structure);
         }
         else
         {

@@ -18,7 +18,36 @@ tags:
 ---
 <br>   송신 탑에 접근 거부되었습니다.
 ===
-
+title: LOOSE_RESROUCE
+tags:
+---
+<br>   분석에 따르면 <color=red>{getResourceName()}</color>의 보유량이 감소했다고 한다. 소실인가? 혹은 잘못 센 것인가? <br><color=red>   (  <sprite index={getResourceIndex()}>  -  1  )</color><br><br>
+===
+title: DESERT_STORM
+tags:
+---
+<br>   <color=red>경고</color> : 강력한 모래 폭풍이 감지되었습니다. 강제 안전 조율 시스템을 가동합니다.<br><color=red>다음 1턴동안 선체를 이동할 수 없습니다. </color><br><br>
+===
+title: SEARCH_TUNDRA
+tags:
+---
+<br>   이 구조물은 얼어붙어 있다. 탐사에 오랜 시간이 소요될 것 같다.<br><br><color=red>( 접근 승인 선택 시 1턴 동안 이동 불가 [ 선택 시점에 이동 불가 ] )</color><br><br>
+===
+title: ACIDENT_ETHER
+tags:
+---
+<br>   <color=red>경고</color> : 에테르 가스 수집 중 예상치 못한 폭발이 감지되었습니다. 선체 추출 기능이 비활성화되었습니다. 자가 수복 프로토콜을 시작합니다.<br><color=red>다음 1턴 동안 선체를 이동할 수 없습니다.</color><br><br>
+===
+title: LOOSE_WAY
+tags:
+---
+<br>   <color=red>경고</color> : 선체의 방향타 시스템에 오류가 발생하였습니다. 이전에 선택한 경로가 아닌 다른 방향으로 이동하였을 가능성이 있습니다.<br><color=red>선체 위치를 확인, 조정해 주십시오. </color><br><br>
+===
+title: SWAMP
+tags:
+---
+<br>   <color=red>경고</color> : 선체가 정글의 거대한 늪에 빠졌습니다. 자가 수복 프로토콜을 시작합니다.<br><color=red>다음 1턴 동안 선체를 이동할 수 없습니다.</color><br><br>
+===
 
 
 
@@ -418,31 +447,31 @@ title: ITEM_POWDER_Desert1
 tags:
 ---
 <<appendNode>>
-<br>   기나긴 사막 한가운데를 지나던 중, 누군가 영역 표시를 해놓은 곳을 발견했다. 그곳을 들춰보니 죽은 군인 한 명이 녹슨 총 한자루를 쥔 채 널브러져있었고, 결국 이 사막에서 생존하지 못한 것으로 보였다. 연민을 뒤로하고 우리는 생존을 위해 총기에 내장된 더스트를 얻어냈다.<br><color=\#38cddc>   (  <sprite index=3>  +  {getResourceCount("ITEM_POWDER")}  )</color><br><br>
+<br>   기나긴 사막 한가운데를 지나던 중, 누군가 영역 표시를 해놓은 곳을 발견했다. 그곳을 들춰보니 죽은 군인 한 명이 녹슨 총 한자루를 쥔 채 널브러져있었고, 결국 이 사막에서 생존하지 못한 것으로 보였다. 연민을 뒤로하고 우리는 생존을 위해 총기에 내장된 더스트를 얻어냈다.<br><color=\#38cddc>   (  <sprite index=4>  +  {getResourceCount("ITEM_POWDER")}  )</color><br><br>
 ===
 title: ITEM_POWDER_Desert2
 tags:
 ---
 <<appendNode>>
-<br>   황량한 사막 거리에서 감염자 시체 더미를 발견했다. 우리는 자원을 공급받기 위해 어떤 것이라도 수집해야 했다. 하지만 부식된 부품들과 온갖 피 냄새와 기름냄새로 가득했다. 별 소득 없이 떠나나 했으나 시체 밑 모래를 유심히 보던 중 검은 가루를 발견했고 감염자들의 몸속 유체와 모래가 합성한다는 사실을 알아내었다. 기적 같은 사실을 알아낸 우리는 검은 가루를 마구마구 파냈다.<br><color=\#38cddc>   (  <sprite index=3>  +  {getResourceCount("ITEM_POWDER")}  )</color><br><br>
+<br>   황량한 사막 거리에서 감염자 시체 더미를 발견했다. 우리는 자원을 공급받기 위해 어떤 것이라도 수집해야 했다. 하지만 부식된 부품들과 온갖 피 냄새와 기름냄새로 가득했다. 별 소득 없이 떠나나 했으나 시체 밑 모래를 유심히 보던 중 검은 가루를 발견했고 감염자들의 몸속 유체와 모래가 합성한다는 사실을 알아내었다. 기적 같은 사실을 알아낸 우리는 검은 가루를 마구마구 파냈다.<br><color=\#38cddc>   (  <sprite index=4>  +  {getResourceCount("ITEM_POWDER")}  )</color><br><br>
 ===
 title: ITEM_POWDER_Desert3
 tags:
 ---
 <<appendNode>>
-<br>   모래바람 속에서 무너진 도시를 찾아내었다. 그곳엔 군수창고가 있었고, 이미 많은 사람들이 약탈해 간 듯 헤집어져 있었다. 우리도 급한 마음에 무엇이라도 찾기를 빌었고, 구석에 있던 정체 모를 검은 가루가 있었다. 그것은 더스트였고 뜻밖의 횡재를 하게 되었다.<br><color=\#38cddc>   (  <sprite index=3>  +  {getResourceCount("ITEM_POWDER")}  )</color><br><br>
+<br>   모래바람 속에서 무너진 도시를 찾아내었다. 그곳엔 군수창고가 있었고, 이미 많은 사람들이 약탈해 간 듯 헤집어져 있었다. 우리도 급한 마음에 무엇이라도 찾기를 빌었고, 구석에 있던 정체 모를 검은 가루가 있었다. 그것은 더스트였고 뜻밖의 횡재를 하게 되었다.<br><color=\#38cddc>   (  <sprite index=4>  +  {getResourceCount("ITEM_POWDER")}  )</color><br><br>
 === 
 title: ITEM_POWDER_Desert4
 tags:
 ---
 <<appendNode>>
-<br>   우리는 황량한 사막의 중심지를 탐험하고 있었다. 이 지역은 가뭄과 강한 바람에 시달리는 곳이었다. 무시무시한 폭풍이 지나가고 난 뒤에 드러난 돌단 사이에서 고대 유물을 발견했다. 무너진 건물의 잔해 사이에 흩어져 있는 이 유물 안에는 더스트 화약을 구할 수 있었다.<br><color=\#38cddc>   (  <sprite index=3>  +  {getResourceCount("ITEM_POWDER")}  )</color><br><br>
+<br>   우리는 황량한 사막의 중심지를 탐험하고 있었다. 이 지역은 가뭄과 강한 바람에 시달리는 곳이었다. 무시무시한 폭풍이 지나가고 난 뒤에 드러난 돌단 사이에서 고대 유물을 발견했다. 무너진 건물의 잔해 사이에 흩어져 있는 이 유물 안에는 더스트 화약을 구할 수 있었다.<br><color=\#38cddc>   (  <sprite index=4>  +  {getResourceCount("ITEM_POWDER")}  )</color><br><br>
 ===
 title: ITEM_POWDER_Desert5
 tags:
 ---
 <<appendNode>>
-<br>   우리는 거대한 사막을 횡단하던 중, 고대의 로봇 유물을 발견했다. 그 로봇은 옛날의 기술로 만들어져 있었지만, 여전히 살아있었다. 로봇의 몸속에는 더스트가 들어있었고 그 로봇은 자신의 더스트를 마지막까지 보관하고 있던 것이었다. 우리는 그를 이만 편안히 보내줌과 동시에 더스트를 얻었다.<br><color=\#38cddc>   (  <sprite index=3>  +  {getResourceCount("ITEM_POWDER")}  )</color><br><br>
+<br>   우리는 거대한 사막을 횡단하던 중, 고대의 로봇 유물을 발견했다. 그 로봇은 옛날의 기술로 만들어져 있었지만, 여전히 살아있었다. 로봇의 몸속에는 더스트가 들어있었고 그 로봇은 자신의 더스트를 마지막까지 보관하고 있던 것이었다. 우리는 그를 이만 편안히 보내줌과 동시에 더스트를 얻었다.<br><color=\#38cddc>   (  <sprite index=4>  +  {getResourceCount("ITEM_POWDER")}  )</color><br><br>
 ===
 
 
@@ -453,31 +482,31 @@ title: ITEM_GAS_Tundra1
 tags:
 ---
 <<appendNode>>
-<br>   얼음 기둥 사이에서, 우리는 깨어진 가스 관을 발견했고, 거기에는 얼어붙은 액체 상태의 에테르 가스가 흐르고 있었다. A-48이 액체 상태는 매우 불안정한 물질 상태로, 수집에 각별한 주의가 필요하다고 한다.<br><color=\#38cddc>   (  <sprite index=4>  +  {getResourceCount("ITEM_GAS")}  )</color><br><br>
+<br>   얼음 기둥 사이에서, 우리는 깨어진 가스 관을 발견했고, 거기에는 얼어붙은 액체 상태의 에테르 가스가 흐르고 있었다. A-48이 액체 상태는 매우 불안정한 물질 상태로, 수집에 각별한 주의가 필요하다고 한다.<br><color=\#38cddc>   (  <sprite index=5>  +  {getResourceCount("ITEM_GAS")}  )</color><br><br>
 ===
 title: ITEM_GAS_Tundra2
 tags:
 ---
 <<appendNode>>
-<br>   고요한 얼음 평원의 깊숙한 곳, 뜨거운 블루 플레임이 춤추고 있었다. 우리는 그 불꽃이 가스에 의해 나오고 있다는 것을 알아내었고, 그 에너지의 근원은 에테르 가스였다. 우리는 이 가스를 추출하여 선체로 가져왔다.<br><color=\#38cddc>   (  <sprite index=4>  +  {getResourceCount("ITEM_GAS")}  )</color><br><br>
+<br>   고요한 얼음 평원의 깊숙한 곳, 뜨거운 블루 플레임이 춤추고 있었다. 우리는 그 불꽃이 가스에 의해 나오고 있다는 것을 알아내었고, 그 에너지의 근원은 에테르 가스였다. 우리는 이 가스를 추출하여 선체로 가져왔다.<br><color=\#38cddc>   (  <sprite index=5>  +  {getResourceCount("ITEM_GAS")}  )</color><br><br>
 ===
 title: ITEM_GAS_Tundra3
 tags:
 ---
 <<appendNode>>
-<br>   우리는 툰드라 지역을 탐험하던 중, 이상한 진동과 함께 빛이 서서히 쇠락해가는 로봇이 목적 없이 걸어가고 있는 모습을 보았다. 로봇의 팔을 들어보았을 때 아무런 반응도 없었으며 로봇의 눈에는 불빛이 점점 어두워졌다. 중단 직전 로봇은 우리를 바라보았고 몸 안에 지니고 있던 에테르 가스를 건네주었다.<br><color=\#38cddc>   (  <sprite index=4>  +  {getResourceCount("ITEM_GAS")}  )</color><br><br>
+<br>   우리는 툰드라 지역을 탐험하던 중, 이상한 진동과 함께 빛이 서서히 쇠락해가는 로봇이 목적 없이 걸어가고 있는 모습을 보았다. 로봇의 팔을 들어보았을 때 아무런 반응도 없었으며 로봇의 눈에는 불빛이 점점 어두워졌다. 중단 직전 로봇은 우리를 바라보았고 몸 안에 지니고 있던 에테르 가스를 건네주었다.<br><color=\#38cddc>   (  <sprite index=5>  +  {getResourceCount("ITEM_GAS")}  )</color><br><br>
 ===
 title: ITEM_GAS_Tundra4
 tags:
 ---
 <<appendNode>>
-<br>   한 차가운 툰드라의 밤, 우리는 죽은 탐험가를 발견했다. 그의 몸 주위에는 흩어진 얼음 결정과 어둠에 물든 흔적들이 남아 있었다. 우리는 눈앞의 장면에 약간의 불안을 느끼며 살펴보기 시작했다. 죽은 탐험가의 손에는 작은 유리병이 있었고, 그 안에는 미묘한 빛을 띤 에테르 가스가 어렴풋이 떠 있었다.<br><color=\#38cddc>   (  <sprite index=4>  +  {getResourceCount("ITEM_GAS")}  )</color><br><br>
+<br>   한 차가운 툰드라의 밤, 우리는 죽은 탐험가를 발견했다. 그의 몸 주위에는 흩어진 얼음 결정과 어둠에 물든 흔적들이 남아 있었다. 우리는 눈앞의 장면에 약간의 불안을 느끼며 살펴보기 시작했다. 죽은 탐험가의 손에는 작은 유리병이 있었고, 그 안에는 미묘한 빛을 띤 에테르 가스가 어렴풋이 떠 있었다.<br><color=\#38cddc>   (  <sprite index=5>  +  {getResourceCount("ITEM_GAS")}  )</color><br><br>
 ===
 title: ITEM_GAS_Tundra5
 tags:
 ---
 <<appendNode>>
-<br>   툰드라의 깊은 어둠에 위치한 공장에서, 우리는 고장 난 로봇들과 얼음으로 뒤덮인 기계 부품들 사이에서 자원을 탐색하고 있었다. 이 냉혹한 환경에서도 공장은 여전히 어두운 에테르 가스의 힘으로 작동되고 있었다. 우리는 미묘한 빛을 발하는 에테르 가스탱크를 발견했다. 그 탱크는 오랜 기간 동안 에테르 가스를 축적하고 있었으며, 우리는 그 가스를 공장에서 빼내어 수집하였다.<br><color=\#38cddc>   (  <sprite index=4>  +  {getResourceCount("ITEM_GAS")}  )</color><br><br>
+<br>   툰드라의 깊은 어둠에 위치한 공장에서, 우리는 고장 난 로봇들과 얼음으로 뒤덮인 기계 부품들 사이에서 자원을 탐색하고 있었다. 이 냉혹한 환경에서도 공장은 여전히 어두운 에테르 가스의 힘으로 작동되고 있었다. 우리는 미묘한 빛을 발하는 에테르 가스탱크를 발견했다. 그 탱크는 오랜 기간 동안 에테르 가스를 축적하고 있었으며, 우리는 그 가스를 공장에서 빼내어 수집하였다.<br><color=\#38cddc>   (  <sprite index=5>  +  {getResourceCount("ITEM_GAS")}  )</color><br><br>
 ===
 
 
@@ -488,31 +517,31 @@ title: ITEM_RUBBER_Jungle1
 tags:
 ---
 <<appendNode>>
-<br>   무너진 도심 속 덩굴로 뒤덮인 번화가를 찾아갔다. 그곳의 나무들은 감염자들로 인해 상처가 난 상태였다. 우리는 두려움에 떨었고 상처를 유심히 살펴보다가 나무에서 고무액이 흘러나온다는 것을 알아내었다. 이는 우리의 좋은 자원이 될 수 있을 것이라 확신했다.<br><color=\#38cddc>   (  <sprite index=5>  +  {getResourceCount("ITEM_RUBBER")}  )</color><br><br>
+<br>   무너진 도심 속 덩굴로 뒤덮인 번화가를 찾아갔다. 그곳의 나무들은 감염자들로 인해 상처가 난 상태였다. 우리는 두려움에 떨었고 상처를 유심히 살펴보다가 나무에서 고무액이 흘러나온다는 것을 알아내었다. 이는 우리의 좋은 자원이 될 수 있을 것이라 확신했다.<br><color=\#38cddc>   (  <sprite index=6>  +  {getResourceCount("ITEM_RUBBER")}  )</color><br><br>
 ===
 title: ITEM_RUBBER_Jungle2
 tags:
 ---
 <<appendNode>> 
-<br>   무너진 다리 밑을 지나다가 우연히 벽을 만졌다. 그 벽은 매우 끈적하였고 어디선가 이상한 액체가 흐르고 있다는 것을 파악했다. 아마 다리에 내장되어 있던 고무가 녹아내려 외부로 노출된 것 같다. 이 기회를 놓치지 않고 우리는 고무를 얻어냈다.<br><color=\#38cddc>   (  <sprite index=5>  +  {getResourceCount("ITEM_RUBBER")}  )</color><br><br>
+<br>   무너진 다리 밑을 지나다가 우연히 벽을 만졌다. 그 벽은 매우 끈적하였고 어디선가 이상한 액체가 흐르고 있다는 것을 파악했다. 아마 다리에 내장되어 있던 고무가 녹아내려 외부로 노출된 것 같다. 이 기회를 놓치지 않고 우리는 고무를 얻어냈다.<br><color=\#38cddc>   (  <sprite index=6>  +  {getResourceCount("ITEM_RUBBER")}  )</color><br><br>
 ===
 title: ITEM_RUBBER_Jungle3
 tags:
 ---
 <<appendNode>>
-<br>   우거진 수풀 사이를 지나던 중 기분 나쁜 액체가 얼굴에 묻었다. 우리 모두가 놀랐고, 빠르게 얼굴을 닦아냈다. 다행히도 그 액체는 인간에게 해를 가하지 않는 고무액이었고, 흐르는 근원지를 찾아 고무를 추출해냈다.<br><color=\#38cddc>   (  <sprite index=5>  +  {getResourceCount("ITEM_RUBBER")}  )</color><br><br>
+<br>   우거진 수풀 사이를 지나던 중 기분 나쁜 액체가 얼굴에 묻었다. 우리 모두가 놀랐고, 빠르게 얼굴을 닦아냈다. 다행히도 그 액체는 인간에게 해를 가하지 않는 고무액이었고, 흐르는 근원지를 찾아 고무를 추출해냈다.<br><color=\#38cddc>   (  <sprite index=6>  +  {getResourceCount("ITEM_RUBBER")}  )</color><br><br>
 ===
 title: ITEM_RUBBER_Jungle4
 tags:
 ---
 <<appendNode>>
-<br>   습지 중심에 위치한 부서진 건물의 그늘 속에서 뭔가 반짝이는 것을 발견했다. 우리는 조심스럽게 다가가며, 그것이 오래된 창고인 것을 알아냈다. 창고에는 폐품과 함께 고무로 만들어진 물건들이 흩어져 있었다. 하지만 그곳엔 독성가스와 함께 환경이 위험했고 살아남기 위해서는 조심스러운 행동이 필요했다. 우리는 다행히도 고무를 추출해 선체로 가져갔다.<br><color=\#38cddc>   (  <sprite index=5>  +  {getResourceCount("ITEM_RUBBER")}  )</color><br><br>
+<br>   습지 중심에 위치한 부서진 건물의 그늘 속에서 뭔가 반짝이는 것을 발견했다. 우리는 조심스럽게 다가가며, 그것이 오래된 창고인 것을 알아냈다. 창고에는 폐품과 함께 고무로 만들어진 물건들이 흩어져 있었다. 하지만 그곳엔 독성가스와 함께 환경이 위험했고 살아남기 위해서는 조심스러운 행동이 필요했다. 우리는 다행히도 고무를 추출해 선체로 가져갔다.<br><color=\#38cddc>   (  <sprite index=6>  +  {getResourceCount("ITEM_RUBBER")}  )</color><br><br>
 ===
 title: ITEM_RUBBER_Jungle5
 tags:
 ---
 <<appendNode>>
-<br>   우리는 습지 속 숲을 지나가던 중 고무가 잔뜩 적재된 로봇을 발견했다. 이 로봇은 예전의 산업용 로봇 중 하나였던 것 같다. 우리는 그 로봇의 저장 공간을 떼어내 고무를 얻어냈고 고무를 두둑이 챙겨나갔다.<br><color=\#38cddc>   (  <sprite index=5>  +  {getResourceCount("ITEM_RUBBER")}  )</color><br><br>
+<br>   우리는 습지 속 숲을 지나가던 중 고무가 잔뜩 적재된 로봇을 발견했다. 이 로봇은 예전의 산업용 로봇 중 하나였던 것 같다. 우리는 그 로봇의 저장 공간을 떼어내 고무를 얻어냈고 고무를 두둑이 챙겨나갔다.<br><color=\#38cddc>   (  <sprite index=6>  +  {getResourceCount("ITEM_RUBBER")}  )</color><br><br>
 ===
 
 
@@ -523,122 +552,122 @@ title: ITEM_NETWORKCHIP_None1
 tags:
 ---
 <<appendNode>>
-<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  <sprite index=3>  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신 탑에 넷 카드 연결하기</color><br><br>
 ===
 title: ITEM_NETWORKCHIP_None2
 tags: 
 ---
 <<appendNode>>
-<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  <sprite index=3>  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신 탑에 넷 카드 연결하기</color><br><br>
 ===
 title: ITEM_NETWORKCHIP_None3
 tags:
 ---
 <<appendNode>>
-<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  <sprite index=3>  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신 탑에 넷 카드 연결하기</color><br><br>
 ===
 title: ITEM_NETWORKCHIP_None4
 tags:
 ---
 <<appendNode>>
-<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  <sprite index=3>  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신 탑에 넷 카드 연결하기</color><br><br>
 ===
 title: ITEM_NETWORKCHIP_None5
 tags:
 ---
 <<appendNode>>
-<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  <sprite index=3>  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신 탑에 넷 카드 연결하기</color><br><br>
 ===
 
 title: ITEM_NETWORKCHIP_Desert1
 tags:
 ---
 <<appendNode>>
-<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  <sprite index=3>  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신 탑에 넷 카드 연결하기</color><br><br>
 ===
 title: ITEM_NETWORKCHIP_Desert2
 tags:
 ---
 <<appendNode>>
-<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  <sprite index=3>  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신 탑에 넷 카드 연결하기</color><br><br>
 ===
 title: ITEM_NETWORKCHIP_Desert3
 tags:
 ---
 <<appendNode>>
-<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  <sprite index=3>  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신 탑에 넷 카드 연결하기</color><br><br>
 ===
 title: ITEM_NETWORKCHIP_Desert4
 tags:
 ---
 <<appendNode>>
-<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  <sprite index=3>  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신 탑에 넷 카드 연결하기</color><br><br>
 ===
 title: ITEM_NETWORKCHIP_Desert5
 tags:
 ---
 <<appendNode>>
-<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  <sprite index=3>  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신 탑에 넷 카드 연결하기</color><br><br>
 ===
 
 title: ITEM_NETWORKCHIP_Tundra1
 tags:
 ---
 <<appendNode>>
-<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  <sprite index=3>  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신 탑에 넷 카드 연결하기</color><br><br>
 ===
 title: ITEM_NETWORKCHIP_Tundra2
 tags:
 ---
 <<appendNode>>
-<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  <sprite index=3>  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신 탑에 넷 카드 연결하기</color><br><br>
 ===
 title: ITEM_NETWORKCHIP_Tundra3
 tags:
 ---
 <<appendNode>>
-<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  <sprite index=3>  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신 탑에 넷 카드 연결하기</color><br><br>
 ===
 title: ITEM_NETWORKCHIP_Tundra4
 tags:
 ---
 <<appendNode>>
-<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  <sprite index=3>  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신 탑에 넷 카드 연결하기</color><br><br>
 ===
 title: ITEM_NETWORKCHIP_Tundra5
 tags:
 ---
 <<appendNode>>
-<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  <sprite index=3>  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신 탑에 넷 카드 연결하기</color><br><br>
 ===
 
 title: ITEM_NETWORKCHIP_Jungle1
 tags:
 ---
 <<appendNode>>
-<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  <sprite index=3>  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신 탑에 넷 카드 연결하기</color><br><br>
 ===
 title: ITEM_NETWORKCHIP_Jungle2
 tags:
 ---
 <<appendNode>>
-<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  <sprite index=3>  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신 탑에 넷 카드 연결하기</color><br><br>
 ===
 title: ITEM_NETWORKCHIP_Jungle3
 tags:
 ---
 <<appendNode>>
-<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  <sprite index=3>  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신 탑에 넷 카드 연결하기</color><br><br>
 ===
 title: ITEM_NETWORKCHIP_Jungle4
 tags:
 ---
 <<appendNode>>
-<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  <sprite index=3>  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신 탑에 넷 카드 연결하기</color><br><br>
 ===
 title: ITEM_NETWORKCHIP_Jungle5
 tags:
 ---
 <<appendNode>>
-<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  넷 카드  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신탑에 넷 카드 연결하기</color><br><br>
+<br>   새로운 아이템을 확인하였습니다. 확인 중<br>.<br>.<br>.<br>'넷 카드' 코드가 확인되었습니다.<br><color=\#38cddc>   (  <sprite index=3>  +  {getResourceCount("ITEM_NETWORKCHIP")}  )</color><br>목표를 달성하였습니다.<br>목표를 갱신하였습니다.<br><br><color=\#38cddc>다음 목표 : 송신 탑에 넷 카드 연결하기</color><br><br>
 ===
