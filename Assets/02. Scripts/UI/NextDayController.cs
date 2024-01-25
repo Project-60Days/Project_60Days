@@ -147,7 +147,10 @@ public class NextDayController : MonoBehaviour
 
             string nodeName = resources[i].ItemBase.data.Code + "_" + tileName + randomNumber.ToString();
 
-            UIManager.instance.GetPageController().SetResultPage(nodeName, true);
+            if (resources[i].ItemBase.data.Code == "ITEM_NETWORKCHIP") 
+                UIManager.instance.GetPageController().SetResultPage(nodeName, false);
+            else
+                UIManager.instance.GetPageController().SetResultPage(nodeName, true);
         }
     }
 
