@@ -26,11 +26,13 @@ public class ZombieBase : MonoBehaviour
     public Tile lastTile;
     public Tile targetTile;
     public bool isChasingPlayer;
+    private bool isBuff;
 
     List<Coords> movePath;
     int remainStunTime;
     int moveCost = 1;
     int dectectionRange = 2;
+    int debuffCoolTime = 0;
 
     public void Init(Tile tile)
     {
@@ -50,7 +52,54 @@ public class ZombieBase : MonoBehaviour
         curTile = tile;
         lastTile = curTile;
 
+        CheckTileEffect(curTile);
         CurrentTileUpdate(curTile);
+    }
+
+    ETileType CheckTileType(Tile tile)
+    {
+        return ((GameObject)tile.GameEntity).GetComponent<TileBase>().TileType;
+    }
+
+    void CheckTileEffect(Tile _tile)
+    {
+        switch (CheckTileType(_tile))
+        {
+            case ETileType.None:
+                if (isBuff == false)
+                {
+                    zombieData.count += 5;
+                    ZombieModelChoice(zombieData.count);
+                    isBuff = true;
+                }
+                break;
+            case ETileType.Desert:
+                if (debuffCoolTime == 0)
+                {
+                    debuffCoolTime = 1;
+                }
+                else
+                {
+                    debuffCoolTime--;
+                }
+                break;
+            case ETileType.Tundra:
+                if (debuffCoolTime == 0)
+                {
+                    debuffCoolTime = 1;
+                }
+                else
+                {
+                    debuffCoolTime--;
+                }
+                break;
+            default:
+                break;
+        }
+
+        if (CheckTileType(_tile) == ETileType.None)
+        {
+        }
     }
 
     void ZombieCountChoice()
@@ -96,7 +145,7 @@ public class ZombieBase : MonoBehaviour
             }
         }
     }
-    
+
     public void SetValue(int cost, int _detectionRange)
     {
         moveCost = cost;
@@ -105,20 +154,27 @@ public class ZombieBase : MonoBehaviour
 
     public void DetectionAndAct()
     {
-        isChasingPlayer = MapController.instance.CalculateDistanceToPlayer(curTile, dectectionRange);
         
-        if(App.instance.GetMapManager().mapController.Player.GetIsClocking())
+        isChasingPlayer = MapController.instance.CalculateDistanceToPlayer(curTile, dectectionRange);
+
+        if (App.instance.GetMapManager().mapController.Player.GetIsClocking())
         {
             Debug.Log("좀비가 플레이어를 놓쳤습니다");
             isChasingPlayer = false;
         }
-        
+
         nearthDistrubtor = MapController.instance.CalculateDistanceToDistrubtor(curTile, 2);
+        
         ActionDecision();
     }
 
     public void ActionDecision()
     {
+        if(debuffCoolTime > 0)
+        {
+            return;
+        }
+        
         if (remainStunTime > 0)
         {
             remainStunTime--;
@@ -151,6 +207,8 @@ public class ZombieBase : MonoBehaviour
                 StartCoroutine(MoveToRandom());
             }
         }
+        
+        CheckTileEffect(curTile);
     }
 
     public IEnumerator MoveToAttack(Tile target, float time = 0.25f)
@@ -177,7 +235,7 @@ public class ZombieBase : MonoBehaviour
 
                 yield return new WaitForSeconds(time);
                 curTile = pointTile;
-                
+
                 if (movePath.Count == 1)
                     break;
             }
@@ -206,10 +264,10 @@ public class ZombieBase : MonoBehaviour
         yield return gameObject.transform.DOMove(targetPos, time);
 
         curTile = candidate[rand];
-        
+
         CurrentTileUpdate(lastTile);
         CurrentTileUpdate(curTile);
-        
+
         lastTile = curTile;
     }
 
@@ -217,7 +275,7 @@ public class ZombieBase : MonoBehaviour
     {
         if (tile == null)
             return;
-        
+
         if (tile == curTile)
         {
             ((GameObject)(tile.GameEntity)).GetComponent<TileBase>().UpdateZombieInfo(this);
@@ -232,7 +290,7 @@ public class ZombieBase : MonoBehaviour
     {
         zombieData.count += zombie.zombieData.count;
         zombie.zombieData.count = 0;
-        
+
         ZombieModelChoice(zombieData.count);
         CurrentTileUpdate(curTile);
     }
@@ -248,6 +306,7 @@ public class ZombieBase : MonoBehaviour
         {
             return 0;
         }
+
         return 1;
     }
 
@@ -260,7 +319,7 @@ public class ZombieBase : MonoBehaviour
     public void TakeDamage()
     {
         // 피격 애니메이션
-        
+
         // 사망
         zombieData.count = 0;
         Debug.Log(gameObject.name + " 처치 완료.");
@@ -269,8 +328,8 @@ public class ZombieBase : MonoBehaviour
         // 시체 오브젝트 생성
     }
 
-    
-    public void Stun(int time=1)
+
+    public void Stun(int time = 1)
     {
         remainStunTime = time;
     }

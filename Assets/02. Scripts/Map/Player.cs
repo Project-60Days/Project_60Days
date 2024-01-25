@@ -14,17 +14,19 @@ public class Player : MonoBehaviour
     int maxMoveRange = 1;
 
     int durability;
+
     public int Durability
     {
         get => durability;
-        set 
-        { 
+        set
+        {
             if (value > 0)
-                durability = value; 
+                durability = value;
         }
     }
-    
+
     int moveRange;
+
     public int MoveRange
     {
         get => moveRange;
@@ -35,6 +37,7 @@ public class Player : MonoBehaviour
     private int temporaryDurability;
 
     List<Coords> movePath;
+
     public List<Coords> MovePath
     {
         get => movePath;
@@ -42,6 +45,7 @@ public class Player : MonoBehaviour
     }
 
     TileController currentTileContorller;
+
     public TileController TileController
     {
         get => currentTileContorller;
@@ -61,7 +65,7 @@ public class Player : MonoBehaviour
         moveRange = maxMoveRange;
         StartCoroutine(DelaySightGetInfo());
     }
-    
+
     public void InputDefaultData(int _moveRange, int _durability)
     {
         maxMoveRange = _moveRange;
@@ -76,17 +80,6 @@ public class Player : MonoBehaviour
         Vector3 lastTargetPos = targetTileController.transform.position;
 
         var zombies = targetTileController.GetComponent<TileBase>().CurZombies;
-
-        if (moveBuffDuration > 0)
-        {
-            moveBuffDuration--;
-            moveRange = temporaryRange;
-        }
-        else
-        {
-            moveBuffDuration = 0;
-            moveRange = maxMoveRange;
-        }
 
         // 이동한 타일에 좀비가 있다면 공격
         if (zombies != null)
@@ -148,7 +141,7 @@ public class Player : MonoBehaviour
 
     public void SetHealth(bool isMax, int num = 0)
     {
-        if (isMax == true)
+        if (isMax)
             moveRange = maxMoveRange;
         else
         {
@@ -171,7 +164,7 @@ public class Player : MonoBehaviour
 
         // 공격 애니메이션
         zombies.TakeDamage();
-        
+
         //bulletsNum -= 1;
         //Debug.Log("남은 펄스탄 개수 : " + bulletsNum);
     }
@@ -200,10 +193,25 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void AddMoveRange(int _amount)
+    public void ChangeMoveRange(ETileType _type)
     {
-        maxMoveRange += _amount;
-        maxMoveRange = moveRange;
+        switch (_type)
+        {
+            case ETileType.None:
+                moveRange += 1;
+                break;
+            case ETileType.Desert:
+                moveRange = 0;
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void ChangeDurbility(int amount)
+    {
+        if (durability + amount > 0)
+            durability += amount;
     }
 
     public void AddMoveRangeUntil(int _duration, int _amount)
@@ -216,8 +224,8 @@ public class Player : MonoBehaviour
     {
         clockBuffDuration = _duration;
     }
-    
-    public void AddDurability(int _durability ,int _amount)
+
+    public void AddDurability(int _durability, int _amount)
     {
         durabilityBuffDuration = _durability;
         temporaryDurability = durability + _amount;
@@ -240,5 +248,29 @@ public class Player : MonoBehaviour
     public void AddSightRange(int _amount)
     {
         csFogWar.instance.AddSightRange(_amount);
+    }
+
+    public void TileEffectCheck()
+    {
+        var tileBase = currentTileContorller.GetComponent<TileBase>();
+
+        switch (tileBase.TileType)
+        {
+            case ETileType.None:
+                (tileBase as NoneTile).Buff(this);
+                (tileBase as NoneTile).DeBuff(this);
+                break;
+            case ETileType.Desert:
+                (tileBase as DesertTile).DeBuff(this);
+                break;
+            case ETileType.Tundra:
+                (tileBase as DesertTile).DeBuff(this);
+                break;
+            case ETileType.Jungle:
+                (tileBase as JungleTile).DeBuff(this);
+                break;
+            default:
+                break;
+        }
     }
 }

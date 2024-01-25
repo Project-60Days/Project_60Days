@@ -29,6 +29,7 @@ public class MapManager : ManagementBase
     bool isDronePrepared;
     bool isDisturbtorPrepared;
     bool isCameraMove;
+    bool isTundraTile;
 
     TileBase structureTileBase;
 
@@ -379,7 +380,8 @@ public class MapManager : ManagementBase
             mapController.SpawnStructureZombies(structure.Colleagues);
 
         // 플레이어 체력 0으로 만들어서 경로 선택 막기
-        //mapController.Player.SetHealth(false);
+        if(isTundraTile)
+            mapController.Player.SetHealth(false);
 
         // 경로 삭제
         MovePathDelete();
@@ -463,6 +465,34 @@ public class MapManager : ManagementBase
                 cameraTarget = target;
                 mapController.OcclusionCheck(cameraTarget.Model);
             }
+        }
+    }
+    
+    public void TundraTileCheck()
+    {
+        isTundraTile = true;
+    }
+
+    public void EtherReourceCheck()
+    {
+        var resources = resourceManager.GetLastResources();
+        if(resources.Find(x=> x.ItemBase.data.Code == "ITEM_ETHER") != null)
+        {
+            mapController.Player.SetHealth(false);
+        }
+        else
+        {
+            return;
+        }
+    }
+
+    public bool IsJungleTile(TileController _tileController)
+    {
+        if (_tileController.GetComponent<TileBase>().TileType == ETileType.Jungle)
+            return true;
+        else
+        {
+            return false;
         }
     }
 }
