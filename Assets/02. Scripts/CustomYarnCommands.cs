@@ -240,6 +240,20 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     }
     #endregion
 
+    [YarnFunction("getResourceName")]
+    static string GetResourceName()
+    {
+        string resourceName = UIManager.instance.GetPageController().currResource;
+        return resourceName;
+    }
+
+    [YarnFunction("getResourceIndex")]
+    static int GetResourceIndex()
+    {
+        int resourceIndex = UIManager.instance.GetPageController().currResourceIndex;
+        return resourceIndex;
+    }
+
 
     [YarnFunction("getResourceCount")]
     static int GetResourceCount(string _itemCode)
@@ -263,6 +277,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     {
         yield return new WaitForSeconds(_time);
     }
+
 
     [YarnFunction("getStructName")]
     static string GetStructName()

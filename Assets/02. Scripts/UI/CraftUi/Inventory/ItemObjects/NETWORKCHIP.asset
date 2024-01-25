@@ -31,10 +31,10 @@ MonoBehaviour:
     value1: -1
     value2: -1
     value3: -1
-  itemImage: {fileID: 1576075925, guid: 4ba032e30c897264a8175c57457405f0, type: 3}
+  itemImage: {fileID: 21300000, guid: dc4c1cdb3595d8a4881189afd95e64c5, type: 3}
   itemCount: 0
   eItemType: 1
-  sprite: {fileID: 21300000, guid: 351a9799c30acca41a51ea5f6ca7da9d, type: 3}
+  sprite: {fileID: 21300000, guid: 1c2bf9cd0c2570a408cc3cba526b72a5, type: 3}
   sfxName: 
   isMadeOnce: 0
   isBlueprintOpen: 0

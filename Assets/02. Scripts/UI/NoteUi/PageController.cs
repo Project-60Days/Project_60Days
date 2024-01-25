@@ -27,6 +27,8 @@ public class PageController : MonoBehaviour
     Color normalColor = new Color(1f, 1f, 1f, 1f);
 
     [HideInInspector] public string currStruct;
+    [HideInInspector] public string currResource;
+    [HideInInspector] public int currResourceIndex = 0;
 
     void Awake()
     {
@@ -155,5 +157,35 @@ public class PageController : MonoBehaviour
         dialogueRunner.StartDialogue(_nodeName);
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(selectParent);
+    }
+
+    public void SetCurrResource(ItemBase _item)
+    {
+        currResource = _item.data.Korean;
+
+        switch (_item.data.Code)
+        {
+            case "ITEM_STEEL":
+                currResourceIndex = 0;
+                break;
+            case "ITEM_CARBON":
+                currResourceIndex = 1;
+                break;
+            case "ITEM_PLASMA":
+                currResourceIndex = 2;
+                break;
+            case "ITEM_POWDER":
+                currResourceIndex = 4;
+                break;
+            case "ITEM_GAS":
+                currResourceIndex = 5;
+                break;
+            case "ITEM_RUBBER":
+                currResourceIndex = 6;
+                break;
+            default:
+                currResourceIndex = 3;
+                break;
+        }
     }
 }
