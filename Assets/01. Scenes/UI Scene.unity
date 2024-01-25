@@ -1568,10 +1568,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SFXName_btnClick: SFX_ButtonClick_01
-  currentResolution: {fileID: 1302589683}
-  buttonText: {fileID: 1433281778}
-  buttonImage: {fileID: 67364313}
-  displayController: {fileID: 1150735507}
 --- !u!1 &68363004
 GameObject:
   m_ObjectHideFlags: 0
@@ -3195,7 +3191,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isClicked: 0
-  backBtn: {fileID: 1911858632}
   detailsBack: {fileID: 912439733}
 --- !u!1 &130406843
 GameObject:
@@ -18549,10 +18544,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SFXName_btnClick: SFX_ButtonClick_01
-  currentResolution: {fileID: 1302589683}
-  buttonText: {fileID: 2137340156}
-  buttonImage: {fileID: 799570082}
-  displayController: {fileID: 1150735507}
 --- !u!1 &805758867
 GameObject:
   m_ObjectHideFlags: 0
@@ -18649,8 +18640,6 @@ MonoBehaviour:
   selectParent: {fileID: 1811164150}
   skipButton: {fileID: 381555328}
   currStruct: 
-  currResource: 
-  currResourceIndex: 0
 --- !u!114 &806694048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21340,7 +21329,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isClicked: 0
-  backBtn: {fileID: 766008759}
   detailsBack: {fileID: 2089632871}
 --- !u!1 &912439733
 GameObject:
@@ -25925,7 +25913,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isClicked: 0
-  backBtn: {fileID: 847058272}
   detailsBack: {fileID: 45904664}
 --- !u!1 &1228665919
 GameObject:
@@ -26010,7 +25997,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1228665924}
   m_HandleRect: {fileID: 900941936}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -26202,10 +26189,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SFXName_btnClick: SFX_ButtonClick_01
-  currentResolution: {fileID: 1302589683}
-  buttonText: {fileID: 1485821457}
-  buttonImage: {fileID: 1233324015}
-  displayController: {fileID: 1150735507}
 --- !u!1 &1239538547
 GameObject:
   m_ObjectHideFlags: 0
@@ -26686,7 +26669,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1270622569}
   m_HandleRect: {fileID: 888903493}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -39850,10 +39833,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SFXName_btnClick: SFX_ButtonClick_01
-  currentResolution: {fileID: 1302589683}
-  buttonText: {fileID: 536302800}
-  buttonImage: {fileID: 1945615154}
-  displayController: {fileID: 1150735507}
 --- !u!1 &1952802299
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,9 +4,9 @@ using TMPro;
 
 public class ResolutionButton : ButtonBase
 {
-    [SerializeField] TextMeshProUGUI currentResolution;
-    [SerializeField] TextMeshProUGUI buttonText;
-    [SerializeField] Image buttonImage;
+    TextMeshProUGUI currentResolution;
+    TextMeshProUGUI buttonText;
+    Image buttonImage;
 
     Color normalTextColor = Color.white;
     Color clickedTextColor = Color.black;
@@ -17,10 +17,13 @@ public class ResolutionButton : ButtonBase
     public int width { get; private set; }
     public int height { get; private set; }
 
-    [SerializeField] DisplayController displayController;
+    DisplayController displayController;
 
     void Awake()
     {
+        currentResolution = GameObject.Find("CurrentResolution_Txt").GetComponent<TextMeshProUGUI>();
+        buttonText = GetComponentInChildren<TextMeshProUGUI>();
+        buttonImage = GetComponent<Image>();
         displayController = GameObject.Find("Display_Back").GetComponent<DisplayController>();
         GetComponent<Button>().onClick.AddListener(ClickEvent);
         SetWidthNHeight();
