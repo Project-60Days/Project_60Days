@@ -493,6 +493,7 @@ public class MapController : Singleton<MapController>
 
     public IEnumerator NextDay()
     {
+        
         bool zombieActEnd = false;
 
         // 플레이어 이동
@@ -530,7 +531,7 @@ public class MapController : Singleton<MapController>
 
         // 이동 거리 충전
         player.SetHealth(true);
-
+        player.TileEffectCheck();
         OcclusionCheck(player.TileController.Model);
     }
 

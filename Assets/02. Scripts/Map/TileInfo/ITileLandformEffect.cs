@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface ITileLandformEffect
 {
-    void Buff(Player player, ZombieBase zombie);
-    void DeBuff(Player player, ZombieBase zombie);
+    void Buff(Player player);
+    void DeBuff(Player _player);
 }

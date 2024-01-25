@@ -2,6 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public static class RandomPercent
+{
+    public static bool GetRandom(float probability)
+    {
+        float percentage = probability / 100;
+        float rate = 100 - (100 * percentage);
+        int tmp = Random.Range(0, 100);
+
+        if (tmp <= rate - 1)
+        {
+            return false;
+        }
+
+        return true;
+    }
+}
+
 public static class WeightedRandomizer
 {
     public static WeightedRandomizer<R> From<R>(Dictionary<R, int> spawnRate)
