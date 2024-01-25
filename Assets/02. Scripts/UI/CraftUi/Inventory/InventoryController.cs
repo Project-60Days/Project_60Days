@@ -149,14 +149,20 @@ public class InventoryController : MonoBehaviour
     {
         int random;
         
+        if(items.Count == 0)
+            return;
+        
         while (true)
         {
             random = Random.Range(0, items.Count);
 
-            if(items[random].English != "ITEM_NETWORKCHIP")
+            if(items[random].data.Code != "ITEM_NETWORKCHIP")
                 break;
         }
         RemoveItem(items[random]);
+        
+        UIManager.instance.GetPageController().SetCurrResource(items[random]);
+        UIManager.instance.GetPageController().SetResultPage("LOOSE_RESOURCE", false);
     }
 
 
