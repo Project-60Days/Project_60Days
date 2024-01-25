@@ -98,25 +98,7 @@ public class MapManager : ManagementBase
                 mapUIController.FalseTileInfo();
                 return;
             }
-
-            // if (structureTileBase != tileController.GetComponent<TileBase>())
-            // {
-            //     structureTileBase = tileController.GetComponent<TileBase>();
-            //     
-            //     if (structureTileBase.Structure != null)
-            //     {
-            //         structureTileBase.StructureFade(false);
-            //     }
-            // }
-            //
-            // if (structureTileBase.Structure != null)
-            // {
-            //     if (structureTileBase.Structure.IsAccessible)
-            //     {
-            //         structureTileBase.StructureFade(true);
-            //     }
-            // }
-
+            
             switch (mouseState)
             {
                 case ETileMouseState.CanClick:
@@ -367,8 +349,11 @@ public class MapManager : ManagementBase
             mapController.SpawnStructureZombies(structure.Colleagues);
 
         // 플레이어 체력 0으로 만들어서 경로 선택 막기
-        if(isTundraTile)
+        if (isTundraTile)
+        {
+            UIManager.instance.GetPageController().SetResultPage("SEARCH_TUNDRA", false);
             mapController.Player.SetHealth(false);
+        }
 
         // 경로 삭제
         MovePathDelete();
@@ -460,11 +445,17 @@ public class MapManager : ManagementBase
         isTundraTile = true;
     }
 
-    public void EtherReourceCheck()
+    public void EtherResourceCheck()
     {
         var resources = resourceManager.GetLastResources();
-        if(resources.Find(x=> x.ItemBase.data.Code == "ITEM_ETHER") != null)
+
+        if (resources.Count == 0 || resources == null)
+            return;
+        
+        if(resources.Find(x=> x.ItemBase.data.Code == "ITEM_GAS") != null)
         {
+            Debug.Log("에테르 디버프");
+            UIManager.instance.GetPageController().SetResultPage("ACIDENT_ETHER", false);
             mapController.Player.SetHealth(false);
         }
         else

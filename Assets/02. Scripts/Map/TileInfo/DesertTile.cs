@@ -13,8 +13,12 @@ public class DesertTile : TileBase, ITileLandformEffect
     public void DeBuff(Player _player)
     {
         _player.ChangeDurbility(-1);
-        
-        if(RandomPercent.GetRandom(5))
+
+        if (RandomPercent.GetRandom(50))
+        {
+            Debug.Log("모래폭풍 디버프");
+            UIManager.instance.GetPageController().SetResultPage("DESERT_STORM",false);
             _player.SetHealth(false);
+        }
     }
 }

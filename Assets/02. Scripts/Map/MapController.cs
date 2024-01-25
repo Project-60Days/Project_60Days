@@ -118,6 +118,7 @@ public class MapController : Singleton<MapController>
 
         SpawnPlayer();
         GenerateTower();
+        
         //Generate3TileStructure(new Coords(-3,-1));
         Generate7TileStructure(new Coords(3, -1));
 
@@ -181,6 +182,8 @@ public class MapController : Singleton<MapController>
         StartCoroutine(FloatingAnimation());
 
         preemptiveTiles.Add(player.TileController.Model);
+        
+        player.TileEffectCheck();
     }
 
     IEnumerator FloatingAnimation()
@@ -499,7 +502,7 @@ public class MapController : Singleton<MapController>
         // 플레이어 이동
         if (player.MovePath != null)
         {
-            yield return StartCoroutine(player.MoveToTarget(targetTileController));
+            yield return StartCoroutine(player.ActionDesicion(targetTileController));
         }
         else
         {
@@ -532,6 +535,7 @@ public class MapController : Singleton<MapController>
         // 이동 거리 충전
         player.SetHealth(true);
         player.TileEffectCheck();
+        
         OcclusionCheck(player.TileController.Model);
     }
 
@@ -728,11 +732,10 @@ public class MapController : Singleton<MapController>
 
         return null;
     }
-
-    // 시야 바꾸기
+    
     public bool CheckPlayersView(TileController tileController)
     {
-        var getTiles = GetTilesInRange(player.TileController.Model, 2);
+        var getTiles = GetTilesInRange(player.TileController.Model, 3);
 
         if (player.TileController == tileController)
             return true;
@@ -744,7 +747,7 @@ public class MapController : Singleton<MapController>
         else
             return false;
     }
-
+    
     public bool CheckZombies()
     {
         var playerNearthTiles = GetTilesInRange(player.TileController.Model, 2);
@@ -1052,6 +1055,7 @@ public class MapController : Singleton<MapController>
         for (int i = 0; i < structureObjects.Count; i++)
         {
             StructureObject item = structureObjects[i];
+            
             if (sightTiles.Contains(item.CurTile) == false)
                 item.gameObject.SetActive(false);
             else

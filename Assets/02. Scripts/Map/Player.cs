@@ -5,6 +5,7 @@ using UnityEngine;
 using Hexamap;
 using DG.Tweening;
 using FischlWorks_FogWar;
+using Random = UnityEngine.Random;
 
 public class Player : MonoBehaviour
 {
@@ -34,6 +35,7 @@ public class Player : MonoBehaviour
     }
 
     private int temporaryRange;
+    
     private int temporaryDurability;
 
     List<Coords> movePath;
@@ -54,6 +56,9 @@ public class Player : MonoBehaviour
 
     bool isDead;
     bool isClockingCheck;
+    private bool isJungleDebuff;
+
+    public bool JungleDebuff => isJungleDebuff;
 
     int moveBuffDuration;
     int durabilityBuffDuration;
@@ -73,6 +78,24 @@ public class Player : MonoBehaviour
         durability = _durability;
     }
 
+    public IEnumerator ActionDesicion(TileController targetTileController)
+    {
+        if (JungleDebuff)
+        {
+            // 이동
+            Debug.Log("랜덤 이동");
+            yield return StartCoroutine(MoveToRandom());
+            
+            isJungleDebuff = false;
+        }
+        else
+        {
+            // 공격
+            Debug.Log("공격");
+            yield return StartCoroutine(MoveToTarget(targetTileController));
+        }
+    }
+    
     public IEnumerator MoveToTarget(TileController targetTileController, float time = 0.4f)
     {
         Tile targetTile;
@@ -117,6 +140,29 @@ public class Player : MonoBehaviour
         UpdateCurrentTile(targetTileController);
     }
 
+    public IEnumerator MoveToRandom(int num = 1, float time = 0.25f)
+    {
+        var candidate = MapController.instance.GetTilesInRange(currentTileContorller.Model, num);
+        int rand = Random.Range(0, candidate.Count);
+
+        while (((GameObject)candidate[rand].GameEntity).gameObject.layer == 8 &&
+               ((GameObject)candidate[rand].GameEntity).GetComponent<TileBase>().Structure != null)
+        {
+            rand = Random.Range(0, candidate.Count);
+            candidate.RemoveAt(rand);
+        }
+
+        var targetPos = ((GameObject)candidate[rand].GameEntity).transform.position;
+        targetPos.y += 0.6f;
+
+        yield return gameObject.transform.DOMove(targetPos, time);
+
+        movePath.Clear();
+        moveRange = 0;
+
+        UpdateCurrentTile(((GameObject)candidate[rand].GameEntity).GetComponent<TileController>());
+    }
+    
     /// <summary>
     /// 플레이어가 서 있는 타일의 위치를 갱신할 때마다 그 타일의 정보를 넘겨주는 이벤트 함수
     /// </summary>
@@ -212,6 +258,8 @@ public class Player : MonoBehaviour
     {
         if (durability + amount > 0)
             durability += amount;
+        
+        UIManager.instance.GetUpperController().UpdateDurabillity(); 
     }
 
     public void AddMoveRangeUntil(int _duration, int _amount)
@@ -219,18 +267,18 @@ public class Player : MonoBehaviour
         moveBuffDuration = _duration;
         temporaryRange = maxMoveRange + _amount;
     }
-
+    
     public void ClockUntil(int _duration)
     {
         clockBuffDuration = _duration;
     }
-
+    
     public void AddDurability(int _durability, int _amount)
     {
         durabilityBuffDuration = _durability;
         temporaryDurability = durability + _amount;
     }
-
+    
     public bool GetIsClocking()
     {
         if (clockBuffDuration > 0)
@@ -244,12 +292,12 @@ public class Player : MonoBehaviour
             return false;
         }
     }
-
+    
     public void AddSightRange(int _amount)
     {
         csFogWar.instance.AddSightRange(_amount);
     }
-
+    
     public void TileEffectCheck()
     {
         var tileBase = currentTileContorller.GetComponent<TileBase>();
@@ -264,7 +312,7 @@ public class Player : MonoBehaviour
                 (tileBase as DesertTile).DeBuff(this);
                 break;
             case ETileType.Tundra:
-                (tileBase as DesertTile).DeBuff(this);
+                (tileBase as TundraTile).DeBuff(this);
                 break;
             case ETileType.Jungle:
                 (tileBase as JungleTile).DeBuff(this);
@@ -272,5 +320,10 @@ public class Player : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public void JungleDebuffOn()
+    {
+        isJungleDebuff = true;
     }
 }
