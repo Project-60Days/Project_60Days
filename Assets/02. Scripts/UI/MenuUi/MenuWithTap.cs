@@ -5,7 +5,7 @@ using DG.Tweening;
 
 public class MenuWithTap : MenuButtonBase
 {
-    GameObject backBtn;
+    [SerializeField] GameObject backBtn;
     [SerializeField] GameObject detailsBack;
 
     int hierarchyIndex;
@@ -14,8 +14,6 @@ public class MenuWithTap : MenuButtonBase
     {
         buttonText = GetComponentInChildren<TextMeshProUGUI>();
         buttonImage = GetComponent<Image>();
-
-        backBtn = transform.Find("Back_Btn").gameObject;
 
         hierarchyIndex = transform.GetSiblingIndex();
     }

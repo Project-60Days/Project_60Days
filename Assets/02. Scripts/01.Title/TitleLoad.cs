@@ -32,11 +32,6 @@ public class TitleLoad : MonoBehaviour
 
 
 
-    void Awake()
-    {
-        Screen.SetResolution(1920, 1080, false);
-    }
-
     void Start()
     {
         Init();
