@@ -109,3 +109,60 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 93126cabd473b984fb1c5e9f2ce6bb4a, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a4d84312a74d1f46b8139342606115b, type: 3}
+--- !u!212 &218449280273527749 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 7955359182059387000, guid: 2a4d84312a74d1f46b8139342606115b, type: 3}
+  m_PrefabInstance: {fileID: 7885534049612991421}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &2114503482201930953 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8085987484495181684, guid: 2a4d84312a74d1f46b8139342606115b, type: 3}
+  m_PrefabInstance: {fileID: 7885534049612991421}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &2195229453317193885 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8293395201210993440, guid: 2a4d84312a74d1f46b8139342606115b, type: 3}
+  m_PrefabInstance: {fileID: 7885534049612991421}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &3828692459574795114 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 6362800062065676503, guid: 2a4d84312a74d1f46b8139342606115b, type: 3}
+  m_PrefabInstance: {fileID: 7885534049612991421}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4131358479879696995 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6069308404498233822, guid: 2a4d84312a74d1f46b8139342606115b, type: 3}
+  m_PrefabInstance: {fileID: 7885534049612991421}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7736291625355718530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4131358479879696995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2066a7add055b94f847566698cc3395, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemSO: {fileID: 11400000, guid: 9fbd54ca786ce174891a63e9312d8ea6, type: 2}
+  tileType: 1
+  landformSprite: {fileID: 21300000, guid: 93126cabd473b984fb1c5e9f2ce6bb4a, type: 3}
+  resourceIcons:
+  - {fileID: 2195229453317193885}
+  - {fileID: 6644434980707405186}
+  - {fileID: 3828692459574795114}
+  - {fileID: 7907519394459638926}
+  - {fileID: 218449280273527749}
+  - {fileID: 2114503482201930953}
+--- !u!212 &6644434980707405186 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 3556380363377903167, guid: 2a4d84312a74d1f46b8139342606115b, type: 3}
+  m_PrefabInstance: {fileID: 7885534049612991421}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &7907519394459638926 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 59159833054107443, guid: 2a4d84312a74d1f46b8139342606115b, type: 3}
+  m_PrefabInstance: {fileID: 7885534049612991421}
+  m_PrefabAsset: {fileID: 0}
