@@ -264,7 +264,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fogWar: {fileID: 0}
   visibility: 0
-  additionalRadius: 0
+  additionalRadius: 1
 --- !u!1 &2685795916529070903
 GameObject:
   m_ObjectHideFlags: 0

@@ -79,7 +79,7 @@ public class Player : MonoBehaviour
         durability = _durability;
     }
 
-    public IEnumerator ActionDesicion(TileController targetTileController)
+    public IEnumerator ActionDecision(TileController targetTileController)
     {
         if (JungleDebuff)
         {

@@ -125,7 +125,7 @@ public class MapManager : ManagementBase
                     }
                     else
                     {
-                        mapController.TilePathFinder(tileController, 5);
+                        mapController.ExplorerPathFinder(tileController, 5);
                     }
 
                     break;
@@ -206,7 +206,7 @@ public class MapManager : ManagementBase
             {
                 if (isDisturbtorPrepared)
                 {
-                    mapController.PreparingDisturbtor(false);
+                    mapController.PreparingDistrubtor(false);
                 }
                 else
                 {
@@ -291,8 +291,6 @@ public class MapManager : ManagementBase
         // {
         //     TutorialTileCheck();
         // }
-
-        //ToolUIUpdate();
         
         AllowMouseEvent(true);
     }
@@ -369,7 +367,6 @@ public class MapManager : ManagementBase
         structure.Colleagues.ForEach(tile => tile.ResourceUpdate(true));
 
         mapController.SpawnSpecialItemRandomTile(structure.Colleagues);
-        
         curStructure = structure;
     }
 
@@ -484,17 +481,9 @@ public class MapManager : ManagementBase
         else
             isDisturbtorPrepared = false;
     }
-    
-    // public void ToolUIUpdate()
-    // {
-    //     if(UIManager.instance.GetInventoryController().CheckFindorExist())
-    //         mapUIController.ExplorerButtonInteractable(true);
-    //     else
-    //         mapUIController.ExplorerButtonInteractable(false);
-    //     
-    //     if(UIManager.instance.GetInventoryController().CheckDisturbeExist())
-    //         mapUIController.DistrubtorButtonInteractable(true);
-    //     else
-    //         mapUIController.DistrubtorButtonInteractable(false);
-    // }
+
+    public void InvocationExplorers()
+    {
+        mapController.InvocationExplorers();
+    }
 }
