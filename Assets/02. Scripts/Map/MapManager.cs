@@ -46,6 +46,11 @@ public class MapManager : ManagementBase
 
             MouseOverEvents();
         }
+        
+        if(Input.GetKeyDown(KeyCode.Z))
+            UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_FINDOR");
+        if(Input.GetKeyDown(KeyCode.X))
+            UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_DISTURBE");
     }
 
     IEnumerator GetAdditiveSceneObjects()
@@ -98,25 +103,7 @@ public class MapManager : ManagementBase
                 mapUIController.FalseTileInfo();
                 return;
             }
-
-            // if (structureTileBase != tileController.GetComponent<TileBase>())
-            // {
-            //     structureTileBase = tileController.GetComponent<TileBase>();
-            //     
-            //     if (structureTileBase.Structure != null)
-            //     {
-            //         structureTileBase.StructureFade(false);
-            //     }
-            // }
-            //
-            // if (structureTileBase.Structure != null)
-            // {
-            //     if (structureTileBase.Structure.IsAccessible)
-            //     {
-            //         structureTileBase.StructureFade(true);
-            //     }
-            // }
-
+            
             switch (mouseState)
             {
                 case ETileMouseState.CanClick:
@@ -148,7 +135,7 @@ public class MapManager : ManagementBase
         }
         else
         {
-            //mapController.DeselectAllBorderTiles();
+            mapController.DeselectAllBorderTiles();
             mapUIController.FalseTileInfo();
         }
 
@@ -179,7 +166,6 @@ public class MapManager : ManagementBase
                 {
                     tileController.GetComponent<TileBase>().TileInfoUpdate();
                     mapUIController.TrueTileInfo();
-                    //Debug.Log(hit.transform.parent.GetComponent<TileInfo>().GetStructureName());
                 }
                 else if (canPlayerMove)
                 {
@@ -239,6 +225,8 @@ public class MapManager : ManagementBase
         {
             isCameraMove = false;
         }
+        
+        
     }
 
     void SetETileMoveState()
@@ -269,10 +257,10 @@ public class MapManager : ManagementBase
     {
         if (mouseState == ETileMouseState.CanClick)
         {
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     public void AllowMouseEvent(bool isAllow)
@@ -304,6 +292,8 @@ public class MapManager : ManagementBase
         //     TutorialTileCheck();
         // }
 
+        ToolUIUpdate();
+        
         AllowMouseEvent(true);
     }
 
@@ -333,7 +323,6 @@ public class MapManager : ManagementBase
         }
         else
         {
-            Debug.Log("근처에 구조물이 없습니다.");
             return;
         }
     }
@@ -367,8 +356,11 @@ public class MapManager : ManagementBase
             mapController.SpawnStructureZombies(structure.Colleagues);
 
         // 플레이어 체력 0으로 만들어서 경로 선택 막기
-        if(isTundraTile)
+        if (isTundraTile)
+        {
+            UIManager.instance.GetPageController().SetResultPage("SEARCH_TUNDRA", false);
             mapController.Player.SetHealth(false);
+        }
 
         // 경로 삭제
         MovePathDelete();
@@ -424,12 +416,6 @@ public class MapManager : ManagementBase
         }
     }
 
-    public void ToolUIOpen()
-    {
-        mapUIController.SetDisturbtorButtonInteractable(true);
-        mapUIController.SetExplorerButtonInteractable(true);
-    }
-
     // 카메라 정중앙 좌표를 반환하는 함수
     public void GetCameraCenterTile()
     {
@@ -460,11 +446,17 @@ public class MapManager : ManagementBase
         isTundraTile = true;
     }
 
-    public void EtherReourceCheck()
+    public void EtherResourceCheck()
     {
         var resources = resourceManager.GetLastResources();
-        if(resources.Find(x=> x.ItemBase.data.Code == "ITEM_ETHER") != null)
+
+        if (resources.Count == 0 || resources == null)
+            return;
+        
+        if(resources.Find(x=> x.ItemBase.data.Code == "ITEM_GAS") != null)
         {
+            Debug.Log("에테르 디버프");
+            UIManager.instance.GetPageController().SetResultPage("ACIDENT_ETHER", false);
             mapController.Player.SetHealth(false);
         }
         else
@@ -481,5 +473,28 @@ public class MapManager : ManagementBase
         {
             return false;
         }
+    }
+
+    public void SetIsDronePrepared(bool _isDronePrepared, string type)
+    {
+        isDronePrepared = _isDronePrepared;
+        
+        if(type == "Distrubtor")
+            isDisturbtorPrepared = true;
+        else
+            isDisturbtorPrepared = false;
+    }
+    
+    public void ToolUIUpdate()
+    {
+        if(UIManager.instance.GetInventoryController().CheckFindorExist())
+            mapUIController.ExplorerButtonInteractable(true);
+        else
+            mapUIController.ExplorerButtonInteractable(false);
+        
+        if(UIManager.instance.GetInventoryController().CheckDisturbeExist())
+            mapUIController.DistrubtorButtonInteractable(true);
+        else
+            mapUIController.DistrubtorButtonInteractable(false);
     }
 }

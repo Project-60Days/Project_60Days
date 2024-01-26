@@ -149,13 +149,19 @@ public class InventoryController : MonoBehaviour
     {
         int random;
         
+        if(items.Count == 0)
+            return;
+        
         while (true)
         {
             random = Random.Range(0, items.Count);
 
-            if(items[random].English != "ITEM_NETWORKCHIP")
+            if(items[random].data.Code != "ITEM_NETWORKCHIP")
                 break;
         }
+        UIManager.instance.GetPageController().SetCurrResource(items[random]);
+        UIManager.instance.GetPageController().SetResultPage("LOOSE_RESOURCE", false);
+        
         RemoveItem(items[random]);
     }
 
@@ -190,6 +196,16 @@ public class InventoryController : MonoBehaviour
             return true;
         }
     }
+    
+    public bool CheckFindorExist()
+    {
+        if (findor.itemCount <= 0)
+            return false;
+        else
+        {
+            return true;
+        }
+    }
 
     public bool CheckDisturbeUsage()
     {
@@ -198,6 +214,16 @@ public class InventoryController : MonoBehaviour
         else
         {
             RemoveItem(disturbe);
+            return true;
+        }
+    }
+    
+    public bool CheckDisturbeExist()
+    {
+        if (disturbe.itemCount <= 0)
+            return false;
+        else
+        {
             return true;
         }
     }

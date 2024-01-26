@@ -54,7 +54,7 @@ public class TileBase : MonoBehaviour
         gachaProbability = new Dictionary<EResourceType, int>();
         gachaList = new List<EResourceType>();
         appearanceResources = new List<Resource>();
-        
+
         App.instance.GetDataManager().tileData.TryGetValue(GetTileDataIndex(), out TileData data);
         tileData = data;
         landformText = tileData.Korean;
@@ -76,7 +76,7 @@ public class TileBase : MonoBehaviour
         gachaList.Clear();
         appearanceResources.Clear();
         gachaProbability.Clear();
-        
+
         gachaProbability.Add(EResourceType.Steel, tileData.RemainPossibility_Steel);
         gachaProbability.Add(EResourceType.Carbon, tileData.RemainPossibility_Carbon);
         gachaProbability.Add(EResourceType.Plasma, tileData.RemainPossibility_Plasma);
@@ -88,7 +88,7 @@ public class TileBase : MonoBehaviour
     public void SpawnRandomResource()
     {
         GetTilData();
-        
+
         var randomInt = Random.Range(1, 3);
 
         while (gachaList.Count != randomInt)
@@ -117,7 +117,7 @@ public class TileBase : MonoBehaviour
             if (structure.IsAccessible == false)
                 return;
         }
-        
+
         if (_isInPlayerSight)
         {
             ResourceInit();
@@ -200,7 +200,7 @@ public class TileBase : MonoBehaviour
             icon.gameObject.SetActive(false);
         }
     }
-    
+
 
     protected void RotationCheck(Vector3 rotationValue)
     {
@@ -209,7 +209,7 @@ public class TileBase : MonoBehaviour
             SpriteRenderer item = resourceIcons[0];
             item.gameObject.transform.Rotate(0, 0, rotationValue.y + 90);
         }
-        else if(appearanceResources.Count == 2)
+        else if (appearanceResources.Count == 2)
         {
             if (Mathf.Abs(rotationValue.y) == 0 || Mathf.Abs(rotationValue.y) == 180)
             {
@@ -231,28 +231,27 @@ public class TileBase : MonoBehaviour
                 }
             }
         }
-        else if(appearanceResources.Count == 3)
-        {
-            if (Mathf.Abs(rotationValue.y) == 0 || Mathf.Abs(rotationValue.y) == 180)
-            {
-                for (int i = 0; i < resourceIcons.Length; i++)
-                {
-                    SpriteRenderer item = resourceIcons[i];
-                    item.gameObject.transform.Rotate(0, 0, rotationValue.y -90);
-                }
-            }
-            else
-            {
-                resourceIcons[appearanceResources.Count].transform.parent.transform.localEulerAngles =
-                    new Vector3(90, -rotationValue.y, 0);
 
-                for (int i = 0; i < resourceIcons.Length; i++)
-                {
-                    SpriteRenderer item = resourceIcons[i];
-                    item.gameObject.transform.Rotate(0, 0, 90);
-                }
-            }
-        }
+
+        // if (Mathf.Abs(rotationValue.y) == 0 || Mathf.Abs(rotationValue.y) == 180)
+        // {
+        //     for (int i = 0; i < resourceIcons.Length; i++)
+        //     {
+        //         SpriteRenderer item3 = resourceIcons[i];
+        //         item3.gameObject.transform.Rotate(0, 0, rotationValue.y - 90);
+        //     }
+        // }
+        // else
+        // {
+        //     resourceIcons[appearanceResources.Count].transform.parent.transform.localEulerAngles =
+        //         new Vector3(90, -rotationValue.y, 0);
+        //
+        //     for (int i = 0; i < resourceIcons.Length; i++)
+        //     {
+        //         SpriteRenderer item4 = resourceIcons[i];
+        //         item4.gameObject.transform.Rotate(0, 0, 90);
+        //     }
+        // }
     }
 
     public List<Resource> GetResources(int count)
@@ -328,7 +327,7 @@ public class TileBase : MonoBehaviour
             .Select(x => ((GameObject)x.GameEntity).GetComponent<TileBase>()).ToList();
 
         structure = new Tower();
-        ((Tower)structure).Init(neighborBases,_structureObject,itemSO);
+        ((Tower)structure).Init(neighborBases, _structureObject, itemSO);
 
         landformText = "타워";
         resourceText = "자원 : ???";
@@ -339,11 +338,12 @@ public class TileBase : MonoBehaviour
             item.sprite = null;
             item.gameObject.SetActive(false);
         }
-        
+
         TileInfoUpdate();
     }
 
-    public void SpawnNormalStructure(List<Tile> neighborTiles, List<Tile> colleagueTiles, GameObject _structureObject, string _name)
+    public void SpawnNormalStructure(List<Tile> neighborTiles, List<Tile> colleagueTiles, GameObject _structureObject,
+        string _name)
     {
         var neighborBases = neighborTiles
             .Select(x => ((GameObject)x.GameEntity).GetComponent<TileBase>()).ToList();
@@ -354,7 +354,7 @@ public class TileBase : MonoBehaviour
         structureObject = _structureObject;
 
         structure = new ProductionStructure();
-        ((ProductionStructure)structure).Init(neighborBases,_structureObject, itemSO);
+        ((ProductionStructure)structure).Init(neighborBases, _structureObject, itemSO);
         ((ProductionStructure)structure).SetColleagues(colleagueBases);
 
         landformText = _name;
@@ -371,6 +371,10 @@ public class TileBase : MonoBehaviour
     public void AddSpecialItem()
     {
         ItemBase itemBase;
+
+        if (appearanceResources.Count == 2)
+            appearanceResources.RemoveRange(appearanceResources.Count - 1, 1);
+
         if (structure.specialItem != null)
         {
             itemBase = itemSO.items.ToList()
@@ -381,10 +385,10 @@ public class TileBase : MonoBehaviour
             itemBase = itemSO.items.ToList()
                 .Find(x => x.data == structure.Resource.ItemBase.data);
         }
-        
+
         // 특수 자원 추가
         appearanceResources.Add(new Resource(itemBase.English, 1, itemBase));
-        
+
         RotationCheck(transform.rotation.eulerAngles);
         ResourceUpdate(true);
     }
@@ -427,6 +431,8 @@ public class TileBase : MonoBehaviour
                 .UpdateText(ETileInfoTMP.Zombie, "좀비 수 : " + curZombies.zombieData.count + "마리");
         }
     }
-    
-    public virtual void TileEffectInit(Player player, ZombieBase zombie) { }
+
+    public virtual void TileEffectInit(Player player, ZombieBase zombie)
+    {
+    }
 }

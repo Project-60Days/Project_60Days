@@ -12,11 +12,13 @@ public class ResourceManager : MonoBehaviour
     private List<Resource> owendResources;
     private List<Resource> lastResources;
     bool isGetResource;
+
     public bool IsGetResource
     {
         get { return isGetResource; }
         set { isGetResource = value; }
     }
+
     void Start()
     {
         owendResources = new List<Resource>();
@@ -26,10 +28,10 @@ public class ResourceManager : MonoBehaviour
     public void GetResource(TileController tile)
     {
         int collectiveCount = collectiveAbility;
-        
-        if(App.instance.GetMapManager().IsJungleTile(tile))
+
+        if (App.instance.GetMapManager().IsJungleTile(tile))
             collectiveCount += 1;
-        
+
         lastResources = tile.GetComponent<TileBase>().GetResources(collectiveAbility);
 
         for (int i = 0; i < lastResources.Count; i++)
@@ -56,7 +58,6 @@ public class ResourceManager : MonoBehaviour
                 //Debug.LogFormat("새로운 자원 {0} {1}개 획득했다.", item.data.Korean, lastResources[i].ItemCount);
                 isGetResource = true;
             }
-
         }
 
         for (int i = 0; i < lastResources.Count; i++)
@@ -84,7 +85,13 @@ public class ResourceManager : MonoBehaviour
 
     public List<Resource> GetLastResources()
     {
-        return lastResources;
+        if (lastResources != null || lastResources.Count > 0)
+        {
+            return lastResources;
+        }
+        else
+        {
+            return null;
+        }
     }
-
 }

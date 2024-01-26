@@ -13,7 +13,8 @@ tags:
 ---
 <br>   송신 탑에 접근 거부되었습니다.
 ===
-title: LOOSE_RESROUCE
+
+title: LOOSE_RESOURCE
 tags:
 ---
 <br>   분석에 따르면 <color=red>{getResourceName()}</color>의 보유량이 감소했다고 한다. 소실인가? 혹은 잘못 센 것인가? <br><color=red>   (  <sprite index={getResourceIndex()}>  -  1  )</color><br><br>
