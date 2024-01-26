@@ -10,6 +10,7 @@ using Hexamap;
 using UnityEngine.EventSystems;
 using FischlWorks_FogWar;
 using UnityEditor;
+using UnityEditor.UIElements;
 using Random = UnityEngine.Random;
 
 public class MapController : Singleton<MapController>
@@ -121,9 +122,9 @@ public class MapController : Singleton<MapController>
         App.instance.GetDataManager().gameData.TryGetValue("Data_MaxCount_ZombieObject", out GameData max);
 
         SpawnPlayer();
-        
+
         GenerateTower();
-        Generate3TileStructure(new Coords(-3,-1));
+        Generate3TileStructure(new Coords(-3, -1));
         Generate7TileStructure(new Coords(3, -1));
 
         SpawnZombies(mapData.zombieCount);
@@ -188,8 +189,8 @@ public class MapController : Singleton<MapController>
         preemptiveTiles.Add(player.TileController.Model);
 
         //player.TileEffectCheck();
-        
-        foreach(var item in GetTilesInRange(player.TileController.Model, 4))
+
+        foreach (var item in GetTilesInRange(player.TileController.Model, 4))
         {
             preemptiveTiles.Add(item);
         }
@@ -258,9 +259,13 @@ public class MapController : Singleton<MapController>
         zombiesList.Add(zombie);
     }
 
-    public void DefalutMouseOverState(TileController tileController)
+    public void DefaultMouseOverState(TileController tileController)
     {
-        if (tileController != null && !selectedTiles.Contains(tileController))
+        if (LandformCheck(tileController) == false)
+        {
+            SelectBorder(tileController, ETileState.Unable);
+        }
+        else if (tileController != null && !selectedTiles.Contains(tileController))
         {
             SelectBorder(tileController, ETileState.Unable);
         }
@@ -277,6 +282,10 @@ public class MapController : Singleton<MapController>
                     break;
 
                 var tile = TileToTileController(GetTileFromCoords(coords));
+
+                if (LandformCheck(tile) == false)
+                    continue;
+
                 SelectBorder(tile, ETileState.None);
                 selectedTiles.Add(tile);
                 moveRange++;
@@ -303,11 +312,16 @@ public class MapController : Singleton<MapController>
         for (var index = 0; index < neighborController.Count; index++)
         {
             var value = neighborController[index];
+
+            if (LandformCheck(value) == false)
+                continue;
+
             selectedTiles.Add(value);
             SelectBorder(value, ETileState.None);
         }
 
-        if (tileController.gameObject.GetComponent<TileBase>().Structure?.IsAccessible == false)
+        if (tileController.gameObject.GetComponent<TileBase>().Structure?.IsAccessible == false
+            || LandformCheck(tileController) == false)
         {
             SelectBorder(tileController, ETileState.Unable);
         }
@@ -338,7 +352,9 @@ public class MapController : Singleton<MapController>
                 ((GameObject)tileController.Model.GameEntity).transform.position + Vector3.up;
 
             curDistrubtor.GetComponent<Distrubtor>().DirectionObjectOff();
-            SelectBorder(tileController, ETileState.Moveable);
+
+            if (LandformCheck(tileController))
+                SelectBorder(tileController, ETileState.Moveable);
 
             foreach (var item in player.TileController.Model.Neighbours.Where(
                          item => item.Value == tileController.Model))
@@ -363,7 +379,8 @@ public class MapController : Singleton<MapController>
     public bool SelectPlayerMovePoint(TileController tileController)
     {
         if (tileController.GetComponent<Borders>().GetEtileState() == ETileState.Moveable
-            && player.TileController.Model != tileController.Model)
+            && player.TileController.Model != tileController.Model
+            && LandformCheck(tileController))
         {
             SavePlayerMovePath(tileController);
             return true;
@@ -374,6 +391,9 @@ public class MapController : Singleton<MapController>
 
     public void SelectTileForDisturbtor(TileController tileController)
     {
+        if (LandformCheck(tileController) == false)
+            return;
+
         if (tileController.GetComponent<Borders>().GetEtileState() == ETileState.Moveable
             && player.TileController.Model != tileController.Model)
         {
@@ -436,6 +456,8 @@ public class MapController : Singleton<MapController>
             for (var index = 0; index < neighborController.Count; index++)
             {
                 var value = neighborController[index];
+                if (LandformCheck(value) == false)
+                    continue;
                 droneSelectedTiles.Add(value);
                 SelectTargetBorder(value);
             }
@@ -507,11 +529,11 @@ public class MapController : Singleton<MapController>
         explorers.Add(curExplorer);
     }
 
-    void InstallExplorer(TileController tileController) {
-
+    void InstallExplorer(TileController tileController)
+    {
         curExplorer.GetComponent<Explorer>().Targeting(tileController.Model);
         curExplorer.GetComponent<Explorer>().Move();
-        
+
         App.instance.GetMapManager().SetIsDronePrepared(false, "");
     }
 
@@ -838,7 +860,7 @@ public class MapController : Singleton<MapController>
         tower.GetComponent<StructureObject>().Init(tile);
 
         ((GameObject)tile.GameEntity).GetComponent<TileBase>().SpawnQuestStructure(neighborList, tower);
-        
+
         preemptiveTiles.Add(tile);
     }
 
@@ -856,7 +878,7 @@ public class MapController : Singleton<MapController>
         //Tile tile = GetTileFromCoords(_coords);
 
         Tile tile = boundaryTiles[selectNumber[0]];
-        
+
         tilelist.Add(tile);
         tilelist.Add(tile.Neighbours[CompassPoint.N]);
         tilelist.Add(tile.Neighbours[CompassPoint.S]);
@@ -883,7 +905,7 @@ public class MapController : Singleton<MapController>
         structure.name = "Production";
 
         StructureInfo structureInfo = new StructureInfo(neighborList, tilelist, structure, EStructure.Production);
-        
+
         for (var index = 0; index < tilelist.Count; index++)
         {
             var tileBase = ((GameObject)tilelist[index].GameEntity).GetComponent<TileBase>();
@@ -906,7 +928,7 @@ public class MapController : Singleton<MapController>
         GameObject structureObject = mapPrefab.items[(int)EMabPrefab.Army].prefab;
 
         Tile tile = boundaryTiles[selectNumber[0]];
-        
+
         // 튜토리얼 용 위치 고정
         //Tile tile = GetTileFromCoords(_coords);
 
@@ -918,7 +940,7 @@ public class MapController : Singleton<MapController>
         {
             preemptiveTiles.Add(item);
         }
-        
+
         List<Tile> neighborList = SetNeighborStructure(tilelist);
 
         var spawnPos = ((GameObject)tile.GameEntity).transform.position;
@@ -931,7 +953,7 @@ public class MapController : Singleton<MapController>
 
         structure.name = "Army";
         StructureInfo structureInfo = new StructureInfo(neighborList, tilelist, structure, EStructure.Army);
-        
+
         for (var index = 0; index < tilelist.Count; index++)
         {
             var tileBase = ((GameObject)tilelist[index].GameEntity).GetComponent<TileBase>();
@@ -957,22 +979,22 @@ public class MapController : Singleton<MapController>
     List<Tile> ObjectSpawnDistanceCalculate(int range)
     {
         var tileList = GetAllTiles();
-        
-        int biggerInt=0;
-        int maxInt=0;
+
+        int biggerInt = 0;
+        int maxInt = 0;
 
         for (int i = 0; i < tileList.Count; i++)
         {
-            Tile lastIndex= tileList[i];
-            
+            Tile lastIndex = tileList[i];
+
             biggerInt = Math.Abs(lastIndex.Coords.X) > Math.Abs(lastIndex.Coords.Y)
                 ? Math.Abs(lastIndex.Coords.X)
                 : Math.Abs(lastIndex.Coords.Y);
-            
-            if(biggerInt> maxInt)
+
+            if (biggerInt > maxInt)
                 maxInt = biggerInt;
         }
-        
+
         List<Tile> excludeTileList = GetTilesInRange(GetTileFromCoords(new Coords(0, 0)), maxInt - range);
         return excludeTileList;
     }
@@ -1005,6 +1027,9 @@ public class MapController : Singleton<MapController>
 
         foreach (var item in tileList)
         {
+            if (LandformCheck(TileToTileController(item.Value)) == false)
+                continue;
+
             var tileBase = ((GameObject)item.Value.GameEntity).GetComponent<TileBase>();
 
             if (tileBase.Structure != null)
@@ -1079,7 +1104,8 @@ public class MapController : Singleton<MapController>
 
     bool ConditionalBranch(EObjectSpawnType type, Tile tile)
     {
-        if (CheckTileType(tile, "LandformPlain") == false)
+        // landform rocks도 거르면 건물 잔해도 거를 수 있음
+        if (LandformCheck(TileToTileController(tile)) == false)
         {
             return false;
         }
@@ -1167,7 +1193,7 @@ public class MapController : Singleton<MapController>
         var list = GetTilesInRange(player.TileController.Model, 2);
         return list;
     }
-    
+
     public List<Tile> GetSightTiles(Tile tile)
     {
         var list = GetTilesInRange(tile, 2);
@@ -1184,19 +1210,30 @@ public class MapController : Singleton<MapController>
         distrubtors.Remove(_distrubtor.gameObject);
     }
 
-    public void Removeexplorer(Explorer _explorer)
+    public void RemoveExplorer(Explorer _explorer)
     {
         explorers.Remove(_explorer.gameObject);
     }
-    
+
     public void InvocationExplorers()
     {
         for (int i = 0; i < explorers.Count; i++)
         {
             var item = explorers[i].GetComponent<Explorer>();
-            
-            if(item.GetIsIdle())
+
+            if (item.GetIsIdle())
                 item.GetComponent<Explorer>().Invocation();
         }
+    }
+
+    public bool LandformCheck(TileController tileController)
+    {
+        if (CheckTileType(tileController.Model, "LandformPlain") ||
+            CheckTileType(tileController.Model, "LandformRocks"))
+        {
+            return true;
+        }
+
+        return false;
     }
 }
