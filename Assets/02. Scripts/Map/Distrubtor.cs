@@ -22,7 +22,7 @@ public class Distrubtor : MonoBehaviour
         currentTile = tile;
         direction = cp;
 
-        GetComponentInChildren<MeshRenderer>().material.DOFade(100, 1f);
+        //GetComponentInChildren<MeshRenderer>().material.DOFade(100, 1f);
     }
 
     public void Move()

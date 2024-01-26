@@ -31,7 +31,18 @@ public class Borders : MonoBehaviour
     
     public GameObject GetDisturbanceBorder()
     {
+        currentTileState = ETileState.Target;
         return borders[1];
+    }
+    
+    public void OffNormalBorder()
+    {
+        borders[0].SetActive(false);
+    }
+    
+    public void OffTargetBorder()
+    {
+        borders[1].SetActive(false);
     }
 
     public void OffAllBorders()

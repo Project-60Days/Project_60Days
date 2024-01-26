@@ -5,22 +5,25 @@ using UnityEngine.UI;
 
 public class DisturbanceButton : MonoBehaviour
 {
-    MapController controller;
     void Start()
     {
-        StartCoroutine(GetMapController());
-    }
-
-    IEnumerator GetMapController()
-    {
-        yield return new WaitForEndOfFrame();
-        controller = GameObject.FindGameObjectWithTag("MapController").GetComponent<MapController>();
         gameObject.GetComponent<Button>().onClick.AddListener(Disturbance);
     }
 
     public void Disturbance()
     {
-        if(App.instance.GetMapManager().CheckCanInstallDrone())
-            controller.PreparingDisturbtor(true);
+        if (UIManager.instance.GetInventoryController().CheckDisturbeUsage())
+        {
+            Debug.Log("교란기 있음");
+            if (App.instance.GetMapManager().CheckCanInstallDrone())
+            {
+                Debug.Log("교란기 설치 가능");
+                App.instance.GetMapManager().mapController.PreparingDisturbtor(true);
+            }
+        }
+        else
+        {
+            return;
+        }
     }
 }

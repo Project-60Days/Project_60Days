@@ -1571,7 +1571,7 @@ MonoBehaviour:
     playerMovementPoint: 2
     zombieDetectionRange: 3
     zombieCount: 80
-    durability: 100
+    durability: 300
 --- !u!1 &2012358814
 GameObject:
   m_ObjectHideFlags: 0
