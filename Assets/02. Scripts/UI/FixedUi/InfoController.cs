@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class InfoController : MonoBehaviour
 {
@@ -61,17 +62,19 @@ public class InfoController : MonoBehaviour
 
     void SetObjects(string _code)
     {
-        text.text = App.instance.GetDataManager().GetString(_code);
+        string textString = App.instance.GetDataManager().GetString(_code);
         text.gameObject.SetActive(true);
+        text.DOText(textString, 1f, true, ScrambleMode.Uppercase);
     }
 
     void SetObjects(ETileType _type)
     {
         string type = _type.ToString().ToUpper();
         string code = "STR_TILE_" + type + "_DESCRIPTION";
-         
-        text.text = App.instance.GetDataManager().GetString(code);
+        string textString = App.instance.GetDataManager().GetString(code);
+
         text.gameObject.SetActive(true);
+        text.DOText(textString, 1f, true, ScrambleMode.Numerals);
     }
 
     void SetTransform(Vector3 _mouseCoordinate)

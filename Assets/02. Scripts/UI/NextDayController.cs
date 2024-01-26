@@ -37,7 +37,7 @@ public class NextDayController : MonoBehaviour
         if (isHit == true) normalCamera.Shake(durabillityText);
 
         Sequence sequence = DOTween.Sequence();
-        sequence.Append(blackPanel.DOFade(0f, 2f).SetEase(Ease.Linear))
+        sequence.Append(blackPanel.DOFade(0f, 1f).SetEase(Ease.Linear))
             .OnComplete(() => blackPanel.gameObject.SetActive(false));
 
         Destroy(dayCount);
