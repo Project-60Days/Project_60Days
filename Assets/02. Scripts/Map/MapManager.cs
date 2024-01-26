@@ -107,7 +107,7 @@ public class MapManager : ManagementBase
             switch (mouseState)
             {
                 case ETileMouseState.CanClick:
-                    mapController.DefalutMouseOverState(tileController);
+                    mapController.DefaultMouseOverState(tileController);
 
                     if (tileController != curTileController)
                         mapUIController.FalseTileInfo();
