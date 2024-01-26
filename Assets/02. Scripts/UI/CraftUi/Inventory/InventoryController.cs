@@ -63,8 +63,6 @@ public class InventoryController : MonoBehaviour
             currentSlot.GetComponentInChildren<TextMeshProUGUI>().text = items[i].itemCount.ToString();
             counts[category]++;
         }
-
-        CheckDisturbeNFindor();
     }
 
     /// <summary>
@@ -83,15 +81,6 @@ public class InventoryController : MonoBehaviour
 
         for (int i = 0; i < counts.Length; i++)
             counts[i] = 0;
-    }
-
-    void CheckDisturbeNFindor()
-    {
-        bool canUseFindor= findor.itemCount > 0;
-        App.instance.GetMapManager().mapUIController.ExplorerButtonInteractable(canUseFindor);
-
-        bool canUseDisturbe = disturbe.itemCount > 0;
-        App.instance.GetMapManager().mapUIController.DistrubtorButtonInteractable(canUseDisturbe);
     }
 
 
@@ -114,6 +103,16 @@ public class InventoryController : MonoBehaviour
 
         items.Add(_item);
         UpdateSlot();
+        CheckDisturbeNFindor();
+    }
+
+    void CheckDisturbeNFindor()
+    {
+        bool canUseFindor = findor.itemCount > 0;
+        App.instance.GetMapManager().mapUIController.ExplorerButtonInteractable(canUseFindor);
+
+        bool canUseDisturbe = disturbe.itemCount > 0;
+        App.instance.GetMapManager().mapUIController.DistrubtorButtonInteractable(canUseDisturbe);
     }
 
     /// <summary>

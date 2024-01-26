@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class TutorialManager : Singleton<TutorialManager>
@@ -10,6 +11,19 @@ public class TutorialManager : Singleton<TutorialManager>
     public TutorialController GetTutorialController()
     {
         return tutorialController;
+    }
+
+    void Start()
+    {
+        StartCoroutine(WaitForMapManager());
+    }
+
+    IEnumerator WaitForMapManager()
+    {
+        yield return new WaitUntil(() => App.instance.GetMapManager().mapController);
+        yield return new WaitUntil(() => App.instance.GetMapManager().mapController.Player != null);
+
+        StartTutorial();
     }
 
     public void StartTutorial()

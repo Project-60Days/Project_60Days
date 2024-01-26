@@ -45,11 +45,12 @@ public class PopUpController : MonoBehaviour
     public IEnumerator EndGamePopUp()
     {
         UIManager.instance.GetUIHighLightController().ShowHighLight("Alert", "UI_NOTE");
+        UIManager.instance.GetAlertController().SetAlert("caution", false);
         yield return new WaitUntil(() => UIManager.instance.isUIStatus("UI_NOTE"));
         yield return new WaitUntil(() => UIManager.instance.isUIStatus("UI_NORMAL"));
         UIManager.instance.AddCurrUIName("UI_POPUP");
 
-        bgmVolume = App.instance.GetSoundManager().SetBGMVolumeTweening(10f);
+        bgmVolume = App.instance.GetSoundManager().SetBGMVolumeTweening(8f);
         App.instance.GetSoundManager().StopSFX();
 
         text02.text = "메인 스토리 챕터 01 클리어까지 " + UIManager.instance.GetNoteController().dayCount + "일 소요되었습니다.\n축하합니다!";
@@ -73,11 +74,11 @@ public class PopUpController : MonoBehaviour
 
         sequence.OnUpdate(() =>
         {
-            if (sequence.Elapsed() >= 16f && isCompleteToPlayBGM == false)
+            if (sequence.Elapsed() >= 13f && isCompleteToPlayBGM == false)
             {
                 isCompleteToPlayBGM = true;
                 App.instance.GetSoundManager().SetBGMVolume(bgmVolume);
-                App.instance.GetSoundManager().PlayBGM("BGM_TitleTheme");
+                App.instance.GetSoundManager().PlayBGM("BGM_TitleTheme_Upgrade");
             }
 
             if (sequence.Elapsed() >= 13f && isComplete13f == false)
