@@ -34,9 +34,8 @@ public class ItemSlot : SlotBase
         {
             if (item.eItemType == EItemType.Equipment)
             {
-                UIManager.instance.GetCraftingUiController().MoveInventoryToEquip(item);
-
-                HideItemInfo();
+                if (UIManager.instance.GetCraftingUiController().MoveInventoryToEquip(item) == true) 
+                    HideItemInfo();
             }   
         }
     }

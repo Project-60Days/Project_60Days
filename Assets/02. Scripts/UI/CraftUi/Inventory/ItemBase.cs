@@ -13,6 +13,7 @@ public class ItemBase : ScriptableObject
     public string sfxName;
     public bool isMadeOnce = false;
     public bool isBlueprintOpen = false;
+    public bool canRemoveEquipment = false;
 
     public void Init()
     {
@@ -51,4 +52,15 @@ public class ItemBase : ScriptableObject
     {
 
     }
+
+    public virtual bool CheckMeetCondition()
+    {
+        return false;
+    }
+
+    public virtual void DayEvent()
+    {
+
+    }
+
 }

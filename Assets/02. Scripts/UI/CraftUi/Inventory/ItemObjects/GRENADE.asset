@@ -17,25 +17,29 @@ MonoBehaviour:
     Index: 1029
     Category: 4
     Code: ITEM_GRENADE
-    Rarity: 2
     AppearTileType: 3
-    TileIncludePossibility: 0
-    Type: 2
+    Type: 1
     EquipType: 1
     EquipArea: "\uACF5\uACA9\uD615 \uBD80\uD488"
-    isCanBase: 0
-    CombineSlotCount: 0
+    CombineSlotCount: 3
     Description: "\uD3EC\uACA9\uAE30\uC758 \uC9C4\uD654\uB41C \uD615\uD0DC\uC758
       \uBB34\uAE30\uB85C, \uB2E4\uC218\uC758 \uAE00\uB9AC\uCC98\uB4E4\uC744 \uBB34\uB825\uD654
       \uC2DC\uD0AC \uC218 \uC788\uB2E4."
-    EffectDescription: "\uAE00\uB9AC\uCC98\uC640 \uC2F8\uC6C0 \uC774\uD6C4 \uC8FC\uBCC0
-      1\uCE78 \uC529 \uCD94\uAC00 \uBB34\uB825\uD654\n\uD0C4 \uC18C\uBAA8 -7"
+    EffectDescription: "\uAE00\uB9AC\uCC98\uC640 \uC804\uD22C \uC2DC \uC8FC\uBCC0
+      {0}\uCE78 \uC529 \uCD94\uAC00 \uBB34\uB825\uD654\n\uD384\uC2A4\uD0C4 \uC18C\uBAA8
+      -{1}"
     Korean: "\uC720\uD0C4\uBC1C\uC0AC\uAE30"
-    English: -1
+    English: Grenade
     Japanese: -1
     Chinese: -1
+    value1: 1
+    value2: 7
+    value3: -1
   itemImage: {fileID: 21300000, guid: b6fc4da4e34692e48bab69aff4334360, type: 3}
-  itemCount: 0
-  eItemType: 2
+  itemCount: 1
+  eItemType: 1
   sprite: {fileID: 21300000, guid: 4200e04f5d60c804c8a307a8efc5c87e, type: 3}
   sfxName: 
+  isMadeOnce: 0
+  isBlueprintOpen: 0
+  canRemoveEquipment: 1

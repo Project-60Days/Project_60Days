@@ -97,6 +97,7 @@ public class NextDayController : MonoBehaviour
     IEnumerator ShowNextDate()
     {
         UIManager.instance.GetNoteController().SetNextDay();
+        UIManager.instance.GetCraftingUiController().EquipItemDayEvent();
 
         int today = UIManager.instance.GetNoteController().dayCount;
 

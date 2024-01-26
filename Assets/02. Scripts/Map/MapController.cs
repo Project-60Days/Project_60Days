@@ -514,6 +514,7 @@ public class MapController : Singleton<MapController>
     {
         bool zombieActEnd = false;
 
+        player.ChangeClockBuffDuration();
         // 플레이어 이동
         if (player.MovePath != null)
         {

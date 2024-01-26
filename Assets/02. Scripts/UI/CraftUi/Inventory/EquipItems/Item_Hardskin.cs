@@ -5,15 +5,17 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "HARDSKIN", menuName = "EquipItems/Item_Hardskin")]
 public class Item_Hardskin : ItemBase
 {
+    int beforeDurabillity = 0;
+
     public override void Equip()
     {
-        App.instance.GetMapManager().mapController.Player.Durability += 40;
+        beforeDurabillity = App.instance.GetMapManager().mapController.Player.Durability;
+        App.instance.GetMapManager().mapController.Player.Durability += (int)data.value1;
         UIManager.instance.GetUpperController().UpdateDurabillity();
     }
 
-    public override void UnEquip()
+    public override bool CheckMeetCondition()
     {
-        App.instance.GetMapManager().mapController.Player.Durability -= 40;
-        UIManager.instance.GetUpperController().UpdateDurabillity();
+        return (App.instance.GetMapManager().mapController.Player.Durability <= beforeDurabillity);
     }
 }

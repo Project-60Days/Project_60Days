@@ -42,3 +42,4 @@ MonoBehaviour:
   sfxName: 
   isMadeOnce: 0
   isBlueprintOpen: 0
+  canRemoveEquipment: 1
