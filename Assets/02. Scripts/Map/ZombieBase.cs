@@ -37,7 +37,7 @@ public class ZombieBase : MonoBehaviour
     int dectectionRange = 2;
     int debuffCoolTime = 0;
 
-    private Vector3 initScale;
+    private Vector3 initScale = new Vector3(0,0,0);
 
     public void Init(Tile tile)
     {
@@ -161,9 +161,9 @@ public class ZombieBase : MonoBehaviour
         {
             var scale = (zombieData.count / 10) * 0.1f;
 
-            if (scale > 1.0f)
+            if (scale > 0.7f)
             {
-                scale = 1.0f;
+                scale = 0.7f;
             }
 
             transform.localScale = initScale + new Vector3(scale, scale, scale);
