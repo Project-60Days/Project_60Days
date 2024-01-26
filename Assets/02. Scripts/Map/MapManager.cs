@@ -135,7 +135,7 @@ public class MapManager : ManagementBase
         }
         else
         {
-            //mapController.DeselectAllBorderTiles();
+            mapController.DeselectAllBorderTiles();
             mapUIController.FalseTileInfo();
         }
 

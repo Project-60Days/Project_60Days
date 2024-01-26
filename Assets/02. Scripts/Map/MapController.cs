@@ -258,31 +258,38 @@ public class MapController : Singleton<MapController>
         }
     }
 
-    public void TilePathFinder(TileController tileController, int num = 0)
+    public void TilePathFinder(TileController tileController, int num = 3)
     {
-        if (num == 0)
-            num = player.MoveRange;
-
         int moveRange = 0;
-
+        
         if (tileController.Model != player.TileController.Model)
         {
             foreach (Coords coords in AStar.FindPath(player.TileController.Model.Coords, tileController.Model.Coords))
             {
-                if (moveRange == player.MoveRange)
+                if (moveRange == num-1)
                     break;
 
-                GameObject border = (GameObject)GetTileFromCoords(coords).GameEntity;
-                border.GetComponent<Borders>().GetNormalBorder()?.SetActive(true);
-                pathTiles.Add(TileToTileController(GetTileFromCoords(coords)));
+                var tile = TileToTileController(GetTileFromCoords(coords));
+                SelectBorder(tile, ETileState.None);
+                selectedTiles.Add(tile);
+                
                 moveRange++;
             }
         }
 
-        if (moveRange == num || tileController.gameObject.GetComponent<TileBase>().Structure?.IsAccessible == false)
-            tileController.GetComponent<Borders>().GetUnAvailableBorder()?.SetActive(true);
+        if (moveRange == num
+            || tileController.gameObject.GetComponent<TileBase>().Structure?.IsAccessible == false
+            || tileController.Model != player.TileController.Model)
+        {
+            AddSelectedTilesList(tileController);
+            SelectBorder(tileController, ETileState.Unable);
+        }
         else if (moveRange != num)
-            tileController.GetComponent<Borders>().GetAvailableBorder()?.SetActive(true);
+        {
+            AddSelectedTilesList(tileController);
+            SelectBorder(tileController, ETileState.Moveable);
+        }
+
     }
 
     public void TilePathFinderSurroundings(TileController tileController)
@@ -478,6 +485,7 @@ public class MapController : Singleton<MapController>
         {
             Destroy(explorer);
             App.instance.GetMapManager().SetIsDronePrepared(false, "Explorer");
+            UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_FINDOR");
         }
     }
 
