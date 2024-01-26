@@ -383,10 +383,11 @@ public class MapController : Singleton<MapController>
 
     public void SelectTileForExplorer(TileController tileController)
     {
-        if (!GetTileBorder(tileController, ETileState.Moveable).activeInHierarchy)
-            return;
-
-        InstallExplorer(tileController);
+        if (tileController.GetComponent<Borders>().GetEtileState() == ETileState.Moveable
+            && player.TileController.Model != tileController.Model)
+        {
+            InstallExplorer(tileController);
+        }
     }
 
     public void SavePlayerMovePath(TileController tileController)
@@ -492,24 +493,21 @@ public class MapController : Singleton<MapController>
     {
         curExplorer = Instantiate(mapPrefab.items[(int)EMabPrefab.Explorer].prefab,
             player.transform.position + Vector3.up * 1.5f, Quaternion.Euler(0, -90, 0));
-        
+
         curExplorer.transform.parent = mapTransform;
 
         curExplorer.GetComponentInChildren<MeshRenderer>().material.DOFade(50, 0);
         curExplorer.GetComponent<Explorer>().Set(player.TileController.Model);
-        
+
         explorers.Add(curExplorer);
     }
 
-    void InstallExplorer(TileController tileController)
-    {
-        if (player.TileController.Model != tileController.Model)
-            return;
+    void InstallExplorer(TileController tileController) {
 
-        curExplorer.GetComponent<Explorer>().Targetting(tileController.Model);
+        curExplorer.GetComponent<Explorer>().Targeting(tileController.Model);
         curExplorer.GetComponent<Explorer>().Move();
-
-        App.instance.GetMapManager().SetIsDronePrepared(true, "");
+        
+        App.instance.GetMapManager().SetIsDronePrepared(false, "");
     }
 
     public IEnumerator NextDay()
@@ -520,7 +518,7 @@ public class MapController : Singleton<MapController>
         // 플레이어 이동
         if (player.MovePath != null)
         {
-            yield return StartCoroutine(player.ActionDesicion(targetTileController));
+            yield return StartCoroutine(player.ActionDecision(targetTileController));
         }
         else
         {
@@ -544,7 +542,7 @@ public class MapController : Singleton<MapController>
                 StartCoroutine(explorers[i].GetComponent<Explorer>().Move());
             }
         }
-            
+
 
         // 좀비 행동
         for (var index = 0; index < zombiesList.Count; index++)
@@ -749,7 +747,7 @@ public class MapController : Singleton<MapController>
     {
         return hexaMap.Map.GetTilesInRange(tile, num);
     }
-    
+
     public bool CalculateDistanceToPlayer(Tile tile, int range)
     {
         var searchTiles = hexaMap.Map.GetTilesInRange(tile, range);
@@ -767,11 +765,11 @@ public class MapController : Singleton<MapController>
         for (var i = 0; i < searchTiles.Count; i++)
         {
             var item = searchTiles[i];
-            
+
             for (var index = 0; index < distrubtors.Count; index++)
             {
                 var distrubtor = distrubtors[index];
-                
+
                 if (distrubtor.GetComponent<Distrubtor>().currentTile == item)
                     return distrubtor.GetComponent<Distrubtor>();
             }
@@ -1132,9 +1130,15 @@ public class MapController : Singleton<MapController>
         OcclusionCheck(GetTileFromCoords(new Coords(0, 0)));
     }
 
-    public List<Tile> GetSightTiles()
+    public List<Tile> GetPlayerSightTiles()
     {
         var list = GetTilesInRange(player.TileController.Model, 2);
+        return list;
+    }
+    
+    public List<Tile> GetSightTiles(Tile tile)
+    {
+        var list = GetTilesInRange(tile, 2);
         return list;
     }
 
@@ -1142,14 +1146,25 @@ public class MapController : Singleton<MapController>
     {
         mapData = _mapData;
     }
-    
+
     public void RemoveDistrubtor(Distrubtor _distrubtor)
     {
         distrubtors.Remove(_distrubtor.gameObject);
     }
-    
+
     public void Removeexplorer(Explorer _explorer)
     {
         explorers.Remove(_explorer.gameObject);
+    }
+    
+    public void InvocationExplorers()
+    {
+        for (int i = 0; i < explorers.Count; i++)
+        {
+            var item = explorers[i].GetComponent<Explorer>();
+            
+            if(item.GetIsIdle())
+                item.GetComponent<Explorer>().Invocation();
+        }
     }
 }

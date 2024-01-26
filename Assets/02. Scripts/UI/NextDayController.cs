@@ -203,6 +203,7 @@ public class NextDayController : MonoBehaviour
                 {
                     blackPanel.gameObject.SetActive(false);
                     App.instance.GetMapManager().GetCameraCenterTile();
+                    App.instance.GetMapManager().InvocationExplorers();
                 }
             );
     }

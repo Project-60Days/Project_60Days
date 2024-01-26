@@ -231,27 +231,6 @@ public class TileBase : MonoBehaviour
                 }
             }
         }
-
-
-        // if (Mathf.Abs(rotationValue.y) == 0 || Mathf.Abs(rotationValue.y) == 180)
-        // {
-        //     for (int i = 0; i < resourceIcons.Length; i++)
-        //     {
-        //         SpriteRenderer item3 = resourceIcons[i];
-        //         item3.gameObject.transform.Rotate(0, 0, rotationValue.y - 90);
-        //     }
-        // }
-        // else
-        // {
-        //     resourceIcons[appearanceResources.Count].transform.parent.transform.localEulerAngles =
-        //         new Vector3(90, -rotationValue.y, 0);
-        //
-        //     for (int i = 0; i < resourceIcons.Length; i++)
-        //     {
-        //         SpriteRenderer item4 = resourceIcons[i];
-        //         item4.gameObject.transform.Rotate(0, 0, 90);
-        //     }
-        // }
     }
 
     public List<Resource> GetResources(int count)
@@ -296,7 +275,7 @@ public class TileBase : MonoBehaviour
 
     void CheckPlayerTIle()
     {
-        if (App.instance.GetMapManager().mapController.GetSightTiles().Contains(tile))
+        if (App.instance.GetMapManager().mapController.GetPlayerSightTiles().Contains(tile))
         {
             ResourceUpdate(true);
         }

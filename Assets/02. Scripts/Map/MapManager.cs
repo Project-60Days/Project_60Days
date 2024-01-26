@@ -481,4 +481,9 @@ public class MapManager : ManagementBase
         else
             isDisturbtorPrepared = false;
     }
+
+    public void InvocationExplorers()
+    {
+        mapController.InvocationExplorers();
+    }
 }
