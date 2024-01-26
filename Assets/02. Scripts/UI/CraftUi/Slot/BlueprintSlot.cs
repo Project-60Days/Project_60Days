@@ -61,10 +61,11 @@ public class BlueprintSlot : SlotBase
 
     public void SetIconShow()
     {
-        image.sprite = bluePrintItem.itemImage;
+        item = bluePrintItem; //image.sprite = bluePrintItem.itemImage;
         transform.parent.GetComponent<Image>().sprite = openSlot;
         bluePrintItem.isBlueprintOpen = true;
     }
+
     void CheckItemShowCondition()
     {
         if (isAlreadyShowItem == true)
