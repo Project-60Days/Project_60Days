@@ -1114,7 +1114,7 @@ public class MapController : Singleton<MapController>
         return false;
     }
 
-    bool CheckTileType(Tile tile, string type)
+    public bool CheckTileType(Tile tile, string type)
     {
         if (tile.Landform.GetType().Name == type)
             return true;

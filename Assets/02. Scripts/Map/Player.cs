@@ -145,18 +145,20 @@ public class Player : MonoBehaviour
     {
         var candidate = MapController.instance.GetTilesInRange(currentTileContorller.Model, num);
 
-        Vector3 targetPos = Vector3.zero;
+        Vector3 targetPos = currentTileContorller.transform.position;
         Tile tile = candidate[0];
+        bool isFindPath = false;
         
         for (int i = 0; i < candidate.Count; i++)
         {
-            if(((GameObject)candidate[i].GameEntity).gameObject.layer == 8)
+            if(App.instance.GetMapManager().mapController.CheckTileType(candidate[i], "LandformPlain"))
             {
-                if (((GameObject)candidate[i].GameEntity).GetComponent<TileBase>().Structure != null||
-                    ((GameObject)candidate[i].GameEntity).GetComponent<TileBase>().CurZombies != null)
+                if (((GameObject)candidate[i].GameEntity).GetComponent<TileBase>().Structure == null &&
+                    ((GameObject)candidate[i].GameEntity).GetComponent<TileBase>().CurZombies == null)
                 {
                     targetPos = ((GameObject)candidate[i].GameEntity).transform.position;
                     tile = candidate[i];
+                    isFindPath = true;
                     break;
                 }
             }
@@ -169,7 +171,8 @@ public class Player : MonoBehaviour
         movePath.Clear();
         moveRange = 0;
 
-        UpdateCurrentTile(((GameObject)tile.GameEntity).GetComponent<TileController>());
+        if(isFindPath)
+            UpdateCurrentTile(((GameObject)tile.GameEntity).GetComponent<TileController>());
     }
     
     /// <summary>
