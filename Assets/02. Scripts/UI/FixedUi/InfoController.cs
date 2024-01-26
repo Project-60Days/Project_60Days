@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class InfoController : MonoBehaviour
 {
@@ -61,36 +62,27 @@ public class InfoController : MonoBehaviour
 
     void SetObjects(string _code)
     {
-        text.text = App.instance.GetDataManager().GetString(_code);
+        string textString = App.instance.GetDataManager().GetString(_code);
         text.gameObject.SetActive(true);
+        text.DOText(textString, 0.5f, true, ScrambleMode.Uppercase);
     }
 
     void SetObjects(ETileType _type)
     {
         string type = _type.ToString().ToUpper();
         string code = "STR_TILE_" + type + "_DESCRIPTION";
-         
-        text.text = App.instance.GetDataManager().GetString(code);
+        string textString = App.instance.GetDataManager().GetString(code);
+
         text.gameObject.SetActive(true);
+        text.DOText(textString, 0.5f, true, ScrambleMode.Numerals);
     }
 
     void SetTransform(Vector3 _mouseCoordinate)
     {
         LayoutRebuilder.ForceRebuildLayoutImmediate(infoTransform);
 
-        float width = infoTransform.rect.width;
-        float height = infoTransform.rect.height;
-
-        float screenWidth = Screen.width;
-        float screenHeight = Screen.height;
-
         float newX = _mouseCoordinate.x;
         float newY = _mouseCoordinate.y;
-
-        if (newX + width > screenWidth * 0.95)
-            newX -= width * (screenWidth / 1920);
-        if (newY - height < screenHeight * 0.1)
-            newY += height * (screenHeight / 1080);
 
         infoTransform.position = new Vector3(newX, newY, infoTransform.position.z);
     }

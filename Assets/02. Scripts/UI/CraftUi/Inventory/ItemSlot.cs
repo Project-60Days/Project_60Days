@@ -13,7 +13,9 @@ public class ItemSlot : SlotBase
     }
 
     public override void OnPointerClick(PointerEventData eventData)
-    {        
+    {
+        if (item.data.Code == "ITEM_NETWORKCHIP") return;
+
         if (UIManager.instance.GetCraftModeController().eCraftModeType == ECraftModeType.Craft)
         {
             if (UIManager.instance.GetCraftingUiController().isMoreThanThree() == true) return;

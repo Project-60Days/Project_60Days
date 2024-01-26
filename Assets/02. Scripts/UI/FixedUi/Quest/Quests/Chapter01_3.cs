@@ -21,6 +21,7 @@ public class Chapter01_3 : QuestBase
     {
         yield return new WaitUntil(() => CheckMeetCondition());
         yield return new WaitUntil(() => UIManager.instance.isUIStatus("UI_LOADING"));
+        yield return new WaitUntil(() => UIManager.instance.isUIStatus("UI_NORMAL"));
         AfterQuest();
     }
 
