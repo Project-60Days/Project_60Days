@@ -34,6 +34,8 @@ public class ZombieBase : MonoBehaviour
     int dectectionRange = 2;
     int debuffCoolTime = 0;
 
+    private Vector3 initScale;
+
     public void Init(Tile tile)
     {
         App.instance.GetDataManager().gameData.TryGetValue("Data_Zombie_Move_Possibility", out GameData move);
@@ -54,6 +56,8 @@ public class ZombieBase : MonoBehaviour
 
         CheckTileEffect(curTile);
         CurrentTileUpdate(curTile);
+
+        initScale = transform.localScale;
     }
 
     ETileType CheckTileType(Tile tile)
@@ -145,6 +149,12 @@ public class ZombieBase : MonoBehaviour
             }
         }
     }
+    
+    public void SizeUpCheck()
+    {
+        var sclae = (zombieData.count/10) * 0.1f;
+        transform.localScale = initScale + new Vector3(sclae, sclae, sclae);
+    }
 
     public void SetValue(int cost, int _detectionRange)
     {
@@ -154,6 +164,7 @@ public class ZombieBase : MonoBehaviour
 
     public void DetectionAndAct()
     {
+        SizeUpCheck();
         
         isChasingPlayer = MapController.instance.CalculateDistanceToPlayer(curTile, dectectionRange);
 
