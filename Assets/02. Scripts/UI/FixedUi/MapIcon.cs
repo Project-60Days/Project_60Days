@@ -15,7 +15,7 @@ public class MapIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     Image image;
     Player player;
-    public ETileType tileType;
+    [HideInInspector] ETileType tileType;
 
     void Start()
     {
