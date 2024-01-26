@@ -14,7 +14,7 @@ public class DesertTile : TileBase, ITileLandformEffect
     {
         _player.ChangeDurbility(-1);
 
-        if (RandomPercent.GetRandom(50))
+        if (RandomPercent.GetRandom(10))
         {
             Debug.Log("모래폭풍 디버프");
             UIManager.instance.GetPageController().SetResultPage("DESERT_STORM",false);

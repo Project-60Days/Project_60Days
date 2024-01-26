@@ -91,7 +91,6 @@ public class Player : MonoBehaviour
         else
         {
             // 공격
-            Debug.Log("공격");
             yield return StartCoroutine(MoveToTarget(targetTileController));
         }
     }

@@ -5,22 +5,26 @@ using UnityEngine.UI;
 
 public class ExplorerButton : MonoBehaviour
 {
-    MapController controller;
     void Start()
     {
-        StartCoroutine(GetMapController());
-    }
-
-    IEnumerator GetMapController()
-    {
-        yield return new WaitForEndOfFrame();
-        controller = GameObject.FindGameObjectWithTag("MapController").GetComponent<MapController>();
         gameObject.GetComponent<Button>().onClick.AddListener(Explorer);
     }
 
     public void Explorer()
     {
-        if(App.instance.GetMapManager().CheckCanInstallDrone())
-            controller.PreparingExplorer(true);
+        if (UIManager.instance.GetInventoryController().CheckFindorUsage())
+        {
+            Debug.Log("탐색기 있음");
+            if (App.instance.GetMapManager().CheckCanInstallDrone())
+            {
+                Debug.Log("탐색기 설치 가능");
+
+                App.instance.GetMapManager().mapController.PreparingExplorer(true);
+            }
+        }
+        else
+        {
+            return;
+        }
     }
 }

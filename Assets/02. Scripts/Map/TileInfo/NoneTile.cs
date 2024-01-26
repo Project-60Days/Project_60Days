@@ -22,7 +22,7 @@ public class NoneTile : TileBase, ITileLandformEffect
         }
        
         // 도둑맞은 자원 : 가진 자원 중 1개 랜덤으로 빼앗김
-        if (RandomPercent.GetRandom(50))
+        if (RandomPercent.GetRandom(10))
         {
             Debug.Log("도둑 맞은 자원 디버프");
             UIManager.instance.GetInventoryController().RemoveRandomItem();

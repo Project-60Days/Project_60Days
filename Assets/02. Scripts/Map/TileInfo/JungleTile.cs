@@ -20,7 +20,7 @@ public class JungleTile : TileBase, ITileLandformEffect
             _player.JungleDebuffOn();
         }
 
-        if (RandomPercent.GetRandom(5))
+        if (RandomPercent.GetRandom(10))
         {
             UIManager.instance.GetPageController().SetResultPage("SWAMP", false);
             
