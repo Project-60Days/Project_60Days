@@ -37,7 +37,7 @@ public class ZombieBase : MonoBehaviour
     int dectectionRange = 2;
     int debuffCoolTime = 0;
 
-    private Vector3 initScale;
+    private Vector3 initScale = new Vector3(0,0,0);
 
     public void Init(Tile tile)
     {
@@ -61,7 +61,7 @@ public class ZombieBase : MonoBehaviour
         CurrentTileUpdate(curTile);
 
         initScale = transform.localScale;
-        lastZombieCount= zombieData.count;
+        lastZombieCount = zombieData.count;
     }
 
     ETileType CheckTileType(Tile _tile)
@@ -78,13 +78,11 @@ public class ZombieBase : MonoBehaviour
                 {
                     zombieData.count += 5;
                     ZombieModelChoice(zombieData.count);
-                    SizeUpCheck();
                     noneTileBuff = true;
                 }
 
                 break;
             case ETileType.Desert:
-                Debug.Log("좀비 사막 디버프");
                 if (debuffCoolTime <= 0)
                 {
                     debuffCoolTime = 1;
@@ -96,7 +94,6 @@ public class ZombieBase : MonoBehaviour
 
                 break;
             case ETileType.Tundra:
-                Debug.Log("좀비 툰드라 디버프");
                 if (debuffCoolTime <= 0)
                 {
                     debuffCoolTime = 1;
@@ -162,9 +159,14 @@ public class ZombieBase : MonoBehaviour
     {
         if (lastZombieCount != zombieData.count)
         {
-            var sclae = (zombieData.count / 10) * 0.1f;
-            transform.localScale = initScale + new Vector3(sclae, sclae, sclae);
+            var scale = (zombieData.count / 10) * 0.1f;
 
+            if (scale > 0.7f)
+            {
+                scale = 0.7f;
+            }
+
+            transform.localScale = initScale + new Vector3(scale, scale, scale);
             lastZombieCount = zombieData.count;
         }
     }
@@ -242,7 +244,7 @@ public class ZombieBase : MonoBehaviour
         {
             if (movePath.Count == 0)
             {
-                yield return null;
+                yield break;
             }
 
             for (int i = 0; i < moveCost; i++)
