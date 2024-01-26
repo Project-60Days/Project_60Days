@@ -17,6 +17,7 @@ public class ZombieData
     public float maxCount;
 }
 
+[SelectionBase]
 public class ZombieBase : MonoBehaviour
 {
     [SerializeField] GameObject[] zombieModels;
@@ -26,7 +27,9 @@ public class ZombieBase : MonoBehaviour
     public Tile lastTile;
     public Tile targetTile;
     public bool isChasingPlayer;
-    private bool isBuff;
+    private bool noneTileBuff;
+
+    private int lastZombieCount;
 
     List<Coords> movePath;
     int remainStunTime;
@@ -58,11 +61,12 @@ public class ZombieBase : MonoBehaviour
         CurrentTileUpdate(curTile);
 
         initScale = transform.localScale;
+        lastZombieCount= zombieData.count;
     }
 
-    ETileType CheckTileType(Tile tile)
+    ETileType CheckTileType(Tile _tile)
     {
-        return ((GameObject)tile.GameEntity).GetComponent<TileBase>().TileType;
+        return ((GameObject)_tile.GameEntity).GetComponent<TileBase>().TileType;
     }
 
     void CheckTileEffect(Tile _tile)
@@ -70,39 +74,43 @@ public class ZombieBase : MonoBehaviour
         switch (CheckTileType(_tile))
         {
             case ETileType.None:
-                if (isBuff == false)
+                if (noneTileBuff == false)
                 {
                     zombieData.count += 5;
                     ZombieModelChoice(zombieData.count);
-                    isBuff = true;
+                    SizeUpCheck();
+                    noneTileBuff = true;
                 }
+
                 break;
             case ETileType.Desert:
-                if (debuffCoolTime == 0)
+                Debug.Log("좀비 사막 디버프");
+                if (debuffCoolTime <= 0)
                 {
                     debuffCoolTime = 1;
                 }
-                else
+                else if (debuffCoolTime > 0)
                 {
-                    debuffCoolTime--;
+                    debuffCoolTime -= 1;
                 }
+
                 break;
             case ETileType.Tundra:
-                if (debuffCoolTime == 0)
+                Debug.Log("좀비 툰드라 디버프");
+                if (debuffCoolTime <= 0)
                 {
                     debuffCoolTime = 1;
                 }
-                else
+                else if (debuffCoolTime > 0)
                 {
-                    debuffCoolTime--;
+                    debuffCoolTime -= 1;
                 }
+
+                break;
+            case ETileType.Jungle:
                 break;
             default:
                 break;
-        }
-
-        if (CheckTileType(_tile) == ETileType.None)
-        {
         }
     }
 
@@ -149,11 +157,16 @@ public class ZombieBase : MonoBehaviour
             }
         }
     }
-    
+
     public void SizeUpCheck()
     {
-        var sclae = (zombieData.count/10) * 0.1f;
-        transform.localScale = initScale + new Vector3(sclae, sclae, sclae);
+        if (lastZombieCount != zombieData.count)
+        {
+            var sclae = (zombieData.count / 10) * 0.1f;
+            transform.localScale = initScale + new Vector3(sclae, sclae, sclae);
+
+            lastZombieCount = zombieData.count;
+        }
     }
 
     public void SetValue(int cost, int _detectionRange)
@@ -164,22 +177,22 @@ public class ZombieBase : MonoBehaviour
 
     public void DetectionAndAct()
     {
-        SizeUpCheck();
-        
+        CheckTileEffect(curTile);
+
         isChasingPlayer = MapController.instance.CalculateDistanceToPlayer(curTile, dectectionRange);
 
         nearthDistrubtor = MapController.instance.CalculateDistanceToDistrubtor(curTile, dectectionRange);
-        
+
         ActionDecision();
     }
 
     public void ActionDecision()
     {
-        if(debuffCoolTime > 0)
+        if (debuffCoolTime > 0)
         {
             return;
         }
-        
+
         if (remainStunTime > 0)
         {
             remainStunTime--;
@@ -190,8 +203,6 @@ public class ZombieBase : MonoBehaviour
         {
             //Debug.Log(gameObject.name + "가 교란기를 쫓아갑니다!");
             StartCoroutine(MoveToAttack(nearthDistrubtor.currentTile));
-            CheckTileEffect(curTile);
-            
             return;
         }
 
@@ -213,8 +224,6 @@ public class ZombieBase : MonoBehaviour
                 StartCoroutine(MoveToRandom());
             }
         }
-        
-        CheckTileEffect(curTile);
     }
 
     public IEnumerator MoveToAttack(Tile target, float time = 0.25f)
@@ -231,11 +240,11 @@ public class ZombieBase : MonoBehaviour
         }
         else
         {
-            if(movePath.Count == 0)
+            if (movePath.Count == 0)
             {
-                yield break;
+                yield return null;
             }
-            
+
             for (int i = 0; i < moveCost; i++)
             {
                 pointTile = App.instance.GetMapManager().mapController.GetTileFromCoords(movePath[i]);
@@ -305,6 +314,7 @@ public class ZombieBase : MonoBehaviour
         zombie.zombieData.count = 0;
 
         ZombieModelChoice(zombieData.count);
+        SizeUpCheck();
         CurrentTileUpdate(curTile);
     }
 

@@ -158,6 +158,14 @@ public enum EMabPrefab
     Army
 }
 
+public enum EStructure
+{
+    Tower,
+    Production,
+    Army,
+    Dynamo
+}
+
 public enum EObjectSpawnType
 {
     ExcludePlayer,

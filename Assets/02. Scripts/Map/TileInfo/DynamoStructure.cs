@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class ArmyStructure : StructureBase
+public class DynamoStructure : StructureBase
 {
     public override void Init(List<TileBase> _neighborTiles, GameObject _structureModel, ItemSO _itemSO)
     {
-        structureName = "군사 시설";
+        structureName = "요새";
 
         var itemBase = _itemSO.items.ToList()
             .Find(x => x.data.Code == "ITEM_DISTURBE");
 
         resource = new Resource(itemBase.English, 2, itemBase);
-        isUse = false;
+        isUse = true;
         isAccessible = false;
 
         neighborTiles = _neighborTiles;
@@ -31,7 +31,7 @@ public class ArmyStructure : StructureBase
         for (var index = 0; index < colleagues.Count; index++)
         {
             var tile = colleagues[index];
-            ((ArmyStructure)tile.Structure).AllowAccess();
+            ((DynamoStructure)tile.Structure).AllowAccess();
         }
 
         App.instance.GetMapManager().NormalStructureResearch(this);

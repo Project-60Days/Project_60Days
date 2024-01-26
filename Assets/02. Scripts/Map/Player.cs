@@ -5,6 +5,7 @@ using UnityEngine;
 using Hexamap;
 using DG.Tweening;
 using FischlWorks_FogWar;
+using Yarn.Unity;
 using Random = UnityEngine.Random;
 
 public class Player : MonoBehaviour
@@ -143,16 +144,26 @@ public class Player : MonoBehaviour
     public IEnumerator MoveToRandom(int num = 1, float time = 0.25f)
     {
         var candidate = MapController.instance.GetTilesInRange(currentTileContorller.Model, num);
-        int rand = Random.Range(0, candidate.Count);
 
-        while (((GameObject)candidate[rand].GameEntity).gameObject.layer == 8 &&
-               ((GameObject)candidate[rand].GameEntity).GetComponent<TileBase>().Structure != null)
+        Vector3 targetPos = currentTileContorller.transform.position;
+        Tile tile = candidate[0];
+        bool isFindPath = false;
+        
+        for (int i = 0; i < candidate.Count; i++)
         {
-            rand = Random.Range(0, candidate.Count);
-            candidate.RemoveAt(rand);
+            if(App.instance.GetMapManager().mapController.CheckTileType(candidate[i], "LandformPlain"))
+            {
+                if (((GameObject)candidate[i].GameEntity).GetComponent<TileBase>().Structure == null &&
+                    ((GameObject)candidate[i].GameEntity).GetComponent<TileBase>().CurZombies == null)
+                {
+                    targetPos = ((GameObject)candidate[i].GameEntity).transform.position;
+                    tile = candidate[i];
+                    isFindPath = true;
+                    break;
+                }
+            }
         }
-
-        var targetPos = ((GameObject)candidate[rand].GameEntity).transform.position;
+        
         targetPos.y += 0.6f;
 
         yield return gameObject.transform.DOMove(targetPos, time);
@@ -160,7 +171,8 @@ public class Player : MonoBehaviour
         movePath.Clear();
         moveRange = 0;
 
-        UpdateCurrentTile(((GameObject)candidate[rand].GameEntity).GetComponent<TileController>());
+        if(isFindPath)
+            UpdateCurrentTile(((GameObject)tile.GameEntity).GetComponent<TileController>());
     }
     
     /// <summary>
