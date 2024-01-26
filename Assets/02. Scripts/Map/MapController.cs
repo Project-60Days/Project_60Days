@@ -9,7 +9,6 @@ using TMPro;
 using Hexamap;
 using UnityEngine.EventSystems;
 using FischlWorks_FogWar;
-using UnityEditor;
 using Random = UnityEngine.Random;
 
 public class MapController : Singleton<MapController>

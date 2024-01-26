@@ -125,11 +125,18 @@ public class TutorialController : MonoBehaviour
 
     public void AddSteel()
     {
-        UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_CARBON");
-        UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_CARBON");
+        string nodeName = "ITEM_TUTORIAL";
 
-        string nodeName = "ITEM_CARBON_None6";
+        UIManager.instance.GetPageController().SetResultPage(nodeName, false);
 
-        UIManager.instance.GetPageController().SetResultPage(nodeName, true);
+        StartCoroutine(AddResource());
+    }
+
+    IEnumerator AddResource()
+    {
+        yield return new WaitUntil(() => UIManager.instance.isUIStatus("UI_NORMAL"));
+
+        UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_DISTURBE");
+        UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_FINDOR");
     }
 }

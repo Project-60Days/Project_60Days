@@ -23,7 +23,11 @@ public class CraftSlot : SlotBase
                 UIManager.instance.GetCraftingUiController().MoveResultToInventory(item);
                 App.instance.GetSoundManager().PlaySFX("SFX_Crafting_Result");
                 if (item.isMadeOnce == false)
+                {
                     item.isMadeOnce = true;
+                    UIManager.instance.GetCraftModeController().UpdateBlueprint();
+                }
+                    
                 break;
         }
 

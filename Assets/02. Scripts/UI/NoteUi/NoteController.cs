@@ -177,7 +177,9 @@ public class NoteController : MonoBehaviour
             notePages[pageNum].ChangePageAction("next");
             ChangePageButton();
         }
-            
+
+
+        StartCoroutine(CheckScrollEnabled());
     }
 
     /// <summary>
@@ -197,6 +199,9 @@ public class NoteController : MonoBehaviour
             notePages[pageNum].ChangePageAction("prev");
             ChangePageButton();
         }
+
+
+        StartCoroutine(CheckScrollEnabled());
     }
 
     /// <summary>
@@ -209,17 +214,6 @@ public class NoteController : MonoBehaviour
         pageNum = _index;
         ActiveAndPlayPage();
         ChangePageButton();
-    }
-
-    /// <summary>
-    /// 새로운 페이지 활성화 및 페이지 동작(Yarn 실행)
-    /// </summary>
-    void ActiveAndPlayPage()
-    {
-        notePages[pageNum].gameObject.SetActive(true);
-        notePages[pageNum].PlayPageAciton();
-
-        StartCoroutine(CheckScrollEnabled());
     }
 
     IEnumerator CheckScrollEnabled()
@@ -248,6 +242,17 @@ public class NoteController : MonoBehaviour
         scrollImg.StopAnim();
     }
 
+
+    /// <summary>
+    /// 새로운 페이지 활성화 및 페이지 동작(Yarn 실행)
+    /// </summary>
+    void ActiveAndPlayPage()
+    {
+        notePages[pageNum].gameObject.SetActive(true);
+        notePages[pageNum].PlayPageAciton();
+    }
+
+    
 
 
 
