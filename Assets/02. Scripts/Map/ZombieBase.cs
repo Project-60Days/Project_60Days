@@ -61,6 +61,7 @@ public class ZombieBase : MonoBehaviour
         CurrentTileUpdate(curTile);
 
         initScale = transform.localScale;
+        lastZombieCount= zombieData.count;
     }
 
     ETileType CheckTileType(Tile _tile)
@@ -77,6 +78,7 @@ public class ZombieBase : MonoBehaviour
                 {
                     zombieData.count += 5;
                     ZombieModelChoice(zombieData.count);
+                    SizeUpCheck();
                     noneTileBuff = true;
                 }
 
@@ -175,9 +177,7 @@ public class ZombieBase : MonoBehaviour
 
     public void DetectionAndAct()
     {
-        CheckTileType(curTile);
-
-        SizeUpCheck();
+        CheckTileEffect(curTile);
 
         isChasingPlayer = MapController.instance.CalculateDistanceToPlayer(curTile, dectectionRange);
 
@@ -314,6 +314,7 @@ public class ZombieBase : MonoBehaviour
         zombie.zombieData.count = 0;
 
         ZombieModelChoice(zombieData.count);
+        SizeUpCheck();
         CurrentTileUpdate(curTile);
     }
 
