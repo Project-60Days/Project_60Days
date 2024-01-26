@@ -91,6 +91,8 @@ public class ItemInfoController : MonoBehaviour
 
         infoTransform.position = new Vector3(newX, newY, infoTransform.position.z);
 
+        LayoutRebuilder.ForceRebuildLayoutImmediate(infoTransform);
+
         canvasGroup.alpha = 1f;
     }
 

@@ -63,6 +63,7 @@ public class Player : MonoBehaviour
     {
         movePath = new List<Coords>();
         moveRange = maxMoveRange;
+        clockBuffDuration = 0;
         StartCoroutine(DelaySightGetInfo());
     }
 
@@ -235,7 +236,6 @@ public class Player : MonoBehaviour
     {
         if (clockBuffDuration > 0)
         {
-            clockBuffDuration--;
             return true;
         }
         else
@@ -243,6 +243,12 @@ public class Player : MonoBehaviour
             clockBuffDuration = 0;
             return false;
         }
+    }
+
+    public void ChangeClockBuffDuration()
+    {
+        if (clockBuffDuration > 0) 
+            clockBuffDuration--;
     }
 
     public void AddSightRange(int _amount)

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Collections;
 
 public class CraftingUiController : MonoBehaviour
 {
@@ -286,22 +287,36 @@ public class CraftingUiController : MonoBehaviour
 
 
     #region Equip
-    void AddEquip(ItemBase _item)
+    bool AddEquip(ItemBase _item)
     {
         for (int i = 0; i < equipSlots.Length; i++) 
         {
             if (equipSlots[i].equipType != _item.data.EquipType)
                 continue;
 
-            if (equipSlots[i].item != null)
+            if (equipSlots[i].isLocked == true) return false;
+
+            if (equipSlots[i].item != null) 
             {
                 equipSlots[i].item.UnEquip();
                 UIManager.instance.GetInventoryController().AddItem(equipSlots[i].item);
             }
 
+            UIManager.instance.GetInventoryController().RemoveItem(_item);
             equipSlots[i].item = _item;
             _item.Equip();
+            if (_item.canRemoveEquipment == false)
+            {
+                equipSlots[i].isLocked = true;
+                StartCoroutine(WaitUntilItemUsed(_item));
+            }
+
+            equipSlots[i].ChangeSlotColor();
+
+            return true;
         }
+
+        return false;
     }
 
     void RemoveEquip(ItemBase _item)
@@ -318,13 +333,38 @@ public class CraftingUiController : MonoBehaviour
             }
 
             equipSlots[i].item = null;
+
+            break;
         }
     }
 
-    public void MoveInventoryToEquip(ItemBase _item)
+    IEnumerator WaitUntilItemUsed(ItemBase _item)
     {
-        UIManager.instance.GetInventoryController().RemoveItem(_item);
-        AddEquip(_item);
+        yield return new WaitUntil(() => _item.CheckMeetCondition());
+        
+    }
+
+    public void EquipItemDayEvent()
+    {
+        for (int i = 0; i < equipSlots.Length; i++)
+        {
+            if (equipSlots[i].item != null)
+            {
+                equipSlots[i].item.DayEvent();
+                if (equipSlots[i].item.CheckMeetCondition() == true)
+                {
+                    equipSlots[i].item = null;
+                    equipSlots[i].isLocked = false;
+                    equipSlots[i].ChangeSlotColor();
+                }
+            }
+                
+        }
+    }
+
+    public bool MoveInventoryToEquip(ItemBase _item)
+    {
+        return AddEquip(_item);
     }
 
     public void MoveEquipToInventory(ItemBase _item)

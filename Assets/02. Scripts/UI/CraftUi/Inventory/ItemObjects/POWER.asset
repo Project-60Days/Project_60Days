@@ -17,24 +17,27 @@ MonoBehaviour:
     Index: 1028
     Category: 4
     Code: ITEM_POWER
-    Rarity: 2
     AppearTileType: 3
-    TileIncludePossibility: 0
-    Type: 2
-    EquipType: 2
-    EquipArea: 
-    isCanBase: 0
-    CombineSlotCount: 0
+    Type: 1
+    EquipType: 0
+    EquipArea: -1
+    CombineSlotCount: 3
     Description: "\uAC15\uD55C \uB3D9\uB825\uC744 \uC5BB\uAE30 \uC704\uD574 \uB9CC\uB4E4\uC5B4\uC9C4
       \uBD80\uD488\uC73C\uB85C, \uAE00\uB9AC\uCC98\uB4E4\uC744 \uC815\uBCF5\uD558\uAE30
       \uC704\uD55C \uCCAB \uAC78\uC74C\uC774\uB2E4."
     EffectDescription: 
     Korean: "\uB3D9\uB825\uC6D0"
-    English: -1
+    English: Power
     Japanese: -1
     Chinese: -1
+    value1: -1
+    value2: -1
+    value3: -1
   itemImage: {fileID: 21300000, guid: bdda3101124362945ac6f9f968293d95, type: 3}
-  itemCount: 0
-  eItemType: 2
+  itemCount: 1
+  eItemType: 1
   sprite: {fileID: 21300000, guid: 6b47b469b30677146af9286f741e0a5e, type: 3}
   sfxName: 
+  isMadeOnce: 0
+  isBlueprintOpen: 0
+  canRemoveEquipment: 1

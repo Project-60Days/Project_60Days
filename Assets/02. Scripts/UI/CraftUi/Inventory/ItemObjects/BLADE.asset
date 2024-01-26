@@ -18,7 +18,7 @@ MonoBehaviour:
     Category: 3
     Code: ITEM_BLADE
     AppearTileType: 0
-    Type: 2
+    Type: 1
     EquipType: 0
     EquipArea: "\uBC29\uC5B4\uD615 \uBD80\uD488"
     CombineSlotCount: 3
@@ -36,8 +36,9 @@ MonoBehaviour:
     value3: -1
   itemImage: {fileID: 21300000, guid: 00a75f6ab3d59304ca766f17c01cf49d, type: 3}
   itemCount: 1
-  eItemType: 2
+  eItemType: 1
   sprite: {fileID: 21300000, guid: e2ea34978ae634b4490b7d79b489379b, type: 3}
   sfxName: 
   isMadeOnce: 0
   isBlueprintOpen: 0
+  canRemoveEquipment: 1
