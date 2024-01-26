@@ -96,8 +96,6 @@ public class InventoryController : MonoBehaviour
     public void AddItem(ItemBase _item)
     {
         _item.itemCount++;
-        _item.isMadeOnce = true;
-        _item.isBlueprintOpen = true;
 
         if (items.Contains(_item))
         {

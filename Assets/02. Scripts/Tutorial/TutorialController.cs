@@ -127,7 +127,7 @@ public class TutorialController : MonoBehaviour
     {
         string nodeName = "ITEM_TUTORIAL";
 
-        UIManager.instance.GetPageController().SetResultPage(nodeName, false);
+        UIManager.instance.GetPageController().SetResultPage(nodeName, true);
 
         StartCoroutine(AddResource());
     }
