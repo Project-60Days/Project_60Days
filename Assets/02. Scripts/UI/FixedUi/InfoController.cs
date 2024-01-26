@@ -64,7 +64,7 @@ public class InfoController : MonoBehaviour
     {
         string textString = App.instance.GetDataManager().GetString(_code);
         text.gameObject.SetActive(true);
-        text.DOText(textString, 1f, true, ScrambleMode.Uppercase);
+        text.DOText(textString, 0.5f, true, ScrambleMode.Uppercase);
     }
 
     void SetObjects(ETileType _type)
@@ -74,7 +74,7 @@ public class InfoController : MonoBehaviour
         string textString = App.instance.GetDataManager().GetString(code);
 
         text.gameObject.SetActive(true);
-        text.DOText(textString, 1f, true, ScrambleMode.Numerals);
+        text.DOText(textString, 0.5f, true, ScrambleMode.Numerals);
     }
 
     void SetTransform(Vector3 _mouseCoordinate)

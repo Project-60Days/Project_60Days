@@ -14,8 +14,6 @@ public class CraftSlot : SlotBase
 
     public override void OnPointerClick(PointerEventData eventData)
     {
-        if (item.data.Code == "ITEM_NETWORKCHIP") return;
-
         switch (eSlotType)
         {
             case ESlotType.CraftingSlot:
