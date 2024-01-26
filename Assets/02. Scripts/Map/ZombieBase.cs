@@ -157,12 +157,6 @@ public class ZombieBase : MonoBehaviour
         
         isChasingPlayer = MapController.instance.CalculateDistanceToPlayer(curTile, dectectionRange);
 
-        if (App.instance.GetMapManager().mapController.Player.GetIsClocking())
-        {
-            Debug.Log("좀비가 플레이어를 놓쳤습니다");
-            isChasingPlayer = false;
-        }
-
         nearthDistrubtor = MapController.instance.CalculateDistanceToDistrubtor(curTile, 2);
         
         ActionDecision();
@@ -189,7 +183,7 @@ public class ZombieBase : MonoBehaviour
             return;
         }
 
-        if (isChasingPlayer)
+        if (isChasingPlayer && !App.instance.GetMapManager().mapController.Player.GetIsClocking())
         {
             //Debug.Log(gameObject.name + "가 플레이어를 발견했습니다!");
             StartCoroutine(MoveToAttack(App.instance.GetMapManager().mapController.Player.TileController.Model));
@@ -258,6 +252,8 @@ public class ZombieBase : MonoBehaviour
             rand = Random.Range(0, candidate.Count);
         }
 
+        if (candidate[rand] == App.instance.GetMapManager().mapController.Player.TileController.Model)
+            rand--;
         var targetPos = ((GameObject)candidate[rand].GameEntity).transform.position;
         targetPos.y += 0.6f;
 

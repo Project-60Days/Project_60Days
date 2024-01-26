@@ -38,7 +38,7 @@ public class Chapter01_3 : QuestBase
     {
         UIManager.instance.GetQuestController().SetNextQuestIndex(eQuestType, nextQuestIndex);
         UIManager.instance.GetQuestController().StartNextQuest(this);
-        UIManager.instance.GetPopUpController().EndGamePopUp();
+        StartCoroutine(UIManager.instance.GetPopUpController().EndGamePopUp());
     }
 }
 

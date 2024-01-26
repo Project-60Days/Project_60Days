@@ -17,25 +17,29 @@ MonoBehaviour:
     Index: 1032
     Category: 5
     Code: ITEM_ENERGYCANNON
-    Rarity: 2
     AppearTileType: 4
-    TileIncludePossibility: 0
     Type: 1
-    EquipType: 0
+    EquipType: 1
     EquipArea: "\uACF5\uACA9\uD615 \uBD80\uD488"
-    isCanBase: 0
-    CombineSlotCount: 0
+    CombineSlotCount: 3
     Description: "\uAE00\uB9AC\uCC98 \uB300\uB7C9 \uD559\uC0B4 \uBB34\uAE30\uB85C,
       \uD0C4\uC758 \uC18C\uBAA8\uAC00 \uB9E4\uC6B0 \uD06C\uC9C0\uB9CC \uD655\uC2E4\uD55C
       \uCC98\uB9AC\uAC00 \uAC00\uB2A5\uD558\uB2E4."
-    EffectDescription: "\uAE00\uB9AC\uCC98\uC640 \uC2F8\uC6C0 \uC774\uB3D9 \uBC29\uD5A5
-      \uC55E\uC73C\uB85C 6\uCE78 \uBB34\uB825\uD654\n\uD0C4 \uC18C\uBAA8 -10"
+    EffectDescription: "\uAE00\uB9AC\uCC98\uC640 \uC804\uD22C \uC2DC \uC774\uB3D9
+      \uBC29\uD5A5 \uC55E\uC73C\uB85C {0}\uCE78 \uBB34\uB825\uD654\n\uD384\uC2A4\uD0C4
+      \uC18C\uBAA8 -{1}\n{2}\uC77C \uB3D9\uC548 \uC774\uB3D9\uD560 \uC218 \uC5C6\uC74C"
     Korean: "\uC5D0\uB108\uC9C0\uCE90\uB17C"
-    English: -1
+    English: Energycannon
     Japanese: -1
     Chinese: -1
+    value1: 9
+    value2: 10
+    value3: 1
   itemImage: {fileID: 21300000, guid: 58aaadfccf5cfde43b3c3e8b7edbe240, type: 3}
-  itemCount: 0
+  itemCount: 1
   eItemType: 1
   sprite: {fileID: 21300000, guid: 2af9c9fe260176645890f7e5a5b17a86, type: 3}
   sfxName: 
+  isMadeOnce: 0
+  isBlueprintOpen: 0
+  canRemoveEquipment: 1

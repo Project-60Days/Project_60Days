@@ -17,25 +17,29 @@ MonoBehaviour:
     Index: 1030
     Category: 4
     Code: ITEM_EMP
-    Rarity: 2
     AppearTileType: 4
-    TileIncludePossibility: 0
-    Type: 2
-    EquipType: 0
+    Type: 1
+    EquipType: 2
     EquipArea: "\uD2B9\uC218\uD615 \uBD80\uD488"
-    isCanBase: 0
-    CombineSlotCount: 0
+    CombineSlotCount: 3
     Description: "\uD3EC\uACA9\uAE30\uC758 \uC9C4\uD654\uB41C \uD615\uD0DC\uC758
       \uBB34\uAE30\uB85C, \uB2E4\uC218\uC758 \uAE00\uB9AC\uCC98\uB4E4\uC744 \uBB34\uB825\uD654
       \uC2DC\uD0AC \uC218 \uC788\uB2E4."
-    EffectDescription: "\uD50C\uB808\uC774\uC5B4\uC758 \uC8FC\uBCC0 \uAE00\uB9AC\uCC98\uB4E4
-      \uBB34\uB825\uD654\n\uD0C4 \uC18C\uBAA8 -6"
+    EffectDescription: "{0}\uC77C\uC774 \uC9C0\uB0A0 \uB54C\uB9C8\uB2E4 \uD50C\uB808\uC774\uC5B4\uC758
+      \uC8FC\uBCC0 \uAE00\uB9AC\uCC98\uB4E4 \uBB34\uB825\uD654\n\uD384\uC2A4\uD0C4
+      \uC18C\uBAA8 -{1}"
     Korean: "EMP\uC7A5\uCE58"
-    English: -1
+    English: EMP
     Japanese: -1
     Chinese: -1
+    value1: 10
+    value2: 6
+    value3: -1
   itemImage: {fileID: 21300000, guid: a9e1d642f7eb86847aa18bc84ff59be7, type: 3}
   itemCount: 0
-  eItemType: 2
+  eItemType: 1
   sprite: {fileID: 21300000, guid: f169170c81a50f14399492d3195a42c8, type: 3}
   sfxName: 
+  isMadeOnce: 0
+  isBlueprintOpen: 0
+  canRemoveEquipment: 1
