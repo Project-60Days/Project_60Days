@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DisturbanceButton : MonoBehaviour
+public class DistrubtorButton : MonoBehaviour
 {
     void Start()
     {
-        gameObject.GetComponent<Button>().onClick.AddListener(Disturbance);
+        gameObject.GetComponent<Button>().onClick.AddListener(Distrubtor);
     }
 
-    public void Disturbance()
+    public void Distrubtor()
     {
-        if (UIManager.instance.GetInventoryController().CheckDisturbeUsage())
+        if (UIManager.instance.GetInventoryController().CheckDistrubtorUsage())
         {
             Debug.Log("교란기 있음");
             if (App.instance.GetMapManager().CheckCanInstallDrone())
             {
                 Debug.Log("교란기 설치 가능");
-                App.instance.GetMapManager().mapController.PreparingDisturbtor(true);
+                App.instance.GetMapManager().mapController.PreparingDistrubtor(true);
             }
         }
         else

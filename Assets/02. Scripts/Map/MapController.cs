@@ -46,8 +46,11 @@ public class MapController : Singleton<MapController>
 
     private MapData mapData;
 
-    GameObject disturbtor;
-    GameObject explorer;
+    List<GameObject> distrubtors = new List<GameObject>();
+    GameObject curDistrubtor;
+
+    List<GameObject> explorers = new List<GameObject>();
+    GameObject curExplorer;
 
     TileController targetTileController;
     bool isLoadingComplete;
@@ -258,38 +261,31 @@ public class MapController : Singleton<MapController>
         }
     }
 
-    public void TilePathFinder(TileController tileController, int num = 3)
+    public void ExplorerPathFinder(TileController tileController, int num = 3)
     {
         int moveRange = 0;
-        
         if (tileController.Model != player.TileController.Model)
         {
             foreach (Coords coords in AStar.FindPath(player.TileController.Model.Coords, tileController.Model.Coords))
             {
-                if (moveRange == num-1)
+                if (moveRange == num)
                     break;
 
                 var tile = TileToTileController(GetTileFromCoords(coords));
                 SelectBorder(tile, ETileState.None);
                 selectedTiles.Add(tile);
-                
                 moveRange++;
             }
-        }
 
-        if (moveRange == num
-            || tileController.gameObject.GetComponent<TileBase>().Structure?.IsAccessible == false
-            || tileController.Model != player.TileController.Model)
+            if (moveRange != num && tileController.gameObject.GetComponent<TileBase>().Structure?.IsAccessible == false)
+                SelectBorder(tileController, ETileState.Unable);
+            else
+                SelectBorder(tileController, ETileState.Moveable);
+        }
+        else
         {
-            AddSelectedTilesList(tileController);
             SelectBorder(tileController, ETileState.Unable);
         }
-        else if (moveRange != num)
-        {
-            AddSelectedTilesList(tileController);
-            SelectBorder(tileController, ETileState.Moveable);
-        }
-
     }
 
     public void TilePathFinderSurroundings(TileController tileController)
@@ -333,16 +329,16 @@ public class MapController : Singleton<MapController>
     {
         if (droneSelectedTiles.Contains(tileController))
         {
-            disturbtor.transform.position =
+            curDistrubtor.transform.position =
                 ((GameObject)tileController.Model.GameEntity).transform.position + Vector3.up;
 
-            disturbtor.GetComponent<Distrubtor>().DirectionObjectOff();
+            curDistrubtor.GetComponent<Distrubtor>().DirectionObjectOff();
             SelectBorder(tileController, ETileState.Moveable);
 
             foreach (var item in player.TileController.Model.Neighbours.Where(
                          item => item.Value == tileController.Model))
             {
-                disturbtor.GetComponent<Distrubtor>().GetDirectionObject(item.Key).SetActive(true);
+                curDistrubtor.GetComponent<Distrubtor>().GetDirectionObject(item.Key).SetActive(true);
             }
         }
         else
@@ -422,7 +418,7 @@ public class MapController : Singleton<MapController>
         return ((GameObject)tile.GameEntity).GetComponent<TileController>();
     }
 
-    public void PreparingDisturbtor(bool set)
+    public void PreparingDistrubtor(bool set)
     {
         if (set)
         {
@@ -443,9 +439,10 @@ public class MapController : Singleton<MapController>
         }
         else
         {
-            Destroy(disturbtor);
+            distrubtors.Remove(curDistrubtor);
             App.instance.GetMapManager().SetIsDronePrepared(false, "Distrubtor");
             UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_DISTURBE");
+            Destroy(curDistrubtor);
             DeselectAllTargetTiles();
         }
     }
@@ -454,17 +451,18 @@ public class MapController : Singleton<MapController>
     {
         Debug.Log("예시 교란기");
 
-        disturbtor = Instantiate(mapPrefab.items[(int)EMabPrefab.Disturbtor].prefab,
+        curDistrubtor = Instantiate(mapPrefab.items[(int)EMabPrefab.Disturbtor].prefab,
             player.transform.position + Vector3.up * 1.5f, Quaternion.Euler(0, -90, 0));
 
-        disturbtor.transform.parent = mapTransform;
-        disturbtor.GetComponentInChildren<MeshRenderer>(true).material.DOFade(50, 0);
+        curDistrubtor.transform.parent = mapTransform;
+        curDistrubtor.GetComponentInChildren<MeshRenderer>(true).material.DOFade(50, 0);
+        distrubtors.Add(curDistrubtor);
     }
 
     void InstallDistrubtor(TileController tileController, CompassPoint direction)
     {
-        disturbtor.GetComponent<Distrubtor>().Set(tileController.Model, direction);
-        disturbtor.GetComponent<Distrubtor>().DirectionObjectOff();
+        curDistrubtor.GetComponent<Distrubtor>().Set(tileController.Model, direction);
+        curDistrubtor.GetComponent<Distrubtor>().DirectionObjectOff();
 
         for (int i = 0; i < droneSelectedTiles.Count; i++)
         {
@@ -483,20 +481,24 @@ public class MapController : Singleton<MapController>
         }
         else
         {
-            Destroy(explorer);
+            explorers.Remove(curExplorer);
             App.instance.GetMapManager().SetIsDronePrepared(false, "Explorer");
             UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_FINDOR");
+            Destroy(curExplorer);
         }
     }
 
     void GenerateExampleExplorer()
     {
-        explorer = Instantiate(mapPrefab.items[(int)EMabPrefab.Explorer].prefab,
-            player.transform.position + Vector3.up * 1.5f, Quaternion.identity);
-        explorer.transform.parent = mapTransform;
+        curExplorer = Instantiate(mapPrefab.items[(int)EMabPrefab.Explorer].prefab,
+            player.transform.position + Vector3.up * 1.5f, Quaternion.Euler(0, -90, 0));
+        
+        curExplorer.transform.parent = mapTransform;
 
-        explorer.GetComponentInChildren<MeshRenderer>().material.DOFade(50, 0);
-        explorer.GetComponent<Explorer>().Set(player.TileController.Model);
+        curExplorer.GetComponentInChildren<MeshRenderer>().material.DOFade(50, 0);
+        curExplorer.GetComponent<Explorer>().Set(player.TileController.Model);
+        
+        explorers.Add(curExplorer);
     }
 
     void InstallExplorer(TileController tileController)
@@ -504,10 +506,10 @@ public class MapController : Singleton<MapController>
         if (player.TileController.Model != tileController.Model)
             return;
 
-        explorer.GetComponent<Explorer>().Targetting(tileController.Model);
-        explorer.GetComponent<Explorer>().Move();
+        curExplorer.GetComponent<Explorer>().Targetting(tileController.Model);
+        curExplorer.GetComponent<Explorer>().Move();
 
-        //isDisturbtor = false;
+        App.instance.GetMapManager().SetIsDronePrepared(true, "");
     }
 
     public IEnumerator NextDay()
@@ -526,12 +528,23 @@ public class MapController : Singleton<MapController>
         }
 
         // 교란기
-        if (disturbtor != null)
-            disturbtor.GetComponent<Distrubtor>().Move();
+        if (distrubtors.Count > 0 && distrubtors != null)
+        {
+            for (int i = 0; i < distrubtors.Count; i++)
+            {
+                distrubtors[i].GetComponent<Distrubtor>().Move();
+            }
+        }
 
         // 탐사기
-        if (explorer != null)
-            StartCoroutine(explorer.GetComponent<Explorer>().Move());
+        if (explorers.Count > 0 && explorers != null)
+        {
+            for (int i = 0; i < explorers.Count; i++)
+            {
+                StartCoroutine(explorers[i].GetComponent<Explorer>().Move());
+            }
+        }
+            
 
         // 좀비 행동
         for (var index = 0; index < zombiesList.Count; index++)
@@ -674,7 +687,7 @@ public class MapController : Singleton<MapController>
 
     public void DeselectAllTargetTiles()
     {
-        if(droneSelectedTiles == null)
+        if (droneSelectedTiles == null)
             return;
 
         for (int i = 0; i < droneSelectedTiles.Count; i++)
@@ -682,10 +695,10 @@ public class MapController : Singleton<MapController>
             TileController tile = droneSelectedTiles[i];
             DeselecTargetBorder(tile);
         }
-        
+
         droneSelectedTiles.Clear();
     }
-    
+
     GameObject GetTileBorder(TileController tileController, ETileState state)
     {
         switch (state)
@@ -736,24 +749,7 @@ public class MapController : Singleton<MapController>
     {
         return hexaMap.Map.GetTilesInRange(tile, num);
     }
-
-    public Tile GetPlayerLocationTile()
-    {
-        return player.TileController.Model;
-    }
-
-    public bool isDisturbtorInstall()
-    {
-        if (disturbtor != null)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
+    
     public bool CalculateDistanceToPlayer(Tile tile, int range)
     {
         var searchTiles = hexaMap.Map.GetTilesInRange(tile, range);
@@ -765,14 +761,19 @@ public class MapController : Singleton<MapController>
     {
         var searchTiles = hexaMap.Map.GetTilesInRange(tile, range);
 
-        if (disturbtor == null)
+        if (distrubtors.Count <= 0)
             return null;
 
-        foreach (var item in searchTiles)
+        for (var i = 0; i < searchTiles.Count; i++)
         {
-            if (disturbtor.GetComponent<Distrubtor>().currentTile == item)
+            var item = searchTiles[i];
+            
+            for (var index = 0; index < distrubtors.Count; index++)
             {
-                return disturbtor.GetComponent<Distrubtor>();
+                var distrubtor = distrubtors[index];
+                
+                if (distrubtor.GetComponent<Distrubtor>().currentTile == item)
+                    return distrubtor.GetComponent<Distrubtor>();
             }
         }
 
@@ -1140,5 +1141,15 @@ public class MapController : Singleton<MapController>
     public void InputMapData(MapData _mapData)
     {
         mapData = _mapData;
+    }
+    
+    public void RemoveDistrubtor(Distrubtor _distrubtor)
+    {
+        distrubtors.Remove(_distrubtor.gameObject);
+    }
+    
+    public void Removeexplorer(Explorer _explorer)
+    {
+        explorers.Remove(_explorer.gameObject);
     }
 }

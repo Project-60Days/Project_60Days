@@ -61,7 +61,7 @@ public class Explorer : MonoBehaviour
 
             if (curTile == targetTile)
             {
-                Debug.Log("ÀÛµ¿");
+                Debug.Log("ï¿½Ûµï¿½");
                 FischlWorks_FogWar.csFogWar.instance.AddFogRevealer(new FischlWorks_FogWar.csFogWar.FogRevealer(gameObject.transform, 2, false));
                 lifeTime -= 1;
             }
@@ -69,7 +69,8 @@ public class Explorer : MonoBehaviour
         }
         else
         {
-            // »èÁ¦
+            // ï¿½ï¿½ï¿½ï¿½
+            App.instance.GetMapManager().mapController.Removeexplorer(this);
             FischlWorks_FogWar.csFogWar.instance._FogRevealers[FischlWorks_FogWar.csFogWar.instance._FogRevealers.Count - 1].sightRange = 0;
             yield return delay1;
             FischlWorks_FogWar.csFogWar.instance.RemoveFogRevealer(1);

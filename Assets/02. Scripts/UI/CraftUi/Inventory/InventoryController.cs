@@ -218,7 +218,7 @@ public class InventoryController : MonoBehaviour
         }
     }
 
-    public bool CheckDisturbeUsage()
+    public bool CheckDistrubtorUsage()
     {
         if (disturbe.itemCount <= 0)
             return false;

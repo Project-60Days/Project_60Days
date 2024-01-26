@@ -157,7 +157,7 @@ public class ZombieBase : MonoBehaviour
         
         isChasingPlayer = MapController.instance.CalculateDistanceToPlayer(curTile, dectectionRange);
 
-        nearthDistrubtor = MapController.instance.CalculateDistanceToDistrubtor(curTile, 2);
+        nearthDistrubtor = MapController.instance.CalculateDistanceToDistrubtor(curTile, dectectionRange);
         
         ActionDecision();
     }
@@ -179,7 +179,8 @@ public class ZombieBase : MonoBehaviour
         {
             //Debug.Log(gameObject.name + "가 교란기를 쫓아갑니다!");
             StartCoroutine(MoveToAttack(nearthDistrubtor.currentTile));
-
+            CheckTileEffect(curTile);
+            
             return;
         }
 
@@ -212,16 +213,21 @@ public class ZombieBase : MonoBehaviour
         Tile pointTile;
         Vector3 pointPos;
 
-        if (movePath.Count == 0)
+        if (movePath.Count == 0 && target == App.instance.GetMapManager().mapController.Player.TileController.Model)
         {
             // 플레이어가 1칸 내에 있는 경우
             AttackPlayer(App.instance.GetMapManager().mapController.Player);
         }
         else
         {
+            if(movePath.Count == 0)
+            {
+                yield break;
+            }
+            
             for (int i = 0; i < moveCost; i++)
             {
-                pointTile = MapController.instance.GetTileFromCoords(movePath[i]);
+                pointTile = App.instance.GetMapManager().mapController.GetTileFromCoords(movePath[i]);
                 pointPos = ((GameObject)pointTile.GameEntity).transform.position;
                 pointPos.y += 0.6f;
 

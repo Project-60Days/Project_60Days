@@ -18,7 +18,7 @@ public class Distrubtor : MonoBehaviour
     public void Set(Tile tile, CompassPoint cp)
     {
         //App.instance.GetDataManager().gameData.TryGetValue("DISRUBTOR_LIFETIME", out GameData time);
-        lifeTime = 3f;
+        lifeTime = 4f;
         currentTile = tile;
         direction = cp;
 
@@ -34,7 +34,6 @@ public class Distrubtor : MonoBehaviour
             if (nextTile.Landform.GetType().Name == "LandformWorldLimit")
             {
                 lifeTime -= 1;
-                return;
             }
             else
             {
@@ -45,6 +44,7 @@ public class Distrubtor : MonoBehaviour
         }
         else
         {
+            App.instance.GetMapManager().mapController.RemoveDistrubtor(this);
             StopAllCoroutines();
             Destroy(gameObject);
         }
