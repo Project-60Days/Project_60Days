@@ -321,24 +321,12 @@ public class TileBase : MonoBehaviour
         TileInfoUpdate();
     }
 
-    public void SpawnNormalStructure(List<Tile> neighborTiles, List<Tile> colleagueTiles, GameObject _structureObject,
-        string _name)
+    public void SpawnNormalStructure(StructureInfo structureInfo)
     {
-        var neighborBases = neighborTiles
-            .Select(x => ((GameObject)x.GameEntity).GetComponent<TileBase>()).ToList();
+        structureObject = structureInfo.StructureObject;
 
-        var colleagueBases = colleagueTiles
-            .Select(x => ((GameObject)x.GameEntity).GetComponent<TileBase>()).ToList();
-
-        structureObject = _structureObject;
-
-        structure = new ProductionStructure();
-        ((ProductionStructure)structure).Init(neighborBases, _structureObject, itemSO);
-        ((ProductionStructure)structure).SetColleagues(colleagueBases);
-
-        landformText = _name;
-        resourceText = "자원 : ???";
-
+        StructureDataInput(structureInfo);
+        
         for (int i = 0; i < resourceIcons.Length; i++)
         {
             SpriteRenderer item = resourceIcons[i];
@@ -346,6 +334,38 @@ public class TileBase : MonoBehaviour
             item.gameObject.SetActive(false);
         }
     }
+
+    public void StructureDataInput(StructureInfo structureInfo)
+    {
+        var neighborBases = structureInfo.NeighborTiles
+            .Select(x => ((GameObject)x.GameEntity).GetComponent<TileBase>()).ToList();
+
+        var colleagueBases = structureInfo.ColleagueTiles
+            .Select(x => ((GameObject)x.GameEntity).GetComponent<TileBase>()).ToList();
+
+        
+        switch (structureInfo.StructureType)
+        {
+            case EStructure.Production:
+                structure = new ProductionStructure();
+                ((ProductionStructure)structure).Init(neighborBases, structureInfo.StructureObject, itemSO);
+                ((ProductionStructure)structure).SetColleagues(colleagueBases);
+
+                landformText = "생산 공장";
+                resourceText = "자원 : ???";
+                break;
+            case EStructure.Army:
+                structure = new ArmyStructure();
+                ((ArmyStructure)structure).Init(neighborBases, structureInfo.StructureObject, itemSO);
+                ((ArmyStructure)structure).SetColleagues(colleagueBases);
+
+                landformText = "군사 기지";
+                resourceText = "자원 : ???";
+                break;
+                
+        }
+    }
+    
 
     public void AddSpecialItem()
     {

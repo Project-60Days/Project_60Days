@@ -121,9 +121,9 @@ public class MapController : Singleton<MapController>
         App.instance.GetDataManager().gameData.TryGetValue("Data_MaxCount_ZombieObject", out GameData max);
 
         SpawnPlayer();
+        
         GenerateTower();
-
-        //Generate3TileStructure(new Coords(-3,-1));
+        Generate3TileStructure(new Coords(-3,-1));
         Generate7TileStructure(new Coords(3, -1));
 
         SpawnZombies(mapData.zombieCount);
@@ -188,6 +188,11 @@ public class MapController : Singleton<MapController>
         preemptiveTiles.Add(player.TileController.Model);
 
         //player.TileEffectCheck();
+        
+        foreach(var item in GetTilesInRange(player.TileController.Model, 4))
+        {
+            preemptiveTiles.Add(item);
+        }
     }
 
     IEnumerator FloatingAnimation()
@@ -818,7 +823,7 @@ public class MapController : Singleton<MapController>
         var tilelist = new List<Tile>();
 
         // 튜토리얼 용 위치 고정
-        Tile tile = GetTileFromCoords(new Coords(0, 2));
+        Tile tile = GetTileFromCoords(new Coords(1, 3));
 
         tilelist.Add(tile);
 
@@ -833,29 +838,37 @@ public class MapController : Singleton<MapController>
         tower.GetComponent<StructureObject>().Init(tile);
 
         ((GameObject)tile.GameEntity).GetComponent<TileBase>().SpawnQuestStructure(neighborList, tower);
+        
+        preemptiveTiles.Add(tile);
     }
 
     public void Generate7TileStructure(Coords _coords)
     {
-        // 경계선으로부터 2칸 이내 범위 
-        // List<int> selectedTiles = RandomTileSelect(ObjectSpawnDistanceCalculate(2),
-        //     EObjectSpawnType.ExcludeEntites, 1);
+        //경계선으로부터 5칸 이내 범위 
+        var boundaryTiles = ObjectSpawnDistanceCalculate(7);
+        List<int> selectNumber = RandomTileSelect(boundaryTiles, EObjectSpawnType.ExcludeEntites, 1);
 
         var tilelist = new List<Tile>();
 
         GameObject structureObject = mapPrefab.items[(int)EMabPrefab.Production].prefab;
 
         // 튜토리얼 용 위치 고정
-        Tile tile = GetTileFromCoords(_coords);
+        //Tile tile = GetTileFromCoords(_coords);
 
+        Tile tile = boundaryTiles[selectNumber[0]];
+        
         tilelist.Add(tile);
-
         tilelist.Add(tile.Neighbours[CompassPoint.N]);
         tilelist.Add(tile.Neighbours[CompassPoint.S]);
         tilelist.Add(tile.Neighbours[CompassPoint.NE]);
         tilelist.Add(tile.Neighbours[CompassPoint.SE]);
         tilelist.Add(tile.Neighbours[CompassPoint.NW]);
         tilelist.Add(tile.Neighbours[CompassPoint.SW]);
+
+        foreach (var item in tilelist)
+        {
+            preemptiveTiles.Add(item);
+        }
 
         List<Tile> neighborList = SetNeighborStructure(tilelist);
 
@@ -869,10 +882,12 @@ public class MapController : Singleton<MapController>
 
         structure.name = "Production";
 
+        StructureInfo structureInfo = new StructureInfo(neighborList, tilelist, structure, EStructure.Production);
+        
         for (var index = 0; index < tilelist.Count; index++)
         {
             var tileBase = ((GameObject)tilelist[index].GameEntity).GetComponent<TileBase>();
-            tileBase.SpawnNormalStructure(neighborList, tilelist, structure, "생산 라인");
+            tileBase.SpawnNormalStructure(structureInfo);
 
             var position = tileBase.transform.position;
             position.y = ((GameObject)tile.GameEntity).transform.position.y;
@@ -882,38 +897,45 @@ public class MapController : Singleton<MapController>
 
     public void Generate3TileStructure(Coords _coords)
     {
-        // 경계선으로부터 2칸 이내 범위 
-        // List<int> selectedTiles = RandomTileSelect(ObjectSpawnDistanceCalculate(2),
-        //     EObjectSpawnType.ExcludeEntites, 1);
+        //경계선으로부터 5칸 이내 범위 
+        var boundaryTiles = ObjectSpawnDistanceCalculate(7);
+        List<int> selectNumber = RandomTileSelect(boundaryTiles, EObjectSpawnType.ExcludeEntites, 1);
 
         var tilelist = new List<Tile>();
 
         GameObject structureObject = mapPrefab.items[(int)EMabPrefab.Army].prefab;
 
+        Tile tile = boundaryTiles[selectNumber[0]];
+        
         // 튜토리얼 용 위치 고정
-        Tile tile = GetTileFromCoords(_coords);
+        //Tile tile = GetTileFromCoords(_coords);
 
         tilelist.Add(tile);
+        tilelist.Add(tile.Neighbours[CompassPoint.NW]);
+        tilelist.Add(tile.Neighbours[CompassPoint.SW]);
 
-        tilelist.Add(tile.Neighbours[CompassPoint.NE]);
-        tilelist.Add(tile.Neighbours[CompassPoint.SE]);
-
+        foreach (var item in tilelist)
+        {
+            preemptiveTiles.Add(item);
+        }
+        
         List<Tile> neighborList = SetNeighborStructure(tilelist);
 
         var spawnPos = ((GameObject)tile.GameEntity).transform.position;
-        spawnPos.y += 0.2f;
+        spawnPos.y += 0.5f;
 
-        var structure = Instantiate(structureObject, spawnPos, Quaternion.Euler(0, 120, 0),
+        var structure = Instantiate(structureObject, spawnPos, Quaternion.Euler(0, 90, 0),
             objectsTransform);
 
         structure.GetComponent<StructureObject>().Init(tile);
 
         structure.name = "Army";
-
+        StructureInfo structureInfo = new StructureInfo(neighborList, tilelist, structure, EStructure.Army);
+        
         for (var index = 0; index < tilelist.Count; index++)
         {
             var tileBase = ((GameObject)tilelist[index].GameEntity).GetComponent<TileBase>();
-            tileBase.SpawnNormalStructure(neighborList, tilelist, structure, "군사 기지");
+            tileBase.SpawnNormalStructure(structureInfo);
 
             var position = tileBase.transform.position;
             position.y = ((GameObject)tile.GameEntity).transform.position.y;
@@ -935,15 +957,23 @@ public class MapController : Singleton<MapController>
     List<Tile> ObjectSpawnDistanceCalculate(int range)
     {
         var tileList = GetAllTiles();
+        
+        int biggerInt=0;
+        int maxInt=0;
 
-        Tile lastIndex = tileList.Last();
-
-        int biggerInt = Math.Abs(lastIndex.Coords.X) > Math.Abs(lastIndex.Coords.Y)
-            ? Math.Abs(lastIndex.Coords.X)
-            : Math.Abs(lastIndex.Coords.Y);
-
-        List<Tile> excludeTileList = GetTilesInRange(GetTileFromCoords(new Coords(0, 0)), biggerInt - range);
-
+        for (int i = 0; i < tileList.Count; i++)
+        {
+            Tile lastIndex= tileList[i];
+            
+            biggerInt = Math.Abs(lastIndex.Coords.X) > Math.Abs(lastIndex.Coords.Y)
+                ? Math.Abs(lastIndex.Coords.X)
+                : Math.Abs(lastIndex.Coords.Y);
+            
+            if(biggerInt> maxInt)
+                maxInt = biggerInt;
+        }
+        
+        List<Tile> excludeTileList = GetTilesInRange(GetTileFromCoords(new Coords(0, 0)), maxInt - range);
         return excludeTileList;
     }
 
@@ -1004,9 +1034,9 @@ public class MapController : Singleton<MapController>
         // 플레이어와 겹치지 않는 랜덤 타일 뽑기.
         while (selectTileNumber.Count != choiceNum)
         {
-            randomInt = UnityEngine.Random.Range(0, tiles.Count);
+            randomInt = Random.Range(0, tiles.Count);
 
-            if (ConditionalBranch(type, tiles[randomInt]) == true)
+            if (ConditionalBranch(type, tiles[randomInt]))
             {
                 if (selectTileNumber.Contains(randomInt) == false)
                 {
@@ -1022,15 +1052,17 @@ public class MapController : Singleton<MapController>
     public List<int> RandomTileSelect(List<Tile> tiles, EObjectSpawnType type, int choiceNum = 1)
     {
         List<int> selectTileNumber = new List<int>();
-        int randomInt;
 
         if (tiles == null || tiles.Count == 0)
-            Debug.Log("비어있음");
+        {
+            selectTileNumber.Add(5);
+            return selectTileNumber;
+        }
 
         // 플레이어와 겹치지 않는 랜덤 타일 뽑기.
         while (selectTileNumber.Count != choiceNum)
         {
-            randomInt = Random.Range(0, tiles.Count);
+            int randomInt = Random.Range(0, tiles.Count);
 
             if (ConditionalBranch(type, tiles[randomInt]))
             {
@@ -1064,7 +1096,7 @@ public class MapController : Singleton<MapController>
                 return true;
 
             case EObjectSpawnType.ExcludeEntites:
-                if (!preemptiveTiles.Contains(tile))
+                if (preemptiveTiles.Contains(tile) == false)
                     return true;
                 else
                     return false;

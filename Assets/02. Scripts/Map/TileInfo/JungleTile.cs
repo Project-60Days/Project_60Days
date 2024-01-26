@@ -12,7 +12,7 @@ public class JungleTile : TileBase, ITileLandformEffect
 
     public void DeBuff(Player _player)
     {
-        if (RandomPercent.GetRandom(30))
+        if (RandomPercent.GetRandom(90))
         {
             // 랜덤 이동
             UIManager.instance.GetPageController().SetResultPage("LOOSE_WAY", false);

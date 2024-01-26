@@ -26,7 +26,7 @@ public class ZombieBase : MonoBehaviour
     public Tile lastTile;
     public Tile targetTile;
     public bool isChasingPlayer;
-    private bool isBuff;
+    private bool noneTileBuff;
 
     List<Coords> movePath;
     int remainStunTime;
@@ -70,39 +70,37 @@ public class ZombieBase : MonoBehaviour
         switch (CheckTileType(_tile))
         {
             case ETileType.None:
-                if (isBuff == false)
+                if (noneTileBuff == false)
                 {
                     zombieData.count += 5;
                     ZombieModelChoice(zombieData.count);
-                    isBuff = true;
+                    noneTileBuff = true;
                 }
                 break;
             case ETileType.Desert:
-                if (debuffCoolTime == 0)
+                if (debuffCoolTime <= 0)
                 {
                     debuffCoolTime = 1;
                 }
                 else
                 {
-                    debuffCoolTime--;
+                    debuffCoolTime-=1;
                 }
                 break;
             case ETileType.Tundra:
-                if (debuffCoolTime == 0)
+                if (debuffCoolTime <= 0)
                 {
                     debuffCoolTime = 1;
                 }
                 else
                 {
-                    debuffCoolTime--;
+                    debuffCoolTime -=1;
                 }
+                break;
+            case ETileType.Jungle:
                 break;
             default:
                 break;
-        }
-
-        if (CheckTileType(_tile) == ETileType.None)
-        {
         }
     }
 
@@ -190,8 +188,6 @@ public class ZombieBase : MonoBehaviour
         {
             //Debug.Log(gameObject.name + "가 교란기를 쫓아갑니다!");
             StartCoroutine(MoveToAttack(nearthDistrubtor.currentTile));
-            CheckTileEffect(curTile);
-            
             return;
         }
 
