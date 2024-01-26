@@ -845,7 +845,7 @@ public class MapController : Singleton<MapController>
     public void Generate7TileStructure(Coords _coords)
     {
         //경계선으로부터 5칸 이내 범위 
-        var boundaryTiles = ObjectSpawnDistanceCalculate(7);
+        var boundaryTiles = ObjectSpawnDistanceCalculate(8);
         List<int> selectNumber = RandomTileSelect(boundaryTiles, EObjectSpawnType.ExcludeEntites, 1);
 
         var tilelist = new List<Tile>();
