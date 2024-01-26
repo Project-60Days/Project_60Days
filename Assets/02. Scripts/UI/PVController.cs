@@ -15,6 +15,7 @@ public class PVController : MonoBehaviour
     [SerializeField] VideoClip PV01;
 
     [HideInInspector] public bool isEnd = true;
+    bool isPlaying = false;
 
     void Start()
     {
@@ -22,11 +23,10 @@ public class PVController : MonoBehaviour
         pvImage = PVImage.GetComponent<RawImage>();
 
         isEnd = true;
+        isPlaying = false;
 
-        text.alpha = 0f;
         text.gameObject.SetActive(false);
 
-        pvImage.DOFade(0f, 0f);
         PVImage.SetActive(false);
 
         videoPlayer.loopPointReached += OnVideoEnd;
@@ -34,7 +34,7 @@ public class PVController : MonoBehaviour
 
     void Update()
     {
-        if (isEnd == false && Input.GetKeyDown(KeyCode.P))
+        if (isPlaying == true && Input.GetKeyDown(KeyCode.P))
         {
             videoPlayer.Stop();
             OnVideoEnd(videoPlayer);
@@ -43,16 +43,18 @@ public class PVController : MonoBehaviour
 
     void OnVideoEnd(VideoPlayer vp)
     {
-        isEnd = true;
+        isPlaying = false;
+
+        text.gameObject.SetActive(false);
 
         pvImage.DOFade(0f, 1f).SetEase(Ease.Linear).OnComplete(() =>
         {
-            text.gameObject.SetActive(false);
-
             PVImage.SetActive(false);
 
             UIManager.instance.PopCurrUI();
             App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
+
+            isEnd = true;
         });
     }
 
@@ -64,12 +66,15 @@ public class PVController : MonoBehaviour
 
         blackPanel.DOFade(1f, 1f).SetEase(Ease.Linear).OnComplete(() =>
         {
-            text.DOFade(1f, 0f);
+            PVImage.SetActive(true);
 
+            blackPanel.DOFade(0f, 0f).SetDelay(0.1f).OnComplete(()=> blackPanel.gameObject.SetActive(false));
+            
             videoPlayer.Play();
-            pvImage.DOFade(1f, 0f);
 
             FadeOutText();
+
+            isPlaying = true;
         });
     }
 
@@ -78,8 +83,6 @@ public class PVController : MonoBehaviour
         isEnd = false;
 
         blackPanel.gameObject.SetActive(true);
-
-        PVImage.SetActive(true);
 
         UIManager.instance.AddCurrUIName("UI_PV");
         App.instance.GetSoundManager().StopBGM();
@@ -91,11 +94,6 @@ public class PVController : MonoBehaviour
 
         Sequence sequence = DOTween.Sequence();
         sequence.AppendInterval(3f)
-                .Append(text.DOFade(0f, 1f).SetEase(Ease.Linear))
-                .OnComplete(() =>
-                {
-                    blackPanel.DOFade(0f, 0f);
-                    blackPanel.gameObject.SetActive(false);
-                });
+                .Append(text.DOFade(0f, 1f).SetEase(Ease.Linear));
     }
 }

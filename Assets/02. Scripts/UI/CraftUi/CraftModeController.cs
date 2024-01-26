@@ -88,10 +88,7 @@ public class CraftModeController : MonoBehaviour
 
         inventoryImage.sprite = inventorySprite[2];
 
-        foreach (var slot in blueprintSlots)
-        {
-            slot.CheckShowCondition();
-        }
+        UpdateBlueprint();
     }
 
     void BlueprintInActiveMode()
@@ -101,6 +98,14 @@ public class CraftModeController : MonoBehaviour
         blueprintBack.SetActive(false);
 
         UIManager.instance.GetCraftingUiController().ExitBlueprintBag();
+    }
+
+    public void UpdateBlueprint()
+    {
+        foreach (var slot in blueprintSlots)
+        {
+            slot.CheckShowCondition();
+        }
     }
 
 

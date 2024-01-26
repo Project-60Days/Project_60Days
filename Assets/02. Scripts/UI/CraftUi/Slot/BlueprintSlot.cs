@@ -73,7 +73,7 @@ public class BlueprintSlot : SlotBase
 
         if (bluePrintItem.isMadeOnce == true)
         {
-            item = bluePrintItem;
+            //item = bluePrintItem;
             isAlreadyShowItem = true;
         }
         else

@@ -177,7 +177,6 @@ public class NoteController : MonoBehaviour
             notePages[pageNum].ChangePageAction("next");
             ChangePageButton();
         }
-            
     }
 
     /// <summary>
@@ -196,7 +195,7 @@ public class NoteController : MonoBehaviour
         {
             notePages[pageNum].ChangePageAction("prev");
             ChangePageButton();
-        }
+        }        
     }
 
     /// <summary>
@@ -211,6 +210,9 @@ public class NoteController : MonoBehaviour
         ChangePageButton();
     }
 
+   
+
+
     /// <summary>
     /// 새로운 페이지 활성화 및 페이지 동작(Yarn 실행)
     /// </summary>
@@ -218,36 +220,9 @@ public class NoteController : MonoBehaviour
     {
         notePages[pageNum].gameObject.SetActive(true);
         notePages[pageNum].PlayPageAciton();
-
-        StartCoroutine(CheckScrollEnabled());
     }
 
-    IEnumerator CheckScrollEnabled()
-    {
-        int index;
-
-        if (notePages[pageNum].GetENotePageType() == ENotePageType.Result)
-            index = 0;
-        else
-            index = 1;
-
-        scrollRects[index].verticalNormalizedPosition = 1.0f;
-
-        yield return null;
-
-        if (scrollBars[index].gameObject.activeSelf)
-        {
-            scrollImg.StartAnim();
-            StartCoroutine(WaitScrollToEnd(scrollBars[index]));
-        }
-    }
-
-    IEnumerator WaitScrollToEnd(Scrollbar _scroll)
-    {
-        yield return new WaitUntil(() => _scroll.value <= 0.1f);
-        scrollImg.StopAnim();
-    }
-
+    
 
 
 
@@ -277,6 +252,34 @@ public class NoteController : MonoBehaviour
             else
                 ActiveNextBtnAndPrevBtn(true, true);
         }
+
+        StartCoroutine(CheckScrollEnabled());
+    }
+
+    IEnumerator CheckScrollEnabled()
+    {
+        int index;
+
+        if (notePages[pageNum].GetENotePageType() == ENotePageType.Result)
+            index = 0;
+        else
+            index = 1;
+
+        scrollRects[index].verticalNormalizedPosition = 1.0f;
+
+        yield return null;
+
+        if (scrollBars[index].gameObject.activeSelf)
+        {
+            scrollImg.StartAnim();
+            StartCoroutine(WaitScrollToEnd(scrollBars[index]));
+        }
+    }
+
+    IEnumerator WaitScrollToEnd(Scrollbar _scroll)
+    {
+        yield return new WaitUntil(() => _scroll.value <= 0.1f);
+        scrollImg.StopAnim();
     }
 
 
