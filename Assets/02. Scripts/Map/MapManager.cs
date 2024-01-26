@@ -292,7 +292,7 @@ public class MapManager : ManagementBase
         //     TutorialTileCheck();
         // }
 
-        ToolUIUpdate();
+        //ToolUIUpdate();
         
         AllowMouseEvent(true);
     }
@@ -485,16 +485,16 @@ public class MapManager : ManagementBase
             isDisturbtorPrepared = false;
     }
     
-    public void ToolUIUpdate()
-    {
-        if(UIManager.instance.GetInventoryController().CheckFindorExist())
-            mapUIController.ExplorerButtonInteractable(true);
-        else
-            mapUIController.ExplorerButtonInteractable(false);
-        
-        if(UIManager.instance.GetInventoryController().CheckDisturbeExist())
-            mapUIController.DistrubtorButtonInteractable(true);
-        else
-            mapUIController.DistrubtorButtonInteractable(false);
-    }
+    // public void ToolUIUpdate()
+    // {
+    //     if(UIManager.instance.GetInventoryController().CheckFindorExist())
+    //         mapUIController.ExplorerButtonInteractable(true);
+    //     else
+    //         mapUIController.ExplorerButtonInteractable(false);
+    //     
+    //     if(UIManager.instance.GetInventoryController().CheckDisturbeExist())
+    //         mapUIController.DistrubtorButtonInteractable(true);
+    //     else
+    //         mapUIController.DistrubtorButtonInteractable(false);
+    // }
 }
