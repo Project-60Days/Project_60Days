@@ -65,6 +65,10 @@ public class Player : MonoBehaviour
     int durabilityBuffDuration;
     int clockBuffDuration;
 
+    [SerializeField] Renderer rend;
+    [SerializeField] Material cloakingMaterial;
+    [SerializeField] Material normalMaterial;
+
     void Start()
     {
         movePath = new List<Coords>();
@@ -283,6 +287,9 @@ public class Player : MonoBehaviour
     public void ClockUntil(int _duration)
     {
         clockBuffDuration = _duration;
+        Debug.Log(_duration);
+        rend.material = cloakingMaterial;
+        Debug.Log(rend.material);
     }
     
     public void AddDurability(int _durability, int _amount)
@@ -300,6 +307,7 @@ public class Player : MonoBehaviour
         else
         {
             clockBuffDuration = 0;
+            rend.material = normalMaterial;
             return false;
         }
     }

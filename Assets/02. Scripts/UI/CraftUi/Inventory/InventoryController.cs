@@ -63,6 +63,8 @@ public class InventoryController : MonoBehaviour
             currentSlot.GetComponentInChildren<TextMeshProUGUI>().text = items[i].itemCount.ToString();
             counts[category]++;
         }
+
+        CheckDisturbeNFindor();
     }
 
     /// <summary>
@@ -103,7 +105,6 @@ public class InventoryController : MonoBehaviour
 
         items.Add(_item);
         UpdateSlot();
-        CheckDisturbeNFindor();
     }
 
     void CheckDisturbeNFindor()
