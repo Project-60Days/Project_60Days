@@ -49,9 +49,6 @@ public class PVController : MonoBehaviour
         {
             text.gameObject.SetActive(false);
 
-            blackPanel.DOFade(0f, 0f);
-            blackPanel.gameObject.SetActive(false);
-
             PVImage.SetActive(false);
 
             UIManager.instance.PopCurrUI();
@@ -70,7 +67,7 @@ public class PVController : MonoBehaviour
             text.DOFade(1f, 0f);
 
             videoPlayer.Play();
-            pvImage.DOFade(1f, 0.5f).SetEase(Ease.Linear);
+            pvImage.DOFade(1f, 0f);
 
             FadeOutText();
         });
@@ -94,6 +91,11 @@ public class PVController : MonoBehaviour
 
         Sequence sequence = DOTween.Sequence();
         sequence.AppendInterval(3f)
-                .Append(text.DOFade(0f, 1f).SetEase(Ease.Linear));
+                .Append(text.DOFade(0f, 1f).SetEase(Ease.Linear))
+                .OnComplete(() =>
+                {
+                    blackPanel.DOFade(0f, 0f);
+                    blackPanel.gameObject.SetActive(false);
+                });
     }
 }

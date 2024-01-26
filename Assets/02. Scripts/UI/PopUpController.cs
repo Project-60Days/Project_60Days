@@ -42,13 +42,9 @@ public class PopUpController : MonoBehaviour
         background.SetActive(false);
     }
 
-    public void ForTest()
-    {
-        StartCoroutine(EndGamePopUp());
-    }
-
     public IEnumerator EndGamePopUp()
     {
+        UIManager.instance.GetUIHighLightController().ShowHighLight("Alert", "UI_NOTE");
         yield return new WaitUntil(() => UIManager.instance.isUIStatus("UI_NOTE"));
         yield return new WaitUntil(() => UIManager.instance.isUIStatus("UI_NORMAL"));
         UIManager.instance.AddCurrUIName("UI_POPUP");
