@@ -14,7 +14,7 @@ public class Item_Shapemetal : ItemBase
         beforeDurabillity = App.instance.GetMapManager().mapController.Player.Durability;
 
         App.instance.GetMapManager().mapController.Player.Durability += (int)data.value1;
-        App.instance.GetMapManager().mapController.Player.ClockUntil((int)data.value2 + 1);
+        App.instance.GetMapManager().mapController.Player.ClockUntil((int)data.value2);
         UIManager.instance.GetUpperController().UpdateDurabillity();
     }
 

@@ -48,6 +48,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floating: {fileID: 8298658268420854075}
+  rend: {fileID: 332587973308358525}
+  cloakingMaterial: {fileID: 2100000, guid: da9fc6fdfc91c5f48a8166e06b9b5bbe, type: 2}
+  normalMaterial: {fileID: 2100000, guid: 1cfb2346dc1efe04f80337f0b5f14608, type: 2}
 --- !u!65 &6598795894772318829
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -157,6 +160,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b48efcb9a20da644eaca7c0d2c440787, type: 3}
+--- !u!23 &332587973308358525 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: b48efcb9a20da644eaca7c0d2c440787, type: 3}
+  m_PrefabInstance: {fileID: 1394993687766631417}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1501592186494608402 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b48efcb9a20da644eaca7c0d2c440787, type: 3}
