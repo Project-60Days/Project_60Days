@@ -129,6 +129,10 @@ public class NoteController : MonoBehaviour
     {
         if (isOpen == true)
         {
+            if (UIManager.instance.isUIStatus("UI_NOTE"))
+                UIManager.instance.PopCurrUI();
+            else return;
+
             isOpen = false;
             ActiveObjects(false);
 
@@ -138,8 +142,7 @@ public class NoteController : MonoBehaviour
 
             scrollImg.StopAnim();
 
-            App.instance.GetSoundManager().PlaySFX("SFX_Note_Close");
-            UIManager.instance.PopCurrUI();
+            App.instance.GetSoundManager().PlaySFX("SFX_Note_Close");   
         }
     }
 
