@@ -18,14 +18,20 @@ public class Select_JustoUda : SelectBase
 
     public override void SelectA()
     {
-        UIManager.instance.PopCurrUI();
+        if (UIManager.instance.isUIStatus("UI_SELECT"))
+            UIManager.instance.PopCurrUI();
+        else return;
+
         Debug.Log("A 버튼 눌림");
         gameObject.SetActive(false);
     }
 
     public override void SelectB()
     {
-        UIManager.instance.PopCurrUI();
+        if (UIManager.instance.isUIStatus("UI_SELECT"))
+            UIManager.instance.PopCurrUI();
+        else return;
+
         Debug.Log("B 버튼 눌림");
         gameObject.SetActive(false);
     }
