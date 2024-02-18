@@ -15,7 +15,7 @@ public class TutorialManager : Singleton<TutorialManager>
 
     void Start()
     {
-        StartCoroutine(WaitForMapManager());
+        //StartCoroutine(WaitForMapManager());
     }
 
     IEnumerator WaitForMapManager()

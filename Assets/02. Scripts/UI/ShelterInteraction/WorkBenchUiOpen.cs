@@ -9,7 +9,7 @@ public class WorkBenchUiOpen : MonoBehaviour
     [SerializeField] GameObject craftingUi;
     [SerializeField] GameObject productionUi;
     [SerializeField] GameObject decorationUi;
-    [SerializeField] Button closeBtn;
+  
     CraftEffectAnim craftEffectAnim;
     
 
@@ -70,8 +70,6 @@ public class WorkBenchUiOpen : MonoBehaviour
         craftEffectAnim.Init();
 
         FadeInUiObjects();
-
-        closeBtn.enabled = true;
     }
 
     void FadeInUiObjects()
@@ -88,9 +86,9 @@ public class WorkBenchUiOpen : MonoBehaviour
 
     public void CloseUi()
     {
-        closeBtn.enabled = false;
-
-        UIManager.instance.PopCurrUI();
+        if (UIManager.instance.isUIStatus("UI_CRAFTING"))
+            UIManager.instance.PopCurrUI();
+        else return;
 
         craftEffectAnim.isActive = false;
         UIManager.instance.GetItemInfoController().isOpen = false;
