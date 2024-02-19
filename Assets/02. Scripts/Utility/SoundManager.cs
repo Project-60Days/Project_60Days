@@ -108,7 +108,7 @@ public class SoundManager : ManagementBase
     /// <param name="volume"></param>
     public void SetSFXVolume(float volume)
     {
-        sfxVolume = Mathf.Clamp01(volume);
+        sfxVolume = Mathf.Clamp01(volume * 0.5f);
 
         sfxPlayer.volume = sfxVolume;
     }
