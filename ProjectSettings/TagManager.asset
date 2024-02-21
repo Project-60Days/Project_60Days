@@ -28,6 +28,7 @@ TagManager:
   - Tile
   - Structure
   - WorkBenchDeco
+  - Map
   layers:
   - Default
   - TransparentFX
