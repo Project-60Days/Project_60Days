@@ -26,10 +26,10 @@ public class MapIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     IEnumerator Init()
     {
-        yield return new WaitUntil(() => App.instance.GetMapManager().mapController);
-        yield return new WaitUntil(() => App.instance.GetMapManager().mapController.Player != null);
+        yield return new WaitUntil(() => App.instance.GetMapManager().Controller);
+        yield return new WaitUntil(() => App.instance.GetMapManager().Controller.Player != null);
 
-        player = App.instance.GetMapManager().mapController.Player;
+        player = App.instance.GetMapManager().Controller.Player;
         SetIconImage();
     }
 
@@ -65,7 +65,7 @@ public class MapIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void SetIconImage()
     {
-        var tile = player.TileController;
+        var tile = player.TileInitInfo;
         tileType = tile.GetComponent<TileBase>().TileType;
 
         switch (tileType)

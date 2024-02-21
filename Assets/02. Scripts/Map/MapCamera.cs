@@ -10,13 +10,18 @@ public class MapCamera : MonoBehaviour
     GameObject mapUi;
     public CinemachineVirtualCamera mapCamera;
 
-    public IEnumerator GetMapInfo()
+    IEnumerator GetMapInfo()
     {
         yield return new WaitForEndOfFrame();
         player = GameObject.FindGameObjectWithTag("Player");
         mapUi = GameObject.FindGameObjectWithTag("MapUi").transform.GetChild(0).gameObject;
         mapCamera.Follow = player.transform;
         mapCamera.m_Lens.OrthographicSize = 6.5f;
+    }
+    
+    public void StartGetMapInfo()
+    {
+        StartCoroutine(GetMapInfo());
     }
 
     public void SetPrioryty(bool isOn)

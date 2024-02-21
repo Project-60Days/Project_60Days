@@ -7,13 +7,13 @@ public class Item_Blade : ItemBase
 {
     public override void Equip()
     {
-        App.instance.GetMapManager().mapController.Player.Durability += (int)data.value1;
+        App.instance.GetMapManager().Controller.Player.Durability += (int)data.value1;
         UIManager.instance.GetUpperController().UpdateDurabillity();
     }
 
     public override void UnEquip()
     {
-        App.instance.GetMapManager().mapController.Player.Durability -= (int)data.value1;
+        App.instance.GetMapManager().Controller.Player.Durability -= (int)data.value1;
         UIManager.instance.GetUpperController().UpdateDurabillity();
     }
 }

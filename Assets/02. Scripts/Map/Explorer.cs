@@ -85,8 +85,8 @@ public class Explorer : MonoBehaviour
     {
         yield return new WaitUntil(()=> goToMap == true);
         
-        App.instance.GetMapManager().mapController.GetSightTiles(curTile);
-        App.instance.GetMapManager().mapController.RemoveExplorer(this);
+        App.instance.GetMapManager().Controller.GetSightTiles(curTile);
+        App.instance.GetMapManager().Controller.RemoveExplorer(this);
         FischlWorks_FogWar.csFogWar.instance._FogRevealers[FischlWorks_FogWar.csFogWar.instance._FogRevealers.Count - 1].sightRange = 0;
 
         goToMap = false;

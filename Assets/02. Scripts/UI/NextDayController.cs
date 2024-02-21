@@ -137,12 +137,12 @@ public class NextDayController : MonoBehaviour
 
     void SetResourcesResultPage()
     {
-        var resources = App.instance.GetMapManager().resourceManager.GetLastResources();
+        var resources = App.instance.GetMapManager().ResourceManager.GetLastResources();
 
         for (int i = 0; i < resources.Count; i++)
         {
-            string tileName = App.instance.GetMapManager().mapController
-                .Player.TileController.GetComponent<TileBase>().TileData.English;
+            string tileName = App.instance.GetMapManager().Controller
+                .Player.TileInitInfo.GetComponent<TileBase>().TileData.English;
 
             int randomNumber = Random.Range(1, 6);
 

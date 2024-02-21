@@ -25,7 +25,7 @@ public class ResourceManager : MonoBehaviour
         lastResources = new List<Resource>();
     }
 
-    public void GetResource(TileController tile)
+    public void GetResource(TileInitInfo tile)
     {
         int collectiveCount = collectiveAbility;
 
@@ -78,9 +78,9 @@ public class ResourceManager : MonoBehaviour
         App.instance.GetSoundManager().PlaySFX(str);
     }
 
-    public bool CheckResource(TileController tileController)
+    public bool CheckResource(TileInitInfo tileInitInfo)
     {
-        return tileController.GetComponent<TileBase>().CheckResources();
+        return tileInitInfo.GetComponent<TileBase>().CheckResources();
     }
 
     public List<Resource> GetLastResources()

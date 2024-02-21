@@ -2,11 +2,12 @@
 
 namespace Hexamap
 {
-    public class TileController : MonoBehaviour
+    public class TileInitInfo : MonoBehaviour
     {
         private Vector3 _tileBounds = Vector3.zero;
 
         public Tile Model { get; set; }
+        public TileBase TileBase { get; private set; }
         public Vector2 Coords => Model.Coords.ToVector();
 
         public void Initialize(Tile model, float padding)
@@ -15,6 +16,7 @@ namespace Hexamap
             Model.GameEntity = gameObject;
             transform.position = calculateWorldPosition(padding);
             name = $"{Model.Coords.ToString()} - {Model.Biome.Name} - {Model.Landform.GetType()}";
+            TileBase= GetComponentInChildren<TileBase>();
         }
 
         private Vector3 calculateWorldPosition(float padding)

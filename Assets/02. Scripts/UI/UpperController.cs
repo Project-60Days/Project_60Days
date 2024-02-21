@@ -44,8 +44,8 @@ public class UpperController : MonoBehaviour
 
     IEnumerator InitData()
     {
-        yield return new WaitUntil(() => App.instance.GetMapManager().mapController);
-        yield return new WaitUntil(() => App.instance.GetMapManager().mapController.Player != null);
+        yield return new WaitUntil(() => App.instance.GetMapManager().Controller);
+        yield return new WaitUntil(() => App.instance.GetMapManager().Controller.Player != null);
 
         UpdateItemCount();
         UpdateAfterFight();
@@ -64,12 +64,12 @@ public class UpperController : MonoBehaviour
 
     public void UpdateDurabillity()
     {
-        durabilityText.text = App.instance.GetMapManager().mapController.Player.Durability.ToString("D3");
+        durabilityText.text = App.instance.GetMapManager().Controller.Player.Durability.ToString("D3");
     }
 
     public void UpdateAfterFight()
     {
         bulletText.text = bullet.itemCount.ToString("D3");
-        durabilityText.text = App.instance.GetMapManager().mapController.Player.Durability.ToString("D3");
+        durabilityText.text = App.instance.GetMapManager().Controller.Player.Durability.ToString("D3");
     }
 }

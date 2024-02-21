@@ -8,6 +8,6 @@ public class MapTestManager : Singleton<MapTestManager>
 
     public void TestStart()
     {
-        manager.GetAdditiveSceneObjectsCoroutine();
+        manager.StartMapManager();
     }
 }

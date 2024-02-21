@@ -47,9 +47,9 @@ public class Player : MonoBehaviour
         set => movePath = value;
     }
 
-    TileController currentTileContorller;
+    TileInitInfo currentTileContorller;
 
-    public TileController TileController
+    public TileInitInfo TileInitInfo
     {
         get => currentTileContorller;
         set => currentTileContorller = value;
@@ -84,7 +84,7 @@ public class Player : MonoBehaviour
         durability = _durability;
     }
 
-    public IEnumerator ActionDecision(TileController targetTileController)
+    public IEnumerator ActionDecision(TileInitInfo targetTileInitInfo)
     {
         if (JungleDebuff)
         {
@@ -97,17 +97,17 @@ public class Player : MonoBehaviour
         else
         {
             // 공격
-            yield return StartCoroutine(MoveToTarget(targetTileController));
+            yield return StartCoroutine(MoveToTarget(targetTileInitInfo));
         }
     }
     
-    public IEnumerator MoveToTarget(TileController targetTileController, float time = 0.4f)
+    public IEnumerator MoveToTarget(TileInitInfo targetTileInitInfo, float time = 0.4f)
     {
         Tile targetTile;
         Vector3 targetPos;
-        Vector3 lastTargetPos = targetTileController.transform.position;
+        Vector3 lastTargetPos = targetTileInitInfo.transform.position;
 
-        var zombies = targetTileController.GetComponent<TileBase>().CurZombies;
+        var zombies = targetTileInitInfo.GetComponent<TileBase>().CurZombies;
 
         // 이동한 타일에 좀비가 있다면 공격
         if (zombies != null)
@@ -142,7 +142,7 @@ public class Player : MonoBehaviour
         movePath.Clear();
         moveRange = 0;
 
-        UpdateCurrentTile(targetTileController);
+        UpdateCurrentTile(targetTileInitInfo);
     }
 
     public IEnumerator MoveToRandom(int num = 1, float time = 0.25f)
@@ -155,7 +155,7 @@ public class Player : MonoBehaviour
         
         for (int i = 0; i < candidate.Count; i++)
         {
-            if(App.instance.GetMapManager().mapController.CheckTileType(candidate[i], "LandformPlain"))
+            if(App.instance.GetMapManager().Controller.CheckTileType(candidate[i], "LandformPlain"))
             {
                 if (((GameObject)candidate[i].GameEntity).GetComponent<TileBase>().Structure == null &&
                     ((GameObject)candidate[i].GameEntity).GetComponent<TileBase>().CurZombies == null)
@@ -176,7 +176,7 @@ public class Player : MonoBehaviour
         moveRange = 0;
 
         if(isFindPath)
-            UpdateCurrentTile(((GameObject)tile.GameEntity).GetComponent<TileController>());
+            UpdateCurrentTile(((GameObject)tile.GameEntity).GetComponent<TileInitInfo>());
     }
     
     /// <summary>
@@ -190,9 +190,9 @@ public class Player : MonoBehaviour
         PlayerSightUpdate?.Invoke();
     }
 
-    public void UpdateCurrentTile(TileController tileController)
+    public void UpdateCurrentTile(TileInitInfo tileInitInfo)
     {
-        currentTileContorller = tileController;
+        currentTileContorller = tileInitInfo;
         PlayerSightUpdate?.Invoke();
     }
 

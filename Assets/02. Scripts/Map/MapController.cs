@@ -28,10 +28,10 @@ public class MapController : Singleton<MapController>
     [Header("프리팹")] [Space(5f)] [SerializeField]
     MapPrefabSO mapPrefab;
 
-    List<TileController> selectedTiles = new List<TileController>();
-    List<TileController> droneSelectedTiles = new List<TileController>();
+    List<TileInitInfo> selectedTiles = new List<TileInitInfo>();
+    List<TileInitInfo> droneSelectedTiles = new List<TileInitInfo>();
     List<Tile> preemptiveTiles = new List<Tile>();
-    List<TileController> pathTiles = new List<TileController>();
+    List<TileInitInfo> pathTiles = new List<TileInitInfo>();
     List<GameObject> zombiesList = new List<GameObject>();
 
     List<Tile> sightTiles = new List<Tile>();
@@ -51,22 +51,22 @@ public class MapController : Singleton<MapController>
     List<GameObject> explorers = new List<GameObject>();
     GameObject curExplorer;
 
-    TileController targetTileController;
+    TileInitInfo _targetTileInitInfo;
     bool isLoadingComplete;
 
     public bool LoadingComplete => isLoadingComplete;
 
-    public TileController TargetPointTile
+    public TileInitInfo TargetPointTile
     {
-        get { return targetTileController; }
+        get { return _targetTileInitInfo; }
     }
 
     private void Start()
     {
-        App.instance.GetMapManager().GetAdditiveSceneObjectsCoroutine();
+        App.instance.GetMapManager().StartMapManager();
     }
 
-    public IEnumerator GenerateMap()
+    IEnumerator GenerateMap()
     {
         hexaMap.Destroy();
 
@@ -97,6 +97,11 @@ public class MapController : Singleton<MapController>
         isLoadingComplete = true;
     }
 
+    public void StartMapController()
+    {
+        StartCoroutine(GenerateMap());
+    }
+    
     public void RegenerateMap()
     {
         Destroy(player);
@@ -161,7 +166,7 @@ public class MapController : Singleton<MapController>
 
         yield return new WaitUntil(() => complete);
 
-        OcclusionCheck(player.TileController.Model);
+        OcclusionCheck(player.TileInitInfo.Model);
     }
 
     public List<Tile> GetAllTiles()
@@ -181,14 +186,14 @@ public class MapController : Singleton<MapController>
         player.InputDefaultData(mapData.playerMovementPoint, mapData.durability);
 
         player.UpdateCurrentTile(TileToTileController(hexaMap.Map.GetTileFromCoords(new Coords(0, 0))));
-        targetTileController = player.TileController;
+        _targetTileInitInfo = player.TileInitInfo;
         StartCoroutine(FloatingAnimation());
 
-        preemptiveTiles.Add(player.TileController.Model);
+        preemptiveTiles.Add(player.TileInitInfo.Model);
 
         //player.TileEffectCheck();
 
-        foreach (var item in GetTilesInRange(player.TileController.Model, 4))
+        foreach (var item in GetTilesInRange(player.TileInitInfo.Model, 4))
         {
             preemptiveTiles.Add(item);
         }
@@ -251,30 +256,30 @@ public class MapController : Singleton<MapController>
             Quaternion.Euler(0, Random.Range(0, 360), 0), zombiesTransform);
 
         zombie.name = "Structure Zombie";
-        zombie.GetComponent<ZombieBase>().Init(tile.GetComponent<TileController>().Model);
+        zombie.GetComponent<ZombieBase>().Init(tile.GetComponent<TileInitInfo>().Model);
         zombie.GetComponent<ZombieBase>().Stun();
 
         zombiesList.Add(zombie);
     }
 
-    public void DefaultMouseOverState(TileController tileController)
+    public void DefaultMouseState(TileInitInfo tileInitInfo)
     {
-        if (LandformCheck(tileController) == false)
+        if (LandformCheck(tileInitInfo) == false)
         {
-            SelectBorder(tileController, ETileState.Unable);
+            SelectBorder(tileInitInfo, ETileState.Unable);
         }
-        else if (tileController != null && !selectedTiles.Contains(tileController))
+        else if (tileInitInfo != null && !selectedTiles.Contains(tileInitInfo))
         {
-            SelectBorder(tileController, ETileState.Unable);
+            SelectBorder(tileInitInfo, ETileState.Unable);
         }
     }
 
-    public void ExplorerPathFinder(TileController tileController, int num = 3)
+    public void ExplorerPathFinder(TileInitInfo tileInitInfo, int num = 5)
     {
         int moveRange = 0;
-        if (tileController.Model != player.TileController.Model)
+        if (tileInitInfo.Model != player.TileInitInfo.Model)
         {
-            foreach (Coords coords in AStar.FindPath(player.TileController.Model.Coords, tileController.Model.Coords))
+            foreach (Coords coords in AStar.FindPath(player.TileInitInfo.Model.Coords, tileInitInfo.Model.Coords))
             {
                 if (moveRange == num)
                     break;
@@ -289,23 +294,23 @@ public class MapController : Singleton<MapController>
                 moveRange++;
             }
 
-            if (moveRange != num && tileController.gameObject.GetComponent<TileBase>().Structure?.IsAccessible == false)
-                SelectBorder(tileController, ETileState.Unable);
+            if (moveRange != num && tileInitInfo.gameObject.GetComponent<TileBase>().Structure?.IsAccessible == false)
+                SelectBorder(tileInitInfo, ETileState.Unable);
             else
-                SelectBorder(tileController, ETileState.Moveable);
+                SelectBorder(tileInitInfo, ETileState.Moveable);
         }
         else
         {
-            SelectBorder(tileController, ETileState.Unable);
+            SelectBorder(tileInitInfo, ETileState.Unable);
         }
     }
 
-    public void TilePathFinderSurroundings(TileController tileController)
+    public void PlayerPathFinder(TileInitInfo tileInitInfo)
     {
-        var neighborTiles = hexaMap.Map.GetTilesInRange(player.TileController.Model, player.MoveRange);
+        var neighborTiles = hexaMap.Map.GetTilesInRange(player.TileInitInfo.Model, player.MoveRange);
 
         var neighborController = neighborTiles
-            .Select(x => ((GameObject)x.GameEntity).GetComponent<TileController>()).ToList();
+            .Select(x => ((GameObject)x.GameEntity).GetComponent<TileInitInfo>()).ToList();
 
         for (var index = 0; index < neighborController.Count; index++)
         {
@@ -318,51 +323,51 @@ public class MapController : Singleton<MapController>
             SelectBorder(value, ETileState.None);
         }
 
-        if (tileController.gameObject.GetComponent<TileBase>().Structure?.IsAccessible == false
-            || LandformCheck(tileController) == false)
+        if (tileInitInfo.gameObject.GetComponent<TileBase>().Structure?.IsAccessible == false
+            || LandformCheck(tileInitInfo) == false)
         {
-            SelectBorder(tileController, ETileState.Unable);
+            SelectBorder(tileInitInfo, ETileState.Unable);
         }
-        else if (neighborTiles.Contains(tileController.Model) == false)
+        else if (neighborTiles.Contains(tileInitInfo.Model) == false)
         {
-            SelectBorder(tileController, ETileState.Unable);
+            SelectBorder(tileInitInfo, ETileState.Unable);
         }
-        else if (tileController.gameObject.GetComponent<TileBase>().CurZombies != null)
+        else if (tileInitInfo.gameObject.GetComponent<TileBase>().CurZombies != null)
         {
-            SelectBorder(tileController, ETileState.Unable);
+            SelectBorder(tileInitInfo, ETileState.Unable);
         }
-        else if (neighborTiles.Contains(tileController.Model))
+        else if (neighborTiles.Contains(tileInitInfo.Model))
         {
-            SelectBorder(tileController, ETileState.Moveable);
+            SelectBorder(tileInitInfo, ETileState.Moveable);
         }
     }
 
-    public void AddSelectedTilesList(TileController tileController)
+    public void AddTileList(TileInitInfo tileInitInfo)
     {
-        selectedTiles.Add(tileController);
+        selectedTiles.Add(tileInitInfo);
     }
 
-    public void DisturbtorPathFinder(TileController tileController)
+    public void DisturbtorPathFinder(TileInitInfo tileInitInfo)
     {
-        if (droneSelectedTiles.Contains(tileController))
+        if (droneSelectedTiles.Contains(tileInitInfo))
         {
             curDistrubtor.transform.position =
-                ((GameObject)tileController.Model.GameEntity).transform.position + Vector3.up;
+                ((GameObject)tileInitInfo.Model.GameEntity).transform.position + Vector3.up;
 
             curDistrubtor.GetComponent<Distrubtor>().DirectionObjectOff();
 
-            if (LandformCheck(tileController))
-                SelectBorder(tileController, ETileState.Moveable);
+            if (LandformCheck(tileInitInfo))
+                SelectBorder(tileInitInfo, ETileState.Moveable);
 
-            foreach (var item in player.TileController.Model.Neighbours.Where(
-                         item => item.Value == tileController.Model))
+            foreach (var item in player.TileInitInfo.Model.Neighbours.Where(
+                         item => item.Value == tileInitInfo.Model))
             {
                 curDistrubtor.GetComponent<Distrubtor>().GetDirectionObject(item.Key).SetActive(true);
             }
         }
         else
         {
-            SelectBorder(tileController, ETileState.Unable);
+            SelectBorder(tileInitInfo, ETileState.Unable);
         }
     }
 
@@ -374,50 +379,50 @@ public class MapController : Singleton<MapController>
             return false;
     }
 
-    public bool SelectPlayerMovePoint(TileController tileController)
+    public bool SelectPlayerMovePoint(TileInitInfo tileInitInfo)
     {
-        if (tileController.GetComponent<Borders>().GetEtileState() == ETileState.Moveable
-            && player.TileController.Model != tileController.Model
-            && LandformCheck(tileController))
+        if (tileInitInfo.GetComponent<Borders>().GetEtileState() == ETileState.Moveable
+            && player.TileInitInfo.Model != tileInitInfo.Model
+            && LandformCheck(tileInitInfo))
         {
-            SavePlayerMovePath(tileController);
+            SavePlayerMovePath(tileInitInfo);
             return true;
         }
         else
             return false;
     }
 
-    public void SelectTileForDisturbtor(TileController tileController)
+    public void SelectTileForDisturbtor(TileInitInfo tileInitInfo)
     {
-        if (LandformCheck(tileController) == false)
+        if (LandformCheck(tileInitInfo) == false)
             return;
 
-        if (tileController.GetComponent<Borders>().GetEtileState() == ETileState.Moveable
-            && player.TileController.Model != tileController.Model)
+        if (tileInitInfo.GetComponent<Borders>().GetEtileState() == ETileState.Moveable
+            && player.TileInitInfo.Model != tileInitInfo.Model)
         {
-            foreach (var item in player.TileController.Model.Neighbours.Where(
-                         item => item.Value == tileController.Model))
+            foreach (var item in player.TileInitInfo.Model.Neighbours.Where(
+                         item => item.Value == tileInitInfo.Model))
             {
                 Debug.Log("설치 시작");
-                InstallDistrubtor(tileController, item.Key);
+                InstallDistrubtor(tileInitInfo, item.Key);
             }
         }
     }
 
-    public void SelectTileForExplorer(TileController tileController)
+    public void SelectTileForExplorer(TileInitInfo tileInitInfo)
     {
-        if (tileController.GetComponent<Borders>().GetEtileState() == ETileState.Moveable
-            && player.TileController.Model != tileController.Model)
+        if (tileInitInfo.GetComponent<Borders>().GetEtileState() == ETileState.Moveable
+            && player.TileInitInfo.Model != tileInitInfo.Model)
         {
-            InstallExplorer(tileController);
+            InstallExplorer(tileInitInfo);
         }
     }
 
-    public void SavePlayerMovePath(TileController tileController)
+    public void SavePlayerMovePath(TileInitInfo tileInitInfo)
     {
-        targetTileController = tileController;
+        _targetTileInitInfo = tileInitInfo;
 
-        player.UpdateMovePath(AStar.FindPath(player.TileController.Model.Coords, tileController.Model.Coords));
+        player.UpdateMovePath(AStar.FindPath(player.TileInitInfo.Model.Coords, tileInitInfo.Model.Coords));
 
         DeselectAllBorderTiles();
         //isPlayerSelected = false;
@@ -437,19 +442,19 @@ public class MapController : Singleton<MapController>
             return false;
     }
 
-    TileController TileToTileController(Tile tile)
+    TileInitInfo TileToTileController(Tile tile)
     {
-        return ((GameObject)tile.GameEntity).GetComponent<TileController>();
+        return ((GameObject)tile.GameEntity).GetComponent<TileInitInfo>();
     }
 
     public void PreparingDistrubtor(bool set)
     {
         if (set)
         {
-            var neighborTiles = hexaMap.Map.GetTilesInRange(player.TileController.Model, 1);
+            var neighborTiles = hexaMap.Map.GetTilesInRange(player.TileInitInfo.Model, 1);
 
             var neighborController = neighborTiles
-                .Select(x => ((GameObject)x.GameEntity).GetComponent<TileController>()).ToList();
+                .Select(x => ((GameObject)x.GameEntity).GetComponent<TileInitInfo>()).ToList();
 
             for (var index = 0; index < neighborController.Count; index++)
             {
@@ -485,9 +490,9 @@ public class MapController : Singleton<MapController>
         distrubtors.Add(curDistrubtor);
     }
 
-    void InstallDistrubtor(TileController tileController, CompassPoint direction)
+    void InstallDistrubtor(TileInitInfo tileInitInfo, CompassPoint direction)
     {
-        curDistrubtor.GetComponent<Distrubtor>().Set(tileController.Model, direction);
+        curDistrubtor.GetComponent<Distrubtor>().Set(tileInitInfo.Model, direction);
         curDistrubtor.GetComponent<Distrubtor>().DirectionObjectOff();
 
         for (int i = 0; i < droneSelectedTiles.Count; i++)
@@ -522,14 +527,14 @@ public class MapController : Singleton<MapController>
         curExplorer.transform.parent = mapTransform;
 
         curExplorer.GetComponentInChildren<MeshRenderer>().material.DOFade(50, 0);
-        curExplorer.GetComponent<Explorer>().Set(player.TileController.Model);
+        curExplorer.GetComponent<Explorer>().Set(player.TileInitInfo.Model);
 
         explorers.Add(curExplorer);
     }
 
-    void InstallExplorer(TileController tileController)
+    void InstallExplorer(TileInitInfo tileInitInfo)
     {
-        curExplorer.GetComponent<Explorer>().Targeting(tileController.Model);
+        curExplorer.GetComponent<Explorer>().Targeting(tileInitInfo.Model);
         curExplorer.GetComponent<Explorer>().Move();
 
         App.instance.GetMapManager().SetIsDronePrepared(false, "");
@@ -543,7 +548,7 @@ public class MapController : Singleton<MapController>
         // 플레이어 이동
         if (player.MovePath != null)
         {
-            yield return StartCoroutine(player.ActionDecision(targetTileController));
+            yield return StartCoroutine(player.ActionDecision(_targetTileInitInfo));
         }
         else
         {
@@ -588,7 +593,7 @@ public class MapController : Singleton<MapController>
         player.SetHealth(true);
         player.TileEffectCheck();
 
-        OcclusionCheck(player.TileController.Model);
+        OcclusionCheck(player.TileInitInfo.Model);
     }
 
     public void CheckSumZombies()
@@ -622,56 +627,56 @@ public class MapController : Singleton<MapController>
         }
     }
 
-    void SelectBorder(TileController tileController, ETileState state)
+    void SelectBorder(TileInitInfo tileInitInfo, ETileState state)
     {
         switch (state)
         {
             case ETileState.None:
-                tileController.GetComponent<Borders>().GetNormalBorder().SetActive(true);
+                tileInitInfo.GetComponent<Borders>().GetNormalBorder().SetActive(true);
                 break;
             case ETileState.Moveable:
-                tileController.GetComponent<Borders>().GetAvailableBorder().SetActive(true);
+                tileInitInfo.GetComponent<Borders>().GetAvailableBorder().SetActive(true);
                 break;
             case ETileState.Unable:
-                tileController.GetComponent<Borders>().GetUnAvailableBorder().SetActive(true);
+                tileInitInfo.GetComponent<Borders>().GetUnAvailableBorder().SetActive(true);
                 break;
             case ETileState.Target:
 
                 break;
         }
 
-        selectedTiles.Add(tileController);
+        selectedTiles.Add(tileInitInfo);
     }
 
-    void SelectTargetBorder(TileController tileController)
+    void SelectTargetBorder(TileInitInfo tileInitInfo)
     {
-        tileController.GetComponent<Borders>().GetDisturbanceBorder().SetActive(true);
-        droneSelectedTiles.Add(tileController);
+        tileInitInfo.GetComponent<Borders>().GetDisturbanceBorder().SetActive(true);
+        droneSelectedTiles.Add(tileInitInfo);
     }
 
-    void DeselectNormalBorder(TileController tileController)
+    void DeselectNormalBorder(TileInitInfo tileInitInfo)
     {
-        tileController.GetComponent<Borders>().OffNormalBorder();
+        tileInitInfo.GetComponent<Borders>().OffNormalBorder();
 
-        if (selectedTiles.Contains(tileController))
-            selectedTiles.Remove(tileController);
+        if (selectedTiles.Contains(tileInitInfo))
+            selectedTiles.Remove(tileInitInfo);
     }
 
-    void DeselecTargetBorder(TileController tileController)
+    void DeselecTargetBorder(TileInitInfo tileInitInfo)
     {
-        tileController.GetComponent<Borders>().OffTargetBorder();
+        tileInitInfo.GetComponent<Borders>().OffTargetBorder();
 
-        if (droneSelectedTiles.Contains(tileController))
-            droneSelectedTiles.Remove(tileController);
+        if (droneSelectedTiles.Contains(tileInitInfo))
+            droneSelectedTiles.Remove(tileInitInfo);
     }
 
-    public bool CheckPlayerInStructureTile(TileController tileController)
+    public bool CheckPlayerInStructureTile(TileInitInfo tileInitInfo)
     {
-        var structure = tileController.gameObject.GetComponent<TileBase>().Structure;
+        var structure = tileInitInfo.gameObject.GetComponent<TileBase>().Structure;
 
         if (structure != null)
         {
-            if (tileController.gameObject.GetComponent<TileBase>().Structure.IsAccessible)
+            if (tileInitInfo.gameObject.GetComponent<TileBase>().Structure.IsAccessible)
             {
                 return true;
             }
@@ -684,11 +689,11 @@ public class MapController : Singleton<MapController>
             return false;
     }
 
-    void ClearTiles(List<TileController> tiles)
+    void ClearTiles(List<TileInitInfo> tiles)
     {
         for (int i = 0; i < tiles.Count; i++)
         {
-            TileController tile = tiles[i];
+            TileInitInfo tile = tiles[i];
             DeselectNormalBorder(tile);
         }
 
@@ -715,25 +720,25 @@ public class MapController : Singleton<MapController>
 
         for (int i = 0; i < droneSelectedTiles.Count; i++)
         {
-            TileController tile = droneSelectedTiles[i];
+            TileInitInfo tile = droneSelectedTiles[i];
             DeselecTargetBorder(tile);
         }
 
         droneSelectedTiles.Clear();
     }
 
-    GameObject GetTileBorder(TileController tileController, ETileState state)
+    GameObject GetTileBorder(TileInitInfo tileInitInfo, ETileState state)
     {
         switch (state)
         {
             case ETileState.None:
-                return tileController.GetComponent<Borders>().GetNormalBorder();
+                return tileInitInfo.GetComponent<Borders>().GetNormalBorder();
             case ETileState.Moveable:
-                return tileController.GetComponent<Borders>().GetAvailableBorder();
+                return tileInitInfo.GetComponent<Borders>().GetAvailableBorder();
             case ETileState.Unable:
-                return tileController.GetComponent<Borders>().GetUnAvailableBorder();
+                return tileInitInfo.GetComponent<Borders>().GetUnAvailableBorder();
             case ETileState.Target:
-                return tileController.GetComponent<Borders>().GetDisturbanceBorder();
+                return tileInitInfo.GetComponent<Borders>().GetDisturbanceBorder();
         }
 
         return null;
@@ -743,7 +748,7 @@ public class MapController : Singleton<MapController>
     /// 같은 그룹 타일이 모여있는 곳에 마우스를 올리면 그룹 전체를 선택을 하게 해주는 함수. 현재 사용 중이지 않다.
     /// </summary>
     /// <param name="tile"></param>
-    void SelectMetaLandform(TileController tile)
+    void SelectMetaLandform(TileInitInfo tile)
     {
         // Select metalandform of a tile
         var metaLandformTiles = tile
@@ -753,7 +758,7 @@ public class MapController : Singleton<MapController>
             .Tiles
             .Select(t => t.GameEntity)
             .Cast<GameObject>()
-            .Select(g => g.GetComponent<TileController>())
+            .Select(g => g.GetComponent<TileInitInfo>())
             .ToList();
 
         var tileToUnselect = selectedTiles.Except(metaLandformTiles).ToList();
@@ -777,7 +782,7 @@ public class MapController : Singleton<MapController>
     {
         var searchTiles = hexaMap.Map.GetTilesInRange(tile, range);
 
-        return searchTiles.Exists(x => x == player.TileController.Model);
+        return searchTiles.Exists(x => x == player.TileInitInfo.Model);
     }
 
     public Distrubtor CalculateDistanceToDistrubtor(Tile tile, int range)
@@ -803,14 +808,14 @@ public class MapController : Singleton<MapController>
         return null;
     }
 
-    public bool CheckPlayersView(TileController tileController)
+    public bool CheckPlayersView(TileInitInfo tileInitInfo)
     {
-        var getTiles = GetTilesInRange(player.TileController.Model, 3);
+        var getTiles = GetTilesInRange(player.TileInitInfo.Model, 3);
 
-        if (player.TileController == tileController)
+        if (player.TileInitInfo == tileInitInfo)
             return true;
 
-        if (getTiles.Contains(tileController.Model))
+        if (getTiles.Contains(tileInitInfo.Model))
         {
             return true;
         }
@@ -820,7 +825,7 @@ public class MapController : Singleton<MapController>
 
     public bool CheckZombies()
     {
-        var playerNearthTiles = GetTilesInRange(player.TileController.Model, 2);
+        var playerNearthTiles = GetTilesInRange(player.TileInitInfo.Model, 2);
 
         for (int i = 0; i < zombiesList.Count; i++)
         {
@@ -1021,7 +1026,7 @@ public class MapController : Singleton<MapController>
 
     public StructureBase SensingStructure()
     {
-        var tileList = player.TileController.Model.Neighbours;
+        var tileList = player.TileInitInfo.Model.Neighbours;
 
         foreach (var item in tileList)
         {
@@ -1111,7 +1116,7 @@ public class MapController : Singleton<MapController>
         switch (type)
         {
             case EObjectSpawnType.ExcludePlayer:
-                if (player.TileController.Model != tile)
+                if (player.TileInitInfo.Model != tile)
                     return true;
                 else
                     return false;
@@ -1126,7 +1131,7 @@ public class MapController : Singleton<MapController>
                     return false;
 
             case EObjectSpawnType.IncludeEntites:
-                if (player.TileController.Model != tile)
+                if (player.TileInitInfo.Model != tile)
                     return true;
                 else
                     return false;
@@ -1188,7 +1193,7 @@ public class MapController : Singleton<MapController>
 
     public List<Tile> GetPlayerSightTiles()
     {
-        var list = GetTilesInRange(player.TileController.Model, 2);
+        var list = GetTilesInRange(player.TileInitInfo.Model, 2);
         return list;
     }
 
@@ -1224,10 +1229,10 @@ public class MapController : Singleton<MapController>
         }
     }
 
-    public bool LandformCheck(TileController tileController)
+    public bool LandformCheck(TileInitInfo tileInitInfo)
     {
-        if (CheckTileType(tileController.Model, "LandformPlain") ||
-            CheckTileType(tileController.Model, "LandformRocks"))
+        if (CheckTileType(tileInitInfo.Model, "LandformPlain") ||
+            CheckTileType(tileInitInfo.Model, "LandformRocks"))
         {
             return true;
         }

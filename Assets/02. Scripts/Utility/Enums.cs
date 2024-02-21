@@ -177,7 +177,7 @@ public enum EObjectSpawnType
 public enum ETileMouseState
 {
     Nothing,
-    CanClick,
+    CanClickTile,
     CanPlayerMove,
     DronePrepared
 }

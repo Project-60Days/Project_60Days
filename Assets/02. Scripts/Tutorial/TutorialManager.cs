@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class TutorialManager : Singleton<TutorialManager>
 {
-    // Æ©Åä¸®¾ó ¾À °ü¸® ½ºÅ©¸³Æ®
+    // íŠœí† ë¦¬ì–¼ ì”¬ ê´€ë¦¬ ìŠ¤í¬ë¦½íŠ¸
 
     [Header("Tutorial")]
     [SerializeField]  TutorialController tutorialController;
@@ -20,8 +20,8 @@ public class TutorialManager : Singleton<TutorialManager>
 
     IEnumerator WaitForMapManager()
     {
-        yield return new WaitUntil(() => App.instance.GetMapManager().mapController);
-        yield return new WaitUntil(() => App.instance.GetMapManager().mapController.Player != null);
+        yield return new WaitUntil(() => App.instance.GetMapManager().Controller);
+        yield return new WaitUntil(() => App.instance.GetMapManager().Controller.Player != null);
 
         StartTutorial();
     }
