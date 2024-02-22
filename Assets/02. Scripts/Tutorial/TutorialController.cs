@@ -11,18 +11,21 @@ public class TutorialController : MonoBehaviour
     [SerializeField] DialogueRunner dialogueRunner;
     [SerializeField] Selectable skipButton;
 
+    [SerializeField] Button nextDayBtn;
+    [SerializeField] Button backToBaseBtn;
+
     Image lightBackground;
     Image workBenchImage;
     Image batteryImage;
+    Image mapImage;
     CanvasGroup workBenchDeco;
 
     WorkBenchInteraction workBenchScript;
 
     float lightUpDuration = 2f;
 
-    public bool isLightUp = false;
-
-    int initIndex;
+    int workBenchInitIndex;
+    int mapInitIndex;
 
     void Awake()
     {
@@ -30,10 +33,12 @@ public class TutorialController : MonoBehaviour
         lightBackground.gameObject.SetActive(false);
         workBenchImage = GameObject.FindWithTag("WorkBench").GetComponent<Image>();
         batteryImage = GameObject.FindWithTag("Battery").GetComponent<Image>();
+        mapImage = GameObject.FindWithTag("Map").GetComponent<Image>();
         workBenchDeco = GameObject.FindWithTag("WorkBenchDeco").GetComponent<CanvasGroup>();
         workBenchScript = workBenchImage.GetComponent<WorkBenchInteraction>();
 
-        initIndex = workBenchImage.transform.GetSiblingIndex();
+        workBenchInitIndex = workBenchImage.transform.GetSiblingIndex();
+        mapInitIndex = workBenchImage.transform.GetSiblingIndex();
 
         float newY = tutorialBack.rect.height * -2;
         tutorialBack.DOMove(new Vector2(0f, newY), 0f);
@@ -47,12 +52,13 @@ public class TutorialController : MonoBehaviour
     public void StartDialogue()
     {
         LightDownBackground();
-        Color color = new Color(0.15f, 0.15f, 0.15f, 1f);
-        workBenchImage.DOColor(color, 0f);
+
         workBenchDeco.DOFade(0f, 0f);
         Show();
         dialogueRunner.StartDialogue("Tutorial_01");
 
+        backToBaseBtn.enabled = false;
+        nextDayBtn.enabled = false;
     }
 
     public void Show()
@@ -68,43 +74,70 @@ public class TutorialController : MonoBehaviour
         whitePanel.raycastTarget = false;
     }
 
-    
+    public void LightUpAndFillBattery(int _num)
+    {
+        float alpha = 0.25f * _num;
+
+        StartCoroutine(FillBattery(alpha));
+
+        lightBackground.DOFade(1 - alpha, lightUpDuration).SetEase(Ease.InBounce);
+    }
+
+
 
     public void LightUpWorkBench()
     {
-        workBenchImage.transform.SetAsLastSibling();
+        Color color = new Color(0.4f, 0.4f, 0.4f, 1f);
+        workBenchImage.DOColor(color, 0f).OnComplete(() => workBenchImage.transform.SetAsLastSibling());
+
+        
     }
     public void LightDownWorkBench()
     {
-        workBenchImage.transform.SetSiblingIndex(initIndex);
+        workBenchImage.transform.SetSiblingIndex(workBenchInitIndex);
+
         Color color = new Color(1f, 1f, 1f, 1f);
         workBenchImage.DOColor(color, 0f);
     }
+
+    public void LightUpMap()
+    {
+        Color color = new Color(0.6f, 0.6f, 0.6f, 1f);
+        mapImage.DOColor(color, 0f).OnComplete(() => mapImage.transform.SetAsLastSibling());
+    }
+    public void LightDownMap()
+    {
+        mapImage.transform.SetSiblingIndex(mapInitIndex);
+
+        Color color = new Color(1f, 1f, 1f, 1f);
+        mapImage.DOColor(color, 0f);
+    }
+
     public void LightUpBackground()
     {
-        StartCoroutine(FillBattery());
+        StartCoroutine(FillBattery(1f));
         
-        lightBackground.DOFade(0f, lightUpDuration).SetEase(Ease.InBounce).OnComplete(() =>
+        lightBackground.DOFade(0f, lightUpDuration).OnComplete(() =>
         {
             workBenchDeco.DOFade(1f, lightUpDuration).SetEase(Ease.InOutBounce).OnComplete(() =>
             {
                 workBenchScript.StartAnim();
             });
             lightBackground.gameObject.SetActive(false);
-            isLightUp = true;
         });
     }
 
-    IEnumerator FillBattery()
+    IEnumerator FillBattery(float _amount)
     {
         float timer = 0f;
+        float initFill = batteryImage.fillAmount;
         float currentFill;
-        float targetFill = 1f; // 이미지를 채울 양 (0 ~ 1)
+        float targetFill = _amount;
 
         while (timer < lightUpDuration)
         {
             timer += Time.deltaTime;
-            currentFill = Mathf.Lerp(0f, targetFill, timer / lightUpDuration);
+            currentFill = Mathf.Lerp(initFill, targetFill, timer / lightUpDuration);
             batteryImage.fillAmount = currentFill;
 
             yield return null;
@@ -118,9 +151,14 @@ public class TutorialController : MonoBehaviour
         lightBackground.DOFade(0.95f, 0f).OnComplete(() =>
         {
             lightBackground.gameObject.SetActive(true);
-            batteryImage.fillAmount = 0;
-            isLightUp = false;
+            batteryImage.fillAmount = 0f;
         });
+    }
+
+    public void EnableBtn()
+    {
+        backToBaseBtn.enabled = true;
+        nextDayBtn.enabled = true;
     }
 
     public void AddSteel()

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
 
@@ -144,8 +145,11 @@ public class QuestController : MonoBehaviour
     public void StartNextQuest(QuestBase _quest)
     {
         int index = currentQuest.IndexOf(_quest);
-        DestoryQuest(index);
-        CreateNextQuest(_quest.eQuestType);
+        currentQuestPrefab[index].GetComponent<CanvasGroup>().DOFade(0.0f, 0.3f).SetLoops(5, LoopType.Yoyo).OnComplete(() =>
+        {
+            DestoryQuest(index);
+            CreateNextQuest(_quest.eQuestType);
+        });
     }
 
     /// <summary>

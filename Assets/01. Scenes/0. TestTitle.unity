@@ -1365,6 +1365,10 @@ PrefabInstance:
       propertyPath: array_sfx.Array.data[28].name
       value: SFX_Title_LogIn
       objectReference: {fileID: 0}
+    - target: {fileID: 4495825778803009013, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: m_Volume
+      value: 0.25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
 --- !u!1 &1357636977

@@ -16,6 +16,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         dialogueRunner.AddCommandHandler("show", ShowDialogue);
         dialogueRunner.AddCommandHandler<string>("setQuest", SetQuest);
         dialogueRunner.AddCommandHandler<bool>("setCloseBtnEnabled", SetCloseBtnEnabled);
+        dialogueRunner.AddCommandHandler<int>("lightUpAndFillBattery", LightUpAndFillBattery);
 
         //01//
         dialogueRunner.AddCommandHandler("lightUpWorkBench", LightUpWorkBench);
@@ -25,10 +26,13 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         dialogueRunner.AddCommandHandler<string>("waitGetItem", WaitGetItem);
 
         //03//
-        dialogueRunner.AddCommandHandler("waitLightUp", WaitLightUp);
         dialogueRunner.AddCommandHandler<string, bool>("setAlert", SetAlertState);
         dialogueRunner.AddCommandHandler("waitMoveScroll", WaitMoveScroll);
         dialogueRunner.AddCommandHandler<bool>("setScrollBar", SetScrollBar);
+
+        //04//
+        dialogueRunner.AddCommandHandler("lightUpMap", LightUpMap);
+        dialogueRunner.AddCommandHandler("lightDownMap", LightDownMap);
 
         //05//
         dialogueRunner.AddCommandHandler("waitMovePoint", WaitMovePoint);
@@ -36,10 +40,12 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
         //06//
         dialogueRunner.AddCommandHandler("waitNewDay", WaitNewDay);
+        dialogueRunner.AddCommandHandler("enableBtn", EnableBtn);
 
         //08//
         dialogueRunner.AddCommandHandler("startPV", StartPV);
         dialogueRunner.AddCommandHandler("waitPVEnd", WaitPVEnd);
+        dialogueRunner.AddCommandHandler("lightUp", LightUp);
 
         //09//
         dialogueRunner.AddCommandHandler("endTutorial", EndTutorial);
@@ -105,6 +111,11 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     {
         UIManager.instance.GetNoteController().SetCloseBtnEnabled(_isEnabled);
     }
+
+    void LightUpAndFillBattery(int _num)
+    {
+        TutorialManager.instance.GetTutorialController().LightUpAndFillBattery(_num);
+    }
     #endregion
 
 
@@ -140,11 +151,6 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
 
     #region 03
-    Coroutine WaitLightUp()
-    {
-        return StartCoroutine(new WaitUntil(() => TutorialManager.instance.GetTutorialController().isLightUp));
-    }
-
     void SetAlertState(string _alertType, bool _isActive)
     {
         UIManager.instance.GetAlertController().SetAlert(_alertType, _isActive);
@@ -158,6 +164,22 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     void SetScrollBar(bool _isInteractable)
     {
         UIManager.instance.GetNoteController().SetScrollBarInteractable(_isInteractable);
+    }
+    #endregion
+
+
+
+
+
+    #region 04
+    void LightUpMap()
+    {
+        TutorialManager.instance.GetTutorialController().LightUpMap();
+    }
+
+    void LightDownMap()
+    {
+        TutorialManager.instance.GetTutorialController().LightDownMap();
     }
     #endregion
 
@@ -186,6 +208,11 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     {
         return StartCoroutine(new WaitUntil(() => UIManager.instance.GetNoteController().GetNewDay()));
     }
+
+    void EnableBtn()
+    {
+        TutorialManager.instance.GetTutorialController().EnableBtn();
+    }
     #endregion
 
 
@@ -200,6 +227,12 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     Coroutine WaitPVEnd()
     {
         return StartCoroutine(new WaitUntil(() => UIManager.instance.GetPVController().isEnd));
+    }
+
+
+    void LightUp()
+    {
+        TutorialManager.instance.GetTutorialController().LightUpBackground();
     }
     #endregion
 

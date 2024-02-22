@@ -17,9 +17,15 @@ public class Tutorial03 : QuestBase
         nextQuestIndex = thisNextIndex;
     }
 
+    public override IEnumerator CheckQuestComplete()
+    {
+        yield return new WaitUntil(() => CheckMeetCondition());
+        yield return new WaitUntil(() => UIManager.instance.isUIStatus("UI_NORMAL"));
+    }
+
     public override bool CheckMeetCondition()
     {
-        return TutorialManager.instance.GetTutorialController().isLightUp;
+        return UIManager.instance.isUIStatus("UI_NOTE");
     }
 
     public override string SetQuestText()

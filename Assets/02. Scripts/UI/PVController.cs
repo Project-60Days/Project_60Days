@@ -68,7 +68,7 @@ public class PVController : MonoBehaviour
         {
             PVImage.SetActive(true);
 
-            blackPanel.DOFade(0f, 0f).SetDelay(0.1f).OnComplete(()=> blackPanel.gameObject.SetActive(false));
+            blackPanel.DOFade(0f, 0f).SetDelay(1f).OnComplete(()=> blackPanel.gameObject.SetActive(false));
             
             videoPlayer.Play();
 
