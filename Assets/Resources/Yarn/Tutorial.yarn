@@ -5,6 +5,8 @@ A-48 시스템 진단 프로토콜을 실행합니다.
 사용자의 변경된 설정사항이 발견되었습니다.
 선체 내부 손상 발생, 데이터를 검수합니다...데이터를 확인할 수 없습니다. 비상전력으로 일부 시스템을 가동합니다.
 크래프팅 시스템을 이용하여 배터리를 제작하고 모든 시스템을 재가동 시키십시오.
+<<lightUpAndFillBattery 1>>
+<color=\#FFC440>현재 전력 25% 복구...</color>
 <<lightUpWorkBench>>
 <<highlight CraftingTable UI_CRAFTING>>
 <<hide>>
@@ -32,7 +34,6 @@ tags:
 title: Tutorial_03
 tags:
 ---
-<<lightUpAndFillBattery 1>>
 <<setAlert note true>>
 <<setCloseBtnEnabled false>>
 <<show>>
@@ -51,12 +52,13 @@ tags:
 title: Tutorial_04
 tags:
 ---
-<<lightUpAndFillBattery 2>>
 <<setScrollBar true>>
 <<setAlert note false>>
 <<setAlert caution true>>
 <<setCloseBtnEnabled true>>
 <<show>>
+<<lightUpAndFillBattery 2>>
+<color=\#FFC440>현재 전력 50% 복구...</color>
 <color=red>경고 : 글리처가 주변 1타일에서 발견되었습니다.</color> <color=\#FFC440><br>좌측의 경고 알림 또는 우측 지도를 클릭하여 상황을 확인하십시오.</color>
 <<highlight Alert UI_MAP>>
 <<highlight Map UI_MAP>>
@@ -94,15 +96,18 @@ tags:
 title: Tutorial_07
 tags:
 ---
-<<lightUpAndFillBattery 3>>
 <<setAlert note true>>
 <<setAlert caution false>>
 <<show>>
+<<lightUpAndFillBattery 3>>
+<color=\#FFC440>현재 전력 75% 복구...</color>
 가동 시스템, 채굴 : 새 지역으로 이동하면 현 위치의 자원이 자동 수집 됩니다. <br><color=\#FFC440>왼쪽 패널 알림에서 오늘 획득한 아이템 결과를 확인하십시오.</color>
 <<highlight Alert UI_NOTE>>
 <<hide>>
 <<waitUntil UI_NOTE>>
 <<show>>
+<<lightUp>>
+<color=\#FFC440>현재 전력 100% 복구...</color>
 선체 가동 생존 프로세스를 모두 완료하였습니다.
 <<hide>>
 <<waitUntil UI_NORMAL>>
@@ -111,7 +116,6 @@ tags:
 title: Tutorial_08
 tags: 
 ---
-<<lightUpAndFillBattery 4>>
 <<show>>
 시스템 진단 프로토콜을 종료합니다. 데이터에 영구적인 손상이 확인되었습니다.
 열람 가능한 마지막 기록 데이터를 사용자에게 전달합니다...
@@ -123,7 +127,6 @@ tags:
 title: Tutorial_09
 tags: 
 ---
-<<lightUp>>
 <<show>>
 감지 : 주변 타일에서 강력한 신호 전파를 발산하는 구조물을 감지하였습니다. 신호는 궤도의 '퀘이사' 로 향하고 있습니다.
 손상된 데이터 복구를 위해 송신탑 연결을 제안합니다.

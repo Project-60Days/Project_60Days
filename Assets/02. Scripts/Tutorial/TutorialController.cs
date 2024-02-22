@@ -76,7 +76,7 @@ public class TutorialController : MonoBehaviour
 
     public void LightUpAndFillBattery(int _num)
     {
-        float alpha = 0.2f * _num;
+        float alpha = 0.25f * _num;
 
         StartCoroutine(FillBattery(alpha));
 
@@ -87,7 +87,7 @@ public class TutorialController : MonoBehaviour
 
     public void LightUpWorkBench()
     {
-        Color color = new Color(0.15f, 0.15f, 0.15f, 1f);
+        Color color = new Color(0.4f, 0.4f, 0.4f, 1f);
         workBenchImage.DOColor(color, 0f).OnComplete(() => workBenchImage.transform.SetAsLastSibling());
 
         
@@ -102,7 +102,7 @@ public class TutorialController : MonoBehaviour
 
     public void LightUpMap()
     {
-        Color color = new Color(0.55f, 0.55f, 0.55f, 1f);
+        Color color = new Color(0.6f, 0.6f, 0.6f, 1f);
         mapImage.DOColor(color, 0f).OnComplete(() => mapImage.transform.SetAsLastSibling());
     }
     public void LightDownMap()
