@@ -5,6 +5,8 @@ A-48 시스템 진단 프로토콜을 실행합니다.
 사용자의 변경된 설정사항이 발견되었습니다.
 선체 내부 손상 발생, 데이터를 검수합니다...데이터를 확인할 수 없습니다. 비상전력으로 일부 시스템을 가동합니다.
 크래프팅 시스템을 이용하여 배터리를 제작하고 모든 시스템을 재가동 시키십시오.
+<<lightUpAndFillBattery 1>>
+<color=\#FFC440>현재 전력 25% 복구...</color>
 <<lightUpWorkBench>>
 <<highlight CraftingTable UI_CRAFTING>>
 <<hide>>
@@ -27,7 +29,6 @@ tags:
 <<highlight ExitCrafting UI_NORMAL>>
 <<hide>>
 <<waitUntil UI_NORMAL>>
-
 <<jump Tutorial_03>>
 ===
 title: Tutorial_03
@@ -45,7 +46,7 @@ tags:
 <<waitMoveScroll>>
 <<setScrollBar false>>
 <<highlight ClickYesBtn UI_NORMAL>>
-<<waitLightUp>>
+<<waitUntil UI_NORMAL>>
 <<jump Tutorial_04>>
 ===
 title: Tutorial_04
@@ -56,11 +57,15 @@ tags:
 <<setAlert caution true>>
 <<setCloseBtnEnabled true>>
 <<show>>
+<<lightUpAndFillBattery 2>>
+<color=\#FFC440>현재 전력 50% 복구...</color>
 <color=red>경고 : 글리처가 주변 1타일에서 발견되었습니다.</color> <color=\#FFC440><br>좌측의 경고 알림 또는 우측 지도를 클릭하여 상황을 확인하십시오.</color>
 <<highlight Alert UI_MAP>>
 <<highlight Map UI_MAP>>
+<<lightUpMap>>
 <<hide>>
 <<waitUntil UI_MAP>>
+<<lightDownMap>>
 <<jump Tutorial_05>>
 ===
 title: Tutorial_05
@@ -78,6 +83,7 @@ tags:
 title: Tutorial_06
 tags:
 ---
+<<enableBtn>>
 <<show>>
 선체의 이동시간은 1턴입니다. <br>이동 전에 현재 위치에서 할 수 있는 모든 행동을 취해야 합니다.
 <color=\#FFC440>입력 완료 버튼을 눌러 다음날로 진행하십시오.</color>
@@ -93,11 +99,15 @@ tags:
 <<setAlert note true>>
 <<setAlert caution false>>
 <<show>>
+<<lightUpAndFillBattery 3>>
+<color=\#FFC440>현재 전력 75% 복구...</color>
 가동 시스템, 채굴 : 새 지역으로 이동하면 현 위치의 자원이 자동 수집 됩니다. <br><color=\#FFC440>왼쪽 패널 알림에서 오늘 획득한 아이템 결과를 확인하십시오.</color>
 <<highlight Alert UI_NOTE>>
 <<hide>>
 <<waitUntil UI_NOTE>>
 <<show>>
+<<lightUp>>
+<color=\#FFC440>현재 전력 100% 복구...</color>
 선체 가동 생존 프로세스를 모두 완료하였습니다.
 <<hide>>
 <<waitUntil UI_NORMAL>>

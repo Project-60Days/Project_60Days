@@ -1237,7 +1237,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1847298026}
   m_Direction: 2
   m_Value: 0.9999999
-  m_Size: 0.33145407
+  m_Size: 0.3314541
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2117,7 +2117,6 @@ MonoBehaviour:
   craftingUi: {fileID: 2078442784}
   productionUi: {fileID: 1594158549}
   decorationUi: {fileID: 773792560}
-  closeBtn: {fileID: 1557788508}
 --- !u!114 &105272567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21996,8 +21995,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 147528397}
   m_HandleRect: {fileID: 147528396}
   m_Direction: 2
-  m_Value: 1.0000004
-  m_Size: 0.83333325
+  m_Value: 1.0000007
+  m_Size: 0.8333333
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -26291,7 +26290,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1228665924}
   m_HandleRect: {fileID: 900941936}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -26963,7 +26962,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1270622569}
   m_HandleRect: {fileID: 888903493}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -31315,7 +31314,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -0.000015258789}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1496595108
@@ -36376,7 +36375,8 @@ MonoBehaviour:
   whitePanel: {fileID: 1614351919}
   dialogueRunner: {fileID: 790758830}
   skipButton: {fileID: 769921462}
-  isLightUp: 0
+  nextDayBtn: {fileID: 1811381972}
+  backToBaseBtn: {fileID: 1571979699}
 --- !u!1 &1776536157
 GameObject:
   m_ObjectHideFlags: 0
@@ -43278,8 +43278,8 @@ RectTransform:
   m_GameObject: {fileID: 2094758391}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 561931467}
   - {fileID: 1801541112}
