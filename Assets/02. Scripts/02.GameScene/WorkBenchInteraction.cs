@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using DG.Tweening;
@@ -9,8 +8,8 @@ public class WorkBenchInteraction : MonoBehaviour, IPointerClickHandler, IPointe
     public UnityEvent onClickEvent;
     [SerializeField] Transform cube;
     [SerializeField] Transform cubeElse;
-    [SerializeField] Sprite[] images;
-    Image image;
+
+    [SerializeField] GameObject border;
 
     float cubeInitPositionY;
     float cubeElseInitPositionY;
@@ -20,7 +19,6 @@ public class WorkBenchInteraction : MonoBehaviour, IPointerClickHandler, IPointe
         cubeInitPositionY = cube.position.y;
         cubeElseInitPositionY = cubeElse.position.y;
 
-        image = gameObject.GetComponent<Image>();
         SetOutline(false);
     }
 
@@ -48,10 +46,7 @@ public class WorkBenchInteraction : MonoBehaviour, IPointerClickHandler, IPointe
 
     void SetOutline(bool _isEnabled)
     {
-        if (_isEnabled == true)
-            image.sprite = images[0];
-        else
-            image.sprite = images[1];
+        border.SetActive(_isEnabled);
     }
 
     public void StartAnim()

@@ -16,7 +16,7 @@ public class NoteController : MonoBehaviour
     [SerializeField] Button prevPageBtn;
     [SerializeField] Button closeBtn;
 
-    NotePageBase[] pages;
+    [SerializeField] NotePageBase[] pages;
     NotePageBase[] notePages;
 
     [HideInInspector] public bool isNewDay = true;
@@ -31,7 +31,7 @@ public class NoteController : MonoBehaviour
 
     void Start()
     {
-        pages = GetComponentsInChildren<NotePageBase>(includeInactive: true);
+        //pages = GetComponentsInChildren<NotePageBase>(includeInactive: true);
 
         Init();
     }

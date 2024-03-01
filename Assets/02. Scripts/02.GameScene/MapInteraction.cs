@@ -1,7 +1,6 @@
 using Cinemachine;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -9,12 +8,10 @@ using UnityEngine.EventSystems;
 public class MapInteraction : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public UnityEvent onClickEvent;
-    [SerializeField] Sprite[] images;
-    Image image;
+    [SerializeField] GameObject border;
 
     void Start()
     {
-        image = gameObject.GetComponent<Image>();
         SetOutline(false);
     }
 
@@ -43,9 +40,6 @@ public class MapInteraction : MonoBehaviour, IPointerClickHandler, IPointerEnter
 
     void SetOutline(bool _isEnabled)
     {
-        if (_isEnabled == true)
-            image.sprite = images[0];
-        else
-            image.sprite = images[1];
+        border.SetActive(_isEnabled);
     }
 }

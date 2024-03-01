@@ -4963,7 +4963,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 209, y: 0}
+  m_AnchoredPosition: {x: 217.5, y: 0}
   m_SizeDelta: {x: 420, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!225 &243579736
@@ -12104,7 +12104,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5395794075860525475, guid: 6844d578b3aa10c48bd440f3f59b5c39, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 209
+      value: 217.5
       objectReference: {fileID: 0}
     - target: {fileID: 5395794075860525475, guid: 6844d578b3aa10c48bd440f3f59b5c39, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -17948,7 +17948,7 @@ MonoBehaviour:
   m_HorizontalScrollbarVisibility: 2
   m_VerticalScrollbarVisibility: 2
   m_HorizontalScrollbarSpacing: -3
-  m_VerticalScrollbarSpacing: -3
+  m_VerticalScrollbarSpacing: -20
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -18972,6 +18972,9 @@ MonoBehaviour:
   nextPageBtn: {fileID: 172874818}
   prevPageBtn: {fileID: 2054573658}
   closeBtn: {fileID: 381555328}
+  pages:
+  - {fileID: 2140631380}
+  - {fileID: 779161645}
   isNewDay: 1
   dayCount: 0
   scrollRects:
@@ -41632,7 +41635,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 209, y: 0}
+  m_AnchoredPosition: {x: 217.5, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2027636956
@@ -44035,7 +44038,7 @@ MonoBehaviour:
   m_HorizontalScrollbarVisibility: 2
   m_VerticalScrollbarVisibility: 2
   m_HorizontalScrollbarSpacing: -3
-  m_VerticalScrollbarSpacing: -3
+  m_VerticalScrollbarSpacing: -20
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

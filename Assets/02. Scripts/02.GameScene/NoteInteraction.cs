@@ -6,12 +6,10 @@ using UnityEngine.EventSystems;
 public class NoteInteraction : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public UnityEvent onClickEvent;
-    [SerializeField] Sprite[] images;
-    Image image;
+    [SerializeField] GameObject border;
 
     void Start()
     {
-        image = gameObject.GetComponent<Image>();
         SetOutline(false);
     }
 
@@ -39,9 +37,6 @@ public class NoteInteraction : MonoBehaviour, IPointerClickHandler, IPointerEnte
 
     void SetOutline(bool _isEnabled)
     {
-        if (_isEnabled == true)
-            image.sprite = images[0];
-        else
-            image.sprite = images[1];
+        border.SetActive(_isEnabled);
     }
 }
