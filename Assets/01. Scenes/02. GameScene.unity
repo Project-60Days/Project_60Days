@@ -1730,6 +1730,9 @@ MonoBehaviour:
   onClickEvent:
     m_PersistentCalls:
       m_Calls: []
+  images:
+  - {fileID: 21300000, guid: 3d97414f2dda3564ba11bd0d781d7af0, type: 3}
+  - {fileID: 21300000, guid: a500946abf905d2489488c3719cf206a, type: 3}
 --- !u!114 &1313550289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2435,6 +2438,9 @@ MonoBehaviour:
       m_Calls: []
   cube: {fileID: 1835056661}
   cubeElse: {fileID: 276497370}
+  images:
+  - {fileID: 21300000, guid: 5bc6c4ba4a58a9e42add7e8a7968618f, type: 3}
+  - {fileID: 21300000, guid: ee80e1590b93fa044afd9c22e37a90e1, type: 3}
 --- !u!1 &1739064606
 GameObject:
   m_ObjectHideFlags: 0
@@ -2489,6 +2495,9 @@ MonoBehaviour:
   onClickEvent:
     m_PersistentCalls:
       m_Calls: []
+  images:
+  - {fileID: 21300000, guid: 21ad0557365cd564abc660b95de37971, type: 3}
+  - {fileID: 21300000, guid: 54d717bf8bf77e745948de60978cb3c5, type: 3}
 --- !u!114 &1739064609
 MonoBehaviour:
   m_ObjectHideFlags: 0

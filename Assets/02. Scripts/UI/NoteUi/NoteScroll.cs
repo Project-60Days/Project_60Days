@@ -9,7 +9,7 @@ public class NoteScroll : MonoBehaviour
 
     bool isActive = false;
 
-    float moveDuration = 1f;
+    float moveDuration = 0.5f;
 
     float initPositionY;
     
