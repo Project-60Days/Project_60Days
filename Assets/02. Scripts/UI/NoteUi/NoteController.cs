@@ -277,6 +277,10 @@ public class NoteController : MonoBehaviour
             scrollImg.StartAnim();
             StartCoroutine(WaitScrollToEnd(scrollBars[index]));
         }
+        else
+        {
+            scrollImg.StopAnim();
+        }
     }
 
     IEnumerator WaitScrollToEnd(Scrollbar _scroll)
