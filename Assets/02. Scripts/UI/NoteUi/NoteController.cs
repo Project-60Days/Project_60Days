@@ -235,6 +235,8 @@ public class NoteController : MonoBehaviour
     /// </summary>
     void ChangePageButton()
     {
+        StartCoroutine(CheckScrollEnabled());
+
         if (notePages.Length == 1)
         {
             if (notePages[pageNum].CompareIndex() == 2)
@@ -255,12 +257,12 @@ public class NoteController : MonoBehaviour
             else
                 ActiveNextBtnAndPrevBtn(true, true);
         }
-
-        StartCoroutine(CheckScrollEnabled());
     }
 
     IEnumerator CheckScrollEnabled()
     {
+        scrollImg.StopAnim();
+
         int index;
 
         if (notePages[pageNum].GetENotePageType() == ENotePageType.Result)
@@ -276,10 +278,6 @@ public class NoteController : MonoBehaviour
         {
             scrollImg.StartAnim();
             StartCoroutine(WaitScrollToEnd(scrollBars[index]));
-        }
-        else
-        {
-            scrollImg.StopAnim();
         }
     }
 
