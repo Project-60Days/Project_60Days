@@ -22,6 +22,8 @@ public class TutorialController : MonoBehaviour
 
     WorkBenchInteraction workBenchScript;
 
+    [SerializeField] CustomDialogueView customView;
+
     float lightUpDuration = 2f;
 
     int workBenchInitIndex;
@@ -47,6 +49,9 @@ public class TutorialController : MonoBehaviour
     void Update()
     {
         skipButton.Select();
+
+        if (Input.GetMouseButtonDown(0))
+            customView.UserRequestedViewAdvancement();
     }
 
     public void StartDialogue()

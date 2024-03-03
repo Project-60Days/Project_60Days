@@ -12,7 +12,7 @@ public class Item_Alloy : ItemBase
         beforeDurabillity = App.instance.GetMapManager().mapController.Player.Durability;
 
         App.instance.GetMapManager().mapController.Player.Durability += (int)data.value1;
-        UIManager.instance.GetUpperController().UpdateDurabillity();
+        UIManager.instance.GetUpperController().IncreaseDurabillityAnimation();
     }
 
     public override bool CheckMeetCondition()

@@ -9,7 +9,6 @@ using Febucci.UI;
 public class NextDayController : MonoBehaviour
 {
     [SerializeField] Image blackPanel;
-    [SerializeField] TextMeshProUGUI durabillityText;
     [SerializeField] GameObject dayCountPrefab;
     GameObject dayCount;
     [SerializeField] MapIcon mapIcon;
@@ -34,7 +33,7 @@ public class NextDayController : MonoBehaviour
 
     public void InitBlackPanel()
     {
-        if (isHit == true) normalCamera.Shake(durabillityText);
+        if (isHit == true) normalCamera.Shake();
 
         Sequence sequence = DOTween.Sequence();
         sequence.Append(blackPanel.DOFade(0f, 1f).SetEase(Ease.Linear))

@@ -4936,12 +4936,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
       propertyPath: array_sfx.Array.size
-      value: 29
+      value: 31
       objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: array_bgm.Array.data[0].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: e7b20ed2b9a4099488ce8c2cc427371e, type: 3}
     - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
       propertyPath: array_bgm.Array.data[6].clip
       value: 
-      objectReference: {fileID: 8300000, guid: d84f197949a52e64ca581a5e04577112, type: 3}
+      objectReference: {fileID: 8300000, guid: e7b20ed2b9a4099488ce8c2cc427371e, type: 3}
     - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
       propertyPath: array_bgm.Array.data[6].name
       value: BGM_TitleTheme_Upgrade
@@ -5117,10 +5121,18 @@ PrefabInstance:
     - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
       propertyPath: array_sfx.Array.data[29].clip
       value: 
-      objectReference: {fileID: 8300000, guid: ee58786ff13deb5458a81e8fdef854da, type: 3}
+      objectReference: {fileID: 8300000, guid: 39834556fb10b914f9aa2c5cf8d8510a, type: 3}
     - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
       propertyPath: array_sfx.Array.data[29].name
-      value: SFX_Title_LogIn
+      value: SFX_Map_Select_Complete
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: array_sfx.Array.data[30].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: c99115d2a2ef9244fa80330c4324e41e, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: array_sfx.Array.data[30].name
+      value: SFX_Map_Select_Cancel
       objectReference: {fileID: 0}
     - target: {fileID: 4495825778803009013, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
       propertyPath: m_Volume
