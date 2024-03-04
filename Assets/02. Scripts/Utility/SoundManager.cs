@@ -16,6 +16,7 @@ public class SoundManager : ManagementBase
 
     [SerializeField] AudioSource bgmPlayer = null;
     [SerializeField] AudioSource sfxPlayer = null;
+    [SerializeField] AudioSource typeWritePlayer = null;
 
     Dictionary<string, AudioClip> dic_BGM;
     Dictionary<string, AudioClip> dic_SFX;
@@ -37,6 +38,20 @@ public class SoundManager : ManagementBase
         {
             dic_SFX.Add(sound.name, sound.clip);
         }
+    }
+
+    public void PlayTypeWriteSFX(string sfxName)
+    {
+        if (!dic_SFX.ContainsKey(sfxName))
+        {
+            Debug.LogWarning("SoundManager - Sound not found: " + sfxName);
+            return;
+        }
+
+        typeWritePlayer.clip = dic_SFX[sfxName];
+        typeWritePlayer.volume = sfxVolume;
+
+        typeWritePlayer.Play();
     }
 
     /// <summary>
@@ -111,6 +126,7 @@ public class SoundManager : ManagementBase
         sfxVolume = Mathf.Clamp01(volume * 0.5f);
 
         sfxPlayer.volume = sfxVolume;
+        typeWritePlayer.volume = sfxVolume;
     }
 
     public float SetBGMVolumeTweening(float _duration)
@@ -141,6 +157,11 @@ public class SoundManager : ManagementBase
     public bool CheckSFXPlayNow()
     {
         return sfxPlayer.isPlaying;
+    }
+
+    public bool CheckTypeWriteSFXPlayNow()
+    {
+        return typeWritePlayer.isPlaying;
     }
 
     public override EManagerType GetManagemetType()
