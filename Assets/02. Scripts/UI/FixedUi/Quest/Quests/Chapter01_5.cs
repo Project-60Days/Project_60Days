@@ -32,7 +32,7 @@ public class Chapter01_5 : QuestBase
 
     public override string SetQuestText()
     {
-        return "노트를 열어 넷 카드 연결하기";
+        return "넷 카드 연결하기";
     }
 
     public override void AfterQuest()
