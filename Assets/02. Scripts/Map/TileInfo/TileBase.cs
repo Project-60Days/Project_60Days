@@ -63,7 +63,7 @@ public class TileBase : MonoBehaviour
     void Start()
     {
         Player.PlayerSightUpdate += CheckPlayerTIle;
-        tile = GetComponent<TileInitInfo>().Model;
+        tile = GetComponent<TileController>().Model;
     }
 
     void OnDestroy()
@@ -275,7 +275,7 @@ public class TileBase : MonoBehaviour
 
     void CheckPlayerTIle()
     {
-        if (App.instance.GetMapManager().Controller.GetPlayerSightTiles().Contains(tile))
+        if (App.instance.GetMapManager().mapController.GetPlayerSightTiles().Contains(tile))
         {
             ResourceUpdate(true);
         }
@@ -287,15 +287,15 @@ public class TileBase : MonoBehaviour
 
     public void TileInfoUpdate()
     {
-        App.instance.GetMapManager().UIController.UpdateImage(landformSprite);
-        App.instance.GetMapManager().UIController.UpdateText(ETileInfoTMP.Landform, landformText);
-        App.instance.GetMapManager().UIController.UpdateText(ETileInfoTMP.Resource, resourceText);
+        App.instance.GetMapManager().mapUIController.UpdateImage(landformSprite);
+        App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Landform, landformText);
+        App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Resource, resourceText);
 
         if (curZombies == null)
-            App.instance.GetMapManager().UIController.UpdateText(ETileInfoTMP.Zombie, "좀비 수 : ???");
+            App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Zombie, "좀비 수 : ???");
         else
         {
-            App.instance.GetMapManager().UIController
+            App.instance.GetMapManager().mapUIController
                 .UpdateText(ETileInfoTMP.Zombie, "좀비 수 : " + curZombies.zombieData.count + "마리");
         }
     }
@@ -421,12 +421,12 @@ public class TileBase : MonoBehaviour
         if (zombie == null)
         {
             curZombies = null;
-            App.instance.GetMapManager().UIController.UpdateText(ETileInfoTMP.Zombie, "좀비 수 : ???");
+            App.instance.GetMapManager().mapUIController.UpdateText(ETileInfoTMP.Zombie, "좀비 수 : ???");
         }
         else
         {
             curZombies = zombie;
-            App.instance.GetMapManager().UIController
+            App.instance.GetMapManager().mapUIController
                 .UpdateText(ETileInfoTMP.Zombie, "좀비 수 : " + curZombies.zombieData.count + "마리");
         }
     }

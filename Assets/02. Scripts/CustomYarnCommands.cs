@@ -190,7 +190,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     #region 05
     Coroutine WaitMovePoint()
     {
-        return StartCoroutine(new WaitUntil(() => App.instance.GetMapManager().UIController.MovePointActivate()));
+        return StartCoroutine(new WaitUntil(() => App.instance.GetMapManager().mapUIController.MovePointActivate()));
     }
 
     void AddResource()
@@ -291,7 +291,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     [YarnFunction("getResourceCount")]
     static int GetResourceCount(string _itemCode)
     {
-        var resources = App.instance.GetMapManager().ResourceManager.GetLastResources();
+        var resources = App.instance.GetMapManager().resourceManager.GetLastResources();
 
         int count = 0;
 

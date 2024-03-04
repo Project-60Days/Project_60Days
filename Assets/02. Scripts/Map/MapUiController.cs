@@ -30,9 +30,26 @@ public class MapUiController : ControllerBase
         return tileInfoPanel.gameObject.activeInHierarchy;
     }
 
-    public void TileInfoSwitch(bool isOn)
+    public void TrueTileInfo()
     {
-        tileInfoPanel.gameObject.SetActive(isOn);
+        // var screenPoint = Camera.main.WorldToScreenPoint(tilePos);
+        // tileInfoPanel.transform.position = screenPoint;
+        tileInfoPanel.gameObject.SetActive(true);
+    }
+
+    public void FalseTileInfo()
+    {
+        tileInfoPanel.gameObject.SetActive(false);
+    }
+
+    public void MoveTileInfo(Vector3 pos)
+    {
+        tileInfoPanel.transform.localPosition = pos;
+    }
+
+    public bool GetTileInfoActivate()
+    {
+        return tileInfoPanel.gameObject.activeInHierarchy;
     }
 
     public void OnPlayerMovePoint(Transform transform)

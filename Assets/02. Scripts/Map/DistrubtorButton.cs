@@ -18,7 +18,7 @@ public class DistrubtorButton : MonoBehaviour
             if (App.instance.GetMapManager().CheckCanInstallDrone())
             {
                 Debug.Log("교란기 설치 가능");
-                App.instance.GetMapManager().Controller.PreparingDistrubtor(true);
+                App.instance.GetMapManager().mapController.PreparingDistrubtor(true);
             }
         }
         else

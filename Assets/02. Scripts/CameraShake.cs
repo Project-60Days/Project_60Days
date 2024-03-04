@@ -27,7 +27,7 @@ public class CameraShake : MonoBehaviour
 
     void DecreaseDurabillityAnimation(TextMeshProUGUI _numberText)
     {
-        int endNumber = App.instance.GetMapManager().Controller.Player.Durability;
+        int endNumber = App.instance.GetMapManager().mapController.Player.Durability;
 
         _numberText.color = Color.red;
 

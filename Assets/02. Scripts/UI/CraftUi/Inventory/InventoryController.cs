@@ -110,10 +110,10 @@ public class InventoryController : MonoBehaviour
     void CheckDisturbeNFindor()
     {
         bool canUseFindor = findor.itemCount > 0;
-        App.instance.GetMapManager().UIController.ExplorerButtonInteractable(canUseFindor);
+        App.instance.GetMapManager().mapUIController.ExplorerButtonInteractable(canUseFindor);
 
         bool canUseDisturbe = disturbe.itemCount > 0;
-        App.instance.GetMapManager().UIController.DistrubtorButtonInteractable(canUseDisturbe);
+        App.instance.GetMapManager().mapUIController.DistrubtorButtonInteractable(canUseDisturbe);
     }
 
     /// <summary>

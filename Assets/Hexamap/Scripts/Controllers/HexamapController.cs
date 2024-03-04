@@ -55,8 +55,8 @@ namespace Hexamap
             GameObject tileGO = Instantiate(prefab, Vector3.zero, Quaternion.Euler(0, 0, 0), Parent.transform);
 
             // Attach a TileController to the new gameobject
-            TileInitInfo tileInitInfo = tileGO.AddComponent<TileInitInfo>();
-            tileInitInfo.Initialize(tile, Settings.Padding);
+            TileController tileController = tileGO.AddComponent<TileController>();
+            tileController.Initialize(tile, Settings.Padding);
 
             // Randomize orientation of the tile to make the map feel less uniform
             int orientation = pickOrientation(tile);

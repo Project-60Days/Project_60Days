@@ -19,7 +19,7 @@ public class ExplorerButton : MonoBehaviour
             {
                 Debug.Log("탐색기 설치 가능");
 
-                App.instance.GetMapManager().Controller.PreparingExplorer(true);
+                App.instance.GetMapManager().mapController.PreparingExplorer(true);
             }
         }
         else
