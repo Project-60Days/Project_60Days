@@ -34,7 +34,8 @@ public class MapUiController : ControllerBase
     {
         // var screenPoint = Camera.main.WorldToScreenPoint(tilePos);
         // tileInfoPanel.transform.position = screenPoint;
-        tileInfoPanel.gameObject.SetActive(true);
+        if (UIManager.instance.isUIStatus("UI_MAP"))
+            tileInfoPanel.gameObject.SetActive(true);
     }
 
     public void FalseTileInfo()
