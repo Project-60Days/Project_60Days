@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Chapter01_1 : QuestBase
 {
-    private readonly string thisCode = "chapter01_GetNetworkChip";
+    private readonly string thisCode = "chapter01_AccessProductionStructure";
     private readonly EQuestType thisType = EQuestType.Main;
     private readonly int thisIndex = 0;
     private readonly int thisNextIndex = 1;
@@ -25,11 +25,11 @@ public class Chapter01_1 : QuestBase
 
     public override bool CheckMeetCondition()
     {
-        return UIManager.instance.GetInventoryController().CheckInventoryItem("ITEM_NETWORKCHIP");
+        return App.instance.GetMapManager().SensingProductionStructure();
     }
 
     public override string SetQuestText()
     {
-        return "넷 카드 회수하기";
+        return "생산 공장 찾기";
     }
 }

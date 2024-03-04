@@ -1047,6 +1047,16 @@ public class MapController : Singleton<MapController>
             return false;
     }
 
+    public bool SensingProductionStructure()
+    {
+        var structure = SensingStructure();
+
+        if (structure is ProductionStructure)
+            return true;
+        else
+            return false;
+    }
+
     public List<int> RandomTileSelect(EObjectSpawnType type, int choiceNum = 1)
     {
         var tiles = GetAllTiles();
