@@ -2591,8 +2591,8 @@ RectTransform:
   m_Father: {fileID: 1782671770}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 355.7433, y: 0}
   m_SizeDelta: {x: 711.4866, y: 0}
   m_Pivot: {x: 0.5, y: 1}
@@ -4928,7 +4928,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
       propertyPath: sfxVolume
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
       propertyPath: typeWritePlayer
