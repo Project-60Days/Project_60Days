@@ -19,7 +19,7 @@ public class MapManager : ManagementBase
 
     [Header("밸런스 테스트 용")] [Space(5f)] [SerializeField]
     MapData mapData;
-
+    
     Camera mainCamera;
     MapCamera mapCineCamera;
     TileController curTileController;
@@ -172,6 +172,7 @@ public class MapManager : ManagementBase
                     if (mapController.SelectPlayerMovePoint(tileController))
                     {
                         mapUIController.OnPlayerMovePoint(tileController.transform);
+                        mapController.MovePointerOn(tileController.transform.position);
                         canPlayerMove = false;
                     }
                     else
@@ -249,7 +250,8 @@ public class MapManager : ManagementBase
         yield return StartCoroutine(mapController.NextDay());
         resourceManager.GetResource(mapController.Player.TileController);
         mapUIController.OffPlayerMovePoint();
-
+        mapController.OnlyMovePointerOff();
+        
         CheckRoutine();
     }
 
@@ -381,6 +383,7 @@ public class MapManager : ManagementBase
             return;
 
         mapUIController.OffPlayerMovePoint();
+        mapController.MovePointerOff();
         mapController.DeletePlayerMovePath();
     }
 

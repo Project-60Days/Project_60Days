@@ -24,7 +24,10 @@ public class MapController : Singleton<MapController>
     [SerializeField] Transform mapTransform;
     [SerializeField] Transform mapParentTransform;
     [SerializeField] Transform objectsTransform;
+    [SerializeField] private GameObject arrowPrefab;
+    private GameObject arrow;
 
+    
     [Header("프리팹")] [Space(5f)] [SerializeField]
     MapPrefabSO mapPrefab;
 
@@ -122,8 +125,8 @@ public class MapController : Singleton<MapController>
         SpawnPlayer();
 
         GenerateTower();
-        Generate3TileStructure(new Coords(-3, -1));
-        Generate7TileStructure(new Coords(3, -1));
+        Generate3TileStructure(new Coords(0, 0));
+        Generate7TileStructure(new Coords(0, 0));
 
         SpawnZombies(mapData.zombieCount);
 
@@ -478,7 +481,7 @@ public class MapController : Singleton<MapController>
         Debug.Log("예시 교란기");
 
         curDistrubtor = Instantiate(mapPrefab.items[(int)EMabPrefab.Disturbtor].prefab,
-            player.transform.position + Vector3.up * 1.5f, Quaternion.Euler(0, -90, 0));
+            player.transform.position + Vector3.up * 1.5f, Quaternion.Euler(0, 90, 0));
 
         curDistrubtor.transform.parent = mapTransform;
         curDistrubtor.GetComponentInChildren<MeshRenderer>(true).material.DOFade(50, 0);
@@ -517,7 +520,7 @@ public class MapController : Singleton<MapController>
     void GenerateExampleExplorer()
     {
         curExplorer = Instantiate(mapPrefab.items[(int)EMabPrefab.Explorer].prefab,
-            player.transform.position + Vector3.up * 1.5f, Quaternion.Euler(0, -90, 0));
+            player.transform.position + Vector3.up * 1.5f, Quaternion.Euler(0, 90, 0));
 
         curExplorer.transform.parent = mapTransform;
 
@@ -1243,5 +1246,46 @@ public class MapController : Singleton<MapController>
         }
 
         return false;
+    }
+
+    public void MovePointerOn(Vector3 _pos)
+    {
+        if (arrow == null)
+        {
+            arrow = Instantiate(arrowPrefab, _pos, Quaternion.identity);
+        }
+        
+        _pos.y += 1f;
+        arrow.transform.position = _pos;
+        
+        arrow.SetActive(true);
+        App.instance.GetSoundManager().PlaySFX("SFX_Map_Select_Complete");
+    }
+    
+    public void MovePointerOff()
+    {
+        if (arrow == null)
+        {
+            arrow = Instantiate(arrowPrefab, Vector3.zero, Quaternion.identity);
+        }
+        
+        if (arrow.activeInHierarchy)
+        {
+            arrow.SetActive(false);
+            App.instance.GetSoundManager().PlaySFX("SFX_Map_Select_Cancel");
+        }
+    }
+    
+    public void OnlyMovePointerOff()
+    {
+        if (arrow == null)
+        {
+            arrow = Instantiate(arrowPrefab, Vector3.zero, Quaternion.identity);
+        }
+        
+        if (arrow.activeInHierarchy)
+        {
+            arrow.SetActive(false);
+        }
     }
 }
