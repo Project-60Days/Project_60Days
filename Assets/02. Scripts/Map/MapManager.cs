@@ -398,6 +398,11 @@ public class MapManager : ManagementBase
         return mapController.SensingSignalTower();
     }
 
+    public bool SensingProductionStructure()
+    {
+        return mapController.SensingProductionStructure();
+    }
+
     public bool SignalTowerQuestCheck()
     {
         if (curStructure == null)

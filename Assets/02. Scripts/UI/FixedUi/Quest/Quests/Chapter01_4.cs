@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Chapter01_3 : QuestBase
+public class Chapter01_4 : QuestBase
 {
-    private readonly string thisCode = "chapter01_GetNetworkChip";
+    private readonly string thisCode = "chapter01_AccessSignal";
     private readonly EQuestType thisType = EQuestType.Main;
-    private readonly int thisIndex = 2;
-    private readonly int thisNextIndex = 3;
+    private readonly int thisIndex = 3;
+    private readonly int thisNextIndex = 4;
 
-    public Chapter01_3()
+    public Chapter01_4()
     {
         questCode = thisCode;
         eQuestType = thisType;
@@ -25,11 +25,11 @@ public class Chapter01_3 : QuestBase
 
     public override bool CheckMeetCondition()
     {
-        return UIManager.instance.GetInventoryController().CheckInventoryItem("ITEM_NETWORKCHIP");
+        return App.instance.GetMapManager().SensingSignalTower();
     }
 
     public override string SetQuestText()
     {
-        return "넷 카드 회수하기";
+        return "송신 탑 찾기";
     }
 }
