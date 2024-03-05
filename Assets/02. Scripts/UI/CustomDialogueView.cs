@@ -16,7 +16,7 @@ public class CustomDialogueView : DialogueViewBase
     private bool doesUserSkipRequest = false;
     private bool isStartLine = false;
 
-    Effects.CoroutineInterruptToken typingCoroutineStopToken = new Effects.CoroutineInterruptToken();
+    Effects.CoroutineInterruptToken typingCoroutineStopToken;
 
     // 유저가 스킵 버튼 눌렀을 때 호출되는 함수
     public override void UserRequestedViewAdvancement()

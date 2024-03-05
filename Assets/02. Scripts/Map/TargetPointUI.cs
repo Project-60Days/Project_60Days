@@ -18,14 +18,14 @@ public class TargetPointUI : MonoBehaviour
     {
         isOn = true;
         this.target = target;
-        gameObject.SetActive(true);
+        //gameObject.SetActive(true);
         transform.position = Camera.main.WorldToScreenPoint(target.position);
     }
 
     public void OffEffect()
     {
         isOn = false;
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
     }
 
     public bool ActivateStatus()

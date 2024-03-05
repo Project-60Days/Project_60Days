@@ -5,17 +5,15 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "BLADE", menuName = "EquipItems/Item_Blade")]
 public class Item_Blade : ItemBase
 {
-    int beforeDurabillity = 0;
-
     public override void Equip()
     {
-        beforeDurabillity = App.instance.GetMapManager().mapController.Player.Durability;
         App.instance.GetMapManager().mapController.Player.Durability += (int)data.value1;
-        UIManager.instance.GetUpperController().IncreaseDurabillityAnimation();
+        UIManager.instance.GetUpperController().UpdateDurabillity();
     }
 
-    public override bool CheckMeetCondition()
+    public override void UnEquip()
     {
-        return (App.instance.GetMapManager().mapController.Player.Durability <= beforeDurabillity);
+        App.instance.GetMapManager().mapController.Player.Durability -= (int)data.value1;
+        UIManager.instance.GetUpperController().UpdateDurabillity();
     }
 }

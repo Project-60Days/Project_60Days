@@ -48,6 +48,6 @@ public class ResultPage : NotePageBase
         tomorrowResourceNodeNames.Clear();
 
         if (todayResourceNodeNames.Count > 0)
-            tomorrowNodeNames.Add(todayResourceNodeNames[0]);
+            todayNodeNames.Add(todayResourceNodeNames[0]);
     }
 }

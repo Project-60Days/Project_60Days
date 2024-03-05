@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
-using DG.Tweening;
 
 public class UpperController : MonoBehaviour
 {
@@ -25,8 +25,6 @@ public class UpperController : MonoBehaviour
     ItemBase gas;
     ItemBase rubber;
     ItemBase bullet;
-
-    Color cyan = new Color(56f / 255f, 221f / 255f, 205f / 255f);
 
     void Start()
     {
@@ -73,26 +71,5 @@ public class UpperController : MonoBehaviour
     {
         bulletText.text = bullet.itemCount.ToString("D3");
         durabilityText.text = App.instance.GetMapManager().mapController.Player.Durability.ToString("D3");
-    }
-
-    public void IncreaseDurabillityAnimation()
-    {
-        int endNumber = App.instance.GetMapManager().mapController.Player.Durability;
-
-        int currentNumber = int.Parse(durabilityText.text);
-        DOTween.To(() => currentNumber, x => currentNumber = x, endNumber, 1f)
-            .OnUpdate(() => durabilityText.text = currentNumber.ToString());
-    }
-
-    public void DecreaseDurabillityAnimation()
-    {
-        int endNumber = App.instance.GetMapManager().mapController.Player.Durability;
-
-        durabilityText.color = Color.red;
-
-        int currentNumber = int.Parse(durabilityText.text);
-        DOTween.To(() => currentNumber, x => currentNumber = x, endNumber, 2f)
-            .OnUpdate(() => durabilityText.text = currentNumber.ToString())
-            .OnComplete(() => durabilityText.color = cyan);
     }
 }

@@ -16,7 +16,7 @@ public class NoteController : MonoBehaviour
     [SerializeField] Button prevPageBtn;
     [SerializeField] Button closeBtn;
 
-    [SerializeField] NotePageBase[] pages;
+    NotePageBase[] pages;
     NotePageBase[] notePages;
 
     [HideInInspector] public bool isNewDay = true;
@@ -31,7 +31,7 @@ public class NoteController : MonoBehaviour
 
     void Start()
     {
-        //pages = GetComponentsInChildren<NotePageBase>(includeInactive: true);
+        pages = GetComponentsInChildren<NotePageBase>(includeInactive: true);
 
         Init();
     }
@@ -235,8 +235,6 @@ public class NoteController : MonoBehaviour
     /// </summary>
     void ChangePageButton()
     {
-        StartCoroutine(CheckScrollEnabled());
-
         if (notePages.Length == 1)
         {
             if (notePages[pageNum].CompareIndex() == 2)
@@ -257,12 +255,12 @@ public class NoteController : MonoBehaviour
             else
                 ActiveNextBtnAndPrevBtn(true, true);
         }
+
+        StartCoroutine(CheckScrollEnabled());
     }
 
     IEnumerator CheckScrollEnabled()
     {
-        scrollImg.StopAnim();
-
         int index;
 
         if (notePages[pageNum].GetENotePageType() == ENotePageType.Result)

@@ -34,18 +34,10 @@ public class PVController : MonoBehaviour
 
     void Update()
     {
-        if (isPlaying == true)
+        if (isPlaying == true && Input.GetKeyDown(KeyCode.P))
         {
-            if (Input.GetKeyDown(KeyCode.P))
-            {
-                videoPlayer.Stop();
-                OnVideoEnd(videoPlayer);
-            }
-            else if (Input.anyKeyDown && text.alpha == 0)
-            {
-                FadeOutText();
-            }
-            
+            videoPlayer.Stop();
+            OnVideoEnd(videoPlayer);
         }
     }
 
@@ -101,8 +93,7 @@ public class PVController : MonoBehaviour
         text.gameObject.SetActive(true);
 
         Sequence sequence = DOTween.Sequence();
-        sequence.Append(text.DOFade(1f, 0f))
-                .AppendInterval(3f)
+        sequence.AppendInterval(3f)
                 .Append(text.DOFade(0f, 1f).SetEase(Ease.Linear));
     }
 }

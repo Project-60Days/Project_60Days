@@ -34,7 +34,10 @@ public class NextDayController : MonoBehaviour
     public void InitBlackPanel()
     {
         if (isHit == true)
-            normalCamera.Shake();
+        {
+            
+            //normalCamera.Shake();
+        }
         else
             UIManager.instance.GetUpperController().UpdateDurabillity();
 
