@@ -69,7 +69,7 @@ public class InfoController : MonoBehaviour
             isNew = false;
         }
 
-        SetTransform(_mouseCoordinate);
+        SetTransformAuto(_mouseCoordinate);
 
         gameObject.SetActive(true);
         canvasGroup.alpha = 1f;
@@ -99,6 +99,16 @@ public class InfoController : MonoBehaviour
     }
 
     void SetTransform(Vector3 _mouseCoordinate)
+    {
+        LayoutRebuilder.ForceRebuildLayoutImmediate(infoTransform);
+
+        float newX = _mouseCoordinate.x;
+        float newY = _mouseCoordinate.y;
+
+        infoTransform.position = new Vector3(newX, newY, infoTransform.position.z);
+    }
+
+    void SetTransformAuto(Vector3 _mouseCoordinate)
     {
         LayoutRebuilder.ForceRebuildLayoutImmediate(infoTransform);
 

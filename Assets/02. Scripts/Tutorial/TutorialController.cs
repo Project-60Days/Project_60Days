@@ -14,6 +14,8 @@ public class TutorialController : MonoBehaviour
     [SerializeField] Button nextDayBtn;
     [SerializeField] Button backToBaseBtn;
 
+    [SerializeField] CustomDialogueView customView;
+
     Image lightBackground;
     CanvasGroup workBenchImage;
     Image batteryImage;
@@ -47,6 +49,9 @@ public class TutorialController : MonoBehaviour
     void Update()
     {
         skipButton.Select();
+
+        if (Input.GetMouseButtonDown(0))
+            customView.UserRequestedViewAdvancement();
     }
 
     public void StartDialogue()

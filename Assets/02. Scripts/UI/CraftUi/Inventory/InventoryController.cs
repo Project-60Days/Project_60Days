@@ -254,25 +254,25 @@ public class InventoryController : MonoBehaviour
     /// <summary>
     /// 시연회용 임시 함수(맞나?)
     /// </summary>
-    void Update()
-    {
-        InputKey();
-    }
+    //void Update()
+    //{
+    //    InputKey();
+    //}
 
     /// <summary>
     /// 아이템 전부 획득하는 궁극의 함수..이지만 이 함수 한 번 호출하면 다른 아이템 추가가 안됩니다
     /// </summary>
-    private void InputKey()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            foreach(var item in itemSO.items)
-            {
-                if (++counts[item.data.Category] > slots[item.data.Category].Count) return;
-                AddItem(item);
-            }
+    //private void InputKey()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Space))
+    //    {
+    //        foreach(var item in itemSO.items)
+    //        {
+    //            if (++counts[item.data.Category] > slots[item.data.Category].Count) return;
+    //            AddItem(item);
+    //        }
                 
-        }
-    }
+    //    }
+    //}
     #endregion
 }

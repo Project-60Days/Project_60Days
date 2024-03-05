@@ -115,23 +115,27 @@ public class CraftModeController : MonoBehaviour
     #region Buttons
     public void SetCraftActive()
     {
+        SetInactive();
         CraftActiveMode();
-        EquipInActiveMode();
-        BlueprintInActiveMode();
     }
 
     public void SetEquipActive()
     {
-        CraftInActiveMode();
+        SetInactive();
         EquipActiveMode();
-        BlueprintInActiveMode();
     }
 
     public void SetBlueprintActive()
     {
+        SetInactive();
+        BlueprintActiveMode();
+    }
+
+    void SetInactive()
+    {
         CraftInActiveMode();
         EquipInActiveMode();
-        BlueprintActiveMode();
+        BlueprintInActiveMode();
     }
     #endregion
 }
