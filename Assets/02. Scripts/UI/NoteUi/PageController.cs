@@ -20,7 +20,7 @@ public class PageController : MonoBehaviour
     NotePageBase resultPage;
     NotePageBase selectPage;
 
-    [SerializeField] Button skipButton;
+    [SerializeField] Button[] skipButton;
 
     Color clickedColor = new Color(56 / 255f, 221 / 255f, 205 / 255f);
     Color unclickedColor = new Color(1f, 1f, 1f, 0.5f);
@@ -30,6 +30,7 @@ public class PageController : MonoBehaviour
     [HideInInspector] public string currResource;
     [HideInInspector] public int currResourceIndex = 0;
     [HideInInspector] public bool isClickYesBtnInTower = false;
+    [HideInInspector] public bool isClickYesBtnInProductionStructure = false;
 
     void Awake()
     {
@@ -47,6 +48,7 @@ public class PageController : MonoBehaviour
 
         currStruct = null;
         isClickYesBtnInTower = false;
+        isClickYesBtnInProductionStructure = false;
     }
 
     public void SetResultPage(string _nodeName, bool _isResourceNode)

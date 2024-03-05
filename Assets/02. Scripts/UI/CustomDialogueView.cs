@@ -8,12 +8,13 @@ using System;
 
 public class CustomDialogueView : DialogueViewBase
 {
-    public Button skipButton;
+    public Button[] skipButton;
     [SerializeField] private TextMeshProUGUI lineText;
 
     //private bool isRunningLine = false;
     private bool doesUserContinueRequest = false;
     private bool doesUserSkipRequest = false;
+    private bool isStartLine = false;
 
     Effects.CoroutineInterruptToken typingCoroutineStopToken;
 
@@ -28,19 +29,26 @@ public class CustomDialogueView : DialogueViewBase
                 typingCoroutineStopToken.Interrupt();
 
             lineText.maxVisibleCharacters = 10000;
+
+            App.instance.GetSoundManager().PlaySFX("SFX_Tutorial_Enter");
         }
         else
         {
+            if (!doesUserContinueRequest)
+                App.instance.GetSoundManager().PlaySFX("SFX_Tutorial_Enter");
             doesUserContinueRequest = true;
         }
     }
 
     public override void DialogueStarted()
     {
-        skipButton.onClick.RemoveAllListeners();
-        skipButton.onClick.AddListener(UserRequestedViewAdvancement);
-
-        skipButton.gameObject.SetActive(true);
+        for (int i = 0; i < skipButton.Length; i++) 
+        {
+            skipButton[i].onClick.RemoveAllListeners();
+            skipButton[i].onClick.AddListener(UserRequestedViewAdvancement);
+        }
+        
+        //skipButton.gameObject.SetActive(true);
     }
 
     public override void DialogueComplete()
@@ -66,10 +74,11 @@ public class CustomDialogueView : DialogueViewBase
         //    }
         //}
 
-        skipButton.gameObject.SetActive(true);
+        //skipButton.gameObject.SetActive(true);
 
         doesUserSkipRequest = false;
         doesUserContinueRequest = false;
+        isStartLine = true;
 
         lineText.text = _localizedLine.Text.Text;
 
@@ -78,7 +87,7 @@ public class CustomDialogueView : DialogueViewBase
 
         yield return StartCoroutine(Effects.Typewriter(lineText, 30f, null, typingCoroutineStopToken)); // 타이핑 이펙트
 
-
+        isStartLine = false;
         doesUserSkipRequest = true; // 유저 스킵 요청 불가(타이핑이 모두 완료되었으므로)
 
         yield return new WaitUntil(() => doesUserContinueRequest); // 유저가 다음으로 버튼 클릭할 때 까지 대기
@@ -87,5 +96,14 @@ public class CustomDialogueView : DialogueViewBase
         _onDialogueLineFinished?.Invoke();
 
         //isRunningLine = false;
+    }
+
+    void Update()
+    {
+        if(!doesUserSkipRequest && isStartLine)
+        {
+            if (App.instance.GetSoundManager().CheckTypeWriteSFXPlayNow() == false) 
+                App.instance.GetSoundManager().PlayTypeWriteSFX("SFX_Tutorial_Text");
+        }
     }
 }

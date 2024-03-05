@@ -43,7 +43,7 @@ public class QuestController : MonoBehaviour
 
     public void StartMainQuest()
     {
-        CreateQuest("chapter01_GetNetworkChip");
+        CreateQuest("chapter01_AccessProductionStructure");
     }
 
     /// <summary>

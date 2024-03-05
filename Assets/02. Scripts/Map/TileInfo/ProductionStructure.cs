@@ -34,6 +34,7 @@ public class ProductionStructure : StructureBase
         isUse = true;
         isAccessible = true;
         UIManager.instance.GetPageController().CreateSelectDialogueRunner("sequence");
+        UIManager.instance.GetPageController().isClickYesBtnInProductionStructure = true;
     }
 
     public override void NoFunc()

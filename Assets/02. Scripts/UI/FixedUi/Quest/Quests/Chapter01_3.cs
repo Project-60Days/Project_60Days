@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Chapter01_3 : QuestBase
 {
-    private readonly string thisCode = "chapter01_ConnectNetworkChip";
+    private readonly string thisCode = "chapter01_GetNetworkChip";
     private readonly EQuestType thisType = EQuestType.Main;
     private readonly int thisIndex = 2;
-    private readonly int thisNextIndex = -1;
+    private readonly int thisNextIndex = 3;
 
     public Chapter01_3()
     {
@@ -16,30 +16,20 @@ public class Chapter01_3 : QuestBase
         questIndex = thisIndex;
         nextQuestIndex = thisNextIndex;
     }
-
     public override IEnumerator CheckQuestComplete()
     {
         yield return new WaitUntil(() => CheckMeetCondition());
-        yield return new WaitUntil(() => UIManager.instance.isUIStatus("UI_LOADING"));
         yield return new WaitUntil(() => UIManager.instance.isUIStatus("UI_NORMAL"));
         AfterQuest();
     }
 
     public override bool CheckMeetCondition()
     {
-        return UIManager.instance.GetPageController().isClickYesBtnInTower;
+        return UIManager.instance.GetInventoryController().CheckInventoryItem("ITEM_NETWORKCHIP");
     }
 
     public override string SetQuestText()
     {
-        return "ë„· ì¹´ë“œ ì—°ê²°í•˜ê¸°";
-    }
-
-    public override void AfterQuest()
-    {
-        UIManager.instance.GetQuestController().SetNextQuestIndex(eQuestType, nextQuestIndex);
-        UIManager.instance.GetQuestController().StartNextQuest(this);
-        StartCoroutine(UIManager.instance.GetPopUpController().EndGamePopUp());
+        return "³Ý Ä«µå È¸¼öÇÏ±â";
     }
 }
-

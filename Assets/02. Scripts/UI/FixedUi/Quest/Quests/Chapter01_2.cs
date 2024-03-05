@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Chapter01_2 : QuestBase
 {
-    private readonly string thisCode = "chapter01_AccessSignal";
+    private readonly string thisCode = "chapter01_ConnectProductionStructure";
     private readonly EQuestType thisType = EQuestType.Main;
     private readonly int thisIndex = 1;
     private readonly int thisNextIndex = 2;
@@ -25,11 +25,11 @@ public class Chapter01_2 : QuestBase
 
     public override bool CheckMeetCondition()
     {
-        return App.instance.GetMapManager().SensingSignalTower();
+        return UIManager.instance.GetPageController().isClickYesBtnInProductionStructure;
     }
 
     public override string SetQuestText()
     {
-        return "송신 탑 찾기";
+        return "노트를 열어 생산 공장 조사하기";
     }
 }
