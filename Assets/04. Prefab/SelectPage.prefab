@@ -293,8 +293,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b795ab6571b45d45beaf695699f5863, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skipButton: {fileID: 0}
+  skipButton:
+  - {fileID: 0}
   lineText: {fileID: 3528238030328030794}
+  enterSFX: 
+  textSFX: 
 --- !u!114 &3020200043268172655
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -9,7 +9,7 @@ public class NoteScroll : MonoBehaviour
 
     bool isActive = false;
 
-    float moveDuration = 1f;
+    float moveDuration = 0.5f;
 
     float initPositionY;
     
@@ -35,7 +35,7 @@ public class NoteScroll : MonoBehaviour
     {
         if (isActive == false)
             return;
-        transform.DOLocalMoveY(initPositionY + 20f, moveDuration).SetEase(Ease.OutQuad)
+        transform.DOLocalMoveY(initPositionY + 10f, moveDuration).SetEase(Ease.OutQuad)
            .OnComplete(MoveDown);
     }
 

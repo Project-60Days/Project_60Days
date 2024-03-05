@@ -21,6 +21,7 @@ public class Tutorial03 : QuestBase
     {
         yield return new WaitUntil(() => CheckMeetCondition());
         yield return new WaitUntil(() => UIManager.instance.isUIStatus("UI_NORMAL"));
+        AfterQuest();
     }
 
     public override bool CheckMeetCondition()

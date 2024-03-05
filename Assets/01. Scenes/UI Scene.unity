@@ -4305,6 +4305,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 172874819}
+        m_TargetAssemblyTypeName: ButtonBase, Assembly-CSharp
+        m_MethodName: PlayClickSFX
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &172874819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20233,7 +20245,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 859594708}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 198347b467cd36f4087ab298108e9ef9, type: 3}
+  m_Script: {fileID: 11500000, guid: a6b24e86316125d41b72579ef0a72b4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &859594720
@@ -28240,6 +28252,8 @@ MonoBehaviour:
   skipButton:
   - {fileID: 769921462}
   lineText: {fileID: 147372579}
+  enterSFX: SFX_Tutorial_Enter
+  textSFX: SFX_Tutorial_Text
 --- !u!114 &1311553840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42207,6 +42221,18 @@ MonoBehaviour:
       - m_Target: {fileID: 806694049}
         m_TargetAssemblyTypeName: NoteController, Assembly-CSharp
         m_MethodName: GoToPrevPage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2054573659}
+        m_TargetAssemblyTypeName: ButtonBase, Assembly-CSharp
+        m_MethodName: PlayClickSFX
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
