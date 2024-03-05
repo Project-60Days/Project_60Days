@@ -18936,7 +18936,6 @@ MonoBehaviour:
   currResource: 
   currResourceIndex: 0
   isClickYesBtnInTower: 0
-  isClickYesBtnInProductionStructure: 0
 --- !u!114 &806694048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20092,8 +20091,6 @@ GameObject:
   - component: {fileID: 859594714}
   - component: {fileID: 859594713}
   - component: {fileID: 859594712}
-  - component: {fileID: 859594720}
-  - component: {fileID: 859594719}
   - component: {fileID: 859594718}
   - component: {fileID: 859594717}
   - component: {fileID: 859594716}
@@ -20218,30 +20215,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: faaf5770dd04ee84fa8e027d2573a3a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &859594719
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 859594708}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04ca17c140cf23e458a709930863f1f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &859594720
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 859594708}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fb9c79e5a8c1b641bdb4c6522ad6327, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &864586526
