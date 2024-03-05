@@ -20,7 +20,7 @@ public class PageController : MonoBehaviour
     NotePageBase resultPage;
     NotePageBase selectPage;
 
-    [SerializeField] Button skipButton;
+    [SerializeField] Button[] skipButton;
 
     Color clickedColor = new Color(56 / 255f, 221 / 255f, 205 / 255f);
     Color unclickedColor = new Color(1f, 1f, 1f, 0.5f);
