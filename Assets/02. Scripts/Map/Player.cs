@@ -275,7 +275,7 @@ public class Player : MonoBehaviour
         if (durability + amount > 0)
             durability += amount;
         
-        UIManager.instance.GetUpperController().UpdateDurabillity(); 
+        //UIManager.instance.GetUpperController().UpdateDurabillity(); 
     }
 
     public void AddMoveRangeUntil(int _duration, int _amount)

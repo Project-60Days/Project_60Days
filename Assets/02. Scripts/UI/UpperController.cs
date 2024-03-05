@@ -50,7 +50,7 @@ public class UpperController : MonoBehaviour
         yield return new WaitUntil(() => App.instance.GetMapManager().mapController.Player != null);
 
         UpdateItemCount();
-        UpdateAfterFight();
+        UpdateDurabillity();
     }
 
     public void UpdateItemCount()

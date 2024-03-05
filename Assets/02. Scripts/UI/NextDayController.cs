@@ -33,7 +33,10 @@ public class NextDayController : MonoBehaviour
 
     public void InitBlackPanel()
     {
-        if (isHit == true) normalCamera.Shake();
+        if (isHit == true)
+            normalCamera.Shake();
+        else
+            UIManager.instance.GetUpperController().UpdateDurabillity();
 
         Sequence sequence = DOTween.Sequence();
         sequence.Append(blackPanel.DOFade(0f, 1f).SetEase(Ease.Linear))

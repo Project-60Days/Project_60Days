@@ -45,7 +45,7 @@ public class TutorialManager : Singleton<TutorialManager>
     {
         UIManager.instance.GetCraftingUiController().RemoveBatteryCombine();
 
-        UIManager.instance.GetQuestController().CreateQuest("chapter01_GetNetworkChip");
+        UIManager.instance.GetQuestController().StartMainQuest();
 
         Destroy(this);
     }
