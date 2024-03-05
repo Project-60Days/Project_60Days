@@ -85,7 +85,7 @@
   },
   {
     "Index": 1013,
-    "Material_1": "ITEM_GEAR",
+    "Material_1": "ITEM_ALLOY",
     "Material_2": "ITEM_STEEL",
     "Material_3": "ITEM_PLASMA",
     "Result": "ITEM_BLADE"

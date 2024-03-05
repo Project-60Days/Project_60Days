@@ -47,10 +47,10 @@ public class MapManager : ManagementBase
             MouseOverEvents();
         }
         
-        if(Input.GetKeyDown(KeyCode.Z))
-            UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_FINDOR");
-        if(Input.GetKeyDown(KeyCode.X))
-            UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_DISTURBE");
+        //if(Input.GetKeyDown(KeyCode.Z))
+            //UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_FINDOR");
+        //if(Input.GetKeyDown(KeyCode.X))
+            //UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_DISTURBE");
     }
 
     IEnumerator GetAdditiveSceneObjects()
