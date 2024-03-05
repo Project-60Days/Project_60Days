@@ -309,7 +309,7 @@ GameObject:
   - component: {fileID: 232507510}
   m_Layer: 5
   m_Name: WorkBench_Border
-  m_TagString: WorkBench
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1764,6 +1764,7 @@ GameObject:
   - component: {fileID: 1313550290}
   - component: {fileID: 1313550289}
   - component: {fileID: 1313550288}
+  - component: {fileID: 1313550291}
   m_Layer: 5
   m_Name: Note_Img
   m_TagString: Untagged
@@ -1846,6 +1847,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1313550286}
   m_CullTransparentMesh: 1
+--- !u!225 &1313550291
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313550286}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1347213069
 GameObject:
   m_ObjectHideFlags: 0
@@ -2130,7 +2143,7 @@ GameObject:
   - component: {fileID: 1549630262}
   m_Layer: 5
   m_Name: Map_Border
-  m_TagString: Map
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2507,6 +2520,7 @@ GameObject:
   - component: {fileID: 1700741576}
   - component: {fileID: 1700741575}
   - component: {fileID: 1700741577}
+  - component: {fileID: 1700741578}
   m_Layer: 5
   m_Name: WorkBench_Img
   m_TagString: WorkBench
@@ -2591,6 +2605,18 @@ MonoBehaviour:
   cube: {fileID: 1835056661}
   cubeElse: {fileID: 276497370}
   border: {fileID: 232507508}
+--- !u!225 &1700741578
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1700741573}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1739064606
 GameObject:
   m_ObjectHideFlags: 0
@@ -2603,6 +2629,7 @@ GameObject:
   - component: {fileID: 1739064610}
   - component: {fileID: 1739064609}
   - component: {fileID: 1739064608}
+  - component: {fileID: 1739064611}
   m_Layer: 5
   m_Name: Map_Img
   m_TagString: Map
@@ -2685,6 +2712,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1739064606}
   m_CullTransparentMesh: 1
+--- !u!225 &1739064611
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1739064606}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1744407661
 GameObject:
   m_ObjectHideFlags: 0

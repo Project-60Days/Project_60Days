@@ -8,7 +8,7 @@ using System;
 
 public class CustomDialogueView : DialogueViewBase
 {
-    public Button skipButton;
+    public Button[] skipButton;
     [SerializeField] private TextMeshProUGUI lineText;
 
     //private bool isRunningLine = false;
@@ -42,10 +42,13 @@ public class CustomDialogueView : DialogueViewBase
 
     public override void DialogueStarted()
     {
-        skipButton.onClick.RemoveAllListeners();
-        skipButton.onClick.AddListener(UserRequestedViewAdvancement);
-
-        skipButton.gameObject.SetActive(true);
+        for (int i = 0; i < skipButton.Length; i++) 
+        {
+            skipButton[i].onClick.RemoveAllListeners();
+            skipButton[i].onClick.AddListener(UserRequestedViewAdvancement);
+        }
+        
+        //skipButton.gameObject.SetActive(true);
     }
 
     public override void DialogueComplete()
@@ -71,7 +74,7 @@ public class CustomDialogueView : DialogueViewBase
         //    }
         //}
 
-        skipButton.gameObject.SetActive(true);
+        //skipButton.gameObject.SetActive(true);
 
         doesUserSkipRequest = false;
         doesUserContinueRequest = false;
