@@ -195,8 +195,6 @@ public class GameData : Data
 
     private void InitItemSO()
     {
-        itemSO = Resources.Load<ItemSO>("Item/ItemSO");
-
         foreach (var item in itemSO.items)
         {
             item.data = itemData[item.English];

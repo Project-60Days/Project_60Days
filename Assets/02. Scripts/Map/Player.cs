@@ -321,7 +321,7 @@ public class Player : MonoBehaviour
 
     public void AddSightRange(int _amount)
     {
-        csFogWar.instance.AddSightRange(_amount);
+        App.Manager.Map.mapController.fog.AddSightRange(_amount);
     }
     
     public void TileEffectCheck()

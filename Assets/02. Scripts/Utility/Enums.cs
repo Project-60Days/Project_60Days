@@ -1,10 +1,11 @@
-public enum ESceneType
+public enum SceneName
 {
+    Developer,
     Title,
     Game,
     UI,
     Map,
-    Crafting
+    Craft
 }
 
 public enum EUILayer

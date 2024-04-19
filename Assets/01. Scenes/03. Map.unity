@@ -184,13 +184,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hexaMap: {fileID: 35908273}
-  fogOfWar: {fileID: 1413298386}
+  fogOfWar: {fileID: 0}
   zombiesTransform: {fileID: 706894744}
   mapTransform: {fileID: 270035658}
   mapParentTransform: {fileID: 2032613207}
   objectsTransform: {fileID: 848818347}
   arrowPrefab: {fileID: 8455040257853211726, guid: d7b10346f8761c2468d15e5a55b160f9, type: 3}
   mapPrefab: {fileID: 11400000, guid: 2ac150942be86a042a3493eb2029b8cd, type: 2}
+  fog: {fileID: 1413298386}
 --- !u!1 &70614907
 GameObject:
   m_ObjectHideFlags: 0

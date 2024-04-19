@@ -65,7 +65,7 @@ public class Explorer : MonoBehaviour
             if (curTile == targetTile)
             {
                 // 자원
-                FischlWorks_FogWar.csFogWar.instance.AddFogRevealer(new FischlWorks_FogWar.csFogWar.FogRevealer(gameObject.transform, 2, false));
+                App.Manager.Map.mapController.fog.AddFogRevealer(new FischlWorks_FogWar.csFogWar.FogRevealer(gameObject.transform, 2, false));
                 lifeTime -= 1;
             }
 
@@ -87,12 +87,12 @@ public class Explorer : MonoBehaviour
 
         App.Manager.Map.mapController.GetSightTiles(curTile);
         App.Manager.Map.mapController.RemoveExplorer(this);
-        FischlWorks_FogWar.csFogWar.instance._FogRevealers[FischlWorks_FogWar.csFogWar.instance._FogRevealers.Count - 1].sightRange = 0;
+        App.Manager.Map.mapController.fog._FogRevealers[App.Manager.Map.mapController.fog._FogRevealers.Count - 1].sightRange = 0;
 
         goToMap = false;
         isIdle = false;
         yield return delay1;
-        FischlWorks_FogWar.csFogWar.instance.RemoveFogRevealer(1);
+        App.Manager.Map.mapController.fog.RemoveFogRevealer(1);
         Destroy(gameObject);
     }
     

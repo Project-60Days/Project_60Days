@@ -31,6 +31,9 @@ public class MapController : MonoBehaviour
     [Header("프리팹")] [Space(5f)] [SerializeField]
     MapPrefabSO mapPrefab;
 
+    [Header("안개")] [Space(5f)]
+    public csFogWar fog;
+
     List<TileController> selectedTiles = new List<TileController>();
     List<TileController> droneSelectedTiles = new List<TileController>();
     List<Tile> preemptiveTiles = new List<Tile>();
@@ -130,7 +133,7 @@ public class MapController : MonoBehaviour
 
         SpawnZombies(mapData.zombieCount);
 
-        csFogWar.instance.InitializeMapControllerObjects(player.gameObject, mapData.fogSightRange);
+        fog.InitializeMapControllerObjects(player.gameObject, mapData.fogSightRange);
         DeselectAllBorderTiles();
 
         StartCoroutine(RandomTileResource(mapData.resourcePercent));

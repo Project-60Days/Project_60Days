@@ -15,6 +15,6 @@ public class DeveloperManager : MonoBehaviour
 
     void OnVideoEnd(VideoPlayer vp)
     {
-        App.LoadScene(ESceneType.Title);
+        App.LoadScene(SceneName.Title);
     }
 }

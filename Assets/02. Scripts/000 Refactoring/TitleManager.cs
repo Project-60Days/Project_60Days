@@ -21,6 +21,14 @@ public class TitleManager : MonoBehaviour
     [SerializeField] GameObject buttonText;
     [SerializeField] GameObject buttonBack;
 
+    [SerializeField] GameObject loadingUI;
+
+    [Header("Buttons")]
+    [SerializeField] Button newGameBtn;
+    [SerializeField] Button loadGameBtn;
+    [SerializeField] Button optionBtn;
+    [SerializeField] Button quitBtn;
+
     string leftfilePath = "Text/Tittle_Log_LeftAccess";
     string rightfilePath = "Text/Tittle_Log_RightLog";
 
@@ -31,6 +39,7 @@ public class TitleManager : MonoBehaviour
 
     void Start()
     {
+        SetButtonEvent();
         InitText();
         InitObjects();
 
@@ -38,6 +47,19 @@ public class TitleManager : MonoBehaviour
     }
 
     #region Init
+    void SetButtonEvent()
+    {
+        newGameBtn.onClick.AddListener(() =>
+        {
+            loadingUI.SetActive(true);
+
+            App.LoadScene(SceneName.Game);
+            App.LoadSceneAdditive(SceneName.UI);
+            App.LoadSceneAdditive(SceneName.Map);
+            App.LoadSceneAdditive(SceneName.Craft);
+        });
+    }
+
     void InitText()
     {
         leftFileText = Resources.Load<TextAsset>(leftfilePath).text;

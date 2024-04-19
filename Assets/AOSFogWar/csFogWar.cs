@@ -29,7 +29,7 @@ namespace FischlWorks_FogWar
     /// and is resposible for scanning / saving / loading the LevelData object.\n
     /// The class handles the update frequency of the fog, plus some shader businesses.\n
     /// Various public interfaces related to FogRevealer's FOV are also available.
-    public class csFogWar : Singleton<csFogWar>
+    public class csFogWar : MonoBehaviour
     {
         /// A class for storing the base level data.
         /// 

@@ -27,13 +27,13 @@ public class App : Singleton<App>
    
     
 
-    public static void LoadScene(ESceneType _type)
+    public static void LoadScene(SceneName _type)
     {
         DOTween.KillAll();
         SceneManager.LoadScene((int)_type);
     }
 
-    public static void LoadSceneAdditive(ESceneType _type)
+    public static void LoadSceneAdditive(SceneName _type)
     {
         SceneManager.LoadScene((int)_type, LoadSceneMode.Additive);
     }
