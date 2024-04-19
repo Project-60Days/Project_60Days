@@ -60,7 +60,7 @@ public class SoundButton : MonoBehaviour, IPointerDownHandler, IDragHandler
 
             currentWidth = clampedWidth;
 
-            UIManager.instance.GetSoundController().SetVolume(this);
+            App.Manager.UI.GetSoundController().SetVolume(this);
         }
     }
 }

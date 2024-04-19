@@ -119,8 +119,8 @@ public class MapController : MonoBehaviour
     /// </summary>
     IEnumerator GenerateMapObjects()
     {
-        App.Data.Game.tempData.TryGetValue("Data_MinCount_ZombieObject", out TempData min);
-        App.Data.Game.tempData.TryGetValue("Data_MaxCount_ZombieObject", out TempData max);
+        App.Data.Game.valueData.TryGetValue("Data_MinCount_ZombieObject", out ValueData min);
+        App.Data.Game.valueData.TryGetValue("Data_MaxCount_ZombieObject", out ValueData max);
 
         SpawnPlayer();
 
@@ -470,7 +470,7 @@ public class MapController : MonoBehaviour
         {
             distrubtors.Remove(curDistrubtor);
             App.Manager.Map.SetIsDronePrepared(false, "Distrubtor");
-            UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_DISTURBE");
+            App.Manager.UI.GetInventoryController().AddItemByItemCode("ITEM_DISTURBE");
             Destroy(curDistrubtor);
             DeselectAllTargetTiles();
         }
@@ -512,7 +512,7 @@ public class MapController : MonoBehaviour
         {
             explorers.Remove(curExplorer);
             App.Manager.Map.SetIsDronePrepared(false, "Explorer");
-            UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_FINDOR");
+            App.Manager.UI.GetInventoryController().AddItemByItemCode("ITEM_FINDOR");
             Destroy(curExplorer);
         }
     }

@@ -33,8 +33,8 @@ public class ProductionStructure : StructureBase
         App.Manager.Map.NormalStructureResearch(this);
         isUse = true;
         isAccessible = true;
-        UIManager.instance.GetPageController().CreateSelectDialogueRunner("sequence");
-        UIManager.instance.GetPageController().isClickYesBtnInProductionStructure = true;
+        App.Manager.UI.GetPageController().CreateSelectDialogueRunner("sequence");
+        App.Manager.UI.GetPageController().isClickYesBtnInProductionStructure = true;
     }
 
     public override void NoFunc()

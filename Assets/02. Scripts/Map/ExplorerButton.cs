@@ -23,21 +23,21 @@ public class ExplorerButton : MonoBehaviour, IPointerClickHandler, IPointerEnter
     public virtual void ShowItemInfo()
     {
         Vector3 mousePos = Input.mousePosition;
-        UIManager.instance.GetInfoController().ShowItemInfo(text, mousePos);
+        App.Manager.UI.GetInfoController().ShowItemInfo(text, mousePos);
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         isMouseEnter = false;
-        UIManager.instance.GetInfoController().HideInfo();
+        App.Manager.UI.GetInfoController().HideInfo();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (isMouseEnter == false && UIManager.instance.isUIStatus("UI_MAP"))
+        if (isMouseEnter == false && App.Manager.UI.isUIStatus(UIState.Map))
         {
             isMouseEnter = true;
-            UIManager.instance.GetInfoController().isNew = true;
+            App.Manager.UI.GetInfoController().isNew = true;
         }
 
     }
@@ -47,14 +47,14 @@ public class ExplorerButton : MonoBehaviour, IPointerClickHandler, IPointerEnter
         if (isMouseEnter == true)
         {
             isMouseEnter = false;
-            UIManager.instance.GetInfoController().HideInfo();
+            App.Manager.UI.GetInfoController().HideInfo();
         }
     }
     
 
     public void Explorer()
     {
-        if (UIManager.instance.GetInventoryController().CheckFindorUsage())
+        if (App.Manager.UI.GetInventoryController().CheckFindorUsage())
         {
             Debug.Log("탐색기 있음");
             if (App.Manager.Map.CheckCanInstallDrone())

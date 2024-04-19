@@ -8,7 +8,7 @@ using UnityEngine.Rendering.UI;
 using Yarn.Compiler;
 using Random = System.Random;
 
-public class MapManager : ManagementBase
+public class MapManager : Manager
 {
     public MapUiController mapUIController;
     public MapController mapController;
@@ -273,11 +273,6 @@ public class MapManager : ManagementBase
         isDisturbtorPrepared = false;
     }
 
-    public override EManagerType GetManagemetType()
-    {
-        return EManagerType.MAP;
-    }
-
     public void SetMapCameraPriority(bool _set)
     {
         mapCineCamera.SetPrioryty(_set);
@@ -301,7 +296,7 @@ public class MapManager : ManagementBase
     {
         if (mapController.CheckZombies())
         {
-            UIManager.instance.GetAlertController().SetAlert("caution", true);
+            App.Manager.UI.GetAlertController().SetAlert("caution", true);
         }
         else
             return;
@@ -316,10 +311,10 @@ public class MapManager : ManagementBase
         if (structure != null)
         {
             if (structure is Tower)
-                if (UIManager.instance.GetInventoryController().CheckNetCardUsage() == false) return;
+                if (App.Manager.UI.GetInventoryController().CheckNetCardUsage() == false) return;
 
             if (structure.IsUse == false)
-                UIManager.instance.GetPageController().SetSelectPage("structureSelect", structure);
+                App.Manager.UI.GetPageController().SetSelectPage("structureSelect", structure);
         }
         else
         {
@@ -358,7 +353,7 @@ public class MapManager : ManagementBase
         // 플레이어 체력 0으로 만들어서 경로 선택 막기
         if (isTundraTile)
         {
-            UIManager.instance.GetPageController().SetResultPage("SEARCH_TUNDRA", false);
+            App.Manager.UI.GetPageController().SetResultPage("SEARCH_TUNDRA", false);
             mapController.Player.SetHealth(false);
         }
 
@@ -411,7 +406,7 @@ public class MapManager : ManagementBase
         if (curStructure == null)
             return false;
 
-        if (curStructure.VisitDay != UIManager.instance.GetNoteController().dayCount)
+        if (curStructure.VisitDay != App.Manager.UI.GetNoteController().dayCount)
         {
             return true;
         }
@@ -461,7 +456,7 @@ public class MapManager : ManagementBase
         if(resources.Find(x=> x.ItemBase.data.Code == "ITEM_GAS") != null)
         {
             Debug.Log("에테르 디버프");
-            UIManager.instance.GetPageController().SetResultPage("ACIDENT_ETHER", false);
+            App.Manager.UI.GetPageController().SetResultPage("ACIDENT_ETHER", false);
             mapController.Player.SetHealth(false);
         }
         else

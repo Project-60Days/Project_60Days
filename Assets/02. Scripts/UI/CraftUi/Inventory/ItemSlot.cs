@@ -16,9 +16,9 @@ public class ItemSlot : SlotBase
     {
         if (item.data.Code == "ITEM_NETWORKCHIP") return;
 
-        if (UIManager.instance.GetCraftModeController().eCraftModeType == ECraftModeType.Craft)
+        if (App.Manager.UI.GetCraftModeController().eCraftModeType == ECraftModeType.Craft)
         {
-            if (UIManager.instance.GetCraftingUiController().isMoreThanThree() == true) return;
+            if (App.Manager.UI.GetCraftingUiController().isMoreThanThree() == true) return;
 
             string sfxName = "SFX_Crafting_" + item.data.Code;
             if (App.Manager.Sound.CheckSFXExist(sfxName) == true)
@@ -28,15 +28,15 @@ public class ItemSlot : SlotBase
 
             CraftItemClick?.Invoke(item.sprite);
 
-            UIManager.instance.GetCraftingUiController().MoveInventoryToCraft(item);
+            App.Manager.UI.GetCraftingUiController().MoveInventoryToCraft(item);
 
             HideItemInfo();
         }
-        else if (UIManager.instance.GetCraftModeController().eCraftModeType == ECraftModeType.Equip)
+        else if (App.Manager.UI.GetCraftModeController().eCraftModeType == ECraftModeType.Equip)
         {
             if (item.eItemType == EItemType.Equipment)
             {
-                if (UIManager.instance.GetCraftingUiController().MoveInventoryToEquip(item) == true) 
+                if (App.Manager.UI.GetCraftingUiController().MoveInventoryToEquip(item) == true) 
                     HideItemInfo();
             }   
         }

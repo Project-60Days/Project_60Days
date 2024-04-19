@@ -27,7 +27,7 @@ public class EquipSlot : SlotBase
     {
         if (isLocked == true) return;
 
-        UIManager.instance.GetCraftingUiController().MoveEquipToInventory(item);
+        App.Manager.UI.GetCraftingUiController().MoveEquipToInventory(item);
 
         HideItemInfo();
     }

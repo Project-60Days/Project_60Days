@@ -39,6 +39,6 @@ public class DynamoStructure : StructureBase
         isUse = true;
         isAccessible = true;
 
-        UIManager.instance.GetPageController().CreateSelectDialogueRunner("sequence");
+        App.Manager.UI.GetPageController().CreateSelectDialogueRunner("sequence");
     }
 }

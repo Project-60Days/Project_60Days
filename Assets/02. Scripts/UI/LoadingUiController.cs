@@ -12,13 +12,13 @@ public class LoadingUiController : MonoBehaviour
 
     IEnumerator LoadScene()
     {
-        UIManager.instance.AddCurrUIName("UI_LOADING");
+        App.Manager.UI.AddCurrUIName(UIState.Loading);
 
         yield return new WaitUntil(() => App.Manager.Map.mapController != null);
         yield return new WaitUntil(() => App.Manager.Map.mapController.LoadingComplete == true);
 
         App.Manager.Sound.PlayBGM("BGM_InGameTheme");
         gameObject.SetActive(false);
-        UIManager.instance.GetNextDayController().InitBlackPanel();
+        App.Manager.UI.GetNextDayController().InitBlackPanel();
     }
 }

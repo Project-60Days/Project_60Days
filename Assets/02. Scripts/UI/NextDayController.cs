@@ -38,7 +38,7 @@ public class NextDayController : MonoBehaviour
             normalCamera.Shake();
         }
         else
-            UIManager.instance.GetUpperController().UpdateDurabillity();
+            App.Manager.UI.GetUpperController().UpdateDurabillity();
 
         Sequence sequence = DOTween.Sequence();
         sequence.Append(blackPanel.DOFade(0f, 1f).SetEase(Ease.Linear))
@@ -48,9 +48,9 @@ public class NextDayController : MonoBehaviour
 
         isHit = false;
 
-        UIManager.instance.PopCurrUI();
+        App.Manager.UI.PopCurrUI();
 
-        UIManager.instance.GetNoteController().isNewDay = true;
+        App.Manager.UI.GetNoteController().isNewDay = true;
     }
 
 
@@ -59,7 +59,7 @@ public class NextDayController : MonoBehaviour
     /// </summary>
     public void NextDayEvent()
     {
-        UIManager.instance.AddCurrUIName("UI_LOADING");
+        App.Manager.UI.AddCurrUIName(UIState.Loading);
 
         blackPanel.gameObject.SetActive(true);
 
@@ -84,7 +84,7 @@ public class NextDayController : MonoBehaviour
     /// </summary>
     IEnumerator NextDayEventCallBack(System.Action callback)
     {
-        UIManager.instance.GetAlertController().InitAlert();
+        App.Manager.UI.GetAlertController().InitAlert();
 
         App.Manager.Map.SetMapCameraPriority(false);
         transposer.m_CameraDistance = 5f;
@@ -100,10 +100,10 @@ public class NextDayController : MonoBehaviour
 
     IEnumerator ShowNextDate()
     {
-        UIManager.instance.GetNoteController().SetNextDay();
-        UIManager.instance.GetCraftingUiController().EquipItemDayEvent();
+        App.Manager.UI.GetNoteController().SetNextDay();
+        App.Manager.UI.GetCraftingUiController().EquipItemDayEvent();
 
-        int today = UIManager.instance.GetNoteController().dayCount;
+        int today = App.Manager.UI.GetNoteController().dayCount;
 
         string text = "<color=white>Day " + "{vertexp}" + today.ToString() + "{/vertexp}</color>";
 
@@ -152,10 +152,10 @@ public class NextDayController : MonoBehaviour
 
             string nodeName = resources[i].ItemBase.data.Code + "_" + tileName + randomNumber.ToString();
 
-            if (resources[i].ItemBase.data.Code == "ITEM_NETWORKCHIP") 
-                UIManager.instance.GetPageController().SetResultPage(nodeName, false);
+            if (resources[i].ItemBase.data.Code == "ITEM_NETWORKCHIP")
+                App.Manager.UI.GetPageController().SetResultPage(nodeName, false);
             else
-                UIManager.instance.GetPageController().SetResultPage(nodeName, true);
+                App.Manager.UI.GetPageController().SetResultPage(nodeName, true);
         }
     }
 

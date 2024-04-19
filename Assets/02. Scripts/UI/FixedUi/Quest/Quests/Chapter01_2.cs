@@ -19,13 +19,13 @@ public class Chapter01_2 : QuestBase
     public override IEnumerator CheckQuestComplete()
     {
         yield return new WaitUntil(() => CheckMeetCondition());
-        yield return new WaitUntil(() => UIManager.instance.isUIStatus("UI_NORMAL"));
+        yield return new WaitUntil(() => App.Manager.UI.isUIStatus(UIState.Normal));
         AfterQuest();
     }
 
     public override bool CheckMeetCondition()
     {
-        return UIManager.instance.GetPageController().isClickYesBtnInProductionStructure;
+        return App.Manager.UI.GetPageController().isClickYesBtnInProductionStructure;
     }
 
     public override string SetQuestText()

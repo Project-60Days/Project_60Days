@@ -22,20 +22,20 @@ public class MapInteraction : MonoBehaviour, IPointerClickHandler, IPointerEnter
     /// <param name="eventData"></param>
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (UIManager.instance.isUIStatus("UI_NORMAL") == false) return;
+        if (App.Manager.UI.isUIStatus(UIState.Normal) == false) return;
         SetOutline(false);
-        UIManager.instance.GetNextDayController().GoToMap();
+        App.Manager.UI.GetNextDayController().GoToMap();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (UIManager.instance.isUIStatus("UI_NORMAL") == true)
+        if (App.Manager.UI.isUIStatus(UIState.Normal) == true)
             SetOutline(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (UIManager.instance.isUIStatus("UI_NORMAL") == true)
+        if (App.Manager.UI.isUIStatus(UIState.Normal) == true)
             SetOutline(false);
     }
 

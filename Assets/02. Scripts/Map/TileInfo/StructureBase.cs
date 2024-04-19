@@ -41,7 +41,7 @@ public abstract class StructureBase
     public void SetIsUse(bool _isUse)
     {
         isUse = _isUse;
-        visitDay = UIManager.instance.GetNoteController().dayCount;
+        visitDay = App.Manager.UI.GetNoteController().dayCount;
     }
     
     public void SetColleagues(List<TileBase> _colleagues)

@@ -19,13 +19,13 @@ public class Chapter01_3 : QuestBase
     public override IEnumerator CheckQuestComplete()
     {
         yield return new WaitUntil(() => CheckMeetCondition());
-        yield return new WaitUntil(() => UIManager.instance.isUIStatus("UI_NORMAL"));
+        yield return new WaitUntil(() => App.Manager.UI.isUIStatus(UIState.Normal));
         AfterQuest();
     }
 
     public override bool CheckMeetCondition()
     {
-        return UIManager.instance.GetInventoryController().CheckInventoryItem("ITEM_NETWORKCHIP");
+        return App.Manager.UI.GetInventoryController().CheckInventoryItem("ITEM_NETWORKCHIP");
     }
 
     public override string SetQuestText()

@@ -25,13 +25,13 @@ public class NoteInteraction : MonoBehaviour, IPointerClickHandler, IPointerEnte
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (UIManager.instance.isUIStatus("UI_NORMAL") == true)
+        if (App.Manager.UI.isUIStatus(UIState.Normal) == true)
             SetOutline(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (UIManager.instance.isUIStatus("UI_NORMAL") == true)
+        if (App.Manager.UI.isUIStatus(UIState.Normal) == true)
             SetOutline(false);
     }
 

@@ -61,12 +61,12 @@ public class WorkBenchUiOpen : MonoBehaviour
 
     void OpenUi()
     {
-        if (UIManager.instance.isUIStatus("UI_NORMAL") == false) return;
+        if (App.Manager.UI.isUIStatus(UIState.Normal) == false) return;
 
-        UIManager.instance.AddCurrUIName(StringUtility.UI_CRAFTING);
+        App.Manager.UI.AddCurrUIName(UIState.Craft);
 
         ActivateUiObjects(true);
-        UIManager.instance.GetCraftingUiController().EnterUi();
+        App.Manager.UI.GetCraftingUiController().EnterUi();
         craftEffectAnim.Init();
 
         FadeInUiObjects();
@@ -81,18 +81,18 @@ public class WorkBenchUiOpen : MonoBehaviour
             .Append(inventoryUi.GetComponent<CanvasGroup>().DOFade(1f, 0.5f))
             .Join(productionUi.GetComponent<CanvasGroup>().DOFade(1f, 0.5f))
             .Join(decorationUi.GetComponent<CanvasGroup>().DOFade(1f, 0.5f))
-            .OnComplete(() => UIManager.instance.GetItemInfoController().isOpen = true);
+            .OnComplete(() => App.Manager.UI.GetItemInfoController().isOpen = true);
     }
 
     public void CloseUi()
     {
-        if (UIManager.instance.isUIStatus("UI_CRAFTING"))
-            UIManager.instance.PopCurrUI();
+        if (App.Manager.UI.isUIStatus(UIState.Craft))
+            App.Manager.UI.PopCurrUI();
         else return;
 
         craftEffectAnim.isActive = false;
-        UIManager.instance.GetItemInfoController().isOpen = false;
-        UIManager.instance.GetCraftingUiController().ExitUi();
+        App.Manager.UI.GetItemInfoController().isOpen = false;
+        App.Manager.UI.GetCraftingUiController().ExitUi();
 
         FadeOutUiObjects();
     }

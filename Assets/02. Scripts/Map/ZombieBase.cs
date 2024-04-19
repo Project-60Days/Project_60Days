@@ -41,11 +41,11 @@ public class ZombieBase : MonoBehaviour
 
     public void Init(Tile tile)
     {
-        App.Data.Game.tempData.TryGetValue("Data_Zombie_Move_Possibility", out TempData move);
-        App.Data.Game.tempData.TryGetValue("Data_Zombie_Stay_Possibility", out TempData stay);
-        App.Data.Game.tempData.TryGetValue("Data_SpecialZombie_Possibility", out TempData special);
-        App.Data.Game.tempData.TryGetValue("Data_MinCount_ZombieSwarm", out TempData min);
-        App.Data.Game.tempData.TryGetValue("Data_MaxCount_ZombieSwarm", out TempData max);
+        App.Data.Game.valueData.TryGetValue("Data_Zombie_Move_Possibility", out ValueData move);
+        App.Data.Game.valueData.TryGetValue("Data_Zombie_Stay_Possibility", out ValueData stay);
+        App.Data.Game.valueData.TryGetValue("Data_SpecialZombie_Possibility", out ValueData special);
+        App.Data.Game.valueData.TryGetValue("Data_MinCount_ZombieSwarm", out ValueData min);
+        App.Data.Game.valueData.TryGetValue("Data_MaxCount_ZombieSwarm", out ValueData max);
 
         zombieData.movePossibility = move.value;
         zombieData.stayPossibility = stay.value;

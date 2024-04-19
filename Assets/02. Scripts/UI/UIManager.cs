@@ -24,13 +24,13 @@ public class UIManager : Manager
     [SerializeField] PVController pvController;
 
 
-    public Stack<string> currUIStack = new Stack<string>();
+    public Stack<UIState> currUIStack = new Stack<UIState>();
 
     protected override void Awake()
     {
         base.Awake();
 
-        currUIStack.Push(StringUtility.UI_NORMAL);
+        currUIStack.Push(UIState.Normal);
     }
     void Update()
     {
@@ -41,16 +41,16 @@ public class UIManager : Manager
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isUIStatus("UI_MENU") == false)
+            if (isUIStatus(UIState.Menu) == false)
                 menuController.EnterMenu();
             else
                 menuController.QuitMenu();
         }
     }
 
-    public void AddCurrUIName(string _uiName)
+    public void AddCurrUIName(UIState _state)
     {
-        currUIStack.Push(_uiName);
+        currUIStack.Push(_state);
 
         Debug.LogError("currUIStack : " + currUIStack.Peek());
     }
@@ -60,9 +60,24 @@ public class UIManager : Manager
         currUIStack.Pop();
     }
 
-    public bool isUIStatus(string _cmp)
+    public UIState StringToState(string _state) => _state switch
     {
-        currUIStack.TryPeek(out string top);
+        "UI_NORMAL" => UIState.Normal,
+        "UI_MAP" => UIState.Map,
+        "UI_NOTE" => UIState.Note,
+        "UI_CRAFTING" => UIState.Craft,
+        "UI_SELECT" => UIState.Select,
+        "UI_PV" => UIState.PV,
+        "UI_POPUP" => UIState.PopUp,
+        "UI_LOADING" => UIState.Loading,
+        "UI_MENU" => UIState.Menu,
+        _ => UIState.Normal,
+
+    };
+
+    public bool isUIStatus(UIState _cmp)
+    {
+        currUIStack.TryPeek(out UIState top);
         return _cmp == top;
     }
 

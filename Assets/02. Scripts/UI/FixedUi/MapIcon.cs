@@ -42,7 +42,7 @@ public class MapIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public virtual void ShowMapInfo()
     {
         Vector3 mousePos = Input.mousePosition;
-        UIManager.instance.GetInfoController().ShowMapInfo(tileType, mousePos);
+        App.Manager.UI.GetInfoController().ShowMapInfo(tileType, mousePos);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -50,7 +50,7 @@ public class MapIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         if (isMouseEnter == false)
         {
             isMouseEnter = true;
-            UIManager.instance.GetInfoController().isNew = true;
+            App.Manager.UI.GetInfoController().isNew = true;
         }
     }
 
@@ -59,7 +59,7 @@ public class MapIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         if (isMouseEnter == true)
         {
             isMouseEnter = false;
-            UIManager.instance.GetInfoController().HideInfo();
+            App.Manager.UI.GetInfoController().HideInfo();
         }
     }
 

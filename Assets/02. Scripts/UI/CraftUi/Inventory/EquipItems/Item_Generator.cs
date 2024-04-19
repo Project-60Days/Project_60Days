@@ -9,15 +9,15 @@ public class Item_Generator : ItemBase
 
     public override void Equip()
     {
-        beforeDay = UIManager.instance.GetNoteController().dayCount;
+        beforeDay = App.Manager.UI.GetNoteController().dayCount;
     }
 
     public override void DayEvent()
     {
-        if ((UIManager.instance.GetNoteController().dayCount - beforeDay) % data.value1 == 0)
+        if ((App.Manager.UI.GetNoteController().dayCount - beforeDay) % data.value1 == 0)
         {
             for (int i = 0; i < data.value2; i++)
-                UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_PLASMA");
+                App.Manager.UI.GetInventoryController().AddItemByItemCode("ITEM_PLASMA");
         }
     }
 }

@@ -28,24 +28,24 @@ public class TutorialManager : MonoBehaviour
 
     public void StartTutorial()
     {
-        UIManager.instance.GetPageController().SetTutorialSelect();
+        App.Manager.UI.GetPageController().SetTutorialSelect();
 
-        UIManager.instance.GetCraftingUiController().AddBatteryCombine();
+        App.Manager.UI.GetCraftingUiController().AddBatteryCombine();
 
-        UIManager.instance.GetAlertController().SetAlert("note", false);
+        App.Manager.UI.GetAlertController().SetAlert("note", false);
 
-        UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_PLASMA");
-        UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_CARBON");
-        UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_STEEL");
+        App.Manager.UI.GetInventoryController().AddItemByItemCode("ITEM_PLASMA");
+        App.Manager.UI.GetInventoryController().AddItemByItemCode("ITEM_CARBON");
+        App.Manager.UI.GetInventoryController().AddItemByItemCode("ITEM_STEEL");
 
         tutorialController.StartDialogue();
     }
 
     public void EndTutorial()
     {
-        UIManager.instance.GetCraftingUiController().RemoveBatteryCombine();
+        App.Manager.UI.GetCraftingUiController().RemoveBatteryCombine();
 
-        UIManager.instance.GetQuestController().StartMainQuest();
+        App.Manager.UI.GetQuestController().StartMainQuest();
 
         Destroy(this);
     }

@@ -19,7 +19,7 @@ public class Tutorial02 : QuestBase
     
     public override bool CheckMeetCondition()
     {
-        return UIManager.instance.GetInventoryController().CheckInventoryItem("ITEM_BATTERY");
+        return App.Manager.UI.GetInventoryController().CheckInventoryItem("ITEM_BATTERY");
     }
 
     public override string SetQuestText()

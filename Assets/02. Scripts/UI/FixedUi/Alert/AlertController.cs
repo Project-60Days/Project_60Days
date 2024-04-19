@@ -30,9 +30,9 @@ public class AlertController : MonoBehaviour
 
     public void ClickNoteAlert()
     {
-        if (UIManager.instance.isUIStatus("UI_NORMAL") == true)
-            UIManager.instance.GetNoteController().OpenNote();
-        else if (UIManager.instance.isUIStatus("UI_MAP") == true)
+        if (App.Manager.UI.isUIStatus(UIState.Normal) == true)
+            App.Manager.UI.GetNoteController().OpenNote();
+        else if (App.Manager.UI.isUIStatus(UIState.Map) == true)
             StartCoroutine(OpenNoteInMap());
         else
             return;
@@ -40,14 +40,14 @@ public class AlertController : MonoBehaviour
 
     IEnumerator OpenNoteInMap()
     {
-        UIManager.instance.GetNextDayController().GoToLab();
-        yield return new WaitUntil(() => UIManager.instance.isUIStatus("UI_NORMAL"));
-        UIManager.instance.GetNoteController().OpenNote();
+        App.Manager.UI.GetNextDayController().GoToLab();
+        yield return new WaitUntil(() => App.Manager.UI.isUIStatus(UIState.Normal));
+        App.Manager.UI.GetNoteController().OpenNote();
     }
 
     public void CautionAlert()
     {
-        if (UIManager.instance.isUIStatus("UI_NORMAL") == false) return;
-        UIManager.instance.GetNextDayController().GoToMap();
+        if (App.Manager.UI.isUIStatus(UIState.Normal) == false) return;
+        App.Manager.UI.GetNextDayController().GoToMap();
     }
 }

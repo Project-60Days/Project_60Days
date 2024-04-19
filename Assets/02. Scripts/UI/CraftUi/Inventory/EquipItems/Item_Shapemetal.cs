@@ -10,16 +10,16 @@ public class Item_Shapemetal : ItemBase
 
     public override void Equip()
     {
-        beforeDay = UIManager.instance.GetNoteController().dayCount;
+        beforeDay = App.Manager.UI.GetNoteController().dayCount;
         beforeDurabillity = App.Manager.Map.mapController.Player.Durability;
 
         App.Manager.Map.mapController.Player.Durability += (int)data.value1;
         App.Manager.Map.mapController.Player.ClockUntil((int)data.value2);
-        UIManager.instance.GetUpperController().IncreaseDurabillityAnimation();
+        App.Manager.UI.GetUpperController().IncreaseDurabillityAnimation();
     }
 
     public override bool CheckMeetCondition()
     {
-        return (UIManager.instance.GetNoteController().dayCount - beforeDay >= 6 && App.Manager.Map.mapController.Player.Durability <= beforeDurabillity) ;
+        return (App.Manager.UI.GetNoteController().dayCount - beforeDay >= 6 && App.Manager.Map.mapController.Player.Durability <= beforeDurabillity) ;
     }
 }

@@ -17,15 +17,15 @@ public class CraftSlot : SlotBase
         switch (eSlotType)
         {
             case ESlotType.CraftingSlot:
-                UIManager.instance.GetCraftingUiController().MoveCraftToInventory(item);
+                App.Manager.UI.GetCraftingUiController().MoveCraftToInventory(item);
                 break;
             case ESlotType.ResultSlot:
-                UIManager.instance.GetCraftingUiController().MoveResultToInventory(item);
+                App.Manager.UI.GetCraftingUiController().MoveResultToInventory(item);
                 App.Manager.Sound.PlaySFX("SFX_Crafting_Result");
                 if (item.isMadeOnce == false)
                 {
                     item.isMadeOnce = true;
-                    UIManager.instance.GetCraftModeController().UpdateBlueprint();
+                    App.Manager.UI.GetCraftModeController().UpdateBlueprint();
                 }
                     
                 break;

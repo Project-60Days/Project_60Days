@@ -65,11 +65,11 @@ public class CustomYarnCommands : MonoBehaviour
 
     void AppendNode()
     {
-        string nodeName = UIManager.instance.GetPageController().GetNextResourceNodeName();
+        string nodeName = App.Manager.UI.GetPageController().GetNextResourceNodeName();
 
         if (nodeName == "-1") return;
 
-        UIManager.instance.GetPageController().CreateResultDialogueRunner(nodeName);
+        App.Manager.UI.GetPageController().CreateResultDialogueRunner(nodeName);
     }
 
 
@@ -79,17 +79,18 @@ public class CustomYarnCommands : MonoBehaviour
     #region tutorial
     void HighLightObject(string _objectID, string _waitStatusName)
     {
-        UIManager.instance.GetUIHighLightController().ShowHighLight(_objectID, _waitStatusName);
+        App.Manager.UI.GetUIHighLightController().ShowHighLight(_objectID, _waitStatusName);
     }
 
     void HighLightBtn(string _objectID)
     {
-        UIManager.instance.GetUIHighLightController().ShowBtnHighLight(_objectID);
+        App.Manager.UI.GetUIHighLightController().ShowBtnHighLight(_objectID);
     }
 
     Coroutine WaitUntilUIState(string _UIName)
     {
-        return StartCoroutine(new WaitUntil(() => UIManager.instance.isUIStatus(_UIName)));
+        UIState state = App.Manager.UI.StringToState(_UIName);
+        return StartCoroutine(new WaitUntil(() => App.Manager.UI.isUIStatus(state)));
     }
 
     void HideDialogue()
@@ -104,12 +105,12 @@ public class CustomYarnCommands : MonoBehaviour
 
     void SetQuest(string _questCode)
     {
-        UIManager.instance.GetQuestController().CreateQuest(_questCode);
+        App.Manager.UI.GetQuestController().CreateQuest(_questCode);
     }
 
     void SetCloseBtnEnabled(bool _isEnabled)
     {
-        UIManager.instance.GetNoteController().SetCloseBtnEnabled(_isEnabled);
+        App.Manager.UI.GetNoteController().SetCloseBtnEnabled(_isEnabled);
     }
 
     void LightUpAndFillBattery(int _num)
@@ -142,7 +143,7 @@ public class CustomYarnCommands : MonoBehaviour
     #region 02
     Coroutine WaitGetItem(string _itemCode)
     {
-        return StartCoroutine(new WaitUntil(() => UIManager.instance.GetInventoryController().CheckInventoryItem(_itemCode)));
+        return StartCoroutine(new WaitUntil(() => App.Manager.UI.GetInventoryController().CheckInventoryItem(_itemCode)));
     }
     #endregion
 
@@ -153,17 +154,17 @@ public class CustomYarnCommands : MonoBehaviour
     #region 03
     void SetAlertState(string _alertType, bool _isActive)
     {
-        UIManager.instance.GetAlertController().SetAlert(_alertType, _isActive);
+        App.Manager.UI.GetAlertController().SetAlert(_alertType, _isActive);
     }
 
     Coroutine WaitMoveScroll()
     {
-        return StartCoroutine(new WaitUntil(() => UIManager.instance.GetNoteController().CheckIfScrolledToEnd()));
+        return StartCoroutine(new WaitUntil(() => App.Manager.UI.GetNoteController().CheckIfScrolledToEnd()));
     }
 
     void SetScrollBar(bool _isInteractable)
     {
-        UIManager.instance.GetNoteController().SetScrollBarInteractable(_isInteractable);
+        App.Manager.UI.GetNoteController().SetScrollBarInteractable(_isInteractable);
     }
     #endregion
 
@@ -206,7 +207,7 @@ public class CustomYarnCommands : MonoBehaviour
     #region 06
     Coroutine WaitNewDay()
     {
-        return StartCoroutine(new WaitUntil(() => UIManager.instance.GetNoteController().GetNewDay()));
+        return StartCoroutine(new WaitUntil(() => App.Manager.UI.GetNoteController().GetNewDay()));
     }
 
     void EnableBtn()
@@ -221,12 +222,12 @@ public class CustomYarnCommands : MonoBehaviour
     #region 08
     void StartPV()
     {
-        UIManager.instance.GetPVController().Start01();
+        App.Manager.UI.GetPVController().Start01();
     }
 
     Coroutine WaitPVEnd()
     {
-        return StartCoroutine(new WaitUntil(() => UIManager.instance.GetPVController().isEnd));
+        return StartCoroutine(new WaitUntil(() => App.Manager.UI.GetPVController().isEnd));
     }
 
 
@@ -276,14 +277,14 @@ public class CustomYarnCommands : MonoBehaviour
     [YarnFunction("getResourceName")]
     static string GetResourceName()
     {
-        string resourceName = UIManager.instance.GetPageController().currResource;
+        string resourceName = App.Manager.UI.GetPageController().currResource;
         return resourceName;
     }
 
     [YarnFunction("getResourceIndex")]
     static int GetResourceIndex()
     {
-        int resourceIndex = UIManager.instance.GetPageController().currResourceIndex;
+        int resourceIndex = App.Manager.UI.GetPageController().currResourceIndex;
         return resourceIndex;
     }
 
@@ -315,7 +316,7 @@ public class CustomYarnCommands : MonoBehaviour
     [YarnFunction("getStructName")]
     static string GetStructName()
     {
-        string structName = UIManager.instance.GetPageController().currStruct;
+        string structName = App.Manager.UI.GetPageController().currStruct;
         
         return structName;
     }

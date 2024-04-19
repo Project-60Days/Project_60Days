@@ -47,7 +47,7 @@ public class CraftModeController : MonoBehaviour
 
         eCraftModeType = ECraftModeType.Craft;
 
-        UIManager.instance.GetCraftingRawImageController().DestroyObject();
+        App.Manager.UI.GetCraftingRawImageController().DestroyObject();
 
         inventoryImage.sprite = inventorySprite[0];
     }
@@ -55,7 +55,7 @@ public class CraftModeController : MonoBehaviour
     void CraftInActiveMode()
     {
         craftBag.SetActive(false);
-        UIManager.instance.GetCraftingUiController().ExitCraftBag();
+        App.Manager.UI.GetCraftingUiController().ExitCraftBag();
     }
 
     void EquipActiveMode()
@@ -65,7 +65,7 @@ public class CraftModeController : MonoBehaviour
 
         eCraftModeType = ECraftModeType.Equip;
 
-        UIManager.instance.GetCraftingRawImageController().DestroyObject();
+        App.Manager.UI.GetCraftingRawImageController().DestroyObject();
 
         inventoryImage.sprite = inventorySprite[1];
     }
@@ -84,7 +84,7 @@ public class CraftModeController : MonoBehaviour
 
         eCraftModeType = ECraftModeType.Blueprint;
 
-        UIManager.instance.GetCraftingRawImageController().DestroyObject();
+        App.Manager.UI.GetCraftingRawImageController().DestroyObject();
 
         inventoryImage.sprite = inventorySprite[2];
 
@@ -97,7 +97,7 @@ public class CraftModeController : MonoBehaviour
         blueprintBag.SetActive(false);
         blueprintBack.SetActive(false);
 
-        UIManager.instance.GetCraftingUiController().ExitBlueprintBag();
+        App.Manager.UI.GetCraftingUiController().ExitBlueprintBag();
     }
 
     public void UpdateBlueprint()

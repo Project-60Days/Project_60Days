@@ -58,7 +58,7 @@ public class PVController : MonoBehaviour
         {
             PVImage.SetActive(false);
 
-            UIManager.instance.PopCurrUI();
+            App.Manager.UI.PopCurrUI();
             App.Manager.Sound.PlayBGM("BGM_InGameTheme");
 
             isEnd = true;
@@ -91,7 +91,7 @@ public class PVController : MonoBehaviour
 
         blackPanel.gameObject.SetActive(true);
 
-        UIManager.instance.AddCurrUIName("UI_PV");
+        App.Manager.UI.AddCurrUIName(UIState.PV);
         App.Manager.Sound.StopBGM();
     }
 

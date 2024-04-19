@@ -14,6 +14,19 @@ public enum EUILayer
     Setting
 }
 
+public enum UIState
+{
+    Normal, 
+    Map,
+    Note,
+    Craft,
+    Select,
+    PV,
+    PopUp,
+    Loading,
+    Menu
+}
+
 public enum EItemType
 {
     Material,

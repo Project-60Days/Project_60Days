@@ -52,7 +52,7 @@ public class InventoryController : MonoBehaviour
     {
         InitSlots();
 
-        UIManager.instance.GetUpperController().UpdateItemCount();
+        App.Manager.UI.GetUpperController().UpdateItemCount();
 
         for (int i = 0; i < items.Count; i++)
         {
@@ -170,8 +170,8 @@ public class InventoryController : MonoBehaviour
             if(items[random].data.Code != "ITEM_NETWORKCHIP")
                 break;
         }
-        UIManager.instance.GetPageController().SetCurrResource(items[random]);
-        UIManager.instance.GetPageController().SetResultPage("LOOSE_RESOURCE", false);
+        App.Manager.UI.GetPageController().SetCurrResource(items[random]);
+        App.Manager.UI.GetPageController().SetResultPage("LOOSE_RESOURCE", false);
         
         RemoveItem(items[random]);
     }

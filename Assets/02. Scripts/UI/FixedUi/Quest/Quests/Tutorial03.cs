@@ -20,13 +20,13 @@ public class Tutorial03 : QuestBase
     public override IEnumerator CheckQuestComplete()
     {
         yield return new WaitUntil(() => CheckMeetCondition());
-        yield return new WaitUntil(() => UIManager.instance.isUIStatus("UI_NORMAL"));
+        yield return new WaitUntil(() => App.Manager.UI.isUIStatus(UIState.Normal));
         AfterQuest();
     }
 
     public override bool CheckMeetCondition()
     {
-        return UIManager.instance.isUIStatus("UI_NOTE");
+        return App.Manager.UI.isUIStatus(UIState.Note);
     }
 
     public override string SetQuestText()

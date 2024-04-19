@@ -165,16 +165,16 @@ public class TutorialController : MonoBehaviour
     {
         string nodeName = "ITEM_TUTORIAL";
 
-        UIManager.instance.GetPageController().SetResultPage(nodeName, true);
+        App.Manager.UI.GetPageController().SetResultPage(nodeName, true);
 
         StartCoroutine(AddResource());
     }
 
     IEnumerator AddResource()
     {
-        yield return new WaitUntil(() => UIManager.instance.isUIStatus("UI_NORMAL"));
+        yield return new WaitUntil(() => App.Manager.UI.isUIStatus(UIState.Normal));
 
-        UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_DISTURBE");
-        UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_FINDOR");
+        App.Manager.UI.GetInventoryController().AddItemByItemCode("ITEM_DISTURBE");
+        App.Manager.UI.GetInventoryController().AddItemByItemCode("ITEM_FINDOR");
     }
 }

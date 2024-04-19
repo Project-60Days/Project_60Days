@@ -21,7 +21,7 @@ public abstract class SlotBase : MonoBehaviour, IPointerClickHandler, IPointerEn
     public virtual void ShowItemInfo()
     {
         Vector3 mousePos = Input.mousePosition;
-        UIManager.instance.GetItemInfoController().ShowInfo(_item, mousePos);
+        App.Manager.UI.GetItemInfoController().ShowInfo(_item, mousePos);
     }
 
     public ItemBase item
@@ -50,7 +50,7 @@ public abstract class SlotBase : MonoBehaviour, IPointerClickHandler, IPointerEn
         if (item != null && isMouseEnter == false)
         {
             isMouseEnter = true;
-            UIManager.instance.GetItemInfoController().isNew = true;
+            App.Manager.UI.GetItemInfoController().isNew = true;
         }
             
     }
@@ -59,14 +59,14 @@ public abstract class SlotBase : MonoBehaviour, IPointerClickHandler, IPointerEn
     {
         if (isMouseEnter == true) 
         {
-            UIManager.instance.GetItemInfoController().HideInfo();
+            App.Manager.UI.GetItemInfoController().HideInfo();
             isMouseEnter = false;
         }
     }
 
     protected void HideItemInfo()
     {
-        UIManager.instance.GetItemInfoController().HideInfo();
+        App.Manager.UI.GetItemInfoController().HideInfo();
         if (item == null)
             isMouseEnter = false;
     }

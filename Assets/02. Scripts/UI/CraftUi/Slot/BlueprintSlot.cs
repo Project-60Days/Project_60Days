@@ -26,7 +26,7 @@ public class BlueprintSlot : SlotBase
         if (item == unknownItem)
             return;
 
-        UIManager.instance.GetCraftingUiController().ShowItemBlueprint(item);
+        App.Manager.UI.GetCraftingUiController().ShowItemBlueprint(item);
         CraftItemClick?.Invoke(item.sprite);
     }
 

@@ -44,16 +44,16 @@ public class PopUpController : MonoBehaviour
 
     public IEnumerator EndGamePopUp()
     {
-        UIManager.instance.GetUIHighLightController().ShowHighLight("Alert", "UI_NOTE");
-        UIManager.instance.GetAlertController().SetAlert("caution", false);
-        yield return new WaitUntil(() => UIManager.instance.isUIStatus("UI_NOTE"));
-        yield return new WaitUntil(() => UIManager.instance.isUIStatus("UI_NORMAL"));
-        UIManager.instance.AddCurrUIName("UI_POPUP");
+        App.Manager.UI.GetUIHighLightController().ShowHighLight("Alert", "UI_NOTE");
+        App.Manager.UI.GetAlertController().SetAlert("caution", false);
+        yield return new WaitUntil(() => App.Manager.UI.isUIStatus(UIState.Note));
+        yield return new WaitUntil(() => App.Manager.UI.isUIStatus(UIState.Normal));
+        App.Manager.UI.AddCurrUIName(UIState.PopUp);
 
         bgmVolume = App.Manager.Sound.SetBGMVolumeTweening(8f);
         App.Manager.Sound.StopSFX();
 
-        text02.text = "메인 스토리 챕터 01 클리어까지 " + UIManager.instance.GetNoteController().dayCount + "일 소요되었습니다.\n축하합니다!";
+        text02.text = "메인 스토리 챕터 01 클리어까지 " + App.Manager.UI.GetNoteController().dayCount + "일 소요되었습니다.\n축하합니다!";
 
         PlayCredit();
     }
@@ -106,7 +106,7 @@ public class PopUpController : MonoBehaviour
 
     public void ClickBackToMenu()
     {
-        UIManager.instance.PopCurrUI();
+        App.Manager.UI.PopCurrUI();
         Application.Quit();
     }
 }

@@ -240,18 +240,18 @@ public class Player : MonoBehaviour
         if (durability - zombieCount > 0)
         {
             durability -= zombieCount;
-            UIManager.instance.GetNextDayController().isHit = true;
+            App.Manager.UI.GetNextDayController().isHit = true;
         }
         else if (durability - zombieCount <= 0)
         {
             // 내구도가 0이 되면 게임 오버
             durability = 0;
             isDead = true;
-            UIManager.instance.GetNextDayController().isHit = true;
+            App.Manager.UI.GetNextDayController().isHit = true;
             Debug.Log("내구도 부족. 게임 오버");
 
             // 게임 오버
-            UIManager.instance.GetNextDayController().isOver = true;
+            App.Manager.UI.GetNextDayController().isOver = true;
         }
     }
 

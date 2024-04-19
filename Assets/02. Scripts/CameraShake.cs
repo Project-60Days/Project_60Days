@@ -11,7 +11,7 @@ public class CameraShake : MonoBehaviour
     {
         PlaySFX();
 
-        UIManager.instance.GetUpperController().DecreaseDurabillityAnimation();
+        App.Manager.UI.GetUpperController().DecreaseDurabillityAnimation();
 
         mainCamera.transform.DOShakePosition(1f);
     }

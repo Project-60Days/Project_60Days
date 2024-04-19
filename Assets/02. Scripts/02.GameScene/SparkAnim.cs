@@ -72,7 +72,7 @@ public class SparkAnim : MonoBehaviour
             return;
         }
 
-        if (UIManager.instance.isUIStatus("UI_NORMAL"))
+        if (App.Manager.UI.isUIStatus(UIState.Normal))
         {
             int sfxIndex = Random.Range(1, 5);
             if (App.Manager.Sound.CheckSFXPlayNow() == false)

@@ -47,7 +47,8 @@ public class UIHighLightController : MonoBehaviour
 
     private IEnumerator HideHighLightWhenAction(HighLight _h, string _waitUntilStatusName)
     {
-        yield return new WaitUntil(() => UIManager.instance.isUIStatus(_waitUntilStatusName));
+        UIState state = App.Manager.UI.StringToState(_waitUntilStatusName);
+        yield return new WaitUntil(() => App.Manager.UI.isUIStatus(state));
 
         _h.Hide();
         highLightImg.SetActive(false);
@@ -74,7 +75,7 @@ public class UIHighLightController : MonoBehaviour
 
     private IEnumerator HideClickCraftItems(HighLight _h)
     {
-        yield return new WaitUntil(() => UIManager.instance.GetCraftingUiController().isMoreThanThree());
+        yield return new WaitUntil(() => App.Manager.UI.GetCraftingUiController().isMoreThanThree());
 
         _h.Hide();
         highLightImg.SetActive(false);
@@ -83,7 +84,7 @@ public class UIHighLightController : MonoBehaviour
 
     private IEnumerator HideClickResultItem(HighLight _h)
     {
-        yield return new WaitUntil(() => UIManager.instance.GetInventoryController().CheckInventoryItem("ITEM_BATTERY"));
+        yield return new WaitUntil(() => App.Manager.UI.GetInventoryController().CheckInventoryItem("ITEM_BATTERY"));
 
         _h.Hide();
         highLightImg.SetActive(false);

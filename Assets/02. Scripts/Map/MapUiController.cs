@@ -24,7 +24,7 @@ public class MapUiController : MonoBehaviour
     {
         // var screenPoint = Camera.main.WorldToScreenPoint(tilePos);
         // tileInfoPanel.transform.position = screenPoint;
-        if (UIManager.instance.isUIStatus("UI_MAP"))
+        if (App.Manager.UI.isUIStatus(UIState.Map))
             tileInfoPanel.gameObject.SetActive(true);
     }
 

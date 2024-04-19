@@ -20,14 +20,14 @@ public class Chapter01_5 : QuestBase
     public override IEnumerator CheckQuestComplete()
     {
         yield return new WaitUntil(() => CheckMeetCondition());
-        yield return new WaitUntil(() => UIManager.instance.isUIStatus("UI_LOADING"));
-        yield return new WaitUntil(() => UIManager.instance.isUIStatus("UI_NORMAL"));
+        yield return new WaitUntil(() => App.Manager.UI.isUIStatus(UIState.Loading));
+        yield return new WaitUntil(() => App.Manager.UI.isUIStatus(UIState.Normal));
         AfterQuest();
     }
 
     public override bool CheckMeetCondition()
     {
-        return UIManager.instance.GetPageController().isClickYesBtnInTower;
+        return App.Manager.UI.GetPageController().isClickYesBtnInTower;
     }
 
     public override string SetQuestText()
@@ -37,9 +37,9 @@ public class Chapter01_5 : QuestBase
 
     public override void AfterQuest()
     {
-        UIManager.instance.GetQuestController().SetNextQuestIndex(eQuestType, nextQuestIndex);
-        UIManager.instance.GetQuestController().StartNextQuest(this);
-        StartCoroutine(UIManager.instance.GetPopUpController().EndGamePopUp());
+        App.Manager.UI.GetQuestController().SetNextQuestIndex(eQuestType, nextQuestIndex);
+        App.Manager.UI.GetQuestController().StartNextQuest(this);
+        StartCoroutine(App.Manager.UI.GetPopUpController().EndGamePopUp());
     }
 }
 

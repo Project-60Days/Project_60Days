@@ -5,23 +5,13 @@ using UnityEngine.SceneManagement;
 using DG.Tweening;
 
 
-public enum EControllerType
-{
-    NONE, MAP
-}
-
-public enum EManagerType
-{
-    NONE, DATA, SOUND, MAP
-}
-
 public class App : Singleton<App>
 {
     readonly SoundManager sound;
     readonly MapManager map;
     readonly UIManager ui;
 
-    readonly GameDatasss gameData;
+    readonly GameData gameData;
 
     public partial class Manager
     {
@@ -32,7 +22,7 @@ public class App : Singleton<App>
 
     public class Data
     {
-        public static GameDatasss Game => instance.gameData;
+        public static GameData Game => instance.gameData;
     }
    
     

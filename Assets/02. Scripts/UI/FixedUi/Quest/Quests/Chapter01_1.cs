@@ -20,7 +20,7 @@ public class Chapter01_1 : QuestBase
     public override IEnumerator CheckQuestComplete()
     {
         yield return new WaitUntil(() => CheckMeetCondition());
-        yield return new WaitUntil(() => UIManager.instance.isUIStatus("UI_NORMAL"));
+        yield return new WaitUntil(() => App.Manager.UI.isUIStatus(UIState.Normal));
         AfterQuest();
     }
 

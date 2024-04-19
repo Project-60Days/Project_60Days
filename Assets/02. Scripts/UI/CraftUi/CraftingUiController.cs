@@ -233,21 +233,21 @@ public class CraftingUiController : MonoBehaviour
     /// <param name="_item"></param>
     public void MoveInventoryToCraft(ItemBase _item)
     {
-        UIManager.instance.GetInventoryController().RemoveItem(_item);
+        App.Manager.UI.GetInventoryController().RemoveItem(_item);
         craftItems.Add(_item);
         UpdateCraft();
     }
 
     public void MoveCraftToInventory(ItemBase _item)
     {
-        UIManager.instance.GetInventoryController().AddItem(_item);
+        App.Manager.UI.GetInventoryController().AddItem(_item);
         craftItems.Remove(_item);
         UpdateCraft();
     }
 
     public void MoveResultToInventory(ItemBase _item)
     {
-        UIManager.instance.GetInventoryController().AddItem(_item);
+        App.Manager.UI.GetInventoryController().AddItem(_item);
         craftItems.Clear();
         InitCraftSlots();
     }
@@ -299,10 +299,10 @@ public class CraftingUiController : MonoBehaviour
             if (equipSlots[i].item != null) 
             {
                 equipSlots[i].item.UnEquip();
-                UIManager.instance.GetInventoryController().AddItem(equipSlots[i].item);
+                App.Manager.UI.GetInventoryController().AddItem(equipSlots[i].item);
             }
 
-            UIManager.instance.GetInventoryController().RemoveItem(_item);
+            App.Manager.UI.GetInventoryController().RemoveItem(_item);
             equipSlots[i].item = _item;
             _item.Equip();
             if (_item.canRemoveEquipment == false)
@@ -329,7 +329,7 @@ public class CraftingUiController : MonoBehaviour
             if (equipSlots[i].item != null)
             {
                 equipSlots[i].item.UnEquip();
-                UIManager.instance.GetInventoryController().AddItem(equipSlots[i].item);
+                App.Manager.UI.GetInventoryController().AddItem(equipSlots[i].item);
             }
 
             equipSlots[i].item = null;
@@ -437,8 +437,8 @@ public class CraftingUiController : MonoBehaviour
 
     public void EnterUi()
     {
-        UIManager.instance.GetCraftModeController().SetCraftActive();
-        UIManager.instance.GetItemInfoController().HideInfo();
+        App.Manager.UI.GetCraftModeController().SetCraftActive();
+        App.Manager.UI.GetItemInfoController().HideInfo();
     }
 
     /// <summary>
@@ -453,7 +453,7 @@ public class CraftingUiController : MonoBehaviour
     public void ExitCraftBag()
     {
         for (int i = 0; i < craftItems.Count; i++)
-            UIManager.instance.GetInventoryController().AddItem(craftItems[i]);
+            App.Manager.UI.GetInventoryController().AddItem(craftItems[i]);
 
         InitCraftSlots();
         craftItems.Clear();

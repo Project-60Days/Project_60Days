@@ -23,21 +23,21 @@ public class DistrubtorButton : MonoBehaviour, IPointerClickHandler, IPointerEnt
     public virtual void ShowItemInfo()
     {
         Vector3 mousePos = Input.mousePosition;
-        UIManager.instance.GetInfoController().ShowItemInfo(text, mousePos);
+        App.Manager.UI.GetInfoController().ShowItemInfo(text, mousePos);
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         isMouseEnter = false;
-        UIManager.instance.GetInfoController().HideInfo();
+        App.Manager.UI.GetInfoController().HideInfo();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (isMouseEnter == false && UIManager.instance.isUIStatus("UI_MAP"))
+        if (isMouseEnter == false && App.Manager.UI.isUIStatus(UIState.Map))
         {
             isMouseEnter = true;
-            UIManager.instance.GetInfoController().isNew = true;
+            App.Manager.UI.GetInfoController().isNew = true;
         }
 
     }
@@ -47,13 +47,13 @@ public class DistrubtorButton : MonoBehaviour, IPointerClickHandler, IPointerEnt
         if (isMouseEnter == true)
         {
             isMouseEnter = false;
-            UIManager.instance.GetInfoController().HideInfo();
+            App.Manager.UI.GetInfoController().HideInfo();
         }
     }
 
     public void Distrubtor()
     {
-        if (UIManager.instance.GetInventoryController().CheckDistrubtorUsage())
+        if (App.Manager.UI.GetInventoryController().CheckDistrubtorUsage())
         {
             Debug.Log("교란기 있음");
             if (App.Manager.Map.CheckCanInstallDrone())

@@ -15,11 +15,40 @@ public class StringData
 }
 
 [Serializable]
-public class TempData
+public class ValueData
 {
     public int Index;
     public string Code;
     public float value;
+}
+
+[Serializable]
+public class TileData
+{
+    public int Index;
+    public int TileTypeAppearPosibility;
+    public int TileSwarmMinCount;
+    public int TileSwarmMaxCount;
+    public int RemainPossibility_Steel;
+    public int RemainPossibility_Carbon;
+    public int RemainPossibility_Plasma;
+    public int RemainPossibility_Powder;
+    public int RemainPossibility_Gas;
+    public int RemainPossibility_Rubber;
+    public string Korean;
+    public string English;
+    public string Japanese;
+    public string Chinese;
+}
+
+[Serializable]
+public class StructData
+{
+    public int Index;
+    public string code;
+    public bool IsCanAccess;
+    public string YesFuncName;
+    public string NoFuncName;
 }
 
 [Serializable]
@@ -52,50 +81,6 @@ public class ItemCombineData
     public string Material_2;
     public string Material_3;
     public string Result;
-}
-
-[Serializable]
-public class TileData
-{
-    public int Index;
-    public int TileTypeAppearPosibility;
-    public int TileSwarmMinCount;
-    public int TileSwarmMaxCount;
-    public int RemainPossibility_Steel;
-    public int RemainPossibility_Carbon;
-    public int RemainPossibility_Plasma;
-    public int RemainPossibility_Powder;
-    public int RemainPossibility_Gas;
-    public int RemainPossibility_Rubber;
-    public string Korean;
-    public string English;
-    public string Japanese;
-    public string Chinese;
-}
-
-[Serializable]
-public class DiaryData
-{
-    public int Index;
-    public int code;
-    public EScriptType ScriptType;
-    public int Script;
-    public int IsSelectScript;
-    public int RemainPossibility;
-    public string Korean;
-    public string English;
-    public string Japanese;
-    public string Chinese;
-}
-
-[Serializable]
-public class StructData
-{
-    public int Index;
-    public string code;
-    public bool IsCanAccess;
-    public string YesFuncName;
-    public string NoFuncName;
 }
 #endregion
 
@@ -149,11 +134,11 @@ public class JsonUtilityHelper
 }
 #endregion
 
-public class GameDatasss : Data
+public class GameData : Data
 {
     public Dictionary<string, StringData> stringData = new Dictionary<string, StringData>();
 
-    public Dictionary<string, TempData> tempData = new Dictionary<string, TempData>();
+    public Dictionary<string, ValueData> valueData = new Dictionary<string, ValueData>();
     public Dictionary<int, TileData> tileData = new Dictionary<int, TileData>();
     public Dictionary<string, StructData> structData = new Dictionary<string, StructData>();
 
@@ -162,6 +147,13 @@ public class GameDatasss : Data
 
     public ItemSO itemSO;
 
+    #region Data Path
+    string stringDataPath = "Data/StringData";
+    string valueDataPath = "Data/ValueData";
+    string itemDataPath = "Data/ItemData";
+    string itemCombineDataPath = "Data/ItemCombineData";
+    string tileDataPath = "Data/TileData";
+    #endregion
 
     protected override void Awake()
     {
@@ -174,22 +166,22 @@ public class GameDatasss : Data
     public void LoadData()
     {
         stringData.Clear();
-        tempData.Clear();
+        valueData.Clear();
         itemData.Clear();
         itemCombineData.Clear();
         tileData.Clear();
 
-        var stringDataRaw = DataLoader.LoadData<StringData>(StringUtility.stringDataPath);
-        var tempDataRaw = DataLoader.LoadData<TempData>(StringUtility.gameDataPath);
-        var itemDataRaw = DataLoader.LoadData<ItemData>(StringUtility.itemDataPath);
-        var itemCombineDataRaw = DataLoader.LoadData<ItemCombineData>(StringUtility.itemCombineDataPath);
-        var tileDataRaw = DataLoader.LoadData<TileData>(StringUtility.tileDataPath);
+        var stringDataRaw = DataLoader.LoadData<StringData>(stringDataPath);
+        var valueDataRaw = DataLoader.LoadData<ValueData>(valueDataPath);
+        var itemDataRaw = DataLoader.LoadData<ItemData>(itemDataPath);
+        var itemCombineDataRaw = DataLoader.LoadData<ItemCombineData>(itemCombineDataPath);
+        var tileDataRaw = DataLoader.LoadData<TileData>(tileDataPath);
 
         foreach (var data in stringDataRaw)
             stringData.Add(data.Code, data);
 
-        foreach (var data in tempDataRaw)
-            tempData.Add(data.Code, data);
+        foreach (var data in valueDataRaw)
+            valueData.Add(data.Code, data);
 
         foreach (var data in itemDataRaw)
             itemData.Add(data.Code, data);
