@@ -107,6 +107,6 @@ public class PopUpController : MonoBehaviour
     public void ClickBackToMenu()
     {
         UIManager.instance.PopCurrUI();
-        GameManager.instance.QuitGame();
+        Application.Quit();
     }
 }

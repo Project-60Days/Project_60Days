@@ -53,7 +53,7 @@ public class MenuController : MonoBehaviour
 
     public void QuitGame()
     {
-        GameManager.instance.QuitGame();
+        Application.Quit();
     }
 
 

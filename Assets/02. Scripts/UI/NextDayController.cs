@@ -128,7 +128,7 @@ public class NextDayController : MonoBehaviour
 
         yield return new WaitForSeconds(2f);
 
-        GameManager.instance.QuitGame();
+        Application.Quit();
     }
 
     void CreateDayCountTxt(string _text)

@@ -1,6 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 
 public enum EControllerType
@@ -15,28 +17,29 @@ public enum EManagerType
 
 public class App : Singleton<App>
 {
+
     public Dictionary<EControllerType, ControllerBase> dic_controllers;
     public Dictionary<EManagerType, ManagementBase> dic_managers;
 
-    private void Awake()
+    readonly DataManager data;
+    readonly SoundManager sound;
+    readonly MapManager map;
+    readonly UIManager ui;
+
+    public static DataManager Data => instance.data;
+    public static SoundManager Sound => instance.sound;
+    public static MapManager Map => instance.map;
+    public static UIManager UI => instance.ui;
+
+    public static void LoadScene(ESceneType _type)
     {
-        dic_controllers = new Dictionary<EControllerType, ControllerBase>();
-        dic_managers = new Dictionary<EManagerType, ManagementBase>();
+        DOTween.KillAll();
+        SceneManager.LoadScene((int)_type);
+    }
 
-        DontDestroyOnLoad(this.gameObject);
-
-        var controller = GetComponentsInChildren<ControllerBase>(true);
-        var manager = GetComponentsInChildren<ManagementBase>(true);
-
-        foreach (var c in controller)
-        {
-            dic_controllers.Add(c.GetControllerType(), c);
-        }
-
-        foreach (var m in manager)
-        {
-            dic_managers.Add(m.GetManagemetType(), m);
-        }
+    public static void LoadSceneAdditive(ESceneType _type)
+    {
+        SceneManager.LoadScene((int)_type, LoadSceneMode.Additive);
     }
 
     public bool HasController(EControllerType _type)
