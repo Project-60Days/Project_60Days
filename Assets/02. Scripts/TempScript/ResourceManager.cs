@@ -29,7 +29,7 @@ public class ResourceManager : MonoBehaviour
     {
         int collectiveCount = collectiveAbility;
 
-        if (App.instance.GetMapManager().IsJungleTile(tile))
+        if (App.Manager.Map.IsJungleTile(tile))
             collectiveCount += 1;
 
         lastResources = tile.GetComponent<TileBase>().GetResources(collectiveAbility);
@@ -75,7 +75,7 @@ public class ResourceManager : MonoBehaviour
 
     public void PlaySFX(string str)
     {
-        App.instance.GetSoundManager().PlaySFX(str);
+        App.Manager.Sound.PlaySFX(str);
     }
 
     public bool CheckResource(TileController tileController)

@@ -19,7 +19,7 @@ public class CameraShake : MonoBehaviour
     void PlaySFX()
     {
         int sfxIndex = Random.Range(1, 5);
-        App.instance.GetSoundManager().StopSFX();
-        App.instance.GetSoundManager().PlaySFX("SFX_HIT_" + sfxIndex.ToString());
+        App.Manager.Sound.StopSFX();
+        App.Manager.Sound.PlaySFX("SFX_HIT_" + sfxIndex.ToString());
     }
 }

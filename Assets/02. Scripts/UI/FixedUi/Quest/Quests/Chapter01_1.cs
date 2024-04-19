@@ -26,7 +26,7 @@ public class Chapter01_1 : QuestBase
 
     public override bool CheckMeetCondition()
     {
-        return App.instance.GetMapManager().SensingProductionStructure();
+        return App.Manager.Map.SensingProductionStructure();
     }
 
     public override string SetQuestText()

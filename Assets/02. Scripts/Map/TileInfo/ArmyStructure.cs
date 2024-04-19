@@ -34,7 +34,7 @@ public class ArmyStructure : StructureBase
             ((ArmyStructure)tile.Structure).AllowAccess();
         }
 
-        App.instance.GetMapManager().NormalStructureResearch(this);
+        App.Manager.Map.NormalStructureResearch(this);
 
         isUse = true;
         isAccessible = true;

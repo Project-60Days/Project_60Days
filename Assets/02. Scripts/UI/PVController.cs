@@ -59,7 +59,7 @@ public class PVController : MonoBehaviour
             PVImage.SetActive(false);
 
             UIManager.instance.PopCurrUI();
-            App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
+            App.Manager.Sound.PlayBGM("BGM_InGameTheme");
 
             isEnd = true;
         });
@@ -92,7 +92,7 @@ public class PVController : MonoBehaviour
         blackPanel.gameObject.SetActive(true);
 
         UIManager.instance.AddCurrUIName("UI_PV");
-        App.instance.GetSoundManager().StopBGM();
+        App.Manager.Sound.StopBGM();
     }
 
     void FadeOutText()

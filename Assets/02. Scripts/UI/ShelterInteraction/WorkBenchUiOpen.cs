@@ -74,7 +74,7 @@ public class WorkBenchUiOpen : MonoBehaviour
 
     void FadeInUiObjects()
     {
-        App.instance.GetSoundManager().PlaySFX("SFX_SceneChange_BaseToCrafting");
+        App.Manager.Sound.PlaySFX("SFX_SceneChange_BaseToCrafting");
         Sequence sequence = DOTween.Sequence();
         sequence
             .Append(craftingUi.GetComponent<CanvasGroup>().DOFade(1f, 0.5f))
@@ -99,7 +99,7 @@ public class WorkBenchUiOpen : MonoBehaviour
 
     void FadeOutUiObjects()
     {
-        App.instance.GetSoundManager().PlaySFX("SFX_SceneChange_CraftingToBase");
+        App.Manager.Sound.PlaySFX("SFX_SceneChange_CraftingToBase");
         Sequence sequence = DOTween.Sequence();
         sequence
             .Append(inventoryUi.GetComponent<CanvasGroup>().DOFade(0f, 0.5f))

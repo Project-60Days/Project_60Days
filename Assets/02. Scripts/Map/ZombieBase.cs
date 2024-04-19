@@ -41,11 +41,11 @@ public class ZombieBase : MonoBehaviour
 
     public void Init(Tile tile)
     {
-        App.instance.GetDataManager().gameData.TryGetValue("Data_Zombie_Move_Possibility", out GameData move);
-        App.instance.GetDataManager().gameData.TryGetValue("Data_Zombie_Stay_Possibility", out GameData stay);
-        App.instance.GetDataManager().gameData.TryGetValue("Data_SpecialZombie_Possibility", out GameData special);
-        App.instance.GetDataManager().gameData.TryGetValue("Data_MinCount_ZombieSwarm", out GameData min);
-        App.instance.GetDataManager().gameData.TryGetValue("Data_MaxCount_ZombieSwarm", out GameData max);
+        App.Data.Game.tempData.TryGetValue("Data_Zombie_Move_Possibility", out TempData move);
+        App.Data.Game.tempData.TryGetValue("Data_Zombie_Stay_Possibility", out TempData stay);
+        App.Data.Game.tempData.TryGetValue("Data_SpecialZombie_Possibility", out TempData special);
+        App.Data.Game.tempData.TryGetValue("Data_MinCount_ZombieSwarm", out TempData min);
+        App.Data.Game.tempData.TryGetValue("Data_MaxCount_ZombieSwarm", out TempData max);
 
         zombieData.movePossibility = move.value;
         zombieData.stayPossibility = stay.value;
@@ -181,9 +181,9 @@ public class ZombieBase : MonoBehaviour
     {
         CheckTileEffect(curTile);
 
-        isChasingPlayer = MapController.instance.CalculateDistanceToPlayer(curTile, dectectionRange);
+        isChasingPlayer = App.Manager.Map.mapController.CalculateDistanceToPlayer(curTile, dectectionRange);
 
-        nearthDistrubtor = MapController.instance.CalculateDistanceToDistrubtor(curTile, dectectionRange);
+        nearthDistrubtor = App.Manager.Map.mapController.CalculateDistanceToDistrubtor(curTile, dectectionRange);
 
         ActionDecision();
     }
@@ -208,13 +208,13 @@ public class ZombieBase : MonoBehaviour
             return;
         }
 
-        if (isChasingPlayer && !App.instance.GetMapManager().mapController.Player.GetIsClocking())
+        if (isChasingPlayer && !App.Manager.Map.mapController.Player.GetIsClocking())
         {
             //Debug.Log(gameObject.name + "가 플레이어를 발견했습니다!");
-            StartCoroutine(MoveToAttack(App.instance.GetMapManager().mapController.Player.TileController.Model));
+            StartCoroutine(MoveToAttack(App.Manager.Map.mapController.Player.TileController.Model));
 
             // 플레이어 바라보기
-            var updatePos = App.instance.GetMapManager().mapController.Player.transform.position;
+            var updatePos = App.Manager.Map.mapController.Player.transform.position;
             updatePos.y += 0.6f;
             transform.LookAt(updatePos);
         }
@@ -235,10 +235,10 @@ public class ZombieBase : MonoBehaviour
         Tile pointTile;
         Vector3 pointPos;
 
-        if (movePath.Count == 0 && target == App.instance.GetMapManager().mapController.Player.TileController.Model)
+        if (movePath.Count == 0 && target == App.Manager.Map.mapController.Player.TileController.Model)
         {
             // 플레이어가 1칸 내에 있는 경우
-            AttackPlayer(App.instance.GetMapManager().mapController.Player);
+            AttackPlayer(App.Manager.Map.mapController.Player);
         }
         else
         {
@@ -249,7 +249,7 @@ public class ZombieBase : MonoBehaviour
 
             for (int i = 0; i < moveCost; i++)
             {
-                pointTile = App.instance.GetMapManager().mapController.GetTileFromCoords(movePath[i]);
+                pointTile = App.Manager.Map.mapController.GetTileFromCoords(movePath[i]);
                 pointPos = ((GameObject)pointTile.GameEntity).transform.position;
                 pointPos.y += 0.6f;
 
@@ -271,7 +271,7 @@ public class ZombieBase : MonoBehaviour
 
     public IEnumerator MoveToRandom(int num = 1, float time = 0.25f)
     {
-        var candidate = MapController.instance.GetTilesInRange(curTile, num);
+        var candidate = App.Manager.Map.mapController.GetTilesInRange(curTile, num);
         int rand = Random.Range(0, candidate.Count);
 
         while (((GameObject)candidate[rand].GameEntity).gameObject.layer == 8)
@@ -280,7 +280,7 @@ public class ZombieBase : MonoBehaviour
             rand = Random.Range(0, candidate.Count);
         }
 
-        if (candidate[rand] == App.instance.GetMapManager().mapController.Player.TileController.Model)
+        if (candidate[rand] == App.Manager.Map.mapController.Player.TileController.Model)
             rand--;
         var targetPos = ((GameObject)candidate[rand].GameEntity).transform.position;
         targetPos.y += 0.6f;

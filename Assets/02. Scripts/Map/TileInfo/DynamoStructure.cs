@@ -34,7 +34,7 @@ public class DynamoStructure : StructureBase
             ((DynamoStructure)tile.Structure).AllowAccess();
         }
 
-        App.instance.GetMapManager().NormalStructureResearch(this);
+        App.Manager.Map.NormalStructureResearch(this);
 
         isUse = true;
         isAccessible = true;

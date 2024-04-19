@@ -65,7 +65,7 @@ public class MenuButtonBase : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         if (isClicked == false)
         {
-            App.instance.GetSoundManager().PlaySFX("SFX_ButtonClick_01");
+            App.Manager.Sound.PlaySFX("SFX_ButtonClick_01");
             ClickEvent();
         }
     }

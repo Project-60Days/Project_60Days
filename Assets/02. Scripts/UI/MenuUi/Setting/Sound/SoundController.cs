@@ -39,13 +39,13 @@ public class SoundController : MonoBehaviour
     void SetBGMVolume()
     {
         var newVolume = bgm.currentWidth * all.currentWidth;
-        App.instance.GetSoundManager().SetBGMVolume(newVolume);
+        App.Manager.Sound.SetBGMVolume(newVolume);
     }
 
     void SetSFXVolume()
     {
         var newVolume = sfx.currentWidth * all.currentWidth;
-        App.instance.GetSoundManager().SetSFXVolume(newVolume);
+        App.Manager.Sound.SetSFXVolume(newVolume);
     }
 
 }

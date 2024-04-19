@@ -17,7 +17,7 @@ public class Tower : StructureBase
     public override void NoFunc()
     {
         // 게임 오버
-        App.instance.GetMapManager().ResearchCancel(this);
+        App.Manager.Map.ResearchCancel(this);
     }
 
     public override void YesFunc()

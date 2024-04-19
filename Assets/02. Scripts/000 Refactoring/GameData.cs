@@ -15,7 +15,7 @@ public class StringData
 }
 
 [Serializable]
-public class dkdkd
+public class TempData
 {
     public int Index;
     public string Code;
@@ -149,11 +149,11 @@ public class JsonUtilityHelper
 }
 #endregion
 
-public class GameData : Data
+public class GameDatasss : Data
 {
     public Dictionary<string, StringData> stringData = new Dictionary<string, StringData>();
 
-    //public Dictionary<string, MapData> gameData = new Dictionary<string, MapData>();
+    public Dictionary<string, TempData> tempData = new Dictionary<string, TempData>();
     public Dictionary<int, TileData> tileData = new Dictionary<int, TileData>();
     public Dictionary<string, StructData> structData = new Dictionary<string, StructData>();
 
@@ -174,13 +174,13 @@ public class GameData : Data
     public void LoadData()
     {
         stringData.Clear();
-        //gameData.Clear();
+        tempData.Clear();
         itemData.Clear();
         itemCombineData.Clear();
         tileData.Clear();
 
         var stringDataRaw = DataLoader.LoadData<StringData>(StringUtility.stringDataPath);
-        //var gameDataRaw = DataLoader.LoadData<GameData>(StringUtility.gameDataPath);
+        var tempDataRaw = DataLoader.LoadData<TempData>(StringUtility.gameDataPath);
         var itemDataRaw = DataLoader.LoadData<ItemData>(StringUtility.itemDataPath);
         var itemCombineDataRaw = DataLoader.LoadData<ItemCombineData>(StringUtility.itemCombineDataPath);
         var tileDataRaw = DataLoader.LoadData<TileData>(StringUtility.tileDataPath);
@@ -188,8 +188,8 @@ public class GameData : Data
         foreach (var data in stringDataRaw)
             stringData.Add(data.Code, data);
 
-        //foreach (var data in gameDataRaw)
-        //    gameData.Add(data.Code, data);
+        foreach (var data in tempDataRaw)
+            tempData.Add(data.Code, data);
 
         foreach (var data in itemDataRaw)
             itemData.Add(data.Code, data);

@@ -38,7 +38,7 @@ public class CraftingUiController : MonoBehaviour
         int i = 1001;
         while(true)
         {
-            App.instance.GetDataManager().itemCombineData.TryGetValue(i, out ItemCombineData itemData); //ItemCombineData내의 모든 값 itemComines 리스트에 추가
+            App.Data.Game.itemCombineData.TryGetValue(i, out ItemCombineData itemData); //ItemCombineData내의 모든 값 itemComines 리스트에 추가
 
             if (itemData == null) break;
 

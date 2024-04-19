@@ -12,11 +12,11 @@ public class TundraTile : TileBase, ITileLandformEffect
 
     public void DeBuff(Player _player)
     {
-        App.instance.GetMapManager().TundraTileCheck();
+        App.Manager.Map.TundraTileCheck();
 
         if (RandomPercent.GetRandom(10))
         {
-            App.instance.GetMapManager().EtherResourceCheck();
+            App.Manager.Map.EtherResourceCheck();
         }
     }
 }

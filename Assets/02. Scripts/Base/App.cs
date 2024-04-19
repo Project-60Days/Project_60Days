@@ -21,7 +21,7 @@ public class App : Singleton<App>
     readonly MapManager map;
     readonly UIManager ui;
 
-    //readonly 
+    readonly GameDatasss gameData;
 
     public partial class Manager
     {
@@ -32,7 +32,7 @@ public class App : Singleton<App>
 
     public class Data
     {
-        //public static DataManager Data => instance.data;
+        public static GameDatasss Game => instance.gameData;
     }
    
     
@@ -48,27 +48,21 @@ public class App : Singleton<App>
         SceneManager.LoadScene((int)_type, LoadSceneMode.Additive);
     }
 
-    public static bool TryGetDataManager(out DataManager manager)
-    {
-        manager = Data;
-        return manager != null;
-    }
-
     public static bool TryGetSoundManager(out SoundManager manager)
     {
-        manager = Sound;
+        manager = Manager.Sound;
         return manager != null;
     }
 
     public static bool TryGetMapManager(out MapManager manager)
     {
-        manager = Map;
+        manager = Manager.Map;
         return manager != null;
     }
 
     public static bool TryGetUIManager(out UIManager manager)
     {
-        manager = UI;
+        manager = Manager.UI;
         return manager != null;
     }
 }

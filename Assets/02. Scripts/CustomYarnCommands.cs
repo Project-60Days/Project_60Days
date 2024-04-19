@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using Yarn.Unity;
 
-public class CustomYarnCommands : Singleton<CustomYarnCommands>
+public class CustomYarnCommands : MonoBehaviour
 {
     [SerializeField] DialogueRunner dialogueRunner;
 
@@ -94,12 +94,12 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
     void HideDialogue()
     {
-        TutorialManager.instance.GetTutorialController().Hide();
+        //TutorialManager.instance.GetTutorialController().Hide();
     }
 
     void ShowDialogue()
     {
-        TutorialManager.instance.GetTutorialController().Show();
+        //TutorialManager.instance.GetTutorialController().Show();
     }
 
     void SetQuest(string _questCode)
@@ -114,7 +114,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
     void LightUpAndFillBattery(int _num)
     {
-        TutorialManager.instance.GetTutorialController().LightUpAndFillBattery(_num);
+        //TutorialManager.instance.GetTutorialController().LightUpAndFillBattery(_num);
     }
     #endregion
 
@@ -125,12 +125,12 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     #region 01
     void LightUpWorkBench()
     {
-        TutorialManager.instance.GetTutorialController().LightUpWorkBench();
+        //TutorialManager.instance.GetTutorialController().LightUpWorkBench();
     }
 
     void LightDownWorkBench()
     {
-        TutorialManager.instance.GetTutorialController().LightDownWorkBench();
+        //TutorialManager.instance.GetTutorialController().LightDownWorkBench();
     }
     #endregion
 
@@ -174,12 +174,12 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     #region 04
     void LightUpMap()
     {
-        TutorialManager.instance.GetTutorialController().LightUpMap();
+        //TutorialManager.instance.GetTutorialController().LightUpMap();
     }
 
     void LightDownMap()
     {
-        TutorialManager.instance.GetTutorialController().LightDownMap();
+        //TutorialManager.instance.GetTutorialController().LightDownMap();
     }
     #endregion
 
@@ -190,12 +190,12 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     #region 05
     Coroutine WaitMovePoint()
     {
-        return StartCoroutine(new WaitUntil(() => App.instance.GetMapManager().mapUIController.MovePointActivate()));
+        return StartCoroutine(new WaitUntil(() => App.Manager.Map.mapUIController.MovePointActivate()));
     }
 
     void AddResource()
     {
-        TutorialManager.instance.GetTutorialController().AddSteel();
+        //TutorialManager.instance.GetTutorialController().AddSteel();
     }
     #endregion
 
@@ -211,7 +211,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
     void EnableBtn()
     {
-        TutorialManager.instance.GetTutorialController().EnableBtn();
+        //TutorialManager.instance.GetTutorialController().EnableBtn();
     }
     #endregion
 
@@ -232,7 +232,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
     void LightUp()
     {
-        TutorialManager.instance.GetTutorialController().LightUpBackground();
+        //TutorialManager.instance.GetTutorialController().LightUpBackground();
     }
     #endregion
 
@@ -243,7 +243,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     #region 09
     void EndTutorial()
     {
-        TutorialManager.instance.EndTutorial();
+        //TutorialManager.instance.EndTutorial();
     }
     #endregion
 
@@ -254,22 +254,22 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     #region temp
     void SpawnTutorialGlicher()
     {
-        MapController.instance.SpawnTutorialZombie();
+        App.Manager.Map.mapController.SpawnTutorialZombie();
     }
 
     void PlayBGM(string bgmName)
     {
-        App.instance.GetSoundManager().PlayBGM(bgmName);
+        App.Manager.Sound.PlayBGM(bgmName);
     }
 
     void PlaySFX(string sfxName)
     {
-        App.instance.GetSoundManager().PlaySFX(sfxName);
+        App.Manager.Sound.PlaySFX(sfxName);
     }
 
     void StopBGM(string soundName)
     {
-        App.instance.GetSoundManager().StopBGM();
+        App.Manager.Sound.StopBGM();
     }
     #endregion
 
@@ -291,7 +291,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     [YarnFunction("getResourceCount")]
     static int GetResourceCount(string _itemCode)
     {
-        var resources = App.instance.GetMapManager().resourceManager.GetLastResources();
+        var resources = App.Manager.Map.resourceManager.GetLastResources();
 
         int count = 0;
 

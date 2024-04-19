@@ -334,16 +334,16 @@ public class MapManager : ManagementBase
         switch (curTile.TileData.English)
         {
             case "None":
-                App.instance.GetSoundManager().PlayBGM("Ambience_City");
+                App.Manager.Sound.PlayBGM("Ambience_City");
                 break;
             case "Jungle":
-                App.instance.GetSoundManager().PlayBGM("Ambience_Jungle");
+                App.Manager.Sound.PlayBGM("Ambience_Jungle");
                 break;
             case "Desert":
-                App.instance.GetSoundManager().PlayBGM("Ambience_Desert");
+                App.Manager.Sound.PlayBGM("Ambience_Desert");
                 break;
             case "Tundra":
-                App.instance.GetSoundManager().PlayBGM("Ambience_Tundra");
+                App.Manager.Sound.PlayBGM("Ambience_Tundra");
                 break;
         }
     }

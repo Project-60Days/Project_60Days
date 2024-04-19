@@ -21,10 +21,10 @@ public class ItemSlot : SlotBase
             if (UIManager.instance.GetCraftingUiController().isMoreThanThree() == true) return;
 
             string sfxName = "SFX_Crafting_" + item.data.Code;
-            if (App.instance.GetSoundManager().CheckSFXExist(sfxName) == true)
-                App.instance.GetSoundManager().PlaySFX(sfxName);
+            if (App.Manager.Sound.CheckSFXExist(sfxName) == true)
+                App.Manager.Sound.PlaySFX(sfxName);
             else
-                App.instance.GetSoundManager().PlaySFX("SFX_Crafting_Item");
+                App.Manager.Sound.PlaySFX("SFX_Crafting_Item");
 
             CraftItemClick?.Invoke(item.sprite);
 

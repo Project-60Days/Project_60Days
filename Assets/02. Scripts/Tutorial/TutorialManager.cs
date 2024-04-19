@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class TutorialManager : Singleton<TutorialManager>
+public class TutorialManager : MonoBehaviour
 {
     // 튜토리얼 씬 관리 스크립트
 
@@ -20,8 +20,8 @@ public class TutorialManager : Singleton<TutorialManager>
 
     IEnumerator WaitForMapManager()
     {
-        yield return new WaitUntil(() => App.instance.GetMapManager().mapController);
-        yield return new WaitUntil(() => App.instance.GetMapManager().mapController.Player != null);
+        yield return new WaitUntil(() => App.Manager.Map.mapController);
+        yield return new WaitUntil(() => App.Manager.Map.mapController.Player != null);
 
         StartTutorial();
     }

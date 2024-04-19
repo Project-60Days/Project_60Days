@@ -56,10 +56,10 @@ public class DistrubtorButton : MonoBehaviour, IPointerClickHandler, IPointerEnt
         if (UIManager.instance.GetInventoryController().CheckDistrubtorUsage())
         {
             Debug.Log("교란기 있음");
-            if (App.instance.GetMapManager().CheckCanInstallDrone())
+            if (App.Manager.Map.CheckCanInstallDrone())
             {
                 Debug.Log("교란기 설치 가능");
-                App.instance.GetMapManager().mapController.PreparingDistrubtor(true);
+                App.Manager.Map.mapController.PreparingDistrubtor(true);
             }
         }
         else

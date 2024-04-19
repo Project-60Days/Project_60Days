@@ -9,7 +9,7 @@ public class Sound
     public AudioClip clip;
 }
 
-public class SoundManager : ManagerBase
+public class SoundManager : Manager
 {
     [SerializeField] Sound[] array_sfx = null;
     [SerializeField] Sound[] array_bgm = null;

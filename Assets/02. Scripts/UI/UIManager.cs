@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIManager : Singleton<UIManager>
+public class UIManager : Manager
 {
     [SerializeField] NoteController noteController;
     [SerializeField] InventoryController inventoryController;
@@ -26,8 +26,10 @@ public class UIManager : Singleton<UIManager>
 
     public Stack<string> currUIStack = new Stack<string>();
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         currUIStack.Push(StringUtility.UI_NORMAL);
     }
     void Update()

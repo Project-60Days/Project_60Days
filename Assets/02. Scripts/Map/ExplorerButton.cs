@@ -57,11 +57,11 @@ public class ExplorerButton : MonoBehaviour, IPointerClickHandler, IPointerEnter
         if (UIManager.instance.GetInventoryController().CheckFindorUsage())
         {
             Debug.Log("탐색기 있음");
-            if (App.instance.GetMapManager().CheckCanInstallDrone())
+            if (App.Manager.Map.CheckCanInstallDrone())
             {
                 Debug.Log("탐색기 설치 가능");
 
-                App.instance.GetMapManager().mapController.PreparingExplorer(true);
+                App.Manager.Map.mapController.PreparingExplorer(true);
             }
         }
         else

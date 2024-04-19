@@ -50,7 +50,7 @@ public class NoteController : MonoBehaviour
     /// <param name="prevBtnEnable"></param>
     void ActiveNextBtnAndPrevBtn(bool _nextBtnEnable, bool _prevBtnEnable)
     {
-        if (_nextBtnEnable == false) UIManager.instance.GetAlertController().SetAlert("note", false);
+        if (_nextBtnEnable == false) App.Manager.UI.GetAlertController().SetAlert("note", false);
         nextPageBtn.gameObject.SetActive(_nextBtnEnable);
         prevPageBtn.gameObject.SetActive(_prevBtnEnable);
     }
@@ -86,7 +86,7 @@ public class NoteController : MonoBehaviour
             if (page.GetPageEnableToday() == true)
             {
                 todayPages.Add(page);
-                UIManager.instance.GetAlertController().SetAlert("note", true);
+                App.Manager.UI.GetAlertController().SetAlert("note", true);
             }
 
             page.gameObject.SetActive(false);
@@ -118,7 +118,7 @@ public class NoteController : MonoBehaviour
             ChangePageButton();
 
             App.Manager.Sound.PlaySFX("SFX_Note_Open");
-            UIManager.instance.AddCurrUIName(StringUtility.UI_NOTE);
+            App.Manager.UI.AddCurrUIName(StringUtility.UI_NOTE);
         }
     }
     
@@ -129,8 +129,8 @@ public class NoteController : MonoBehaviour
     {
         if (isOpen == true)
         {
-            if (UIManager.instance.isUIStatus("UI_NOTE"))
-                UIManager.instance.PopCurrUI();
+            if (App.Manager.UI.isUIStatus("UI_NOTE"))
+                App.Manager.UI.PopCurrUI();
             else return;
 
             isOpen = false;

@@ -63,7 +63,7 @@ public class NextDayController : MonoBehaviour
 
         blackPanel.gameObject.SetActive(true);
 
-        App.instance.GetSoundManager().StopBGM();
+        App.Manager.Sound.StopBGM();
 
         Sequence sequence = DOTween.Sequence();
         sequence.Append(blackPanel.DOFade(1f, 0.5f)).SetEase(Ease.InQuint)
@@ -86,10 +86,10 @@ public class NextDayController : MonoBehaviour
     {
         UIManager.instance.GetAlertController().InitAlert();
 
-        App.instance.GetMapManager().SetMapCameraPriority(false);
+        App.Manager.Map.SetMapCameraPriority(false);
         transposer.m_CameraDistance = 5f;
 
-        yield return StartCoroutine(App.instance.GetMapManager().NextDayCoroutine());
+        yield return StartCoroutine(App.Manager.Map.NextDayCoroutine());
 
         yield return new WaitForSeconds(1f);
 
@@ -117,7 +117,7 @@ public class NextDayController : MonoBehaviour
 
         InitBlackPanel();
 
-        App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
+        App.Manager.Sound.PlayBGM("BGM_InGameTheme");
     }
 
 
@@ -141,11 +141,11 @@ public class NextDayController : MonoBehaviour
 
     void SetResourcesResultPage()
     {
-        var resources = App.instance.GetMapManager().resourceManager.GetLastResources();
+        var resources = App.Manager.Map.resourceManager.GetLastResources();
 
         for (int i = 0; i < resources.Count; i++)
         {
-            string tileName = App.instance.GetMapManager().mapController
+            string tileName = App.Manager.Map.mapController
                 .Player.TileController.GetComponent<TileBase>().TileData.English;
 
             int randomNumber = Random.Range(1, 6);
@@ -166,8 +166,8 @@ public class NextDayController : MonoBehaviour
     {
         blackPanel.gameObject.SetActive(true);
 
-        App.instance.GetSoundManager().StopBGM();
-        App.instance.GetSoundManager().PlaySFX("SFX_SceneChange_MapToBase");
+        App.Manager.Sound.StopBGM();
+        App.Manager.Sound.PlaySFX("SFX_SceneChange_MapToBase");
 
         Sequence sequence = DOTween.Sequence();
         sequence
@@ -175,9 +175,9 @@ public class NextDayController : MonoBehaviour
             .Join(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 5f, 0.5f))
             .AppendCallback(() =>
             {
-                App.instance.GetMapManager().SetMapCameraPriority(false);
-                App.instance.GetSoundManager().PlayBGM("BGM_InGameTheme");
-                App.instance.GetMapUiController().FalseTileInfo();
+                App.Manager.Map.SetMapCameraPriority(false);
+                App.Manager.Sound.PlayBGM("BGM_InGameTheme");
+                App.Manager.Map.mapUIController.FalseTileInfo();
             })
             .Append(blackPanel.DOFade(0f, 1f))
             .OnComplete(() => blackPanel.gameObject.SetActive(false));
@@ -190,26 +190,26 @@ public class NextDayController : MonoBehaviour
     {
         blackPanel.gameObject.SetActive(true);
 
-        App.instance.GetSoundManager().StopBGM();
+        App.Manager.Sound.StopBGM();
 
         Sequence sequence = DOTween.Sequence();
         sequence
             .Append(blackPanel.DOFade(1f, 0.5f))
             .AppendCallback(() =>
             {
-                App.instance.GetMapUiController().FalseTileInfo();
-                App.instance.GetSoundManager().PlaySFX("SFX_SceneChange_BaseToMap");
+                App.Manager.Map.mapUIController.FalseTileInfo();
+                App.Manager.Sound.PlaySFX("SFX_SceneChange_BaseToMap");
 
-                App.instance.GetMapManager().SetMapCameraPriority(true);
-                App.instance.GetMapManager().CheckLandformPlayMusic();
+                App.Manager.Map.SetMapCameraPriority(true);
+                App.Manager.Map.CheckLandformPlayMusic();
             })
             .Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 10f, 0.5f))
             .Join(blackPanel.DOFade(0f, 0.5f))
             .OnComplete(() =>
                 {
                     blackPanel.gameObject.SetActive(false);
-                    App.instance.GetMapManager().GetCameraCenterTile();
-                    App.instance.GetMapManager().InvocationExplorers();
+                    App.Manager.Map.GetCameraCenterTile();
+                    App.Manager.Map.InvocationExplorers();
                 }
             );
     }

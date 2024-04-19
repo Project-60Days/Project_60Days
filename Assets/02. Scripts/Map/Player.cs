@@ -121,7 +121,7 @@ public class Player : MonoBehaviour
             for (int i = 0; i < movePath.Count; i++)
             {
                 Coords coords = movePath[i];
-                targetTile = MapController.instance.GetTileFromCoords(coords);
+                targetTile = App.Manager.Map.mapController.GetTileFromCoords(coords);
 
                 if (targetTile == null)
                     break;
@@ -147,7 +147,7 @@ public class Player : MonoBehaviour
 
     public IEnumerator MoveToRandom(int num = 1, float time = 0.25f)
     {
-        var candidate = MapController.instance.GetTilesInRange(currentTileContorller.Model, num);
+        var candidate = App.Manager.Map.mapController.GetTilesInRange(currentTileContorller.Model, num);
 
         Vector3 targetPos = currentTileContorller.transform.position;
         Tile tile = candidate[0];
@@ -155,7 +155,7 @@ public class Player : MonoBehaviour
         
         for (int i = 0; i < candidate.Count; i++)
         {
-            if(App.instance.GetMapManager().mapController.CheckTileType(candidate[i], "LandformPlain"))
+            if(App.Manager.Map.mapController.CheckTileType(candidate[i], "LandformPlain"))
             {
                 if (((GameObject)candidate[i].GameEntity).GetComponent<TileBase>().Structure == null &&
                     ((GameObject)candidate[i].GameEntity).GetComponent<TileBase>().CurZombies == null)

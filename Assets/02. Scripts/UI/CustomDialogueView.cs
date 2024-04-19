@@ -32,13 +32,13 @@ public class CustomDialogueView : DialogueViewBase
 
             lineText.maxVisibleCharacters = 10000;
 
-            if (enterSFX != null) 
-                App.instance.GetSoundManager().PlaySFX(enterSFX);
+            if (enterSFX != null)
+                App.Manager.Sound.PlaySFX(enterSFX);
         }
         else
         {
             if (!doesUserContinueRequest && enterSFX != null)
-                App.instance.GetSoundManager().PlaySFX(enterSFX);
+                App.Manager.Sound.PlaySFX(enterSFX);
             doesUserContinueRequest = true;
         }
     }
@@ -105,8 +105,8 @@ public class CustomDialogueView : DialogueViewBase
         if (textSFX == null) return;
         if(!doesUserSkipRequest && isStartLine)
         {
-            if (App.instance.GetSoundManager().CheckTypeWriteSFXPlayNow() == false) 
-                App.instance.GetSoundManager().PlayTypeWriteSFX(textSFX);
+            if (App.Manager.Sound.CheckTypeWriteSFXPlayNow() == false)
+                App.Manager.Sound.PlayTypeWriteSFX(textSFX);
         }
     }
 }

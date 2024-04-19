@@ -18,7 +18,7 @@ public class ProductionStructure : StructureBase
         neighborTiles = _neighborTiles;
         structureModel = _structureModel;
 
-        App.instance.GetDataManager().itemData.TryGetValue("ITEM_NETWORKCHIP", out ItemData itemData);
+        App.Data.Game.itemData.TryGetValue("ITEM_NETWORKCHIP", out ItemData itemData);
         specialItem = itemData;
     }
 
@@ -30,7 +30,7 @@ public class ProductionStructure : StructureBase
             ((ProductionStructure)tile.Structure).AllowAccess();
         }
 
-        App.instance.GetMapManager().NormalStructureResearch(this);
+        App.Manager.Map.NormalStructureResearch(this);
         isUse = true;
         isAccessible = true;
         UIManager.instance.GetPageController().CreateSelectDialogueRunner("sequence");

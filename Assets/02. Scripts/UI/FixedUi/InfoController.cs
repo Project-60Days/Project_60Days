@@ -77,7 +77,7 @@ public class InfoController : MonoBehaviour
 
     void SetObjects(string _code)
     {
-        string textString = App.instance.GetDataManager().GetString(_code);
+        string textString = App.Data.Game.GetString(_code);
         text.gameObject.SetActive(true);
         text.DOText(textString, 0.5f, true, ScrambleMode.Uppercase);
     }
@@ -86,7 +86,7 @@ public class InfoController : MonoBehaviour
     {
         string type = _type.ToString().ToUpper();
         string code = "STR_TILE_" + type + "_DESCRIPTION";
-        string textString = App.instance.GetDataManager().GetString(code);
+        string textString = App.Data.Game.GetString(code);
 
         text.gameObject.SetActive(true);
         text.DOText(textString, 0.5f, true, ScrambleMode.Numerals);

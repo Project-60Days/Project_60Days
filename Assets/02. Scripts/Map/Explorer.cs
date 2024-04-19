@@ -40,7 +40,7 @@ public class Explorer : MonoBehaviour
         {
             if (movePath.Count < walkCount)
             {
-                nextTile = MapController.instance.GetTileFromCoords(targetTile.Coords);
+                nextTile = App.Manager.Map.mapController.GetTileFromCoords(targetTile.Coords);
                 targetPos = ((GameObject)nextTile.GameEntity).transform.position;
                 targetPos.y += 0.5f;
                 
@@ -52,7 +52,7 @@ public class Explorer : MonoBehaviour
             {
                 for (int i = 0; i < walkCount; i++)
                 {
-                    nextTile = MapController.instance.GetTileFromCoords(movePath[i]);
+                    nextTile = App.Manager.Map.mapController.GetTileFromCoords(movePath[i]);
                     targetPos = ((GameObject)nextTile.GameEntity).transform.position;
                     targetPos.y += 0.5f;
                     
@@ -84,9 +84,9 @@ public class Explorer : MonoBehaviour
     public IEnumerator ExplorerEffect()
     {
         yield return new WaitUntil(()=> goToMap == true);
-        
-        App.instance.GetMapManager().mapController.GetSightTiles(curTile);
-        App.instance.GetMapManager().mapController.RemoveExplorer(this);
+
+        App.Manager.Map.mapController.GetSightTiles(curTile);
+        App.Manager.Map.mapController.RemoveExplorer(this);
         FischlWorks_FogWar.csFogWar.instance._FogRevealers[FischlWorks_FogWar.csFogWar.instance._FogRevealers.Count - 1].sightRange = 0;
 
         goToMap = false;

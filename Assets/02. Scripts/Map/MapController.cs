@@ -119,8 +119,8 @@ public class MapController : MonoBehaviour
     /// </summary>
     IEnumerator GenerateMapObjects()
     {
-        App.Data.gameData.TryGetValue("Data_MinCount_ZombieObject", out GameData min);
-        App.Data.gameData.TryGetValue("Data_MaxCount_ZombieObject", out GameData max);
+        App.Data.Game.tempData.TryGetValue("Data_MinCount_ZombieObject", out TempData min);
+        App.Data.Game.tempData.TryGetValue("Data_MaxCount_ZombieObject", out TempData max);
 
         SpawnPlayer();
 
