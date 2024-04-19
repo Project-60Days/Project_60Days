@@ -117,7 +117,7 @@ public class NoteController : MonoBehaviour
 
             ChangePageButton();
 
-            App.instance.GetSoundManager().PlaySFX("SFX_Note_Open");
+            App.Manager.Sound.PlaySFX("SFX_Note_Open");
             UIManager.instance.AddCurrUIName(StringUtility.UI_NOTE);
         }
     }
@@ -142,7 +142,7 @@ public class NoteController : MonoBehaviour
 
             scrollImg.StopAnim();
 
-            App.instance.GetSoundManager().PlaySFX("SFX_Note_Close");   
+            App.Manager.Sound.PlaySFX("SFX_Note_Close");   
         }
     }
 

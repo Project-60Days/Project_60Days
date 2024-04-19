@@ -9,7 +9,7 @@ public class Sound
     public AudioClip clip;
 }
 
-public class SoundManager : ManagementBase
+public class SoundManager : ManagerBase
 {
     [SerializeField] Sound[] array_sfx = null;
     [SerializeField] Sound[] array_bgm = null;
@@ -24,8 +24,11 @@ public class SoundManager : ManagementBase
     [SerializeField] float bgmVolume;
     [SerializeField] float sfxVolume;
 
-    private void Awake()
+
+    protected override void Awake()
     {
+        base.Awake();
+
         dic_BGM = new Dictionary<string, AudioClip>();
         dic_SFX = new Dictionary<string, AudioClip>();
 
@@ -162,10 +165,5 @@ public class SoundManager : ManagementBase
     public bool CheckTypeWriteSFXPlayNow()
     {
         return typeWritePlayer.isPlaying;
-    }
-
-    public override EManagerType GetManagemetType()
-    {
-        return EManagerType.SOUND;
     }
 }

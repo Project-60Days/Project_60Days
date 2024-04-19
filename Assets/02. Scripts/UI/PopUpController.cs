@@ -50,8 +50,8 @@ public class PopUpController : MonoBehaviour
         yield return new WaitUntil(() => UIManager.instance.isUIStatus("UI_NORMAL"));
         UIManager.instance.AddCurrUIName("UI_POPUP");
 
-        bgmVolume = App.instance.GetSoundManager().SetBGMVolumeTweening(8f);
-        App.instance.GetSoundManager().StopSFX();
+        bgmVolume = App.Manager.Sound.SetBGMVolumeTweening(8f);
+        App.Manager.Sound.StopSFX();
 
         text02.text = "메인 스토리 챕터 01 클리어까지 " + UIManager.instance.GetNoteController().dayCount + "일 소요되었습니다.\n축하합니다!";
 
@@ -77,8 +77,8 @@ public class PopUpController : MonoBehaviour
             if (sequence.Elapsed() >= 13f && isCompleteToPlayBGM == false)
             {
                 isCompleteToPlayBGM = true;
-                App.instance.GetSoundManager().SetBGMVolume(bgmVolume);
-                App.instance.GetSoundManager().PlayBGM("BGM_TitleTheme_Upgrade");
+                App.Manager.Sound.SetBGMVolume(bgmVolume);
+                App.Manager.Sound.PlayBGM("BGM_TitleTheme_Upgrade");
             }
 
             if (sequence.Elapsed() >= 13f && isComplete13f == false)

@@ -11,7 +11,7 @@ using UnityEngine.EventSystems;
 using FischlWorks_FogWar;
 using Random = UnityEngine.Random;
 
-public class MapController : Singleton<MapController>
+public class MapController : MonoBehaviour
 {
     [Header("컴포넌트")] [Space(5f)] [SerializeField]
     HexamapController hexaMap;
@@ -66,7 +66,7 @@ public class MapController : Singleton<MapController>
 
     private void Start()
     {
-        App.instance.GetMapManager().GetAdditiveSceneObjectsCoroutine();
+        App.Manager.Map.GetAdditiveSceneObjectsCoroutine();
     }
 
     public IEnumerator GenerateMap()
@@ -119,8 +119,8 @@ public class MapController : Singleton<MapController>
     /// </summary>
     IEnumerator GenerateMapObjects()
     {
-        App.instance.GetDataManager().gameData.TryGetValue("Data_MinCount_ZombieObject", out GameData min);
-        App.instance.GetDataManager().gameData.TryGetValue("Data_MaxCount_ZombieObject", out GameData max);
+        App.Data.gameData.TryGetValue("Data_MinCount_ZombieObject", out GameData min);
+        App.Data.gameData.TryGetValue("Data_MaxCount_ZombieObject", out GameData max);
 
         SpawnPlayer();
 
@@ -464,12 +464,12 @@ public class MapController : Singleton<MapController>
             }
 
             GenerateExampleDisturbtor();
-            App.instance.GetMapManager().SetIsDronePrepared(true, "Distrubtor");
+            App.Manager.Map.SetIsDronePrepared(true, "Distrubtor");
         }
         else
         {
             distrubtors.Remove(curDistrubtor);
-            App.instance.GetMapManager().SetIsDronePrepared(false, "Distrubtor");
+            App.Manager.Map.SetIsDronePrepared(false, "Distrubtor");
             UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_DISTURBE");
             Destroy(curDistrubtor);
             DeselectAllTargetTiles();
@@ -498,7 +498,7 @@ public class MapController : Singleton<MapController>
             DeselecTargetBorder(droneSelectedTiles[i]);
         }
 
-        App.instance.GetMapManager().SetIsDronePrepared(false, "Distrubtor");
+        App.Manager.Map.SetIsDronePrepared(false, "Distrubtor");
     }
 
     public void PreparingExplorer(bool set)
@@ -506,12 +506,12 @@ public class MapController : Singleton<MapController>
         if (set)
         {
             GenerateExampleExplorer();
-            App.instance.GetMapManager().SetIsDronePrepared(true, "Explorer");
+            App.Manager.Map.SetIsDronePrepared(true, "Explorer");
         }
         else
         {
             explorers.Remove(curExplorer);
-            App.instance.GetMapManager().SetIsDronePrepared(false, "Explorer");
+            App.Manager.Map.SetIsDronePrepared(false, "Explorer");
             UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_FINDOR");
             Destroy(curExplorer);
         }
@@ -535,7 +535,7 @@ public class MapController : Singleton<MapController>
         curExplorer.GetComponent<Explorer>().Targeting(tileController.Model);
         curExplorer.GetComponent<Explorer>().Move();
 
-        App.instance.GetMapManager().SetIsDronePrepared(false, "");
+        App.Manager.Map.SetIsDronePrepared(false, "");
     }
 
     public IEnumerator NextDay()
@@ -1259,7 +1259,7 @@ public class MapController : Singleton<MapController>
         arrow.transform.position = _pos;
         
         arrow.SetActive(true);
-        App.instance.GetSoundManager().PlaySFX("SFX_Map_Select_Complete");
+        App.Manager.Sound.PlaySFX("SFX_Map_Select_Complete");
     }
     
     public void MovePointerOff()
@@ -1272,7 +1272,7 @@ public class MapController : Singleton<MapController>
         if (arrow.activeInHierarchy)
         {
             arrow.SetActive(false);
-            App.instance.GetSoundManager().PlaySFX("SFX_Map_Select_Cancel");
+            App.Manager.Sound.PlaySFX("SFX_Map_Select_Cancel");
         }
     }
     
