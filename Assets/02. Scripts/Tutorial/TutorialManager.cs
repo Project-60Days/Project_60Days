@@ -1,17 +1,12 @@
 using System.Collections;
 using UnityEngine;
 
-public class TutorialManager : MonoBehaviour
+public class TutorialManager : Manager
 {
-    // 튜토리얼 씬 관리 스크립트
-
     [Header("Tutorial")]
     [SerializeField]  TutorialController tutorialController;
 
-    public TutorialController GetTutorialController()
-    {
-        return tutorialController;
-    }
+    public TutorialController GetTutorialController() => tutorialController;
 
     void Start()
     {

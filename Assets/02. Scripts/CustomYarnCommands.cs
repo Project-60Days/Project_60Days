@@ -59,10 +59,6 @@ public class CustomYarnCommands : MonoBehaviour
         //dialogueRunner.AddCommandHandler<string>("stop_bgm", StopBGM);
     }
 
-
-
-
-
     void AppendNode()
     {
         string nodeName = App.Manager.UI.GetPageController().GetNextResourceNodeName();
@@ -72,11 +68,7 @@ public class CustomYarnCommands : MonoBehaviour
         App.Manager.UI.GetPageController().CreateResultDialogueRunner(nodeName);
     }
 
-
-
-
-
-    #region tutorial
+    #region Tutorial Common Commands
     void HighLightObject(string _objectID, string _waitStatusName)
     {
         App.Manager.UI.GetUIHighLightController().ShowHighLight(_objectID, _waitStatusName);
@@ -95,12 +87,12 @@ public class CustomYarnCommands : MonoBehaviour
 
     void HideDialogue()
     {
-        //TutorialManager.instance.GetTutorialController().Hide();
+        App.Manager.Tutorial.GetTutorialController().Hide();
     }
 
     void ShowDialogue()
     {
-        //TutorialManager.instance.GetTutorialController().Show();
+        App.Manager.Tutorial.GetTutorialController().Show();
     }
 
     void SetQuest(string _questCode)
@@ -115,43 +107,30 @@ public class CustomYarnCommands : MonoBehaviour
 
     void LightUpAndFillBattery(int _num)
     {
-        //TutorialManager.instance.GetTutorialController().LightUpAndFillBattery(_num);
+        App.Manager.Tutorial.GetTutorialController().LightUpAndFillBattery(_num);
     }
     #endregion
 
-
-
-
-
-    #region 01
+    #region Tutorial 01
     void LightUpWorkBench()
     {
-        //TutorialManager.instance.GetTutorialController().LightUpWorkBench();
+        App.Manager.Tutorial.GetTutorialController().LightUpWorkBench();
     }
 
     void LightDownWorkBench()
     {
-        //TutorialManager.instance.GetTutorialController().LightDownWorkBench();
+        App.Manager.Tutorial.GetTutorialController().LightDownWorkBench();
     }
     #endregion
 
-
-
-
-
-
-    #region 02
+    #region Tutorial 02
     Coroutine WaitGetItem(string _itemCode)
     {
         return StartCoroutine(new WaitUntil(() => App.Manager.UI.GetInventoryController().CheckInventoryItem(_itemCode)));
     }
     #endregion
 
-
-
-
-
-    #region 03
+    #region Tutorial 03
     void SetAlertState(string _alertType, bool _isActive)
     {
         App.Manager.UI.GetAlertController().SetAlert(_alertType, _isActive);
@@ -168,27 +147,19 @@ public class CustomYarnCommands : MonoBehaviour
     }
     #endregion
 
-
-
-
-
-    #region 04
+    #region Tutorial 04
     void LightUpMap()
     {
-        //TutorialManager.instance.GetTutorialController().LightUpMap();
+        App.Manager.Tutorial.GetTutorialController().LightUpMap();
     }
 
     void LightDownMap()
     {
-        //TutorialManager.instance.GetTutorialController().LightDownMap();
+        App.Manager.Tutorial.GetTutorialController().LightDownMap();
     }
     #endregion
 
-
-
-
-
-    #region 05
+    #region Tutorial 05
     Coroutine WaitMovePoint()
     {
         return StartCoroutine(new WaitUntil(() => App.Manager.Map.mapUIController.MovePointActivate()));
@@ -196,15 +167,11 @@ public class CustomYarnCommands : MonoBehaviour
 
     void AddResource()
     {
-        //TutorialManager.instance.GetTutorialController().AddSteel();
+        App.Manager.Tutorial.GetTutorialController().AddSteel();
     }
     #endregion
 
-
-
-
-
-    #region 06
+    #region Tutorial 06
     Coroutine WaitNewDay()
     {
         return StartCoroutine(new WaitUntil(() => App.Manager.UI.GetNoteController().GetNewDay()));
@@ -212,14 +179,11 @@ public class CustomYarnCommands : MonoBehaviour
 
     void EnableBtn()
     {
-        //TutorialManager.instance.GetTutorialController().EnableBtn();
+        App.Manager.Tutorial.GetTutorialController().EnableBtn();
     }
     #endregion
 
-
-
-
-    #region 08
+    #region Tutorial 08
     void StartPV()
     {
         App.Manager.UI.GetPVController().Start01();
@@ -233,24 +197,16 @@ public class CustomYarnCommands : MonoBehaviour
 
     void LightUp()
     {
-        //TutorialManager.instance.GetTutorialController().LightUpBackground();
+        App.Manager.Tutorial.GetTutorialController().LightUpBackground();
     }
     #endregion
 
-
-
-
-
-    #region 09
+    #region Tutorial 09
     void EndTutorial()
     {
-        //TutorialManager.instance.EndTutorial();
+        App.Manager.Tutorial.EndTutorial();
     }
     #endregion
-
-
-
-
 
     #region temp
     void SpawnTutorialGlicher()

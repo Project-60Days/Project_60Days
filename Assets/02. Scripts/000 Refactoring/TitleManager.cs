@@ -46,20 +46,23 @@ public class TitleManager : MonoBehaviour
         LeftLog();
     }
 
-    #region Init
     void SetButtonEvent()
     {
         newGameBtn.onClick.AddListener(() =>
         {
             loadingUI.SetActive(true);
 
+            App.Manager.Sound.StopBGM();
+
             App.LoadScene(SceneName.Game);
+            App.LoadSceneAdditive(SceneName.Craft);
             App.LoadSceneAdditive(SceneName.UI);
             App.LoadSceneAdditive(SceneName.Map);
-            App.LoadSceneAdditive(SceneName.Craft);
         });
     }
 
+
+    #region Init
     void InitText()
     {
         leftFileText = Resources.Load<TextAsset>(leftfilePath).text;
@@ -135,7 +138,7 @@ public class TitleManager : MonoBehaviour
             {
                 ActiveTitleObjects(true);
 
-                titleImage.DOFade(1f, 0f).SetEase(Ease.Linear).From();
+                titleImage.DOFade(0f, 1f).SetEase(Ease.Linear).From();
 
                 App.Manager.Sound.PlayBGM("BGM_TitleTheme");
             })
