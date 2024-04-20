@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
 
-public class PopUpController : MonoBehaviour
+public class PopUpPanel : UIBase
 {
     [SerializeField] Scrollbar scrollbar;
     [SerializeField] Image logoImage;
@@ -32,7 +32,8 @@ public class PopUpController : MonoBehaviour
     string right = "<i>연구실 전력 가동 중...정상적으로 연구실이 재가동 되었습니다.<br>이전 가동 시간으로부터 368일 4시간 38분 지났습니다.\n<i>A-48 시스템 진단 시작합니다.<br>대상물의 변경된 설정사항이 발견되었습니다.<br>대상물에 따라 시스템을 재구축합니다.<br>설정된 외부환경과는 다른 특이사항이 발견되었습니다.\n<i>현 외부환경을 분석하여 설정 값을 조정합니다.<br>분석결과 주위 200M의 식물을 발견, 습도가 평균 수치 이상입니다.\n<i>결과값을 토대로 시스템 내 프로세스를 재구축합니다.<br>정상적으로 시스템이 재설정 되었습니다.<br>시스템 A-48의 메시아 프로토콜을 재가동합니다.<br><i>절대 목표 설정 : 네트워크 백신 개발 설계도를 복원합니다.\n안녕하세요.<br>저는 <b><color=red>A-49</color></b>, 본 연구실의 인공지능 시스템입니다.<br>대상자의 지속적인 생존을 위해 구축된 시스템으로 연구실과 대상자를 주기적으로 점검합니다.<br>대상자에게 현재 상황을 보고합니다.<br>외부상황, 초원지대로 예측되며 현재 주변에 위험요소들은 발견되지 않았습니다.<br>내부상황, 기기 손상으로 인한 누전상태와 유리 파손으로 인한 위험요소를 발견했습니다.\n대상자의 상태 검진 : 포드에서 장기수면 이후 깨어난 지 18분 42초 지났습니다.<br>혈압 정상, 맥박 정상, 수분 정상, 혈액 검출 후 분석결과 이상 없습니다.<br>해마 신경 부분 이상 발생, 일부 장기기억 손상되었습니다.<br>연구실 가이드 프로토콜을 진행합니다.\n대상자의 장기기억 손상으로 인한 지속적인 생존 가능성 9.87% 미만<br>대상자는 지속적인 생존에 필요한 프로세스 학습을 진행해야 합니다.<br>안내에 따라 연구실의 사용을 학습하십시오.\n이곳은 당신의 연구실입니다.<br>당신은 DEAD.NET 접속자, 글리처에게 공격받고 시험 중인 백신을 사용하여 영면에 들었습니다.\n당신이 깨어난 직후 읽었던 일기는 당신이 개인 소지하고 있는 원격 리모트 노트입니다. 이 노트에서 연구소에 명령을 내리고 기록을 확인할 수 있습니다.";
     #endregion
 
-    void Start()
+    #region Override
+    public override void Init()
     {
         backgroundImage = background.GetComponent<Image>();
 
@@ -42,13 +43,25 @@ public class PopUpController : MonoBehaviour
         background.SetActive(false);
     }
 
+    public override void ReInit() { }
+
+    public override UIState GetUIState() => UIState.PopUp;
+
+    public override bool IsAddUIStack() => true;
+
+    public override void OpenPanel()
+    {
+        StartCoroutine(EndGamePopUp());
+    }
+    #endregion
+
     public IEnumerator EndGamePopUp()
     {
         App.Manager.UI.GetUIHighLightController().ShowHighLight("Alert", "UI_NOTE");
         App.Manager.UI.GetPanel<AlertPanel>().SetAlert("caution", false);
         yield return new WaitUntil(() => App.Manager.UI.isUIStatus(UIState.Note));
         yield return new WaitUntil(() => App.Manager.UI.isUIStatus(UIState.Normal));
-        App.Manager.UI.AddUIStack(UIState.PopUp);
+        base.OpenPanel();
 
         bgmVolume = App.Manager.Sound.SetBGMVolumeTweening(8f);
         App.Manager.Sound.StopSFX();
@@ -106,7 +119,7 @@ public class PopUpController : MonoBehaviour
 
     public void ClickBackToMenu()
     {
-        App.Manager.UI.PopUIStack();
+        ClosePanel();
         Application.Quit();
     }
 }

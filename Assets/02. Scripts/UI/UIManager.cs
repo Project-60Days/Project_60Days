@@ -23,7 +23,6 @@ public class UIManager : Manager
     [SerializeField] SoundController soundController;
     [SerializeField] ItemInfoController itemInfoController;
     [SerializeField] UpperController upperController;
-    [SerializeField] PopUpController popUpController;
     [SerializeField] InfoController infoController;
     [SerializeField] PVController pvController;
 
@@ -204,11 +203,6 @@ public class UIManager : Manager
     public UpperController GetUpperController()
     {
         return upperController;
-    }
-
-    public PopUpController GetPopUpController()
-    {
-        return popUpController;
     }
 
     public InfoController GetInfoController()

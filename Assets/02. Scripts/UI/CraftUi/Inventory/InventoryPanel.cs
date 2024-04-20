@@ -32,11 +32,6 @@ public class InventoryPanel : UIBase
             slots[category].Add(slot);
         }
 
-        foreach (var item in itemData)
-        {
-            item.Init();
-        }
-
         InitSlots();
 
         gameObject.SetActive(false);

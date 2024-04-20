@@ -198,6 +198,7 @@ public class GameData : Data
         foreach (var item in itemSO.items)
         {
             item.data = itemData[item.English];
+            item.Init();
         }
     }
 
