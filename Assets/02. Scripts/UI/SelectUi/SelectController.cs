@@ -51,7 +51,7 @@ public class SelectController : MonoBehaviour
 
     void OpenSelectPanel()
     {
-        App.Manager.UI.AddCurrUIName(UIState.Select);
+        App.Manager.UI.AddUIStack(UIState.Select);
         gameObject.SetActive(true);
     }
 }

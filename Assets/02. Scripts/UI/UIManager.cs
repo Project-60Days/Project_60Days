@@ -1,9 +1,19 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : Manager
 {
+    Dictionary<Type, UIBase> UIDic;
+    Stack<UIState> UIStack;
+
+    [SerializeField] Image blackBlur;
+    [SerializeField] List<UIBase> UIs;
+
+    public UIState currUIState
+        => UIStack.Count == 0 ? UIState.Normal : UIStack.Peek();
+
     [SerializeField] NoteController noteController;
     [SerializeField] InventoryController inventoryController;
     [SerializeField] CraftingUiController craftingUiController;
@@ -23,14 +33,19 @@ public class UIManager : Manager
     [SerializeField] InfoController infoController;
     [SerializeField] PVController pvController;
 
-
-    public Stack<UIState> currUIStack = new Stack<UIState>();
-
     protected override void Awake()
     {
         base.Awake();
 
-        currUIStack.Push(UIState.Normal);
+        UIDic = new(UIs.Count);
+        UIStack = new();
+
+        foreach (var UI in UIs)
+        {
+            //UIDic.Add(UI.GetPanelType(), UI);
+        }
+
+        UIs.Clear(); // clear memory
     }
     void Update()
     {
@@ -48,17 +63,41 @@ public class UIManager : Manager
         }
     }
 
-    public void AddCurrUIName(UIState _state)
-    {
-        currUIStack.Push(_state);
+    #region Get Controller
+    public T GetCtrl<T>() where T : UIBase => (T)UIDic[typeof(T)];
 
-        Debug.LogError("currUIStack : " + currUIStack.Peek());
+    public bool TryGetCtrl<T>(out T _ctrl) where T : UIBase
+    {
+        if (UIDic.TryGetValue(typeof(T), out var ctrl))
+        {
+            _ctrl = (T)ctrl;
+            return true;
+        }
+
+        _ctrl = default;
+        return false;
+    }
+    #endregion
+
+    #region UI Stack Managing
+    public void AddUIStack(UIState _state)
+    {
+        UIStack.Push(_state);
+
+        Debug.LogError($"PUSH : {_state}, Total stack count: {UIStack.Count}");
     }
 
-    public void PopCurrUI()
+    public void PopUIStack()
     {
-        currUIStack.Pop();
+        UIStack.Pop();
     }
+
+    public bool isUIStatus(UIState _cmp)
+    {
+        UIStack.TryPeek(out UIState top);
+        return _cmp == top;
+    }
+    #endregion
 
     public UIState StringToState(string _state) => _state switch
     {
@@ -74,12 +113,6 @@ public class UIManager : Manager
         _ => UIState.Normal,
 
     };
-
-    public bool isUIStatus(UIState _cmp)
-    {
-        currUIStack.TryPeek(out UIState top);
-        return _cmp == top;
-    }
 
     public NoteController GetNoteController()
     {

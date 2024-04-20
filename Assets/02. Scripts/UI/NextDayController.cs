@@ -48,7 +48,7 @@ public class NextDayController : MonoBehaviour
 
         isHit = false;
 
-        App.Manager.UI.PopCurrUI();
+        App.Manager.UI.PopUIStack();
 
         App.Manager.UI.GetNoteController().isNewDay = true;
     }
@@ -59,7 +59,7 @@ public class NextDayController : MonoBehaviour
     /// </summary>
     public void NextDayEvent()
     {
-        App.Manager.UI.AddCurrUIName(UIState.Loading);
+        App.Manager.UI.AddUIStack(UIState.Loading);
 
         blackPanel.gameObject.SetActive(true);
 

@@ -12,7 +12,7 @@ public class LoadingUiController : MonoBehaviour
 
     IEnumerator LoadScene()
     {
-        App.Manager.UI.AddCurrUIName(UIState.Loading);
+        App.Manager.UI.AddUIStack(UIState.Loading);
 
         yield return new WaitUntil(() => App.Manager.Map.mapController != null);
         yield return new WaitUntil(() => App.Manager.Map.mapController.LoadingComplete == true);

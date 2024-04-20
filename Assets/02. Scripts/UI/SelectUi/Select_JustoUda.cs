@@ -19,7 +19,7 @@ public class Select_JustoUda : SelectBase
     public override void SelectA()
     {
         if (App.Manager.UI.isUIStatus(UIState.Select))
-            App.Manager.UI.PopCurrUI();
+            App.Manager.UI.PopUIStack();
         else return;
 
         Debug.Log("A 버튼 눌림");
@@ -29,7 +29,7 @@ public class Select_JustoUda : SelectBase
     public override void SelectB()
     {
         if (App.Manager.UI.isUIStatus(UIState.Select))
-            App.Manager.UI.PopCurrUI();
+            App.Manager.UI.PopUIStack();
         else return;
 
         Debug.Log("B 버튼 눌림");

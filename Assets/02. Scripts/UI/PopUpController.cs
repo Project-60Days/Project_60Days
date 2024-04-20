@@ -48,7 +48,7 @@ public class PopUpController : MonoBehaviour
         App.Manager.UI.GetAlertController().SetAlert("caution", false);
         yield return new WaitUntil(() => App.Manager.UI.isUIStatus(UIState.Note));
         yield return new WaitUntil(() => App.Manager.UI.isUIStatus(UIState.Normal));
-        App.Manager.UI.AddCurrUIName(UIState.PopUp);
+        App.Manager.UI.AddUIStack(UIState.PopUp);
 
         bgmVolume = App.Manager.Sound.SetBGMVolumeTweening(8f);
         App.Manager.Sound.StopSFX();
@@ -106,7 +106,7 @@ public class PopUpController : MonoBehaviour
 
     public void ClickBackToMenu()
     {
-        App.Manager.UI.PopCurrUI();
+        App.Manager.UI.PopUIStack();
         Application.Quit();
     }
 }

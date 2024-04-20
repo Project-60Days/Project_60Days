@@ -118,7 +118,7 @@ public class NoteController : MonoBehaviour
             ChangePageButton();
 
             App.Manager.Sound.PlaySFX("SFX_Note_Open");
-            App.Manager.UI.AddCurrUIName(UIState.Note);
+            App.Manager.UI.AddUIStack(UIState.Note);
         }
     }
     
@@ -130,7 +130,7 @@ public class NoteController : MonoBehaviour
         if (isOpen == true)
         {
             if (App.Manager.UI.isUIStatus(UIState.Note))
-                App.Manager.UI.PopCurrUI();
+                App.Manager.UI.PopUIStack();
             else return;
 
             isOpen = false;

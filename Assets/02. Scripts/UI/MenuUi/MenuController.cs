@@ -30,7 +30,7 @@ public class MenuController : MonoBehaviour
 
     public void EnterMenu()
     {
-        App.Manager.UI.AddCurrUIName(UIState.Menu);
+        App.Manager.UI.AddUIStack(UIState.Menu);
         gameObject.SetActive(true);
         foreach (var button in buttons)
             button.Init();
@@ -39,7 +39,7 @@ public class MenuController : MonoBehaviour
     public void QuitMenu()
     {
         if (App.Manager.UI.isUIStatus(UIState.Menu))
-            App.Manager.UI.PopCurrUI();
+            App.Manager.UI.PopUIStack();
         else return;
 
         foreach (var button in buttons) 

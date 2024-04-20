@@ -63,7 +63,7 @@ public class WorkBenchUiOpen : MonoBehaviour
     {
         if (App.Manager.UI.isUIStatus(UIState.Normal) == false) return;
 
-        App.Manager.UI.AddCurrUIName(UIState.Craft);
+        App.Manager.UI.AddUIStack(UIState.Craft);
 
         ActivateUiObjects(true);
         App.Manager.UI.GetCraftingUiController().EnterUi();
@@ -87,7 +87,7 @@ public class WorkBenchUiOpen : MonoBehaviour
     public void CloseUi()
     {
         if (App.Manager.UI.isUIStatus(UIState.Craft))
-            App.Manager.UI.PopCurrUI();
+            App.Manager.UI.PopUIStack();
         else return;
 
         craftEffectAnim.isActive = false;
