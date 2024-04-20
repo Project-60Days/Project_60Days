@@ -14,6 +14,8 @@ public class Mode
 
 public class CraftPanel : UIBase
 {
+    [SerializeField] RawImageController rawImageController;
+
     [SerializeField] Image inventoryImage;
     [SerializeField] Button closeBtn;
 
@@ -118,7 +120,7 @@ public class CraftPanel : UIBase
 
         inventoryImage.sprite = _mode.InventorySprite;
 
-        App.Manager.UI.GetCraftingRawImageController().DestroyObject();
+        rawImageController.DestroyObject();
     }
 
     void InActiveMode(Mode _mode)

@@ -15,7 +15,6 @@ public class UIManager : Manager
     public UIState CurrUIState
         => UIStack.Count == 0 ? UIState.Normal : UIStack.Peek();
 
-    [SerializeField] CraftingRawImageController craftingRawImageController;
     [SerializeField] UIHighLightController uiHighLightController;
     [SerializeField] NextDayController nextDayController;
     [SerializeField] PageController pageController;
@@ -24,7 +23,6 @@ public class UIManager : Manager
     [SerializeField] ItemInfoController itemInfoController;
     [SerializeField] UpperController upperController;
     [SerializeField] InfoController infoController;
-    [SerializeField] PVController pvController;
 
     protected override void Awake()
     {
@@ -104,7 +102,11 @@ public class UIManager : Manager
 
     public void PopUIStack()
     {
+        var top = UIStack.Peek();
+
         UIStack.Pop();
+
+        Debug.LogError($"PUSH : {top}, Total stack count: {UIStack.Count}");
     }
 
     public bool isUIStatus(UIState _cmp)
@@ -150,7 +152,7 @@ public class UIManager : Manager
 
     public void FadeOut(Action _endEvent = null)
     {
-        if (blackBlur.color.a == 1f)
+        if (blackBlur.color.a == 0f)
         {
             _endEvent?.Invoke();
             return;
@@ -165,11 +167,6 @@ public class UIManager : Manager
     }
     #endregion
 
-    public CraftingRawImageController GetCraftingRawImageController()
-    {
-        return craftingRawImageController;
-    }
-   
     public UIHighLightController GetUIHighLightController()
     {
         return uiHighLightController;
@@ -208,10 +205,5 @@ public class UIManager : Manager
     public InfoController GetInfoController()
     {
         return infoController;
-    }
-
-    public PVController GetPVController()
-    {
-        return pvController;
     }
 }

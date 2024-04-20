@@ -40,7 +40,7 @@ public class MenuPanel : UIBase
 
     public override void ReInit() { }
 
-    public override UIState GetUIState() => UIState.Note;
+    public override UIState GetUIState() => UIState.Menu;
 
     public override bool IsAddUIStack() => true;
 

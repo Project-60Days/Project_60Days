@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class AlertPanel : UIBase
@@ -13,6 +14,8 @@ public class AlertPanel : UIBase
     #region Override
     public override void Init()
     {
+        SetButtonEvent();
+
         noteAlert.SetActive(false);
         cautionAlert.SetActive(false);
     }
@@ -24,6 +27,11 @@ public class AlertPanel : UIBase
     }
     #endregion
 
+    void SetButtonEvent()
+    {
+        noteAlert.GetComponent<Button>().onClick.AddListener(() => App.Manager.UI.GetPanel<NotePanel>().OpenPanel());
+        cautionAlert.GetComponent<Button>().onClick.AddListener(() => App.Manager.UI.GetNextDayController().GoToMap());
+    }
     public void SetAlert(string _alertType, bool _isActive) 
     {
         if (_alertType == "note")

@@ -10,10 +10,7 @@ public class LoadingPanel : UIBase
         OpenPanel();
     }
 
-    public override void ReInit()
-    {
-        throw new System.NotImplementedException();
-    }
+    public override void ReInit() { }
 
     public override UIState GetUIState() => UIState.Loading;
 
@@ -21,7 +18,7 @@ public class LoadingPanel : UIBase
 
     public override void OpenPanel()
     {
-        base.OpenPanel();
+        App.Manager.UI.AddUIStack(GetUIState());
 
         StartCoroutine(LoadScene());
     }

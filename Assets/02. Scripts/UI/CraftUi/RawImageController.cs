@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-public class CraftingRawImageController : MonoBehaviour
+public class RawImageController : MonoBehaviour
 {
     [SerializeField] GameObject targetObject;
 
