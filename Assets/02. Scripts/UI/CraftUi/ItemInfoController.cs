@@ -128,7 +128,7 @@ public class ItemInfoController : MonoBehaviour
 
     void SetBlueprint(ItemBase _item)
     {
-        string[] blueprintCodes = App.Manager.UI.GetCraftingUiController().GetItemCombineCodes(_item);
+        string[] blueprintCodes = App.Manager.UI.GetPanel<CraftPanel>().Blueprint.GetItemCombineCodes(_item);
         if (blueprintCodes == null) return;
 
         for (int i = 0; i < blueprintCodes.Length - 1; i++) 

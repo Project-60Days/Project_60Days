@@ -14,9 +14,7 @@ public class UIManager : Manager
     public UIState CurrUIState
         => UIStack.Count == 0 ? UIState.Normal : UIStack.Peek();
 
-    [SerializeField] CraftingUiController craftingUiController;
     [SerializeField] CraftingRawImageController craftingRawImageController;
-    [SerializeField] CraftModeController craftModeController;
     [SerializeField] UIHighLightController uiHighLightController;
     [SerializeField] SelectController selectController;
     [SerializeField] NextDayController nextDayController;
@@ -134,19 +132,9 @@ public class UIManager : Manager
 
     };
 
-    public CraftingUiController GetCraftingUiController()
-    {
-        return craftingUiController;
-    }
-
     public CraftingRawImageController GetCraftingRawImageController()
     {
         return craftingRawImageController;
-    }
-
-    public CraftModeController GetCraftModeController()
-    {
-        return craftModeController;
     }
    
     public UIHighLightController GetUIHighLightController()

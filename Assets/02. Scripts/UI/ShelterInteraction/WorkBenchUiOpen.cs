@@ -63,10 +63,8 @@ public class WorkBenchUiOpen : MonoBehaviour
     {
         if (App.Manager.UI.isUIStatus(UIState.Normal) == false) return;
 
-        App.Manager.UI.AddUIStack(UIState.Craft);
-
-        ActivateUiObjects(true);
-        App.Manager.UI.GetCraftingUiController().EnterUi();
+        //ActivateUiObjects(true);
+        App.Manager.UI.GetPanel<CraftPanel>().OpenPanel();
         craftEffectAnim.Init();
 
         FadeInUiObjects();
@@ -86,13 +84,9 @@ public class WorkBenchUiOpen : MonoBehaviour
 
     public void CloseUi()
     {
-        if (App.Manager.UI.isUIStatus(UIState.Craft))
-            App.Manager.UI.PopUIStack();
-        else return;
-
         craftEffectAnim.isActive = false;
         App.Manager.UI.GetItemInfoController().isOpen = false;
-        App.Manager.UI.GetCraftingUiController().ExitUi();
+        //App.Manager.UI.GetPanel<CraftPanel>().ClosePanel();
 
         FadeOutUiObjects();
     }

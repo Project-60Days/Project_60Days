@@ -75,7 +75,7 @@ public class UIHighLightController : MonoBehaviour
 
     private IEnumerator HideClickCraftItems(HighLight _h)
     {
-        yield return new WaitUntil(() => App.Manager.UI.GetCraftingUiController().isMoreThanThree());
+        yield return new WaitUntil(() => App.Manager.UI.GetPanel<CraftPanel>().Craft.isMoreThanThree());
 
         _h.Hide();
         highLightImg.SetActive(false);

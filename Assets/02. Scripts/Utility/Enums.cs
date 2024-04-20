@@ -56,7 +56,7 @@ public enum EAlertType
     Caution
 }
 
-public enum ECraftModeType
+public enum CraftMode
 {
     Craft,
     Equip,

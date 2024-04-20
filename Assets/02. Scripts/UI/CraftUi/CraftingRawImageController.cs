@@ -29,14 +29,14 @@ public class CraftingRawImageController : MonoBehaviour
             return;
         }
 
-        App.Manager.UI.GetCraftingUiController().TurnOnHologram();
+        App.Manager.UI.GetPanel<CraftPanel>().TurnHologram(true);
         targetObject.SetActive(true);
         targetObject.GetComponent<SpriteRenderer>().sprite = itemSprite;
     }
 
     public void DestroyObject()
     {
-        App.Manager.UI.GetCraftingUiController().TurnOffHologram();
+        App.Manager.UI.GetPanel<CraftPanel>().TurnHologram(false);
         targetObject.SetActive(false);
     }
 }

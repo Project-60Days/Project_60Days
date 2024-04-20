@@ -20,10 +20,8 @@ public class InventoryPanel : UIBase
         => itemData.ToList().Find(x => x.data.Code == "ITEM_NETWORKCHIP");
 
     #region Override
-
     public override void Init()
     {
- 
         for (int i = 0; i < 6; i++)
             slots[i] = (new List<ItemSlot>());
 
@@ -34,20 +32,17 @@ public class InventoryPanel : UIBase
             slots[category].Add(slot);
         }
 
+        foreach (var item in itemData)
+        {
+            item.Init();
+        }
+
         InitSlots();
+
+        gameObject.SetActive(false);
     }
 
     public override void ReInit() { }
-
-    public override void OpenPanel()
-    {
-        base.OpenPanel();
-    }
-
-    public override void ClosePanel()
-    {
-        base.ClosePanel();
-    }
     #endregion
 
     /// <summary>
@@ -183,7 +178,7 @@ public class InventoryPanel : UIBase
     /// <param name="itemCode"></param>
     /// <returns></returns>
     public bool CheckInventoryItem(string _itemCode)
-        => itemData.Find(x => x.data.Code == _itemCode) != null ? true : false;
+        => items.Find(x => x.data.Code == _itemCode) != null ? true : false;
     
 
 
