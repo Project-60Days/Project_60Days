@@ -14,7 +14,6 @@ public class UIManager : Manager
     public UIState CurrUIState
         => UIStack.Count == 0 ? UIState.Normal : UIStack.Peek();
 
-    [SerializeField] NoteController noteController;
     [SerializeField] InventoryController inventoryController;
     [SerializeField] CraftingUiController craftingUiController;
     [SerializeField] CraftingRawImageController craftingRawImageController;
@@ -47,6 +46,28 @@ public class UIManager : Manager
 
         UIs.Clear(); // clear memory
     }
+
+    void Start()
+    {
+        InitUIs();
+    }
+
+    void InitUIs()
+    {
+        foreach (var UI in UIDic.Values)
+        {
+            if (!UI.gameObject.activeSelf) //wake up panels
+            {
+                UI.gameObject.SetActive(true);
+                UI.gameObject.SetActive(false);
+            }
+
+            try { UI.Init(); }
+            catch (Exception error)
+            { Debug.LogError($"ERROR: {error.Message}\n{error.StackTrace}"); }
+        }
+    }
+
     void Update() //TODO
     {
         InputKey();
@@ -113,11 +134,6 @@ public class UIManager : Manager
         _ => UIState.Normal,
 
     };
-
-    public NoteController GetNoteController()
-    {
-        return noteController;
-    }
 
     public InventoryController GetInventoryController()
     {

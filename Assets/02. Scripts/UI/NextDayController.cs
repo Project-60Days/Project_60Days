@@ -50,7 +50,7 @@ public class NextDayController : MonoBehaviour
 
         App.Manager.UI.PopUIStack();
 
-        App.Manager.UI.GetNoteController().isNewDay = true;
+        App.Manager.UI.GetPanel<NotePanel>().isNewDay = true;
     }
 
 
@@ -100,10 +100,10 @@ public class NextDayController : MonoBehaviour
 
     IEnumerator ShowNextDate()
     {
-        App.Manager.UI.GetNoteController().SetNextDay();
+        App.Manager.UI.GetPanel<NotePanel>().ReInit();
         App.Manager.UI.GetCraftingUiController().EquipItemDayEvent();
 
-        int today = App.Manager.UI.GetNoteController().dayCount;
+        int today = App.Manager.UI.GetPanel<NotePanel>().dayCount;
 
         string text = "<color=white>Day " + "{vertexp}" + today.ToString() + "{/vertexp}</color>";
 

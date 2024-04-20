@@ -406,7 +406,7 @@ public class MapManager : Manager
         if (curStructure == null)
             return false;
 
-        if (curStructure.VisitDay != App.Manager.UI.GetNoteController().dayCount)
+        if (curStructure.VisitDay != App.Manager.UI.GetPanel<NotePanel>().dayCount)
         {
             return true;
         }

@@ -9,13 +9,13 @@ public class Item_GPS : ItemBase
 
     public override void Equip()
     {
-        beforeDay = App.Manager.UI.GetNoteController().dayCount;
+        beforeDay = App.Manager.UI.GetPanel<NotePanel>().dayCount;
 
         App.Manager.Map.mapController.Player.AddSightRange((int)data.value1);
     }
 
     public override bool CheckMeetCondition()
     {
-        return (App.Manager.UI.GetNoteController().dayCount - beforeDay == 1);
+        return (App.Manager.UI.GetPanel<NotePanel>().dayCount - beforeDay == 1);
     }
 }

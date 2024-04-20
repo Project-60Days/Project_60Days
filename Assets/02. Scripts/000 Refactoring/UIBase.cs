@@ -20,21 +20,16 @@ public abstract class UIBase : MonoBehaviour
     public virtual bool IsCloseWithESC() => false;
 
     /// <summary>
-    /// Init Panel (call Once on Awake, first time)
+    /// Initialize Panel 
+    /// called once on Awake, first time
     /// </summary>
     public abstract void Init();
 
     /// <summary>
-    /// is Panel need Refresh when it opened?
+    /// Re Initialize Panel
+    /// called every new day
     /// </summary>
-    /// <returns></returns>
-    public abstract bool IsRefresh();
-
-    /// <summary>
-    /// Refresh Panel (need override)
-    /// called every opening
-    /// </summary>
-    public abstract void Refresh();
+    public abstract void ReInit();
 
     /// <summary>
     /// Open Panel (virtual, choose override)
@@ -44,7 +39,7 @@ public abstract class UIBase : MonoBehaviour
         if (IsAddUIStack() && !gameObject.activeSelf)
             App.Manager.UI.AddUIStack(GetUIState());
 
-        this.gameObject.SetActive(true);
+        gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -52,7 +47,7 @@ public abstract class UIBase : MonoBehaviour
     /// </summary>
     public virtual void ClosePanel()
     {
-        this.gameObject.SetActive(false);
+        gameObject.SetActive(false);
 
         App.Manager.UI.PopUIStack();
     }

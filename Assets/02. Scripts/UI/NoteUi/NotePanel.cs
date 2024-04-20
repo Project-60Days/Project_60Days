@@ -2,9 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-using System;
 
-public class NoteController : MonoBehaviour
+public class NotePanel : UIBase
 {
     [Header("Note Objects")]
     [SerializeField] Text dayText;
@@ -20,56 +19,91 @@ public class NoteController : MonoBehaviour
     NotePageBase[] notePages;
 
     [HideInInspector] public bool isNewDay = true;
-    bool isOpen = false;
+    [HideInInspector] bool isOpen = false;
     [HideInInspector] public int dayCount = 0;
-    int pageNum = 0;
+    [HideInInspector] int pageNum = 0;
 
     [SerializeField] ScrollRect[] scrollRects;
     [SerializeField] Scrollbar[] scrollBars;
 
-
-
-    void Start()
+    #region Override
+    public override void Init()
     {
-        //pages = GetComponentsInChildren<NotePageBase>(includeInactive: true);
-
-        Init();
+        SetButtonEvent();
+        SetVariables();
+        gameObject.SetActive(false);
     }
 
-    void Init()
+    public override void ReInit()
     {
-        ActiveNextBtnAndPrevBtn(false, false);
-        ActiveObjects(false);
-        InitVariables();
+        SetVariables();
+        ClosePanel(); //TODO
     }
 
-    /// <summary>
-    /// 페이지 다음/이전 버튼 활성화 또는 비활성화
-    /// </summary>
-    /// <param name="nextBtnEnable"></param>
-    /// <param name="prevBtnEnable"></param>
-    void ActiveNextBtnAndPrevBtn(bool _nextBtnEnable, bool _prevBtnEnable)
+    public override UIState GetUIState() => UIState.Note;
+
+    public override bool IsAddUIStack() => true;
+
+    public override void OpenPanel()
     {
-        if (_nextBtnEnable == false) App.Manager.UI.GetAlertController().SetAlert("note", false);
-        nextPageBtn.gameObject.SetActive(_nextBtnEnable);
-        prevPageBtn.gameObject.SetActive(_prevBtnEnable);
+        if (notePages.Length == 0) return;
+        if (isOpen) return;
+
+        base.OpenPanel();
+
+        isOpen = !isOpen;
+
+        ActiveAndPlayPage();
+
+        if (isNewDay)
+            isNewDay = !isNewDay;
+
+        ChangePageButton();
+
+        App.Manager.Sound.PlaySFX("SFX_Note_Open");
     }
 
-    /// <summary>
-    /// 노트 열고 닫을 때 겹치는 오브젝트 활성화/비활성화
-    /// </summary>
-    /// <param name="isEnable"></param>
-    void ActiveObjects(bool _isEnable)
+    public override void ClosePanel()
     {
-        closeBtn.gameObject.SetActive(_isEnable);
-        dayText.gameObject.SetActive(_isEnable);
-        noteBackground.SetActive(_isEnable);
+        if (!isOpen) return;
+        if (!App.Manager.UI.isUIStatus(UIState.Note)) return; //TODO
+
+        base.ClosePanel();
+
+        isOpen = !isOpen;
+
+        notePages[pageNum].gameObject.SetActive(false); //TODO
+
+        scrollImg.StopAnim();
+
+        App.Manager.Sound.PlaySFX("SFX_Note_Close");
+    }
+    #endregion
+
+    void SetButtonEvent()
+    {
+        nextPageBtn.onClick.AddListener(() =>
+        {
+            GoToNextPage();
+            App.Manager.Sound.PlaySFX("SFX_ButtonClick_01");
+        });
+
+        prevPageBtn.onClick.AddListener(() =>
+        {
+            GoToPrevPage();
+            App.Manager.Sound.PlaySFX("SFX_ButtonClick_01");
+        });
+
+        closeBtn.onClick.AddListener(() =>
+        {
+            ClosePanel();
+        });
     }
 
     /// <summary>
     /// 변수 초기화 (첫 날 포함 새로운 날이 시작될 때마다 호출됨)
     /// </summary>
-    void InitVariables()
+    void SetVariables()
     {
         dayText.text = "Day " + ++dayCount;
         pageNum = 0;
@@ -95,71 +129,17 @@ public class NoteController : MonoBehaviour
         return todayPages.ToArray();
     }
 
-
-
-
-
     /// <summary>
-    /// 노트 열 때 호출
+    /// 페이지 다음/이전 버튼 활성화 또는 비활성화
     /// </summary>
-    public void OpenNote()
+    /// <param name="nextBtnEnable"></param>
+    /// <param name="prevBtnEnable"></param>
+    void ActiveNextBtnAndPrevBtn(bool _nextBtnEnable, bool _prevBtnEnable)
     {
-        if (notePages.Length == 0) return;
-        if (isOpen == false)
-        {
-            isOpen = true;
-            ActiveObjects(true);
-
-            ActiveAndPlayPage();
-
-            if (isNewDay == true)
-                isNewDay = false;
-
-            ChangePageButton();
-
-            App.Manager.Sound.PlaySFX("SFX_Note_Open");
-            App.Manager.UI.AddUIStack(UIState.Note);
-        }
+        if (_nextBtnEnable == false) App.Manager.UI.GetAlertController().SetAlert("note", false);
+        nextPageBtn.gameObject.SetActive(_nextBtnEnable);
+        prevPageBtn.gameObject.SetActive(_prevBtnEnable);
     }
-    
-    /// <summary>
-    /// 노트 닫을 때 호출
-    /// </summary>
-    public void CloseNote()
-    {
-        if (isOpen == true)
-        {
-            if (App.Manager.UI.isUIStatus(UIState.Note))
-                App.Manager.UI.PopUIStack();
-            else return;
-
-            isOpen = false;
-            ActiveObjects(false);
-
-            ActiveNextBtnAndPrevBtn(false, false);
-
-            notePages[pageNum].gameObject.SetActive(false);
-
-            scrollImg.StopAnim();
-
-            App.Manager.Sound.PlaySFX("SFX_Note_Close");   
-        }
-    }
-
-
-
-
-
-    /// <summary>
-    /// 다음 날이 되었을 때 호출됨. 변수 초기화 및 노트 닫음
-    /// </summary>
-    public void SetNextDay()
-    {
-        InitVariables();
-        CloseNote();
-    }
-
-
 
 
 

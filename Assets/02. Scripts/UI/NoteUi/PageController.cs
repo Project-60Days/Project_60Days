@@ -111,8 +111,8 @@ public class PageController : MonoBehaviour
     public void SetTutorialSelect()
     {
         selectPage.SetNodeName("tutorialSelect");
-        App.Manager.UI.GetNoteController().dayCount = -1;
-        App.Manager.UI.GetNoteController().SetNextDay();
+        App.Manager.UI.GetPanel<NotePanel>().dayCount = -1;
+        App.Manager.UI.GetPanel<NotePanel>().ReInit();
 
         yesBtn.onClick.RemoveAllListeners();
         noBtn.onClick.RemoveAllListeners();
@@ -124,7 +124,7 @@ public class PageController : MonoBehaviour
     {
         //TutorialManager.instance.GetTutorialController().LightUpBackground();
         App.Manager.UI.GetInventoryController().RemoveItemByCode("ITEM_BATTERY");
-        App.Manager.UI.GetNoteController().CloseNote();
+        App.Manager.UI.GetPanel<NotePanel>().ClosePanel();
     }
 
     public string GetNextResourceNodeName()

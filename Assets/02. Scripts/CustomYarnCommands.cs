@@ -102,7 +102,7 @@ public class CustomYarnCommands : MonoBehaviour
 
     void SetCloseBtnEnabled(bool _isEnabled)
     {
-        App.Manager.UI.GetNoteController().SetCloseBtnEnabled(_isEnabled);
+        App.Manager.UI.GetPanel<NotePanel>().SetCloseBtnEnabled(_isEnabled);
     }
 
     void LightUpAndFillBattery(int _num)
@@ -138,12 +138,12 @@ public class CustomYarnCommands : MonoBehaviour
 
     Coroutine WaitMoveScroll()
     {
-        return StartCoroutine(new WaitUntil(() => App.Manager.UI.GetNoteController().CheckIfScrolledToEnd()));
+        return StartCoroutine(new WaitUntil(() => App.Manager.UI.GetPanel<NotePanel>().CheckIfScrolledToEnd()));
     }
 
     void SetScrollBar(bool _isInteractable)
     {
-        App.Manager.UI.GetNoteController().SetScrollBarInteractable(_isInteractable);
+        App.Manager.UI.GetPanel<NotePanel>().SetScrollBarInteractable(_isInteractable);
     }
     #endregion
 
@@ -174,7 +174,7 @@ public class CustomYarnCommands : MonoBehaviour
     #region Tutorial 06
     Coroutine WaitNewDay()
     {
-        return StartCoroutine(new WaitUntil(() => App.Manager.UI.GetNoteController().GetNewDay()));
+        return StartCoroutine(new WaitUntil(() => App.Manager.UI.GetPanel<NotePanel>().GetNewDay()));
     }
 
     void EnableBtn()

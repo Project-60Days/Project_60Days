@@ -30,6 +30,6 @@ public class NoteUiOpen : MonoBehaviour
 
     private void ActivateUIObjects()
     {
-        App.Manager.UI.GetNoteController().OpenNote();
+        App.Manager.UI.GetPanel<NotePanel>().OpenPanel();
     }
 }

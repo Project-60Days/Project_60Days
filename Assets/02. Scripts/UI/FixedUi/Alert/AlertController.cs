@@ -31,7 +31,7 @@ public class AlertController : MonoBehaviour
     public void ClickNoteAlert()
     {
         if (App.Manager.UI.isUIStatus(UIState.Normal) == true)
-            App.Manager.UI.GetNoteController().OpenNote();
+            App.Manager.UI.GetPanel<NotePanel>().OpenPanel();
         else if (App.Manager.UI.isUIStatus(UIState.Map) == true)
             StartCoroutine(OpenNoteInMap());
         else
@@ -42,7 +42,7 @@ public class AlertController : MonoBehaviour
     {
         App.Manager.UI.GetNextDayController().GoToLab();
         yield return new WaitUntil(() => App.Manager.UI.isUIStatus(UIState.Normal));
-        App.Manager.UI.GetNoteController().OpenNote();
+        App.Manager.UI.GetPanel<NotePanel>().OpenPanel();
     }
 
     public void CautionAlert()
