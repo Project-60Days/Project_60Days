@@ -84,7 +84,7 @@ public class UIHighLightController : MonoBehaviour
 
     private IEnumerator HideClickResultItem(HighLight _h)
     {
-        yield return new WaitUntil(() => App.Manager.UI.GetInventoryController().CheckInventoryItem("ITEM_BATTERY"));
+        yield return new WaitUntil(() => App.Manager.UI.GetPanel<InventoryPanel>().CheckInventoryItem("ITEM_BATTERY"));
 
         _h.Hide();
         highLightImg.SetActive(false);

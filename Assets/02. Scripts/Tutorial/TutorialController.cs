@@ -174,7 +174,7 @@ public class TutorialController : MonoBehaviour
     {
         yield return new WaitUntil(() => App.Manager.UI.isUIStatus(UIState.Normal));
 
-        App.Manager.UI.GetInventoryController().AddItemByItemCode("ITEM_DISTURBE");
-        App.Manager.UI.GetInventoryController().AddItemByItemCode("ITEM_FINDOR");
+        App.Manager.UI.GetPanel<InventoryPanel>().AddItemByItemCode("ITEM_DISTURBE");
+        App.Manager.UI.GetPanel<InventoryPanel>().AddItemByItemCode("ITEM_FINDOR");
     }
 }

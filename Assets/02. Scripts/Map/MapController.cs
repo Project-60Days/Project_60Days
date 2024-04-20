@@ -473,7 +473,7 @@ public class MapController : MonoBehaviour
         {
             distrubtors.Remove(curDistrubtor);
             App.Manager.Map.SetIsDronePrepared(false, "Distrubtor");
-            App.Manager.UI.GetInventoryController().AddItemByItemCode("ITEM_DISTURBE");
+            App.Manager.UI.GetPanel<InventoryPanel>().AddItemByItemCode("ITEM_DISTURBE");
             Destroy(curDistrubtor);
             DeselectAllTargetTiles();
         }
@@ -515,7 +515,7 @@ public class MapController : MonoBehaviour
         {
             explorers.Remove(curExplorer);
             App.Manager.Map.SetIsDronePrepared(false, "Explorer");
-            App.Manager.UI.GetInventoryController().AddItemByItemCode("ITEM_FINDOR");
+            App.Manager.UI.GetPanel<InventoryPanel>().AddItemByItemCode("ITEM_FINDOR");
             Destroy(curExplorer);
         }
     }

@@ -17,7 +17,7 @@ public class Item_Generator : ItemBase
         if ((App.Manager.UI.GetPanel<NotePanel>().dayCount - beforeDay) % data.value1 == 0)
         {
             for (int i = 0; i < data.value2; i++)
-                App.Manager.UI.GetInventoryController().AddItemByItemCode("ITEM_PLASMA");
+                App.Manager.UI.GetPanel<InventoryPanel>().AddItemByItemCode("ITEM_PLASMA");
         }
     }
 }

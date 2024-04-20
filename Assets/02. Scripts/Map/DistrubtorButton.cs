@@ -53,7 +53,7 @@ public class DistrubtorButton : MonoBehaviour, IPointerClickHandler, IPointerEnt
 
     public void Distrubtor()
     {
-        if (App.Manager.UI.GetInventoryController().CheckDistrubtorUsage())
+        if (App.Manager.UI.GetPanel<InventoryPanel>().CheckDistrubtorUsage())
         {
             Debug.Log("교란기 있음");
             if (App.Manager.Map.CheckCanInstallDrone())

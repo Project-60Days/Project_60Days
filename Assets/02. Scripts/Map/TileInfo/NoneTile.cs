@@ -25,7 +25,7 @@ public class NoneTile : TileBase, ITileLandformEffect
         if (RandomPercent.GetRandom(5))
         {
             Debug.Log("도둑 맞은 자원 디버프");
-            App.Manager.UI.GetInventoryController().RemoveRandomItem();
+            App.Manager.UI.GetPanel<InventoryPanel>().RemoveRandomItem();
         }
     }
 }

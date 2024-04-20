@@ -123,7 +123,7 @@ public class PageController : MonoBehaviour
     public void TutorialYesFunc()
     {
         //TutorialManager.instance.GetTutorialController().LightUpBackground();
-        App.Manager.UI.GetInventoryController().RemoveItemByCode("ITEM_BATTERY");
+        App.Manager.UI.GetPanel<InventoryPanel>().RemoveItemByCode("ITEM_BATTERY");
         App.Manager.UI.GetPanel<NotePanel>().ClosePanel();
     }
 

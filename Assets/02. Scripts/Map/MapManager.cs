@@ -311,7 +311,7 @@ public class MapManager : Manager
         if (structure != null)
         {
             if (structure is Tower)
-                if (App.Manager.UI.GetInventoryController().CheckNetCardUsage() == false) return;
+                if (App.Manager.UI.GetPanel<InventoryPanel>().CheckNetCardUsage() == false) return;
 
             if (structure.IsUse == false)
                 App.Manager.UI.GetPageController().SetSelectPage("structureSelect", structure);

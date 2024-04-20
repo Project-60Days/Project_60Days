@@ -54,7 +54,7 @@ public class ExplorerButton : MonoBehaviour, IPointerClickHandler, IPointerEnter
 
     public void Explorer()
     {
-        if (App.Manager.UI.GetInventoryController().CheckFindorUsage())
+        if (App.Manager.UI.GetPanel<InventoryPanel>().CheckFindorUsage())
         {
             Debug.Log("탐색기 있음");
             if (App.Manager.Map.CheckCanInstallDrone())

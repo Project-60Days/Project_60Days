@@ -14,7 +14,6 @@ public class UIManager : Manager
     public UIState CurrUIState
         => UIStack.Count == 0 ? UIState.Normal : UIStack.Peek();
 
-    [SerializeField] InventoryController inventoryController;
     [SerializeField] CraftingUiController craftingUiController;
     [SerializeField] CraftingRawImageController craftingRawImageController;
     [SerializeField] CraftModeController craftModeController;
@@ -134,11 +133,6 @@ public class UIManager : Manager
         _ => UIState.Normal,
 
     };
-
-    public InventoryController GetInventoryController()
-    {
-        return inventoryController;
-    }
 
     public CraftingUiController GetCraftingUiController()
     {

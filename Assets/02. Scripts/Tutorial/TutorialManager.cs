@@ -29,9 +29,9 @@ public class TutorialManager : Manager
 
         App.Manager.UI.GetAlertController().SetAlert("note", false);
 
-        App.Manager.UI.GetInventoryController().AddItemByItemCode("ITEM_PLASMA");
-        App.Manager.UI.GetInventoryController().AddItemByItemCode("ITEM_CARBON");
-        App.Manager.UI.GetInventoryController().AddItemByItemCode("ITEM_STEEL");
+        App.Manager.UI.GetPanel<InventoryPanel>().AddItemByItemCode("ITEM_PLASMA");
+        App.Manager.UI.GetPanel<InventoryPanel>().AddItemByItemCode("ITEM_CARBON");
+        App.Manager.UI.GetPanel<InventoryPanel>().AddItemByItemCode("ITEM_STEEL");
 
         tutorialController.StartDialogue();
     }

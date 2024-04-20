@@ -67,7 +67,7 @@ public class ResourceManager : MonoBehaviour
             for (int j = 0; j < lastResources[i].ItemCount; j++)
             {
                 //TODO :: SFX 재생, 아이템 획득 스크립트 추첨
-                App.Manager.UI.GetInventoryController().AddItem(item);
+                App.Manager.UI.GetPanel<InventoryPanel>().AddItem(item);
                 PlaySFX(item.sfxName);
             }
         }

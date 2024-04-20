@@ -1,49 +1,72 @@
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class InventoryController : MonoBehaviour
+public class InventoryPanel : UIBase
 {
-    [SerializeField] ItemSO itemSO;
-    Transform slotParent;
+    private readonly List<ItemBase> itemData = App.Data.Game.itemSO.items.ToList();
 
-    List<List<ItemSlot>> slots = new List<List<ItemSlot>>();
+    List<ItemSlot>[] slots = new List<ItemSlot>[6];
     int[] counts = new int[6];
+
     List<ItemBase> items = new List<ItemBase>();
 
-    ItemBase disturbe;
-    ItemBase findor;
-    ItemBase netCard;
+    ItemBase disturbe
+        => itemData.ToList().Find(x => x.data.Code == "ITEM_DISTURBE");
+    ItemBase findor
+        => itemData.ToList().Find(x => x.data.Code == "ITEM_FINDOR");
+    ItemBase netCard
+        => itemData.ToList().Find(x => x.data.Code == "ITEM_NETWORKCHIP");
 
-    void Awake()
+    #region Override
+
+    public override void Init()
     {
-        slotParent = gameObject.GetComponent<Transform>();
-
+ 
         for (int i = 0; i < 6; i++)
-            slots.Add(new List<ItemSlot>());
+            slots[i] = (new List<ItemSlot>());
 
-        for (int i = 0; i < slotParent.childCount; i++)
+        for (int i = 0; i < transform.childCount; i++)
         {
-            var slot = slotParent.GetChild(i).GetComponent<ItemSlot>();
+            var slot = transform.GetChild(i).GetComponent<ItemSlot>();
             int category = slot.category;
             slots[category].Add(slot);
-        }
-
-        foreach (var item in itemSO.items)
-        {
-            item.Init();
-
-            if (item.data.Code == "ITEM_DISTURBE")
-                disturbe = item;
-            else if (item.data.Code == "ITEM_FINDOR")
-                findor = item;
-            else if (item.data.Code == "ITEM_NETWORKCHIP")
-                netCard = item;
         }
 
         InitSlots();
     }
 
+    public override void ReInit() { }
+
+    public override void OpenPanel()
+    {
+        base.OpenPanel();
+    }
+
+    public override void ClosePanel()
+    {
+        base.ClosePanel();
+    }
+    #endregion
+
+    /// <summary>
+    /// slot 초기화
+    /// </summary>
+    void InitSlots()
+    {
+        for (int i = 0; i < slots.Length; i++)
+        {
+            for (int j = 0; j < slots[i].Count; j++)
+            {
+                slots[i][j].gameObject.SetActive(false);
+                slots[i][j].item = null;
+            }
+        }
+
+        for (int i = 0; i < counts.Length; i++)
+            counts[i] = 0;
+    }
 
     /// <summary>
     /// slot에 변경사항 적용 시 호출됨. 인벤토리 내의 슬롯에 아이템 추가
@@ -66,28 +89,6 @@ public class InventoryController : MonoBehaviour
 
         CheckDisturbeNFindor();
     }
-
-    /// <summary>
-    /// slot 초기화
-    /// </summary>
-    void InitSlots()
-    {
-        for (int i = 0; i < slots.Count; i++)
-        {
-            for (int j = 0; j < slots[i].Count; j++)
-            {
-                slots[i][j].gameObject.SetActive(false);
-                slots[i][j].item = null;
-            }
-        }
-
-        for (int i = 0; i < counts.Length; i++)
-            counts[i] = 0;
-    }
-
-
-
-
 
     /// <summary>
     /// 인벤토리에 ItemBase를 이용하여 아이템 추가
@@ -122,9 +123,10 @@ public class InventoryController : MonoBehaviour
     /// <param name="itemCode"></param>
     public void AddItemByItemCode(string _itemCode)
     {
-        for (int i = 0; i < itemSO.items.Length; i++)
-            if (itemSO.items[i].data.Code == _itemCode)
-                AddItem(itemSO.items[i]);
+        var item = itemData.Find(x => x.data.Code == _itemCode);
+
+        if (item != null)
+            AddItem(item);
     }
 
 
@@ -147,29 +149,26 @@ public class InventoryController : MonoBehaviour
 
     public void RemoveItemByCode(string _itemCode)
     {
-        ItemBase item;
-        for (int i = 0; i < itemSO.items.Length; i++)
-            if (itemSO.items[i].English == _itemCode)
-            {
-                item = itemSO.items[i];
-                RemoveItem(item);
-            }
+        var item = itemData.Find(x => x.data.Code == _itemCode);
+
+        if (item != null) 
+            RemoveItem(item);
     }
     
     public void RemoveRandomItem()
     {
         int random;
-        
-        if(items.Count == 0)
+
+        if (items.Count == 0) 
             return;
         
         while (true)
         {
             random = Random.Range(0, items.Count);
 
-            if(items[random].data.Code != "ITEM_NETWORKCHIP")
-                break;
+            if (items[random].data.Code != "ITEM_NETWORKCHIP") break;
         }
+
         App.Manager.UI.GetPageController().SetCurrResource(items[random]);
         App.Manager.UI.GetPageController().SetResultPage("LOOSE_RESOURCE", false);
         
@@ -184,14 +183,7 @@ public class InventoryController : MonoBehaviour
     /// <param name="itemCode"></param>
     /// <returns></returns>
     public bool CheckInventoryItem(string _itemCode)
-    {
-        foreach (var item in items) 
-        {
-            if (item.English == _itemCode)
-                return true;
-        }
-        return false;
-    }
+        => itemData.Find(x => x.data.Code == _itemCode) != null ? true : false;
     
 
 
@@ -228,16 +220,10 @@ public class InventoryController : MonoBehaviour
             return true;
         }
     }
-    
+
     public bool CheckDisturbeExist()
-    {
-        if (disturbe.itemCount <= 0)
-            return false;
-        else
-        {
-            return true;
-        }
-    }
+        => disturbe.itemCount > 0 ? true : false;
+
 
     public bool CheckNetCardUsage()
     {
@@ -251,28 +237,23 @@ public class InventoryController : MonoBehaviour
     }
 
     #region temp
-    /// <summary>
-    /// 시연회용 임시 함수(맞나?)
-    /// </summary>
-    //void Update()
-    //{
-    //    InputKey();
-    //}
 
-    /// <summary>
-    /// 아이템 전부 획득하는 궁극의 함수..이지만 이 함수 한 번 호출하면 다른 아이템 추가가 안됩니다
-    /// </summary>
-    //private void InputKey()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.Space))
-    //    {
-    //        foreach(var item in itemSO.items)
-    //        {
-    //            if (++counts[item.data.Category] > slots[item.data.Category].Count) return;
-    //            AddItem(item);
-    //        }
-                
-    //    }
-    //}
+    void Update()
+    {
+        //InputKey();
+    }
+
+    private void InputKey()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            foreach (var item in itemData)
+            {
+                if (++counts[item.data.Category] > slots[item.data.Category].Count) return;
+                AddItem(item);
+            }
+
+        }
+    }
     #endregion
 }

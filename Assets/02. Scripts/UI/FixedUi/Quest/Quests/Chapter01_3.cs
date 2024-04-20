@@ -25,7 +25,7 @@ public class Chapter01_3 : QuestBase
 
     public override bool CheckMeetCondition()
     {
-        return App.Manager.UI.GetInventoryController().CheckInventoryItem("ITEM_NETWORKCHIP");
+        return App.Manager.UI.GetPanel<InventoryPanel>().CheckInventoryItem("ITEM_NETWORKCHIP");
     }
 
     public override string SetQuestText()

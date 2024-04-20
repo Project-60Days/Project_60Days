@@ -126,7 +126,7 @@ public class CustomYarnCommands : MonoBehaviour
     #region Tutorial 02
     Coroutine WaitGetItem(string _itemCode)
     {
-        return StartCoroutine(new WaitUntil(() => App.Manager.UI.GetInventoryController().CheckInventoryItem(_itemCode)));
+        return StartCoroutine(new WaitUntil(() => App.Manager.UI.GetPanel<InventoryPanel>().CheckInventoryItem(_itemCode)));
     }
     #endregion
 
