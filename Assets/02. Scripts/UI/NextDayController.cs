@@ -83,8 +83,6 @@ public class NextDayController : MonoBehaviour
     /// </summary>
     IEnumerator NextDayEventCallBack(System.Action callback)
     {
-        App.Manager.UI.GetAlertController().InitAlert();
-
         App.Manager.Map.SetMapCameraPriority(false);
         transposer.m_CameraDistance = 5f;
 

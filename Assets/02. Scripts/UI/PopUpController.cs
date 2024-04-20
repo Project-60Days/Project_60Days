@@ -45,7 +45,7 @@ public class PopUpController : MonoBehaviour
     public IEnumerator EndGamePopUp()
     {
         App.Manager.UI.GetUIHighLightController().ShowHighLight("Alert", "UI_NOTE");
-        App.Manager.UI.GetAlertController().SetAlert("caution", false);
+        App.Manager.UI.GetPanel<AlertPanel>().SetAlert("caution", false);
         yield return new WaitUntil(() => App.Manager.UI.isUIStatus(UIState.Note));
         yield return new WaitUntil(() => App.Manager.UI.isUIStatus(UIState.Normal));
         App.Manager.UI.AddUIStack(UIState.PopUp);

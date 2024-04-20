@@ -4,21 +4,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class AlertController : MonoBehaviour
+public class AlertPanel : UIBase
 {
 
     [SerializeField] GameObject noteAlert;
     [SerializeField] GameObject cautionAlert;
 
-    private void Awake()
-    {
-        InitAlert();
-    }
-    public void InitAlert()
+    #region Override
+    public override void Init()
     {
         noteAlert.SetActive(false);
         cautionAlert.SetActive(false);
     }
+
+    public override void ReInit()
+    {
+        noteAlert.SetActive(false);
+        cautionAlert.SetActive(false);
+    }
+    #endregion
 
     public void SetAlert(string _alertType, bool _isActive) 
     {

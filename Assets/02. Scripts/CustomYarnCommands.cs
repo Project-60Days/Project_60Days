@@ -133,7 +133,7 @@ public class CustomYarnCommands : MonoBehaviour
     #region Tutorial 03
     void SetAlertState(string _alertType, bool _isActive)
     {
-        App.Manager.UI.GetAlertController().SetAlert(_alertType, _isActive);
+        App.Manager.UI.GetPanel<AlertPanel>().SetAlert(_alertType, _isActive);
     }
 
     Coroutine WaitMoveScroll()

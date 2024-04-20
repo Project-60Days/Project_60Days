@@ -18,7 +18,6 @@ public class UIManager : Manager
     [SerializeField] CraftingRawImageController craftingRawImageController;
     [SerializeField] UIHighLightController uiHighLightController;
     [SerializeField] NextDayController nextDayController;
-    [SerializeField] AlertController alertController;
     [SerializeField] PageController pageController;
     [SerializeField] QuestController questController;
     [SerializeField] SoundController soundController;
@@ -114,7 +113,6 @@ public class UIManager : Manager
         UIStack.TryPeek(out UIState top);
         return _cmp == top;
     }
-    #endregion
 
     public UIState StringToState(string _state) => _state switch
     {
@@ -130,7 +128,9 @@ public class UIManager : Manager
         _ => UIState.Normal,
 
     };
+    #endregion
 
+    #region Fade In / Out
     public void FadeIn(Action _endEvent = null)
     {
         if (blackBlur.color.a == 1f)
@@ -164,6 +164,7 @@ public class UIManager : Manager
                 blackBlur.gameObject.SetActive(false);
             });
     }
+    #endregion
 
     public CraftingRawImageController GetCraftingRawImageController()
     {
@@ -178,11 +179,6 @@ public class UIManager : Manager
     public NextDayController GetNextDayController()
     {
         return nextDayController;
-    }
-
-    public AlertController GetAlertController()
-    {
-        return alertController;
     }
 
     public PageController GetPageController()

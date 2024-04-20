@@ -296,7 +296,7 @@ public class MapManager : Manager
     {
         if (mapController.CheckZombies())
         {
-            App.Manager.UI.GetAlertController().SetAlert("caution", true);
+            App.Manager.UI.GetPanel<AlertPanel>().SetAlert("caution", true);
         }
         else
             return;
