@@ -40,15 +40,14 @@ public class NextDayController : MonoBehaviour
         else
             App.Manager.UI.GetUpperController().UpdateDurabillity();
 
-        Sequence sequence = DOTween.Sequence();
-        sequence.Append(blackPanel.DOFade(0f, 1f).SetEase(Ease.Linear))
-            .OnComplete(() => blackPanel.gameObject.SetActive(false));
+        App.Manager.UI.FadeOut();
 
         Destroy(dayCount);
 
         isHit = false;
 
-        App.Manager.UI.PopUIStack();
+        //App.Manager.UI.PopUIStack();
+        //todo
 
         App.Manager.UI.GetPanel<NotePanel>().isNewDay = true;
     }
@@ -59,24 +58,24 @@ public class NextDayController : MonoBehaviour
     /// </summary>
     public void NextDayEvent()
     {
-        App.Manager.UI.AddUIStack(UIState.Loading);
+        App.Manager.UI.AddUIStack(UIState.EndDay);
 
         blackPanel.gameObject.SetActive(true);
 
         App.Manager.Sound.StopBGM();
 
-        Sequence sequence = DOTween.Sequence();
-        sequence.Append(blackPanel.DOFade(1f, 0.5f)).SetEase(Ease.InQuint)
-            .OnComplete(() =>
-            {
-                StartCoroutine(NextDayEventCallBack(() =>
-                {
-                    if (isOver == true)
-                        StartCoroutine(ShowGameOver());
-                    else
-                        StartCoroutine(ShowNextDate());
-                }));
-            });
+        App.Manager.UI.FadeIn(EndFadeIn);
+    }
+    
+    void EndFadeIn()
+    {
+        StartCoroutine(NextDayEventCallBack(() =>
+        {
+            if (isOver == true)
+                StartCoroutine(ShowGameOver());
+            else
+                StartCoroutine(ShowNextDate());
+        }));
     }
 
     /// <summary>

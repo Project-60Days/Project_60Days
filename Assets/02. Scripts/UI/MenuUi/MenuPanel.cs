@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using DG.Tweening;
 
-public class MenuController : MonoBehaviour
+public class MenuPanel : UIBase
 {
     [SerializeField] Transform text;
     [SerializeField] Transform saveDetails;
@@ -11,51 +12,64 @@ public class MenuController : MonoBehaviour
     [SerializeField] Transform settingDetails;
     MenuButtonBase[] buttons;
 
+    [SerializeField] Button backBtn;
+    [SerializeField] Button saveBtn;
+    [SerializeField] Button loadBtn;
+    [SerializeField] Button optionBtn;
+    [SerializeField] Button quitBtn;
+
     float textInitialY;
     float saveInitialY;
     float loadInitialY;
     float settingInitialY;
 
-    void Start()
+    #region Override
+    public override void Init()
     {
         buttons = GetComponentsInChildren<MenuButtonBase>();
-       
+
         textInitialY = text.transform.localPosition.y;
         saveInitialY = saveDetails.transform.localPosition.y;
         loadInitialY = loadDetails.transform.localPosition.y;
         settingInitialY = settingDetails.transform.localPosition.y;
 
+        SetButtonEvent();
+
         gameObject.SetActive(false);
     }
 
-    public void EnterMenu()
+    public override void ReInit() { }
+
+    public override UIState GetUIState() => UIState.Note;
+
+    public override bool IsAddUIStack() => true;
+
+    public override void OpenPanel()
     {
-        App.Manager.UI.AddUIStack(UIState.Menu);
-        gameObject.SetActive(true);
+        base.OpenPanel();
+
         foreach (var button in buttons)
             button.Init();
     }
 
-    public void QuitMenu()
+    public override void ClosePanel()
     {
-        if (App.Manager.UI.isUIStatus(UIState.Menu))
-            App.Manager.UI.PopUIStack();
-        else return;
-
-        foreach (var button in buttons) 
+        foreach (var button in buttons)
         {
             if (button.isClicked == true)
                 button.CloseEvent();
         }
 
-        gameObject.SetActive(false);
+        base.ClosePanel();
     }
+    #endregion
 
-    public void QuitGame()
+    void SetButtonEvent()
     {
-        Application.Quit();
+        backBtn.onClick.AddListener(() => ClosePanel());
+        // optionBtn.onClick.AddListener(() =>);
+        quitBtn.onClick.AddListener(() => Application.Quit());
     }
-
 
     public void InitSettingButtonsLocation()
     {

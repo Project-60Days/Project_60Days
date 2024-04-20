@@ -18,7 +18,8 @@ public enum UIState
     PV,
     PopUp,
     Loading,
-    Menu
+    Menu,
+    EndDay
 }
 
 public enum EItemType

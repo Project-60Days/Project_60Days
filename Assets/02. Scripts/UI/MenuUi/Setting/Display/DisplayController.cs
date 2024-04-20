@@ -50,7 +50,7 @@ public class DisplayController : MonoBehaviour
         int width = _resolutionButton.width;
         int height = _resolutionButton.height;
         Screen.SetResolution(width, height, Screen.fullScreen);
-        App.Manager.UI.GetMenuController().InitSettingButtonsLocation();
+        App.Manager.UI.GetPanel<MenuPanel>().InitSettingButtonsLocation();
         CloseResolutionList();
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class UIManager : Manager
 {
@@ -16,10 +17,8 @@ public class UIManager : Manager
 
     [SerializeField] CraftingRawImageController craftingRawImageController;
     [SerializeField] UIHighLightController uiHighLightController;
-    [SerializeField] SelectController selectController;
     [SerializeField] NextDayController nextDayController;
     [SerializeField] AlertController alertController;
-    [SerializeField] MenuController menuController;
     [SerializeField] PageController pageController;
     [SerializeField] QuestController questController;
     [SerializeField] SoundController soundController;
@@ -75,9 +74,9 @@ public class UIManager : Manager
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (isUIStatus(UIState.Menu) == false)
-                menuController.EnterMenu();
+                GetPanel<MenuPanel>().OpenPanel();
             else
-                menuController.QuitMenu();
+                Application.Quit();
         }
     }
 
@@ -132,6 +131,40 @@ public class UIManager : Manager
 
     };
 
+    public void FadeIn(Action _endEvent = null)
+    {
+        if (blackBlur.color.a == 1f)
+        {
+            _endEvent?.Invoke();
+            return;
+        }
+
+        blackBlur.gameObject.SetActive(true);
+
+        blackBlur.DOKill();
+        blackBlur.DOFade(1f, 0.5f).SetEase(Ease.Linear)
+            .OnComplete(() =>
+            {
+                _endEvent?.Invoke();
+            });
+    }
+
+    public void FadeOut(Action _endEvent = null)
+    {
+        if (blackBlur.color.a == 1f)
+        {
+            _endEvent?.Invoke();
+            return;
+        }
+
+        blackBlur.DOFade(0f, 1f).SetEase(Ease.Linear)
+            .OnComplete(() =>
+            {
+                _endEvent?.Invoke();
+                blackBlur.gameObject.SetActive(false);
+            });
+    }
+
     public CraftingRawImageController GetCraftingRawImageController()
     {
         return craftingRawImageController;
@@ -142,11 +175,6 @@ public class UIManager : Manager
         return uiHighLightController;
     }
 
-    public SelectController GetSelectController()
-    {
-        return selectController;
-    }
-
     public NextDayController GetNextDayController()
     {
         return nextDayController;
@@ -155,11 +183,6 @@ public class UIManager : Manager
     public AlertController GetAlertController()
     {
         return alertController;
-    }
-
-    public MenuController GetMenuController()
-    {
-        return menuController;
     }
 
     public PageController GetPageController()
