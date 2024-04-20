@@ -11,7 +11,7 @@ public class UIManager : Manager
     [SerializeField] Image blackBlur;
     [SerializeField] List<UIBase> UIs;
 
-    public UIState currUIState
+    public UIState CurrUIState
         => UIStack.Count == 0 ? UIState.Normal : UIStack.Peek();
 
     [SerializeField] NoteController noteController;
@@ -42,17 +42,17 @@ public class UIManager : Manager
 
         foreach (var UI in UIs)
         {
-            //UIDic.Add(UI.GetPanelType(), UI);
+            UIDic.Add(UI.GetPanelType(), UI);
         }
 
         UIs.Clear(); // clear memory
     }
-    void Update()
+    void Update() //TODO
     {
         InputKey();
     }
 
-    public void InputKey()
+    public void InputKey() //TODO
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -63,18 +63,18 @@ public class UIManager : Manager
         }
     }
 
-    #region Get Controller
-    public T GetCtrl<T>() where T : UIBase => (T)UIDic[typeof(T)];
+    #region Get Panel
+    public T GetPanel<T>() where T : UIBase => (T)UIDic[typeof(T)];
 
-    public bool TryGetCtrl<T>(out T _ctrl) where T : UIBase
+    public bool TryGetPanel<T>(out T _panel) where T : UIBase
     {
-        if (UIDic.TryGetValue(typeof(T), out var ctrl))
+        if (UIDic.TryGetValue(typeof(T), out var panel))
         {
-            _ctrl = (T)ctrl;
+            _panel = (T)panel;
             return true;
         }
 
-        _ctrl = default;
+        _panel = default;
         return false;
     }
     #endregion
