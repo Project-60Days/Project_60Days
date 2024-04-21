@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class InteractObj : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+public abstract class InteractObj : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [HideInInspector] public UnityEvent onClickEvent;
 
@@ -12,7 +12,16 @@ public class InteractObj : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
 
     void Start()
     {
+        onClickEvent.AddListener(OnClickEvent);
+
         SetOutline(false);
+    }
+
+    protected abstract void OnClickEvent();
+
+    void SetOutline(bool _isEnabled)
+    {
+        border.SetActive(_isEnabled);
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -38,10 +47,5 @@ public class InteractObj : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
         {
             SetOutline(false);
         }
-    }
-
-    void SetOutline(bool _isEnabled)
-    {
-        border.SetActive(_isEnabled);
     }
 }
