@@ -19,6 +19,7 @@ public class PVPanel : UIBase
     public override void Init()
     {
         pvImage = GetComponent<RawImage>();
+        pvImage.DOFade(0f, 0f);
 
         isEnd = true;
         isPlaying = false;
@@ -83,6 +84,8 @@ public class PVPanel : UIBase
 
     public void Play01()
     {
+        pvImage.DOFade(1f, 0f);
+
         videoPlayer.Play();
 
         FadeOutText();
@@ -105,9 +108,9 @@ public class PVPanel : UIBase
 
         text.gameObject.SetActive(false);
 
-        pvImage.DOFade(0f, 1f).SetEase(Ease.Linear).OnComplete(() =>
+        pvImage.DOFade(0f, 0.5f).SetEase(Ease.Linear).OnComplete(() =>
         {
-            ClosePanel();
+            App.Manager.UI.FadeOut(ClosePanel);
         });
     }
 }

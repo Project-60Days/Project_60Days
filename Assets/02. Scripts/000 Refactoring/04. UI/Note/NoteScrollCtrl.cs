@@ -3,7 +3,7 @@ using DG.Tweening;
 
 public class NoteScrollCtrl : MonoBehaviour
 {
-    Vector3 startLocalPosition;
+    [SerializeField] Vector3 startPosition;
     float startPositionY;
 
     float moveDuration = 0.5f;
@@ -11,8 +11,7 @@ public class NoteScrollCtrl : MonoBehaviour
     
     void Start()
     {
-        startLocalPosition = transform.localPosition;
-        startPositionY = startLocalPosition.y;
+        startPositionY = startPosition.y;
         gameObject.SetActive(false);
     }
 
@@ -20,7 +19,7 @@ public class NoteScrollCtrl : MonoBehaviour
     {
         gameObject.SetActive(true);
 
-        transform.localPosition = startLocalPosition;
+        transform.localPosition = startPosition;
 
         transform.DOLocalMoveY(startPositionY + 10f, moveDuration).SetLoops(-1, LoopType.Yoyo);
     }

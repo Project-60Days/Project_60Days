@@ -3,10 +3,9 @@ using UnityEngine;
 
 public class TutorialManager : Manager
 {
-    [Header("Tutorial")]
-    [SerializeField]  TutorialController tutorialController;
+    [SerializeField] TutorialCtrl tutorialCtrl;
 
-    public TutorialController GetTutorialController() => tutorialController;
+    public TutorialCtrl Ctrl => tutorialCtrl;
 
     void Start()
     {
@@ -33,7 +32,7 @@ public class TutorialManager : Manager
         App.Manager.UI.GetPanel<InventoryPanel>().AddItemByItemCode("ITEM_CARBON");
         App.Manager.UI.GetPanel<InventoryPanel>().AddItemByItemCode("ITEM_STEEL");
 
-        tutorialController.StartDialogue();
+        Ctrl.StartDialogue();
     }
 
     public void EndTutorial()

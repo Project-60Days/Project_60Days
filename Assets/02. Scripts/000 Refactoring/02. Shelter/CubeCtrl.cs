@@ -30,7 +30,7 @@ public class CubeCtrl : MonoBehaviour
         cube.DOKill();
         cubeElse.DOKill();
 
-        cube.DOMoveY(centerStartPositionY, 0f).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
-        cubeElse.DOMoveY(elseStartPositionY, 0f).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
+        cube.DOMoveY(centerStartPositionY, 0f);
+        cubeElse.DOMoveY(elseStartPositionY, 0f);
     }
 }

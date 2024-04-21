@@ -14,7 +14,7 @@ public class TitleManager : MonoBehaviour
     [SerializeField] ScrollRect rightLogScrollRect;
     [SerializeField] float rightLogShowInterval;
 
-    [Header("Title Objects")]
+    [Header("UI")]
     [SerializeField] GameObject titleText;
     [SerializeField] Image titleImage;
 

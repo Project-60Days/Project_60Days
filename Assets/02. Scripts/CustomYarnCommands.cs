@@ -87,12 +87,12 @@ public class CustomYarnCommands : MonoBehaviour
 
     void HideDialogue()
     {
-        App.Manager.Tutorial.GetTutorialController().Hide();
+        App.Manager.Tutorial.Ctrl.Hide();
     }
 
     void ShowDialogue()
     {
-        App.Manager.Tutorial.GetTutorialController().Show();
+        App.Manager.Tutorial.Ctrl.Show();
     }
 
     void SetQuest(string _questCode)
@@ -107,19 +107,19 @@ public class CustomYarnCommands : MonoBehaviour
 
     void LightUpAndFillBattery(int _num)
     {
-        App.Manager.Tutorial.GetTutorialController().LightUpAndFillBattery(_num);
+        App.Manager.Shelter.LightUpAndFillBattery(_num);
     }
     #endregion
 
     #region Tutorial 01
     void LightUpWorkBench()
     {
-        App.Manager.Tutorial.GetTutorialController().LightUpWorkBench();
+        App.Manager.Shelter.LightUpWorkBench();
     }
 
     void LightDownWorkBench()
     {
-        App.Manager.Tutorial.GetTutorialController().LightDownWorkBench();
+        App.Manager.Shelter.LightDownWorkBench();
     }
     #endregion
 
@@ -150,12 +150,12 @@ public class CustomYarnCommands : MonoBehaviour
     #region Tutorial 04
     void LightUpMap()
     {
-        App.Manager.Tutorial.GetTutorialController().LightUpMap();
+        App.Manager.Shelter.LightUpMap();
     }
 
     void LightDownMap()
     {
-        App.Manager.Tutorial.GetTutorialController().LightDownMap();
+        App.Manager.Shelter.LightDownMap();
     }
     #endregion
 
@@ -167,7 +167,7 @@ public class CustomYarnCommands : MonoBehaviour
 
     void AddResource()
     {
-        App.Manager.Tutorial.GetTutorialController().AddSteel();
+        App.Manager.Tutorial.Ctrl.AddSteel();
     }
     #endregion
 
@@ -179,7 +179,7 @@ public class CustomYarnCommands : MonoBehaviour
 
     void EnableBtn()
     {
-        App.Manager.Tutorial.GetTutorialController().EnableBtn();
+        App.Manager.Tutorial.Ctrl.EnableBtn();
     }
     #endregion
 
@@ -197,7 +197,7 @@ public class CustomYarnCommands : MonoBehaviour
 
     void LightUp()
     {
-        App.Manager.Tutorial.GetTutorialController().LightUpBackground();
+        App.Manager.Shelter.LightUpBackground();
     }
     #endregion
 

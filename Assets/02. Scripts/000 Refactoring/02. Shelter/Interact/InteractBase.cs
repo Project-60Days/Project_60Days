@@ -17,6 +17,9 @@ public abstract class InteractBase : MonoBehaviour, IPointerClickHandler, IPoint
         SetOutline(false);
     }
 
+    /// <summary>
+    /// Event function called when an interactive object is clicked
+    /// </summary>
     protected abstract void OnClickEvent();
 
     void SetOutline(bool _isEnabled)

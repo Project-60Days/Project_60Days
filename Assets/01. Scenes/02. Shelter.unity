@@ -272,6 +272,7 @@ RectTransform:
   - {fileID: 1739064607}
   - {fileID: 247959086}
   - {fileID: 1313550287}
+  - {fileID: 434342238}
   m_Father: {fileID: 520362022}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -324,6 +325,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dc28ed5178fb9a429a0f567911bd14b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blackBlur: {fileID: 434342239}
+  benchImg: {fileID: 1700741578}
+  benchDecoImg: {fileID: 1347213071}
+  mapImg: {fileID: 1739064611}
+  batteryImg: {fileID: 247959087}
+  cubeCtrl: {fileID: 1347213072}
 --- !u!1 &232507508
 GameObject:
   m_ObjectHideFlags: 0
@@ -413,7 +420,7 @@ GameObject:
   - component: {fileID: 247959087}
   m_Layer: 5
   m_Name: Img_Battery
-  m_TagString: Battery
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -565,7 +572,7 @@ GameObject:
   - component: {fileID: 434342239}
   m_Layer: 5
   m_Name: BlackPanel
-  m_TagString: LightImage
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -582,8 +589,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 520362022}
-  m_RootOrder: 1
+  m_Father: {fileID: 172456548}
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -912,7 +919,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 172456548}
-  - {fileID: 434342238}
   - {fileID: 834504755}
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -1210,7 +1216,7 @@ RectTransform:
   - {fileID: 2091045659}
   - {fileID: 1223927650}
   m_Father: {fileID: 520362022}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1902,7 +1908,7 @@ GameObject:
   - component: {fileID: 1347213071}
   m_Layer: 5
   m_Name: Back_BenchDeco
-  m_TagString: WorkBenchDeco
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2568,7 +2574,7 @@ GameObject:
   - component: {fileID: 1700741578}
   m_Layer: 5
   m_Name: Img_Bench
-  m_TagString: WorkBench
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2675,7 +2681,7 @@ GameObject:
   - component: {fileID: 1739064611}
   m_Layer: 5
   m_Name: Img_Map
-  m_TagString: Map
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

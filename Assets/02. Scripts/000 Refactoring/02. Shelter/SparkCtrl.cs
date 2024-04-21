@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
-using DG.Tweening;
 
 public class SparkCtrl : MonoBehaviour
 {
@@ -38,14 +36,6 @@ public class SparkCtrl : MonoBehaviour
         PlaySFX();
     }
 
-    /// <summary>
-    /// Randomize the time to play the next animation
-    /// </summary>
-    private void GenerateNextInterval()
-    {
-        interval = Random.Range(minInterval, maxInterval);
-    }
-
     public void PlaySFX()
     {
         if (App.Manager.UI.isUIStatus(UIState.Normal))
@@ -54,5 +44,13 @@ public class SparkCtrl : MonoBehaviour
             if (App.Manager.Sound.CheckSFXPlayNow() == false)
                 App.Manager.Sound.PlaySFX("SFX_SPARK_" + sfxIndex.ToString());
         }
+    }
+
+    /// <summary>
+    /// Randomize the time to play the next animation
+    /// </summary>
+    private void GenerateNextInterval()
+    {
+        interval = Random.Range(minInterval, maxInterval);
     }
 }
