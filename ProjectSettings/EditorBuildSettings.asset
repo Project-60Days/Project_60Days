@@ -12,15 +12,15 @@ EditorBuildSettings:
     path: Assets/01. Scenes/01. Title.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
-    path: Assets/01. Scenes/02. GameScene.unity
+    path: Assets/01. Scenes/02. Shelter.unity
     guid: b8212507eecd08c46987bd9cc2ff7aa8
-  - enabled: 1
-    path: Assets/01. Scenes/UI Scene.unity
-    guid: f9e448577637acf46984d21bcc1cab0a
   - enabled: 1
     path: Assets/01. Scenes/03. Map.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
-    path: Assets/01. Scenes/04. Crafting.unity
+    path: Assets/01. Scenes/04. UI.unity
+    guid: f9e448577637acf46984d21bcc1cab0a
+  - enabled: 1
+    path: Assets/01. Scenes/05. Craft.unity
     guid: 431a57f20ab4f6d40ba46a6fa28fa0cc
   m_configObjects: {}

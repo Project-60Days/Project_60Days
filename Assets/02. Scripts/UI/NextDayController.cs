@@ -46,7 +46,7 @@ public class NextDayController : MonoBehaviour
 
         isHit = false;
 
-        //App.Manager.UI.PopUIStack();
+        App.Manager.UI.PopUIStack();
         //todo
 
         App.Manager.UI.GetPanel<NotePanel>().isNewDay = true;

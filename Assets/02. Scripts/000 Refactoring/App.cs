@@ -8,6 +8,7 @@ using DG.Tweening;
 public class App : Singleton<App>
 {
     readonly SoundManager sound;
+    readonly ShelterManager shelter;
     readonly MapManager map;
     readonly UIManager ui;
     readonly TutorialManager tutorial;
@@ -17,6 +18,7 @@ public class App : Singleton<App>
     public partial class Manager
     {
         public static SoundManager Sound => instance.sound;
+        public static ShelterManager Shelter => instance.shelter;
         public static MapManager Map => instance.map;
         public static UIManager UI => instance.ui;
         public static TutorialManager Tutorial => instance.tutorial;
@@ -44,6 +46,12 @@ public class App : Singleton<App>
     public static bool TryGetSoundManager(out SoundManager manager)
     {
         manager = Manager.Sound;
+        return manager != null;
+    }
+
+    public static bool TryGetShelterManager(out ShelterManager manager)
+    {
+        manager = Manager.Shelter;
         return manager != null;
     }
 

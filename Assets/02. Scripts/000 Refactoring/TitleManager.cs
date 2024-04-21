@@ -54,7 +54,7 @@ public class TitleManager : MonoBehaviour
 
             App.Manager.Sound.StopBGM();
 
-            App.LoadScene(SceneName.Game);
+            App.LoadScene(SceneName.Shelter);
             App.LoadSceneAdditive(SceneName.Craft);
             App.LoadSceneAdditive(SceneName.UI);
             App.LoadSceneAdditive(SceneName.Map);

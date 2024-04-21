@@ -106,7 +106,7 @@ public class UIManager : Manager
 
         UIStack.Pop();
 
-        Debug.LogError($"PUSH : {top}, Total stack count: {UIStack.Count}");
+        Debug.LogError($"POP : {top}, Total stack count: {UIStack.Count}");
     }
 
     public bool isUIStatus(UIState _cmp)

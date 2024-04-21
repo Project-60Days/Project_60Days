@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+using DG.Tweening;
 
 
 [Serializable]
@@ -14,16 +14,23 @@ public class Mode
 
 public class CraftPanel : UIBase
 {
+    [Header("Controller")]
     [SerializeField] RawImageController rawImageController;
+    [SerializeField] CraftEffectCtrl effectCtrl;
 
-    [SerializeField] Image inventoryImage;
+    [Header("UI")]
+    [SerializeField] Image rightImg;
     [SerializeField] Button closeBtn;
-
-    [SerializeField] Mode[] modes;
-    [SerializeField] Button[] modeBtns;
+    [SerializeField] GameObject hologramBack;
     [SerializeField] Sprite[] btnSprites;
 
-    [SerializeField] GameObject hologramBack;
+    [Header("Mode")]
+    [SerializeField] Mode[] modes;
+    [SerializeField] Button[] modeBtns;
+
+    [Header("Fade In / Out UI")]
+    [SerializeField] CanvasGroup background;
+    [SerializeField] CanvasGroup details;
 
     public CraftCtrl Craft => (CraftCtrl)modes[0].Ctrl;
     public EquipCtrl Equip => (EquipCtrl)modes[1].Ctrl;
@@ -40,6 +47,9 @@ public class CraftPanel : UIBase
         SetButtonEvent();
 
         ModeButtonEvent((int)CraftMode.Craft);
+
+        background.alpha = 0.0f;
+        details.alpha = 0.0f;
 
         gameObject.SetActive(false);
     }
@@ -59,17 +69,34 @@ public class CraftPanel : UIBase
     {
         base.OpenPanel();
 
+        effectCtrl.StartAnim();
+        App.Manager.Sound.PlaySFX("SFX_SceneChange_BaseToCrafting");
+
+        Sequence sequence = DOTween.Sequence();
+        sequence
+            .Append(background.DOFade(1f, 0.5f))
+            .Append(details.DOFade(1f, 0.5f));
+            //.OnComplete(() => App.Manager.UI.GetItemInfoController().isOpen = true);
+
         ModeButtonEvent((int)CraftMode.Craft);
     }
 
     public override void ClosePanel()
     {
-        App.Manager.UI.GetPanel<InventoryPanel>().ClosePanel();
+        effectCtrl.StopAnim();
+        App.Manager.Sound.PlaySFX("SFX_SceneChange_CraftingToBase");
+        
+        Sequence sequence = DOTween.Sequence();
+        sequence
+            .Append(details.DOFade(0f, 0.5f))
+            .Append(background.DOFade(0f, 0.5f))
+            .OnComplete(()=>
+            {
+                base.ClosePanel();
 
-        base.ClosePanel();
-
-        foreach (var mode in modes)
-            mode.Ctrl.Exit();
+                foreach (var mode in modes)
+                    mode.Ctrl.Exit();
+            });
     }
     #endregion
     
@@ -118,7 +145,7 @@ public class CraftPanel : UIBase
         else
             App.Manager.UI.GetPanel<InventoryPanel>().ClosePanel();
 
-        inventoryImage.sprite = _mode.InventorySprite;
+        rightImg.sprite = _mode.InventorySprite;
 
         rawImageController.DestroyObject();
     }

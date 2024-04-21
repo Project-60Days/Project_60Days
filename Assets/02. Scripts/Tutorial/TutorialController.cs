@@ -22,7 +22,7 @@ public class TutorialController : MonoBehaviour
     CanvasGroup mapImage;
     CanvasGroup workBenchDeco;
 
-    WorkBenchInteraction workBenchScript;
+    //WorkBenchInteraction workBenchScript;
 
     float lightUpDuration = 2f;
 
@@ -37,7 +37,7 @@ public class TutorialController : MonoBehaviour
         batteryImage = GameObject.FindWithTag("Battery").GetComponent<Image>();
         mapImage = GameObject.FindWithTag("Map").GetComponent<CanvasGroup>();
         workBenchDeco = GameObject.FindWithTag("WorkBenchDeco").GetComponent<CanvasGroup>();
-        workBenchScript = workBenchImage.GetComponent<WorkBenchInteraction>();
+        //workBenchScript = workBenchImage.GetComponent<WorkBenchInteraction>();
 
         workBenchInitIndex = workBenchImage.transform.GetSiblingIndex();
         mapInitIndex = workBenchImage.transform.GetSiblingIndex();
@@ -121,7 +121,7 @@ public class TutorialController : MonoBehaviour
         {
             workBenchDeco.DOFade(1f, lightUpDuration).SetEase(Ease.InOutBounce).OnComplete(() =>
             {
-                workBenchScript.StartAnim();
+                //workBenchScript.StartAnim();
             });
             lightBackground.gameObject.SetActive(false);
         });

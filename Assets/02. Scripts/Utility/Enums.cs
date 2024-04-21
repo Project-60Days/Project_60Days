@@ -2,9 +2,9 @@ public enum SceneName
 {
     Developer,
     Title,
-    Game,
-    UI,
+    Shelter,
     Map,
+    UI,
     Craft
 }
 
