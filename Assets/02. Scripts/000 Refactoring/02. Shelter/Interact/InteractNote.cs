@@ -1,4 +1,4 @@
-public class InteractNote : InteractObj
+public class InteractNote : InteractBase
 {
     protected override void OnClickEvent()
     {

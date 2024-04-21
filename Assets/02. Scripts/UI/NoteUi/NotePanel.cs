@@ -8,7 +8,7 @@ public class NotePanel : UIBase
     [Header("Note Objects")]
     [SerializeField] Text dayText;
     [SerializeField] GameObject noteBackground;
-    [SerializeField] NoteScroll scrollImg;
+    [SerializeField] NoteScrollCtrl scrollCtrl;
 
     [Header("Buttons")]
     [SerializeField] Button nextPageBtn;
@@ -74,7 +74,7 @@ public class NotePanel : UIBase
 
         notePages[pageNum].gameObject.SetActive(false); //TODO
 
-        scrollImg.StopAnim();
+        scrollCtrl.StopAnim(); //TODO
 
         App.Manager.Sound.PlaySFX("SFX_Note_Close");
     }
@@ -241,7 +241,7 @@ public class NotePanel : UIBase
 
     IEnumerator CheckScrollEnabled()
     {
-        scrollImg.StopAnim();
+        scrollCtrl.StopAnim();
 
         int index;
 
@@ -257,7 +257,7 @@ public class NotePanel : UIBase
 
         if (scrollBars[index].gameObject.activeSelf)
         {
-            scrollImg.StartAnim();
+            scrollCtrl.StartAnim();
             StartCoroutine(WaitScrollToEnd(scrollBars[index]));
         }
     }
@@ -265,7 +265,7 @@ public class NotePanel : UIBase
     IEnumerator WaitScrollToEnd(Scrollbar _scroll)
     {
         yield return new WaitUntil(() => _scroll.value <= 0.1f);
-        scrollImg.StopAnim();
+        scrollCtrl.StopAnim();
     }
 
 

@@ -1,4 +1,4 @@
-public class InteractMap : InteractObj
+public class InteractMap : InteractBase
 {
     protected override void OnClickEvent()
     {
