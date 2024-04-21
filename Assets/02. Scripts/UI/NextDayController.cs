@@ -14,7 +14,6 @@ public class NextDayController : MonoBehaviour
     [SerializeField] MapIcon mapIcon;
 
     CinemachineVirtualCamera mapCamera;
-    CameraShake normalCamera;
     CinemachineFramingTransposer transposer;
 
     [HideInInspector] public bool isOver = false;
@@ -23,7 +22,6 @@ public class NextDayController : MonoBehaviour
     void Start()
     {
         mapCamera = GameObject.FindGameObjectWithTag("MapCamera").GetComponent<CinemachineVirtualCamera>();
-        normalCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraShake>();
 
         transposer = mapCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
         transposer.m_CameraDistance = 5f;
@@ -35,7 +33,7 @@ public class NextDayController : MonoBehaviour
     {
         if (isHit == true)
         {
-            normalCamera.Shake();
+            App.Manager.Shelter.Attack();
         }
         else
             App.Manager.UI.GetUpperController().UpdateDurabillity();

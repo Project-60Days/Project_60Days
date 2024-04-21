@@ -15,7 +15,7 @@ public class Mode
 public class CraftPanel : UIBase
 {
     [Header("Controller")]
-    [SerializeField] RawImageController rawImageController;
+    [SerializeField] CraftRawCtrl rawCtrl;
     [SerializeField] CraftEffectCtrl effectCtrl;
 
     [Header("UI")]
@@ -147,7 +147,7 @@ public class CraftPanel : UIBase
 
         rightImg.sprite = _mode.InventorySprite;
 
-        rawImageController.DestroyObject();
+        rawCtrl.DestroyObject();
     }
 
     void InActiveMode(Mode _mode)

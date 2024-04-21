@@ -331,6 +331,7 @@ MonoBehaviour:
   mapImg: {fileID: 1739064611}
   batteryImg: {fileID: 247959087}
   cubeCtrl: {fileID: 1347213072}
+  cameraCtrl: {fileID: 519420035}
 --- !u!1 &232507508
 GameObject:
   m_ObjectHideFlags: 0

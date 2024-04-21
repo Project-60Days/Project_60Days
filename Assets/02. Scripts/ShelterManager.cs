@@ -12,6 +12,7 @@ public class ShelterManager : Manager
     [SerializeField] CanvasGroup mapImg;
     [SerializeField] Image batteryImg;
     [SerializeField] CubeCtrl cubeCtrl;
+    [SerializeField] MainCameraCtrl cameraCtrl;
 
     float lightUpDuration = 2f;
 
@@ -27,6 +28,7 @@ public class ShelterManager : Manager
         mapStartIndex = mapImg.transform.GetSiblingIndex();
     }
 
+    #region Tutorial
     public void StartTutorial()
     {
         LightDownBackground();
@@ -108,4 +110,12 @@ public class ShelterManager : Manager
 
         mapImg.DOFade(1f, 0f);
     }
+    #endregion
+
+    #region Attack
+    public void Attack()
+    {
+        cameraCtrl.Shake();
+    }
+    #endregion
 }

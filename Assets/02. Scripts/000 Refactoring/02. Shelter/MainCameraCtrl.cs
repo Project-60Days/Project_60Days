@@ -1,9 +1,8 @@
 using UnityEngine;
-using TMPro;
 using Cinemachine;
 using DG.Tweening;
 
-public class CameraShake : MonoBehaviour
+public class MainCameraCtrl : MonoBehaviour
 {
     [SerializeField] CinemachineVirtualCamera mainCamera;
 

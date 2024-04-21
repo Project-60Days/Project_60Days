@@ -15,8 +15,8 @@ public class NotePanel : UIBase
     [SerializeField] Button prevPageBtn;
     [SerializeField] Button closeBtn;
 
-    [SerializeField] NotePageBase[] pages;
-    NotePageBase[] notePages;
+    [SerializeField] PageBase[] pages;
+    PageBase[] notePages;
 
     [HideInInspector] public bool isNewDay = true;
     [HideInInspector] bool isOpen = false;
@@ -110,10 +110,10 @@ public class NotePanel : UIBase
         notePages = GetNotePageArray();
     }
 
-    public NotePageBase[] GetNotePageArray()
+    public PageBase[] GetNotePageArray()
     {
-        List<NotePageBase> todayPages = new List<NotePageBase>();
-        foreach (NotePageBase page in pages)
+        List<PageBase> todayPages = new List<PageBase>();
+        foreach (PageBase page in pages)
         {
             page.InitNodeName();
 

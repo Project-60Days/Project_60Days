@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using Yarn.Unity;
 
-public abstract class NotePageBase : MonoBehaviour
+public abstract class PageBase : MonoBehaviour
 {
     [SerializeField] protected List<string> todayNodeNames = new List<string>();
     [SerializeField] protected List<string> tomorrowNodeNames = new List<string>();

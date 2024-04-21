@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Yarn.Unity;
 
-public class SelectPage : NotePageBase
+public class SelectPage : PageBase
 {
     [SerializeField] DialogueRunner dialogueRunner;
     [SerializeField] RectTransform content;

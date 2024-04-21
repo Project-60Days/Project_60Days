@@ -17,8 +17,8 @@ public class PageController : MonoBehaviour
     [SerializeField] GameObject selectPrefab;
     [SerializeField] RectTransform selectParent;
 
-    NotePageBase resultPage;
-    NotePageBase selectPage;
+    PageBase resultPage;
+    PageBase selectPage;
 
     [SerializeField] Button[] skipButton;
 
@@ -34,7 +34,7 @@ public class PageController : MonoBehaviour
 
     void Awake()
     {
-        NotePageBase[] pages = GetComponentsInChildren<NotePageBase>(includeInactive: true);
+        PageBase[] pages = GetComponentsInChildren<PageBase>(includeInactive: true);
         foreach (var page in pages)
         {
             if (page.GetENotePageType() == ENotePageType.Result)
