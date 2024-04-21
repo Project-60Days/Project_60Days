@@ -172,7 +172,7 @@ public class NextDayController : MonoBehaviour
             {
                 App.Manager.Map.SetMapCameraPriority(false);
                 App.Manager.Sound.PlayBGM("BGM_InGameTheme");
-                App.Manager.Map.mapUIController.FalseTileInfo();
+                App.Manager.UI.GetPanel<MapPanel>().FalseTileInfo();
             })
             .Append(blackPanel.DOFade(0f, 1f))
             .OnComplete(() => blackPanel.gameObject.SetActive(false));
@@ -192,7 +192,7 @@ public class NextDayController : MonoBehaviour
             .Append(blackPanel.DOFade(1f, 0.5f))
             .AppendCallback(() =>
             {
-                App.Manager.Map.mapUIController.FalseTileInfo();
+                App.Manager.UI.GetPanel<MapPanel>().FalseTileInfo();
                 App.Manager.Sound.PlaySFX("SFX_SceneChange_BaseToMap");
 
                 App.Manager.Map.SetMapCameraPriority(true);

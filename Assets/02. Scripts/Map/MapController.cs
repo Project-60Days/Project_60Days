@@ -44,10 +44,7 @@ public class MapController : MonoBehaviour
 
     Player player;
 
-    public Player Player
-    {
-        get { return player; }
-    }
+    public Player Player => player;
 
     private MapData mapData;
 
@@ -65,11 +62,6 @@ public class MapController : MonoBehaviour
     public TileController TargetPointTile
     {
         get { return targetTileController; }
-    }
-
-    private void Start()
-    {
-        App.Manager.Map.GetAdditiveSceneObjectsCoroutine();
     }
 
     public IEnumerator GenerateMap()
@@ -170,10 +162,7 @@ public class MapController : MonoBehaviour
         OcclusionCheck(player.TileController.Model);
     }
 
-    public List<Tile> GetAllTiles()
-    {
-        return hexaMap.Map.Tiles.Where(x => ((GameObject)x.GameEntity).CompareTag("Tile")).ToList();
-    }
+    public List<Tile> GetAllTiles() => hexaMap.Map.Tiles.Where(x => ((GameObject)x.GameEntity).CompareTag("Tile")).ToList();
 
     void SpawnPlayer()
     {

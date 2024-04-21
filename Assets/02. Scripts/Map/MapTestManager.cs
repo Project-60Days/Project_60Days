@@ -8,6 +8,6 @@ public class MapTestManager : MonoBehaviour
 
     public void TestStart()
     {
-        manager.GetAdditiveSceneObjectsCoroutine();
+        //manager.Init();
     }
 }

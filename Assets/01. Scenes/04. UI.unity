@@ -1102,7 +1102,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &58000214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9495,6 +9495,7 @@ MonoBehaviour:
   - {fileID: 812837642}
   - {fileID: 231968591}
   - {fileID: 1787327685}
+  - {fileID: 1820666317}
   uiHighLightController: {fileID: 1608579649}
   nextDayController: {fileID: 2039200992}
   pageController: {fileID: 806694047}
@@ -37379,7 +37380,7 @@ GameObject:
   - component: {fileID: 1820666316}
   - component: {fileID: 1820666317}
   m_Layer: 5
-  m_Name: MapUi
+  m_Name: Map
   m_TagString: MapUi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

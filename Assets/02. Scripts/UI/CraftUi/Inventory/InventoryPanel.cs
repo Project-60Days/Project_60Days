@@ -101,10 +101,10 @@ public class InventoryPanel : UIBase
     void CheckDisturbeNFindor()
     {
         bool canUseFindor = findor.itemCount > 0;
-        App.Manager.Map.mapUIController.ExplorerButtonInteractable(canUseFindor);
+        App.Manager.UI.GetPanel<MapPanel>().ExplorerButtonInteractable(canUseFindor);
 
         bool canUseDisturbe = disturbe.itemCount > 0;
-        App.Manager.Map.mapUIController.DistrubtorButtonInteractable(canUseDisturbe);
+        App.Manager.UI.GetPanel<MapPanel>().DistrubtorButtonInteractable(canUseDisturbe);
     }
 
     /// <summary>

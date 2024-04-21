@@ -190,9 +190,9 @@ MonoBehaviour:
   mapTransform: {fileID: 270035658}
   mapParentTransform: {fileID: 2032613207}
   objectsTransform: {fileID: 1415419237}
+  arrowPrefab: {fileID: 0}
   mapPrefab: {fileID: 11400000, guid: 2ac150942be86a042a3493eb2029b8cd, type: 2}
-  mapTest: {fileID: 35908275}
-  isTest: 1
+  fog: {fileID: 0}
 --- !u!114 &35908275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -526,7 +526,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 591499181}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4cb92c7e6c5f34a44a1d5ae7b6e48a43, type: 3}
+  m_Script: {fileID: 11500000, guid: ecde1015d3eb25043a55d8b52dcae3b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &706894743
@@ -935,11 +935,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25780014b375d3847aae732c64cc05ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapUIController: {fileID: 0}
-  mouseState: 0
-  mouseIntreractable: 0
   mapController: {fileID: 0}
   resourceManager: {fileID: 0}
+  mouseIntreractable: 0
+  mouseState: 0
+  mapData:
+    resourcePercent: 60
+    fogSightRange: 4
+    playerMovementPoint: 2
+    zombieDetectionRange: 3
+    zombieCount: 80
+    durability: 100
+  mapCineCamera: {fileID: 0}
 --- !u!4 &1413516169
 Transform:
   m_ObjectHideFlags: 0

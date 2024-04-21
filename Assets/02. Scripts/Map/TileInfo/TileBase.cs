@@ -287,15 +287,15 @@ public class TileBase : MonoBehaviour
 
     public void TileInfoUpdate()
     {
-        App.Manager.Map.mapUIController.UpdateImage(landformSprite);
-        App.Manager.Map.mapUIController.UpdateText(ETileInfoTMP.Landform, landformText);
-        App.Manager.Map.mapUIController.UpdateText(ETileInfoTMP.Resource, resourceText);
+        App.Manager.UI.GetPanel<MapPanel>().UpdateImage(landformSprite);
+        App.Manager.UI.GetPanel<MapPanel>().UpdateText(ETileInfoTMP.Landform, landformText);
+        App.Manager.UI.GetPanel<MapPanel>().UpdateText(ETileInfoTMP.Resource, resourceText);
 
         if (curZombies == null)
-            App.Manager.Map.mapUIController.UpdateText(ETileInfoTMP.Zombie, "좀비 수 : ???");
+            App.Manager.UI.GetPanel<MapPanel>().UpdateText(ETileInfoTMP.Zombie, "좀비 수 : ???");
         else
         {
-            App.Manager.Map.mapUIController
+            App.Manager.UI.GetPanel<MapPanel>()
                 .UpdateText(ETileInfoTMP.Zombie, "좀비 수 : " + curZombies.zombieData.count + "마리");
         }
     }
@@ -421,12 +421,12 @@ public class TileBase : MonoBehaviour
         if (zombie == null)
         {
             curZombies = null;
-            App.Manager.Map.mapUIController.UpdateText(ETileInfoTMP.Zombie, "좀비 수 : ???");
+            App.Manager.UI.GetPanel<MapPanel>().UpdateText(ETileInfoTMP.Zombie, "좀비 수 : ???");
         }
         else
         {
             curZombies = zombie;
-            App.Manager.Map.mapUIController
+            App.Manager.UI.GetPanel<MapPanel>()
                 .UpdateText(ETileInfoTMP.Zombie, "좀비 수 : " + curZombies.zombieData.count + "마리");
         }
     }

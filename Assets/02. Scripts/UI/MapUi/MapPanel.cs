@@ -3,12 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MapUiController : MonoBehaviour
+public class MapPanel : UIBase
 {
     [SerializeField] GameObject disturbtorButton;
     [SerializeField] GameObject explorerButton;
     [SerializeField] TargetPointUI targetPoint;
     [SerializeField] TileInfoPanel tileInfoPanel;
+
+    public override void Init()
+    {
+
+    }
+
+    public override void ReInit()
+    {
+
+    }
 
     public void DisturbtorButtonInteractableOn()
     {

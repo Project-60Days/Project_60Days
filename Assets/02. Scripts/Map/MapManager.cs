@@ -10,7 +10,6 @@ using Random = System.Random;
 
 public class MapManager : Manager
 {
-    public MapUiController mapUIController;
     public MapController mapController;
     public ResourceManager resourceManager;
     public bool mouseIntreractable;
@@ -21,7 +20,7 @@ public class MapManager : Manager
     MapData mapData;
     
     Camera mainCamera;
-    MapCamera mapCineCamera;
+    [SerializeField] MapCamera mapCineCamera;
     TileController curTileController;
     StructureBase curStructure;
 
@@ -34,6 +33,17 @@ public class MapManager : Manager
     TileBase structureTileBase;
 
     private TileController cameraTarget;
+
+    private void Start()
+    {
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        mapController.InputMapData(mapData);
+        StartCoroutine(mapController.GenerateMap());
+        mapController.SightCheckInit();
+
+        AllowMouseEvent(true);
+        StartCoroutine(mapCineCamera.GetMapInfo());
+    }
 
     void Update()
     {
@@ -51,31 +61,6 @@ public class MapManager : Manager
             //UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_FINDOR");
         //if(Input.GetKeyDown(KeyCode.X))
             //UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_DISTURBE");
-    }
-
-    IEnumerator GetAdditiveSceneObjects()
-    {
-        yield return new WaitForEndOfFrame();
-        mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        mapUIController = GameObject.FindGameObjectWithTag("MapUi").GetComponent<MapUiController>();
-        mapController = GameObject.FindGameObjectWithTag("MapController").GetComponent<MapController>();
-
-        mapController.InputMapData(mapData);
-
-        yield return new WaitUntil(() => mapController != null);
-        StartCoroutine(mapController.GenerateMap());
-        mapCineCamera = GameObject.FindGameObjectWithTag("MapCamera").GetComponent<MapCamera>();
-
-        AllowMouseEvent(true);
-        resourceManager = GameObject.FindGameObjectWithTag("Resource").GetComponent<ResourceManager>();
-        StartCoroutine(mapCineCamera.GetMapInfo());
-
-        mapController.SightCheckInit();
-    }
-
-    public void GetAdditiveSceneObjectsCoroutine()
-    {
-        StartCoroutine(GetAdditiveSceneObjects());
     }
 
     void MouseOverEvents()
@@ -100,7 +85,7 @@ public class MapManager : Manager
 
             if (!mapController.CheckPlayersView(tileController))
             {
-                mapUIController.FalseTileInfo();
+                App.Manager.UI.GetPanel<MapPanel>().FalseTileInfo();
                 return;
             }
             
@@ -110,7 +95,7 @@ public class MapManager : Manager
                     mapController.DefaultMouseOverState(tileController);
 
                     if (tileController != curTileController)
-                        mapUIController.FalseTileInfo();
+                        App.Manager.UI.GetPanel<MapPanel>().FalseTileInfo();
                     break;
 
                 case ETileMouseState.CanPlayerMove:
@@ -136,7 +121,7 @@ public class MapManager : Manager
         else
         {
             mapController.DeselectAllBorderTiles();
-            mapUIController.FalseTileInfo();
+            App.Manager.UI.GetPanel<MapPanel>().FalseTileInfo();
         }
 
         MouseClickEvents();
@@ -165,13 +150,13 @@ public class MapManager : Manager
                 if (!canPlayerMove && !isDronePrepared)
                 {
                     tileController.GetComponent<TileBase>().TileInfoUpdate();
-                    mapUIController.TrueTileInfo();
+                    App.Manager.UI.GetPanel<MapPanel>().TrueTileInfo();
                 }
                 else if (canPlayerMove)
                 {
                     if (mapController.SelectPlayerMovePoint(tileController))
                     {
-                        mapUIController.OnPlayerMovePoint(tileController.transform);
+                        App.Manager.UI.GetPanel<MapPanel>().OnPlayerMovePoint(tileController.transform);
                         mapController.MovePointerOn(tileController.transform.position);
                         canPlayerMove = false;
                     }
@@ -249,7 +234,7 @@ public class MapManager : Manager
     {
         yield return StartCoroutine(mapController.NextDay());
         resourceManager.GetResource(mapController.Player.TileController);
-        mapUIController.OffPlayerMovePoint();
+        App.Manager.UI.GetPanel<MapPanel>().OffPlayerMovePoint();
         mapController.OnlyMovePointerOff();
         
         CheckRoutine();
@@ -377,7 +362,7 @@ public class MapManager : Manager
         if (mapController.IsMovePathSaved() == false)
             return;
 
-        mapUIController.OffPlayerMovePoint();
+        App.Manager.UI.GetPanel<MapPanel>().OffPlayerMovePoint();
         mapController.MovePointerOff();
         mapController.DeletePlayerMovePath();
     }
