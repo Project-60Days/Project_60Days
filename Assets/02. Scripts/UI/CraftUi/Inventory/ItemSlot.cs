@@ -18,7 +18,7 @@ public class ItemSlot : SlotBase
 
         if (App.Manager.UI.GetPanel<CraftPanel>().ModeType == CraftMode.Craft)
         {
-            if (App.Manager.UI.GetPanel<CraftPanel>().Craft.isMoreThanThree() == true) return;
+            if (App.Manager.UI.GetPanel<CraftPanel>().Craft.IsCombinedResult) return;
 
             string sfxName = "SFX_Crafting_" + item.data.Code;
             if (App.Manager.Sound.CheckSFXExist(sfxName) == true)

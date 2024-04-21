@@ -17832,10 +17832,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 783848025}
+  - component: {fileID: 783848029}
   - component: {fileID: 783848028}
   - component: {fileID: 783848027}
   - component: {fileID: 783848026}
-  - component: {fileID: 783848029}
   m_Layer: 5
   m_Name: Explorer _Button
   m_TagString: Untagged
@@ -34397,10 +34397,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1648494667}
+  - component: {fileID: 1648494672}
   - component: {fileID: 1648494671}
   - component: {fileID: 1648494670}
   - component: {fileID: 1648494669}
-  - component: {fileID: 1648494672}
   m_Layer: 5
   m_Name: Distrubtor_Button
   m_TagString: Untagged
@@ -42574,10 +42574,10 @@ MonoBehaviour:
     Type: 0
     InventorySprite: {fileID: 21300000, guid: 5aa4db4a739efc24ea3e4704905a698f, type: 3}
   - Ctrl: {fileID: 1356415952}
-    Type: 0
+    Type: 1
     InventorySprite: {fileID: 21300000, guid: 457c40efdace7704e9130db541fd0268, type: 3}
   - Ctrl: {fileID: 1327750710}
-    Type: 0
+    Type: 2
     InventorySprite: {fileID: 21300000, guid: afed0456308080b408f2b7ade8f6b589, type: 3}
   modeBtns:
   - {fileID: 823397117}

@@ -12,6 +12,8 @@ public class CraftCtrl : ModeCtrl
 
     [SerializeField] GameObject slotPrefab;
 
+    public bool IsCombinedResult => slotParent.childCount >= 3;
+
     public override void Init()
     {
         base.Init();
@@ -37,7 +39,7 @@ public class CraftCtrl : ModeCtrl
         craftItems.Clear();
     }
 
-    public void UpdateCraft()
+    public void UpdateCraft() //TODO
     {
         InitSlots();
 
@@ -55,64 +57,39 @@ public class CraftCtrl : ModeCtrl
         CompareToCombineData();
     }
 
-
-
-
-
-    /// <summary>
-    /// 조합표와 비교
-    /// </summary>
     public void CompareToCombineData()
     {
-        int flag; // 0: 일치, 1: 불일치
+        if (craftItems.Count < 2) return;
 
-        foreach (ItemCombineData combineData in itemCombineData)
+        ItemBase resultItem = null;
+        var sortedItem = craftItems.OrderBy(item => item.data.Code).ToList();
+
+        var match_1 = itemCombineData.Where(x => x.Material_1 == sortedItem[0].data.Code).ToList();
+        if (match_1.Count == 0) return;
+        var match_2 = match_1.Where(x => x.Material_2 == sortedItem[1].data.Code).ToList();
+        if (match_2.Count == 0) return;
+
+        if (craftItems.Count == 2)
         {
-            flag = 0;
-
-            string[] combinationCodes = GetCombinationCodes(combineData);
-
-            for (int i = 0; i < craftItems.Count; i++)
-            {
-                for (int k = 0; k < 3; k++)
-                {
-                    if (combinationCodes[k] == craftItems[i].data.Code)
-                    {
-                        combinationCodes[k] = "-1";
-                        break;
-                    }
-                    if (k == 2) flag = 1;
-                }
-            }
-
-            for (int k = 0; k < 3; k++)
-            {
-                if (combinationCodes[k] != "-1")
-                {
-                    flag = 1;
-                    break;
-                }
-            }
-
-            if (flag == 0)
-            {
-                ItemBase item = GetResultItemByItemCode(combinationCodes[3]);
-                if (item.isBlueprintOpen == false)
-                    return;
-                AddCombineItem(item);
-                break;
-            }
+            var combine = match_2.FirstOrDefault(x => x.Material_3 == "-1");
+            if (combine != null)
+                resultItem = GetItemByCode(combine.Result);
         }
+        else if (craftItems.Count == 3)
+        {
+            var combine = match_2.FirstOrDefault(x => x.Material_3 == sortedItem[2].data.Code);
+            if (combine != null)
+                resultItem = GetItemByCode(combine.Result);
+        }
+
+        if (resultItem != null && resultItem.isBlueprintOpen)
+            AddCombineItem(resultItem);
     }
-
-
-
-
 
     /// <summary>
     /// 조합 결과 아이템 ItemBase에서 검색 후 리턴
     /// </summary>
-    public ItemBase GetResultItemByItemCode(string _resultItemCode)
+    public ItemBase GetItemByCode(string _resultItemCode)
         => itemData.Find(x => x.data.Code == _resultItemCode);
 
     /// <summary>
@@ -176,22 +153,6 @@ public class CraftCtrl : ModeCtrl
     /// <param name="itemCode"></param>
     /// <param name="count"></param>
     /// <returns></returns>
-    public bool CheckCraftingItem(string _itemCode, int _count = 1)
-    {
-        int cnt = 0;
-
-        for (int i = 0; i < craftItems.Count; i++)
-        {
-            if (craftItems[i].data.Code == _itemCode)
-                cnt++;
-        }
-
-        return (cnt == _count);
-    }
-
-    public bool isMoreThanThree()
-    {
-        if (craftItems.Count >= 3) return true;
-        else return false;
-    }
+    public bool CheckCraftingItem(string _itemCode, int _count = 1) 
+        => _count == craftItems.FindAll(x => x.data.Code == _itemCode).Count;
 }
