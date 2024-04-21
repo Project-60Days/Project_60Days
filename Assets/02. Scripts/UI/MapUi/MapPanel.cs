@@ -10,6 +10,7 @@ public class MapPanel : UIBase
     [SerializeField] TargetPointUI targetPoint;
     [SerializeField] TileInfoPanel tileInfoPanel;
 
+    #region Override
     public override void Init()
     {
 
@@ -19,6 +20,7 @@ public class MapPanel : UIBase
     {
 
     }
+    #endregion
 
     public void DisturbtorButtonInteractableOn()
     {

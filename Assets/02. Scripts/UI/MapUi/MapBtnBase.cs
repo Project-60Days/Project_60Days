@@ -1,18 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class DistrubtorButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+public abstract class MapBtnBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     bool isMouseEnter = false;
     [SerializeField] string text;
 
     void Start()
     {
-        gameObject.GetComponent<Button>().onClick.AddListener(Distrubtor);
+        gameObject.GetComponent<Button>().onClick.AddListener(OnClickEvent);
     }
+
+    protected abstract void OnClickEvent();
 
     void Update()
     {
@@ -25,6 +25,7 @@ public class DistrubtorButton : MonoBehaviour, IPointerClickHandler, IPointerEnt
         Vector3 mousePos = Input.mousePosition;
         App.Manager.UI.GetInfoController().ShowItemInfo(text, mousePos);
     }
+
 
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -48,23 +49,6 @@ public class DistrubtorButton : MonoBehaviour, IPointerClickHandler, IPointerEnt
         {
             isMouseEnter = false;
             App.Manager.UI.GetInfoController().HideInfo();
-        }
-    }
-
-    public void Distrubtor()
-    {
-        if (App.Manager.UI.GetPanel<InventoryPanel>().CheckDistrubtorUsage())
-        {
-            Debug.Log("교란기 있음");
-            if (App.Manager.Map.CheckCanInstallDrone())
-            {
-                Debug.Log("교란기 설치 가능");
-                App.Manager.Map.mapController.PreparingDistrubtor(true);
-            }
-        }
-        else
-        {
-            return;
         }
     }
 }
