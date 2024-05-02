@@ -5,21 +5,12 @@ using System.Linq;
 
 public class DynamoStructure : StructureBase
 {
+    protected override string GetCode() => "STRUCT_DYNAMO";
+
     public override void Init(List<TileBase> _neighborTiles, GameObject _structureModel, ItemSO _itemSO)
     {
-        structureName = "요새";
+        base.Init(_neighborTiles, _structureModel, _itemSO);
 
-        resource = new Resource("ITEM_DISTURBE", 2);
-        isUse = true;
-        isAccessible = false;
-
-        neighborTiles = _neighborTiles;
-        structureModel = _structureModel;
-    }
-
-
-    public override void NoFunc()
-    {
         isUse = true;
     }
 
@@ -28,7 +19,7 @@ public class DynamoStructure : StructureBase
         for (var index = 0; index < colleagues.Count; index++)
         {
             var tile = colleagues[index];
-            ((DynamoStructure)tile.Structure).AllowAccess();
+            tile.Structure.AllowAccess();
         }
 
         App.Manager.Map.NormalStructureResearch(this);
@@ -37,5 +28,10 @@ public class DynamoStructure : StructureBase
         isAccessible = true;
 
         App.Manager.UI.GetPanel<PagePanel>().CreateSelectDialogueRunner("sequence");
+    }
+
+    public override void NoFunc()
+    {
+        isUse = true;
     }
 }

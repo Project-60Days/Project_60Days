@@ -45,10 +45,14 @@ public class TileData
 public class StructData
 {
     public int Index;
-    public string code;
-    public bool IsCanAccess;
-    public string YesFuncName;
-    public string NoFuncName;
+    public string Code;
+    public string Korean;
+    public string English;
+    public string Japanese;
+    public string Chinese;
+    public string Item;
+    public int Count;
+    public string SpecialItem;
 }
 
 [Serializable]
@@ -148,9 +152,10 @@ public class GameData : Data
     #region Data Path
     private string stringDataPath = "Data/StringData";
     private string valueDataPath = "Data/ValueData";
+    private string tileDataPath = "Data/TileData";
+    private string structDataPath = "Data/StructData";
     private string itemDataPath = "Data/ItemData";
     private string itemCombineDataPath = "Data/ItemCombineData";
-    private string tileDataPath = "Data/TileData";
     #endregion
 
     protected override void Awake()
@@ -164,15 +169,17 @@ public class GameData : Data
     {
         stringData.Clear();
         valueData.Clear();
+        tileData.Clear();
+        structData.Clear();
         itemData.Clear();
         itemCombineData.Clear();
-        tileData.Clear();
 
         var stringDataRaw = DataLoader.LoadData<StringData>(stringDataPath);
         var valueDataRaw = DataLoader.LoadData<ValueData>(valueDataPath);
+        var tileDataRaw = DataLoader.LoadData<TileData>(tileDataPath);
+        var structDataRaw = DataLoader.LoadData<StructData>(structDataPath);
         var itemDataRaw = DataLoader.LoadData<ItemData>(itemDataPath);
         var itemCombineDataRaw = DataLoader.LoadData<ItemCombineData>(itemCombineDataPath);
-        var tileDataRaw = DataLoader.LoadData<TileData>(tileDataPath);
 
         foreach (var data in stringDataRaw)
             stringData.Add(data.Code, data);
@@ -180,14 +187,17 @@ public class GameData : Data
         foreach (var data in valueDataRaw)
             valueData.Add(data.Code, data);
 
+        foreach (var data in tileDataRaw)
+            tileData.Add(data.Index, data);
+
+        foreach (var data in structDataRaw)
+            structData.Add(data.Code, data);
+
         foreach (var data in itemDataRaw)
             itemData.Add(data.Code, data);
 
         foreach (var data in itemCombineDataRaw)
             itemCombineData.Add(data.Index, data);
-
-        foreach (var data in tileDataRaw)
-            tileData.Add(data.Index, data);
     }
 
     public string GetString(string _code)

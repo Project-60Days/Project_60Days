@@ -272,7 +272,7 @@ public class MapManager : Manager
             if (structure is Tower)
                 if (App.Manager.UI.GetPanel<InventoryPanel>().CheckNetCardUsage() == false) return;
 
-            if (structure.IsUse == false)
+            if (structure.isUse == false)
                 App.Manager.UI.GetPanel<PagePanel>().SetSelectPage("structureSelect", structure);
         }
     }
@@ -291,7 +291,7 @@ public class MapManager : Manager
         int randomNumber = UnityEngine.Random.Range(1, 4);
 
         if (randomNumber == 3)
-            mapCtrl.SpawnStructureZombies(structure.Colleagues);
+            mapCtrl.SpawnStructureZombies(structure.colleagues);
 
         // 플레이어 체력 0으로 만들어서 경로 선택 막기
         if (isTundraTile)
@@ -304,9 +304,9 @@ public class MapManager : Manager
         MovePathDelete();
 
         structure.structureModel.GetComponent<StructureFade>().FadeIn();
-        structure.Colleagues.ForEach(tile => tile.ResourceUpdate(true));
+        structure.colleagues.ForEach(tile => tile.ResourceUpdate(true));
 
-        mapCtrl.SpawnSpecialItemRandomTile(structure.Colleagues);
+        mapCtrl.SpawnSpecialItemRandomTile(structure.colleagues);
         curStructure = structure;
     }
 
@@ -339,7 +339,7 @@ public class MapManager : Manager
         if (curStructure == null)
             return false;
 
-        if (curStructure.VisitDay != App.Manager.UI.GetPanel<NotePanel>().dayCount)
+        if (curStructure.visitDay != App.Manager.UI.GetPanel<NotePanel>().dayCount)
         {
             return true;
         }

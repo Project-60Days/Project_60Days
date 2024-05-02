@@ -5,17 +5,13 @@ using System.Linq;
 
 public class ProductionStructure : StructureBase
 {
+    protected override string GetCode() => "STRUCT_PRODUCTION";
+
     public override void Init(List<TileBase> _neighborTiles, GameObject _structureModel, ItemSO _itemSO)
     {
-        structureName = "생산 건물";
-        isUse = false;
-        isAccessible = false;
+        base.Init(_neighborTiles, _structureModel, _itemSO);
 
-        resource = new Resource("ITEM_WIRE", 2);
-        neighborTiles = _neighborTiles;
-        structureModel = _structureModel;
-
-        App.Data.Game.itemData.TryGetValue("ITEM_NETWORKCHIP", out ItemData itemData);
+        App.Data.Game.itemData.TryGetValue(data.SpecialItem, out ItemData itemData);
         specialItem = itemData;
     }
 
@@ -24,7 +20,7 @@ public class ProductionStructure : StructureBase
         for (var index = 0; index < colleagues.Count; index++)
         {
             var tile = colleagues[index];
-            ((ProductionStructure)tile.Structure).AllowAccess();
+            tile.Structure.AllowAccess();
         }
 
         App.Manager.Map.NormalStructureResearch(this);

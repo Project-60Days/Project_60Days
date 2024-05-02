@@ -291,7 +291,7 @@ public class MapController : MonoBehaviour
                 moveRange++;
             }
 
-            if (moveRange != num && tileController.gameObject.GetComponent<TileBase>().Structure?.IsAccessible == false)
+            if (moveRange != num && tileController.gameObject.GetComponent<TileBase>().Structure?.isAccessible == false)
                 SelectBorder(tileController, ETileState.Unable);
             else
                 SelectBorder(tileController, ETileState.Moveable);
@@ -320,7 +320,7 @@ public class MapController : MonoBehaviour
             SelectBorder(value, ETileState.None);
         }
 
-        if (tileController.gameObject.GetComponent<TileBase>().Structure?.IsAccessible == false
+        if (tileController.gameObject.GetComponent<TileBase>().Structure?.isAccessible == false
             || LandformCheck(tileController) == false)
         {
             SelectBorder(tileController, ETileState.Unable);
@@ -673,7 +673,7 @@ public class MapController : MonoBehaviour
 
         if (structure != null)
         {
-            if (tileController.gameObject.GetComponent<TileBase>().Structure.IsAccessible)
+            if (tileController.gameObject.GetComponent<TileBase>().Structure.isAccessible)
             {
                 return true;
             }

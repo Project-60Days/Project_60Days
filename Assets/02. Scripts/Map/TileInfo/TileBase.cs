@@ -108,7 +108,7 @@ public class TileBase : MonoBehaviour
     {
         if (structure != null)
         {
-            if (structure.IsAccessible == false)
+            if (structure.isAccessible == false)
                 return;
         }
 
@@ -294,7 +294,7 @@ public class TileBase : MonoBehaviour
             .Select(x => ((GameObject)x.GameEntity).GetComponent<TileBase>()).ToList();
 
         structure = new Tower();
-        ((Tower)structure).Init(neighborBases, _structureObject, itemSO);
+        structure.Init(neighborBases, _structureObject, itemSO);
 
         landformText = "타워";
         resourceText = "자원 : ???";
@@ -336,16 +336,16 @@ public class TileBase : MonoBehaviour
         {
             case EStructure.Production:
                 structure = new ProductionStructure();
-                ((ProductionStructure)structure).Init(neighborBases, structureInfo.StructureObject, itemSO);
-                ((ProductionStructure)structure).SetColleagues(colleagueBases);
+                structure.Init(neighborBases, structureInfo.StructureObject, itemSO);
+                structure.SetColleagues(colleagueBases);
 
                 landformText = "생산 공장";
                 resourceText = "자원 : ???";
                 break;
             case EStructure.Army:
                 structure = new ArmyStructure();
-                ((ArmyStructure)structure).Init(neighborBases, structureInfo.StructureObject, itemSO);
-                ((ArmyStructure)structure).SetColleagues(colleagueBases);
+                structure.Init(neighborBases, structureInfo.StructureObject, itemSO);
+                structure.SetColleagues(colleagueBases);
 
                 landformText = "군사 기지";
                 resourceText = "자원 : ???";
@@ -370,7 +370,7 @@ public class TileBase : MonoBehaviour
         else
         {
             itemBase = itemSO.items.ToList()
-                .Find(x => x.data == structure.Resource.Item.data);
+                .Find(x => x.data == structure.resource.Item.data);
         }
 
         // 특수 자원 추가

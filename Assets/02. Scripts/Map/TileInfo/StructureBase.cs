@@ -5,45 +5,46 @@ using System;
 
 public abstract class StructureBase
 {
-    protected string structureName;
+    protected StructData data;
 
-    public string StructureName => structureName;
+    protected abstract string GetCode();
 
-    protected Resource resource;
-    public Resource Resource => resource;
-    
-    protected bool isUse;
-    public bool IsUse => isUse;
-    
-    protected bool isAccessible;
-    public bool IsAccessible => isAccessible;
-    
-    protected List<TileBase> neighborTiles;
+    public string name { get; protected set; }
 
-    public List<TileBase> NeighborTiles => neighborTiles;
+    public Resource resource { get; protected set; }
 
-    protected List<TileBase> colleagues;
+    public bool isUse { get; protected set; }
 
-    public List<TileBase> Colleagues => colleagues;
-    
-    protected int visitDay;
+    public bool isAccessible { get; protected set; }
 
-    public int VisitDay => visitDay;
+    public List<TileBase> neighborTiles { get; protected set; }
+
+    public List<TileBase> colleagues { get; protected set; }
+
+    public int visitDay { get; protected set; }
 
     public ItemData specialItem;
     
     public GameObject structureModel;
     
-    public abstract void Init(List<TileBase> _neighborTiles, GameObject _structureModel, ItemSO _itemSO);
+    public virtual void Init(List<TileBase> _neighborTiles, GameObject _structureModel, ItemSO _itemSO)
+    {
+        data = App.Data.Game.structData[GetCode()];
+
+        name = data.Korean;
+
+        resource = new Resource(data.Item, data.Count);
+
+        isUse = false;
+        isAccessible = false;
+
+        neighborTiles = _neighborTiles;
+        structureModel = _structureModel;
+    }
+
     public abstract void YesFunc();
     public abstract void NoFunc();
-    
-    public void SetIsUse(bool _isUse)
-    {
-        isUse = _isUse;
-        visitDay = App.Manager.UI.GetPanel<NotePanel>().dayCount;
-    }
-    
+
     public void SetColleagues(List<TileBase> _colleagues)
     {
         colleagues = _colleagues;

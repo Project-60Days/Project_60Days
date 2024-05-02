@@ -1,24 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class Tower : StructureBase
 {
-    public override void Init(List<TileBase> _neighborTiles, GameObject _structureModel, ItemSO _itemSO)
-    {
-        structureName = "송신 탑";
-        isUse = false;
-        isAccessible = false;
-        resource = new Resource("Wire", 10);
-        neighborTiles = _neighborTiles;
-        structureModel = _structureModel;
-    }
-    
-    public override void NoFunc()
-    {
-        // 게임 오버
-        App.Manager.Map.ResearchCancel(this);
-    }
+    protected override string GetCode() => "STRUCT_TOWER";
 
     public override void YesFunc()
     {
@@ -28,5 +10,11 @@ public class Tower : StructureBase
         App.Manager.UI.GetPanel<PagePanel>().SetResultPage("Signal_Yes", false);
         App.Manager.UI.GetPanel<PagePanel>().CreateSelectDialogueRunner("sequence");
         App.Manager.UI.GetPanel<PagePanel>().isClickYesBtnInTower = true;
+    }
+
+    public override void NoFunc()
+    {
+        // 게임 오버
+        App.Manager.Map.ResearchCancel(this);
     }
 }

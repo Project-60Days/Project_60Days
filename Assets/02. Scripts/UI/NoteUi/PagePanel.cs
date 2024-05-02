@@ -81,7 +81,7 @@ public class PagePanel : UIBase
     public void SetSelectPage(string _nodeName, StructureBase _structData)
     {
         selectPage.SetNodeName(_nodeName);
-        currStruct = _structData.StructureName;
+        currStruct = _structData.name;
 
         InitBtns();
 
