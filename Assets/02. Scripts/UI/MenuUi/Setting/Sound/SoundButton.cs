@@ -7,6 +7,7 @@ public class SoundButton : MonoBehaviour, IPointerDownHandler, IDragHandler
     [SerializeField] GameObject soundBar;
     [SerializeField] Transform parentTransform;
     [SerializeField] TextMeshProUGUI text;
+    [SerializeField] SoundController soundController;
     
     public ESoundType eSoundType;
     [HideInInspector] public float currentWidth;
@@ -60,7 +61,7 @@ public class SoundButton : MonoBehaviour, IPointerDownHandler, IDragHandler
 
             currentWidth = clampedWidth;
 
-            App.Manager.UI.GetSoundController().SetVolume(this);
+            soundController.SetVolume(this);
         }
     }
 }

@@ -6,13 +6,15 @@ using TMPro;
 
 public abstract class ModeCtrl : MonoBehaviour
 {
-    protected readonly List<ItemBase> itemData = App.Data.Game.itemSO.items.ToList();
+    protected List<ItemBase> itemData;
     protected List<ItemCombineData> itemCombineData;
 
     [SerializeField] protected Transform slotParent;
 
     public virtual void Init()
     {
+        itemData = App.Manager.Game.itemData;
+
         InitSlots();
     }
 

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fcc8cc815c32d646874c20353061165, type: 3}
   m_Name: ALLOY
   m_EditorClassIdentifier: 
-  English: ITEM_ALLOY
+  Code: ITEM_ALLOY
   data:
     Index: 1011
     Category: 2
@@ -40,3 +40,4 @@ MonoBehaviour:
   sfxName: 
   isMadeOnce: 0
   isBlueprintOpen: 0
+  canRemoveEquipment: 0

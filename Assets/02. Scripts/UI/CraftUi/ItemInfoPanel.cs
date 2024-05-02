@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class ItemInfoController : MonoBehaviour
+public class ItemInfoPanel : UIBase
 {
     [SerializeField] TextMeshProUGUI itemName;
     [SerializeField] TextMeshProUGUI itemDescribe;
@@ -23,13 +23,17 @@ public class ItemInfoController : MonoBehaviour
 
     public bool isOpen = false;
 
-    void Awake()
+    #region Override
+    public override void Init()
     {
         infoTransform = gameObject.GetComponent<RectTransform>();
         canvasGroup = gameObject.GetComponent<CanvasGroup>();
 
         HideInfo();
     }
+
+    public override void ReInit() { }
+    #endregion
 
     public void HideInfo()
     {

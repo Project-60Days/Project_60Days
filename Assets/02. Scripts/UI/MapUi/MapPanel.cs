@@ -16,10 +16,7 @@ public class MapPanel : UIBase
 
     }
 
-    public override void ReInit()
-    {
-
-    }
+    public override void ReInit() { }
     #endregion
 
     public void DisturbtorButtonInteractableOn()

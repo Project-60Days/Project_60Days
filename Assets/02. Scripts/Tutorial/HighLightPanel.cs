@@ -3,19 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIHighLightController : MonoBehaviour
+public class HighLightPanel : UIBase
 {
     [SerializeField] HighLight[] hightLights;
     [SerializeField] GameObject highLightImg;
     [SerializeField] public Dictionary<string, HighLight> dic_highLights = new Dictionary<string, HighLight>();
 
-    private void Start()
+    #region Override
+    public override void Init()
     {
-        foreach(var h in hightLights)
+        foreach (var h in hightLights)
         {
             dic_highLights.Add(h.objectID, h);
         }
     }
+
+    public override void ReInit() { }
+    #endregion
 
     public void ShowHighLight(string _objectID, string _waitUntilStatusName)
     {

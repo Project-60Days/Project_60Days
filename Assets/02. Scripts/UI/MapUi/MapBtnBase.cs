@@ -23,14 +23,14 @@ public abstract class MapBtnBase : MonoBehaviour, IPointerClickHandler, IPointer
     public virtual void ShowItemInfo()
     {
         Vector3 mousePos = Input.mousePosition;
-        App.Manager.UI.GetInfoController().ShowItemInfo(text, mousePos);
+        App.Manager.UI.GetPanel<InfoPanel>().ShowItemInfo(text, mousePos);
     }
 
 
     public void OnPointerClick(PointerEventData eventData)
     {
         isMouseEnter = false;
-        App.Manager.UI.GetInfoController().HideInfo();
+        App.Manager.UI.GetPanel<InfoPanel>().HideInfo();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -38,7 +38,7 @@ public abstract class MapBtnBase : MonoBehaviour, IPointerClickHandler, IPointer
         if (isMouseEnter == false && App.Manager.UI.isUIStatus(UIState.Map))
         {
             isMouseEnter = true;
-            App.Manager.UI.GetInfoController().isNew = true;
+            App.Manager.UI.GetPanel<InfoPanel>().isNew = true;
         }
 
     }
@@ -48,7 +48,7 @@ public abstract class MapBtnBase : MonoBehaviour, IPointerClickHandler, IPointer
         if (isMouseEnter == true)
         {
             isMouseEnter = false;
-            App.Manager.UI.GetInfoController().HideInfo();
+            App.Manager.UI.GetPanel<InfoPanel>().HideInfo();
         }
     }
 }

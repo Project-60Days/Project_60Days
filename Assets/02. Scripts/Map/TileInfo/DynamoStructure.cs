@@ -12,7 +12,7 @@ public class DynamoStructure : StructureBase
         var itemBase = _itemSO.items.ToList()
             .Find(x => x.data.Code == "ITEM_DISTURBE");
 
-        resource = new Resource(itemBase.English, 2, itemBase);
+        resource = new Resource(itemBase.Code, 2, itemBase);
         isUse = true;
         isAccessible = false;
 
@@ -39,6 +39,6 @@ public class DynamoStructure : StructureBase
         isUse = true;
         isAccessible = true;
 
-        App.Manager.UI.GetPageController().CreateSelectDialogueRunner("sequence");
+        App.Manager.UI.GetPanel<PagePanel>().CreateSelectDialogueRunner("sequence");
     }
 }

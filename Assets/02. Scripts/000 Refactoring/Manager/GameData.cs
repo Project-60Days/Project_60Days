@@ -145,8 +145,6 @@ public class GameData : Data
     public Dictionary<string, ItemData> itemData = new Dictionary<string, ItemData>();
     public Dictionary<int, ItemCombineData> itemCombineData = new Dictionary<int, ItemCombineData>();
 
-    public ItemSO itemSO;
-
     #region Data Path
     string stringDataPath = "Data/StringData";
     string valueDataPath = "Data/ValueData";
@@ -160,7 +158,6 @@ public class GameData : Data
         base.Awake();
 
         LoadData();
-        InitItemSO();
     }
 
     public void LoadData()
@@ -191,15 +188,6 @@ public class GameData : Data
 
         foreach (var data in tileDataRaw)
             tileData.Add(data.Index, data);
-    }
-
-    private void InitItemSO()
-    {
-        foreach (var item in itemSO.items)
-        {
-            item.data = itemData[item.English];
-            item.Init();
-        }
     }
 
     public string GetString(string _code)

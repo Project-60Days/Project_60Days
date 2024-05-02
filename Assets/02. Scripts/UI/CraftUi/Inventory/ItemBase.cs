@@ -4,7 +4,7 @@ using UnityEngine.Serialization;
 [CreateAssetMenu]
 public class ItemBase : ScriptableObject
 {
-    [FormerlySerializedAs("itemCode")] public string English;
+    public string Code;
     public ItemData data;
     public Sprite itemImage;
     public int itemCount = 0;

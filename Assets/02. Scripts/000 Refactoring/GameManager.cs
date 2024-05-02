@@ -1,18 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Manager
 {
-    // Start is called before the first frame update
-    void Start()
+    public ItemSO itemSO;
+    public List<ItemBase> itemData => itemSO.items.ToList();
+
+    protected override void Awake()
     {
-        
+        base.Awake();
+
+        InitItemSO();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void InitItemSO()
     {
-        
+        var itemData = App.Data.Game.itemData;
+
+        foreach (var item in itemSO.items)
+        {
+            item.data = itemData[item.Code];
+            item.Init();
+        }
     }
 }

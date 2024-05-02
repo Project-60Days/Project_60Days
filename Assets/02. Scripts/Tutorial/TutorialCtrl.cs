@@ -63,7 +63,7 @@ public class TutorialCtrl : MonoBehaviour
     {
         string nodeName = "ITEM_TUTORIAL";
 
-        App.Manager.UI.GetPageController().SetResultPage(nodeName, true);
+        App.Manager.UI.GetPanel<PagePanel>().SetResultPage(nodeName, true);
 
         StartCoroutine(AddResource());
     }

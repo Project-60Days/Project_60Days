@@ -25,7 +25,7 @@ public class Chapter01_2 : QuestBase
 
     public override bool CheckMeetCondition()
     {
-        return App.Manager.UI.GetPageController().isClickYesBtnInProductionStructure;
+        return App.Manager.UI.GetPanel<PagePanel>().isClickYesBtnInProductionStructure;
     }
 
     public override string SetQuestText()

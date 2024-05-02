@@ -4,10 +4,8 @@ using UnityEngine;
 using TMPro;
 using DG.Tweening;
 
-public class UpperController : MonoBehaviour
+public class UpperPanel : UIBase
 {
-    [SerializeField] ItemSO itemSO;
-
     [Header("ItemCountText")]
     [SerializeField] TextMeshProUGUI steelText;
     [SerializeField] TextMeshProUGUI carbonText;
@@ -28,9 +26,11 @@ public class UpperController : MonoBehaviour
 
     Color cyan = new Color(56f / 255f, 221f / 255f, 205f / 255f);
 
-    void Start()
+    #region Override
+
+    public override void Init()
     {
-        foreach (var item in itemSO.items)
+        foreach (var item in App.Manager.Game.itemData)
         {
             if (item.data.Code == "ITEM_STEEL") steel = item;
             else if (item.data.Code == "ITEM_CARBON") carbon = item;
@@ -43,6 +43,12 @@ public class UpperController : MonoBehaviour
 
         StartCoroutine(InitData());
     }
+
+    public override void ReInit()
+    {
+        UpdateDurabillity();
+    }
+    #endregion
 
     IEnumerator InitData()
     {

@@ -10,7 +10,7 @@ public class MainCameraCtrl : MonoBehaviour
     {
         PlaySFX();
 
-        App.Manager.UI.GetUpperController().DecreaseDurabillityAnimation();
+        App.Manager.UI.GetPanel<UpperPanel>().DecreaseDurabillityAnimation();
 
         mainCamera.transform.DOShakePosition(1f);
     }

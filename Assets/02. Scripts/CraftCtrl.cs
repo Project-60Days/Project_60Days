@@ -12,7 +12,7 @@ public class CraftCtrl : ModeCtrl
 
     [SerializeField] GameObject slotPrefab;
 
-    public bool IsCombinedResult => slotParent.childCount >= 3;
+    public bool IsCombinedResult => slotParent.childCount > 3;
 
     public override void Init()
     {
@@ -62,12 +62,15 @@ public class CraftCtrl : ModeCtrl
         if (craftItems.Count < 2) return;
 
         ItemBase resultItem = null;
-        var sortedItem = craftItems.OrderBy(item => item.data.Code).ToList();
+        var sortedItem = craftItems.OrderBy(item => item.Code).ToList();
+        Debug.Log(sortedItem.Count);
 
         var match_1 = itemCombineData.Where(x => x.Material_1 == sortedItem[0].data.Code).ToList();
         if (match_1.Count == 0) return;
+        Debug.Log(match_1.Count);
         var match_2 = match_1.Where(x => x.Material_2 == sortedItem[1].data.Code).ToList();
         if (match_2.Count == 0) return;
+        Debug.Log(match_2.Count);
 
         if (craftItems.Count == 2)
         {
@@ -80,6 +83,7 @@ public class CraftCtrl : ModeCtrl
             var combine = match_2.FirstOrDefault(x => x.Material_3 == sortedItem[2].data.Code);
             if (combine != null)
                 resultItem = GetItemByCode(combine.Result);
+            Debug.Log(resultItem);
         }
 
         if (resultItem != null && resultItem.isBlueprintOpen)

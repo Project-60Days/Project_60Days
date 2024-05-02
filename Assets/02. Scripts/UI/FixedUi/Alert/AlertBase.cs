@@ -17,13 +17,13 @@ public class AlertBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
     public virtual void ShowItemInfo()
     {
         Vector3 mousePos = Input.mousePosition;
-        App.Manager.UI.GetInfoController().ShowAlertInfo(alertCode, mousePos);
+        App.Manager.UI.GetPanel<InfoPanel>().ShowAlertInfo(alertCode, mousePos);
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         isMouseEnter = false;
-        App.Manager.UI.GetInfoController().HideInfo();
+        App.Manager.UI.GetPanel<InfoPanel>().HideInfo();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -31,7 +31,7 @@ public class AlertBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
         if (isMouseEnter == false && App.Manager.UI.isUIStatus(UIState.Normal))
         {
             isMouseEnter = true;
-            App.Manager.UI.GetInfoController().isNew = true;
+            App.Manager.UI.GetPanel<InfoPanel>().isNew = true;
         }
 
     }
@@ -41,7 +41,7 @@ public class AlertBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
         if (isMouseEnter == true)
         {
             isMouseEnter = false;
-            App.Manager.UI.GetInfoController().HideInfo();
+            App.Manager.UI.GetPanel<InfoPanel>().HideInfo();
         }
     }
 }

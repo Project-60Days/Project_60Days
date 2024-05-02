@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04865242a8028fc46a0079b51f0c8ad4, type: 3}
   m_Name: SIGNAL
   m_EditorClassIdentifier: 
-  English: ITEM_SIGNAL
+  Code: ITEM_SIGNAL
   data:
     Index: 1014
     Category: 2
@@ -40,3 +40,4 @@ MonoBehaviour:
   sfxName: 
   isMadeOnce: 0
   isBlueprintOpen: 0
+  canRemoveEquipment: 0

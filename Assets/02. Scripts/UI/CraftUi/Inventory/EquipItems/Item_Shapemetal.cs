@@ -15,7 +15,7 @@ public class Item_Shapemetal : ItemBase
 
         App.Manager.Map.mapController.Player.Durability += (int)data.value1;
         App.Manager.Map.mapController.Player.ClockUntil((int)data.value2);
-        App.Manager.UI.GetUpperController().IncreaseDurabillityAnimation();
+        App.Manager.UI.GetPanel<UpperPanel>().IncreaseDurabillityAnimation();
     }
 
     public override bool CheckMeetCondition()

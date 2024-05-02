@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68141322594010a4181a06bc1288e817, type: 3}
   m_Name: GENERATOR
   m_EditorClassIdentifier: 
-  English: ITEM_GENERATOR
+  Code: ITEM_GENERATOR
   data:
     Index: 0
     Category: 0
-    Code: 
+    Code: ITEM_GENERATOR
     AppearTileType: 0
     Type: 0
     EquipType: 0

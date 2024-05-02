@@ -61,22 +61,22 @@ public class CustomYarnCommands : MonoBehaviour
 
     void AppendNode()
     {
-        string nodeName = App.Manager.UI.GetPageController().GetNextResourceNodeName();
+        string nodeName = App.Manager.UI.GetPanel<PagePanel>().GetNextResourceNodeName();
 
         if (nodeName == "-1") return;
 
-        App.Manager.UI.GetPageController().CreateResultDialogueRunner(nodeName);
+        App.Manager.UI.GetPanel<PagePanel>().CreateResultDialogueRunner(nodeName);
     }
 
     #region Tutorial Common Commands
     void HighLightObject(string _objectID, string _waitStatusName)
     {
-        App.Manager.UI.GetUIHighLightController().ShowHighLight(_objectID, _waitStatusName);
+        App.Manager.UI.GetPanel<HighLightPanel>().ShowHighLight(_objectID, _waitStatusName);
     }
 
     void HighLightBtn(string _objectID)
     {
-        App.Manager.UI.GetUIHighLightController().ShowBtnHighLight(_objectID);
+        App.Manager.UI.GetPanel<HighLightPanel>().ShowBtnHighLight(_objectID);
     }
 
     Coroutine WaitUntilUIState(string _UIName)
@@ -97,7 +97,7 @@ public class CustomYarnCommands : MonoBehaviour
 
     void SetQuest(string _questCode)
     {
-        App.Manager.UI.GetQuestController().CreateQuest(_questCode);
+        App.Manager.UI.GetPanel<QuestPanel>().CreateQuest(_questCode);
     }
 
     void SetCloseBtnEnabled(bool _isEnabled)
@@ -233,14 +233,14 @@ public class CustomYarnCommands : MonoBehaviour
     [YarnFunction("getResourceName")]
     static string GetResourceName()
     {
-        string resourceName = App.Manager.UI.GetPageController().currResource;
+        string resourceName = App.Manager.UI.GetPanel<PagePanel>().currResource;
         return resourceName;
     }
 
     [YarnFunction("getResourceIndex")]
     static int GetResourceIndex()
     {
-        int resourceIndex = App.Manager.UI.GetPageController().currResourceIndex;
+        int resourceIndex = App.Manager.UI.GetPanel<PagePanel>().currResourceIndex;
         return resourceIndex;
     }
 
@@ -272,7 +272,7 @@ public class CustomYarnCommands : MonoBehaviour
     [YarnFunction("getStructName")]
     static string GetStructName()
     {
-        string structName = App.Manager.UI.GetPageController().currStruct;
+        string structName = App.Manager.UI.GetPanel<PagePanel>().currStruct;
         
         return structName;
     }

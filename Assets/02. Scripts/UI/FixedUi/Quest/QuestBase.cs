@@ -21,7 +21,7 @@ public abstract class QuestBase : MonoBehaviour
 
     public virtual void AfterQuest()
     {
-        App.Manager.UI.GetQuestController().SetNextQuestIndex(eQuestType, nextQuestIndex);
-        App.Manager.UI.GetQuestController().StartNextQuest(this);
+        App.Manager.UI.GetPanel<QuestPanel>().SetNextQuestIndex(eQuestType, nextQuestIndex);
+        App.Manager.UI.GetPanel<QuestPanel>().StartNextQuest(this);
     }
 }

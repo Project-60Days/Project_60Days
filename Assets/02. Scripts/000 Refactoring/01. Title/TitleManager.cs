@@ -1,25 +1,22 @@
 using System.Collections;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Video;
 using DG.Tweening;
 using TMPro;
 
 public class TitleManager : MonoBehaviour
 {
     [Header("Text Production")]
-    [SerializeField] TextMeshProUGUI leftLogField;
-    [SerializeField] TextMeshProUGUI rightLogField;
-    [SerializeField] ScrollRect rightLogScrollRect;
-    [SerializeField] float rightLogShowInterval;
+    [SerializeField] TextMeshProUGUI leftTxt;
+    [SerializeField] TextMeshProUGUI rightTxt;
+    [SerializeField] ScrollRect rightScrollRect;
+    [SerializeField] float duration = 2f;
 
     [Header("UI")]
-    [SerializeField] GameObject titleText;
-    [SerializeField] Image titleImage;
-
-    [SerializeField] GameObject buttonText;
+    [SerializeField] GameObject titleBack;
     [SerializeField] GameObject buttonBack;
+
+    [SerializeField] Image titleImage;
 
     [SerializeField] GameObject loadingUI;
 
@@ -36,6 +33,8 @@ public class TitleManager : MonoBehaviour
     string rightFileText;
 
     string[] lines;
+
+    float rightLogShowInterval;
 
     void Start()
     {
@@ -61,33 +60,19 @@ public class TitleManager : MonoBehaviour
         });
     }
 
-
-    #region Init
     void InitText()
     {
         leftFileText = Resources.Load<TextAsset>(leftfilePath).text;
         rightFileText = Resources.Load<TextAsset>(rightfilePath).text;
 
         lines = rightFileText.Split('\n');
+        rightLogShowInterval = duration / lines.Length;
     }
 
     void InitObjects()
     {
-        ActiveTitleObjects(false);
-        ActiveButtonObjects(false);
-    }
-    #endregion
-
-    void ActiveTitleObjects(bool _isActive)
-    {
-        titleText.SetActive(_isActive);
-        titleImage.gameObject.SetActive(_isActive);
-    }
-
-    void ActiveButtonObjects(bool _isActive)
-    {
-        buttonText.SetActive(_isActive);
-        buttonBack.SetActive(_isActive);
+        titleBack.SetActive(false);
+        buttonBack.SetActive(false);
     }
 
     #region Title Production
@@ -96,7 +81,7 @@ public class TitleManager : MonoBehaviour
     /// </summary>
     void LeftLog()
     {
-        leftLogField.DOText(leftFileText, 2f)
+        leftTxt.DOText(leftFileText, duration)
             .SetEase(Ease.InSine)
             .OnComplete(() =>
             {
@@ -111,14 +96,14 @@ public class TitleManager : MonoBehaviour
     IEnumerator RightLog()
     {
         int currentIndex = 0;
-        rightLogField.text = "";
+        rightTxt.text = "";
 
         while (currentIndex < lines.Length)
         {
             string line = lines[currentIndex++];
-            rightLogField.text += line + '\n';
+            rightTxt.text += line + '\n';
 
-            rightLogScrollRect.verticalNormalizedPosition = 0.0f;
+            rightScrollRect.verticalNormalizedPosition = 0f;
 
             yield return new WaitForSeconds(rightLogShowInterval);
         }
@@ -136,7 +121,7 @@ public class TitleManager : MonoBehaviour
         sequence.AppendInterval(1f)
             .AppendCallback(() =>
             {
-                ActiveTitleObjects(true);
+                titleBack.SetActive(true);
 
                 titleImage.DOFade(0f, 1f).SetEase(Ease.Linear).From();
 
@@ -145,7 +130,7 @@ public class TitleManager : MonoBehaviour
             .AppendInterval(2f)
             .OnComplete(() =>
             {
-                ActiveButtonObjects(true);
+                buttonBack.SetActive(true);
             });
     }
     #endregion

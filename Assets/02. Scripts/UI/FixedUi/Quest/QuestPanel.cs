@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
 
-public class QuestController : MonoBehaviour
+public class QuestPanel : UIBase
 {
     [SerializeField] GameObject questList;
     [SerializeField] GameObject mainQuestPrefab;
@@ -25,12 +25,11 @@ public class QuestController : MonoBehaviour
     int nextMainIndex = 0;
     int nextSubIndex = 0;
 
-
-
-    void Awake()
+    #region Override
+    public override void Init()
     {
         quests = questList.GetComponentsInChildren<QuestBase>();
-        foreach (var quest in quests) 
+        foreach (var quest in quests)
         {
             if (quest.eQuestType == EQuestType.Tutorial)
                 tutorialQuests.Add(quest);
@@ -40,6 +39,9 @@ public class QuestController : MonoBehaviour
                 subQuests.Add(quest);
         }
     }
+
+    public override void ReInit() { }
+    #endregion
 
     public void StartMainQuest()
     {

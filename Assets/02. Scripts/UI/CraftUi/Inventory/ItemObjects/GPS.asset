@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08c23960b38d84f47a276a2941cd7cf3, type: 3}
   m_Name: GPS
   m_EditorClassIdentifier: 
-  English: ITEM_GPS
+  Code: ITEM_GPS
   data:
     Index: 0
     Category: 0

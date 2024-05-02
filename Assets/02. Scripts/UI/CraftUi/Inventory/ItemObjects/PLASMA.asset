@@ -12,18 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04865242a8028fc46a0079b51f0c8ad4, type: 3}
   m_Name: PLASMA
   m_EditorClassIdentifier: 
-  English: ITEM_PLASMA
+  Code: ITEM_PLASMA
   data:
     Index: 1003
     Category: 0
     Code: ITEM_PLASMA
-    Rarity: 0
     AppearTileType: 0
-    TileIncludePossibility: 0
     Type: 0
     EquipType: 4
     EquipArea: 
-    isCanBase: 0
     CombineSlotCount: 0
     Description: "\uAC00\uC7A5 \uAE30\uCD08\uC801\uC778 \uC5D0\uB108\uC9C0 \uBB3C\uC9C8
       \uC911 \uD558\uB098"
@@ -32,8 +29,14 @@ MonoBehaviour:
     English: Plasma
     Japanese: -1
     Chinese: -1
+    value1: 0
+    value2: 0
+    value3: 0
   itemImage: {fileID: 21300000, guid: 1b6a326547522224a897cc3457c55ab9, type: 3}
   itemCount: 0
   eItemType: 0
   sprite: {fileID: 21300000, guid: 6a2e7105bb94919448fb8f9a39160e36, type: 3}
   sfxName: SFX_Plasma_Acquisition
+  isMadeOnce: 0
+  isBlueprintOpen: 0
+  canRemoveEquipment: 0

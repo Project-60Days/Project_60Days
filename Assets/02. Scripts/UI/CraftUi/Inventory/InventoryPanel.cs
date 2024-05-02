@@ -5,7 +5,7 @@ using TMPro;
 
 public class InventoryPanel : UIBase
 {
-    private readonly List<ItemBase> itemData = App.Data.Game.itemSO.items.ToList();
+    private List<ItemBase> itemData;
 
     List<ItemSlot>[] slots = new List<ItemSlot>[6];
     int[] counts = new int[6];
@@ -22,6 +22,8 @@ public class InventoryPanel : UIBase
     #region Override
     public override void Init()
     {
+        itemData = App.Manager.Game.itemData;
+
         for (int i = 0; i < 6; i++)
             slots[i] = (new List<ItemSlot>());
 
@@ -65,7 +67,7 @@ public class InventoryPanel : UIBase
     {
         InitSlots();
 
-        App.Manager.UI.GetUpperController().UpdateItemCount();
+        App.Manager.UI.GetPanel<UpperPanel>().UpdateItemCount();
 
         for (int i = 0; i < items.Count; i++)
         {
@@ -159,8 +161,8 @@ public class InventoryPanel : UIBase
             if (items[random].data.Code != "ITEM_NETWORKCHIP") break;
         }
 
-        App.Manager.UI.GetPageController().SetCurrResource(items[random]);
-        App.Manager.UI.GetPageController().SetResultPage("LOOSE_RESOURCE", false);
+        App.Manager.UI.GetPanel<PagePanel>().SetCurrResource(items[random]);
+        App.Manager.UI.GetPanel<PagePanel>().SetResultPage("LOOSE_RESOURCE", false);
         
         RemoveItem(items[random]);
     }

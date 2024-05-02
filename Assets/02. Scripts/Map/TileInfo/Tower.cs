@@ -25,8 +25,8 @@ public class Tower : StructureBase
         // 맵 씬 강제 이동 + 조사 애니메이션
         isUse = true;
 
-        App.Manager.UI.GetPageController().SetResultPage("Signal_Yes", false);
-        App.Manager.UI.GetPageController().CreateSelectDialogueRunner("sequence");
-        App.Manager.UI.GetPageController().isClickYesBtnInTower = true;
+        App.Manager.UI.GetPanel<PagePanel>().SetResultPage("Signal_Yes", false);
+        App.Manager.UI.GetPanel<PagePanel>().CreateSelectDialogueRunner("sequence");
+        App.Manager.UI.GetPanel<PagePanel>().isClickYesBtnInTower = true;
     }
 }

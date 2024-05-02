@@ -386,7 +386,7 @@ public class TileBase : MonoBehaviour
         }
 
         // 특수 자원 추가
-        appearanceResources.Add(new Resource(itemBase.English, 1, itemBase));
+        appearanceResources.Add(new Resource(itemBase.Code, 1, itemBase));
 
         RotationCheck(transform.rotation.eulerAngles);
         ResourceUpdate(true);

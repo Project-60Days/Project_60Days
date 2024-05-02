@@ -54,12 +54,7 @@ public class CraftPanel : UIBase
         gameObject.SetActive(false);
     }
 
-    public override void ReInit() 
-    {
-        App.Manager.UI.GetItemInfoController().HideInfo(); //todo
-
-        ModeButtonEvent((int)CraftMode.Craft);
-    }
+    public override void ReInit() { }
 
     public override UIState GetUIState() => UIState.Craft;
 
@@ -71,6 +66,8 @@ public class CraftPanel : UIBase
 
         effectCtrl.StartAnim();
         App.Manager.Sound.PlaySFX("SFX_SceneChange_BaseToCrafting");
+
+        App.Manager.UI.GetPanel<ItemInfoPanel>().HideInfo(); //todo
 
         Sequence sequence = DOTween.Sequence();
         sequence

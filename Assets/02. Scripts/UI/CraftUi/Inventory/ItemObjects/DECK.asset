@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7cc22cdf01af234b813482fe1142b77, type: 3}
   m_Name: DECK
   m_EditorClassIdentifier: 
-  English: ITEM_DECK
+  Code: ITEM_DECK
   data:
     Index: 1012
     Category: 2

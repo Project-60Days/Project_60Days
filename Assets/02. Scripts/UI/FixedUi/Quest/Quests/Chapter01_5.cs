@@ -27,7 +27,7 @@ public class Chapter01_5 : QuestBase
 
     public override bool CheckMeetCondition()
     {
-        return App.Manager.UI.GetPageController().isClickYesBtnInTower;
+        return App.Manager.UI.GetPanel<PagePanel>().isClickYesBtnInTower;
     }
 
     public override string SetQuestText()
@@ -37,8 +37,8 @@ public class Chapter01_5 : QuestBase
 
     public override void AfterQuest()
     {
-        App.Manager.UI.GetQuestController().SetNextQuestIndex(eQuestType, nextQuestIndex);
-        App.Manager.UI.GetQuestController().StartNextQuest(this);
+        App.Manager.UI.GetPanel<QuestPanel>().SetNextQuestIndex(eQuestType, nextQuestIndex);
+        App.Manager.UI.GetPanel<QuestPanel>().StartNextQuest(this);
         StartCoroutine(App.Manager.UI.GetPanel<PopUpPanel>().EndGamePopUp());
     }
 }

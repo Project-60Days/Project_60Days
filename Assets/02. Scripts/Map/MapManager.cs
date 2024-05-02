@@ -299,7 +299,7 @@ public class MapManager : Manager
                 if (App.Manager.UI.GetPanel<InventoryPanel>().CheckNetCardUsage() == false) return;
 
             if (structure.IsUse == false)
-                App.Manager.UI.GetPageController().SetSelectPage("structureSelect", structure);
+                App.Manager.UI.GetPanel<PagePanel>().SetSelectPage("structureSelect", structure);
         }
         else
         {
@@ -338,7 +338,7 @@ public class MapManager : Manager
         // 플레이어 체력 0으로 만들어서 경로 선택 막기
         if (isTundraTile)
         {
-            App.Manager.UI.GetPageController().SetResultPage("SEARCH_TUNDRA", false);
+            App.Manager.UI.GetPanel<PagePanel>().SetResultPage("SEARCH_TUNDRA", false);
             mapController.Player.SetHealth(false);
         }
 
@@ -441,7 +441,7 @@ public class MapManager : Manager
         if(resources.Find(x=> x.ItemBase.data.Code == "ITEM_GAS") != null)
         {
             Debug.Log("에테르 디버프");
-            App.Manager.UI.GetPageController().SetResultPage("ACIDENT_ETHER", false);
+            App.Manager.UI.GetPanel<PagePanel>().SetResultPage("ACIDENT_ETHER", false);
             mapController.Player.SetHealth(false);
         }
         else

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Yarn.Unity;
 
-public class PageController : MonoBehaviour
+public class PagePanel : UIBase
 {
     [SerializeField] Button yesBtn;
     [SerializeField] Button noBtn;
@@ -32,7 +32,8 @@ public class PageController : MonoBehaviour
     [HideInInspector] public bool isClickYesBtnInTower = false;
     [HideInInspector] public bool isClickYesBtnInProductionStructure = false;
 
-    void Awake()
+    #region Override
+    public override void Init()
     {
         PageBase[] pages = GetComponentsInChildren<PageBase>(includeInactive: true);
         foreach (var page in pages)
@@ -50,6 +51,27 @@ public class PageController : MonoBehaviour
         isClickYesBtnInTower = false;
         isClickYesBtnInProductionStructure = false;
     }
+
+    public override void ReInit()
+    {
+        var resources = App.Manager.Map.resourceManager.GetLastResources();
+
+        for (int i = 0; i < resources.Count; i++)
+        {
+            string tileName = App.Manager.Map.mapController
+                .Player.TileController.GetComponent<TileBase>().TileData.English;
+
+            int randomNumber = Random.Range(1, 6);
+
+            string nodeName = resources[i].ItemBase.data.Code + "_" + tileName + randomNumber.ToString();
+
+            if (resources[i].ItemBase.data.Code == "ITEM_NETWORKCHIP")
+                SetResultPage(nodeName, false);
+            else
+                SetResultPage(nodeName, true);
+        }
+    }
+    #endregion
 
     public void SetResultPage(string _nodeName, bool _isResourceNode)
     {

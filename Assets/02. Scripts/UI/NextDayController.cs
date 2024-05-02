@@ -35,8 +35,6 @@ public class NextDayController : MonoBehaviour
         {
             App.Manager.Shelter.Attack();
         }
-        else
-            App.Manager.UI.GetUpperController().UpdateDurabillity();
 
         App.Manager.UI.FadeOut();
 
@@ -88,7 +86,7 @@ public class NextDayController : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        SetResourcesResultPage();
+        App.Manager.UI.GetPanel<PagePanel>().ReInit();
 
         callback?.Invoke();
     }
@@ -131,27 +129,6 @@ public class NextDayController : MonoBehaviour
         dayCount = Instantiate(dayCountPrefab, blackPanel.transform);
         TextMeshProUGUI text = dayCount.GetComponent<TextMeshProUGUI>();
         text.text = _text;
-    }
-
-
-    void SetResourcesResultPage()
-    {
-        var resources = App.Manager.Map.resourceManager.GetLastResources();
-
-        for (int i = 0; i < resources.Count; i++)
-        {
-            string tileName = App.Manager.Map.mapController
-                .Player.TileController.GetComponent<TileBase>().TileData.English;
-
-            int randomNumber = Random.Range(1, 6);
-
-            string nodeName = resources[i].ItemBase.data.Code + "_" + tileName + randomNumber.ToString();
-
-            if (resources[i].ItemBase.data.Code == "ITEM_NETWORKCHIP")
-                App.Manager.UI.GetPageController().SetResultPage(nodeName, false);
-            else
-                App.Manager.UI.GetPageController().SetResultPage(nodeName, true);
-        }
     }
 
     /// <summary>

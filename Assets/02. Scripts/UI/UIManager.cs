@@ -15,14 +15,7 @@ public class UIManager : Manager
     public UIState CurrUIState
         => UIStack.Count == 0 ? UIState.Normal : UIStack.Peek();
 
-    [SerializeField] UIHighLightController uiHighLightController;
     [SerializeField] NextDayController nextDayController;
-    [SerializeField] PageController pageController;
-    [SerializeField] QuestController questController;
-    [SerializeField] SoundController soundController;
-    [SerializeField] ItemInfoController itemInfoController;
-    [SerializeField] UpperController upperController;
-    [SerializeField] InfoController infoController;
 
     protected override void Awake()
     {
@@ -167,43 +160,8 @@ public class UIManager : Manager
     }
     #endregion
 
-    public UIHighLightController GetUIHighLightController()
-    {
-        return uiHighLightController;
-    }
-
     public NextDayController GetNextDayController()
     {
         return nextDayController;
-    }
-
-    public PageController GetPageController()
-    {
-        return pageController;
-    }
-
-    public QuestController GetQuestController()
-    {
-        return questController;
-    }
-
-    public SoundController GetSoundController()
-    {
-        return soundController;
-    }
-
-    public ItemInfoController GetItemInfoController()
-    {
-        return itemInfoController;
-    }
-
-    public UpperController GetUpperController()
-    {
-        return upperController;
-    }
-
-    public InfoController GetInfoController()
-    {
-        return infoController;
     }
 }

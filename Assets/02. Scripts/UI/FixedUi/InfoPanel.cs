@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class InfoController : MonoBehaviour
+public class InfoPanel : UIBase
 {
     [SerializeField] TextMeshProUGUI text;
     
@@ -15,13 +15,20 @@ public class InfoController : MonoBehaviour
     RectTransform infoTransform;
     CanvasGroup canvasGroup;
 
-    void Awake()
+    #region Override
+    public override void Init()
     {
         infoTransform = gameObject.GetComponent<RectTransform>();
         canvasGroup = gameObject.GetComponent<CanvasGroup>();
 
         HideInfo();
     }
+
+    public override void ReInit()
+    {
+        
+    }
+    #endregion
 
     public void HideInfo()
     {
