@@ -25,7 +25,7 @@ public class Chapter01_4 : QuestBase
 
     public override bool CheckMeetCondition()
     {
-        return App.Manager.Map.SensingSignalTower();
+        return App.Manager.Map.mapCtrl.SensingSignalTower();
     }
 
     public override string SetQuestText()

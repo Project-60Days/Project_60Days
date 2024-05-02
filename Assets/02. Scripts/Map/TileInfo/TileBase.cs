@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Hexamap;
 using System.Linq;
-using Unity.VisualScripting;
 using Random = UnityEngine.Random;
 
 [SelectionBase]
 public class TileBase : MonoBehaviour
 {
     #region Variables
-
-    [SerializeField] ItemSO itemSO;
+    
     [SerializeField] ETileType tileType;
     [SerializeField] Sprite landformSprite;
     [SerializeField] SpriteRenderer[] resourceIcons;
@@ -21,15 +19,11 @@ public class TileBase : MonoBehaviour
     List<Resource> appearanceResources;
 
     Tile tile;
-    public Tile Tile => tile;
-
     TileData tileData;
+
+    ItemSO itemSO;
+
     public TileData TileData => tileData;
-
-    bool inPlayerSight;
-    bool isStructureNeighbor;
-
-    public bool IsStructureNeighbor => isStructureNeighbor;
 
     string resourceText;
     string landformText;
@@ -64,6 +58,8 @@ public class TileBase : MonoBehaviour
     {
         Player.PlayerSightUpdate += CheckPlayerTIle;
         tile = GetComponent<TileController>().Model;
+
+        itemSO = App.Manager.Game.itemSO;
     }
 
     void OnDestroy()
@@ -100,7 +96,8 @@ public class TileBase : MonoBehaviour
 
         for (int i = 0; i < gachaList.Count; i++)
         {
-            var resource = new Resource(gachaList[i].ToString(), Random.Range(1, 16));
+            var code = "ITEM_" + gachaList[i].ToString().ToUpper();
+            var resource = new Resource(code, Random.Range(1, 16));
             appearanceResources.Add(resource);
         }
 
@@ -272,14 +269,8 @@ public class TileBase : MonoBehaviour
 
     void CheckPlayerTIle()
     {
-        if (App.Manager.Map.mapController.GetPlayerSightTiles().Contains(tile))
-        {
-            ResourceUpdate(true);
-        }
-        else
-        {
-            ResourceUpdate(false);
-        }
+        bool check = App.Manager.Map.mapCtrl.GetPlayerSightTiles().Contains(tile);
+        ResourceUpdate(check);
     }
 
     public void TileInfoUpdate()
@@ -389,29 +380,15 @@ public class TileBase : MonoBehaviour
         ResourceUpdate(true);
     }
 
-    public void SetNeighborStructure()
+    int GetTileDataIndex() => tileType switch
     {
-        isStructureNeighbor = true;
-    }
-
-    int GetTileDataIndex()
-    {
-        switch (tileType)
-        {
-            case ETileType.None:
-                return 1001;
-            case ETileType.Desert:
-                return 1002;
-            case ETileType.Tundra:
-                return 1003;
-            case ETileType.Jungle:
-                return 1004;
-            case ETileType.Neo:
-                return 1005;
-        }
-
-        return 0;
-    }
+        ETileType.None => 1001,
+        ETileType.Desert => 1002,
+        ETileType.Tundra => 1003,
+        ETileType.Jungle => 1004,
+        ETileType.Neo => 1005,
+        _ => 0,
+    };
 
     public void UpdateZombieInfo(ZombieBase zombie)
     {

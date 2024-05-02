@@ -26,10 +26,10 @@ public class MapIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     IEnumerator Init()
     {
-        yield return new WaitUntil(() => App.Manager.Map.mapController);
-        yield return new WaitUntil(() => App.Manager.Map.mapController.Player != null);
+        yield return new WaitUntil(() => App.Manager.Map.mapCtrl);
+        yield return new WaitUntil(() => App.Manager.Map.mapCtrl.Player != null);
 
-        player = App.Manager.Map.mapController.Player;
+        player = App.Manager.Map.mapCtrl.Player;
         SetIconImage();
     }
 

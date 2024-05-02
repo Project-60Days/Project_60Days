@@ -4,14 +4,16 @@ using UnityEngine;
 using Hexamap;
 using System.Linq;
 
-public class ResourceManager : MonoBehaviour
+public class ResourceCtrl : MonoBehaviour
 {
     [SerializeField] int collectiveAbility;
-    [SerializeField] ItemSO itemSO;
+
+    private ItemSO itemSO;
 
     private List<Resource> owendResources;
     private List<Resource> lastResources;
-    bool isGetResource;
+
+    private bool isGetResource;
 
     public bool IsGetResource
     {
@@ -23,6 +25,8 @@ public class ResourceManager : MonoBehaviour
     {
         owendResources = new List<Resource>();
         lastResources = new List<Resource>();
+
+        itemSO = App.Manager.Game.itemSO;
     }
 
     public void GetResource(TileController tile)

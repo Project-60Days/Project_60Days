@@ -44,7 +44,7 @@ public class Distrubtor : MonoBehaviour
         }
         else
         {
-            App.Manager.Map.mapController.RemoveDistrubtor(this);
+            App.Manager.Map.mapCtrl.RemoveDistrubtor(this);
             StopAllCoroutines();
             Destroy(gameObject);
         }

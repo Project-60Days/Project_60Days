@@ -211,7 +211,7 @@ public class CustomYarnCommands : MonoBehaviour
     #region temp
     void SpawnTutorialGlicher()
     {
-        App.Manager.Map.mapController.SpawnTutorialZombie();
+        App.Manager.Map.mapCtrl.SpawnTutorialZombie();
     }
 
     void PlayBGM(string bgmName)
@@ -248,7 +248,7 @@ public class CustomYarnCommands : MonoBehaviour
     [YarnFunction("getResourceCount")]
     static int GetResourceCount(string _itemCode)
     {
-        var resources = App.Manager.Map.resourceManager.GetLastResources();
+        var resources = App.Manager.Map.resourceCtrl.GetLastResources();
 
         int count = 0;
 

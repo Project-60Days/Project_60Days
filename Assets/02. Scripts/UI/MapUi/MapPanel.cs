@@ -16,7 +16,10 @@ public class MapPanel : UIBase
         gameObject.SetActive(false);
     }
 
-    public override void ReInit() { }
+    public override void ReInit() 
+    {
+        OffPlayerMovePoint();
+    }
     #endregion
 
     public void DisturbtorButtonInteractableOn()

@@ -39,13 +39,7 @@ public class Player : MonoBehaviour
     
     private int temporaryDurability;
 
-    List<Coords> movePath;
-
-    public List<Coords> MovePath
-    {
-        get => movePath;
-        set => movePath = value;
-    }
+    public List<Coords> MovePath { get; private set; }
 
     TileController currentTileContorller;
 
@@ -71,7 +65,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        movePath = new List<Coords>();
+        MovePath = new List<Coords>();
         moveRange = maxMoveRange;
         clockBuffDuration = 0;
         StartCoroutine(DelaySightGetInfo());
@@ -118,10 +112,10 @@ public class Player : MonoBehaviour
         else
         {
             // 이동한 타일에 좀비가 없다면 이동
-            for (int i = 0; i < movePath.Count; i++)
+            for (int i = 0; i < MovePath.Count; i++)
             {
-                Coords coords = movePath[i];
-                targetTile = App.Manager.Map.mapController.GetTileFromCoords(coords);
+                Coords coords = MovePath[i];
+                targetTile = App.Manager.Map.mapCtrl.GetTileFromCoords(coords);
 
                 if (targetTile == null)
                     break;
@@ -139,7 +133,7 @@ public class Player : MonoBehaviour
             yield return new WaitForSeconds(time);
         }
 
-        movePath.Clear();
+        MovePath.Clear();
         moveRange = 0;
 
         UpdateCurrentTile(targetTileController);
@@ -147,7 +141,7 @@ public class Player : MonoBehaviour
 
     public IEnumerator MoveToRandom(int num = 1, float time = 0.25f)
     {
-        var candidate = App.Manager.Map.mapController.GetTilesInRange(currentTileContorller.Model, num);
+        var candidate = App.Manager.Map.mapCtrl.GetTilesInRange(currentTileContorller.Model, num);
 
         Vector3 targetPos = currentTileContorller.transform.position;
         Tile tile = candidate[0];
@@ -155,7 +149,7 @@ public class Player : MonoBehaviour
         
         for (int i = 0; i < candidate.Count; i++)
         {
-            if(App.Manager.Map.mapController.CheckTileType(candidate[i], "LandformPlain"))
+            if(App.Manager.Map.mapCtrl.CheckTileType(candidate[i], "LandformPlain"))
             {
                 if (((GameObject)candidate[i].GameEntity).GetComponent<TileBase>().Structure == null &&
                     ((GameObject)candidate[i].GameEntity).GetComponent<TileBase>().CurZombies == null)
@@ -172,7 +166,7 @@ public class Player : MonoBehaviour
 
         yield return gameObject.transform.DOMove(targetPos, time);
 
-        movePath.Clear();
+        MovePath.Clear();
         moveRange = 0;
 
         if(isFindPath)
@@ -198,7 +192,7 @@ public class Player : MonoBehaviour
 
     public void UpdateMovePath(List<Coords> path)
     {
-        movePath = path;
+        MovePath = path;
     }
 
     public void SetHealth(bool isMax, int num = 0)
@@ -321,7 +315,7 @@ public class Player : MonoBehaviour
 
     public void AddSightRange(int _amount)
     {
-        App.Manager.Map.mapController.fog.AddSightRange(_amount);
+        App.Manager.Map.mapCtrl.fog.AddSightRange(_amount);
     }
     
     public void TileEffectCheck()

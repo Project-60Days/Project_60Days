@@ -9,13 +9,13 @@ public class TutorialManager : Manager
 
     private void Start()
     {
-        StartCoroutine(WaitForMapManager());
+        //StartCoroutine(WaitForMapManager());
     }
 
     private IEnumerator WaitForMapManager()
     {
-        yield return new WaitUntil(() => App.Manager.Map.mapController);
-        yield return new WaitUntil(() => App.Manager.Map.mapController.Player != null);
+        yield return new WaitUntil(() => App.Manager.Map.mapCtrl);
+        yield return new WaitUntil(() => App.Manager.Map.mapCtrl.Player != null);
 
         StartTutorial();
     }

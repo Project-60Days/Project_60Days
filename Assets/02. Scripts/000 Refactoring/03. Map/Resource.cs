@@ -18,15 +18,15 @@ public class Resource
         }
     }
 
-    public Resource(ItemBase _itemBase, int _itemCount)
+    public Resource(ItemBase _item, int _count)
     {
-        Item = _itemBase;
-        Count = _itemCount;
+        Item = _item;
+        Count = _count;
     }
 
-    public Resource(string _itemCode, int _itemCount)
+    public Resource(string _code, int _count)
     {
-        Item = App.Manager.Game.itemSO.items.ToList().Find(x => x.data.Code == _itemCode);
-        Count = _itemCount;
+        Item = App.Manager.Game.itemSO.items.ToList().Find(x => x.data.Code == _code);
+        Count = _count;
     }
 }

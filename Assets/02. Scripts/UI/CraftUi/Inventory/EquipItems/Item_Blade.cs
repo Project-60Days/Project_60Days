@@ -9,13 +9,13 @@ public class Item_Blade : ItemBase
 
     public override void Equip()
     {
-        beforeDurabillity = App.Manager.Map.mapController.Player.Durability;
-        App.Manager.Map.mapController.Player.Durability += (int)data.value1;
+        beforeDurabillity = App.Manager.Map.mapCtrl.Player.Durability;
+        App.Manager.Map.mapCtrl.Player.Durability += (int)data.value1;
         App.Manager.UI.GetPanel<UpperPanel>().IncreaseDurabillityAnimation();
     }
 
     public override bool CheckMeetCondition()
     {
-        return (App.Manager.Map.mapController.Player.Durability <= beforeDurabillity);
+        return (App.Manager.Map.mapCtrl.Player.Durability <= beforeDurabillity);
     }
 }

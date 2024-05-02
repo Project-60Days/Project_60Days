@@ -1,25 +1,17 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Hexamap;
-using UnityEngine.Rendering.UI;
-using Yarn.Compiler;
-using Random = System.Random;
 
 public class MapManager : Manager
 {
-    public MapController mapController;
-    public ResourceManager resourceManager;
+    public MapController mapCtrl;
+    public ResourceCtrl resourceCtrl;
     public bool mouseIntreractable;
 
     [SerializeField] ETileMouseState mouseState;
     public MapCamCtrl cameraCtrl;
 
-    [Header("밸런스 테스트 용")] [Space(5f)] [SerializeField]
-    MapData mapData;
-    
     Camera mainCamera;
     TileController curTileController;
     StructureBase curStructure;
@@ -30,17 +22,13 @@ public class MapManager : Manager
     bool isCameraMove;
     bool isTundraTile;
 
-    TileBase structureTileBase;
-
     private TileController cameraTarget;
 
     private void Start()
     {
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        mapController.InputMapData(mapData);
-        StartCoroutine(mapController.GenerateMap());
-        mapController.SightCheckInit();
 
+        mapCtrl.Init();
         AllowMouseEvent(true);
         cameraCtrl.Init();
     }
@@ -62,7 +50,7 @@ public class MapManager : Manager
     {
         if (EventSystem.current.IsPointerOverGameObject())
         {
-            mapController.DeselectAllBorderTiles();
+            mapCtrl.DeselectAllBorderTiles();
             return;
         }
 
@@ -76,9 +64,9 @@ public class MapManager : Manager
         {
             tileController = hit.transform.parent.GetComponent<TileController>();
 
-            mapController.DeselectAllBorderTiles();
+            mapCtrl.DeselectAllBorderTiles();
 
-            if (!mapController.CheckPlayersView(tileController))
+            if (!mapCtrl.CheckPlayersView(tileController))
             {
                 App.Manager.UI.GetPanel<MapPanel>().FalseTileInfo();
                 return;
@@ -87,25 +75,25 @@ public class MapManager : Manager
             switch (mouseState)
             {
                 case ETileMouseState.CanClick:
-                    mapController.DefaultMouseOverState(tileController);
+                    mapCtrl.DefaultMouseOverState(tileController);
 
                     if (tileController != curTileController)
                         App.Manager.UI.GetPanel<MapPanel>().FalseTileInfo();
                     break;
 
                 case ETileMouseState.CanPlayerMove:
-                    mapController.TilePathFinderSurroundings(tileController);
-                    mapController.AddSelectedTilesList(tileController);
+                    mapCtrl.TilePathFinderSurroundings(tileController);
+                    mapCtrl.AddSelectedTilesList(tileController);
                     break;
 
                 case ETileMouseState.DronePrepared:
                     if (isDisturbtorPrepared)
                     {
-                        mapController.DisturbtorPathFinder(tileController);
+                        mapCtrl.DisturbtorPathFinder(tileController);
                     }
                     else
                     {
-                        mapController.ExplorerPathFinder(tileController, 5);
+                        mapCtrl.ExplorerPathFinder(tileController, 5);
                     }
 
                     break;
@@ -115,7 +103,7 @@ public class MapManager : Manager
         }
         else
         {
-            mapController.DeselectAllBorderTiles();
+            mapCtrl.DeselectAllBorderTiles();
             App.Manager.UI.GetPanel<MapPanel>().FalseTileInfo();
         }
 
@@ -136,7 +124,7 @@ public class MapManager : Manager
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskPlayer))
             {
                 if (!isDronePrepared)
-                    canPlayerMove = mapController.PlayerCanMoveCheck();
+                    canPlayerMove = mapCtrl.PlayerCanMoveCheck();
             }
             else if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile))
             {
@@ -149,10 +137,10 @@ public class MapManager : Manager
                 }
                 else if (canPlayerMove)
                 {
-                    if (mapController.SelectPlayerMovePoint(tileController))
+                    if (mapCtrl.SelectPlayerMovePoint(tileController))
                     {
                         App.Manager.UI.GetPanel<MapPanel>().OnPlayerMovePoint(tileController.transform);
-                        mapController.MovePointerOn(tileController.transform.position);
+                        mapCtrl.MovePointerOn(tileController.transform.position);
                         canPlayerMove = false;
                     }
                     else
@@ -162,11 +150,11 @@ public class MapManager : Manager
                 {
                     if (isDisturbtorPrepared)
                     {
-                        mapController.SelectTileForDisturbtor(tileController);
+                        mapCtrl.SelectTileForDisturbtor(tileController);
                     }
                     else
                     {
-                        mapController.SelectTileForExplorer(tileController);
+                        mapCtrl.SelectTileForExplorer(tileController);
                     }
                 }
             }
@@ -174,7 +162,7 @@ public class MapManager : Manager
 
         if (Input.GetMouseButtonDown(1))
         {
-            mapController.DeselectAllBorderTiles();
+            mapCtrl.DeselectAllBorderTiles();
 
             if (canPlayerMove)
             {
@@ -187,11 +175,11 @@ public class MapManager : Manager
             {
                 if (isDisturbtorPrepared)
                 {
-                    mapController.PreparingDistrubtor(false);
+                    mapCtrl.PreparingDistrubtor(false);
                 }
                 else
                 {
-                    mapController.PreparingExplorer(false);
+                    mapCtrl.PreparingExplorer(false);
                 }
             }
 
@@ -225,12 +213,12 @@ public class MapManager : Manager
             mouseState = ETileMouseState.DronePrepared;
     }
 
-    public IEnumerator NextDayCoroutine()
+    public IEnumerator NextDay()
     {
-        yield return StartCoroutine(mapController.NextDay());
-        resourceManager.GetResource(mapController.Player.TileController);
-        App.Manager.UI.GetPanel<MapPanel>().OffPlayerMovePoint();
-        mapController.OnlyMovePointerOff();
+        yield return StartCoroutine(mapCtrl.NextDay());
+        resourceCtrl.GetResource(mapCtrl.Player.TileController);
+        App.Manager.UI.GetPanel<MapPanel>().ReInit();
+        mapCtrl.OnlyMovePointerOff();
         
         CheckRoutine();
     }
@@ -269,12 +257,8 @@ public class MapManager : Manager
 
     public void CheckZombies()
     {
-        if (mapController.CheckZombies())
-        {
+        if (mapCtrl.CheckZombies())
             App.Manager.UI.GetPanel<AlertPanel>().SetAlert("caution", true);
-        }
-        else
-            return;
     }
 
     /// <summary>
@@ -282,7 +266,7 @@ public class MapManager : Manager
     /// </summary>
     public void CheckStructureNeighbor()
     {
-        var structure = mapController.SensingStructure();
+        var structure = mapCtrl.SensingStructure();
         if (structure != null)
         {
             if (structure is Tower)
@@ -291,13 +275,9 @@ public class MapManager : Manager
             if (structure.IsUse == false)
                 App.Manager.UI.GetPanel<PagePanel>().SetSelectPage("structureSelect", structure);
         }
-        else
-        {
-            return;
-        }
     }
 
-    public string GetLandformBGM(string _code) => _code switch
+    public string GetLandformBGM(TileBase _tile) => _tile.TileData.English switch
     {
         "None" => "Ambience_City",
         "Jungle" => "Ambience_Jungle",
@@ -311,13 +291,13 @@ public class MapManager : Manager
         int randomNumber = UnityEngine.Random.Range(1, 4);
 
         if (randomNumber == 3)
-            mapController.SpawnStructureZombies(structure.Colleagues);
+            mapCtrl.SpawnStructureZombies(structure.Colleagues);
 
         // 플레이어 체력 0으로 만들어서 경로 선택 막기
         if (isTundraTile)
         {
             App.Manager.UI.GetPanel<PagePanel>().SetResultPage("SEARCH_TUNDRA", false);
-            mapController.Player.SetHealth(false);
+            mapCtrl.Player.SetHealth(false);
         }
 
         // 경로 삭제
@@ -326,7 +306,7 @@ public class MapManager : Manager
         structure.structureModel.GetComponent<StructureFade>().FadeIn();
         structure.Colleagues.ForEach(tile => tile.ResourceUpdate(true));
 
-        mapController.SpawnSpecialItemRandomTile(structure.Colleagues);
+        mapCtrl.SpawnSpecialItemRandomTile(structure.Colleagues);
         curStructure = structure;
     }
 
@@ -337,12 +317,12 @@ public class MapManager : Manager
 
     public void MovePathDelete()
     {
-        if (mapController.IsMovePathSaved() == false)
+        if (mapCtrl.IsMovePathSaved() == false)
             return;
 
         App.Manager.UI.GetPanel<MapPanel>().OffPlayerMovePoint();
-        mapController.MovePointerOff();
-        mapController.DeletePlayerMovePath();
+        mapCtrl.MovePointerOff();
+        mapCtrl.DeletePlayerMovePath();
     }
 
     // public void TutorialTileCheck()
@@ -353,16 +333,6 @@ public class MapManager : Manager
     //         isVisitNoneTile = true;
     //     }
     // }
-
-    public bool SensingSignalTower()
-    {
-        return mapController.SensingSignalTower();
-    }
-
-    public bool SensingProductionStructure()
-    {
-        return mapController.SensingProductionStructure();
-    }
 
     public bool SignalTowerQuestCheck()
     {
@@ -398,7 +368,7 @@ public class MapManager : Manager
             if (cameraTarget != target)
             {
                 cameraTarget = target;
-                mapController.OcclusionCheck(cameraTarget.Model);
+                mapCtrl.OcclusionCheck(cameraTarget.Model);
             }
         }
     }
@@ -410,16 +380,16 @@ public class MapManager : Manager
 
     public void EtherResourceCheck()
     {
-        var resources = resourceManager.GetLastResources();
+        var resources = resourceCtrl.GetLastResources();
 
         if (resources.Count == 0 || resources == null)
             return;
         
-        if(resources.Find(x=> x.Item.data.Code == "ITEM_GAS") != null)
+        if(resources.Find(x=> x.Item.Code == "ITEM_GAS") != null)
         {
             Debug.Log("에테르 디버프");
             App.Manager.UI.GetPanel<PagePanel>().SetResultPage("ACIDENT_ETHER", false);
-            mapController.Player.SetHealth(false);
+            mapCtrl.Player.SetHealth(false);
         }
         else
         {
@@ -428,14 +398,7 @@ public class MapManager : Manager
     }
 
     public bool IsJungleTile(TileController _tileController)
-    {
-        if (_tileController.GetComponent<TileBase>().TileType == ETileType.Jungle)
-            return true;
-        else
-        {
-            return false;
-        }
-    }
+        => _tileController.GetComponent<TileBase>().TileType == ETileType.Jungle;
 
     public void SetIsDronePrepared(bool _isDronePrepared, string type)
     {
@@ -445,10 +408,5 @@ public class MapManager : Manager
             isDisturbtorPrepared = true;
         else
             isDisturbtorPrepared = false;
-    }
-
-    public void InvocationExplorers()
-    {
-        mapController.InvocationExplorers();
     }
 }

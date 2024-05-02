@@ -64,6 +64,13 @@ public class MapController : MonoBehaviour
         get { return targetTileController; }
     }
 
+    public void Init()
+    {
+        InputMapData();
+        StartCoroutine(GenerateMap());
+        SightCheckInit();
+    }
+
     public IEnumerator GenerateMap()
     {
         hexaMap.Destroy();
@@ -1008,7 +1015,6 @@ public class MapController : MonoBehaviour
         for (var index = 0; index < neighborTiles.Count; index++)
         {
             var tile = neighborTiles[index];
-            ((GameObject)tile.GameEntity).GetComponent<TileBase>().SetNeighborStructure();
         }
 
         return neighborTiles;
@@ -1203,9 +1209,9 @@ public class MapController : MonoBehaviour
         return list;
     }
 
-    public void InputMapData(MapData _mapData)
+    public void InputMapData()
     {
-        mapData = _mapData;
+        mapData = App.Manager.Test.mapData;
     }
 
     public void RemoveDistrubtor(Distrubtor _distrubtor)

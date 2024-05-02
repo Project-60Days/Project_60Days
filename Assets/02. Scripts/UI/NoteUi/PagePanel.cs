@@ -54,11 +54,11 @@ public class PagePanel : UIBase
 
     public override void ReInit()
     {
-        var resources = App.Manager.Map.resourceManager.GetLastResources();
+        var resources = App.Manager.Map.resourceCtrl.GetLastResources();
 
         for (int i = 0; i < resources.Count; i++)
         {
-            string tileName = App.Manager.Map.mapController
+            string tileName = App.Manager.Map.mapCtrl
                 .Player.TileController.GetComponent<TileBase>().TileData.English;
 
             int randomNumber = Random.Range(1, 6);

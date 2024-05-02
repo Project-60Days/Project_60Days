@@ -10,7 +10,7 @@ public class DistrubtorBtn : MapBtnBase
             if (App.Manager.Map.CheckCanInstallDrone())
             {
                 Debug.Log("교란기 설치 가능");
-                App.Manager.Map.mapController.PreparingDistrubtor(true);
+                App.Manager.Map.mapCtrl.PreparingDistrubtor(true);
             }
         }
         else

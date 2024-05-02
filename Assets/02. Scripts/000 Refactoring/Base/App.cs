@@ -14,6 +14,7 @@ public class App : Singleton<App>
     private readonly MapManager map;
     private readonly UIManager ui;
     private readonly TutorialManager tutorial;
+    private readonly TestManager test;
 
     private readonly GameData gameData;
     #endregion
@@ -26,6 +27,7 @@ public class App : Singleton<App>
         public static MapManager Map => instance.map;
         public static UIManager UI => instance.ui;
         public static TutorialManager Tutorial => instance.tutorial;
+        public static TestManager Test => instance.test;
     }
 
     public class Data
@@ -53,6 +55,12 @@ public class App : Singleton<App>
         return manager != null;
     }
 
+    public static bool TryGetGameManager(out GameManager manager)
+    {
+        manager = Manager.Game;
+        return manager != null;
+    }
+
     public static bool TryGetShelterManager(out ShelterManager manager)
     {
         manager = Manager.Shelter;
@@ -74,6 +82,12 @@ public class App : Singleton<App>
     public static bool TryGetTutorialManager(out TutorialManager manager)
     {
         manager = Manager.Tutorial;
+        return manager != null;
+    }
+
+    public static bool TryGetTestManager(out TestManager manager)
+    {
+        manager = Manager.Test;
         return manager != null;
     }
     #endregion

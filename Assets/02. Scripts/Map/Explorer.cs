@@ -40,7 +40,7 @@ public class Explorer : MonoBehaviour
         {
             if (movePath.Count < walkCount)
             {
-                nextTile = App.Manager.Map.mapController.GetTileFromCoords(targetTile.Coords);
+                nextTile = App.Manager.Map.mapCtrl.GetTileFromCoords(targetTile.Coords);
                 targetPos = ((GameObject)nextTile.GameEntity).transform.position;
                 targetPos.y += 0.5f;
                 
@@ -52,7 +52,7 @@ public class Explorer : MonoBehaviour
             {
                 for (int i = 0; i < walkCount; i++)
                 {
-                    nextTile = App.Manager.Map.mapController.GetTileFromCoords(movePath[i]);
+                    nextTile = App.Manager.Map.mapCtrl.GetTileFromCoords(movePath[i]);
                     targetPos = ((GameObject)nextTile.GameEntity).transform.position;
                     targetPos.y += 0.5f;
                     
@@ -65,7 +65,7 @@ public class Explorer : MonoBehaviour
             if (curTile == targetTile)
             {
                 // 자원
-                App.Manager.Map.mapController.fog.AddFogRevealer(new FischlWorks_FogWar.csFogWar.FogRevealer(gameObject.transform, 2, false));
+                App.Manager.Map.mapCtrl.fog.AddFogRevealer(new FischlWorks_FogWar.csFogWar.FogRevealer(gameObject.transform, 2, false));
                 lifeTime -= 1;
             }
 
@@ -85,14 +85,14 @@ public class Explorer : MonoBehaviour
     {
         yield return new WaitUntil(()=> goToMap == true);
 
-        App.Manager.Map.mapController.GetSightTiles(curTile);
-        App.Manager.Map.mapController.RemoveExplorer(this);
-        App.Manager.Map.mapController.fog._FogRevealers[App.Manager.Map.mapController.fog._FogRevealers.Count - 1].sightRange = 0;
+        App.Manager.Map.mapCtrl.GetSightTiles(curTile);
+        App.Manager.Map.mapCtrl.RemoveExplorer(this);
+        App.Manager.Map.mapCtrl.fog._FogRevealers[App.Manager.Map.mapCtrl.fog._FogRevealers.Count - 1].sightRange = 0;
 
         goToMap = false;
         isIdle = false;
         yield return delay1;
-        App.Manager.Map.mapController.fog.RemoveFogRevealer(1);
+        App.Manager.Map.mapCtrl.fog.RemoveFogRevealer(1);
         Destroy(gameObject);
     }
     

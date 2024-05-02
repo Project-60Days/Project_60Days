@@ -51,8 +51,8 @@ public class UpperPanel : UIBase
 
     IEnumerator InitData()
     {
-        yield return new WaitUntil(() => App.Manager.Map.mapController);
-        yield return new WaitUntil(() => App.Manager.Map.mapController.Player != null);
+        yield return new WaitUntil(() => App.Manager.Map.mapCtrl);
+        yield return new WaitUntil(() => App.Manager.Map.mapCtrl.Player != null);
 
         UpdateItemCount();
         UpdateDurabillity();
@@ -71,18 +71,18 @@ public class UpperPanel : UIBase
 
     public void UpdateDurabillity()
     {
-        durabilityText.text = App.Manager.Map.mapController.Player.Durability.ToString("D3");
+        durabilityText.text = App.Manager.Map.mapCtrl.Player.Durability.ToString("D3");
     }
 
     public void UpdateAfterFight()
     {
         bulletText.text = bullet.itemCount.ToString("D3");
-        durabilityText.text = App.Manager.Map.mapController.Player.Durability.ToString("D3");
+        durabilityText.text = App.Manager.Map.mapCtrl.Player.Durability.ToString("D3");
     }
 
     public void IncreaseDurabillityAnimation()
     {
-        int endNumber = App.Manager.Map.mapController.Player.Durability;
+        int endNumber = App.Manager.Map.mapCtrl.Player.Durability;
 
         int currentNumber = int.Parse(durabilityText.text);
         DOTween.To(() => currentNumber, x => currentNumber = x, endNumber, 1f)
@@ -91,7 +91,7 @@ public class UpperPanel : UIBase
 
     public void DecreaseDurabillityAnimation()
     {
-        int endNumber = App.Manager.Map.mapController.Player.Durability;
+        int endNumber = App.Manager.Map.mapCtrl.Player.Durability;
 
         durabilityText.color = Color.red;
 

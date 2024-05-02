@@ -1,8 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using Cinemachine;
-using DG.Tweening;
 using TMPro;
 
 public class DayCtrl : MonoBehaviour
@@ -56,7 +54,7 @@ public class DayCtrl : MonoBehaviour
     {
         App.Manager.Map.cameraCtrl.ReInit();
 
-        yield return StartCoroutine(App.Manager.Map.NextDayCoroutine());
+        yield return StartCoroutine(App.Manager.Map.NextDay());
 
         yield return new WaitForSeconds(1f);
 

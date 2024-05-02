@@ -11,7 +11,7 @@ public class ExplorerBtn : MapBtnBase
             {
                 Debug.Log("탐색기 설치 가능");
 
-                App.Manager.Map.mapController.PreparingExplorer(true);
+                App.Manager.Map.mapCtrl.PreparingExplorer(true);
             }
         }
         else

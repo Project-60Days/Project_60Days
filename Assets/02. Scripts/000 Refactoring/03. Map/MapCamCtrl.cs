@@ -72,15 +72,15 @@ public class MapCamCtrl : MonoBehaviour
         sequence.AppendCallback(() =>
             {
                 SetPrioryty(true);
-                var currTile = Map.mapController.Player.TileController.GetComponent<TileBase>();
-                Sound.PlayBGM(Map.GetLandformBGM(currTile.TileData.English));
+                var currTile = Map.mapCtrl.Player.TileController.GetComponent<TileBase>();
+                Sound.PlayBGM(Map.GetLandformBGM(currTile));
                 UI.FalseTileInfo();
             })
             .Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 10f, 0.5f))
             .OnComplete(()=> 
             {
                 App.Manager.Map.GetCameraCenterTile();
-                App.Manager.Map.InvocationExplorers();
+                App.Manager.Map.mapCtrl.InvocationExplorers();
             });
     }
 }
