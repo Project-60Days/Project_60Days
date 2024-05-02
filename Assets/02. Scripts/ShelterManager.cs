@@ -12,7 +12,7 @@ public class ShelterManager : Manager
     [SerializeField] CanvasGroup mapImg;
     [SerializeField] Image batteryImg;
     [SerializeField] CubeCtrl cubeCtrl;
-    [SerializeField] MainCameraCtrl cameraCtrl;
+    [SerializeField] MainCamCtrl cameraCtrl;
 
     float lightUpDuration = 2f;
 

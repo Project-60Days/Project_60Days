@@ -15,8 +15,6 @@ public class UIManager : Manager
     public UIState CurrUIState
         => UIStack.Count == 0 ? UIState.Normal : UIStack.Peek();
 
-    [SerializeField] NextDayController nextDayController;
-
     protected override void Awake()
     {
         base.Awake();
@@ -159,9 +157,4 @@ public class UIManager : Manager
             });
     }
     #endregion
-
-    public NextDayController GetNextDayController()
-    {
-        return nextDayController;
-    }
 }

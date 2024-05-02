@@ -2,6 +2,6 @@ public class InteractMap : InteractBase
 {
     protected override void OnClickEvent()
     {
-        App.Manager.UI.GetNextDayController().GoToMap();
+        App.Manager.Game.ctrl.GoToMap();
     }
 }

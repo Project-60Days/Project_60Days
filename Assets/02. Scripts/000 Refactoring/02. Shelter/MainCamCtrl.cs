@@ -2,7 +2,7 @@ using UnityEngine;
 using Cinemachine;
 using DG.Tweening;
 
-public class MainCameraCtrl : MonoBehaviour
+public class MainCamCtrl : MonoBehaviour
 {
     [SerializeField] CinemachineVirtualCamera mainCamera;
 

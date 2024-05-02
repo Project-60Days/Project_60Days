@@ -1,12 +1,11 @@
 using System.Collections;
-using Cinemachine;
-using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
+using Cinemachine;
+using DG.Tweening;
 using TMPro;
-using Febucci.UI;
 
-public class NextDayController : MonoBehaviour
+public class DayCtrl : MonoBehaviour
 {
     [SerializeField] Image blackPanel;
     [SerializeField] GameObject dayCountPrefab;

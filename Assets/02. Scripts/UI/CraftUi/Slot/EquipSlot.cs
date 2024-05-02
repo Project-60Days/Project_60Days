@@ -5,7 +5,6 @@ using UnityEngine.EventSystems;
 public class EquipSlot : SlotBase
 {
     [HideInInspector] public ItemType eItemType = ItemType.Equipment;
-    public int type;
     [HideInInspector] public bool isLocked = false;
     [SerializeField] Image slotImage;
 
@@ -14,7 +13,7 @@ public class EquipSlot : SlotBase
 
     public EquipSlot()
     {
-        type = (int)SlotType.EquipSlot;
+        type = SlotType.EquipSlot;
     }
  
     public void ChangeSlotColor()

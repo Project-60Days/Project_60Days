@@ -30,7 +30,7 @@ public class AlertPanel : UIBase
     void SetButtonEvent()
     {
         noteAlert.GetComponent<Button>().onClick.AddListener(() => App.Manager.UI.GetPanel<NotePanel>().OpenPanel());
-        cautionAlert.GetComponent<Button>().onClick.AddListener(() => App.Manager.UI.GetNextDayController().GoToMap());
+        cautionAlert.GetComponent<Button>().onClick.AddListener(() => App.Manager.Game.ctrl.GoToMap());
     }
     public void SetAlert(string _alertType, bool _isActive) 
     {
@@ -52,7 +52,7 @@ public class AlertPanel : UIBase
 
     IEnumerator OpenNoteInMap()
     {
-        App.Manager.UI.GetNextDayController().GoToLab();
+        App.Manager.Game.ctrl.GoToLab();
         yield return new WaitUntil(() => App.Manager.UI.isUIStatus(UIState.Normal));
         App.Manager.UI.GetPanel<NotePanel>().OpenPanel();
     }
@@ -60,6 +60,6 @@ public class AlertPanel : UIBase
     public void CautionAlert()
     {
         if (App.Manager.UI.isUIStatus(UIState.Normal) == false) return;
-        App.Manager.UI.GetNextDayController().GoToMap();
+        App.Manager.Game.ctrl.GoToMap();
     }
 }

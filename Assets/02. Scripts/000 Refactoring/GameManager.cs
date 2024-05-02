@@ -6,7 +6,9 @@ using UnityEngine;
 public class GameManager : Manager
 {
     public ItemSO itemSO;
-    public List<ItemBase> itemData => itemSO.items.ToList();
+    [HideInInspector] public List<ItemBase> itemData => itemSO.items.ToList();
+
+    public DayCtrl ctrl;
 
     protected override void Awake()
     {
