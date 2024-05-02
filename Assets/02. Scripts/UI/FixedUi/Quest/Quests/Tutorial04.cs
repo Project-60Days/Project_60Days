@@ -5,14 +5,14 @@ using UnityEngine;
 public class Tutorial04 : QuestBase
 {
     private readonly string thisCode = "tutorial04";
-    private readonly EQuestType thisType = EQuestType.Tutorial;
+    private readonly QuestType thisType = QuestType.Tutorial;
     private readonly int thisIndex = 2;
     private readonly int thisNextIndex = 3;
 
     public Tutorial04()
     {
         questCode = thisCode;
-        eQuestType = thisType;
+        type = thisType;
         questIndex = thisIndex;
         nextQuestIndex = thisNextIndex;
     }

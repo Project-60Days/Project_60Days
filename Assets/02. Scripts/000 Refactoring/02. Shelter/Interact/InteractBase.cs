@@ -8,7 +8,7 @@ public abstract class InteractBase : MonoBehaviour, IPointerClickHandler, IPoint
 
     [SerializeField] GameObject border;
 
-    void Start()
+    private void Start()
     {
         onClickEvent.AddListener(OnClickEvent);
 
@@ -20,7 +20,7 @@ public abstract class InteractBase : MonoBehaviour, IPointerClickHandler, IPoint
     /// </summary>
     protected abstract void OnClickEvent();
 
-    void SetOutline(bool _isEnabled)
+    private void SetOutline(bool _isEnabled)
     {
         border.SetActive(_isEnabled);
     }

@@ -15,7 +15,7 @@ public class MainCameraCtrl : MonoBehaviour
         mainCamera.transform.DOShakePosition(1f);
     }
 
-    void PlaySFX()
+    private void PlaySFX()
     {
         int sfxIndex = Random.Range(1, 5);
         App.Manager.Sound.StopSFX();

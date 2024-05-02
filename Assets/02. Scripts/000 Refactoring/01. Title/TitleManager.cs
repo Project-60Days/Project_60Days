@@ -22,21 +22,19 @@ public class TitleManager : MonoBehaviour
 
     [Header("Buttons")]
     [SerializeField] Button newGameBtn;
-    [SerializeField] Button loadGameBtn;
-    [SerializeField] Button optionBtn;
     [SerializeField] Button quitBtn;
 
-    string leftfilePath = "Text/Tittle_Log_LeftAccess";
-    string rightfilePath = "Text/Tittle_Log_RightLog";
+    private string leftfilePath = "Text/Tittle_Log_LeftAccess";
+    private string rightfilePath = "Text/Tittle_Log_RightLog";
 
-    string leftFileText;
-    string rightFileText;
+    private string leftFileText;
+    private string rightFileText;
 
-    string[] lines;
+    private string[] lines;
 
-    float rightLogShowInterval;
+    private float rightLogShowInterval;
 
-    void Start()
+    private void Start()
     {
         SetButtonEvent();
         InitText();
@@ -45,7 +43,7 @@ public class TitleManager : MonoBehaviour
         LeftLog();
     }
 
-    void SetButtonEvent()
+    private void SetButtonEvent()
     {
         newGameBtn.onClick.AddListener(() =>
         {
@@ -60,7 +58,7 @@ public class TitleManager : MonoBehaviour
         });
     }
 
-    void InitText()
+    private void InitText()
     {
         leftFileText = Resources.Load<TextAsset>(leftfilePath).text;
         rightFileText = Resources.Load<TextAsset>(rightfilePath).text;
@@ -69,7 +67,7 @@ public class TitleManager : MonoBehaviour
         rightLogShowInterval = duration / lines.Length;
     }
 
-    void InitObjects()
+    private void InitObjects()
     {
         titleBack.SetActive(false);
         buttonBack.SetActive(false);
@@ -79,7 +77,7 @@ public class TitleManager : MonoBehaviour
     /// <summary>
     /// Play log production in the upper "left" corner
     /// </summary>
-    void LeftLog()
+    private void LeftLog()
     {
         leftTxt.DOText(leftFileText, duration)
             .SetEase(Ease.InSine)
@@ -93,7 +91,7 @@ public class TitleManager : MonoBehaviour
     /// Play log production in the upper "right" corner
     /// </summary>
     /// <returns></returns>
-    IEnumerator RightLog()
+    private IEnumerator RightLog()
     {
         int currentIndex = 0;
         rightTxt.text = "";
@@ -115,7 +113,7 @@ public class TitleManager : MonoBehaviour
     /// Play logo production
     /// </summary>
     /// <returns></returns>
-    void Logo()
+    private void Logo()
     {
         Sequence sequence = DOTween.Sequence();
         sequence.AppendInterval(1f)

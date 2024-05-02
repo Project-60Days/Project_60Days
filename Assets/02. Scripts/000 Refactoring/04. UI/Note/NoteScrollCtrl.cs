@@ -3,13 +3,11 @@ using DG.Tweening;
 
 public class NoteScrollCtrl : MonoBehaviour
 {
-    [SerializeField] Vector3 startPosition;
+    private float startPositionY;
 
-    float startPositionY;
-
-    void Start()
+    private void Start()
     {
-        startPositionY = startPosition.y;
+        startPositionY = transform.position.y;
         gameObject.SetActive(false);
     }
 
@@ -17,14 +15,14 @@ public class NoteScrollCtrl : MonoBehaviour
     {
         gameObject.SetActive(true);
 
-        transform.DOLocalMoveY(startPositionY + 10f, 0.5f).SetLoops(-1, LoopType.Yoyo);
+        transform.DOMoveY(startPositionY + 10f, 0.5f).SetLoops(-1, LoopType.Yoyo);
     }
     
     public void StopAnim()
     {
         transform.DOKill();
 
-        transform.localPosition = startPosition;
+        transform.DOMoveY(startPositionY, 0f);
 
         gameObject.SetActive(false);
     }

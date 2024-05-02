@@ -11,14 +11,14 @@ public class CameraMove : MonoBehaviour
     [Serializable]
     public class CameraInfo
     {
-        public CameraInfo(Cinemachine.CinemachineVirtualCamera vCam, ENotePageType notePageType)
+        public CameraInfo(Cinemachine.CinemachineVirtualCamera vCam, PageType notePageType)
         {
             this.vCam = vCam;
             this.notePageType = notePageType;
         }
 
         [SerializeField] public Cinemachine.CinemachineVirtualCamera vCam;
-        [SerializeField] public ENotePageType notePageType;
+        [SerializeField] public PageType notePageType;
     }
 
     private void Start()
@@ -35,9 +35,9 @@ public class CameraMove : MonoBehaviour
 
     [SerializeField] public List<CameraInfo> cameraInfos;
 
-    public void ChangeCamera(ENotePageType _notePageType)
+    public void ChangeCamera(PageType _type)
     {
-        var info = cameraInfos.Find(x => x.notePageType == _notePageType);
+        var info = cameraInfos.Find(x => x.notePageType == _type);
 
         if(info.vCam != currCam)
         {

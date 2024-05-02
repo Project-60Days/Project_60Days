@@ -3,16 +3,16 @@ using System.Collections;
 
 public class FrameChecker : MonoBehaviour
 {
-    float deltaTime = 0.0f;
+    private float deltaTime = 0.0f;
 
-    GUIStyle style;
-    Rect rect;
-    float msec;
-    float fps;
-    float worstFps = 100f;
-    string text;
+    private GUIStyle style;
+    private Rect rect;
+    private float msec;
+    private float fps;
+    private float worstFps = 100f;
+    private string text;
 
-    void Awake()
+    private void Awake()
     {
         int w = Screen.width, h = Screen.height;
 
@@ -30,7 +30,7 @@ public class FrameChecker : MonoBehaviour
     /// Reset the lowest frame rate every 15 seconds using a coroutine.
     /// </summary>
     /// <returns></returns>
-    IEnumerator worstReset()
+    private IEnumerator worstReset()
     {
         while (true)
         {
@@ -39,7 +39,7 @@ public class FrameChecker : MonoBehaviour
         }
     }
 
-    void Update()
+    private void Update()
     {
         deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
     }
@@ -47,7 +47,7 @@ public class FrameChecker : MonoBehaviour
     /// <summary>
     /// Display GUI as source.
     /// </summary>
-    void OnGUI()
+    private void OnGUI()
     {
         msec = deltaTime * 1000.0f;
         fps = 1.0f / deltaTime;  //frames per second

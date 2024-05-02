@@ -14,9 +14,9 @@ public class SoundController : MonoBehaviour
         soundButtons = GetComponentsInChildren<SoundButton>();
         foreach (var button in soundButtons) 
         {
-            if (button.eSoundType == ESoundType.BGM)
+            if (button.type == SoundType.BGM)
                 bgm = button;
-            else if (button.eSoundType == ESoundType.SFX)
+            else if (button.type == SoundType.SFX)
                 sfx = button;
             else
                 all = button;
@@ -25,9 +25,9 @@ public class SoundController : MonoBehaviour
 
     public void SetVolume(SoundButton _btn)
     {
-        if (_btn.eSoundType == ESoundType.BGM)
+        if (_btn.type == SoundType.BGM)
             SetBGMVolume();
-        else if (_btn.eSoundType == ESoundType.SFX)
+        else if (_btn.type == SoundType.SFX)
             SetSFXVolume();
         else
         {

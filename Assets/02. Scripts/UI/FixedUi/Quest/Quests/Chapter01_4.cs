@@ -5,14 +5,14 @@ using UnityEngine;
 public class Chapter01_4 : QuestBase
 {
     private readonly string thisCode = "chapter01_AccessSignal";
-    private readonly EQuestType thisType = EQuestType.Main;
+    private readonly QuestType thisType = QuestType.Main;
     private readonly int thisIndex = 3;
     private readonly int thisNextIndex = 4;
 
     public Chapter01_4()
     {
         questCode = thisCode;
-        eQuestType = thisType;
+        type = thisType;
         questIndex = thisIndex;
         nextQuestIndex = thisNextIndex;
     }

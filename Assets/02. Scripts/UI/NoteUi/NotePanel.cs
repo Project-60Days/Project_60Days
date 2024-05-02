@@ -245,7 +245,7 @@ public class NotePanel : UIBase
 
         int index;
 
-        if (notePages[pageNum].GetENotePageType() == ENotePageType.Result)
+        if (notePages[pageNum].GetPageType() == PageType.Result)
             index = 0;
         else
             index = 1;

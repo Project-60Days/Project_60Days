@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public abstract class SlotBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] protected Image image;
-    public ESlotType eSlotType;
+    public SlotType type;
 
     ItemBase _item;
 

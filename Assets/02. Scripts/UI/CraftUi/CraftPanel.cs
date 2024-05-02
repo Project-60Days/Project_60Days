@@ -144,7 +144,7 @@ public class CraftPanel : UIBase
 
         rightImg.sprite = _mode.InventorySprite;
 
-        rawCtrl.DestroyObject();
+        rawCtrl.InitTarget();
     }
 
     void InActiveMode(Mode _mode)

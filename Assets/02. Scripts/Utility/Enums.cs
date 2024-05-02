@@ -22,20 +22,20 @@ public enum UIState
     EndDay
 }
 
-public enum EItemType
+public enum ItemType
 {
     Material,
     Equipment,
     Special
 }
 
-public enum ENotePageType
+public enum PageType
 {
     Result,
     Select
 }
 
-public enum ESlotType
+public enum SlotType
 {
     InventorySlot,
     CraftingSlot,
@@ -44,14 +44,14 @@ public enum ESlotType
     BlueprintSlot,
 }
 
-public enum EQuestType
+public enum QuestType
 {
     Tutorial,
     Main,
     Sub
 }
 
-public enum EAlertType
+public enum AlertType
 {
     Selection,
     Caution
@@ -64,15 +64,7 @@ public enum CraftMode
     Blueprint
 }
 
-public enum EScriptType
-{
-    Diary,
-    Resource,
-    MainQuest,
-    SubQuest
-}
-
-public enum ESoundType
+public enum SoundType
 {
     SFX,
     BGM,

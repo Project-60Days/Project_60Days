@@ -30,9 +30,8 @@ public class LoadingPanel : UIBase
     }
     #endregion
 
-    IEnumerator LoadScene()
+    private IEnumerator LoadScene()
     {
-        yield return new WaitUntil(() => App.Manager.Map.mapController != null);
         yield return new WaitUntil(() => App.Manager.Map.mapController.LoadingComplete == true);
 
         App.Manager.Sound.PlayBGM("BGM_InGameTheme");

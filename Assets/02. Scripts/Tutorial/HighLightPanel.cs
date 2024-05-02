@@ -7,7 +7,7 @@ public class HighLightPanel : UIBase
 {
     [SerializeField] HighLight[] hightLights;
     [SerializeField] GameObject highLightImg;
-    [SerializeField] public Dictionary<string, HighLight> dic_highLights = new Dictionary<string, HighLight>();
+    public Dictionary<string, HighLight> dic_highLights = new Dictionary<string, HighLight>();
 
     #region Override
     public override void Init()
@@ -37,7 +37,7 @@ public class HighLightPanel : UIBase
         }
     }
 
-    IEnumerator WaitForPositionUpdate(HighLight h)
+    private IEnumerator WaitForPositionUpdate(HighLight h)
     {
         yield return new WaitForEndOfFrame();
 

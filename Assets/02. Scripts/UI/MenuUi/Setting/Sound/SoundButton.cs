@@ -9,7 +9,7 @@ public class SoundButton : MonoBehaviour, IPointerDownHandler, IDragHandler
     [SerializeField] TextMeshProUGUI text;
     [SerializeField] SoundController soundController;
     
-    public ESoundType eSoundType;
+    public SoundType type;
     [HideInInspector] public float currentWidth;
 
     float initWidth;

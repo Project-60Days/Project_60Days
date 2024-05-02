@@ -12,7 +12,7 @@ public abstract class PageBase : MonoBehaviour
 
     protected int index = 0;
 
-    public abstract ENotePageType GetENotePageType();
+    public abstract PageType GetPageType();
 
     public int resourceIndex = 0;
 

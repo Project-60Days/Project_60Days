@@ -19,7 +19,7 @@ public class EquipCtrl : ModeCtrl
     {
         for (int i = 0; i < equipSlots.Length; i++)
         {
-            if (equipSlots[i].equipType != _item.data.EquipType)
+            if (equipSlots[i].type != _item.data.EquipType)
                 continue;
 
             if (equipSlots[i].isLocked == true) return false;
@@ -51,7 +51,7 @@ public class EquipCtrl : ModeCtrl
     {
         for (int i = 0; i < equipSlots.Length; i++)
         {
-            if (equipSlots[i].equipType != _item.data.EquipType)
+            if (equipSlots[i].type != _item.data.EquipType)
                 continue;
 
             if (equipSlots[i].item != null)

@@ -9,7 +9,7 @@ public class ItemSlot : SlotBase
 
     public ItemSlot()
     {
-        eSlotType = ESlotType.InventorySlot;
+        type = SlotType.InventorySlot;
     }
 
     public override void OnPointerClick(PointerEventData eventData)
@@ -34,7 +34,7 @@ public class ItemSlot : SlotBase
         }
         else if (App.Manager.UI.GetPanel<CraftPanel>().ModeType == CraftMode.Equip)
         {
-            if (item.eItemType == EItemType.Equipment)
+            if (item.itemType == ItemType.Equipment)
             {
                 if (App.Manager.UI.GetPanel<CraftPanel>().Equip.MoveInventoryToEquip(item) == true) 
                     HideItemInfo();

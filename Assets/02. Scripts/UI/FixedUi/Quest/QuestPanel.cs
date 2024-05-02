@@ -31,9 +31,9 @@ public class QuestPanel : UIBase
         quests = questList.GetComponentsInChildren<QuestBase>();
         foreach (var quest in quests)
         {
-            if (quest.eQuestType == EQuestType.Tutorial)
+            if (quest.type == QuestType.Tutorial)
                 tutorialQuests.Add(quest);
-            else if (quest.eQuestType == EQuestType.Main)
+            else if (quest.type == QuestType.Main)
                 mainQuests.Add(quest);
             else
                 subQuests.Add(quest);
@@ -67,7 +67,7 @@ public class QuestPanel : UIBase
     {
         GameObject obj;
 
-        if (_quest.eQuestType == EQuestType.Sub)
+        if (_quest.type == QuestType.Sub)
             obj = Instantiate(subQuestPrefab, questParent);
         else
             obj = Instantiate(mainQuestPrefab, questParent);
@@ -96,7 +96,7 @@ public class QuestPanel : UIBase
             {
                 RectTransform questPrefab = currentQuestPrefab[i].GetComponent<RectTransform>();
 
-                if (currentQuest[i].eQuestType == EQuestType.Main)
+                if (currentQuest[i].type == QuestType.Main)
                     questPrefab.localPosition = new Vector3(questPrefab.localPosition.x, 0, 0);
                 else
                 {
@@ -130,11 +130,11 @@ public class QuestPanel : UIBase
 
 
     #region next quest
-    public void SetNextQuestIndex(EQuestType _type, int _nextIndex)
+    public void SetNextQuestIndex(QuestType _type, int _nextIndex)
     {
-        if (_type == EQuestType.Tutorial)
+        if (_type == QuestType.Tutorial)
             nextTutorialIndex = _nextIndex;
-        else if (_type == EQuestType.Main)
+        else if (_type == QuestType.Main)
             nextMainIndex = _nextIndex;
         else
             nextSubIndex = _nextIndex;
@@ -150,7 +150,7 @@ public class QuestPanel : UIBase
         currentQuestPrefab[index].GetComponent<CanvasGroup>().DOFade(0.0f, 0.3f).SetLoops(5, LoopType.Yoyo).OnComplete(() =>
         {
             DestoryQuest(index);
-            CreateNextQuest(_quest.eQuestType);
+            CreateNextQuest(_quest.type);
         });
     }
 
@@ -169,7 +169,7 @@ public class QuestPanel : UIBase
     /// 다음 퀘스트 생성
     /// </summary>
     /// <param name="_type"></param>
-    void CreateNextQuest(EQuestType _type)
+    void CreateNextQuest(QuestType _type)
     {
         var quests = GetQuestList(_type);
         var nextQuestIndex = GetQuestIndex(_type);
@@ -190,11 +190,11 @@ public class QuestPanel : UIBase
     /// </summary>
     /// <param name="_type"></param>
     /// <returns></returns>
-    List<QuestBase> GetQuestList(EQuestType _type)
+    List<QuestBase> GetQuestList(QuestType _type)
     {
-        if (_type == EQuestType.Tutorial)
+        if (_type == QuestType.Tutorial)
             return tutorialQuests;
-        else if (_type == EQuestType.Main)
+        else if (_type == QuestType.Main)
             return mainQuests;
         else
             return subQuests;
@@ -205,11 +205,11 @@ public class QuestPanel : UIBase
     /// </summary>
     /// <param name="_type"></param>
     /// <returns></returns>
-    int GetQuestIndex(EQuestType _type)
+    int GetQuestIndex(QuestType _type)
     {
-        if (_type == EQuestType.Tutorial)
+        if (_type == QuestType.Tutorial)
             return nextTutorialIndex;
-        else if (_type == EQuestType.Main)
+        else if (_type == QuestType.Main)
             return nextMainIndex;
         else
             return nextSubIndex;

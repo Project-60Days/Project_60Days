@@ -16,13 +16,13 @@ public class TutorialCtrl : MonoBehaviour
 
     [SerializeField] CustomDialogueView customView;
 
-    void Start()
+    private void Start()
     {
         float newY = tutorialBack.rect.height * -2; //TODO
         tutorialBack.DOMove(new Vector2(0f, newY), 0f);
     }
 
-    void Update()
+    private void Update()
     {
         skipButton.Select();
 
@@ -68,7 +68,7 @@ public class TutorialCtrl : MonoBehaviour
         StartCoroutine(AddResource());
     }
 
-    IEnumerator AddResource()
+    private IEnumerator AddResource()
     {
         yield return new WaitUntil(() => App.Manager.UI.isUIStatus(UIState.Normal));
 

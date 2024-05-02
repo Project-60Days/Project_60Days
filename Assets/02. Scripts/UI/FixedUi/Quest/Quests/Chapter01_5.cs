@@ -5,14 +5,14 @@ using UnityEngine;
 public class Chapter01_5 : QuestBase
 {
     private readonly string thisCode = "chapter01_ConnectNetworkChip";
-    private readonly EQuestType thisType = EQuestType.Main;
+    private readonly QuestType thisType = QuestType.Main;
     private readonly int thisIndex = 4;
     private readonly int thisNextIndex = -1;
 
     public Chapter01_5()
     {
         questCode = thisCode;
-        eQuestType = thisType;
+        type = thisType;
         questIndex = thisIndex;
         nextQuestIndex = thisNextIndex;
     }
@@ -37,7 +37,7 @@ public class Chapter01_5 : QuestBase
 
     public override void AfterQuest()
     {
-        App.Manager.UI.GetPanel<QuestPanel>().SetNextQuestIndex(eQuestType, nextQuestIndex);
+        App.Manager.UI.GetPanel<QuestPanel>().SetNextQuestIndex(type, nextQuestIndex);
         App.Manager.UI.GetPanel<QuestPanel>().StartNextQuest(this);
         StartCoroutine(App.Manager.UI.GetPanel<PopUpPanel>().EndGamePopUp());
     }

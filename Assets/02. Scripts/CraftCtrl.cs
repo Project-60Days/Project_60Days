@@ -63,14 +63,12 @@ public class CraftCtrl : ModeCtrl
 
         ItemBase resultItem = null;
         var sortedItem = craftItems.OrderBy(item => item.Code).ToList();
-        Debug.Log(sortedItem.Count);
 
         var match_1 = itemCombineData.Where(x => x.Material_1 == sortedItem[0].data.Code).ToList();
         if (match_1.Count == 0) return;
-        Debug.Log(match_1.Count);
+
         var match_2 = match_1.Where(x => x.Material_2 == sortedItem[1].data.Code).ToList();
         if (match_2.Count == 0) return;
-        Debug.Log(match_2.Count);
 
         if (craftItems.Count == 2)
         {
@@ -83,7 +81,6 @@ public class CraftCtrl : ModeCtrl
             var combine = match_2.FirstOrDefault(x => x.Material_3 == sortedItem[2].data.Code);
             if (combine != null)
                 resultItem = GetItemByCode(combine.Result);
-            Debug.Log(resultItem);
         }
 
         if (resultItem != null && resultItem.isBlueprintOpen)
@@ -104,7 +101,7 @@ public class CraftCtrl : ModeCtrl
     {
         GameObject obj = Instantiate(slotPrefab, slotParent);
         obj.GetComponentInChildren<CraftSlot>().item = _item;
-        obj.GetComponentInChildren<CraftSlot>().eSlotType = ESlotType.ResultSlot;
+        obj.GetComponentInChildren<CraftSlot>().type = SlotType.ResultSlot;
         obj.GetComponentInChildren<TextMeshProUGUI>().text = "=";
     }
 

@@ -6,10 +6,10 @@ public class CubeCtrl : MonoBehaviour
     [SerializeField] Transform cube;
     [SerializeField] Transform cubeElse;
 
-    float centerStartPositionY;
-    float elseStartPositionY;
+    private float centerStartPositionY;
+    private float elseStartPositionY;
 
-    void Start()
+    private void Start()
     {
         centerStartPositionY = cube.position.y;
         elseStartPositionY = cubeElse.position.y;

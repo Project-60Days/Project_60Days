@@ -3,9 +3,9 @@ using UnityEngine.Video;
 
 public class DeveloperManager : MonoBehaviour
 {
-    VideoPlayer videoPlayer;
+    private VideoPlayer videoPlayer;
 
-    void Start()
+    private void Start()
     {
         videoPlayer = GetComponent<VideoPlayer>(); 
         videoPlayer.loopPointReached += OnVideoEnd;
@@ -13,7 +13,7 @@ public class DeveloperManager : MonoBehaviour
         App.Manager.Sound.PlaySFX("SFX_Title_LogIn");
     }
 
-    void OnVideoEnd(VideoPlayer vp)
+    private void OnVideoEnd(VideoPlayer vp)
     {
         App.LoadScene(SceneName.Title);
     }

@@ -10,9 +10,9 @@ public class ResultPage : PageBase
 
     List<string> tomorrowResourceNodeNames = new List<string>();
 
-    public override ENotePageType GetENotePageType()
+    public override PageType GetPageType()
     {
-        return ENotePageType.Result;
+        return PageType.Result;
     }
 
     public override void PlayNode(string _nodeName)

@@ -146,11 +146,11 @@ public class GameData : Data
     public Dictionary<int, ItemCombineData> itemCombineData = new Dictionary<int, ItemCombineData>();
 
     #region Data Path
-    string stringDataPath = "Data/StringData";
-    string valueDataPath = "Data/ValueData";
-    string itemDataPath = "Data/ItemData";
-    string itemCombineDataPath = "Data/ItemCombineData";
-    string tileDataPath = "Data/TileData";
+    private string stringDataPath = "Data/StringData";
+    private string valueDataPath = "Data/ValueData";
+    private string itemDataPath = "Data/ItemData";
+    private string itemCombineDataPath = "Data/ItemCombineData";
+    private string tileDataPath = "Data/TileData";
     #endregion
 
     protected override void Awake()

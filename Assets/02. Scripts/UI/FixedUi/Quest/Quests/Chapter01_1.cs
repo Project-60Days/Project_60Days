@@ -5,14 +5,14 @@ using UnityEngine;
 public class Chapter01_1 : QuestBase
 {
     private readonly string thisCode = "chapter01_AccessProductionStructure";
-    private readonly EQuestType thisType = EQuestType.Main;
+    private readonly QuestType thisType = QuestType.Main;
     private readonly int thisIndex = 0;
     private readonly int thisNextIndex = 1;
 
     public Chapter01_1()
     {
         questCode = thisCode;
-        eQuestType = thisType;
+        type = thisType;
         questIndex = thisIndex;
         nextQuestIndex = thisNextIndex;
     }

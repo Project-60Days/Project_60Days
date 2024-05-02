@@ -4,7 +4,7 @@ using UnityEngine;
 public abstract class QuestBase : MonoBehaviour
 {
     public string questCode { get; protected set; }
-    public EQuestType eQuestType { get; protected set; }
+    public QuestType type { get; protected set; }
 
     public int questIndex { get; protected set; }
     protected int nextQuestIndex;
@@ -21,7 +21,7 @@ public abstract class QuestBase : MonoBehaviour
 
     public virtual void AfterQuest()
     {
-        App.Manager.UI.GetPanel<QuestPanel>().SetNextQuestIndex(eQuestType, nextQuestIndex);
+        App.Manager.UI.GetPanel<QuestPanel>().SetNextQuestIndex(type, nextQuestIndex);
         App.Manager.UI.GetPanel<QuestPanel>().StartNextQuest(this);
     }
 }

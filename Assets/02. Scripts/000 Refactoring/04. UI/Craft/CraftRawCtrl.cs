@@ -3,40 +3,41 @@ using UnityEngine;
 
 public class CraftRawCtrl : MonoBehaviour
 {
-    [SerializeField] GameObject targetObject;
+    private GameObject targetObject;
 
-    void Awake()
+    private void Start()
     {
-        ItemSlot.CraftItemClick += ChangerTarget;
-        BlueprintSlot.CraftItemClick += ChangerTarget;
-        CraftSlot.CraftItemClick += DestroyObject;
+        ItemSlot.CraftItemClick += ChangeTarget;
+        BlueprintSlot.CraftItemClick += ChangeTarget;
+        CraftSlot.CraftItemClick += InitTarget;
 
         targetObject = GameObject.FindWithTag("RenderTextureObject");
     }
 
-    void OnDestroy()
+    private void OnDestroy()
     {
-        ItemSlot.CraftItemClick -= ChangerTarget;
-        BlueprintSlot.CraftItemClick -= ChangerTarget;
-        CraftSlot.CraftItemClick -= DestroyObject;
+        ItemSlot.CraftItemClick -= ChangeTarget;
+        BlueprintSlot.CraftItemClick -= ChangeTarget;
+        CraftSlot.CraftItemClick -= InitTarget;
     }
 
-    public void ChangerTarget(Sprite itemSprite)
+    public void InitTarget()
+    {
+        App.Manager.UI.GetPanel<CraftPanel>().TurnHologram(false);
+        targetObject.SetActive(false);
+    }
+
+    public void ChangeTarget(Sprite itemSprite)
     {
         if (itemSprite == null)
         {
-            DestroyObject();
+            InitTarget();
             return;
         }
 
         App.Manager.UI.GetPanel<CraftPanel>().TurnHologram(true);
         targetObject.SetActive(true);
-        targetObject.GetComponent<SpriteRenderer>().sprite = itemSprite;
-    }
 
-    public void DestroyObject()
-    {
-        App.Manager.UI.GetPanel<CraftPanel>().TurnHologram(false);
-        targetObject.SetActive(false);
+        targetObject.GetComponent<SpriteRenderer>().sprite = itemSprite;
     }
 }

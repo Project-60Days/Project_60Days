@@ -46,4 +46,9 @@ public class AppHelper : MonoBehaviour
             1080,
             false);
     }
+
+    private void OnApplicationQuit()
+    {
+        DestroyImmediate(_helperObject);
+    }
 }

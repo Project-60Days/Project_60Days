@@ -9,17 +9,17 @@ public class CraftSlot : SlotBase
 
     public CraftSlot()
     {
-        eSlotType = ESlotType.CraftingSlot;
+        type = SlotType.CraftingSlot;
     }
 
     public override void OnPointerClick(PointerEventData eventData)
     {
-        switch (eSlotType)
+        switch (type)
         {
-            case ESlotType.CraftingSlot:
+            case SlotType.CraftingSlot:
                 App.Manager.UI.GetPanel<CraftPanel>().Craft.MoveCraftToInventory(item);
                 break;
-            case ESlotType.ResultSlot:
+            case SlotType.ResultSlot:
                 App.Manager.UI.GetPanel<CraftPanel>().Craft.MoveResultToInventory(item);
                 App.Manager.Sound.PlaySFX("SFX_Crafting_Result");
                 if (item.isMadeOnce == false)

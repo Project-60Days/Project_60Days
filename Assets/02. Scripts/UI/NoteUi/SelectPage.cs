@@ -8,9 +8,9 @@ public class SelectPage : PageBase
     [SerializeField] RectTransform content;
     [SerializeField] RectTransform lineView;
 
-    public override ENotePageType GetENotePageType()
+    public override PageType GetPageType()
     {
-        return ENotePageType.Select;
+        return PageType.Select;
     }
 
     public override void SetNodeName(string _nodeName)

@@ -7,14 +7,16 @@ using DG.Tweening;
 
 public class App : Singleton<App>
 {
-    readonly SoundManager sound;
-    readonly GameManager game;
-    readonly ShelterManager shelter;
-    readonly MapManager map;
-    readonly UIManager ui;
-    readonly TutorialManager tutorial;
+    #region Variables
+    private readonly SoundManager sound;
+    private readonly GameManager game;
+    private readonly ShelterManager shelter;
+    private readonly MapManager map;
+    private readonly UIManager ui;
+    private readonly TutorialManager tutorial;
 
-    readonly GameData gameData;
+    private readonly GameData gameData;
+    #endregion
 
     public partial class Manager
     {

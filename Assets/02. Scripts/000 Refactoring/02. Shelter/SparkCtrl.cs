@@ -6,19 +6,19 @@ public class SparkCtrl : MonoBehaviour
     [SerializeField] float minInterval = 15f;
     [SerializeField] float maxInterval = 45f;
 
-    Animator animator;
+    private Animator animator;
 
-    float timer = 0;
-    float interval;
+    private float timer = 0;
+    private float interval;
 
-    void Start()
+    private void Start()
     {
         animator = GetComponent<Animator>();
  
         GenerateNextInterval();
     }
 
-    void Update()
+    private void Update()
     {
         timer += Time.deltaTime;
 
@@ -36,7 +36,7 @@ public class SparkCtrl : MonoBehaviour
         PlaySFX();
     }
 
-    public void PlaySFX()
+    private void PlaySFX()
     {
         if (App.Manager.UI.isUIStatus(UIState.Normal))
         {

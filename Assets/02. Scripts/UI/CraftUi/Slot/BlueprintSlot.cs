@@ -18,7 +18,7 @@ public class BlueprintSlot : SlotBase
 
     public BlueprintSlot()
     {
-        eSlotType = ESlotType.BlueprintSlot;
+        type = SlotType.BlueprintSlot;
     }
 
     public override void OnPointerClick(PointerEventData eventData)

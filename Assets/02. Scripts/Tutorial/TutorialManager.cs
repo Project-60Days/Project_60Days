@@ -7,12 +7,12 @@ public class TutorialManager : Manager
 
     public TutorialCtrl Ctrl => tutorialCtrl;
 
-    void Start()
+    private void Start()
     {
         StartCoroutine(WaitForMapManager());
     }
 
-    IEnumerator WaitForMapManager()
+    private IEnumerator WaitForMapManager()
     {
         yield return new WaitUntil(() => App.Manager.Map.mapController);
         yield return new WaitUntil(() => App.Manager.Map.mapController.Player != null);

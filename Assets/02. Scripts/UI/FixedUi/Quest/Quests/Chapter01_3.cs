@@ -5,14 +5,14 @@ using UnityEngine;
 public class Chapter01_3 : QuestBase
 {
     private readonly string thisCode = "chapter01_GetNetworkChip";
-    private readonly EQuestType thisType = EQuestType.Main;
+    private readonly QuestType thisType = QuestType.Main;
     private readonly int thisIndex = 2;
     private readonly int thisNextIndex = 3;
 
     public Chapter01_3()
     {
         questCode = thisCode;
-        eQuestType = thisType;
+        type = thisType;
         questIndex = thisIndex;
         nextQuestIndex = thisNextIndex;
     }

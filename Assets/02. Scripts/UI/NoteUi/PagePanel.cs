@@ -38,9 +38,9 @@ public class PagePanel : UIBase
         PageBase[] pages = GetComponentsInChildren<PageBase>(includeInactive: true);
         foreach (var page in pages)
         {
-            if (page.GetENotePageType() == ENotePageType.Result)
+            if (page.GetPageType() == PageType.Result)
                 resultPage = page;
-            else if (page.GetENotePageType() == ENotePageType.Select)
+            else if (page.GetPageType() == PageType.Select)
                 selectPage = page;
         }
 
