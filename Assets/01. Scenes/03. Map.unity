@@ -202,7 +202,7 @@ GameObject:
   m_Component:
   - component: {fileID: 70614910}
   - component: {fileID: 70614909}
-  - component: {fileID: 70614908}
+  - component: {fileID: 70614911}
   m_Layer: 0
   m_Name: MapCamera
   m_TagString: MapCamera
@@ -210,19 +210,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &70614908
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 70614907}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8de31cc0de91f2f44a7cd7d197773211, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mapCamera: {fileID: 70614909}
 --- !u!114 &70614909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,6 +264,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 60, y: -90, z: 0}
+--- !u!114 &70614911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70614907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60930d644ec19324186e3a444bb50999, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mapCamera: {fileID: 70614909}
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -498,11 +498,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25780014b375d3847aae732c64cc05ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapUIController: {fileID: 0}
   mapController: {fileID: 35908274}
   resourceManager: {fileID: 1926141685}
   mouseIntreractable: 0
   mouseState: 0
+  cameraCtrl: {fileID: 70614911}
   mapData:
     resourcePercent: 70
     fogSightRange: 4
@@ -510,7 +510,6 @@ MonoBehaviour:
     zombieDetectionRange: 3
     zombieCount: 80
     durability: 200
-  mapCineCamera: {fileID: 70614908}
 --- !u!1 &848818346
 GameObject:
   m_ObjectHideFlags: 0

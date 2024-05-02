@@ -125,6 +125,8 @@ public class UIManager : Manager
     #region Fade In / Out
     public void FadeIn(Action _endEvent = null)
     {
+        App.Manager.Sound.StopBGM();
+
         if (blackBlur.color.a == 1f)
         {
             _endEvent?.Invoke();
@@ -155,6 +157,11 @@ public class UIManager : Manager
                 _endEvent?.Invoke();
                 blackBlur.gameObject.SetActive(false);
             });
+    }
+
+    public void FadeInOut(Action _endEvent = null)
+    {
+        
     }
     #endregion
 }

@@ -43,8 +43,6 @@ public class PVPanel : UIBase
         base.OpenPanel();
 
         isEnd = false;
-
-        App.Manager.Sound.StopBGM();
     }
 
     public override void ClosePanel()

@@ -15,12 +15,12 @@ public class MapManager : Manager
     public bool mouseIntreractable;
 
     [SerializeField] ETileMouseState mouseState;
+    public MapCamCtrl cameraCtrl;
 
     [Header("밸런스 테스트 용")] [Space(5f)] [SerializeField]
     MapData mapData;
     
     Camera mainCamera;
-    [SerializeField] MapCamera mapCineCamera;
     TileController curTileController;
     StructureBase curStructure;
 
@@ -42,7 +42,6 @@ public class MapManager : Manager
         mapController.SightCheckInit();
 
         AllowMouseEvent(true);
-        StartCoroutine(mapCineCamera.GetMapInfo());
     }
 
     void Update()
@@ -258,11 +257,6 @@ public class MapManager : Manager
         isDisturbtorPrepared = false;
     }
 
-    public void SetMapCameraPriority(bool _set)
-    {
-        mapCineCamera.SetPrioryty(_set);
-    }
-
     public void CheckRoutine()
     {
         CheckZombies();
@@ -307,26 +301,14 @@ public class MapManager : Manager
         }
     }
 
-    public void CheckLandformPlayMusic()
+    public string GetLandformBGM(string _code) => _code switch
     {
-        var curTile = mapController.Player.TileController.GetComponent<TileBase>();
-
-        switch (curTile.TileData.English)
-        {
-            case "None":
-                App.Manager.Sound.PlayBGM("Ambience_City");
-                break;
-            case "Jungle":
-                App.Manager.Sound.PlayBGM("Ambience_Jungle");
-                break;
-            case "Desert":
-                App.Manager.Sound.PlayBGM("Ambience_Desert");
-                break;
-            case "Tundra":
-                App.Manager.Sound.PlayBGM("Ambience_Tundra");
-                break;
-        }
-    }
+        "None" => "Ambience_City",
+        "Jungle" => "Ambience_Jungle",
+        "Desert" => "Ambience_Desert",
+        "Tundra" => "Ambience_Tundra",
+        _ => "Ambience_City",
+    };
 
     public void NormalStructureResearch(StructureBase structure)
     {

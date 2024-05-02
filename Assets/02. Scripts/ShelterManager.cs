@@ -12,7 +12,8 @@ public class ShelterManager : Manager
     [SerializeField] CanvasGroup mapImg;
     [SerializeField] Image batteryImg;
     [SerializeField] CubeCtrl cubeCtrl;
-    [SerializeField] MainCamCtrl cameraCtrl;
+
+    public MainCamCtrl cameraCtrl;
 
     float lightUpDuration = 2f;
 
@@ -109,13 +110,6 @@ public class ShelterManager : Manager
         mapImg.transform.SetSiblingIndex(mapStartIndex);
 
         mapImg.DOFade(1f, 0f);
-    }
-    #endregion
-
-    #region Attack
-    public void Attack()
-    {
-        cameraCtrl.Shake();
     }
     #endregion
 }
