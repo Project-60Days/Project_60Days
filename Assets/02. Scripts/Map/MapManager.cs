@@ -42,6 +42,7 @@ public class MapManager : Manager
         mapController.SightCheckInit();
 
         AllowMouseEvent(true);
+        StartCoroutine(cameraCtrl.Init());
     }
 
     void Update()

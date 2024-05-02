@@ -13,7 +13,7 @@ public class MapPanel : UIBase
     #region Override
     public override void Init()
     {
-
+        gameObject.SetActive(false);
     }
 
     public override void ReInit() { }

@@ -159,9 +159,26 @@ public class UIManager : Manager
             });
     }
 
-    public void FadeInOut(Action _endEvent = null)
+    public void FadeInOut(Action _midEvent = null)
     {
-        
+        App.Manager.Sound.StopBGM();
+
+        if (blackBlur.color.a == 1f)
+        {
+            _midEvent?.Invoke();
+            FadeOut();
+            return;
+        }
+
+        blackBlur.gameObject.SetActive(true);
+
+        blackBlur.DOKill();
+        blackBlur.DOFade(1f, 0.5f).SetEase(Ease.Linear)
+           .OnComplete(() =>
+           {
+               _midEvent?.Invoke();
+               FadeOut();
+           });
     }
     #endregion
 }

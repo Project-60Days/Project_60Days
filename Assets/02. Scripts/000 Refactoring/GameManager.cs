@@ -15,6 +15,7 @@ public class GameManager : Manager
     [HideInInspector] public bool isNewDay = true;
 
     [SerializeField] Button nextDayBtn;
+    [SerializeField] Button shelterBtn;
 
     protected override void Awake()
     {
@@ -27,6 +28,7 @@ public class GameManager : Manager
     private void SetButtonEvent()
     {
         nextDayBtn.onClick.AddListener(() => NextDay());
+        shelterBtn.onClick.AddListener(() => GoToShelter());
     }
 
     private void InitItemSO()
@@ -49,12 +51,30 @@ public class GameManager : Manager
 
     private void EndFadeIn()
     {
-        //StartCoroutine(NextDayEventCallBack(() =>
-        //{
-        //    if (isOver == true)
-        //        StartCoroutine(ShowGameOver());
-        //    else
-        //        StartCoroutine(ShowNextDate());
-        //}));
+        ctrl.EndFadeIn();
     }
+
+    #region Move Camera
+    /// <summary>
+    /// To move camera from map to shelter
+    /// </summary>
+    public void GoToShelter()
+    {
+        App.Manager.UI.FadeInOut();
+        App.Manager.Map.cameraCtrl.GoToShelter();
+    }
+
+    /// <summary>
+    /// To move camera from shelter to map
+    /// </summary>
+    public void GoToMap()
+    {
+        App.Manager.UI.FadeInOut(MoveCameraToMap);
+    }
+
+    public void MoveCameraToMap()
+    {
+        App.Manager.Map.cameraCtrl.GoToMap();
+    }
+    #endregion
 }

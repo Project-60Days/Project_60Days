@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using DG.Tweening;
@@ -7,25 +6,30 @@ using DG.Tweening;
 public class MapCamCtrl : MonoBehaviour
 {
     [SerializeField] CinemachineVirtualCamera mapCamera;
+
     private CinemachineFramingTransposer transposer;
     private MapPanel UI;
+    private MapManager Map;
     private SoundManager Sound;
     private Transform Player;
 
-    void Start()
+    public IEnumerator Init()
     {
+        yield return new WaitForEndOfFrame();
+
         transposer = mapCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
         UI = App.Manager.UI.GetPanel<MapPanel>();
+        Map = App.Manager.Map;
         Sound = App.Manager.Sound;
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
 
         mapCamera.Follow = Player.transform;
         mapCamera.m_Lens.OrthographicSize = 6.5f;
 
-        Init();
+        transposer.m_CameraDistance = 5f;
     }
 
-    public void Init()
+    public void ReInit()
     {
         transposer.m_CameraDistance = 5f;
         SetPrioryty(false);
@@ -70,10 +74,15 @@ public class MapCamCtrl : MonoBehaviour
         sequence.AppendCallback(() =>
             {
                 SetPrioryty(true);
-                var currTile = App.Manager.Map.mapController.Player.TileController.GetComponent<TileBase>();
-                Sound.PlayBGM(App.Manager.Map.GetLandformBGM(currTile.TileData.English));
+                var currTile = Map.mapController.Player.TileController.GetComponent<TileBase>();
+                Sound.PlayBGM(Map.GetLandformBGM(currTile.TileData.English));
                 UI.FalseTileInfo();
             })
-            .Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 10f, 0.5f));
+            .Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 10f, 0.5f))
+            .OnComplete(()=> 
+            {
+                App.Manager.Map.GetCameraCenterTile();
+                App.Manager.Map.InvocationExplorers();
+            });
     }
 }

@@ -7,14 +7,21 @@ using TMPro;
 
 public class DayCtrl : MonoBehaviour
 {
+    private GameManager game;
+
     [SerializeField] Image blackPanel;
     [SerializeField] GameObject dayCountPrefab;
     GameObject dayCount;
     [SerializeField] MapIcon mapIcon;
 
+    private void Start()
+    {
+        game = App.Manager.Game;
+    }
+
     public void InitBlackPanel()
     {
-        //if (isHit == true)
+        if (game.isHit == true)
         {
             App.Manager.Shelter.cameraCtrl.Shake();
         }
@@ -23,22 +30,31 @@ public class DayCtrl : MonoBehaviour
 
         Destroy(dayCount);
 
-        //isHit = false;
+        game.isHit = false;
 
         App.Manager.UI.PopUIStack();
         //todo
 
         App.Manager.UI.GetPanel<NotePanel>().isNewDay = true;
     }
-    
-    
+
+    public void EndFadeIn()
+    {
+        StartCoroutine(NextDayEventCallBack(() =>
+        {
+            if (game.isOver == true)
+                StartCoroutine(ShowGameOver());
+            else
+                StartCoroutine(ShowNextDate());
+        }));
+    }
 
     /// <summary>
     /// NextDayEvent 콜백함수
     /// </summary>
     IEnumerator NextDayEventCallBack(System.Action callback)
     {
-        App.Manager.Map.cameraCtrl.Init();
+        App.Manager.Map.cameraCtrl.ReInit();
 
         yield return StartCoroutine(App.Manager.Map.NextDayCoroutine());
 
@@ -58,7 +74,7 @@ public class DayCtrl : MonoBehaviour
 
         string text = "<color=white>Day " + "{vertexp}" + today.ToString() + "{/vertexp}</color>";
 
-        //if (isHit == true)
+        if (game.isHit == true)
             text = "<color=red><shake a=0.1>" + "Day " + "{vertexp}" + today.ToString() + "{/vertexp}</shake></color>";
 
         CreateDayCountTxt(text);
@@ -87,29 +103,5 @@ public class DayCtrl : MonoBehaviour
         dayCount = Instantiate(dayCountPrefab, blackPanel.transform);
         TextMeshProUGUI text = dayCount.GetComponent<TextMeshProUGUI>();
         text.text = _text;
-    }
-
-    /// <summary>
-    /// 맵->기지 카메라 이동
-    /// </summary>
-    public void GoToLab()
-    {
-        App.Manager.UI.FadeInOut();
-        App.Manager.Map.cameraCtrl.GoToShelter();
-    }
-
-    /// <summary>
-    /// 기지->맵 카메라 이동
-    /// </summary>
-    public void GoToMap()
-    {
-        App.Manager.UI.FadeInOut(Map02);
-        App.Manager.Map.cameraCtrl.GoToMap();
-    }
-
-    private void Map02()
-    {
-        App.Manager.Map.GetCameraCenterTile();
-        App.Manager.Map.InvocationExplorers();
     }
 }
