@@ -1,49 +1,32 @@
-﻿public class Resource
+﻿using System.Linq;
+
+public class Resource
 {
-    private string itemCode;
+    public ItemBase Item { get; private set; }
 
-    public string ItemCode
+    private int count;
+
+    public int Count
     {
-        get => itemCode;
-        set => itemCode = value;
-    }
-
-    private int itemCount;
-
-    public int ItemCount
-    {
-        get => itemCount;
+        get => count;
         set
         {
-            if(value < 0)
-                itemCount = 0;
+            if (value < 0)
+                count = 0;
             else
-                itemCount = value;
+                count = value;
         }
     }
 
-    private ItemBase itemBase;
-
-    public ItemBase ItemBase
+    public Resource(ItemBase _itemBase, int _itemCount)
     {
-        get => itemBase;
-        set => itemBase = value;
+        Item = _itemBase;
+        Count = _itemCount;
     }
 
     public Resource(string _itemCode, int _itemCount)
     {
-        this.ItemCode = _itemCode;
-        this.ItemCount = _itemCount;
-    }
-    public Resource(string _itemCode, int _itemCount, ItemBase _itemBase)
-    {
-        this.ItemCode = _itemCode;
-        this.ItemCount = _itemCount;
-        this.ItemBase = _itemBase;
-    }
-    
-    public void InitItemBase(ItemBase _itemBase)
-    {
-        this.ItemBase = _itemBase;
+        Item = App.Manager.Game.itemSO.items.ToList().Find(x => x.data.Code == _itemCode);
+        Count = _itemCount;
     }
 }

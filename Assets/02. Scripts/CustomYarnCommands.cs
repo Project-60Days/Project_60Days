@@ -254,8 +254,8 @@ public class CustomYarnCommands : MonoBehaviour
 
         for (int i = 0; i < resources.Count; i++)
         {
-            if (resources[i].ItemBase.data.Code == _itemCode)
-                count = resources[i].ItemCount;
+            if (resources[i].Item.Code == _itemCode)
+                count = resources[i].Count;
         }
 
         return count;

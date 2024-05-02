@@ -42,7 +42,7 @@ public class MapManager : Manager
         mapController.SightCheckInit();
 
         AllowMouseEvent(true);
-        StartCoroutine(cameraCtrl.Init());
+        cameraCtrl.Init();
     }
 
     void Update()
@@ -56,11 +56,6 @@ public class MapManager : Manager
 
             MouseOverEvents();
         }
-        
-        //if(Input.GetKeyDown(KeyCode.Z))
-            //UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_FINDOR");
-        //if(Input.GetKeyDown(KeyCode.X))
-            //UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_DISTURBE");
     }
 
     void MouseOverEvents()
@@ -384,7 +379,9 @@ public class MapManager : Manager
         }
     }
 
-    // 카메라 정중앙 좌표를 반환하는 함수
+    /// <summary>
+    /// returns the coordinates of the exact center of the camera
+    /// </summary>
     public void GetCameraCenterTile()
     {
         Vector3 centerPos = new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2);
@@ -396,10 +393,7 @@ public class MapManager : Manager
         {
             var target = hit.transform.parent.GetComponent<TileController>();
 
-            if (target == null)
-            {
-                return;
-            }
+            if (target == null) return;
 
             if (cameraTarget != target)
             {
@@ -421,7 +415,7 @@ public class MapManager : Manager
         if (resources.Count == 0 || resources == null)
             return;
         
-        if(resources.Find(x=> x.ItemBase.data.Code == "ITEM_GAS") != null)
+        if(resources.Find(x=> x.Item.data.Code == "ITEM_GAS") != null)
         {
             Debug.Log("에테르 디버프");
             App.Manager.UI.GetPanel<PagePanel>().SetResultPage("ACIDENT_ETHER", false);

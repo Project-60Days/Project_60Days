@@ -63,9 +63,9 @@ public class PagePanel : UIBase
 
             int randomNumber = Random.Range(1, 6);
 
-            string nodeName = resources[i].ItemBase.data.Code + "_" + tileName + randomNumber.ToString();
+            string nodeName = resources[i].Item.Code + "_" + tileName + randomNumber.ToString();
 
-            if (resources[i].ItemBase.data.Code == "ITEM_NETWORKCHIP")
+            if (resources[i].Item.Code == "ITEM_NETWORKCHIP")
                 SetResultPage(nodeName, false);
             else
                 SetResultPage(nodeName, true);

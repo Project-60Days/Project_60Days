@@ -9,10 +9,7 @@ public class ArmyStructure : StructureBase
     {
         structureName = "군사 시설";
 
-        var itemBase = _itemSO.items.ToList()
-            .Find(x => x.data.Code == "ITEM_DISTURBE");
-
-        resource = new Resource(itemBase.Code, 2, itemBase);
+        resource = new Resource("ITEM_DISTURBE", 2);
         isUse = false;
         isAccessible = false;
 

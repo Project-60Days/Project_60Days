@@ -244,7 +244,14 @@ public class InventoryPanel : UIBase
                 if (++counts[item.data.Category] > slots[item.data.Category].Count) return;
                 AddItem(item);
             }
-
+        }
+        else if (Input.GetKeyDown(KeyCode.Z))
+        {
+            AddItemByItemCode("ITEM_FINDOR");
+        }
+        else if (Input.GetKeyDown(KeyCode.X))
+        {
+            AddItemByItemCode("ITEM_DISTURBE");
         }
     }
     #endregion

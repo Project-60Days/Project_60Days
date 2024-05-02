@@ -100,10 +100,7 @@ public class TileBase : MonoBehaviour
 
         for (int i = 0; i < gachaList.Count; i++)
         {
-            var itemBase = itemSO.items.ToList()
-                .Find(x => x.data.English == gachaList[i].ToString());
-
-            var resource = new Resource(gachaList[i].ToString(), Random.Range(1, 16), itemBase);
+            var resource = new Resource(gachaList[i].ToString(), Random.Range(1, 16));
             appearanceResources.Add(resource);
         }
 
@@ -128,15 +125,15 @@ public class TileBase : MonoBehaviour
 
                 for (int i = 0; i < appearanceResources.Count; i++)
                 {
-                    text += appearanceResources[i].ItemBase.data.Korean + " " +
-                            appearanceResources[i].ItemCount + "EA\n";
+                    text += appearanceResources[i].Item.data.Korean + " " +
+                            appearanceResources[i].Count + "EA\n";
                 }
 
                 resourceText = text;
 
                 if (appearanceResources.Count == 1)
                 {
-                    resourceIcons[0].sprite = appearanceResources[0].ItemBase.itemImage;
+                    resourceIcons[0].sprite = appearanceResources[0].Item.itemImage;
                     resourceIcons[0].gameObject.SetActive(true);
                 }
                 else if (appearanceResources.Count == 2)
@@ -144,7 +141,7 @@ public class TileBase : MonoBehaviour
                     for (int i = 0; i < appearanceResources.Count; i++)
                     {
                         SpriteRenderer item = resourceIcons[i + 1];
-                        item.sprite = appearanceResources[i].ItemBase.itemImage;
+                        item.sprite = appearanceResources[i].Item.itemImage;
                         item.gameObject.SetActive(true);
                     }
                 }
@@ -153,7 +150,7 @@ public class TileBase : MonoBehaviour
                     for (int i = 0; i < appearanceResources.Count; i++)
                     {
                         SpriteRenderer item = resourceIcons[i + 3];
-                        item.sprite = appearanceResources[i].ItemBase.itemImage;
+                        item.sprite = appearanceResources[i].Item.itemImage;
                         item.gameObject.SetActive(true);
                     }
                 }
@@ -187,7 +184,7 @@ public class TileBase : MonoBehaviour
         {
             Resource item = appearanceResources[i];
 
-            if (item.ItemCount == 0)
+            if (item.Count == 0)
             {
                 appearanceResources.Remove(item);
             }
@@ -247,17 +244,17 @@ public class TileBase : MonoBehaviour
         {
             Resource item = appearanceResources[i];
 
-            var itemBase = item.ItemBase;
+            var itemBase = item.Item;
 
-            if (item.ItemCount - count >= 0)
+            if (item.Count - count >= 0)
             {
-                list.Add(new Resource(item.ItemCode, count, itemBase));
-                item.ItemCount -= count;
+                list.Add(new Resource(itemBase, count));
+                item.Count -= count;
             }
             else
             {
-                list.Add(new Resource(item.ItemCode, item.ItemCount, itemBase));
-                item.ItemCount = 0;
+                list.Add(new Resource(itemBase, item.Count));
+                item.Count = 0;
             }
         }
 
@@ -382,11 +379,11 @@ public class TileBase : MonoBehaviour
         else
         {
             itemBase = itemSO.items.ToList()
-                .Find(x => x.data == structure.Resource.ItemBase.data);
+                .Find(x => x.data == structure.Resource.Item.data);
         }
 
         // 특수 자원 추가
-        appearanceResources.Add(new Resource(itemBase.Code, 1, itemBase));
+        appearanceResources.Add(new Resource(itemBase, 1));
 
         RotationCheck(transform.rotation.eulerAngles);
         ResourceUpdate(true);

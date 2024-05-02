@@ -36,16 +36,16 @@ public class ResourceManager : MonoBehaviour
 
         for (int i = 0; i < lastResources.Count; i++)
         {
-            if (owendResources.Exists(x => x.ItemBase == lastResources[i].ItemBase))
+            if (owendResources.Exists(x => x.Item == lastResources[i].Item))
             {
-                var resource = owendResources.Find(x => x.ItemBase == lastResources[i].ItemBase);
+                var resource = owendResources.Find(x => x.Item == lastResources[i].Item);
 
-                if (resource.ItemCount <= 0)
+                if (resource.Count <= 0)
                     return;
                 else
-                    resource.ItemCount += lastResources[i].ItemCount;
+                    resource.Count += lastResources[i].Count;
 
-                var item = itemSO.items.ToList().Find(x => x == resource.ItemBase);
+                var item = itemSO.items.ToList().Find(x => x == resource.Item);
 
                 //Debug.LogFormat("{0} 자원 {1}개 획득", item.data.Korean, lastResources[i].ItemCount);
                 isGetResource = true;
@@ -53,7 +53,7 @@ public class ResourceManager : MonoBehaviour
             else
             {
                 owendResources.Add(lastResources[i]);
-                var item = itemSO.items.ToList().Find(x => x == lastResources[i].ItemBase);
+                var item = itemSO.items.ToList().Find(x => x == lastResources[i].Item);
 
                 //Debug.LogFormat("새로운 자원 {0} {1}개 획득했다.", item.data.Korean, lastResources[i].ItemCount);
                 isGetResource = true;
@@ -62,20 +62,15 @@ public class ResourceManager : MonoBehaviour
 
         for (int i = 0; i < lastResources.Count; i++)
         {
-            ItemBase item = itemSO.items.ToList().Find(x => x == lastResources[i].ItemBase);
+            ItemBase item = itemSO.items.ToList().Find(x => x == lastResources[i].Item);
 
-            for (int j = 0; j < lastResources[i].ItemCount; j++)
+            for (int j = 0; j < lastResources[i].Count; j++)
             {
                 //TODO :: SFX 재생, 아이템 획득 스크립트 추첨
                 App.Manager.UI.GetPanel<InventoryPanel>().AddItem(item);
-                PlaySFX(item.sfxName);
+                App.Manager.Sound.PlaySFX(item.sfxName);
             }
         }
-    }
-
-    public void PlaySFX(string str)
-    {
-        App.Manager.Sound.PlaySFX(str);
     }
 
     public bool CheckResource(TileController tileController)

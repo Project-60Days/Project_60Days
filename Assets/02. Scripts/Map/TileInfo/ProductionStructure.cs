@@ -11,10 +11,7 @@ public class ProductionStructure : StructureBase
         isUse = false;
         isAccessible = false;
 
-        var itemBase = _itemSO.items.ToList()
-            .Find(x => x.data.Code == "ITEM_WIRE");
-
-        resource = new Resource(itemBase.data.English, 2, itemBase);
+        resource = new Resource("ITEM_WIRE", 2);
         neighborTiles = _neighborTiles;
         structureModel = _structureModel;
 

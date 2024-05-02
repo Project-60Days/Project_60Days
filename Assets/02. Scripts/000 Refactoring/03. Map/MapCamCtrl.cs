@@ -13,10 +13,8 @@ public class MapCamCtrl : MonoBehaviour
     private SoundManager Sound;
     private Transform Player;
 
-    public IEnumerator Init()
+    public void Init()
     {
-        yield return new WaitForEndOfFrame();
-
         transposer = mapCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
         UI = App.Manager.UI.GetPanel<MapPanel>();
         Map = App.Manager.Map;
