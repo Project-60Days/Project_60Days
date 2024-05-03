@@ -168,6 +168,7 @@ public class OptionScreen : OptionBase
     private void ChangeResolution(int _width, int _height)
     {
         Screen.SetResolution(_width, _height, Setting.Screen.isFullScreen);
+        App.Manager.UI.GetPanel<MenuPanel>().ResetLocation();
     }
 
     private int FindResolutionIndex(int _width, int _height)

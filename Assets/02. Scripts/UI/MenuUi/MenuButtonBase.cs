@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using UnityEngine.EventSystems;
+using DG.Tweening;
+using TMPro;
 
 public class MenuButtonBase : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
@@ -10,16 +11,13 @@ public class MenuButtonBase : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     protected TextMeshProUGUI buttonText;
     protected Image buttonImage;
 
-    Color normalTextColor = Color.white;
-    Color highlightTextColor = Color.black;
-
-    public float initialY { get; private set; }
+    public float startPositionY { get; private set; }
 
     void Awake()
     {
         Set();
         Init();
-        initialY = transform.localPosition.y;
+        startPositionY = transform.localPosition.y;
     }
 
     public virtual void Set()
@@ -30,49 +28,48 @@ public class MenuButtonBase : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public virtual void Init()
     {
-        SetButtonNormal();
+        SetButtonState(false);
     }
 
-
-
-
-    protected void SetButtonNormal()
+    public virtual void ResetPosition()
     {
-        buttonText.color = normalTextColor;
-        buttonImage.enabled = false;
+        transform.DOLocalMoveY(startPositionY, 0f);
     }
 
-    protected void SetButtonHighlighted()
+
+
+
+    protected void SetButtonState(bool _isActive)
     {
-        buttonText.color = highlightTextColor;
-        buttonImage.enabled = true;
+        buttonText.color = _isActive ? Color.black : Color.white;
+        buttonImage.enabled = _isActive;
     }
-
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (isClicked == false) 
-            SetButtonHighlighted();
+        if (isClicked) return;
+
+        SetButtonState(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (isClicked == false)
-            SetButtonNormal();
+        if (isClicked) return;
+
+        SetButtonState(false);
     }
 
     void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
     {
-        if (isClicked == false)
-        {
-            App.Manager.Sound.PlaySFX("SFX_Button_1");
-            ClickEvent();
-        }
+        if (isClicked) return;
+
+        App.Manager.Sound.PlaySFX("SFX_Button_1");
+        ClickEvent();
     }
 
     public virtual void ClickEvent()
     {
-        SetButtonNormal();
+        SetButtonState(false);
     }
 
     public virtual void CloseEvent()
