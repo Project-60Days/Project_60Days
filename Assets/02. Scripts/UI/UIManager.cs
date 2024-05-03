@@ -76,7 +76,7 @@ public class UIManager : Manager
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (CurrState == UIState.Menu)
+            if (CurrState == UIState.Normal)
                 GetPanel<MenuPanel>().OpenPanel();
             else
                 Application.Quit();

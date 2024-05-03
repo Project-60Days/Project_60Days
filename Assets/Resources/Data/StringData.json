@@ -97,8 +97,8 @@
   },
   {
     "Index": 3001,
-    "Code": "STR_TILE_NONE_DESCRIPTION",
-    "Korean": "파괴된 도시\n<size=18>포장된 도로 <color=grey>: 선체 이동 거리 + 1</size></color>",
+    "Code": "STR_TILE_CITY_DESCRIPTION",
+    "Korean": "파괴된 도시\n포장된 도로 : 선체 이동 거리 + 1",
     "English": -1,
     "Japanese": -1,
     "Chinese": -1
@@ -106,7 +106,7 @@
   {
     "Index": 3002,
     "Code": "STR_TILE_JUNGLE_DESCRIPTION",
-    "Korean": "습지\n<size=18>풍부한 자원 <color=grey>: 자원 획득 개수 + 1</size></color>",
+    "Korean": "습지\n풍부한 자원 : 자원 획득 개수 + 1",
     "English": -1,
     "Japanese": -1,
     "Chinese": -1
@@ -114,7 +114,7 @@
   {
     "Index": 3003,
     "Code": "STR_TILE_DESERT_DESCRIPTION",
-    "Korean": "황야\n<size=18>부식성 바람 <color=grey>: 턴당 선체 내구도 - 1</size></color>",
+    "Korean": "황야\n부식성 바람 : 턴당 선체 내구도 - 1",
     "English": -1,
     "Japanese": -1,
     "Chinese": -1
@@ -122,7 +122,7 @@
   {
     "Index": 3004,
     "Code": "STR_TILE_TUNDRA_DESCRIPTION",
-    "Korean": "툰드라\n<size=18>얼어붙은 문 <color=grey>: 구조물 탐사 시 2턴 소모</size></color>",
+    "Korean": "툰드라\n얼어붙은 문 : 구조물 탐사 시 2턴 소모",
     "English": -1,
     "Japanese": -1,
     "Chinese": -1
@@ -138,7 +138,79 @@
   {
     "Index": 4002,
     "Code": "STR_WARNING_NOTICE_ALERT",
-    "Korean": "<color=red>경고 : 주변 1타일 이내에 글리처가 있습니다.</color>",
+    "Korean": "경고 : 주변 1타일 이내에 글리처가 있습니다.",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 5001,
+    "Code": "STR_OPTION_SOUND",
+    "Korean": "음향",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 5002,
+    "Code": "STR_OPTION_SOUND_MASTER",
+    "Korean": "전체 음향",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 5003,
+    "Code": "STR_OPTION_SOUND_BGM",
+    "Korean": "배경음",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 5004,
+    "Code": "STR_OPTION_SOUND_SFX",
+    "Korean": "효과음",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 5005,
+    "Code": "STR_OPTION_SCREEN",
+    "Korean": "화면",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 5006,
+    "Code": "STR_OPTION_SCREEN_SCREENMODE",
+    "Korean": "화면 모드",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 5007,
+    "Code": "STR_OPTION_SCREEN_FULLSCREEN",
+    "Korean": "전체 화면",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 5008,
+    "Code": "STR_OPTION_SCREEN_WINDOWED",
+    "Korean": "창 모드",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 5009,
+    "Code": "STR_OPTION_SCREEN_RESOLUTION",
+    "Korean": "해상도",
     "English": -1,
     "Japanese": -1,
     "Chinese": -1

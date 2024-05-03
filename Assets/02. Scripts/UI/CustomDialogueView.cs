@@ -31,12 +31,12 @@ public class CustomDialogueView : DialogueViewBase
 
             lineText.maxVisibleCharacters = 10000;
 
-            if (skipSFX != null)
+            if (string.IsNullOrEmpty(skipSFX))
                 App.Manager.Sound.PlaySFX(skipSFX);
         }
         else
         {
-            if (!doesUserContinueRequest && skipSFX != null)
+            if (!doesUserContinueRequest && string.IsNullOrEmpty(skipSFX))
                 App.Manager.Sound.PlaySFX(skipSFX);
             doesUserContinueRequest = true;
         }
@@ -90,7 +90,7 @@ public class CustomDialogueView : DialogueViewBase
 
     void Update()
     {
-        if (textSFX == null) return;
+        if (string.IsNullOrEmpty(textSFX)) return;
         if(!doesUserSkipRequest && isStartLine)
         {
             if (!App.Manager.Sound.IsPlayingTypeWriteSFX())

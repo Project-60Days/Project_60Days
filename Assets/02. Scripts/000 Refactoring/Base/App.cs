@@ -17,6 +17,7 @@ public class App : Singleton<App>
     private readonly TestManager test;
 
     private readonly GameData gameData;
+    private readonly SettingData settingData;
     #endregion
 
     public partial class Manager
@@ -33,6 +34,7 @@ public class App : Singleton<App>
     public class Data
     {
         public static GameData Game => instance.gameData;
+        public static SettingData Setting => instance.settingData;
     }
 
     #region Load Scene

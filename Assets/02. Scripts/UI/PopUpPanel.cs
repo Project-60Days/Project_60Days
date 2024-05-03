@@ -90,7 +90,7 @@ public class PopUpPanel : UIBase
             if (sequence.Elapsed() >= 13f && isCompleteToPlayBGM == false)
             {
                 isCompleteToPlayBGM = true;
-                App.Manager.Sound.SetBGMVolume(bgmVolume);
+                //App.Manager.Sound.SetBGMVolume(bgmVolume);
                 App.Manager.Sound.PlayBGM("BGM_Title");
             }
 
