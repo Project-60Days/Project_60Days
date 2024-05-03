@@ -34,9 +34,9 @@ MonoBehaviour:
     value3: -1
   itemImage: {fileID: 21300000, guid: 2248000358233024f85f3dc2475a1eee, type: 3}
   itemCount: 0
-  eItemType: 0
+  itemType: 0
   sprite: {fileID: 21300000, guid: 1bb0b2c6477631c49a99e2522d21db2c, type: 3}
-  sfxName: SFX_Carbon_Acquisition
+  sfxName: SFX_Map_Carbon
   isMadeOnce: 0
   isBlueprintOpen: 0
   canRemoveEquipment: 0

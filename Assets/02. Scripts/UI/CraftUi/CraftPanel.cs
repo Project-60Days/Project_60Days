@@ -68,7 +68,7 @@ public class CraftPanel : UIBase
         base.OpenPanel();
 
         effectCtrl.StartAnim();
-        App.Manager.Sound.PlaySFX("SFX_SceneChange_BaseToCrafting");
+        App.Manager.Sound.PlaySFX("SFX_Craft_Open");
 
         App.Manager.UI.GetPanel<ItemInfoPanel>().HideInfo(); //todo
 
@@ -84,7 +84,7 @@ public class CraftPanel : UIBase
     public override void ClosePanel()
     {
         effectCtrl.StopAnim();
-        App.Manager.Sound.PlaySFX("SFX_SceneChange_CraftingToBase");
+        App.Manager.Sound.PlaySFX("SFX_Craft_Close");
         
         Sequence sequence = DOTween.Sequence();
         sequence

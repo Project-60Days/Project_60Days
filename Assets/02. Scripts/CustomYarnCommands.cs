@@ -208,28 +208,6 @@ public class CustomYarnCommands : MonoBehaviour
     }
     #endregion
 
-    #region temp
-    void SpawnTutorialGlicher()
-    {
-        App.Manager.Map.mapCtrl.SpawnTutorialZombie();
-    }
-
-    void PlayBGM(string bgmName)
-    {
-        App.Manager.Sound.PlayBGM(bgmName);
-    }
-
-    void PlaySFX(string sfxName)
-    {
-        App.Manager.Sound.PlaySFX(sfxName);
-    }
-
-    void StopBGM(string soundName)
-    {
-        App.Manager.Sound.StopBGM();
-    }
-    #endregion
-
     [YarnFunction("getResourceName")]
     static string GetResourceName()
     {

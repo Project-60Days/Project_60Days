@@ -35,9 +35,9 @@ MonoBehaviour:
     value3: 0
   itemImage: {fileID: 21300000, guid: d44bb0dc323807144b73f704a47ea3bf, type: 3}
   itemCount: 1
-  eItemType: 0
+  itemType: 0
   sprite: {fileID: 21300000, guid: 0432cae3e0c722841b4bc3ec2a6f1383, type: 3}
-  sfxName: SFX_Rubber_Acquisition
+  sfxName: SFX_Map_Rubber
   isMadeOnce: 0
   isBlueprintOpen: 0
   canRemoveEquipment: 0

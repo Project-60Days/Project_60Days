@@ -50,7 +50,7 @@ public class GameManager : Manager
 
     public void NewDay()
     {
-        App.Manager.Sound.PlayBGM("BGM_InGameTheme");
+        App.Manager.Sound.PlayBGM("BGM_InGame");
         App.Manager.UI.FadeOut();
         App.Manager.UI.PopUIStack(UIState.NewDay);
 

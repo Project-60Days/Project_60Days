@@ -21,7 +21,7 @@ public class CraftSlot : SlotBase
                 break;
             case SlotType.ResultSlot:
                 App.Manager.UI.GetPanel<CraftPanel>().Craft.MoveResultToInventory(item);
-                App.Manager.Sound.PlaySFX("SFX_Crafting_Result");
+                App.Manager.Sound.PlaySFX("SFX_Craft_Result");
                 if (item.isMadeOnce == false)
                 {
                     item.isMadeOnce = true;

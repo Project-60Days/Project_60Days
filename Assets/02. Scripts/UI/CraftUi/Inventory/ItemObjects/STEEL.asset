@@ -34,9 +34,9 @@ MonoBehaviour:
     value3: 0
   itemImage: {fileID: 21300000, guid: 351a9799c30acca41a51ea5f6ca7da9d, type: 3}
   itemCount: 2
-  eItemType: 0
+  itemType: 0
   sprite: {fileID: 21300000, guid: 818f441e825888340ac723be909e0dec, type: 3}
-  sfxName: SFX_Steel_Acquisition
+  sfxName: SFX_Map_Steel
   isMadeOnce: 0
   isBlueprintOpen: 0
   canRemoveEquipment: 0

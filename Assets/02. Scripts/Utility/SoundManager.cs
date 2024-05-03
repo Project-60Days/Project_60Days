@@ -11,8 +11,10 @@ public class Sound
 
 public class SoundManager : Manager
 {
+
+    [SerializeField] Sound[] BGM = null;
+    [SerializeField] Sound[] SFX = null;    
     [SerializeField] Sound[] array_sfx = null;
-    [SerializeField] Sound[] array_bgm = null;
 
     [SerializeField] AudioSource bgmPlayer = null;
     [SerializeField] AudioSource sfxPlayer = null;
@@ -32,7 +34,7 @@ public class SoundManager : Manager
         dic_BGM = new Dictionary<string, AudioClip>();
         dic_SFX = new Dictionary<string, AudioClip>();
 
-        foreach (Sound sound in array_bgm)
+        foreach (Sound sound in BGM)
         {
             dic_BGM.Add(sound.name, sound.clip);
         }
@@ -43,71 +45,83 @@ public class SoundManager : Manager
         }
     }
 
-    public void PlayTypeWriteSFX(string sfxName)
+    #region Play & Stop Sound
+
+    #region BGM
+    public void PlayBGM(string _name)
     {
-        if (!dic_SFX.ContainsKey(sfxName))
+        if (!dic_BGM.TryGetValue(_name, out var clip))
         {
-            Debug.LogWarning("SoundManager - Sound not found: " + sfxName);
+            Debug.LogError("ERROR: Failed to play BGM. Unable to find " + _name);
             return;
         }
 
-        typeWritePlayer.clip = dic_SFX[sfxName];
-        typeWritePlayer.volume = sfxVolume;
+        bgmPlayer.clip = clip;
 
-        typeWritePlayer.Play();
+        bgmPlayer.Play();
+        bgmPlayer.DOFade(0.5f, 1f).SetEase(Ease.Linear);
     }
 
-    /// <summary>
-    /// sfxName ÀÌ¸§ÀÇ SFX Àç»ý
-    /// </summary>
-    /// <param name="sfxName"></param>
-    public void PlaySFX(string sfxName)
+    public void ResumeBGM()
     {
-        if (!dic_SFX.ContainsKey(sfxName))
+        if (bgmPlayer.isPlaying) return;
+
+        bgmPlayer.Play();
+        bgmPlayer.DOFade(0.5f, 1f).SetEase(Ease.Linear);
+    }
+
+    public void StopBGM()
+    {
+        bgmPlayer.DOFade(0f, 1f).OnComplete(() => bgmPlayer.Stop());
+    }
+    #endregion
+
+    #region SFX
+    public void PlaySFX(string _name)
+    {
+        if (!dic_SFX.TryGetValue(_name, out var clip))
         {
-            Debug.LogWarning("SoundManager - Sound not found: " + sfxName);
+            Debug.LogError("ERROR: Failed to play SFX. Unable to find " + _name);
             return;
         }
 
-        sfxPlayer.clip = dic_SFX[sfxName];
-        sfxPlayer.volume = sfxVolume;
+        sfxPlayer.clip = clip;
 
         sfxPlayer.Play();
     }
 
-    /// <summary>
-    /// bgmName ÀÌ¸§ÀÇ BGM Àç»ý
-    /// </summary>
-    /// <param name="bgmName"></param>
-    public void PlayBGM(string bgmName)
-    {
-        if (!dic_BGM.ContainsKey(bgmName))
-        {
-            Debug.LogWarning("SoundManager - Sound not found: " + bgmName);
-            return;
-        }
-
-        bgmPlayer.clip = dic_BGM[bgmName];
-        bgmPlayer.volume = bgmVolume;
-
-        bgmPlayer.Play();
-    }
-
-    /// <summary>
-    /// BGM ¸ØÃã
-    /// </summary>
-    public void StopBGM()
-    {
-        bgmPlayer.Stop();
-    }
-
-    /// <summary>
-    /// SFX ¸ØÃã
-    /// </summary>
     public void StopSFX()
     {
         sfxPlayer.Stop();
     }
+
+    public bool IsPlayingSFX()
+    {
+        return sfxPlayer.isPlaying;
+    }
+    #endregion
+
+    #region TypeWrite
+    public void PlayTypeWriteSFX(string _name)
+    {
+        if (!dic_SFX.TryGetValue(_name, out var clip))
+        {
+            Debug.LogError("ERROR: Failed to play SFX. Unable to find " + _name);
+            return;
+        }
+
+        typeWritePlayer.clip = clip;
+
+        typeWritePlayer.Play();
+    }
+
+    public bool IsPlayingTypeWriteSFX()
+    {
+        return typeWritePlayer.isPlaying;
+    }
+    #endregion
+
+    #endregion
 
     /// <summary>
     /// BGM º¼·ý Á¶Àý (0 ~ 1)
@@ -155,15 +169,5 @@ public class SoundManager : Manager
     {
         if (dic_SFX.ContainsKey(sfxName)) return true;
         else return false;
-    }
-
-    public bool CheckSFXPlayNow()
-    {
-        return sfxPlayer.isPlaying;
-    }
-
-    public bool CheckTypeWriteSFXPlayNow()
-    {
-        return typeWritePlayer.isPlaying;
     }
 }

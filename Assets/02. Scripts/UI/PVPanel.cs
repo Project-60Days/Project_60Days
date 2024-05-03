@@ -51,7 +51,7 @@ public class PVPanel : UIBase
 
         isEnd = true;
 
-        App.Manager.Sound.PlayBGM("BGM_InGameTheme");
+        App.Manager.Sound.PlayBGM("BGM_InGame");
     }
     #endregion
 

@@ -20,11 +20,11 @@ public class ItemSlot : SlotBase
         {
             if (App.Manager.UI.GetPanel<CraftPanel>().Craft.IsCombinedResult) return;
 
-            string sfxName = "SFX_Crafting_" + item.data.Code;
+            string sfxName = "SFX_Craft_" + item.data.Code;
             if (App.Manager.Sound.CheckSFXExist(sfxName) == true)
                 App.Manager.Sound.PlaySFX(sfxName);
             else
-                App.Manager.Sound.PlaySFX("SFX_Crafting_Item");
+                App.Manager.Sound.PlaySFX("SFX_Craft_Item");
 
             CraftItemClick?.Invoke(item.sprite);
 

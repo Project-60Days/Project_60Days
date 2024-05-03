@@ -2637,10 +2637,10 @@ RectTransform:
   m_Father: {fileID: 1782671770}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 355.7433, y: 0}
+  m_SizeDelta: {x: 711.4866, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &1076115634
 GameObject:
@@ -3480,6 +3480,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: BGM.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.size
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
       propertyPath: typeWritePlayer
       value: 
       objectReference: {fileID: 1278944104}
@@ -3490,6 +3498,346 @@ PrefabInstance:
     - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
       propertyPath: array_sfx.Array.size
       value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: BGM.Array.data[0].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: e7b20ed2b9a4099488ce8c2cc427371e, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: BGM.Array.data[0].name
+      value: BGM_Title
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: BGM.Array.data[1].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: eaf7b8d10d2e10f488186938639bcdc0, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: BGM.Array.data[1].name
+      value: BGM_InGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: BGM.Array.data[2].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: a6df29287fdb49c469e04b6ecd292b17, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: BGM.Array.data[2].name
+      value: Ambience_City
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: BGM.Array.data[3].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: c6540ca0c124a9b46b2c7a366d04004b, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: BGM.Array.data[3].name
+      value: Ambience_Desert
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: BGM.Array.data[4].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: f1662428e213fab409189a9930d6f134, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: BGM.Array.data[4].name
+      value: Ambience_Jungle
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: BGM.Array.data[5].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 3b578a9add2dc8b449ac40657f0e50ee, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: BGM.Array.data[5].name
+      value: Ambience_Tundra
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: BGM.Array.data[6].name
+      value: BGM_TitleTheme_Upgrade
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[0].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: ee58786ff13deb5458a81e8fdef854da, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[0].name
+      value: SFX_Logo
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[1].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 6617a05a0179ae14897a8b3ce52bfaf0, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[1].name
+      value: SFX_Shelter_Map
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[2].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: e5055de9a2d21794cba552a76c119c98, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[2].name
+      value: SFX_Tutorial_Text
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[3].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 66c81d8e7a99c4642b2eb1452d09c31c, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[3].name
+      value: SFX_Tutorial_Skip
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[4].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 77d31b03f201ea447b2eeebc63200328, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[4].name
+      value: SFX_Note_Open
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[5].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: ae65884410c8b764ebb2557870b67f90, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[5].name
+      value: SFX_Note_Close
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[6].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 6ae6990779499e243a5da8c8867ff717, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[6].name
+      value: SFX_Craft_Open
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[7].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 615e48340fe44d046aed3008f8518d5d, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[7].name
+      value: SFX_Craft_Close
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[8].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 329adf83082ae124dbee0a0c0bf11007, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[8].name
+      value: SFX_Craft_Item
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[9].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: f72e73ebfb690724288e2c5f0381f661, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[9].name
+      value: SFX_Craft_Result
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[10].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: a388f670acdd34443a87fe566bf84acb, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[10].name
+      value: SFX_Craft_Steel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[11].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: eed58fed14c568746ae50ffd5c39e3df, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[11].name
+      value: SFX_Craft_Carbon
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[12].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: dcdbe43f6b5b488479ba32fb57fcfb1e, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[12].name
+      value: SFX_Craft_Plasma
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[13].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 13040b709979f1545b1a4561dd116931, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[13].name
+      value: SFX_Craft_Gas
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[14].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 7c37cb2b56cb15d4b9927f27a0bb4341, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[14].name
+      value: SFX_Craft_Rubber
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[15].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: e7b31840e2d507446845eb5c1cc16f84, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[15].name
+      value: SFX_Map_Open
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[16].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: df08b34dda74a6a4aa7f8ac00a620195, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[16].name
+      value: SFX_Map_Close
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[17].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 4ec194573fa22d24c8ce999a3be7e378, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[17].name
+      value: SFX_Map_Select
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[18].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 4db79821cd359fb4e8ceec41e099679f, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[18].name
+      value: SFX_Map_Cancel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[19].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 9fad773901ceec04aae99740c8b40aa1, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[19].name
+      value: SFX_Map_Zombie
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[20].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 0c6e23216ac73b445b99c0f84ccdd20a, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[20].name
+      value: SFX_Map_Steel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[21].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: e7325e04e99121448aec6022673f2642, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[21].name
+      value: SFX_Map_Carbon
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[22].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 019bb21b2638c6d4fadc0a5209ced35a, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[22].name
+      value: SFX_Map_Plasma
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[23].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: e75c9bc18b582be4bab13a6cfa81ff0e, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[23].name
+      value: SFX_Map_Gas
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[24].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 19ae4e0da840b0246b9c6ced9eb0e4bb, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[24].name
+      value: SFX_Map_Rubber
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[25].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 84913d908d27e8747a576dca88de8b2d, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[25].name
+      value: SFX_Button_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[26].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: acab310d9f17e9347acf6a7fcecd8021, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[26].name
+      value: SFX_Button_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[27].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 90ff527d0d9962c4aa912327e7a8cf4e, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[27].name
+      value: SFX_Spark_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[28].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 150b4e80af302464f8ba0d80c77b6049, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[28].name
+      value: SFX_Spark_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[29].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 04bb628f9215e3747b8f77a8d7bac6ec, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[29].name
+      value: SFX_Spark_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[30].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 009267f0e5637ca4b9bec0d6190d87e0, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[30].name
+      value: SFX_Spark_4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[31].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: bd9e992dde48a7947a4e7b0fbbf2a710, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[31].name
+      value: SFX_Hit_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[32].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: ade373e4fd186d44b9af483b9ec2af1b, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[32].name
+      value: SFX_Hit_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[33].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 9676ec93283eec14cb0b37562f5a0ae4, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[33].name
+      value: SFX_Hit_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[34].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: e1f8560e3aca4fe4086faece64553572, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[34].name
+      value: SFX_Hit_4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[35].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: fccaeb33a7823dd4ea951add3fb3bbdd, type: 3}
+    - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
+      propertyPath: SFX.Array.data[35].name
+      value: SFX_Submit
       objectReference: {fileID: 0}
     - target: {fileID: 4495825778294196507, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
       propertyPath: array_bgm.Array.data[0].clip

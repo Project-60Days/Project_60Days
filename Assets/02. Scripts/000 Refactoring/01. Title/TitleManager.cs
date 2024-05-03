@@ -123,7 +123,7 @@ public class TitleManager : MonoBehaviour
 
                 titleImage.DOFade(0f, 1f).SetEase(Ease.Linear).From();
 
-                App.Manager.Sound.PlayBGM("BGM_TitleTheme");
+                App.Manager.Sound.PlayBGM("BGM_Title");
             })
             .AppendInterval(2f)
             .OnComplete(() =>

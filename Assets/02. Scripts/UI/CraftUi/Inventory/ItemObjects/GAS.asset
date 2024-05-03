@@ -35,9 +35,9 @@ MonoBehaviour:
     value3: 0
   itemImage: {fileID: 21300000, guid: b59cef1285586f7488f1d4aedc25ae98, type: 3}
   itemCount: 0
-  eItemType: 0
+  itemType: 0
   sprite: {fileID: 21300000, guid: d7f2c2e9a8ddbe94d9a6a0b12a6960d5, type: 3}
-  sfxName: SFX_Gas_Acquisition
+  sfxName: SFX_Map_Gas
   isMadeOnce: 0
   isBlueprintOpen: 0
   canRemoveEquipment: 0

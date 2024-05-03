@@ -91,7 +91,7 @@ public class PopUpPanel : UIBase
             {
                 isCompleteToPlayBGM = true;
                 App.Manager.Sound.SetBGMVolume(bgmVolume);
-                App.Manager.Sound.PlayBGM("BGM_TitleTheme_Upgrade");
+                App.Manager.Sound.PlayBGM("BGM_Title");
             }
 
             if (sequence.Elapsed() >= 13f && isComplete13f == false)

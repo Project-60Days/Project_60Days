@@ -52,21 +52,21 @@ public class MapCamCtrl : MonoBehaviour
 
     public void GoToShelter()
     {
-        Sound.PlaySFX("SFX_SceneChange_MapToBase");
+        Sound.PlaySFX("SFX_Map_Close");
 
         Sequence sequence = DOTween.Sequence();
         sequence.Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 5f, 0.5f))
             .OnComplete(() =>
             {
                 SetPrioryty(false);
-                Sound.PlayBGM("BGM_InGameTheme");
+                Sound.PlayBGM("BGM_InGame");
                 UI.FalseTileInfo();
             });
     }
 
     public void GoToMap()
     {
-        App.Manager.Sound.PlaySFX("SFX_SceneChange_BaseToMap");
+        App.Manager.Sound.PlaySFX("SFX_Map_Open");
 
         Sequence sequence = DOTween.Sequence();
         sequence.AppendCallback(() =>

@@ -34,9 +34,9 @@ MonoBehaviour:
     value3: 0
   itemImage: {fileID: 21300000, guid: 1b6a326547522224a897cc3457c55ab9, type: 3}
   itemCount: 0
-  eItemType: 0
+  itemType: 0
   sprite: {fileID: 21300000, guid: 6a2e7105bb94919448fb8f9a39160e36, type: 3}
-  sfxName: SFX_Plasma_Acquisition
+  sfxName: SFX_Map_Plasma
   isMadeOnce: 0
   isBlueprintOpen: 0
   canRemoveEquipment: 0

@@ -9,7 +9,7 @@ public class CustomDialogueView : DialogueViewBase
 {
     public Button[] skipButton;
     [SerializeField] private TextMeshProUGUI lineText;
-    [SerializeField] private string enterSFX = null;
+    [SerializeField] private string skipSFX = null;
     [SerializeField] private string textSFX = null;
 
     //private bool isRunningLine = false;
@@ -31,13 +31,13 @@ public class CustomDialogueView : DialogueViewBase
 
             lineText.maxVisibleCharacters = 10000;
 
-            if (enterSFX != null)
-                App.Manager.Sound.PlaySFX(enterSFX);
+            if (skipSFX != null)
+                App.Manager.Sound.PlaySFX(skipSFX);
         }
         else
         {
-            if (!doesUserContinueRequest && enterSFX != null)
-                App.Manager.Sound.PlaySFX(enterSFX);
+            if (!doesUserContinueRequest && skipSFX != null)
+                App.Manager.Sound.PlaySFX(skipSFX);
             doesUserContinueRequest = true;
         }
     }
@@ -93,7 +93,7 @@ public class CustomDialogueView : DialogueViewBase
         if (textSFX == null) return;
         if(!doesUserSkipRequest && isStartLine)
         {
-            if (App.Manager.Sound.CheckTypeWriteSFXPlayNow() == false)
+            if (!App.Manager.Sound.IsPlayingTypeWriteSFX())
                 App.Manager.Sound.PlayTypeWriteSFX(textSFX);
         }
     }

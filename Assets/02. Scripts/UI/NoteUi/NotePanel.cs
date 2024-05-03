@@ -83,13 +83,13 @@ public class NotePanel : UIBase
         nextPageBtn.onClick.AddListener(() =>
         {
             GoToNextPage();
-            App.Manager.Sound.PlaySFX("SFX_ButtonClick_01");
+            App.Manager.Sound.PlaySFX("SFX_Button_1");
         });
 
         prevPageBtn.onClick.AddListener(() =>
         {
             GoToPrevPage();
-            App.Manager.Sound.PlaySFX("SFX_ButtonClick_01");
+            App.Manager.Sound.PlaySFX("SFX_Button_1");
         });
 
         closeBtn.onClick.AddListener(() =>

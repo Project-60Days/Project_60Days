@@ -34,7 +34,7 @@ public class LoadingPanel : UIBase
     {
         yield return new WaitUntil(() => App.Manager.Map.mapCtrl.LoadingComplete == true);
 
-        App.Manager.Sound.PlayBGM("BGM_InGameTheme");
+        App.Manager.Sound.PlayBGM("BGM_InGame");
 
         ClosePanel();
     }

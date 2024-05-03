@@ -10,7 +10,7 @@ public class DeveloperManager : MonoBehaviour
         videoPlayer = GetComponent<VideoPlayer>(); 
         videoPlayer.loopPointReached += OnVideoEnd;
 
-        App.Manager.Sound.PlaySFX("SFX_Title_LogIn");
+        App.Manager.Sound.PlaySFX("SFX_Logo");
     }
 
     private void OnVideoEnd(VideoPlayer vp)

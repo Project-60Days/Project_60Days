@@ -19,6 +19,6 @@ public class MainCamCtrl : MonoBehaviour
     {
         int sfxIndex = Random.Range(1, 5);
         App.Manager.Sound.StopSFX();
-        App.Manager.Sound.PlaySFX("SFX_HIT_" + sfxIndex.ToString());
+        App.Manager.Sound.PlaySFX("SFX_Hit_" + sfxIndex.ToString());
     }
 }

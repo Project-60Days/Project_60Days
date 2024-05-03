@@ -28187,7 +28187,7 @@ MonoBehaviour:
   skipButton:
   - {fileID: 769921462}
   lineText: {fileID: 147372579}
-  enterSFX: SFX_Tutorial_Enter
+  enterSFX: SFX_Tutorial_Skip
   textSFX: SFX_Tutorial_Text
 --- !u!114 &1311553840
 MonoBehaviour:
@@ -29064,14 +29064,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad05fc1c9521c814b89cb197fffd852f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isMouseEnter: 0
   city: {fileID: 21300000, guid: 8e3aa35334a2ae84293888a70d8c263c, type: 3}
   jungle: {fileID: 21300000, guid: e68d0212f741e034fa1e09c4958fa6bb, type: 3}
   desert: {fileID: 21300000, guid: 24ea5881e6b23a74887ab6d0d0dbeff8, type: 3}
   tundra: {fileID: 21300000, guid: bce3cac4bffb6a24099944feb20783ed, type: 3}
-  image: {fileID: 0}
-  player: {fileID: 0}
-  tileType: 0
 --- !u!1 &1363622669
 GameObject:
   m_ObjectHideFlags: 0

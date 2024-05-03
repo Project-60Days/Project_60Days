@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class ButtonBase : MonoBehaviour
 {
-    [SerializeField] string SFXName_btnClick = "SFX_ButtonClick_01";
+    [SerializeField] string SFXName_btnClick = "SFX_Button_1";
 
     void Start()
     {
