@@ -35,7 +35,7 @@ public abstract class MapBtnBase : MonoBehaviour, IPointerClickHandler, IPointer
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (isMouseEnter == false && App.Manager.UI.isUIStatus(UIState.Map))
+        if (isMouseEnter == false && App.Manager.UI.CurrState == UIState.Map)
         {
             isMouseEnter = true;
             App.Manager.UI.GetPanel<InfoPanel>().isNew = true;

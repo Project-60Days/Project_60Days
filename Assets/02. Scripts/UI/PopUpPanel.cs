@@ -59,14 +59,14 @@ public class PopUpPanel : UIBase
     {
         App.Manager.UI.GetPanel<HighLightPanel>().ShowHighLight("Alert", "UI_NOTE");
         App.Manager.UI.GetPanel<AlertPanel>().SetAlert("caution", false);
-        yield return new WaitUntil(() => App.Manager.UI.isUIStatus(UIState.Note));
-        yield return new WaitUntil(() => App.Manager.UI.isUIStatus(UIState.Normal));
+        yield return new WaitUntil(() => App.Manager.UI.CurrState == UIState.Note);
+        yield return new WaitUntil(() => App.Manager.UI.CurrState == UIState.Normal);
         base.OpenPanel();
 
         bgmVolume = App.Manager.Sound.SetBGMVolumeTweening(8f);
         App.Manager.Sound.StopSFX();
 
-        text02.text = "메인 스토리 챕터 01 클리어까지 " + App.Manager.UI.GetPanel<NotePanel>().dayCount + "일 소요되었습니다.\n축하합니다!";
+        text02.text = "메인 스토리 챕터 01 클리어까지 " + App.Manager.Game.dayCount + "일 소요되었습니다.\n축하합니다!";
 
         PlayCredit();
     }

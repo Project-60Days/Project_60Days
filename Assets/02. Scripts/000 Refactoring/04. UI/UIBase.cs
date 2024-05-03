@@ -50,6 +50,6 @@ public abstract class UIBase : MonoBehaviour
         gameObject.SetActive(false);
 
         if (IsAddUIStack()) 
-            App.Manager.UI.PopUIStack();
+            App.Manager.UI.PopUIStack(GetUIState());
     }
 }

@@ -19,7 +19,7 @@ public enum UIState
     PopUp,
     Loading,
     Menu,
-    EndDay
+    NewDay
 }
 
 public enum ItemType

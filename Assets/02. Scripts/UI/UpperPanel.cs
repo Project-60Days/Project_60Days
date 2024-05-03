@@ -43,10 +43,7 @@ public class UpperPanel : UIBase
         StartCoroutine(InitData());
     }
 
-    public override void ReInit()
-    {
-        UpdateDurabillity();
-    }
+    public override void ReInit() { }
     #endregion
 
     IEnumerator InitData()

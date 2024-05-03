@@ -1,10 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class MapIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class MapIconCtrl : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     bool isMouseEnter = false;
 
@@ -15,7 +14,7 @@ public class MapIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     Image image;
     Player player;
-    [HideInInspector] ETileType tileType;
+    ETileType tileType;
 
     void Start()
     {
@@ -26,7 +25,6 @@ public class MapIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     IEnumerator Init()
     {
-        yield return new WaitUntil(() => App.Manager.Map.mapCtrl);
         yield return new WaitUntil(() => App.Manager.Map.mapCtrl.Player != null);
 
         player = App.Manager.Map.mapCtrl.Player;

@@ -9,12 +9,12 @@ public class Item_Generator : ItemBase
 
     public override void Equip()
     {
-        beforeDay = App.Manager.UI.GetPanel<NotePanel>().dayCount;
+        beforeDay = App.Manager.Game.dayCount;
     }
 
     public override void DayEvent()
     {
-        if ((App.Manager.UI.GetPanel<NotePanel>().dayCount - beforeDay) % data.value1 == 0)
+        if ((App.Manager.Game.dayCount - beforeDay) % data.value1 == 0)
         {
             for (int i = 0; i < data.value2; i++)
                 App.Manager.UI.GetPanel<InventoryPanel>().AddItemByItemCode("ITEM_PLASMA");

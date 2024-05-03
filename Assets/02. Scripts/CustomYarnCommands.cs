@@ -82,7 +82,7 @@ public class CustomYarnCommands : MonoBehaviour
     Coroutine WaitUntilUIState(string _UIName)
     {
         UIState state = App.Manager.UI.StringToState(_UIName);
-        return StartCoroutine(new WaitUntil(() => App.Manager.UI.isUIStatus(state)));
+        return StartCoroutine(new WaitUntil(() => App.Manager.UI.CurrState == state));
     }
 
     void HideDialogue()
@@ -174,7 +174,7 @@ public class CustomYarnCommands : MonoBehaviour
     #region Tutorial 06
     Coroutine WaitNewDay()
     {
-        return StartCoroutine(new WaitUntil(() => App.Manager.UI.GetPanel<NotePanel>().GetNewDay()));
+        return StartCoroutine(new WaitUntil(() => App.Manager.Game.isNewDay));
     }
 
     void EnableBtn()

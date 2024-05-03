@@ -18,10 +18,8 @@ public class NotePanel : UIBase
     [SerializeField] PageBase[] pages;
     PageBase[] notePages;
 
-    [HideInInspector] public bool isNewDay = true;
-    [HideInInspector] bool isOpen = false;
-    [HideInInspector] public int dayCount = 0;
-    [HideInInspector] int pageNum = 0;
+    bool isOpen = false;
+    int pageNum = 0;
 
     [SerializeField] ScrollRect[] scrollRects;
     [SerializeField] Scrollbar[] scrollBars;
@@ -55,8 +53,8 @@ public class NotePanel : UIBase
 
         ActiveAndPlayPage();
 
-        if (isNewDay)
-            isNewDay = !isNewDay;
+        if (App.Manager.Game.isNewDay)
+            App.Manager.Game.isNewDay = false;
 
         ChangePageButton();
 
@@ -66,7 +64,7 @@ public class NotePanel : UIBase
     public override void ClosePanel()
     {
         if (!isOpen) return;
-        if (!App.Manager.UI.isUIStatus(UIState.Note)) return; //TODO
+        if (App.Manager.UI.CurrState != UIState.Note) return; //TODO
 
         base.ClosePanel();
 
@@ -105,13 +103,15 @@ public class NotePanel : UIBase
     /// </summary>
     void SetVariables()
     {
-        dayText.text = "Day " + ++dayCount;
+        dayText.text = "Day " + ++App.Manager.Game.dayCount;
         pageNum = 0;
         notePages = GetNotePageArray();
     }
 
     public PageBase[] GetNotePageArray()
     {
+        App.Manager.UI.GetPanel<AlertPanel>().SetAlert("note", false);
+
         List<PageBase> todayPages = new List<PageBase>();
         foreach (PageBase page in pages)
         {
@@ -273,11 +273,6 @@ public class NotePanel : UIBase
 
 
     #region GetAndSet
-    public bool GetNewDay()
-    {
-        return isNewDay;
-    }
-
     public bool CheckIfScrolledToEnd()
     {
         if (scrollBars[1].value <= 0.1f)

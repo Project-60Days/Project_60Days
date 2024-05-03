@@ -54,7 +54,10 @@ public class CraftPanel : UIBase
         gameObject.SetActive(false);
     }
 
-    public override void ReInit() { }
+    public override void ReInit() 
+    {
+        Equip.EquipItemDayEvent();
+    }
 
     public override UIState GetUIState() => UIState.Craft;
 

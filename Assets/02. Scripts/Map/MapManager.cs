@@ -217,7 +217,6 @@ public class MapManager : Manager
     {
         yield return StartCoroutine(mapCtrl.NextDay());
         resourceCtrl.GetResource(mapCtrl.Player.TileController);
-        App.Manager.UI.GetPanel<MapPanel>().ReInit();
         mapCtrl.OnlyMovePointerOff();
         
         CheckRoutine();
@@ -257,8 +256,14 @@ public class MapManager : Manager
 
     public void CheckZombies()
     {
+        bool isActive;
+
         if (mapCtrl.CheckZombies())
-            App.Manager.UI.GetPanel<AlertPanel>().SetAlert("caution", true);
+            isActive = true;
+        else
+            isActive = false;
+
+        App.Manager.UI.GetPanel<AlertPanel>().SetAlert("caution", isActive);
     }
 
     /// <summary>
@@ -339,7 +344,7 @@ public class MapManager : Manager
         if (curStructure == null)
             return false;
 
-        if (curStructure.visitDay != App.Manager.UI.GetPanel<NotePanel>().dayCount)
+        if (curStructure.visitDay != App.Manager.Game.dayCount)
         {
             return true;
         }

@@ -28,7 +28,7 @@ public class AlertBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (isMouseEnter == false && App.Manager.UI.isUIStatus(UIState.Normal))
+        if (isMouseEnter == false && App.Manager.UI.CurrState == UIState.Normal)
         {
             isMouseEnter = true;
             App.Manager.UI.GetPanel<InfoPanel>().isNew = true;

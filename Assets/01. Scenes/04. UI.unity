@@ -1119,6 +1119,7 @@ MonoBehaviour:
   isOver: 0
   isHit: 0
   isNewDay: 1
+  dayCount: 0
   nextDayBtn: {fileID: 1811381972}
   shelterBtn: {fileID: 1571979699}
 --- !u!4 &51942291
@@ -18844,8 +18845,6 @@ MonoBehaviour:
   pages:
   - {fileID: 2140631380}
   - {fileID: 779161645}
-  isNewDay: 1
-  dayCount: 0
   scrollRects:
   - {fileID: 779161648}
   - {fileID: 2140631377}
@@ -29065,10 +29064,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad05fc1c9521c814b89cb197fffd852f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMouseEnter: 0
   city: {fileID: 21300000, guid: 8e3aa35334a2ae84293888a70d8c263c, type: 3}
   jungle: {fileID: 21300000, guid: e68d0212f741e034fa1e09c4958fa6bb, type: 3}
   desert: {fileID: 21300000, guid: 24ea5881e6b23a74887ab6d0d0dbeff8, type: 3}
   tundra: {fileID: 21300000, guid: bce3cac4bffb6a24099944feb20783ed, type: 3}
+  image: {fileID: 0}
+  player: {fileID: 0}
+  tileType: 0
 --- !u!1 &1363622669
 GameObject:
   m_ObjectHideFlags: 0
@@ -35156,8 +35159,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b08b78b2b333094dabba375a30110ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minActiveTime: 30
-  maxActiveTime: 60
+  minActiveTime: 5
+  maxActiveTime: 8
   effectRemainTime: 1
 --- !u!1 &1672808607
 GameObject:
@@ -41810,9 +41813,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd310294020bd4b4f95eb86577492d14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blackPanel: {fileID: 172930949}
+  blackPanel: {fileID: 172930948}
   dayCountPrefab: {fileID: 8225262694076585285, guid: 06ff752b2005b314ba32b1bc9a95602f, type: 3}
-  mapIcon: {fileID: 1362350269}
 --- !u!4 &2039200993
 Transform:
   m_ObjectHideFlags: 0

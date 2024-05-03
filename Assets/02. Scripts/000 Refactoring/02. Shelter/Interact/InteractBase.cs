@@ -27,7 +27,7 @@ public abstract class InteractBase : MonoBehaviour, IPointerClickHandler, IPoint
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (App.Manager.UI.isUIStatus(UIState.Normal) == true)
+        if (App.Manager.UI.CurrState == UIState.Normal)
         {
             SetOutline(false);
             onClickEvent?.Invoke();
@@ -36,7 +36,7 @@ public abstract class InteractBase : MonoBehaviour, IPointerClickHandler, IPoint
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (App.Manager.UI.isUIStatus(UIState.Normal) == true)
+        if (App.Manager.UI.CurrState == UIState.Normal)
         {
             SetOutline(true);
         }
@@ -44,7 +44,7 @@ public abstract class InteractBase : MonoBehaviour, IPointerClickHandler, IPoint
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (App.Manager.UI.isUIStatus(UIState.Normal) == true)
+        if (App.Manager.UI.CurrState == UIState.Normal)
         {
             SetOutline(false);
         }

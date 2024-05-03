@@ -18,22 +18,16 @@ public class Select_JustoUda : SelectBase
 
     public override void SelectA()
     {
-        if (App.Manager.UI.isUIStatus(UIState.Select))
-            App.Manager.UI.PopUIStack();
-        else return;
+        App.Manager.UI.GetPanel<SelectPanel>().ClosePanel();
 
         Debug.Log("A 버튼 눌림");
-        gameObject.SetActive(false);
     }
 
     public override void SelectB()
     {
-        if (App.Manager.UI.isUIStatus(UIState.Select))
-            App.Manager.UI.PopUIStack();
-        else return;
+        App.Manager.UI.GetPanel<SelectPanel>().ClosePanel();
 
         Debug.Log("B 버튼 눌림");
-        gameObject.SetActive(false);
     }
 
     public override void SetOptionA(Button _button)

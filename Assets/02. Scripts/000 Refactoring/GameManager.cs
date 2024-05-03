@@ -13,6 +13,7 @@ public class GameManager : Manager
     [HideInInspector] public bool isOver = false;
     [HideInInspector] public bool isHit = false;
     [HideInInspector] public bool isNewDay = true;
+    [HideInInspector] public int dayCount = 0;
 
     [SerializeField] Button nextDayBtn;
     [SerializeField] Button shelterBtn;
@@ -44,14 +45,17 @@ public class GameManager : Manager
 
     public void NextDay()
     {
-        App.Manager.UI.AddUIStack(UIState.EndDay);
-
-        App.Manager.UI.FadeIn(EndFadeIn);
+        ctrl.NextDay();
     }
 
-    private void EndFadeIn()
+    public void NewDay()
     {
-        ctrl.EndFadeIn();
+        App.Manager.Sound.PlayBGM("BGM_InGameTheme");
+        App.Manager.UI.FadeOut();
+        App.Manager.UI.PopUIStack(UIState.NewDay);
+
+        isHit = false;
+        isNewDay = true;
     }
 
     #region Move Camera

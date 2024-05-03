@@ -36,7 +36,7 @@ public class MapPanel : UIBase
     {
         // var screenPoint = Camera.main.WorldToScreenPoint(tilePos);
         // tileInfoPanel.transform.position = screenPoint;
-        if (App.Manager.UI.isUIStatus(UIState.Map))
+        if (App.Manager.UI.CurrState == UIState.Map)
             tileInfoPanel.gameObject.SetActive(true);
     }
 

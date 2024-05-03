@@ -70,7 +70,7 @@ public class TutorialCtrl : MonoBehaviour
 
     private IEnumerator AddResource()
     {
-        yield return new WaitUntil(() => App.Manager.UI.isUIStatus(UIState.Normal));
+        yield return new WaitUntil(() => App.Manager.UI.CurrState == UIState.Normal);
 
         App.Manager.UI.GetPanel<InventoryPanel>().AddItemByItemCode("ITEM_DISTURBE");
         App.Manager.UI.GetPanel<InventoryPanel>().AddItemByItemCode("ITEM_FINDOR");

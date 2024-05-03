@@ -67,17 +67,6 @@ public class CustomDialogueView : DialogueViewBase
 
     private IEnumerator UpdateLine(LocalizedLine _localizedLine, Action _onDialogueLineFinished)
     {
-        //if (_localizedLine.Metadata?.Length > 0)
-        //{
-        //    foreach (var metaData in _localizedLine.Metadata)
-        //    {
-        //        Debug.LogError($"Tag Detected : {metaData}");
-        //        ReadYarnTag(metaData, _localizedLine.CharacterName);
-        //    }
-        //}
-
-        //skipButton.gameObject.SetActive(true);
-
         doesUserSkipRequest = false;
         doesUserContinueRequest = false;
         isStartLine = true;

@@ -24,10 +24,7 @@ public class InfoPanel : UIBase
         HideInfo();
     }
 
-    public override void ReInit()
-    {
-        
-    }
+    public override void ReInit() { }
     #endregion
 
     public void HideInfo()

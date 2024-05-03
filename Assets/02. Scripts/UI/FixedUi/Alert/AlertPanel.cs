@@ -20,11 +20,7 @@ public class AlertPanel : UIBase
         cautionAlert.SetActive(false);
     }
 
-    public override void ReInit()
-    {
-        noteAlert.SetActive(false);
-        cautionAlert.SetActive(false);
-    }
+    public override void ReInit() { }
     #endregion
 
     void SetButtonEvent()
@@ -42,9 +38,9 @@ public class AlertPanel : UIBase
 
     public void ClickNoteAlert()
     {
-        if (App.Manager.UI.isUIStatus(UIState.Normal) == true)
+        if (App.Manager.UI.CurrState == UIState.Normal)
             App.Manager.UI.GetPanel<NotePanel>().OpenPanel();
-        else if (App.Manager.UI.isUIStatus(UIState.Map) == true)
+        else if (App.Manager.UI.CurrState == UIState.Map)
             StartCoroutine(OpenNoteInMap());
         else
             return;
@@ -53,13 +49,13 @@ public class AlertPanel : UIBase
     IEnumerator OpenNoteInMap()
     {
         App.Manager.Game.GoToShelter();
-        yield return new WaitUntil(() => App.Manager.UI.isUIStatus(UIState.Normal));
+        yield return new WaitUntil(() => App.Manager.UI.CurrState == UIState.Normal);
         App.Manager.UI.GetPanel<NotePanel>().OpenPanel();
     }
 
     public void CautionAlert()
     {
-        if (App.Manager.UI.isUIStatus(UIState.Normal) == false) return;
+        if (App.Manager.UI.CurrState != UIState.Normal) return;
         App.Manager.Game.GoToMap();
     }
 }

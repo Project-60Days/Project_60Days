@@ -52,7 +52,7 @@ public class HighLightPanel : UIBase
     private IEnumerator HideHighLightWhenAction(HighLight _h, string _waitUntilStatusName)
     {
         UIState state = App.Manager.UI.StringToState(_waitUntilStatusName);
-        yield return new WaitUntil(() => App.Manager.UI.isUIStatus(state));
+        yield return new WaitUntil(() => App.Manager.UI.CurrState == state);
 
         _h.Hide();
         highLightImg.SetActive(false);

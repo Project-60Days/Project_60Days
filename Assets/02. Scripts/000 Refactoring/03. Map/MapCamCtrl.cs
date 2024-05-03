@@ -27,7 +27,7 @@ public class MapCamCtrl : MonoBehaviour
         transposer.m_CameraDistance = 5f;
     }
 
-    public void ReInit()
+    public void ResetCamera()
     {
         transposer.m_CameraDistance = 5f;
         SetPrioryty(false);
@@ -44,7 +44,7 @@ public class MapCamCtrl : MonoBehaviour
         else
         {
             mapCamera.Priority = 8;
-            App.Manager.UI.PopUIStack();
+            App.Manager.UI.PopUIStack(UIState.Map);
         }
 
         UI.gameObject.SetActive(isOn);

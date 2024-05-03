@@ -6,14 +6,14 @@ using DG.Tweening;
 
 public class UIManager : Manager
 {
-    Dictionary<Type, UIBase> UIDic;
-    Stack<UIState> UIStack;
-
     [SerializeField] Image blackBlur;
     [SerializeField] List<UIBase> UIs;
 
-    public UIState CurrUIState
+    [HideInInspector] public UIState CurrState
         => UIStack.Count == 0 ? UIState.Normal : UIStack.Peek();
+    
+    private Dictionary<Type, UIBase> UIDic;
+    private Stack<UIState> UIStack;
 
     protected override void Awake()
     {
@@ -30,12 +30,12 @@ public class UIManager : Manager
         UIs.Clear(); // clear memory
     }
 
-    void Start()
+    private void Start()
     {
         InitUIs();
     }
 
-    void InitUIs()
+    private void InitUIs()
     {
         foreach (var UI in UIDic.Values)
         {
@@ -51,16 +51,32 @@ public class UIManager : Manager
         }
     }
 
-    void Update() //TODO
+    public void ReInitUIs()
+    {
+        foreach (var UI in UIDic.Values)
+        {
+            if (!UI.gameObject.activeSelf) //wake up panels
+            {
+                UI.gameObject.SetActive(true);
+                UI.gameObject.SetActive(false);
+            }
+
+            try { UI.ReInit(); }
+            catch (Exception error)
+            { Debug.LogError($"ERROR: {error.Message}\n{error.StackTrace}"); }
+        }
+    }
+
+    private void Update() //TODO
     {
         InputKey();
     }
 
-    public void InputKey() //TODO
+    private void InputKey() //TODO
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isUIStatus(UIState.Menu) == false)
+            if (CurrState == UIState.Menu)
                 GetPanel<MenuPanel>().OpenPanel();
             else
                 Application.Quit();
@@ -87,23 +103,13 @@ public class UIManager : Manager
     public void AddUIStack(UIState _state)
     {
         UIStack.Push(_state);
-
-        Debug.LogError($"PUSH : {_state}, Total stack count: {UIStack.Count}");
     }
 
-    public void PopUIStack()
+    public void PopUIStack(UIState _state = 0)
     {
-        var top = UIStack.Peek();
+        if (CurrState != _state) return;
 
         UIStack.Pop();
-
-        Debug.LogError($"POP : {top}, Total stack count: {UIStack.Count}");
-    }
-
-    public bool isUIStatus(UIState _cmp)
-    {
-        UIStack.TryPeek(out UIState top);
-        return _cmp == top;
     }
 
     public UIState StringToState(string _state) => _state switch

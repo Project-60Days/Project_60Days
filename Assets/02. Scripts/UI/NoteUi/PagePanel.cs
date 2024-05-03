@@ -133,7 +133,7 @@ public class PagePanel : UIBase
     public void SetTutorialSelect()
     {
         selectPage.SetNodeName("tutorialSelect");
-        App.Manager.UI.GetPanel<NotePanel>().dayCount = -1;
+        App.Manager.Game.dayCount = -1;
         App.Manager.UI.GetPanel<NotePanel>().ReInit();
 
         yesBtn.onClick.RemoveAllListeners();

@@ -19,7 +19,7 @@ public class Tutorial04 : QuestBase
     
     public override bool CheckMeetCondition()
     {
-        return App.Manager.UI.isUIStatus(UIState.Map);
+        return App.Manager.UI.CurrState == UIState.Map;
     }
 
     public override string SetQuestText()

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -5,101 +6,100 @@ using TMPro;
 
 public class DayCtrl : MonoBehaviour
 {
-    private GameManager game;
+    private enum NewDayState
+    {
+        Normal,
+        Hit,
+        Die
+    }
 
-    [SerializeField] Image blackPanel;
+    [SerializeField] Transform blackPanel;
     [SerializeField] GameObject dayCountPrefab;
-    GameObject dayCount;
-    [SerializeField] MapIcon mapIcon;
+
+    private GameManager Game;
+    private UIManager UI;
+    private MapManager Map;
+
+    private GameObject dayCount;
+    private NewDayState todayState;
 
     private void Start()
     {
-        game = App.Manager.Game;
+        Game = App.Manager.Game;
+        Map = App.Manager.Map;
+        UI = App.Manager.UI;
     }
 
-    public void InitBlackPanel()
+    public void NextDay()
     {
-        if (game.isHit == true)
-        {
-            App.Manager.Shelter.cameraCtrl.Shake();
-        }
-
-        App.Manager.UI.FadeOut();
-
-        Destroy(dayCount);
-
-        game.isHit = false;
-
-        App.Manager.UI.PopUIStack();
-        //todo
-
-        App.Manager.UI.GetPanel<NotePanel>().isNewDay = true;
+        UI.FadeIn(FadeCallBack);
     }
 
-    public void EndFadeIn()
+    private void FadeCallBack()
     {
-        StartCoroutine(NextDayEventCallBack(() =>
-        {
-            if (game.isOver == true)
-                StartCoroutine(ShowGameOver());
-            else
-                StartCoroutine(ShowNextDate());
-        }));
+        Map.cameraCtrl.ResetCamera();
+        UI.AddUIStack(UIState.NewDay);
+
+        StartCoroutine(SetNextDay());
     }
 
-    /// <summary>
-    /// NextDayEvent 콜백함수
-    /// </summary>
-    IEnumerator NextDayEventCallBack(System.Action callback)
+    private IEnumerator SetNextDay()
     {
-        App.Manager.Map.cameraCtrl.ReInit();
-
-        yield return StartCoroutine(App.Manager.Map.NextDay());
+        yield return StartCoroutine(Map.NextDay());
 
         yield return new WaitForSeconds(1f);
 
-        App.Manager.UI.GetPanel<PagePanel>().ReInit();
+        UI.ReInitUIs();
 
-        callback?.Invoke();
-    }
-
-    IEnumerator ShowNextDate()
-    {
-        App.Manager.UI.GetPanel<NotePanel>().ReInit();
-        App.Manager.UI.GetPanel<CraftPanel>().Equip.EquipItemDayEvent();
-
-        int today = App.Manager.UI.GetPanel<NotePanel>().dayCount;
-
-        string text = "<color=white>Day " + "{vertexp}" + today.ToString() + "{/vertexp}</color>";
-
-        if (game.isHit == true)
-            text = "<color=red><shake a=0.1>" + "Day " + "{vertexp}" + today.ToString() + "{/vertexp}</shake></color>";
-
-        CreateDayCountTxt(text);
-        mapIcon.SetIconImage();
+        SetState();
+        CreateDayCountTxt(GetText());
 
         yield return new WaitForSeconds(2f);
 
-        InitBlackPanel();
-
-        App.Manager.Sound.PlayBGM("BGM_InGameTheme");
+        StartNewDay();
     }
 
-
-    IEnumerator ShowGameOver()
+    private void SetState()
     {
-        string text = "<color=red><shake a=0.1>GAME OVER</shake></color>";
-        CreateDayCountTxt(text);
-
-        yield return new WaitForSeconds(2f);
-
-        Application.Quit();
+        if (Game.isOver)
+            todayState = NewDayState.Die;
+        else if (Game.isHit)
+            todayState = NewDayState.Hit;
+        else
+            todayState = NewDayState.Normal;
     }
 
-    void CreateDayCountTxt(string _text)
+    private string GetText() => todayState switch
     {
-        dayCount = Instantiate(dayCountPrefab, blackPanel.transform);
+        NewDayState.Normal => "<color=white>Day " + "{vertexp}" + Game.dayCount.ToString() + "{/vertexp}</color>",
+        NewDayState.Hit => "<color=red><shake a=0.1>" + "Day " + "{vertexp}" + Game.dayCount.ToString() + "{/vertexp}</shake></color>",
+        NewDayState.Die => "<color=red><shake a=0.1>GAME OVER</shake></color>",
+        _ => null,
+    };
+
+    private void CreateDayCountTxt(string _text)
+    {
+        dayCount = Instantiate(dayCountPrefab, blackPanel);
         TextMeshProUGUI text = dayCount.GetComponent<TextMeshProUGUI>();
         text.text = _text;
+    }
+
+    private void StartNewDay()
+    {
+        switch (todayState)
+        {
+            case NewDayState.Die:
+                Application.Quit();
+                break;
+
+            case NewDayState.Hit:
+                App.Manager.Shelter.cameraCtrl.Shake();
+                goto case NewDayState.Normal;
+
+            case NewDayState.Normal:
+                Destroy(dayCount);
+                Game.NewDay();
+                break;
+        }
     }
 }

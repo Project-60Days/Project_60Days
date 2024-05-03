@@ -38,7 +38,7 @@ public class SparkCtrl : MonoBehaviour
 
     private void PlaySFX()
     {
-        if (App.Manager.UI.isUIStatus(UIState.Normal))
+        if (App.Manager.UI.CurrState == UIState.Normal)
         {
             int sfxIndex = Random.Range(1, 5);
             if (App.Manager.Sound.CheckSFXPlayNow() == false)
