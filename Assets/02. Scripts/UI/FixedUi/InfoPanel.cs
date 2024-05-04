@@ -1,135 +1,61 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
 using DG.Tweening;
+using TMPro;
 
 public class InfoPanel : UIBase
 {
+    [SerializeField] RectTransform rect;
     [SerializeField] TextMeshProUGUI text;
-    
 
-    public bool isNew = true;
-
-    RectTransform infoTransform;
-    CanvasGroup canvasGroup;
+    private bool isDescriptionOn = false;
 
     #region Override
     public override void Init()
     {
-        infoTransform = gameObject.GetComponent<RectTransform>();
-        canvasGroup = gameObject.GetComponent<CanvasGroup>();
-
-        HideInfo();
-    }
-
-    public override void ReInit() { }
-    #endregion
-
-    public void HideInfo()
-    {
-        text.gameObject.SetActive(false);
-        canvasGroup.alpha = 0f;
         gameObject.SetActive(false);
     }
 
-    public void ShowAlertInfo(string _code, Vector3 _mouseCoordinate)
+    public override void ReInit() { }
+
+    public override void ClosePanel()
     {
-        if (isNew == true)
-        {
-            HideInfo();
-            SetObjects(_code);
-            isNew = false;
-        }
+        base.ClosePanel();
 
-        SetTransform(_mouseCoordinate);
-
-        gameObject.SetActive(true);
-        canvasGroup.alpha = 1f;
+        isDescriptionOn = false;
+        text.text = "";
     }
+    #endregion
 
-    public void ShowMapInfo(ETileType _type, Vector3 _mouseCoordinate)
+    public void SetInfo(string _text)
     {
-        if (isNew == true)
-        {
-            HideInfo();
-            SetObjects(_type);
-            isNew = false;
-        }
+        base.OpenPanel();
 
-        SetTransform(_mouseCoordinate);
-
-        gameObject.SetActive(true);
-        canvasGroup.alpha = 1f;
-    }
-
-    public void ShowItemInfo(string _text, Vector3 _mouseCoordinate)
-    {
-        if (isNew == true)
-        {
-            HideInfo();
-            SetObject(_text);
-            isNew = false;
-        }
-
-        SetTransformAuto(_mouseCoordinate);
-
-        gameObject.SetActive(true);
-        canvasGroup.alpha = 1f;
-    }
-
-    void SetObjects(string _code)
-    {
-        string textString = App.Data.Game.GetString(_code);
-        text.gameObject.SetActive(true);
-        text.DOText(textString, 0.5f, true, ScrambleMode.Uppercase);
-    }
-
-    void SetObjects(ETileType _type)
-    {
-        string type = _type.ToString().ToUpper();
-        string code = "STR_TILE_" + type + "_DESCRIPTION";
-        string textString = App.Data.Game.GetString(code);
-
-        text.gameObject.SetActive(true);
-        text.DOText(textString, 0.5f, true, ScrambleMode.Numerals);
-    }
-
-    void SetObject(string _text)
-    {
-        text.gameObject.SetActive(true);
+        isDescriptionOn = true;
         text.DOText(_text, 0.5f, true, ScrambleMode.Uppercase);
     }
 
-    void SetTransform(Vector3 _mouseCoordinate)
+    void Update()
     {
-        LayoutRebuilder.ForceRebuildLayoutImmediate(infoTransform);
-
-        float newX = _mouseCoordinate.x;
-        float newY = _mouseCoordinate.y;
-
-        infoTransform.position = new Vector3(newX, newY, infoTransform.position.z);
+        if (isDescriptionOn)
+        {
+            UpdateDescriptionTransform();
+        }
     }
 
-    void SetTransformAuto(Vector3 _mouseCoordinate)
+    private void UpdateDescriptionTransform()
     {
-        LayoutRebuilder.ForceRebuildLayoutImmediate(infoTransform);
+        Vector2 position = Input.mousePosition;
 
-        float width = infoTransform.rect.width;
-        float height = infoTransform.rect.height;
+        if (position.x + rect.rect.width > Screen.width)
+        {
+            position.x = Screen.width - rect.rect.width;
+        }
 
-        float screenWidth = Screen.width;
-        float screenHeight = Screen.height;
+        if (position.y + rect.rect.height > Screen.height)
+        {
+            position.y = Screen.height - rect.rect.height;
+        }
 
-        float newX = _mouseCoordinate.x;
-        float newY = _mouseCoordinate.y;
-
-        if (newX + width > screenWidth * 0.95)
-            newX -= width * (screenWidth / 1920);
-        if (newY - height < screenHeight * 0.1)
-            newY += height * (screenHeight / 1080);
-
-        infoTransform.position = new Vector3(newX, newY, infoTransform.position.z);
+        rect.position = position;
     }
 }

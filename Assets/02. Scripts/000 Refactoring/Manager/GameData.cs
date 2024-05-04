@@ -208,7 +208,7 @@ public class GameData : Data
 
     public bool TryGetString(string _code, out string str)
     {
-        return TryGetString(_code, SystemLanguage.Korean, out str); //TODO: Set language options and enter parameters accordingly
+        return TryGetString(_code, App.Data.Setting.Language, out str);
     }
 
     public bool TryGetString(string _code, SystemLanguage _language, out string str)

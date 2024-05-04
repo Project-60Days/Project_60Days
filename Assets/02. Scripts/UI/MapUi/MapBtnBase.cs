@@ -1,54 +1,11 @@
-using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
-public abstract class MapBtnBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+public abstract class MapBtnBase : IconBase
 {
-    bool isMouseEnter = false;
-    [SerializeField] string text;
-
-    void Start()
+    protected override void Start()
     {
         gameObject.GetComponent<Button>().onClick.AddListener(OnClickEvent);
     }
 
     protected abstract void OnClickEvent();
-
-    void Update()
-    {
-        if (isMouseEnter == true)
-            ShowItemInfo();
-    }
-
-    public virtual void ShowItemInfo()
-    {
-        Vector3 mousePos = Input.mousePosition;
-        App.Manager.UI.GetPanel<InfoPanel>().ShowItemInfo(text, mousePos);
-    }
-
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        isMouseEnter = false;
-        App.Manager.UI.GetPanel<InfoPanel>().HideInfo();
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        if (isMouseEnter == false && App.Manager.UI.CurrState == UIState.Map)
-        {
-            isMouseEnter = true;
-            App.Manager.UI.GetPanel<InfoPanel>().isNew = true;
-        }
-
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        if (isMouseEnter == true)
-        {
-            isMouseEnter = false;
-            App.Manager.UI.GetPanel<InfoPanel>().HideInfo();
-        }
-    }
 }

@@ -53,7 +53,7 @@ public enum QuestType
 
 public enum AlertType
 {
-    Selection,
+    Note,
     Caution
 }
 

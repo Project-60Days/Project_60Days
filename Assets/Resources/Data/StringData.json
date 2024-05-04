@@ -97,32 +97,32 @@
   },
   {
     "Index": 3001,
-    "Code": "STR_TILE_CITY_DESCRIPTION",
-    "Korean": "파괴된 도시\n포장된 도로 : 선체 이동 거리 + 1",
+    "Code": "STR_TILE_CITY_DESC",
+    "Korean": "파괴된 도시 <size=15>포장된 도로 : 선체 이동 거리 + 1</size>",
     "English": -1,
     "Japanese": -1,
     "Chinese": -1
   },
   {
     "Index": 3002,
-    "Code": "STR_TILE_JUNGLE_DESCRIPTION",
-    "Korean": "습지\n풍부한 자원 : 자원 획득 개수 + 1",
+    "Code": "STR_TILE_JUNGLE_DESC",
+    "Korean": "습지 <size=15>풍부한 자원 : 자원 획득 개수 + 1</size>",
     "English": -1,
     "Japanese": -1,
     "Chinese": -1
   },
   {
     "Index": 3003,
-    "Code": "STR_TILE_DESERT_DESCRIPTION",
-    "Korean": "황야\n부식성 바람 : 턴당 선체 내구도 - 1",
+    "Code": "STR_TILE_DESERT_DESC",
+    "Korean": "황야 <size=15>부식성 바람 : 턴당 선체 내구도 - 1</size>",
     "English": -1,
     "Japanese": -1,
     "Chinese": -1
   },
   {
     "Index": 3004,
-    "Code": "STR_TILE_TUNDRA_DESCRIPTION",
-    "Korean": "툰드라\n얼어붙은 문 : 구조물 탐사 시 2턴 소모",
+    "Code": "STR_TILE_TUNDRA_DESC",
+    "Korean": "툰드라 <size=15>얼어붙은 문 : 구조물 탐사 시 2턴 소모</size>",
     "English": -1,
     "Japanese": -1,
     "Chinese": -1
@@ -211,6 +211,22 @@
     "Index": 5009,
     "Code": "STR_OPTION_SCREEN_RESOLUTION",
     "Korean": "해상도",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 6001,
+    "Code": "STR_DISTRUBTOR_DESC",
+    "Korean": "교란기 위치의 일정 부분 글리처 무리 정지",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 6002,
+    "Code": "STR_EXPLORER_DESC",
+    "Korean": "탐색기 위치의 일정부분 시야공유",
     "English": -1,
     "Japanese": -1,
     "Chinese": -1
