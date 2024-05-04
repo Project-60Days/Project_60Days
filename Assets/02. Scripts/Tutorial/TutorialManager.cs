@@ -26,7 +26,7 @@ public class TutorialManager : Manager
 
         App.Manager.UI.GetPanel<CraftPanel>().Craft.AddBatteryCombine();
 
-        App.Manager.UI.GetPanel<AlertPanel>().SetAlert("note", false);
+        App.Manager.UI.GetPanel<FixedPanel>().SetAlert(AlertType.Note, false);
 
         App.Manager.UI.GetPanel<InventoryPanel>().AddItemByItemCode("ITEM_PLASMA");
         App.Manager.UI.GetPanel<InventoryPanel>().AddItemByItemCode("ITEM_CARBON");

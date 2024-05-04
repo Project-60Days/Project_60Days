@@ -73,7 +73,7 @@ public class ZombieBase : MonoBehaviour
     {
         switch (CheckTileType(_tile))
         {
-            case ETileType.None:
+            case ETileType.City:
                 if (noneTileBuff == false)
                 {
                     zombieData.count += 5;

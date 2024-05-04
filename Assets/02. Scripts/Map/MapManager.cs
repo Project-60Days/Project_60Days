@@ -263,7 +263,7 @@ public class MapManager : Manager
         else
             isActive = false;
 
-        App.Manager.UI.GetPanel<AlertPanel>().SetAlert("caution", isActive);
+        App.Manager.UI.GetPanel<FixedPanel>().SetAlert(AlertType.Caution, isActive);
     }
 
     /// <summary>

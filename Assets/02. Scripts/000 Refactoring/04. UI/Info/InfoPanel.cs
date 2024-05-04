@@ -7,12 +7,12 @@ public class InfoPanel : UIBase
     [SerializeField] RectTransform rect;
     [SerializeField] TextMeshProUGUI text;
 
-    private bool isDescriptionOn = false;
+    private bool isDescriptionOn;
 
     #region Override
     public override void Init()
     {
-        gameObject.SetActive(false);
+        ClosePanel();
     }
 
     public override void ReInit() { }

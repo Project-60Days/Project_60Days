@@ -58,7 +58,7 @@ public class PopUpPanel : UIBase
     public IEnumerator EndGamePopUp()
     {
         App.Manager.UI.GetPanel<HighLightPanel>().ShowHighLight("Alert", "UI_NOTE");
-        App.Manager.UI.GetPanel<AlertPanel>().SetAlert("caution", false);
+        App.Manager.UI.GetPanel<FixedPanel>().SetAlert(AlertType.Caution, false);
         yield return new WaitUntil(() => App.Manager.UI.CurrState == UIState.Note);
         yield return new WaitUntil(() => App.Manager.UI.CurrState == UIState.Normal);
         base.OpenPanel();

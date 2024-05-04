@@ -110,7 +110,7 @@ public class NotePanel : UIBase
 
     public PageBase[] GetNotePageArray()
     {
-        App.Manager.UI.GetPanel<AlertPanel>().SetAlert("note", false);
+        App.Manager.UI.GetPanel<FixedPanel>().SetAlert(AlertType.Note, false);
 
         List<PageBase> todayPages = new List<PageBase>();
         foreach (PageBase page in pages)
@@ -120,7 +120,7 @@ public class NotePanel : UIBase
             if (page.GetPageEnableToday() == true)
             {
                 todayPages.Add(page);
-                App.Manager.UI.GetPanel<AlertPanel>().SetAlert("note", true);
+                App.Manager.UI.GetPanel<FixedPanel>().SetAlert(AlertType.Note, true);
             }
 
             page.gameObject.SetActive(false);
@@ -136,7 +136,7 @@ public class NotePanel : UIBase
     /// <param name="prevBtnEnable"></param>
     void ActiveNextBtnAndPrevBtn(bool _nextBtnEnable, bool _prevBtnEnable)
     {
-        if (_nextBtnEnable == false) App.Manager.UI.GetPanel<AlertPanel>().SetAlert("note", false);
+        if (_nextBtnEnable == false) App.Manager.UI.GetPanel<FixedPanel>().SetAlert(AlertType.Note, false); ;
         nextPageBtn.gameObject.SetActive(_nextBtnEnable);
         prevPageBtn.gameObject.SetActive(_prevBtnEnable);
     }

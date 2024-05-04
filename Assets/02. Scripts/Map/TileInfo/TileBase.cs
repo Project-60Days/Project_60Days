@@ -382,7 +382,7 @@ public class TileBase : MonoBehaviour
 
     int GetTileDataIndex() => tileType switch
     {
-        ETileType.None => 1001,
+        ETileType.City => 1001,
         ETileType.Desert => 1002,
         ETileType.Tundra => 1003,
         ETileType.Jungle => 1004,

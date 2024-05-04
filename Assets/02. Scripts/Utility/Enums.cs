@@ -75,9 +75,9 @@ public enum SoundType
 
 public enum ETileType
 {
-    None,
-    Jungle,
+    City,
     Desert,
+    Jungle,
     Tundra,
     Neo
 }

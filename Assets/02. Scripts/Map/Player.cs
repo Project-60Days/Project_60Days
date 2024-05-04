@@ -253,7 +253,7 @@ public class Player : MonoBehaviour
     {
         switch (_type)
         {
-            case ETileType.None:
+            case ETileType.City:
                 moveRange += 1;
                 break;
             case ETileType.Desert:
@@ -324,7 +324,7 @@ public class Player : MonoBehaviour
 
         switch (tileBase.TileType)
         {
-            case ETileType.None:
+            case ETileType.City:
                 (tileBase as NoneTile).Buff(this);
                 (tileBase as NoneTile).DeBuff(this);
                 break;
