@@ -40,20 +40,12 @@ public class UpperPanel : UIBase
             else if (item.data.Code == "ITEM_BULLET") bullet = item;
         }
 
-        StartCoroutine(InitData());
+        UpdateItemCount();
+        UpdateDurabillity();
     }
 
     public override void ReInit() { }
     #endregion
-
-    IEnumerator InitData()
-    {
-        yield return new WaitUntil(() => App.Manager.Map.mapCtrl);
-        yield return new WaitUntil(() => App.Manager.Map.mapCtrl.Player != null);
-
-        UpdateItemCount();
-        UpdateDurabillity();
-    }
 
     public void UpdateItemCount()
     {
