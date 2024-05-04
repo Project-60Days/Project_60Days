@@ -26,7 +26,6 @@ public class UpperPanel : UIBase
     Color cyan = new Color(56f / 255f, 221f / 255f, 205f / 255f);
 
     #region Override
-
     public override void Init()
     {
         foreach (var item in App.Manager.Game.itemData)
@@ -45,6 +44,7 @@ public class UpperPanel : UIBase
 
     public override void ReInit() { }
     #endregion
+
     IEnumerator InitData()
     {
         yield return new WaitUntil(() => App.Manager.Map.mapCtrl);

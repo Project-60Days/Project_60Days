@@ -1255,7 +1255,7 @@ public class MapController : MonoBehaviour
 
     public bool CheckMovePointerOn()
     {
-        return arrow.activeInHierarchy;
+        return arrow != null;
     }
     
     public void MovePointerOff()

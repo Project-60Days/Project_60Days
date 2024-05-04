@@ -974,6 +974,7 @@ MonoBehaviour:
   isHit: 0
   isNewDay: 1
   dayCount: 0
+  startTutorial: 0
   nextDayBtn: {fileID: 1811381972}
   shelterBtn: {fileID: 1571979699}
 --- !u!4 &51942291
@@ -1143,7 +1144,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1847298026}
   m_Direction: 2
   m_Value: 0.9999999
-  m_Size: 0.3314541
+  m_Size: 0.33145407
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -7987,6 +7988,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectID: Bench
   area: {fileID: 420759438}
+  state: 3
 --- !u!222 &420759441
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9391,7 +9393,9 @@ MonoBehaviour:
   blackBlur: {fileID: 172930949}
   UIs:
   - {fileID: 2078442792}
+  - {fileID: 231968591}
   - {fileID: 1819101033}
+  - {fileID: 1608579649}
   - {fileID: 425576251}
   - {fileID: 1582259496}
   - {fileID: 583042292}
@@ -9401,11 +9405,9 @@ MonoBehaviour:
   - {fileID: 806694049}
   - {fileID: 2089632876}
   - {fileID: 234365918}
-  - {fileID: 231968591}
   - {fileID: 1787327685}
   - {fileID: 2094758396}
   - {fileID: 2131346}
-  - {fileID: 1608579649}
   - {fileID: 1271724097}
 --- !u!4 &491252555
 Transform:
@@ -10465,7 +10467,7 @@ GameObject:
   m_Component:
   - component: {fileID: 542222453}
   - component: {fileID: 542222455}
-  - component: {fileID: 542222454}
+  - component: {fileID: 542222456}
   m_Layer: 5
   m_Name: CraftItems
   m_TagString: Untagged
@@ -10493,20 +10495,6 @@ RectTransform:
   m_AnchoredPosition: {x: 160, y: 295}
   m_SizeDelta: {x: 300, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &542222454
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 542222452}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3dd9c94c5ac872a46a5c3b2c53236a22, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectID: CraftItems
-  area: {fileID: 542222453}
 --- !u!222 &542222455
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10515,6 +10503,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 542222452}
   m_CullTransparentMesh: 1
+--- !u!114 &542222456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 542222452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1973ffbf4c743049aaa62e1e18a9172, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectID: CraftItems
+  area: {fileID: 542222453}
+  state: 0
 --- !u!1 &546374635
 GameObject:
   m_ObjectHideFlags: 0
@@ -10941,6 +10944,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectID: Map
   area: {fileID: 554225889}
+  state: 1
 --- !u!222 &554225892
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -18127,7 +18131,7 @@ GameObject:
   m_Component:
   - component: {fileID: 797091146}
   m_Layer: 5
-  m_Name: HighLights
+  m_Name: Back_Focus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18152,7 +18156,6 @@ RectTransform:
   - {fileID: 857277888}
   - {fileID: 554225889}
   - {fileID: 1124780469}
-  - {fileID: 1785566445}
   - {fileID: 1024398791}
   m_Father: {fileID: 1608579648}
   m_RootOrder: 1
@@ -19466,6 +19469,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectID: ExitCraft
   area: {fileID: 857277888}
+  state: 0
 --- !u!222 &857277891
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -21115,6 +21119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectID: ClickYesBtn
   area: {fileID: 917204167}
+  state: 0
 --- !u!222 &917204169
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -23256,7 +23261,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1024398791}
   - component: {fileID: 1024398793}
-  - component: {fileID: 1024398792}
+  - component: {fileID: 1024398794}
   m_Layer: 5
   m_Name: ResultItem
   m_TagString: Untagged
@@ -23277,27 +23282,13 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 797091146}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -260, y: -255}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1024398792
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1024398790}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3dd9c94c5ac872a46a5c3b2c53236a22, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectID: ResultItem
-  area: {fileID: 1024398791}
 --- !u!222 &1024398793
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -23306,6 +23297,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1024398790}
   m_CullTransparentMesh: 1
+--- !u!114 &1024398794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1024398790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 061e4a03d2a67f944bff948beb054408, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectID: ResultItem
+  area: {fileID: 1024398791}
+  state: 0
 --- !u!1 &1026421592
 GameObject:
   m_ObjectHideFlags: 0
@@ -25234,6 +25240,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectID: NextDay
   area: {fileID: 1124780469}
+  state: 0
 --- !u!222 &1124780472
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -30902,6 +30909,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectID: Alert
   area: {fileID: 1475471512}
+  state: 2
 --- !u!222 &1475471515
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -33776,7 +33784,7 @@ GameObject:
   - component: {fileID: 1608579648}
   - component: {fileID: 1608579649}
   m_Layer: 5
-  m_Name: HighLight
+  m_Name: Focus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33816,17 +33824,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c011d9abeeb86ae40a881a13cb75b882, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightLights:
+  focus:
   - {fileID: 1475471514}
   - {fileID: 420759439}
   - {fileID: 917204168}
-  - {fileID: 542222454}
+  - {fileID: 542222456}
   - {fileID: 857277890}
   - {fileID: 554225891}
   - {fileID: 1124780471}
-  - {fileID: 1785566446}
-  - {fileID: 1024398792}
-  highLightImg: {fileID: 1918195005}
+  - {fileID: 1024398794}
+  focusImg: {fileID: 1918195005}
 --- !u!1 &1614351917
 GameObject:
   m_ObjectHideFlags: 0
@@ -36760,66 +36767,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1781335714}
   m_CullTransparentMesh: 1
---- !u!1 &1785566444
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1785566445}
-  - component: {fileID: 1785566448}
-  - component: {fileID: 1785566446}
-  m_Layer: 5
-  m_Name: Note
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1785566445
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1785566444}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 797091146}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: -540}
-  m_SizeDelta: {x: 800, y: 250}
-  m_Pivot: {x: 0.5, y: 0}
---- !u!114 &1785566446
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1785566444}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3dd9c94c5ac872a46a5c3b2c53236a22, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectID: Note
-  area: {fileID: 1785566445}
---- !u!222 &1785566448
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1785566444}
-  m_CullTransparentMesh: 1
 --- !u!1 &1786288703
 GameObject:
   m_ObjectHideFlags: 0
@@ -38822,7 +38769,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1918195005}
   m_Layer: 5
-  m_Name: HighLight
+  m_Name: Img_Focus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

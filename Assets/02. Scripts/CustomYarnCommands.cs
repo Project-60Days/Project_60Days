@@ -9,8 +9,7 @@ public class CustomYarnCommands : MonoBehaviour
     void Awake()
     {
         //tutorial//
-        dialogueRunner.AddCommandHandler<string, string>("highlight", HighLightObject);
-        dialogueRunner.AddCommandHandler<string>("highlightBtn", HighLightBtn);
+        dialogueRunner.AddCommandHandler<string>("focus", FocusObject);
         dialogueRunner.AddCommandHandler<string>("waitUntil", WaitUntilUIState);
         dialogueRunner.AddCommandHandler("hide", HideDialogue);
         dialogueRunner.AddCommandHandler("show", ShowDialogue);
@@ -70,14 +69,9 @@ public class CustomYarnCommands : MonoBehaviour
     }
 
     #region Tutorial Common Commands
-    void HighLightObject(string _objectID, string _waitStatusName)
+    void FocusObject(string _objectID)
     {
-        App.Manager.UI.GetPanel<HighLightPanel>().ShowHighLight(_objectID, _waitStatusName);
-    }
-
-    void HighLightBtn(string _objectID)
-    {
-        App.Manager.UI.GetPanel<HighLightPanel>().ShowCraftHighLight(_objectID);
+        App.Manager.UI.GetPanel<FocusPanel>().ShowFocus(_objectID);
     }
 
     Coroutine WaitUntilUIState(string _UIName)
