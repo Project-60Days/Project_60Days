@@ -1,8 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-[CreateAssetMenu(fileName = "Quest", menuName = "Scriptable Object/Quest")]
-public class QuestBase : MonoBehaviour
+public class Quest : MonoBehaviour
 {
     public string questCode;
     public QuestType type;

@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,91 +5,86 @@ using UnityEngine;
 public class HighLightPanel : UIBase
 {
     [SerializeField] HighLight[] hightLights;
-    [SerializeField] GameObject highLightImg;
-    public Dictionary<string, HighLight> dic_highLights = new Dictionary<string, HighLight>();
+    [SerializeField] RectTransform highLightImg;
+
+    private Dictionary<string, HighLight> dic_highLights = new Dictionary<string, HighLight>();
 
     #region Override
     public override void Init()
     {
-        foreach (var h in hightLights)
+        foreach (var hightLight in hightLights)
         {
-            dic_highLights.Add(h.objectID, h);
+            dic_highLights.Add(hightLight.objectID, hightLight);
         }
     }
 
     public override void ReInit() { }
     #endregion
 
-    public void ShowHighLight(string _objectID, string _waitUntilStatusName)
+    public void ShowHighLight(string _objectID, string _state)
     {
-        if(dic_highLights.TryGetValue(_objectID, out HighLight h))
+        if (dic_highLights.TryGetValue(_objectID, out HighLight hightLight)) 
         {
-            highLightImg.GetComponent<RectTransform>().sizeDelta = h.area.sizeDelta;
+            highLightImg.sizeDelta = hightLight.area.sizeDelta;
 
-            StartCoroutine(WaitForPositionUpdate(h));
+            SetPosition(hightLight);
 
-            StartCoroutine(HideHighLightWhenAction(h, _waitUntilStatusName));
-        }
-        else
-        {
-            Debug.LogError($"invalid highlight object name : {_objectID}");
+            StartCoroutine(WaitUntilState(_state));
         }
     }
 
-    private IEnumerator WaitForPositionUpdate(HighLight h)
+    private void SetPosition(HighLight _highLight)
     {
-        yield return new WaitForEndOfFrame();
+        Vector2 canvasPosition = _highLight.area.position;
 
-        Vector2 canvasPosition = h.area.position;
+        highLightImg.position = canvasPosition;
 
-        highLightImg.GetComponent<RectTransform>().position = canvasPosition;
-
-        highLightImg.SetActive(true);
-        h.Show();
+        highLightImg.gameObject.SetActive(true);
     }
 
-    private IEnumerator HideHighLightWhenAction(HighLight _h, string _waitUntilStatusName)
+    private IEnumerator WaitUntilState(string _state)
     {
-        UIState state = App.Manager.UI.StringToState(_waitUntilStatusName);
+        UIState state = App.Manager.UI.StringToState(_state);
         yield return new WaitUntil(() => App.Manager.UI.CurrState == state);
 
-        _h.Hide();
-        highLightImg.SetActive(false);
+        highLightImg.gameObject.SetActive(false);
     }
 
-    public void ShowBtnHighLight(string _objectID)
+    #region Craft In Tutorial
+    public void ShowCraftHighLight(string _objectID)
     {
-        if (dic_highLights.TryGetValue(_objectID, out HighLight h))
+        if (dic_highLights.TryGetValue(_objectID, out HighLight highLight))
         {
-            highLightImg.GetComponent<RectTransform>().sizeDelta = h.area.sizeDelta;
+            highLightImg.sizeDelta = highLight.area.sizeDelta;
 
-            StartCoroutine(WaitForPositionUpdate(h));
+            SetPosition(highLight);
 
-            if (_objectID == "ClickCraftItems")
-                StartCoroutine(HideClickCraftItems(h));
-            else if (_objectID == "ClickResultItem")
-                StartCoroutine(HideClickResultItem(h));
-        }
-        else
-        {
-            Debug.LogError($"invalid highlight object name : {_objectID}");
+            switch (_objectID)
+            {
+                case "CraftItems":
+                    StartCoroutine(WaitCraftItems());
+                    break;
+
+                case "ResultItem":
+                    StartCoroutine(WaitResultItem());
+                    break;
+            }
         }
     }
 
-    private IEnumerator HideClickCraftItems(HighLight _h)
+    private IEnumerator WaitCraftItems()
     {
         yield return new WaitUntil(() => App.Manager.UI.GetPanel<CraftPanel>().Craft.IsCombinedResult);
 
-        _h.Hide();
-        highLightImg.SetActive(false);
-        ShowBtnHighLight("ClickResultItem");
+        highLightImg.gameObject.SetActive(false);
+        ShowCraftHighLight("ResultItem");
     }
 
-    private IEnumerator HideClickResultItem(HighLight _h)
+    private IEnumerator WaitResultItem()
     {
         yield return new WaitUntil(() => App.Manager.UI.GetPanel<InventoryPanel>().CheckInventoryItem("ITEM_BATTERY"));
 
-        _h.Hide();
-        highLightImg.SetActive(false);
+        highLightImg.gameObject.SetActive(false);
     }
+    #endregion
 }

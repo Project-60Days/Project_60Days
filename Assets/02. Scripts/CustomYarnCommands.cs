@@ -77,7 +77,7 @@ public class CustomYarnCommands : MonoBehaviour
 
     void HighLightBtn(string _objectID)
     {
-        App.Manager.UI.GetPanel<HighLightPanel>().ShowBtnHighLight(_objectID);
+        App.Manager.UI.GetPanel<HighLightPanel>().ShowCraftHighLight(_objectID);
     }
 
     Coroutine WaitUntilUIState(string _UIName)

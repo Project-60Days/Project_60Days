@@ -505,7 +505,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 502.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 600, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &22437610
@@ -3155,7 +3155,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 590, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &147372578
@@ -3458,7 +3458,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 50, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 302, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &157280093
@@ -5207,7 +5207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb0fe7edf9496734aa2bf59c6c499e6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  illustration: {fileID: 2045154684}
+  image: {fileID: 1084350566}
   texts:
   - {fileID: 1600779782}
   - {fileID: 1088369704}
@@ -7610,7 +7610,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 50, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 302, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &407273048
@@ -7987,7 +7987,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectID: CraftingTable
   area: {fileID: 420759438}
-  backGround: {fileID: 420759437}
 --- !u!222 &420759441
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8911,7 +8910,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 502.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 850, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &457435209
@@ -10508,7 +10507,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectID: ClickCraftItems
   area: {fileID: 542222453}
-  backGround: {fileID: 542222452}
 --- !u!222 &542222455
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10943,7 +10941,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectID: Map
   area: {fileID: 554225889}
-  backGround: {fileID: 554225888}
 --- !u!222 &554225892
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11176,7 +11173,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 502.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1200, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &574340968
@@ -15976,7 +15973,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 502.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 600, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &732330421
@@ -17714,7 +17711,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 50, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 302, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &788649664
@@ -19469,7 +19466,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectID: ExitCrafting
   area: {fileID: 857277888}
-  backGround: {fileID: 857277887}
 --- !u!222 &857277891
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -20065,7 +20061,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 20, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &888903492
@@ -21119,7 +21115,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectID: ClickYesBtn
   area: {fileID: 917204167}
-  backGround: {fileID: 917204166}
 --- !u!222 &917204169
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -23303,7 +23298,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectID: ClickResultItem
   area: {fileID: 1024398791}
-  backGround: {fileID: 1024398790}
 --- !u!222 &1024398793
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -24461,7 +24455,7 @@ GameObject:
   - component: {fileID: 1084350567}
   - component: {fileID: 1084350566}
   m_Layer: 5
-  m_Name: AreaIllustTitle
+  m_Name: Img_Illust
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24969,7 +24963,7 @@ GameObject:
   - component: {fileID: 1112561605}
   - component: {fileID: 1112561606}
   m_Layer: 5
-  m_Name: TMPs
+  m_Name: Back_Texts
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25240,7 +25234,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectID: NextDay
   area: {fileID: 1124780469}
-  backGround: {fileID: 1124780468}
 --- !u!222 &1124780472
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -28208,7 +28201,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 600, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1311553836
@@ -30908,7 +30901,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectID: Alert
   area: {fileID: 1475471512}
-  backGround: {fileID: 1475471511}
 --- !u!222 &1475471515
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -33833,7 +33825,7 @@ MonoBehaviour:
   - {fileID: 542222454}
   - {fileID: 1024398792}
   - {fileID: 917204168}
-  highLightImg: {fileID: 1918195004}
+  highLightImg: {fileID: 1918195005}
 --- !u!1 &1614351917
 GameObject:
   m_ObjectHideFlags: 0
@@ -36823,7 +36815,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectID: Note
   area: {fileID: 1785566445}
-  backGround: {fileID: 1785566444}
 --- !u!222 &1785566448
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -38499,7 +38490,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 50, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 302, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1916482561
@@ -43340,7 +43331,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   questParent: {fileID: 1496595107}
-  questObjects: []
   quests:
   - {fileID: 3323526232083269930, guid: ddcd522fe78ea5b40abac73609c61ca6, type: 3}
   - {fileID: 3323526232083269930, guid: bbfd16a30edf01546ba6af665e83064f, type: 3}

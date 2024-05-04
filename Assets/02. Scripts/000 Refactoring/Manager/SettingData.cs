@@ -21,7 +21,7 @@ public struct ScreenData
 
 public class SettingData : Data
 {
-    public struct GameData
+    private struct GameData
     {
         public string UDID;
         public string Version;

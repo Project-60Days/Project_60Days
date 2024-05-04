@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -13,15 +11,15 @@ public enum TileInfo
 
 public class TileInfoCtrl : MonoBehaviour
 {
-    [SerializeField] Image illustration;
+    [SerializeField] Image image;
     [SerializeField] TextMeshProUGUI[] texts;
 
-    public void UpdateImage(Sprite sprite)
+    public void SetImage(Sprite sprite)
     {
-        illustration.sprite = sprite;
+        image.sprite = sprite;
     }
 
-    public void UpdateText(TileInfo infoTMP, string text)
+    public void SetText(TileInfo infoTMP, string text)
     {
         texts[(int)infoTMP].text = text;
     }

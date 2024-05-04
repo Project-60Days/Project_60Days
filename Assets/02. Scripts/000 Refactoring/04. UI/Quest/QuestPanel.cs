@@ -7,17 +7,17 @@ public class QuestPanel : UIBase
 {
     [SerializeField] Transform questParent;
 
-    [SerializeField]  List<QuestBase> quests;
+    [SerializeField]  List<Quest> quests;
 
-    private List<QuestBase> currentQuest 
-        => questParent.GetComponentsInChildren<QuestBase>().ToList();
+    private List<Quest> currentQuest 
+        => questParent.GetComponentsInChildren<Quest>().ToList();
     private List<RectTransform> currentQuestObject
         => currentQuest.OrderBy(x => x.type).ToList()
                         .Select(x => x.gameObject.GetComponent<RectTransform>()).ToList();
 
-    private QuestBase GetQuest(string _code)
+    private Quest GetQuest(string _code)
         => quests.Find(x => x.questCode == _code);
-    private QuestBase GetCurrentQuest(string _code)
+    private Quest GetCurrentQuest(string _code)
         => currentQuest.Find(x => x.questCode == _code);
 
     #region Override
@@ -50,7 +50,7 @@ public class QuestPanel : UIBase
 
     public void EndQuest(string _currCode, string _nextCode = null)
     {
-        QuestBase quest = GetCurrentQuest(_currCode);
+        Quest quest = GetCurrentQuest(_currCode);
         GameObject obj = quest.gameObject;
 
         obj.GetComponent<CanvasGroup>().DOFade(0.0f, 0.3f).SetLoops(5, LoopType.Yoyo).OnComplete(() =>

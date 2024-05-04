@@ -31,12 +31,12 @@ public class MapPanel : UIBase
 
     public void UpdateText(TileInfo infoTMP, string text)
     {
-        tileInfoCtrl.UpdateText(infoTMP, text);
+        tileInfoCtrl.SetText(infoTMP, text);
     }
 
     public void UpdateImage(Sprite sprite)
     {
-        tileInfoCtrl.UpdateImage(sprite);
+        tileInfoCtrl.SetImage(sprite);
     }
     
     public void ExplorerButtonInteractable(bool isOn)
