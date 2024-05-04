@@ -113,12 +113,15 @@ public class InventoryPanel : UIBase
     /// 인벤토리에 itemCode를 이용하여 아이템 추가
     /// </summary>
     /// <param name="itemCode"></param>
-    public void AddItemByItemCode(string _itemCode)
+    public void AddItemByItemCode(params string[] _itemCode)
     {
-        var item = itemData.Find(x => x.data.Code == _itemCode);
+        foreach (var code in _itemCode) 
+        {
+            var item = itemData.Find(x => x.data.Code == code);
 
-        if (item != null)
-            AddItem(item);
+            if (item != null)
+                AddItem(item);
+        }
     }
 
 

@@ -14,14 +14,22 @@ public class GameManager : Manager
     [HideInInspector] public bool isHit = false;
     [HideInInspector] public bool isNewDay = true;
     [HideInInspector] public int dayCount = 0;
+    [HideInInspector] public bool startTutorial = false;
 
     [SerializeField] Button nextDayBtn;
     [SerializeField] Button shelterBtn;
 
+    protected override void Awake()
+    {
+        base.Awake();
+
+        startTutorial = App.Manager.Test.startTutorial;
+    }
+
     private void Start()
     {
         SetButtonEvent();
-        InitItemSO();
+        
     }
 
     private void SetButtonEvent()
@@ -54,6 +62,12 @@ public class GameManager : Manager
 
         isHit = false;
         isNewDay = true;
+    }
+
+    public void EnableBtn(bool _isActive)
+    {
+        nextDayBtn.enabled = _isActive;
+        shelterBtn.enabled = _isActive;
     }
 
     public void CompleteQuest(string _currCode, string _nextCode = null)

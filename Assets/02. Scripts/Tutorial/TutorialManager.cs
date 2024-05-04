@@ -7,12 +7,17 @@ public class TutorialManager : Manager
 
     public TutorialCtrl Ctrl => tutorialCtrl;
 
+    private UIManager UI;
+
     private void Start()
     {
-        StartCoroutine(WaitForMapManager());
+        UI = App.Manager.UI;
+
+        if (App.Manager.Game.startTutorial) 
+            StartCoroutine(WaitForLoad());
     }
 
-    private IEnumerator WaitForMapManager()
+    private IEnumerator WaitForLoad()
     {
         yield return new WaitUntil(() => App.Manager.Map.mapCtrl.Player != null);
 
@@ -21,24 +26,23 @@ public class TutorialManager : Manager
 
     public void StartTutorial()
     {
-        App.Manager.UI.GetPanel<PagePanel>().SetTutorialSelect();
+        App.Manager.Shelter.StartTutorial();
 
-        App.Manager.UI.GetPanel<CraftPanel>().Craft.AddBatteryCombine();
+        UI.GetPanel<PagePanel>().SetTutorialSelect();
+        UI.GetPanel<FixedPanel>().SetAlert(AlertType.Note, false);
 
-        App.Manager.UI.GetPanel<FixedPanel>().SetAlert(AlertType.Note, false);
+        UI.GetPanel<CraftPanel>().Craft.AddBatteryCombine();
 
-        App.Manager.UI.GetPanel<InventoryPanel>().AddItemByItemCode("ITEM_PLASMA");
-        App.Manager.UI.GetPanel<InventoryPanel>().AddItemByItemCode("ITEM_CARBON");
-        App.Manager.UI.GetPanel<InventoryPanel>().AddItemByItemCode("ITEM_STEEL");
+        UI.GetPanel<InventoryPanel>().AddItemByItemCode("ITEM_PLASMA", "ITEM_CARBON", "ITEM_STEEL");
 
         Ctrl.StartDialogue();
     }
 
     public void EndTutorial()
     {
-        App.Manager.UI.GetPanel<CraftPanel>().Craft.RemoveBatteryCombine();
+        UI.GetPanel<CraftPanel>().Craft.RemoveBatteryCombine();
 
-        App.Manager.UI.GetPanel<QuestPanel>().StartQuest("MAIN_01");
+        UI.GetPanel<QuestPanel>().StartQuest("MAIN_01");
 
         Destroy(this);
     }

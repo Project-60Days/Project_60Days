@@ -32,6 +32,7 @@ public class ResultPage : PageBase
 
     public override void SetNodeName(string _nodeName, bool _isResourceNode)
     {
+        if (!dialogueRunner.NodeExists(_nodeName)) return;
         if (_isResourceNode == true)
             tomorrowResourceNodeNames.Add(_nodeName);
         else

@@ -82,8 +82,8 @@ public class SoundManager : Manager
     private VolumeData BGMData;
     private VolumeData SFXData;
 
-    [SerializeField] float bgmVolume;
-    [SerializeField] float sfxVolume;
+    [SerializeField] float bgmVolume; //todo
+    [SerializeField] float sfxVolume; //todo
 
     [HideInInspector] public VolumeAccessor Volume;
 

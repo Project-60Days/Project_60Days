@@ -41,7 +41,7 @@ public class CustomYarnCommands : MonoBehaviour
 
         //06//
         dialogueRunner.AddCommandHandler("waitNewDay", WaitNewDay);
-        dialogueRunner.AddCommandHandler("enableBtn", EnableBtn);
+        dialogueRunner.AddCommandHandler<bool>("enableBtn", EnableBtn);
 
         //08//
         dialogueRunner.AddCommandHandler("startPV", StartPV);
@@ -173,7 +173,7 @@ public class CustomYarnCommands : MonoBehaviour
 
     void AddResource()
     {
-        App.Manager.Tutorial.Ctrl.AddSteel();
+        App.Manager.Tutorial.Ctrl.AddResource();
     }
     #endregion
 
@@ -183,9 +183,9 @@ public class CustomYarnCommands : MonoBehaviour
         return StartCoroutine(new WaitUntil(() => App.Manager.Game.isNewDay));
     }
 
-    void EnableBtn()
+    void EnableBtn(bool _value)
     {
-        App.Manager.Tutorial.Ctrl.EnableBtn();
+        App.Manager.Game.EnableBtn(_value);
     }
     #endregion
 

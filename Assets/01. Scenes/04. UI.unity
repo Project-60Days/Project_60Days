@@ -7947,7 +7947,7 @@ GameObject:
   - component: {fileID: 420759441}
   - component: {fileID: 420759439}
   m_Layer: 5
-  m_Name: CraftingTable
+  m_Name: Bench
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7966,7 +7966,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 797091146}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -7985,7 +7985,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dd9c94c5ac872a46a5c3b2c53236a22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectID: CraftingTable
+  objectID: Bench
   area: {fileID: 420759438}
 --- !u!222 &420759441
 CanvasRenderer:
@@ -10467,7 +10467,7 @@ GameObject:
   - component: {fileID: 542222455}
   - component: {fileID: 542222454}
   m_Layer: 5
-  m_Name: ClickCraftItems
+  m_Name: CraftItems
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10486,7 +10486,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 797091146}
-  m_RootOrder: 6
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -10505,7 +10505,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dd9c94c5ac872a46a5c3b2c53236a22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectID: ClickCraftItems
+  objectID: CraftItems
   area: {fileID: 542222453}
 --- !u!222 &542222455
 CanvasRenderer:
@@ -10920,7 +10920,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 797091146}
-  m_RootOrder: 2
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -18145,15 +18145,15 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 420759438}
-  - {fileID: 1785566445}
-  - {fileID: 554225889}
   - {fileID: 1475471512}
-  - {fileID: 857277888}
-  - {fileID: 1124780469}
-  - {fileID: 542222453}
-  - {fileID: 1024398791}
+  - {fileID: 420759438}
   - {fileID: 917204167}
+  - {fileID: 542222453}
+  - {fileID: 857277888}
+  - {fileID: 554225889}
+  - {fileID: 1124780469}
+  - {fileID: 1785566445}
+  - {fileID: 1024398791}
   m_Father: {fileID: 1608579648}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -19426,7 +19426,7 @@ GameObject:
   - component: {fileID: 857277891}
   - component: {fileID: 857277890}
   m_Layer: 5
-  m_Name: ExitCrafting
+  m_Name: ExitCraft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19464,7 +19464,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dd9c94c5ac872a46a5c3b2c53236a22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectID: ExitCrafting
+  objectID: ExitCraft
   area: {fileID: 857277888}
 --- !u!222 &857277891
 CanvasRenderer:
@@ -21094,7 +21094,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 797091146}
-  m_RootOrder: 8
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -23258,7 +23258,7 @@ GameObject:
   - component: {fileID: 1024398793}
   - component: {fileID: 1024398792}
   m_Layer: 5
-  m_Name: ClickResultItem
+  m_Name: ResultItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23277,7 +23277,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 797091146}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -23296,7 +23296,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dd9c94c5ac872a46a5c3b2c53236a22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectID: ClickResultItem
+  objectID: ResultItem
   area: {fileID: 1024398791}
 --- !u!222 &1024398793
 CanvasRenderer:
@@ -25213,7 +25213,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 797091146}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -28270,6 +28270,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skipButton:
   - {fileID: 769921462}
+  skipBtn: {fileID: 769921462}
   lineText: {fileID: 147372579}
   skipSFX: SFX_Tutorial_Skip
   textSFX: SFX_Tutorial_Text
@@ -30880,7 +30881,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 797091146}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
@@ -33816,15 +33817,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hightLights:
-  - {fileID: 420759439}
-  - {fileID: 1785566446}
-  - {fileID: 554225891}
   - {fileID: 1475471514}
-  - {fileID: 857277890}
-  - {fileID: 1124780471}
-  - {fileID: 542222454}
-  - {fileID: 1024398792}
+  - {fileID: 420759439}
   - {fileID: 917204168}
+  - {fileID: 542222454}
+  - {fileID: 857277890}
+  - {fileID: 554225891}
+  - {fileID: 1124780471}
+  - {fileID: 1785566446}
+  - {fileID: 1024398792}
   highLightImg: {fileID: 1918195005}
 --- !u!1 &1614351917
 GameObject:
@@ -36587,10 +36588,6 @@ MonoBehaviour:
   tutorialBack: {fileID: 1668377331}
   whitePanel: {fileID: 1614351919}
   dialogueRunner: {fileID: 790758830}
-  skipButton: {fileID: 769921462}
-  nextDayBtn: {fileID: 1811381972}
-  backToBaseBtn: {fileID: 1571979699}
-  customView: {fileID: 1311553839}
 --- !u!1 &1781131205
 GameObject:
   m_ObjectHideFlags: 0
@@ -36794,7 +36791,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 797091146}
-  m_RootOrder: 1
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}

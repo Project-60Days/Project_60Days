@@ -8,6 +8,7 @@ using System;
 public class CustomDialogueView : DialogueViewBase
 {
     public Button[] skipButton;
+    [SerializeField] Selectable skipBtn;
     [SerializeField] private TextMeshProUGUI lineText;
     [SerializeField] private string skipSFX = null;
     [SerializeField] private string textSFX = null;
@@ -90,11 +91,16 @@ public class CustomDialogueView : DialogueViewBase
 
     void Update()
     {
+        skipBtn?.Select();
+
         if (string.IsNullOrEmpty(textSFX)) return;
         if(!doesUserSkipRequest && isStartLine)
         {
             if (!App.Manager.Sound.IsPlayingTypeWriteSFX())
                 App.Manager.Sound.PlayTypeWriteSFX(textSFX);
         }
+
+        if (Input.GetMouseButtonDown(0))
+            UserRequestedViewAdvancement();
     }
 }

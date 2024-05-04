@@ -74,6 +74,7 @@ tags:
 title: Tutorial_05
 tags:
 ---
+<<enableBtn false>>
 <<show>>
 글리처는 데이터 기록상 위험한 바이러스를 지닌 유기체로 무차별 공격을 가합니다. 
 그들의 공격을 받으면 내구도가 하락하며, <color=red>내구도가 0 이하가 되면 선체가 파괴</color>됩니다.
@@ -86,7 +87,7 @@ tags:
 title: Tutorial_06
 tags:
 ---
-<<enableBtn>>
+<<enableBtn true>>
 <<show>>
 선체의 이동시간은 1턴입니다. <br>이동 전에 현재 위치에서 할 수 있는 모든 행동을 취해야 합니다.
 <color=\#FFC440>입력 완료 버튼을 눌러 다음날로 진행하십시오.</color>
