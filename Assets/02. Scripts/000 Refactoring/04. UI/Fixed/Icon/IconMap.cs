@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,8 +19,14 @@ public class IconMap : IconBase
         base.Start();
 
         image = GetComponent<Image>();
-        player = App.Manager.Map.mapCtrl.Player;
+        StartCoroutine(Init());
+    }
 
+    private IEnumerator Init()
+    {
+        yield return new WaitUntil(() => App.Manager.Map.mapCtrl.Player != null);
+
+        player = App.Manager.Map.mapCtrl.Player;
         ResetIcon();
     }
 

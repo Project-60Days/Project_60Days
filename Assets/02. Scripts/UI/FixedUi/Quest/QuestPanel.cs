@@ -1,19 +1,13 @@
-using System;
-using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-using TMPro;
 
 public class QuestPanel : UIBase
 {
-    [SerializeField] GameObject mainQuestPrefab;
-    [SerializeField] GameObject subQuestPrefab;
-
     [SerializeField] Transform questParent;
 
-    [SerializeField] List<QuestBase> quests;
+    [SerializeField]  List<QuestBase> quests;
 
     private List<QuestBase> currentQuest 
         => questParent.GetComponentsInChildren<QuestBase>().ToList();
@@ -32,7 +26,7 @@ public class QuestPanel : UIBase
     public override void ReInit() { }
     #endregion
 
-    void CreateQuest(string _code)
+    public void StartQuest(string _code)
     {
         GameObject obj = Instantiate(GetQuest(_code).gameObject, questParent);
 
@@ -45,37 +39,33 @@ public class QuestPanel : UIBase
     /// Sort the position of quests.
     /// Make the main quest is at the top.
     /// </summary>
-    void SortPosition()
+    private void SortPosition()
     {
         for (int i = 0; i < currentQuestObject.Count; i++) 
         {
-            float yPos = -i * (currentQuestObject[i].rect.height);
+            float yPos = -i * currentQuestObject[i].rect.height;
             currentQuestObject[i].DOLocalMoveY(yPos, 0f);
         }
     }
 
     public void EndQuest(string _currCode, string _nextCode = null)
     {
-        DestoryQuest(_currCode);
-
-        if (string.IsNullOrEmpty(_nextCode)) 
-        {
-            SortPosition();
-            return;
-        }
-     
-        CreateQuest(_nextCode);
-    }
-
-    public void DestoryQuest(string _code)
-    {
-        QuestBase quest = GetCurrentQuest(_code);
+        QuestBase quest = GetCurrentQuest(_currCode);
         GameObject obj = quest.gameObject;
 
         obj.GetComponent<CanvasGroup>().DOFade(0.0f, 0.3f).SetLoops(5, LoopType.Yoyo).OnComplete(() =>
         {
             Destroy(obj);
             currentQuest.Remove(quest);
+
+            if (string.IsNullOrEmpty(_nextCode))
+            {
+                SortPosition();
+            }
+            else
+            {
+                StartQuest(_nextCode);
+            }
         });
     }
 }

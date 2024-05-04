@@ -9,12 +9,11 @@ public class TutorialManager : Manager
 
     private void Start()
     {
-        //StartCoroutine(WaitForMapManager());
+        StartCoroutine(WaitForMapManager());
     }
 
     private IEnumerator WaitForMapManager()
     {
-        yield return new WaitUntil(() => App.Manager.Map.mapCtrl);
         yield return new WaitUntil(() => App.Manager.Map.mapCtrl.Player != null);
 
         StartTutorial();
@@ -39,7 +38,7 @@ public class TutorialManager : Manager
     {
         App.Manager.UI.GetPanel<CraftPanel>().Craft.RemoveBatteryCombine();
 
-        App.Manager.UI.GetPanel<QuestPanel>().StartMainQuest();
+        App.Manager.UI.GetPanel<QuestPanel>().StartQuest("MAIN_01");
 
         Destroy(this);
     }

@@ -17,7 +17,7 @@ A-48 시스템 진단 프로토콜을 실행합니다.
 title: Tutorial_02
 tags:
 ---
-<<setQuest tutorial02>>
+<<startQuest>>
 <<show>>
 크래프팅 시스템으로 생존에 필요한 아이템을 제작할 수 있습니다. 아이템을 제작하려면 조합 자원을 배치해야 합니다.
 <color=\#FFC440>대상의 인벤토리에서 기본자원 강철, 플라스틱, 플라즈마를 제작대로 업로드하고 배터리를 제작하십시오.</color>
@@ -29,6 +29,7 @@ tags:
 <<highlight ExitCrafting UI_NORMAL>>
 <<hide>>
 <<waitUntil UI_NORMAL>>
+<<endQuest TUTORIAL_02 TUTORIAL_03>>
 <<jump Tutorial_03>>
 ===
 title: Tutorial_03
@@ -47,6 +48,7 @@ tags:
 <<setScrollBar false>>
 <<highlight ClickYesBtn UI_NORMAL>>
 <<waitUntil UI_NORMAL>>
+<<endQuest TUTORIAL_03 TUTORIAL_04>>
 <<jump Tutorial_04>>
 ===
 title: Tutorial_04
@@ -66,6 +68,7 @@ tags:
 <<hide>>
 <<waitUntil UI_MAP>>
 <<lightDownMap>>
+<<endQuest TUTORIAL_04 TUTORIAL_06>>
 <<jump Tutorial_05>>
 ===
 title: Tutorial_05
@@ -91,6 +94,7 @@ tags:
 <<hide>>
 <<addResource>>
 <<waitNewDay>>
+<<endQuest TUTORIAL_06 TUTORIAL_07>>
 <<jump Tutorial_07>>
 ===
 title: Tutorial_07
@@ -111,6 +115,7 @@ tags:
 선체 가동 생존 프로세스를 모두 완료하였습니다.
 <<hide>>
 <<waitUntil UI_NORMAL>>
+<<endQuest TUTORIAL_07>>
 <<jump Tutorial_08>>
 ===
 title: Tutorial_08

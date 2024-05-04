@@ -254,5 +254,85 @@
     "English": "Uda",
     "Japanese": -1,
     "Chinese": -1
+  },
+  {
+    "Index": 8001,
+    "Code": "STR_QUEST_TUTORIAL_02",
+    "Korean": "생존 프로세스: 배터리 제작",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 8002,
+    "Code": "STR_QUEST_TUTORIAL_03",
+    "Korean": "생존 프로세스: 결단",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 8003,
+    "Code": "STR_QUEST_TUTORIAL_04",
+    "Korean": "생존 프로세스: 글리처",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 8004,
+    "Code": "STR_QUEST_TUTORIAL_06",
+    "Korean": "생존 프로세스: 도망",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 8005,
+    "Code": "STR_QUEST_TUTORIAL_07",
+    "Korean": "생존 프로세스: 수집",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 8006,
+    "Code": "STR_QUEST_MAIN_01",
+    "Korean": "생산 공장 찾기",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 8007,
+    "Code": "STR_QUEST_MAIN_02",
+    "Korean": "노트를 열어 생산 공장 조사하기",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 8008,
+    "Code": "STR_QUEST_MAIN_03",
+    "Korean": "넷 카드 회수하기",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 8009,
+    "Code": "STR_QUEST_MAIN_04",
+    "Korean": "송신 탑 찾기",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 8010,
+    "Code": "STR_QUEST_MAIN_05",
+    "Korean": "넷 카드 연결하기",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
   }
 ]

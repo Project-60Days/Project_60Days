@@ -14,7 +14,8 @@ public class CustomYarnCommands : MonoBehaviour
         dialogueRunner.AddCommandHandler<string>("waitUntil", WaitUntilUIState);
         dialogueRunner.AddCommandHandler("hide", HideDialogue);
         dialogueRunner.AddCommandHandler("show", ShowDialogue);
-        dialogueRunner.AddCommandHandler<string>("setQuest", SetQuest);
+        dialogueRunner.AddCommandHandler("startQuest", StartQuest);
+        dialogueRunner.AddCommandHandler<string, string>("endQuest", EndQuest);
         dialogueRunner.AddCommandHandler<bool>("setCloseBtnEnabled", SetCloseBtnEnabled);
         dialogueRunner.AddCommandHandler<int>("lightUpAndFillBattery", LightUpAndFillBattery);
 
@@ -95,9 +96,14 @@ public class CustomYarnCommands : MonoBehaviour
         App.Manager.Tutorial.Ctrl.Show();
     }
 
-    void SetQuest(string _questCode)
+    void StartQuest()
     {
-        App.Manager.UI.GetPanel<QuestPanel>().CreateQuest(_questCode);
+        App.Manager.UI.GetPanel<QuestPanel>().StartQuest("TUTORIAL_02");
+    }
+
+    void EndQuest(string _currCode, string _nextCode)
+    {
+        App.Manager.UI.GetPanel<QuestPanel>().EndQuest(_currCode, _nextCode);
     }
 
     void SetCloseBtnEnabled(bool _isEnabled)
