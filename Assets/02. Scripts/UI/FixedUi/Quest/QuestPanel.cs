@@ -1,10 +1,10 @@
 using System;
 using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 using DG.Tweening;
+using TMPro;
 
 public class QuestPanel : UIBase
 {
@@ -13,212 +13,69 @@ public class QuestPanel : UIBase
 
     [SerializeField] Transform questParent;
 
-    private QuestBase[] quests;
-    private List<QuestBase> tutorialQuests = new List<QuestBase>();
-    private List<QuestBase> mainQuests = new List<QuestBase>();
-    private List<QuestBase> subQuests = new List<QuestBase>();
+    [SerializeField] List<QuestBase> quests;
 
-    List<QuestBase> currentQuest = new List<QuestBase>();
-    List<GameObject> currentQuestPrefab = new List<GameObject>();
+    private List<QuestBase> currentQuest 
+        => questParent.GetComponentsInChildren<QuestBase>().ToList();
+    private List<RectTransform> currentQuestObject
+        => currentQuest.OrderBy(x => x.type).ToList()
+                        .Select(x => x.gameObject.GetComponent<RectTransform>()).ToList();
 
-    int nextTutorialIndex = 0;
-    int nextMainIndex = 0;
-    int nextSubIndex = 0;
+    private QuestBase GetQuest(string _code)
+        => quests.Find(x => x.questCode == _code);
+    private QuestBase GetCurrentQuest(string _code)
+        => currentQuest.Find(x => x.questCode == _code);
 
     #region Override
-    public override void Init()
-    {
-        quests = GetComponentsInChildren<QuestBase>();
-
-        foreach (var quest in quests)
-        {
-            switch (quest.type)
-            {
-                case QuestType.Tutorial:
-                    tutorialQuests.Add(quest);
-                    break;
-
-                case QuestType.Main:
-                    mainQuests.Add(quest);
-                    break;
-
-                case QuestType.Sub:
-                    subQuests.Add(quest);
-                    break;
-            }
-        }
-    }
+    public override void Init() { }
 
     public override void ReInit() { }
     #endregion
 
-    public void StartMainQuest()
+    void CreateQuest(string _code)
     {
-        AddQuest(mainQuests[0]);
-    }
+        GameObject obj = Instantiate(GetQuest(_code).gameObject, questParent);
 
-    public void StartTutorialQuest()
-    {
-        AddQuest(tutorialQuests[0]);
+        Sequence sequence = DOTween.Sequence();
+        sequence.AppendCallback(() => SortPosition())
+            .Append(obj.transform.DOLocalMoveX(304f, 0.3f).SetEase(Ease.Linear));
     }
 
     /// <summary>
-    /// 퀘스트 생성 함수
+    /// Sort the position of quests.
+    /// Make the main quest is at the top.
     /// </summary>
-    /// <param name="_quest"></param>
-    void AddQuest(QuestBase _quest)
+    void SortPosition()
     {
-        GameObject obj;
-
-        obj = GetQuestObject(_quest.type);
-
-        TMP_Text questText = obj.transform.GetComponentInChildren<TMP_Text>();
-        questText.text = _quest.SetQuestText();
-
-        currentQuest.Add(_quest);
-        currentQuestPrefab.Add(obj);
-
-        SetQuestList();
-        PlayQuestAnim(obj);
-
-        StartCoroutine(_quest.CheckQuestComplete());
-    }
-
-    GameObject GetQuestObject(QuestType _type) => _type switch
-    {
-        QuestType.Sub => Instantiate(subQuestPrefab, questParent),
-        _ => Instantiate(mainQuestPrefab, questParent),
-    };
-
-
-    /// <summary>
-    /// 퀘스트 리스트 순서 정렬 함수 (임시로 메인퀘스트는 위에, 서브퀘스트는 아래에 위치하게 설정)
-    /// </summary>
-    void SetQuestList()
-    {
-        if (currentQuest.Count >= 2)
+        for (int i = 0; i < currentQuestObject.Count; i++) 
         {
-            for (int i = 0; i < currentQuestPrefab.Count; i++)
-            {
-                RectTransform questPrefab = currentQuestPrefab[i].GetComponent<RectTransform>();
-
-                if (currentQuest[i].type == QuestType.Main)
-                    questPrefab.localPosition = new Vector3(questPrefab.localPosition.x, 0, 0);
-                else
-                {
-                    float yPos = -i * (questPrefab.rect.height);
-                    questPrefab.localPosition = new Vector3(questPrefab.localPosition.x, yPos, 0);
-                }
-            }
+            float yPos = -i * (currentQuestObject[i].rect.height);
+            currentQuestObject[i].DOLocalMoveY(yPos, 0f);
         }
-        else if (currentQuest.Count == 1)
+    }
+
+    public void EndQuest(string _currCode, string _nextCode = null)
+    {
+        DestoryQuest(_currCode);
+
+        if (string.IsNullOrEmpty(_nextCode)) 
         {
-            RectTransform questPrefab = currentQuestPrefab[0].GetComponent<RectTransform>();
-            questPrefab.localPosition = new Vector3(questPrefab.localPosition.x, 0, 0);
-        }
-        else return;
-    }
-
-    /// <summary>
-    /// 퀘스트 생성 시 애니메이션 재생 함수
-    /// </summary>
-    /// <param name="_obj"></param>
-    void PlayQuestAnim(GameObject _obj)
-    {
-        RectTransform objRect = _obj.GetComponent<RectTransform>();
-        float width = objRect.rect.width;
-        _obj.transform.DOLocalMoveX(width, 0.3f)
-            .OnComplete(() => objRect.localPosition = new Vector3(width, objRect.localPosition.y, 0));
-    }
-
-
-
-
-
-    #region next quest
-    public void SetNextQuestIndex(QuestType _type, int _nextIndex)
-    {
-        if (_type == QuestType.Tutorial)
-            nextTutorialIndex = _nextIndex;
-        else if (_type == QuestType.Main)
-            nextMainIndex = _nextIndex;
-        else
-            nextSubIndex = _nextIndex;
-    }
-
-    /// <summary>
-    /// 선행 퀘스트 종료 시 다음 퀘스트 시작
-    /// </summary>
-    /// <param name="_quest"></param>
-    public void StartNextQuest(QuestBase _quest)
-    {
-        int index = currentQuest.IndexOf(_quest);
-        currentQuestPrefab[index].GetComponent<CanvasGroup>().DOFade(0.0f, 0.3f).SetLoops(5, LoopType.Yoyo).OnComplete(() =>
-        {
-            DestoryQuest(index);
-            CreateNextQuest(_quest.type);
-        });
-    }
-
-    /// <summary>
-    /// 존재해있던 퀘스트 오브젝트 삭제
-    /// </summary>
-    /// <param name="_index"></param>
-    public void DestoryQuest(int _index)
-    {
-        Destroy(currentQuestPrefab[_index]);
-        currentQuest.RemoveAt(_index);
-        currentQuestPrefab.RemoveAt(_index);
-    }
-
-    /// <summary>
-    /// 다음 퀘스트 생성
-    /// </summary>
-    /// <param name="_type"></param>
-    void CreateNextQuest(QuestType _type)
-    {
-        var quests = GetQuestList(_type);
-        var nextQuestIndex = GetQuestIndex(_type);
-
-        if (nextQuestIndex == -1)
-        {
-            SetQuestList();
+            SortPosition();
             return;
         }
-
-        foreach (var quest in quests)
-            if (quest.questIndex == nextQuestIndex)
-                AddQuest(quest);
+     
+        CreateQuest(_nextCode);
     }
 
-    /// <summary>
-    /// 퀘스트 타입에 따른 List 반환
-    /// </summary>
-    /// <param name="_type"></param>
-    /// <returns></returns>
-    List<QuestBase> GetQuestList(QuestType _type)
+    public void DestoryQuest(string _code)
     {
-        if (_type == QuestType.Tutorial)
-            return tutorialQuests;
-        else if (_type == QuestType.Main)
-            return mainQuests;
-        else
-            return subQuests;
-    }
+        QuestBase quest = GetCurrentQuest(_code);
+        GameObject obj = quest.gameObject;
 
-    /// <summary>
-    /// 퀘스트 타입에 따른 다음 퀘스트 인덱스 반환
-    /// </summary>
-    /// <param name="_type"></param>
-    /// <returns></returns>
-    int GetQuestIndex(QuestType _type)
-    {
-        if (_type == QuestType.Tutorial)
-            return nextTutorialIndex;
-        else if (_type == QuestType.Main)
-            return nextMainIndex;
-        else
-            return nextSubIndex;
+        obj.GetComponent<CanvasGroup>().DOFade(0.0f, 0.3f).SetLoops(5, LoopType.Yoyo).OnComplete(() =>
+        {
+            Destroy(obj);
+            currentQuest.Remove(quest);
+        });
     }
-    #endregion
 }
