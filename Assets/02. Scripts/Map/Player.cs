@@ -10,7 +10,6 @@ using Random = UnityEngine.Random;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] FloatingEffect floating;
     public static Action PlayerSightUpdate;
 
     int maxMoveRange = 1;
@@ -203,11 +202,6 @@ public class Player : MonoBehaviour
         {
             moveRange = num;
         }
-    }
-
-    public void StartFloatingAnimation()
-    {
-        StartCoroutine(floating.FloatingAnimation());
     }
 
     public void AttackZombies(ZombieBase zombies)

@@ -184,7 +184,6 @@ public class MapController : MonoBehaviour
 
         player.UpdateCurrentTile(TileToTileController(hexaMap.Map.GetTileFromCoords(new Coords(0, 0))));
         targetTileController = player.TileController;
-        StartCoroutine(FloatingAnimation());
 
         preemptiveTiles.Add(player.TileController.Model);
 
@@ -194,12 +193,6 @@ public class MapController : MonoBehaviour
         {
             preemptiveTiles.Add(item);
         }
-    }
-
-    IEnumerator FloatingAnimation()
-    {
-        yield return new WaitUntil(() => player != null);
-        player.StartFloatingAnimation();
     }
 
     void SpawnZombies(int zombiesNumber)
