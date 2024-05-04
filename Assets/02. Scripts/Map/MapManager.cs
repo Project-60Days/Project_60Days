@@ -68,7 +68,7 @@ public class MapManager : Manager
 
             if (!mapCtrl.CheckPlayersView(tileController))
             {
-                App.Manager.UI.GetPanel<MapPanel>().FalseTileInfo();
+                App.Manager.UI.GetPanel<MapPanel>().TileInfo(false);
                 return;
             }
             
@@ -78,7 +78,7 @@ public class MapManager : Manager
                     mapCtrl.DefaultMouseOverState(tileController);
 
                     if (tileController != curTileController)
-                        App.Manager.UI.GetPanel<MapPanel>().FalseTileInfo();
+                        App.Manager.UI.GetPanel<MapPanel>().TileInfo(false);
                     break;
 
                 case ETileMouseState.CanPlayerMove:
@@ -104,7 +104,7 @@ public class MapManager : Manager
         else
         {
             mapCtrl.DeselectAllBorderTiles();
-            App.Manager.UI.GetPanel<MapPanel>().FalseTileInfo();
+            App.Manager.UI.GetPanel<MapPanel>().TileInfo(false);
         }
 
         MouseClickEvents();
@@ -133,13 +133,12 @@ public class MapManager : Manager
                 if (!canPlayerMove && !isDronePrepared)
                 {
                     tileController.GetComponent<TileBase>().TileInfoUpdate();
-                    App.Manager.UI.GetPanel<MapPanel>().TrueTileInfo();
+                    App.Manager.UI.GetPanel<MapPanel>().TileInfo(true);
                 }
                 else if (canPlayerMove)
                 {
                     if (mapCtrl.SelectPlayerMovePoint(tileController))
                     {
-                        App.Manager.UI.GetPanel<MapPanel>().OnPlayerMovePoint(tileController.transform);
                         mapCtrl.MovePointerOn(tileController.transform.position);
                         canPlayerMove = false;
                     }
@@ -325,7 +324,6 @@ public class MapManager : Manager
         if (mapCtrl.IsMovePathSaved() == false)
             return;
 
-        App.Manager.UI.GetPanel<MapPanel>().OffPlayerMovePoint();
         mapCtrl.MovePointerOff();
         mapCtrl.DeletePlayerMovePath();
     }

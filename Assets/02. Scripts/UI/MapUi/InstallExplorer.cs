@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ExplorerBtn : MapBtnBase
+public class InstallExplorer : InstallBase
 {
     protected override string SetString()
     {

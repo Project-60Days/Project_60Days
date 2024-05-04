@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
 
-public class PopUpPanel : UIBase
+public class EndingPanel : UIBase
 {
     [SerializeField] Scrollbar scrollbar;
     [SerializeField] Image logoImage;

@@ -1259,6 +1259,11 @@ public class MapController : MonoBehaviour
         arrow.SetActive(true);
         App.Manager.Sound.PlaySFX("SFX_Map_Select");
     }
+
+    public bool CheckMovePointerOn()
+    {
+        return arrow.activeInHierarchy;
+    }
     
     public void MovePointerOff()
     {

@@ -4,7 +4,7 @@ using UnityEngine.Video;
 using TMPro;
 using DG.Tweening;
 
-public class PVPanel : UIBase
+public class VideoPanel : UIBase
 {
     [SerializeField] VideoPlayer videoPlayer;
     RawImage pvImage;

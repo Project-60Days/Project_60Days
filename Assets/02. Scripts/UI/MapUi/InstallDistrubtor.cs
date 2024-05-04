@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DistrubtorBtn : MapBtnBase
+public class InstallDistrubtor : InstallBase
 {
     protected override string SetString()
     {

@@ -4,25 +4,25 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public enum ETileInfoTMP
+public enum TileInfo
 {
     Landform,
     Zombie,
     Resource
 }
 
-public class TileInfoPanel : MonoBehaviour
+public class TileInfoCtrl : MonoBehaviour
 {
-    public Image illustration;
-    public TMP_Text[] TMPs;
+    [SerializeField] Image illustration;
+    [SerializeField] TextMeshProUGUI[] texts;
 
     public void UpdateImage(Sprite sprite)
     {
         illustration.sprite = sprite;
     }
 
-    public void UpdateText(ETileInfoTMP infoTMP, string text)
+    public void UpdateText(TileInfo infoTMP, string text)
     {
-        TMPs[(int)infoTMP].text = text;
+        texts[(int)infoTMP].text = text;
     }
 }

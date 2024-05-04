@@ -39,7 +39,7 @@ public class Chapter01_5 : QuestBase
     {
         App.Manager.UI.GetPanel<QuestPanel>().SetNextQuestIndex(type, nextQuestIndex);
         App.Manager.UI.GetPanel<QuestPanel>().StartNextQuest(this);
-        StartCoroutine(App.Manager.UI.GetPanel<PopUpPanel>().EndGamePopUp());
+        StartCoroutine(App.Manager.UI.GetPanel<EndingPanel>().EndGamePopUp());
     }
 }
 

@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class DayCtrl : MonoBehaviour
@@ -38,6 +36,7 @@ public class DayCtrl : MonoBehaviour
     private void FadeCallBack()
     {
         Map.cameraCtrl.ResetCamera();
+
         UI.AddUIStack(UIState.NewDay);
 
         StartCoroutine(SetNextDay());

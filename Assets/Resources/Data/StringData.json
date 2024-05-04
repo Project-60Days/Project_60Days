@@ -230,5 +230,29 @@
     "English": -1,
     "Japanese": -1,
     "Chinese": -1
+  },
+  {
+    "Index": 7001,
+    "Code": "STR_SELECT_JUSTOUDA_KEY",
+    "Korean": "JustoUda",
+    "English": "JustoUda",
+    "Japanese": "JustoUda",
+    "Chinese": "JustoUda"
+  },
+  {
+    "Index": 7002,
+    "Code": "STR_SELECT_JUSTOUDA_A",
+    "Korean": "주스토",
+    "English": "Justo",
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 7003,
+    "Code": "STR_SELECT_JUSTOUDA_B",
+    "Korean": "유다",
+    "English": "Uda",
+    "Japanese": -1,
+    "Chinese": -1
   }
 ]

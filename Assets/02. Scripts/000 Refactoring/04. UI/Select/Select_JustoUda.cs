@@ -2,22 +2,22 @@ using UnityEngine;
 
 public class Select_JustoUda : SelectBase
 {
-    public Select_JustoUda()
-    {
-        Key = "JustoUda";
-    }
+    public override string Key() => App.Data.Game.GetString("STR_SELECT_JUSTOUDA_KEY");
+
+    protected override string GetTextA() => App.Data.Game.GetString("STR_SELECT_JUSTOUDA_A");
+    protected override string GetTextB() => App.Data.Game.GetString("STR_SELECT_JUSTOUDA_B");
 
     public override void SelectA()
     {
         base.SelectA();
 
-        Debug.Log("A 버튼 눌림");
+        Debug.Log("Press Button A");
     }
 
     public override void SelectB()
     {
         base.SelectB();
 
-        Debug.Log("B 버튼 눌림");
+        Debug.Log("Press Button B");
     }
 }

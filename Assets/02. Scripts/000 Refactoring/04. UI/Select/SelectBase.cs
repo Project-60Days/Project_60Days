@@ -2,13 +2,13 @@ using UnityEngine;
 
 public abstract class SelectBase : MonoBehaviour
 {
-    public string Key { get; protected set; }
-
     [SerializeField] Sprite imageA;
     [SerializeField] Sprite imageB;
 
-    [SerializeField] string textA;
-    [SerializeField] string textB;
+    public abstract string Key();
+
+    protected abstract string GetTextA();
+    protected abstract string GetTextB();
 
     public virtual void SetOptionA(SelectButton _select)
     {
@@ -16,7 +16,7 @@ public abstract class SelectBase : MonoBehaviour
         _select.btn.onClick.AddListener(SelectA);
 
         _select.img.sprite = imageA;
-        _select.text.text = textA;
+        _select.text.text = GetTextA();
     }
 
     public virtual void SetOptionB(SelectButton _select)
@@ -25,7 +25,7 @@ public abstract class SelectBase : MonoBehaviour
         _select.btn.onClick.AddListener(SelectB);
 
         _select.img.sprite = imageB;
-        _select.text.text = textB;
+        _select.text.text = GetTextB();
     }
 
     public virtual void SelectA()

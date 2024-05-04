@@ -8,15 +8,15 @@ using DG.Tweening;
 
 public class QuestPanel : UIBase
 {
-    [SerializeField] GameObject questList;
     [SerializeField] GameObject mainQuestPrefab;
     [SerializeField] GameObject subQuestPrefab;
+
     [SerializeField] Transform questParent;
 
-    QuestBase[] quests;
-    List<QuestBase> tutorialQuests = new List<QuestBase>();
-    List<QuestBase> mainQuests = new List<QuestBase>();
-    List<QuestBase> subQuests = new List<QuestBase>();
+    private QuestBase[] quests;
+    private List<QuestBase> tutorialQuests = new List<QuestBase>();
+    private List<QuestBase> mainQuests = new List<QuestBase>();
+    private List<QuestBase> subQuests = new List<QuestBase>();
 
     List<QuestBase> currentQuest = new List<QuestBase>();
     List<GameObject> currentQuestPrefab = new List<GameObject>();
@@ -28,15 +28,24 @@ public class QuestPanel : UIBase
     #region Override
     public override void Init()
     {
-        quests = questList.GetComponentsInChildren<QuestBase>();
+        quests = GetComponentsInChildren<QuestBase>();
+
         foreach (var quest in quests)
         {
-            if (quest.type == QuestType.Tutorial)
-                tutorialQuests.Add(quest);
-            else if (quest.type == QuestType.Main)
-                mainQuests.Add(quest);
-            else
-                subQuests.Add(quest);
+            switch (quest.type)
+            {
+                case QuestType.Tutorial:
+                    tutorialQuests.Add(quest);
+                    break;
+
+                case QuestType.Main:
+                    mainQuests.Add(quest);
+                    break;
+
+                case QuestType.Sub:
+                    subQuests.Add(quest);
+                    break;
+            }
         }
     }
 
@@ -45,18 +54,12 @@ public class QuestPanel : UIBase
 
     public void StartMainQuest()
     {
-        CreateQuest("chapter01_AccessProductionStructure");
+        AddQuest(mainQuests[0]);
     }
 
-    /// <summary>
-    /// 첫 번째 퀘스트 생성 함수
-    /// </summary>
-    /// <param name="_questCode"></param>
-    public void CreateQuest(string _questCode)
+    public void StartTutorialQuest()
     {
-        foreach (var quest in quests)
-            if (quest.questCode == _questCode)
-                AddQuest(quest);
+        AddQuest(tutorialQuests[0]);
     }
 
     /// <summary>
@@ -67,10 +70,7 @@ public class QuestPanel : UIBase
     {
         GameObject obj;
 
-        if (_quest.type == QuestType.Sub)
-            obj = Instantiate(subQuestPrefab, questParent);
-        else
-            obj = Instantiate(mainQuestPrefab, questParent);
+        obj = GetQuestObject(_quest.type);
 
         TMP_Text questText = obj.transform.GetComponentInChildren<TMP_Text>();
         questText.text = _quest.SetQuestText();
@@ -83,6 +83,12 @@ public class QuestPanel : UIBase
 
         StartCoroutine(_quest.CheckQuestComplete());
     }
+
+    GameObject GetQuestObject(QuestType _type) => _type switch
+    {
+        QuestType.Sub => Instantiate(subQuestPrefab, questParent),
+        _ => Instantiate(mainQuestPrefab, questParent),
+    };
 
 
     /// <summary>

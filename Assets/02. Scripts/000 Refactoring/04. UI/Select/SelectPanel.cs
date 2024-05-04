@@ -24,10 +24,10 @@ public class SelectPanel : UIBase
     {
         dic_Select.Clear();
 
-        SelectBase[] selectBases = GetComponents<SelectBase>();
+        SelectBase[] selectBases = GetComponentsInChildren<SelectBase>();
         foreach (SelectBase selectBase in selectBases)
         {
-            dic_Select.Add(selectBase.Key, selectBase);
+            dic_Select.Add(selectBase.Key(), selectBase);
         }
 
         gameObject.SetActive(false);

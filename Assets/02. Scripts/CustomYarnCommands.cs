@@ -162,7 +162,7 @@ public class CustomYarnCommands : MonoBehaviour
     #region Tutorial 05
     Coroutine WaitMovePoint()
     {
-        return StartCoroutine(new WaitUntil(() => App.Manager.UI.GetPanel<MapPanel>().MovePointActivate()));
+        return StartCoroutine(new WaitUntil(() => App.Manager.Map.mapCtrl.CheckMovePointerOn()));
     }
 
     void AddResource()
@@ -186,12 +186,12 @@ public class CustomYarnCommands : MonoBehaviour
     #region Tutorial 08
     void StartPV()
     {
-        App.Manager.UI.GetPanel<PVPanel>().Start01();
+        App.Manager.UI.GetPanel<VideoPanel>().Start01();
     }
 
     Coroutine WaitPVEnd()
     {
-        return StartCoroutine(new WaitUntil(() => App.Manager.UI.GetPanel<PVPanel>().isEnd));
+        return StartCoroutine(new WaitUntil(() => App.Manager.UI.GetPanel<VideoPanel>().isEnd));
     }
 
 

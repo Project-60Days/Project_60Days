@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using Cinemachine;
 using DG.Tweening;
@@ -6,24 +5,23 @@ using DG.Tweening;
 public class MapCamCtrl : MonoBehaviour
 {
     [SerializeField] CinemachineVirtualCamera mapCamera;
-
     private CinemachineFramingTransposer transposer;
+
     private MapPanel UI;
     private MapManager Map;
     private SoundManager Sound;
-    private Transform Player;
 
     public void Init()
     {
-        transposer = mapCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
         UI = App.Manager.UI.GetPanel<MapPanel>();
         Map = App.Manager.Map;
         Sound = App.Manager.Sound;
-        Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
 
-        mapCamera.Follow = Player.transform;
+        Transform player = Map.mapCtrl.Player.GetComponent<Transform>();
+        mapCamera.Follow = player;
         mapCamera.m_Lens.OrthographicSize = 6.5f;
 
+        transposer = mapCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
         transposer.m_CameraDistance = 5f;
     }
 
@@ -60,7 +58,7 @@ public class MapCamCtrl : MonoBehaviour
             {
                 SetPrioryty(false);
                 Sound.PlayBGM("BGM_InGame");
-                UI.FalseTileInfo();
+                UI.TileInfo(false);
             });
     }
 
@@ -69,12 +67,13 @@ public class MapCamCtrl : MonoBehaviour
         App.Manager.Sound.PlaySFX("SFX_Map_Open");
 
         Sequence sequence = DOTween.Sequence();
-        sequence.AppendCallback(() =>
+        sequence
+            .AppendCallback(() =>
             {
                 SetPrioryty(true);
                 var currTile = Map.mapCtrl.Player.TileController.GetComponent<TileBase>();
                 Sound.PlayBGM(Map.GetLandformBGM(currTile));
-                UI.FalseTileInfo();
+                UI.TileInfo(false);
             })
             .Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 10f, 0.5f))
             .OnComplete(()=> 

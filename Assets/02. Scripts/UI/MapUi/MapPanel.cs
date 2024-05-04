@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,8 +5,7 @@ public class MapPanel : UIBase
 {
     [SerializeField] GameObject disturbtorButton;
     [SerializeField] GameObject explorerButton;
-    [SerializeField] TargetPointUI targetPoint;
-    [SerializeField] TileInfoPanel tileInfoPanel;
+    [SerializeField] TileInfoCtrl tileInfoCtrl;
 
     #region Override
     public override void Init()
@@ -18,7 +15,7 @@ public class MapPanel : UIBase
 
     public override void ReInit() 
     {
-        OffPlayerMovePoint();
+        TileInfo(false);
     }
     #endregion
 
@@ -27,57 +24,19 @@ public class MapPanel : UIBase
         disturbtorButton.GetComponentInChildren<Button>().interactable = true;
     }
 
-    public bool GetActiveTileInfo()
+    public void TileInfo(bool _isActive)
     {
-        return tileInfoPanel.gameObject.activeInHierarchy;
+        tileInfoCtrl.gameObject.SetActive(_isActive);
     }
 
-    public void TrueTileInfo()
+    public void UpdateText(TileInfo infoTMP, string text)
     {
-        // var screenPoint = Camera.main.WorldToScreenPoint(tilePos);
-        // tileInfoPanel.transform.position = screenPoint;
-        if (App.Manager.UI.CurrState == UIState.Map)
-            tileInfoPanel.gameObject.SetActive(true);
-    }
-
-    public void FalseTileInfo()
-    {
-        tileInfoPanel.gameObject.SetActive(false);
-    }
-
-    public void MoveTileInfo(Vector3 pos)
-    {
-        tileInfoPanel.transform.localPosition = pos;
-    }
-
-    public bool GetTileInfoActivate()
-    {
-        return tileInfoPanel.gameObject.activeInHierarchy;
-    }
-
-    public void OnPlayerMovePoint(Transform transform)
-    {
-        targetPoint.OnEffect(transform);
-    }
-
-    public void OffPlayerMovePoint()
-    {
-        targetPoint.OffEffect();
-    }
-
-    public void UpdateText(ETileInfoTMP infoTMP, string text)
-    {
-        tileInfoPanel.UpdateText(infoTMP, text);
+        tileInfoCtrl.UpdateText(infoTMP, text);
     }
 
     public void UpdateImage(Sprite sprite)
     {
-        tileInfoPanel.UpdateImage(sprite);
-    }
-
-    public bool MovePointActivate()
-    {
-        return targetPoint.ActivateStatus();
+        tileInfoCtrl.UpdateImage(sprite);
     }
     
     public void ExplorerButtonInteractable(bool isOn)
