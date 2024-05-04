@@ -32,7 +32,7 @@ public class LoadingPanel : UIBase
 
     private IEnumerator LoadScene()
     {
-        yield return new WaitUntil(() => App.Manager.Map.mapCtrl.LoadingComplete == true);
+        yield return new WaitUntil(() => App.Manager.Game.LoadingComplete);
 
         App.Manager.Sound.PlayBGM("BGM_InGame");
 

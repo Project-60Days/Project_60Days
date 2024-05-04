@@ -10,6 +10,7 @@ public class GameManager : Manager
     [HideInInspector] public List<ItemBase> itemData => itemSO.items.ToList();
 
     public DayCtrl ctrl;
+    [HideInInspector] public bool LoadingComplete = false;
     [HideInInspector] public bool isOver = false;
     [HideInInspector] public bool isHit = false;
     [HideInInspector] public bool isNewDay = true;
@@ -18,12 +19,11 @@ public class GameManager : Manager
     [SerializeField] Button nextDayBtn;
     [SerializeField] Button shelterBtn;
 
-    protected override void Awake()
+    private void Start()
     {
-        base.Awake();
-
         SetButtonEvent();
         InitItemSO();
+        StartCoroutine(InitUI());
     }
 
     private void SetButtonEvent()
@@ -41,6 +41,17 @@ public class GameManager : Manager
             item.data = itemData[item.Code];
             item.Init();
         }
+    }
+
+    private IEnumerator InitUI()
+    {
+        yield return new WaitUntil(() => App.Manager.Map.mapCtrl.LoadingComplete);
+
+        App.Manager.UI.InitUIs();
+
+        yield return new WaitForSeconds(0.5f);
+
+        LoadingComplete = true;
     }
 
     public void NextDay()

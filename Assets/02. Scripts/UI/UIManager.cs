@@ -30,12 +30,7 @@ public class UIManager : Manager
         UIs.Clear(); // clear memory
     }
 
-    private void Start()
-    {
-        InitUIs();
-    }
-
-    private void InitUIs()
+    public void InitUIs()
     {
         foreach (var UI in UIDic.Values)
         {
