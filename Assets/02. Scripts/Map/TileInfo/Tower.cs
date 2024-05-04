@@ -4,7 +4,6 @@ public class Tower : StructureBase
 
     public override void YesFunc()
     {
-        // 맵 씬 강제 이동 + 조사 애니메이션
         isUse = true;
 
         App.Manager.UI.GetPanel<PagePanel>().SetResultPage("Signal_Yes", false);
@@ -15,6 +14,6 @@ public class Tower : StructureBase
     public override void NoFunc()
     {
         // 게임 오버
-        App.Manager.Map.ResearchCancel(this);
+        return;
     }
 }

@@ -7,7 +7,7 @@ public class ArmyStructure : StructureBase
         for (var index = 0; index < colleagues.Count; index++)
         {
             var tile = colleagues[index];
-            tile.Structure.AllowAccess();
+            tile.structure.AllowAccess();
         }
 
         App.Manager.Map.NormalStructureResearch(this);

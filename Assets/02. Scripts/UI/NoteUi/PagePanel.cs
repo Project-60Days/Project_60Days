@@ -59,7 +59,7 @@ public class PagePanel : UIBase
         for (int i = 0; i < resources.Count; i++)
         {
             string tileName = App.Manager.Map.mapCtrl
-                .Player.TileController.GetComponent<TileBase>().TileData.English;
+                .Player.TileController.GetComponent<TileBase>().tileData.English;
 
             int randomNumber = Random.Range(1, 6);
 

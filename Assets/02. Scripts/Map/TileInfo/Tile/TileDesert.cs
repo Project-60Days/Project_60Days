@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using Hexamap;
 using UnityEngine;
 
-public class DesertTile : TileBase, ITileLandformEffect
+public class TileDesert : TileBase
 {
-    public void Buff(Player player)
-    {
-        throw new System.NotImplementedException();
-    }
+    public override void Buff(Player player) { }
 
-    public void DeBuff(Player _player)
+    public override void DeBuff(Player _player)
     {
         _player.ChangeDurbility(-1);
 

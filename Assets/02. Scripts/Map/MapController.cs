@@ -176,7 +176,7 @@ public class MapController : MonoBehaviour
         Vector3 spawnPos = TileToTileController(hexaMap.Map.GetTileFromCoords(new Coords(0, 0))).transform.position;
         spawnPos.y += 0.7f;
 
-        var playerObject = Instantiate(mapPrefab.items[(int)EMabPrefab.Player].prefab, spawnPos,
+        var playerObject = Instantiate(mapPrefab.prefabs[(int)EMabPrefab.Player], spawnPos,
             Quaternion.Euler(0, -90, 0));
         player = playerObject.GetComponent<Player>();
         player.transform.parent = mapParentTransform;
@@ -207,7 +207,7 @@ public class MapController : MonoBehaviour
             var spawnPos = ((GameObject)tile.GameEntity).transform.position;
             spawnPos.y += 0.6f;
 
-            var zombie = Instantiate(mapPrefab.items[(int)EMabPrefab.Zombie].prefab, spawnPos,
+            var zombie = Instantiate(mapPrefab.prefabs[(int)EMabPrefab.Zombie], spawnPos,
                 Quaternion.Euler(0, Random.Range(0, 360), 0), zombiesTransform);
             zombie.name = "Zombie " + (i + 1);
             zombie.GetComponent<ZombieBase>().Init(tile);
@@ -223,7 +223,7 @@ public class MapController : MonoBehaviour
         var spawnPos = ((GameObject)tile.GameEntity).transform.position;
         spawnPos.y += 0.6f;
 
-        var zombie = Instantiate(mapPrefab.items[(int)EMabPrefab.Zombie].prefab, spawnPos,
+        var zombie = Instantiate(mapPrefab.prefabs[(int)EMabPrefab.Zombie], spawnPos,
             Quaternion.Euler(0, Random.Range(0, 360), 0), zombiesTransform);
         zombie.name = "Tutorial Zombie";
         zombie.GetComponent<ZombieBase>().Init(tile);
@@ -242,7 +242,7 @@ public class MapController : MonoBehaviour
         var spawnPos = tile.transform.position;
         spawnPos.y += 0.6f;
 
-        var zombie = Instantiate(mapPrefab.items[(int)EMabPrefab.Zombie].prefab, spawnPos,
+        var zombie = Instantiate(mapPrefab.prefabs[(int)EMabPrefab.Zombie], spawnPos,
             Quaternion.Euler(0, Random.Range(0, 360), 0), zombiesTransform);
 
         zombie.name = "Structure Zombie";
@@ -284,7 +284,7 @@ public class MapController : MonoBehaviour
                 moveRange++;
             }
 
-            if (moveRange != num && tileController.gameObject.GetComponent<TileBase>().Structure?.isAccessible == false)
+            if (moveRange != num && tileController.gameObject.GetComponent<TileBase>().structure?.isAccessible == false)
                 SelectBorder(tileController, ETileState.Unable);
             else
                 SelectBorder(tileController, ETileState.Moveable);
@@ -313,7 +313,7 @@ public class MapController : MonoBehaviour
             SelectBorder(value, ETileState.None);
         }
 
-        if (tileController.gameObject.GetComponent<TileBase>().Structure?.isAccessible == false
+        if (tileController.gameObject.GetComponent<TileBase>().structure?.isAccessible == false
             || LandformCheck(tileController) == false)
         {
             SelectBorder(tileController, ETileState.Unable);
@@ -322,7 +322,7 @@ public class MapController : MonoBehaviour
         {
             SelectBorder(tileController, ETileState.Unable);
         }
-        else if (tileController.gameObject.GetComponent<TileBase>().CurZombies != null)
+        else if (tileController.gameObject.GetComponent<TileBase>().currZombies != null)
         {
             SelectBorder(tileController, ETileState.Unable);
         }
@@ -472,7 +472,7 @@ public class MapController : MonoBehaviour
     {
         Debug.Log("예시 교란기");
 
-        curDistrubtor = Instantiate(mapPrefab.items[(int)EMabPrefab.Disturbtor].prefab,
+        curDistrubtor = Instantiate(mapPrefab.prefabs[(int)EMabPrefab.Disturbtor],
             player.transform.position + Vector3.up * 1.5f, Quaternion.Euler(0, 90, 0));
 
         curDistrubtor.transform.parent = mapTransform;
@@ -511,7 +511,7 @@ public class MapController : MonoBehaviour
 
     void GenerateExampleExplorer()
     {
-        curExplorer = Instantiate(mapPrefab.items[(int)EMabPrefab.Explorer].prefab,
+        curExplorer = Instantiate(mapPrefab.prefabs[(int)EMabPrefab.Explorer],
             player.transform.position + Vector3.up * 1.5f, Quaternion.Euler(0, 90, 0));
 
         curExplorer.transform.parent = mapTransform;
@@ -662,11 +662,11 @@ public class MapController : MonoBehaviour
 
     public bool CheckPlayerInStructureTile(TileController tileController)
     {
-        var structure = tileController.gameObject.GetComponent<TileBase>().Structure;
+        var structure = tileController.gameObject.GetComponent<TileBase>().structure;
 
         if (structure != null)
         {
-            if (tileController.gameObject.GetComponent<TileBase>().Structure.isAccessible)
+            if (tileController.gameObject.GetComponent<TileBase>().structure.isAccessible)
             {
                 return true;
             }
@@ -847,7 +847,7 @@ public class MapController : MonoBehaviour
         var spawnPos = ((GameObject)tile.GameEntity).transform.position;
         spawnPos.y += 0.31f;
 
-        var tower = Instantiate(mapPrefab.items[(int)EMabPrefab.Tower].prefab, spawnPos, Quaternion.Euler(0, 90, 0),
+        var tower = Instantiate(mapPrefab.prefabs[(int)EMabPrefab.Tower], spawnPos, Quaternion.Euler(0, 90, 0),
             objectsTransform);
 
         tower.GetComponent<StructureObject>().Init(tile);
@@ -865,7 +865,7 @@ public class MapController : MonoBehaviour
 
         var tilelist = new List<Tile>();
 
-        GameObject structureObject = mapPrefab.items[(int)EMabPrefab.Production].prefab;
+        GameObject structureObject = mapPrefab.prefabs[(int)EMabPrefab.Production];
 
         // 튜토리얼 용 위치 고정
         //Tile tile = GetTileFromCoords(_coords);
@@ -918,7 +918,7 @@ public class MapController : MonoBehaviour
 
         var tilelist = new List<Tile>();
 
-        GameObject structureObject = mapPrefab.items[(int)EMabPrefab.Army].prefab;
+        GameObject structureObject = mapPrefab.prefabs[(int)EMabPrefab.Army];
 
         Tile tile = boundaryTiles[selectNumber[0]];
 
@@ -963,7 +963,7 @@ public class MapController : MonoBehaviour
         int randomInt = Random.Range(0, tileBases.Count);
         var randomTile = tileBases[randomInt];
 
-        if (randomTile.Structure == null)
+        if (randomTile.structure == null)
             Debug.Log("비어있음");
 
         randomTile.AddSpecialItem();
@@ -1024,8 +1024,8 @@ public class MapController : MonoBehaviour
 
             var tileBase = ((GameObject)item.Value.GameEntity).GetComponent<TileBase>();
 
-            if (tileBase.Structure != null)
-                return tileBase.Structure;
+            if (tileBase.structure != null)
+                return tileBase.structure;
         }
 
         return null;

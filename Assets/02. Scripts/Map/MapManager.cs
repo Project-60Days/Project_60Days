@@ -14,7 +14,6 @@ public class MapManager : Manager
 
     Camera mainCamera;
     TileController curTileController;
-    StructureBase curStructure;
 
     bool canPlayerMove;
     bool isDronePrepared;
@@ -29,7 +28,7 @@ public class MapManager : Manager
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
 
         mapCtrl.Init();
-        AllowMouseEvent(true);
+        InitValue();
         cameraCtrl.Init();
     }
 
@@ -231,9 +230,9 @@ public class MapManager : Manager
         return false;
     }
 
-    public void AllowMouseEvent(bool isAllow)
+    public void InitValue()
     {
-        mouseIntreractable = isAllow;
+        mouseIntreractable = true;
         canPlayerMove = false;
         isDronePrepared = false;
         isDisturbtorPrepared = false;
@@ -243,14 +242,8 @@ public class MapManager : Manager
     {
         CheckZombies();
         CheckStructureNeighbor();
-
-        // 튜토리얼 네트워크 칩
-        // if(isVisitNoneTile == false)
-        // {
-        //     TutorialTileCheck();
-        // }
-        
-        AllowMouseEvent(true);
+    
+        InitValue();
     }
 
     public void CheckZombies()
@@ -281,7 +274,7 @@ public class MapManager : Manager
         }
     }
 
-    public string GetLandformBGM(TileBase _tile) => _tile.TileData.English switch
+    public string GetLandformBGM(TileBase _tile) => _tile.tileData.English switch
     {
         "None" => "Ambience_City",
         "Jungle" => "Ambience_Jungle",
@@ -311,12 +304,6 @@ public class MapManager : Manager
         structure.colleagues.ForEach(tile => tile.ResourceUpdate(true));
 
         mapCtrl.SpawnSpecialItemRandomTile(structure.colleagues);
-        curStructure = structure;
-    }
-
-    public void ResearchCancel(StructureBase structure)
-    {
-        Debug.Log("조사 취소!");
     }
 
     public void MovePathDelete()
@@ -326,30 +313,6 @@ public class MapManager : Manager
 
         mapCtrl.MovePointerOff();
         mapCtrl.DeletePlayerMovePath();
-    }
-
-    // public void TutorialTileCheck()
-    // {
-    //     if (mapController.Player.TileController.GetComponent<TileBase>().TileData.English == "None")
-    //     {
-    //         UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_NETWORKCHIP");
-    //         isVisitNoneTile = true;
-    //     }
-    // }
-
-    public bool SignalTowerQuestCheck()
-    {
-        if (curStructure == null)
-            return false;
-
-        if (curStructure.visitDay != App.Manager.Game.dayCount)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
     }
 
     /// <summary>

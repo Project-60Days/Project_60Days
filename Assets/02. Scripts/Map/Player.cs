@@ -100,7 +100,7 @@ public class Player : MonoBehaviour
         Vector3 targetPos;
         Vector3 lastTargetPos = targetTileController.transform.position;
 
-        var zombies = targetTileController.GetComponent<TileBase>().CurZombies;
+        var zombies = targetTileController.GetComponent<TileBase>().currZombies;
 
         // 이동한 타일에 좀비가 있다면 공격
         if (zombies != null)
@@ -150,8 +150,8 @@ public class Player : MonoBehaviour
         {
             if(App.Manager.Map.mapCtrl.CheckTileType(candidate[i], "LandformPlain"))
             {
-                if (((GameObject)candidate[i].GameEntity).GetComponent<TileBase>().Structure == null &&
-                    ((GameObject)candidate[i].GameEntity).GetComponent<TileBase>().CurZombies == null)
+                if (((GameObject)candidate[i].GameEntity).GetComponent<TileBase>().structure == null &&
+                    ((GameObject)candidate[i].GameEntity).GetComponent<TileBase>().currZombies == null)
                 {
                     targetPos = ((GameObject)candidate[i].GameEntity).transform.position;
                     tile = candidate[i];
@@ -316,24 +316,8 @@ public class Player : MonoBehaviour
     {
         var tileBase = currentTileContorller.GetComponent<TileBase>();
 
-        switch (tileBase.TileType)
-        {
-            case ETileType.City:
-                (tileBase as NoneTile).Buff(this);
-                (tileBase as NoneTile).DeBuff(this);
-                break;
-            case ETileType.Desert:
-                (tileBase as DesertTile).DeBuff(this);
-                break;
-            case ETileType.Tundra:
-                (tileBase as TundraTile).DeBuff(this);
-                break;
-            case ETileType.Jungle:
-                (tileBase as JungleTile).DeBuff(this);
-                break;
-            default:
-                break;
-        }
+        tileBase.Buff(this);
+        tileBase.DeBuff(this);
     }
 
     public void JungleDebuffOn()

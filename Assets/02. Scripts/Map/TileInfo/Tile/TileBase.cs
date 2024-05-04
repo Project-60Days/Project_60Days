@@ -6,10 +6,8 @@ using System.Linq;
 using Random = UnityEngine.Random;
 
 [SelectionBase]
-public class TileBase : MonoBehaviour
+public abstract class TileBase : MonoBehaviour
 {
-    #region Variables
-    
     [SerializeField] ETileType tileType;
     [SerializeField] Sprite landformSprite;
     [SerializeField] SpriteRenderer[] resourceIcons;
@@ -19,29 +17,20 @@ public class TileBase : MonoBehaviour
     List<Resource> appearanceResources;
 
     Tile tile;
-    TileData tileData;
+    public TileData tileData { get; private set; }
 
     ItemSO itemSO;
 
-    public TileData TileData => tileData;
 
     string resourceText;
     string landformText;
 
-    ZombieBase curZombies;
+    public ZombieBase currZombies { get; private set; }
 
-    public ZombieBase CurZombies => curZombies;
-
-    StructureBase structure;
-    GameObject structureObject;
-
-    public StructureBase Structure => structure;
-
-    public GameObject StructureObject => structureObject;
+    public StructureBase structure { get; private set; }
+    public GameObject structureObject { get; private set; }
 
     public ETileType TileType => tileType;
-
-    #endregion
 
     private void Awake()
     {
@@ -66,6 +55,10 @@ public class TileBase : MonoBehaviour
     {
         Player.PlayerSightUpdate -= CheckPlayerTIle;
     }
+
+    public abstract void Buff(Player _player);
+
+    public abstract void DeBuff(Player _player);
 
     void GetTilData()
     {
@@ -279,12 +272,12 @@ public class TileBase : MonoBehaviour
         App.Manager.UI.GetPanel<MapPanel>().UpdateText(TileInfo.Landform, landformText);
         App.Manager.UI.GetPanel<MapPanel>().UpdateText(TileInfo.Resource, resourceText);
 
-        if (curZombies == null)
+        if (currZombies == null)
             App.Manager.UI.GetPanel<MapPanel>().UpdateText(TileInfo.Zombie, "좀비 수 : ???");
         else
         {
             App.Manager.UI.GetPanel<MapPanel>()
-                .UpdateText(TileInfo.Zombie, "좀비 수 : " + curZombies.zombieData.count + "마리");
+                .UpdateText(TileInfo.Zombie, "좀비 수 : " + currZombies.zombieData.count + "마리");
         }
     }
 
@@ -394,18 +387,14 @@ public class TileBase : MonoBehaviour
     {
         if (zombie == null)
         {
-            curZombies = null;
+            currZombies = null;
             App.Manager.UI.GetPanel<MapPanel>().UpdateText(TileInfo.Zombie, "좀비 수 : ???");
         }
         else
         {
-            curZombies = zombie;
+            currZombies = zombie;
             App.Manager.UI.GetPanel<MapPanel>()
-                .UpdateText(TileInfo.Zombie, "좀비 수 : " + curZombies.zombieData.count + "마리");
+                .UpdateText(TileInfo.Zombie, "좀비 수 : " + currZombies.zombieData.count + "마리");
         }
-    }
-
-    public virtual void TileEffectInit(Player player, ZombieBase zombie)
-    {
     }
 }
