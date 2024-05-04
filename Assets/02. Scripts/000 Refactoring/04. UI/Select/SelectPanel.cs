@@ -1,18 +1,25 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+[Serializable]
+public struct SelectButton
+{
+    public Button btn;
+    public Image img;
+    public TextMeshProUGUI text;
+}
+
 public class SelectPanel : UIBase
 {
-    [SerializeField] Button buttonA;
-    [SerializeField] Button buttonB;
+    [SerializeField] SelectButton buttonA;
+    [SerializeField] SelectButton buttonB;
 
-    Dictionary<string, SelectBase> dic_Select = new Dictionary<string, SelectBase>();
+    private Dictionary<string, SelectBase> dic_Select = new Dictionary<string, SelectBase>();
 
     #region Override
-
     public override void Init()
     {
         dic_Select.Clear();
@@ -20,7 +27,7 @@ public class SelectPanel : UIBase
         SelectBase[] selectBases = GetComponents<SelectBase>();
         foreach (SelectBase selectBase in selectBases)
         {
-            dic_Select.Add(selectBase.key, selectBase);
+            dic_Select.Add(selectBase.Key, selectBase);
         }
 
         gameObject.SetActive(false);
@@ -33,20 +40,14 @@ public class SelectPanel : UIBase
     public override bool IsAddUIStack() => true;
     #endregion
 
-    public void SetSelect(string _Key)
+    public void SetSelect(string _key)
     {
-        if (dic_Select.TryGetValue(_Key, out var selectBase))
+        if (dic_Select.TryGetValue(_key, out var selectBase))
         {
-            OpenPanel();
-
             selectBase.SetOptionA(buttonA);
             selectBase.SetOptionB(buttonB);
 
-            buttonA.onClick.RemoveAllListeners();
-            buttonB.onClick.RemoveAllListeners();
-
-            buttonA.onClick.AddListener(selectBase.SelectA);
-            buttonB.onClick.AddListener(selectBase.SelectB);
+            OpenPanel();
         }
     }
 }
