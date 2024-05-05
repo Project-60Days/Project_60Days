@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-[System.Serializable]
+[Serializable]
 public class MapData
 {
     [Tooltip("자원 등장 확률")] public int resourcePercent = 60;

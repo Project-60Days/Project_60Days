@@ -28,8 +28,8 @@ public class MapManager : Manager
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
 
         mapCtrl.Init();
-        InitValue();
         cameraCtrl.Init();
+        InitValue();
     }
 
     void Update()
@@ -123,7 +123,7 @@ public class MapManager : Manager
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskPlayer))
             {
                 if (!isDronePrepared)
-                    canPlayerMove = mapCtrl.PlayerCanMoveCheck();
+                    canPlayerMove = mapCtrl.CheckPlayerCanMove();
             }
             else if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile))
             {

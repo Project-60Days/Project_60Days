@@ -29,7 +29,7 @@ public class GameManager : Manager
     private void Start()
     {
         SetButtonEvent();
-        
+        InitItemSO();
     }
 
     private void SetButtonEvent()

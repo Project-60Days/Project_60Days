@@ -75,16 +75,13 @@ public class MapController : MonoBehaviour
     {
         hexaMap.Destroy();
 
-        var timeBefore = DateTime.Now;
-
         hexaMap.Generate();
-
-        double timeSpent = (DateTime.Now - timeBefore).TotalSeconds;
 
         hexaMap.Draw();
 
         // Add some noise to Y position of tiles
         FastNoise _fastNoise = new FastNoise();
+
         _fastNoise.SetFrequency(0.1f);
         _fastNoise.SetNoiseType(FastNoise.NoiseType.Perlin);
         _fastNoise.SetSeed(hexaMap.Map.Seed);
@@ -102,18 +99,7 @@ public class MapController : MonoBehaviour
         isLoadingComplete = true;
     }
 
-    public void RegenerateMap()
-    {
-        Destroy(player);
 
-        foreach (var item in zombiesList)
-        {
-            Destroy(item.gameObject);
-        }
-
-        zombiesList.Clear();
-        StartCoroutine(GenerateMap());
-    }
 
     /// <summary>
     /// 맵에서 스폰되는 오브젝트들에 대한 초기화를 하는 함수이다.
@@ -121,9 +107,6 @@ public class MapController : MonoBehaviour
     /// </summary>
     IEnumerator GenerateMapObjects()
     {
-        App.Data.Game.valueData.TryGetValue("Data_MinCount_ZombieObject", out ValueData min);
-        App.Data.Game.valueData.TryGetValue("Data_MaxCount_ZombieObject", out ValueData max);
-
         SpawnPlayer();
 
         GenerateTower();
@@ -214,24 +197,6 @@ public class MapController : MonoBehaviour
             zombie.GetComponent<ZombieBase>().SetValue(mapData.playerMovementPoint, mapData.zombieDetectionRange);
             zombiesList.Add(zombie);
         }
-    }
-
-    public void SpawnTutorialZombie()
-    {
-        var tile = GetTileFromCoords(new Coords(0, -2));
-
-        var spawnPos = ((GameObject)tile.GameEntity).transform.position;
-        spawnPos.y += 0.6f;
-
-        var zombie = Instantiate(mapPrefab.prefabs[(int)EMabPrefab.Zombie], spawnPos,
-            Quaternion.Euler(0, Random.Range(0, 360), 0), zombiesTransform);
-        zombie.name = "Tutorial Zombie";
-        zombie.GetComponent<ZombieBase>().Init(tile);
-
-        zombiesList.Add(zombie);
-
-        // 튜토리얼 이동
-        //zombie.GetComponent<ZombieBase>().MoveTargetCoroutine(player.TileController.Model);
     }
 
     public void SpawnStructureZombies(List<TileBase> tiles)
@@ -361,13 +326,7 @@ public class MapController : MonoBehaviour
         }
     }
 
-    public bool PlayerCanMoveCheck()
-    {
-        if (player.MoveRange != 0)
-            return true;
-        else
-            return false;
-    }
+    public bool CheckPlayerCanMove() => player.MoveRange != 0;
 
     public bool SelectPlayerMovePoint(TileController tileController)
     {
