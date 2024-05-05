@@ -26,10 +26,6 @@ public class MapController : MonoBehaviour
     public DroneCtrl droneCtrl;
     public StructCtrl structCtrl;
 
-
-    [Header("프리팹")] [Space(5f)] [SerializeField]
-    MapPrefabSO mapPrefab;
-
     [Header("안개")] [Space(5f)]
     public csFogWar fog;
 
