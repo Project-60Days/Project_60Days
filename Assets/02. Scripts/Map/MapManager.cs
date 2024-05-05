@@ -300,7 +300,7 @@ public class MapManager : Manager
         if (isTundraTile)
         {
             App.Manager.UI.GetPanel<PagePanel>().SetResultPage("SEARCH_TUNDRA", false);
-            mapCtrl.Player.SetHealth(false);
+            mapCtrl.playerCtrl.player.SetHealth(false);
         }
 
         // 경로 삭제
@@ -314,7 +314,7 @@ public class MapManager : Manager
 
     public void MovePathDelete()
     {
-        if (mapCtrl.IsMovePathSaved() == false)
+        if (mapCtrl.playerCtrl.IsMovePathSaved() == false)
             return;
 
         arrowCtrl.ArrowOff();
@@ -361,7 +361,7 @@ public class MapManager : Manager
         {
             Debug.Log("에테르 디버프");
             App.Manager.UI.GetPanel<PagePanel>().SetResultPage("ACIDENT_ETHER", false);
-            mapCtrl.Player.SetHealth(false);
+            mapCtrl.playerCtrl.player.SetHealth(false);
         }
         else
         {

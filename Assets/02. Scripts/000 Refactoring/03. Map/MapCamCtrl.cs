@@ -17,7 +17,7 @@ public class MapCamCtrl : MonoBehaviour
         Map = App.Manager.Map;
         Sound = App.Manager.Sound;
 
-        Transform player = Map.mapCtrl.Player.GetComponent<Transform>();
+        Transform player = Map.mapCtrl.playerCtrl.player.GetComponent<Transform>();
         mapCamera.Follow = player;
         mapCamera.m_Lens.OrthographicSize = 6.5f;
 

@@ -22,7 +22,7 @@ public class MapController : MonoBehaviour
     [SerializeField] Transform mapParentTransform;
     [SerializeField] Transform objectsTransform;
 
-    [SerializeField] PlayerCtrl playerCtrl;
+    public PlayerCtrl playerCtrl;
     [SerializeField] EnemyCtrl enemyCtrl;
     public TileController tileCtrl;
 
@@ -39,10 +39,6 @@ public class MapController : MonoBehaviour
     List<TileController> pathTiles = new List<TileController>();
 
     List<Tile> sightTiles = new List<Tile>();
-
-    Player player;
-
-    public Player Player => player;
 
     List<GameObject> distrubtors = new List<GameObject>();
     GameObject curDistrubtor;
@@ -106,7 +102,14 @@ public class MapController : MonoBehaviour
     /// </summary>
     IEnumerator GenerateMapObjects()
     {
-        SpawnPlayer();
+        playerCtrl.SpawnPlayer();
+        targetTileController = tileCtrl;
+        preemptiveTiles.Add(tileCtrl.Model);
+
+        foreach (var item in GetTilesInRange(4))
+        {
+            preemptiveTiles.Add(item);
+        }
 
         GenerateTower();
         Generate3TileStructure(new Coords(0, 0));
@@ -116,7 +119,7 @@ public class MapController : MonoBehaviour
         var selectedTiles = RandomTileSelect(EObjectSpawnType.ExcludePlayer, data.zombieCount);
         enemyCtrl.SpawnZombies(tileList, selectedTiles);
 
-        fog.InitializeMapControllerObjects(player.gameObject, data.fogSightRange);
+        playerCtrl.SpawnFog();
         DeselectAllBorderTiles();
 
         StartCoroutine(RandomTileResource(data.resourcePercent));
@@ -154,30 +157,6 @@ public class MapController : MonoBehaviour
     }
 
     public List<Tile> GetAllTiles() => hexaMap.Map.Tiles.Where(x => ((GameObject)x.GameEntity).CompareTag("Tile")).ToList();
-
-    void SpawnPlayer()
-    {
-        Vector3 spawnPos = TileToTileController(hexaMap.Map.GetTileFromCoords(new Coords(0, 0))).transform.position;
-        spawnPos.y += 0.7f;
-
-        var playerObject = Instantiate(mapPrefab.prefabs[(int)EMabPrefab.Player], spawnPos,
-            Quaternion.Euler(0, -90, 0));
-        player = playerObject.GetComponent<Player>();
-        player.transform.parent = mapParentTransform;
-        player.InputDefaultData(data.playerMovementPoint, data.durability);
-
-        UpdateCurrentTile(TileToTileController(hexaMap.Map.GetTileFromCoords(new Coords(0, 0))));
-        targetTileController = tileCtrl;
-
-        preemptiveTiles.Add(tileCtrl.Model);
-
-        //player.TileEffectCheck();
-
-        foreach (var item in GetTilesInRange(4))
-        {
-            preemptiveTiles.Add(item);
-        }
-    }
 
     public void DefaultMouseOverState(TileController tileController)
     {
@@ -224,7 +203,7 @@ public class MapController : MonoBehaviour
 
     public void TilePathFinderSurroundings(TileController tileController)
     {
-        var neighborTiles = hexaMap.Map.GetTilesInRange(tileCtrl.Model, player.MoveRange);
+        var neighborTiles = hexaMap.Map.GetTilesInRange(tileCtrl.Model, playerCtrl.PlayerMoveRange);
 
         var neighborController = neighborTiles
             .Select(x => ((GameObject)x.GameEntity).GetComponent<TileController>()).ToList();
@@ -288,7 +267,7 @@ public class MapController : MonoBehaviour
         }
     }
 
-    public bool CheckPlayerCanMove() => player.MoveRange != 0;
+    public bool CheckPlayerCanMove() => playerCtrl.PlayerMoveRange != 0;
 
     public bool SelectPlayerMovePoint(TileController tileController)
     {
@@ -333,7 +312,7 @@ public class MapController : MonoBehaviour
     {
         targetTileController = tileController;
 
-        player.UpdateMovePath(AStar.FindPath(tileCtrl.Model.Coords, tileController.Model.Coords));
+        playerCtrl.player.UpdateMovePath(AStar.FindPath(tileCtrl.Model.Coords, tileController.Model.Coords));
 
         DeselectAllBorderTiles();
         //isPlayerSelected = false;
@@ -341,19 +320,11 @@ public class MapController : MonoBehaviour
 
     public void DeletePlayerMovePath()
     {
-        player.UpdateMovePath(null);
+        playerCtrl.player.UpdateMovePath(null);
         DeselectAllBorderTiles();
     }
 
-    public bool IsMovePathSaved()
-    {
-        if (player.MovePath != null)
-            return true;
-        else
-            return false;
-    }
-
-    TileController TileToTileController(Tile tile)
+    public TileController TileToTileController(Tile tile)
     {
         return ((GameObject)tile.GameEntity).GetComponent<TileController>();
     }
@@ -394,7 +365,7 @@ public class MapController : MonoBehaviour
         Debug.Log("예시 교란기");
 
         curDistrubtor = Instantiate(mapPrefab.prefabs[(int)EMabPrefab.Disturbtor],
-            player.transform.position + Vector3.up * 1.5f, Quaternion.Euler(0, 90, 0));
+            playerCtrl.PlayerTransform + Vector3.up * 1.5f, Quaternion.Euler(0, 90, 0));
 
         curDistrubtor.transform.parent = mapTransform;
         curDistrubtor.GetComponentInChildren<MeshRenderer>(true).material.DOFade(50, 0);
@@ -433,7 +404,7 @@ public class MapController : MonoBehaviour
     void GenerateExampleExplorer()
     {
         curExplorer = Instantiate(mapPrefab.prefabs[(int)EMabPrefab.Explorer],
-            player.transform.position + Vector3.up * 1.5f, Quaternion.Euler(0, 90, 0));
+            playerCtrl.PlayerTransform + Vector3.up * 1.5f, Quaternion.Euler(0, 90, 0));
 
         curExplorer.transform.parent = mapTransform;
 
@@ -453,11 +424,11 @@ public class MapController : MonoBehaviour
 
     public IEnumerator NextDay()
     {
-        player.ChangeClockBuffDuration();
+        playerCtrl.player.ChangeClockBuffDuration();
         // 플레이어 이동
-        if (player.MovePath != null)
+        if (playerCtrl.IsMovePathSaved())
         {
-            yield return StartCoroutine(player.ActionDecision(targetTileController));
+            yield return StartCoroutine(playerCtrl.player.ActionDecision(targetTileController));
         }
         else
         {
@@ -489,8 +460,8 @@ public class MapController : MonoBehaviour
         enemyCtrl.CheckSumZombies();
 
         // 이동 거리 충전
-        player.SetHealth(true);
-        player.TileEffectCheck();
+        playerCtrl.player.SetHealth(true);
+        playerCtrl.player.TileEffectCheck();
 
         OcclusionCheck(tileCtrl.Model);
     }

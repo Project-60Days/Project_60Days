@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 35908274}
   - component: {fileID: 35908275}
   - component: {fileID: 35908276}
+  - component: {fileID: 35908277}
   m_Layer: 0
   m_Name: Controllers
   m_TagString: MapController
@@ -190,7 +191,9 @@ MonoBehaviour:
   mapTransform: {fileID: 270035658}
   mapParentTransform: {fileID: 2032613207}
   objectsTransform: {fileID: 848818347}
+  playerCtrl: {fileID: 35908277}
   enemyCtrl: {fileID: 35908275}
+  tileCtrl: {fileID: 0}
   mapPrefab: {fileID: 11400000, guid: 2ac150942be86a042a3493eb2029b8cd, type: 2}
   fog: {fileID: 1413298386}
 --- !u!114 &35908275
@@ -220,6 +223,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arrowPrefab: {fileID: 8455040257853211726, guid: d7b10346f8761c2468d15e5a55b160f9, type: 3}
+--- !u!114 &35908277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 35908271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e60cb2c795414546b3ccfe1f4cb6292, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hexaMap: {fileID: 35908273}
+  mapParentTransform: {fileID: 2032613207}
+  prefab: {fileID: 6314717740676103250, guid: 303886a44e740944493ee594d856f8af, type: 3}
+  fog: {fileID: 1413298386}
 --- !u!1 &70614907
 GameObject:
   m_ObjectHideFlags: 0

@@ -191,13 +191,13 @@ public class ZombieBase : MonoBehaviour
             return;
         }
 
-        if (isChasingPlayer && !App.Manager.Map.mapCtrl.Player.GetIsClocking())
+        if (isChasingPlayer && !App.Manager.Map.mapCtrl.playerCtrl.player.GetIsClocking())
         {
             //Debug.Log(gameObject.name + "가 플레이어를 발견했습니다!");
             MoveToAttack(App.Manager.Map.mapCtrl.tileCtrl.Model);
 
             // 플레이어 바라보기
-            var updatePos = App.Manager.Map.mapCtrl.Player.transform.position;
+            var updatePos = App.Manager.Map.mapCtrl.playerCtrl.player.transform.position;
             updatePos.y += 0.6f;
             transform.LookAt(updatePos);
         }
@@ -221,7 +221,7 @@ public class ZombieBase : MonoBehaviour
         if (movePath.Count == 0 && target == App.Manager.Map.mapCtrl.tileCtrl.Model)
         {
             // 플레이어가 1칸 내에 있는 경우
-            AttackPlayer(App.Manager.Map.mapCtrl.Player);
+            AttackPlayer(App.Manager.Map.mapCtrl.playerCtrl.player);
         }
         else
         {
