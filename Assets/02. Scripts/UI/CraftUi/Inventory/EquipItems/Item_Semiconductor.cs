@@ -9,13 +9,13 @@ public class Item_Semiconductor : ItemBase
 
     public override void Equip()
     {
-        beforeDurabillity = App.Manager.Map.mapCtrl.Player.Durability;
-        App.Manager.Map.mapCtrl.Player.Durability += (int)data.value1;
+        beforeDurabillity = App.Manager.Game.durability;
+        App.Manager.Game.durability += (int)data.value1;
         App.Manager.UI.GetPanel<UpperPanel>().IncreaseDurabillityAnimation();
     }
 
     public override bool CheckMeetCondition()
     {
-        return (App.Manager.Map.mapCtrl.Player.Durability <= beforeDurabillity);
+        return (App.Manager.Game.durability <= beforeDurabillity);
     }
 }

@@ -320,7 +320,7 @@ public class ZombieBase : MonoBehaviour
     public void AttackPlayer(Player player)
     {
         // 공격 애니메이션
-        player.TakeDamage(count);
+        App.Manager.Game.TakeDamage(count);
     }
 
     public void TakeDamage()

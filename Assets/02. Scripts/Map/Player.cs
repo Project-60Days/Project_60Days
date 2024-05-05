@@ -4,27 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Hexamap;
 using DG.Tweening;
-using FischlWorks_FogWar;
-using Yarn.Unity;
-using Random = UnityEngine.Random;
 
 public class Player : MonoBehaviour
 {
     public static Action PlayerSightUpdate;
 
     int maxMoveRange = 1;
-
-    int durability;
-
-    public int Durability
-    {
-        get => durability;
-        set
-        {
-            if (value > 0)
-                durability = value;
-        }
-    }
 
     int moveRange;
 
@@ -74,7 +59,6 @@ public class Player : MonoBehaviour
     {
         maxMoveRange = _moveRange;
         moveRange = maxMoveRange;
-        durability = _durability;
     }
 
     public IEnumerator ActionDecision(TileController targetTileController)
@@ -219,30 +203,6 @@ public class Player : MonoBehaviour
         //Debug.Log("남은 펄스탄 개수 : " + bulletsNum);
     }
 
-    public void TakeDamage(int zombieCount)
-    {
-        if (isDead)
-            return;
-
-        // 피격 애니메이션
-        if (durability - zombieCount > 0)
-        {
-            durability -= zombieCount;
-            App.Manager.Game.isHit = true;
-        }
-        else if (durability - zombieCount <= 0)
-        {
-            // 내구도가 0이 되면 게임 오버
-            durability = 0;
-            isDead = true;
-            App.Manager.Game.isHit = true;
-            Debug.Log("내구도 부족. 게임 오버");
-
-            // 게임 오버
-            App.Manager.Game.isOver = true;
-        }
-    }
-
     public void ChangeMoveRange(ETileType _type)
     {
         switch (_type)
@@ -258,14 +218,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void ChangeDurbility(int amount)
-    {
-        if (durability + amount > 0)
-            durability += amount;
-        
-        //UIManager.instance.GetUpperController().UpdateDurabillity(); 
-    }
-
     public void AddMoveRangeUntil(int _duration, int _amount)
     {
         moveBuffDuration = _duration;
@@ -279,13 +231,7 @@ public class Player : MonoBehaviour
         rend.material = cloakingMaterial;
         Debug.Log(rend.material);
     }
-    
-    public void AddDurability(int _durability, int _amount)
-    {
-        durabilityBuffDuration = _durability;
-        temporaryDurability = durability + _amount;
-    }
-    
+
     public bool GetIsClocking()
     {
         if (clockBuffDuration > 0)

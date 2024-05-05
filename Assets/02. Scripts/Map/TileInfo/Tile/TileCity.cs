@@ -15,7 +15,7 @@ public class TileCity : TileBase
         if (RandomPercent.GetRandom(30))
         {
             Debug.Log("무너진 건물 사고 디버프");
-            _player.ChangeDurbility(-3);
+            App.Manager.Game.ChangeDurbility(-3);
         }
        
         // 도둑맞은 자원 : 가진 자원 중 1개 랜덤으로 빼앗김

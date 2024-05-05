@@ -67,18 +67,18 @@ public class UpperPanel : UIBase
 
     public void UpdateDurabillity()
     {
-        durabilityText.text = App.Manager.Map.mapCtrl.Player.Durability.ToString("D3");
+        durabilityText.text = App.Manager.Game.durability.ToString("D3");
     }
 
     public void UpdateAfterFight()
     {
         bulletText.text = bullet.itemCount.ToString("D3");
-        durabilityText.text = App.Manager.Map.mapCtrl.Player.Durability.ToString("D3");
+        durabilityText.text = App.Manager.Game.durability.ToString("D3");
     }
 
     public void IncreaseDurabillityAnimation()
     {
-        int endNumber = App.Manager.Map.mapCtrl.Player.Durability;
+        int endNumber = App.Manager.Game.durability;
 
         int currentNumber = int.Parse(durabilityText.text);
         DOTween.To(() => currentNumber, x => currentNumber = x, endNumber, 1f)
@@ -87,7 +87,7 @@ public class UpperPanel : UIBase
 
     public void DecreaseDurabillityAnimation()
     {
-        int endNumber = App.Manager.Map.mapCtrl.Player.Durability;
+        int endNumber = App.Manager.Game.durability;
 
         durabilityText.color = Color.red;
 

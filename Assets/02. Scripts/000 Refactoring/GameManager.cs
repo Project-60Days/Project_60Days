@@ -15,6 +15,7 @@ public class GameManager : Manager
     [HideInInspector] public bool isNewDay = true;
     [HideInInspector] public int dayCount = 0;
     [HideInInspector] public bool startTutorial = false;
+    [HideInInspector] public int durability;
 
     [SerializeField] Button nextDayBtn;
     [SerializeField] Button shelterBtn;
@@ -30,6 +31,8 @@ public class GameManager : Manager
     {
         SetButtonEvent();
         InitItemSO();
+
+        durability = App.Manager.Test.mapData.durability;
     }
 
     private void SetButtonEvent()
@@ -79,6 +82,38 @@ public class GameManager : Manager
     {
         yield return new WaitUntil(() => App.Manager.UI.CurrState == UIState.Normal);
         App.Manager.UI.GetPanel<QuestPanel>().EndQuest(_currCode, _nextCode);
+    }
+
+    public void ChangeDurbility(int amount)
+    {
+        if (durability + amount > 0)
+            durability += amount;
+
+        //UIManager.instance.GetUpperController().UpdateDurabillity(); 
+    }
+
+    public void TakeDamage(int zombieCount)
+    {
+        if (isOver)
+            return;
+
+        // 피격 애니메이션
+        if (durability - zombieCount > 0)
+        {
+            durability -= zombieCount;
+            App.Manager.Game.isHit = true;
+        }
+        else if (durability - zombieCount <= 0)
+        {
+            // 내구도가 0이 되면 게임 오버
+            durability = 0;
+            isOver = true;
+            App.Manager.Game.isHit = true;
+            Debug.Log("내구도 부족. 게임 오버");
+
+            // 게임 오버
+            App.Manager.Game.isOver = true;
+        }
     }
 
     #region Move Camera

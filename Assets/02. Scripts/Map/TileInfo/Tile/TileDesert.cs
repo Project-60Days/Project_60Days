@@ -9,7 +9,7 @@ public class TileDesert : TileBase
 
     public override void DeBuff(Player _player)
     {
-        _player.ChangeDurbility(-1);
+        App.Manager.Game.ChangeDurbility(-1);
 
         if (RandomPercent.GetRandom(10))
         {
