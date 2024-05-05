@@ -253,7 +253,7 @@ public class ZombieBase : MonoBehaviour
 
     public IEnumerator MoveToRandom(int num = 1, float time = 0.25f)
     {
-        var candidate = App.Manager.Map.mapCtrl.GetTilesInRange(currTile, num);
+        var candidate = App.Manager.Map.mapCtrl.GetTilesInRange(num, currTile);
         int rand = Random.Range(0, candidate.Count);
 
         while (((GameObject)candidate[rand].GameEntity).gameObject.layer == 8)

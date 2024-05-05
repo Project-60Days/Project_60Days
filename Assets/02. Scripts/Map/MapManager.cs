@@ -6,6 +6,7 @@ using Hexamap;
 public class MapManager : Manager
 {
     public MapController mapCtrl;
+    public EnemyCtrl enemyCtrl;
     public ResourceCtrl resourceCtrl;
     public bool mouseIntreractable;
 
@@ -23,9 +24,12 @@ public class MapManager : Manager
 
     private TileController cameraTarget;
 
+    public MapData data { get; private set; }
+
     private void Start()
     {
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        data = App.Manager.Test.mapData;
 
         mapCtrl.Init();
         cameraCtrl.Init();
@@ -250,7 +254,7 @@ public class MapManager : Manager
     {
         bool isActive;
 
-        if (mapCtrl.CheckZombies())
+        if (enemyCtrl.CheckZombies())
             isActive = true;
         else
             isActive = false;
@@ -288,7 +292,7 @@ public class MapManager : Manager
         int randomNumber = UnityEngine.Random.Range(1, 4);
 
         if (randomNumber == 3)
-            mapCtrl.SpawnStructureZombies(structure.colleagues);
+            enemyCtrl.SpawnStructureZombies(structure.colleagues);
 
         // 플레이어 체력 0으로 만들어서 경로 선택 막기
         if (isTundraTile)

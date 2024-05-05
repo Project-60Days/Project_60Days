@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 35908272}
   - component: {fileID: 35908273}
   - component: {fileID: 35908274}
+  - component: {fileID: 35908275}
   m_Layer: 0
   m_Name: Controllers
   m_TagString: MapController
@@ -185,13 +186,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hexaMap: {fileID: 35908273}
   fogOfWar: {fileID: 0}
-  zombiesTransform: {fileID: 706894744}
   mapTransform: {fileID: 270035658}
   mapParentTransform: {fileID: 2032613207}
   objectsTransform: {fileID: 848818347}
   arrowPrefab: {fileID: 8455040257853211726, guid: d7b10346f8761c2468d15e5a55b160f9, type: 3}
+  enemyCtrl: {fileID: 35908275}
   mapPrefab: {fileID: 11400000, guid: 2ac150942be86a042a3493eb2029b8cd, type: 2}
   fog: {fileID: 1413298386}
+--- !u!114 &35908275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 35908271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a75773635d28ca49aa62a42b487ccb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPrefab: {fileID: 4352004779550836249, guid: a0525b4d277ecb9448b70a8ae0523766, type: 3}
+  enemyTrans: {fileID: 706894744}
 --- !u!1 &70614907
 GameObject:
   m_ObjectHideFlags: 0
@@ -499,6 +514,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapCtrl: {fileID: 35908274}
+  enemyCtrl: {fileID: 35908275}
   resourceCtrl: {fileID: 1926141685}
   mouseIntreractable: 0
   mouseState: 0

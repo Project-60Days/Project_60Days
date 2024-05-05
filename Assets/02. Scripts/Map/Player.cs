@@ -140,7 +140,7 @@ public class Player : MonoBehaviour
 
     public IEnumerator MoveToRandom(int num = 1, float time = 0.25f)
     {
-        var candidate = App.Manager.Map.mapCtrl.GetTilesInRange(currentTileContorller.Model, num);
+        var candidate = App.Manager.Map.mapCtrl.GetTilesInRange(num, currentTileContorller.Model);
 
         Vector3 targetPos = currentTileContorller.transform.position;
         Tile tile = candidate[0];

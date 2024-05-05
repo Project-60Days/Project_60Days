@@ -18,14 +18,13 @@ public class MapController : MonoBehaviour
 
     [SerializeField] csFogWar fogOfWar;
 
-    [Header("트랜스폼")] [Space(5f)] [SerializeField]
-    Transform zombiesTransform;
-
     [SerializeField] Transform mapTransform;
     [SerializeField] Transform mapParentTransform;
     [SerializeField] Transform objectsTransform;
     [SerializeField] private GameObject arrowPrefab;
     private GameObject arrow;
+
+    [SerializeField] EnemyCtrl enemyCtrl;
 
     
     [Header("프리팹")] [Space(5f)] [SerializeField]
@@ -38,15 +37,12 @@ public class MapController : MonoBehaviour
     List<TileController> droneSelectedTiles = new List<TileController>();
     List<Tile> preemptiveTiles = new List<Tile>();
     List<TileController> pathTiles = new List<TileController>();
-    List<GameObject> zombiesList = new List<GameObject>();
 
     List<Tile> sightTiles = new List<Tile>();
 
     Player player;
 
     public Player Player => player;
-
-    private MapData mapData;
 
     List<GameObject> distrubtors = new List<GameObject>();
     GameObject curDistrubtor;
@@ -59,6 +55,8 @@ public class MapController : MonoBehaviour
 
     public bool LoadingComplete => isLoadingComplete;
 
+    MapData data;
+
     public TileController TargetPointTile
     {
         get { return targetTileController; }
@@ -66,7 +64,8 @@ public class MapController : MonoBehaviour
 
     public void Init()
     {
-        InputMapData();
+        data = App.Manager.Map.data;
+
         StartCoroutine(GenerateMap());
         SightCheckInit();
     }
@@ -113,12 +112,14 @@ public class MapController : MonoBehaviour
         Generate3TileStructure(new Coords(0, 0));
         Generate7TileStructure(new Coords(0, 0));
 
-        SpawnZombies(mapData.zombieCount);
+        var tileList = GetAllTiles();
+        var selectedTiles = RandomTileSelect(EObjectSpawnType.ExcludePlayer, data.zombieCount);
+        enemyCtrl.SpawnZombies(tileList, selectedTiles);
 
-        fog.InitializeMapControllerObjects(player.gameObject, mapData.fogSightRange);
+        fog.InitializeMapControllerObjects(player.gameObject, data.fogSightRange);
         DeselectAllBorderTiles();
 
-        StartCoroutine(RandomTileResource(mapData.resourcePercent));
+        StartCoroutine(RandomTileResource(data.resourcePercent));
         yield return null;
     }
 
@@ -163,7 +164,7 @@ public class MapController : MonoBehaviour
             Quaternion.Euler(0, -90, 0));
         player = playerObject.GetComponent<Player>();
         player.transform.parent = mapParentTransform;
-        player.InputDefaultData(mapData.playerMovementPoint, mapData.durability);
+        player.InputDefaultData(data.playerMovementPoint, data.durability);
 
         player.UpdateCurrentTile(TileToTileController(hexaMap.Map.GetTileFromCoords(new Coords(0, 0))));
         targetTileController = player.TileController;
@@ -172,49 +173,10 @@ public class MapController : MonoBehaviour
 
         //player.TileEffectCheck();
 
-        foreach (var item in GetTilesInRange(player.TileController.Model, 4))
+        foreach (var item in GetTilesInRange(4))
         {
             preemptiveTiles.Add(item);
         }
-    }
-
-    void SpawnZombies(int zombiesNumber)
-    {
-        var tileList = GetAllTiles();
-        var selectedTiles = RandomTileSelect(EObjectSpawnType.ExcludePlayer, zombiesNumber);
-
-        // 오브젝트 생성.
-        for (int i = 0; i < selectedTiles.Count; i++)
-        {
-            var tile = tileList[selectedTiles[i]];
-            var spawnPos = ((GameObject)tile.GameEntity).transform.position;
-            spawnPos.y += 0.6f;
-
-            var zombie = Instantiate(mapPrefab.prefabs[(int)EMabPrefab.Zombie], spawnPos,
-                Quaternion.Euler(0, Random.Range(0, 360), 0), zombiesTransform);
-            zombie.name = "Zombie " + (i + 1);
-            zombie.GetComponent<ZombieBase>().Init(tile);
-            zombie.GetComponent<ZombieBase>().SetValue(mapData.playerMovementPoint, mapData.zombieDetectionRange);
-            zombiesList.Add(zombie);
-        }
-    }
-
-    public void SpawnStructureZombies(List<TileBase> tiles)
-    {
-        var randomInt = Random.Range(0, tiles.Count);
-        var tile = tiles[randomInt];
-
-        var spawnPos = tile.transform.position;
-        spawnPos.y += 0.6f;
-
-        var zombie = Instantiate(mapPrefab.prefabs[(int)EMabPrefab.Zombie], spawnPos,
-            Quaternion.Euler(0, Random.Range(0, 360), 0), zombiesTransform);
-
-        zombie.name = "Structure Zombie";
-        zombie.GetComponent<ZombieBase>().Init(tile.GetComponent<TileController>().Model);
-        zombie.GetComponent<ZombieBase>().Stun();
-
-        zombiesList.Add(zombie);
     }
 
     public void DefaultMouseOverState(TileController tileController)
@@ -491,8 +453,6 @@ public class MapController : MonoBehaviour
 
     public IEnumerator NextDay()
     {
-        bool zombieActEnd = false;
-
         player.ChangeClockBuffDuration();
         // 플레이어 이동
         if (player.MovePath != null)
@@ -522,58 +482,17 @@ public class MapController : MonoBehaviour
             }
         }
 
-
         // 좀비 행동
-        for (var index = 0; index < zombiesList.Count; index++)
-        {
-            var zombie = zombiesList[index];
+        enemyCtrl.MoveEnemy();
 
-            zombie.GetComponent<ZombieBase>().DetectionAndAct();
-
-            if (index == zombiesList.Count - 1)
-                zombieActEnd = true;
-        }
-
-        yield return new WaitUntil(() => zombieActEnd);
         yield return new WaitForSeconds(1f);
-        CheckSumZombies();
+        enemyCtrl.CheckSumZombies();
 
         // 이동 거리 충전
         player.SetHealth(true);
         player.TileEffectCheck();
 
         OcclusionCheck(player.TileController.Model);
-    }
-
-    public void CheckSumZombies()
-    {
-        List<ZombieBase> zombieBases = zombiesList.Select(x => x.GetComponent<ZombieBase>()).ToList();
-        List<ZombieBase> removeZombies = new List<ZombieBase>();
-
-        for (int i = 0; i < zombieBases.Count; i++)
-        {
-            for (int j = i + 1; j < zombieBases.Count; j++)
-            {
-                var firstZombies = zombieBases[i];
-                var secondZombies = zombieBases[j];
-
-                if (firstZombies.count == 0 || secondZombies.count == 0)
-                    continue;
-
-                if (firstZombies.currTile == secondZombies.currTile)
-                {
-                    firstZombies.SumZombies(secondZombies);
-                    removeZombies.Add(secondZombies);
-                }
-            }
-        }
-
-        for (int i = 0; i < removeZombies.Count(); i++)
-        {
-            var item = removeZombies[i];
-            zombiesList.Remove(item.gameObject);
-            Destroy(item.gameObject);
-        }
     }
 
     void SelectBorder(TileController tileController, ETileState state)
@@ -722,8 +641,12 @@ public class MapController : MonoBehaviour
         return hexaMap.Map.GetTileFromCoords(coords);
     }
 
-    public List<Tile> GetTilesInRange(Tile tile, int num)
+    public List<Tile> GetTilesInRange(int num, Tile tile = null)
     {
+        if (tile == null) 
+        {
+            return hexaMap.Map.GetTilesInRange(player.TileController.Model, num);
+        }
         return hexaMap.Map.GetTilesInRange(tile, num);
     }
 
@@ -759,7 +682,7 @@ public class MapController : MonoBehaviour
 
     public bool CheckPlayersView(TileController tileController)
     {
-        var getTiles = GetTilesInRange(player.TileController.Model, 3);
+        var getTiles = GetTilesInRange(3);
 
         if (player.TileController == tileController)
             return true;
@@ -770,22 +693,6 @@ public class MapController : MonoBehaviour
         }
         else
             return false;
-    }
-
-    public bool CheckZombies()
-    {
-        var playerNearthTiles = GetTilesInRange(player.TileController.Model, 2);
-
-        for (int i = 0; i < zombiesList.Count; i++)
-        {
-            GameObject item = zombiesList[i];
-            if (playerNearthTiles.Contains(item.GetComponent<ZombieBase>().currTile))
-            {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     public void GenerateTower()
@@ -947,7 +854,7 @@ public class MapController : MonoBehaviour
                 maxInt = biggerInt;
         }
 
-        List<Tile> excludeTileList = GetTilesInRange(GetTileFromCoords(new Coords(0, 0)), maxInt - range);
+        List<Tile> excludeTileList = GetTilesInRange(maxInt - range, GetTileFromCoords(new Coords(0, 0)));
         return excludeTileList;
     }
 
@@ -1111,7 +1018,7 @@ public class MapController : MonoBehaviour
 
     public void OcclusionCheck(Tile _targetTile)
     {
-        sightTiles = GetTilesInRange(_targetTile, 5);
+        sightTiles = GetTilesInRange(5, _targetTile);
         sightTiles.Add(_targetTile);
 
         List<StructureObject> structureObjects =
@@ -1151,19 +1058,14 @@ public class MapController : MonoBehaviour
 
     public List<Tile> GetPlayerSightTiles()
     {
-        var list = GetTilesInRange(player.TileController.Model, 2);
+        var list = GetTilesInRange(2);
         return list;
     }
 
     public List<Tile> GetSightTiles(Tile tile)
     {
-        var list = GetTilesInRange(tile, 2);
+        var list = GetTilesInRange(2, tile);
         return list;
-    }
-
-    public void InputMapData()
-    {
-        mapData = App.Manager.Test.mapData;
     }
 
     public void RemoveDistrubtor(Distrubtor _distrubtor)
