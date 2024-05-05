@@ -45,15 +45,6 @@ public class Borders : MonoBehaviour
         borders[1].SetActive(false);
     }
 
-    public void OffAllBorders()
-    {
-        for (int i = 0; i < borders.Length; i++)
-        {
-            GameObject item = borders[i];
-            item.SetActive(false);
-        }
-    }
-
     public ETileState GetEtileState()
     {
         return currentTileState;

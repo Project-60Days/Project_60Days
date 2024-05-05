@@ -235,7 +235,7 @@ public class InventoryPanel : UIBase
 
     void Update()
     {
-        //InputKey();
+        InputKey();
     }
 
     private void InputKey()

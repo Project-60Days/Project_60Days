@@ -94,7 +94,7 @@ public class MapManager : Manager
                 case ETileMouseState.DronePrepared:
                     if (isDisturbtorPrepared)
                     {
-                        mapCtrl.DisturbtorPathFinder(tileController);
+                        mapCtrl.droneCtrl.DisrubtorPathFinder(tileController);
                     }
                     else
                     {
@@ -154,11 +154,11 @@ public class MapManager : Manager
                 {
                     if (isDisturbtorPrepared)
                     {
-                        mapCtrl.SelectTileForDisturbtor(tileController);
+                        mapCtrl.droneCtrl.SelectTileForDisturbtor(tileController);
                     }
                     else
                     {
-                        mapCtrl.SelectTileForExplorer(tileController);
+                        mapCtrl.droneCtrl.SelectTileForExplorer(tileController);
                     }
                 }
             }
@@ -179,11 +179,11 @@ public class MapManager : Manager
             {
                 if (isDisturbtorPrepared)
                 {
-                    mapCtrl.PreparingDistrubtor(false);
+                    mapCtrl.droneCtrl.CancelDisrubtor();
                 }
                 else
                 {
-                    mapCtrl.PreparingExplorer(false);
+                    mapCtrl.droneCtrl.CancelExplorer();
                 }
             }
 

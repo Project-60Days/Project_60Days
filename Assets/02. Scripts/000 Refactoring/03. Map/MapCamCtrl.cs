@@ -79,7 +79,7 @@ public class MapCamCtrl : MonoBehaviour
             .OnComplete(()=> 
             {
                 App.Manager.Map.GetCameraCenterTile();
-                App.Manager.Map.mapCtrl.InvocationExplorers();
+                App.Manager.Map.mapCtrl.droneCtrl.InvocationExplorers();
             });
     }
 }

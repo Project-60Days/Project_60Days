@@ -7,10 +7,8 @@ using Hexamap;
 [System.Serializable]
 public class CompassPointObjects : SerializableDictionary<CompassPoint, GameObject> { };
 
-public class Distrubtor : MonoBehaviour
+public class Distrubtor : DroneBase
 {
-    float lifeTime;
-    public Tile currentTile;
     CompassPoint direction;
 
     [SerializeField] CompassPointObjects objects;
@@ -19,7 +17,7 @@ public class Distrubtor : MonoBehaviour
     {
         //App.instance.GetDataManager().gameData.TryGetValue("DISRUBTOR_LIFETIME", out GameData time);
         lifeTime = 4f;
-        currentTile = tile;
+        currTile = tile;
         direction = cp;
 
         //GetComponentInChildren<MeshRenderer>().material.DOFade(100, 1f);
@@ -27,7 +25,7 @@ public class Distrubtor : MonoBehaviour
 
     public void Move()
     {
-        currentTile.Neighbours.TryGetValue(direction, out Tile nextTile);
+        currTile.Neighbours.TryGetValue(direction, out Tile nextTile);
 
         if (lifeTime > 0)
         {
@@ -38,13 +36,13 @@ public class Distrubtor : MonoBehaviour
             else
             {
                 transform.DOMove(((GameObject)nextTile.GameEntity).transform.position + Vector3.up, 0.5f);
-                currentTile = nextTile;
+                currTile = nextTile;
                 lifeTime -= 1;
             }
         }
         else
         {
-            App.Manager.Map.mapCtrl.RemoveDistrubtor(this);
+            App.Manager.Map.mapCtrl.droneCtrl.RemoveDistrubtor(this);
             StopAllCoroutines();
             Destroy(gameObject);
         }

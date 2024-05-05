@@ -166,7 +166,7 @@ public class ZombieBase : MonoBehaviour
 
         isChasingPlayer = App.Manager.Map.mapCtrl.CalculateDistanceToPlayer(currTile, dectectionRange);
 
-        nearthDistrubtor = App.Manager.Map.mapCtrl.CalculateDistanceToDistrubtor(currTile, dectectionRange);
+        nearthDistrubtor = App.Manager.Map.mapCtrl.droneCtrl.CalculateDistanceToDistrubtor(currTile, dectectionRange);
 
         ActionDecision();
     }
@@ -187,7 +187,7 @@ public class ZombieBase : MonoBehaviour
         if (nearthDistrubtor != null)
         {
             //Debug.Log(gameObject.name + "가 교란기를 쫓아갑니다!");
-            MoveToAttack(nearthDistrubtor.currentTile);
+            MoveToAttack(nearthDistrubtor.currTile);
             return;
         }
 

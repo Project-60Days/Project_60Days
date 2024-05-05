@@ -4,10 +4,8 @@ using UnityEngine;
 using DG.Tweening;
 using Hexamap;
 
-public class Explorer : MonoBehaviour
+public class Explorer : DroneBase
 {
-    float lifeTime;
-    public Tile curTile;
     public Tile targetTile;
     private bool goToMap;
     private bool isIdle;
@@ -19,7 +17,7 @@ public class Explorer : MonoBehaviour
     public void Set(Tile tile)
     {
         lifeTime = 1f;
-        curTile = tile;
+        currTile = tile;
     }
 
     public void Targeting(Tile tile)
@@ -33,8 +31,8 @@ public class Explorer : MonoBehaviour
         Tile nextTile;
         Vector3 targetPos;
 
-        if (curTile != targetTile)
-            movePath = AStar.FindPath(curTile.Coords, targetTile.Coords);
+        if (currTile != targetTile)
+            movePath = AStar.FindPath(currTile.Coords, targetTile.Coords);
 
         if (lifeTime > 0)
         {
@@ -46,9 +44,9 @@ public class Explorer : MonoBehaviour
                 
                 gameObject.transform.DOMove(targetPos, 0.5f);
                 yield return delay05;
-                curTile = nextTile;
+                currTile = nextTile;
             }
-            else if (curTile != targetTile)
+            else if (currTile != targetTile)
             {
                 for (int i = 0; i < walkCount; i++)
                 {
@@ -58,11 +56,11 @@ public class Explorer : MonoBehaviour
                     
                     gameObject.transform.DOMove(targetPos, 0.5f);
                     yield return delay05;
-                    curTile = nextTile;
+                    currTile = nextTile;
                 }
             }
 
-            if (curTile == targetTile)
+            if (currTile == targetTile)
             {
                 // 자원
                 App.Manager.Map.mapCtrl.fog.AddFogRevealer(new FischlWorks_FogWar.csFogWar.FogRevealer(gameObject.transform, 2, false));
@@ -85,8 +83,8 @@ public class Explorer : MonoBehaviour
     {
         yield return new WaitUntil(()=> goToMap == true);
 
-        App.Manager.Map.mapCtrl.GetSightTiles(curTile);
-        App.Manager.Map.mapCtrl.RemoveExplorer(this);
+        App.Manager.Map.mapCtrl.GetSightTiles(currTile);
+        App.Manager.Map.mapCtrl.droneCtrl.RemoveExplorer(this);
         App.Manager.Map.mapCtrl.fog._FogRevealers[App.Manager.Map.mapCtrl.fog._FogRevealers.Count - 1].sightRange = 0;
 
         goToMap = false;
