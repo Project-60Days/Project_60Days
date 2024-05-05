@@ -19,6 +19,8 @@ public class DroneCtrl : MonoBehaviour
     List<GameObject> explorers = new List<GameObject>();
     GameObject currExplorer;
 
+    List<DroneBase> drones = new List<DroneBase>();
+
     [SerializeField] GameObject disruptorPrefab;
     [SerializeField] GameObject explorerPrefab;
 
@@ -26,22 +28,11 @@ public class DroneCtrl : MonoBehaviour
 
     public void ReInit()
     {
-        // 교란기
-        if (disruptors.Count > 0 && disruptors != null)
-        {
-            for (int i = 0; i < disruptors.Count; i++)
-            {
-                disruptors[i].GetComponent<Distrubtor>().Move();
-            }
-        }
+        if (drones.Count <= 0) return;
 
-        // 탐사기
-        if (explorers.Count > 0 && explorers != null)
+        foreach (var drone in drones)
         {
-            for (int i = 0; i < explorers.Count; i++)
-            {
-                StartCoroutine(explorers[i].GetComponent<Explorer>().Move());
-            }
+            drone.Move();
         }
     }
 
@@ -75,11 +66,13 @@ public class DroneCtrl : MonoBehaviour
         currDisruptor.transform.parent = mapTransform;
         currDisruptor.GetComponentInChildren<MeshRenderer>(true).material.DOFade(50, 0);
         disruptors.Add(currDisruptor);
+        drones.Add(currDisruptor.GetComponent<DroneBase>());
     }
 
     public void CancelDisrubtor()
     {
         disruptors.Remove(currDisruptor);
+        drones.Remove(currDisruptor.GetComponent<DroneBase>());
         App.Manager.Map.SetIsDronePrepared(false, "Distrubtor");
         App.Manager.UI.GetPanel<InventoryPanel>().AddItemByItemCode("ITEM_DISTURBE");
         Destroy(currDisruptor);
@@ -132,6 +125,7 @@ public class DroneCtrl : MonoBehaviour
     public void CancelExplorer()
     {
         explorers.Remove(currExplorer);
+        drones.Remove(currExplorer.GetComponent<DroneBase>());
         App.Manager.Map.SetIsDronePrepared(false, "Explorer");
         App.Manager.UI.GetPanel<InventoryPanel>().AddItemByItemCode("ITEM_FINDOR");
         Destroy(currExplorer);
@@ -148,6 +142,7 @@ public class DroneCtrl : MonoBehaviour
         currExplorer.GetComponent<Explorer>().Set(App.Manager.Map.mapCtrl.tileCtrl.Model);
 
         explorers.Add(currExplorer);
+        drones.Add(currExplorer.GetComponent<DroneBase>());
     }
 
     void InstallExplorer(TileController tileController)
@@ -210,11 +205,13 @@ public class DroneCtrl : MonoBehaviour
     public void RemoveDistrubtor(Distrubtor _distrubtor)
     {
         disruptors.Remove(_distrubtor.gameObject);
+        drones.Remove(currExplorer.GetComponent<DroneBase>());
     }
 
     public void RemoveExplorer(Explorer _explorer)
     {
         explorers.Remove(_explorer.gameObject);
+        drones.Remove(currExplorer.GetComponent<DroneBase>());
     }
 
     public void InvocationExplorers()

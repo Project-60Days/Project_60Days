@@ -1,22 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Hexamap;
 
-public class DroneBase : MonoBehaviour
+public abstract class DroneBase : MonoBehaviour
 {
     protected float lifeTime;
     public Tile currTile;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public abstract void Move();
 }

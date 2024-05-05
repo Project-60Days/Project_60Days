@@ -23,7 +23,7 @@ public class Distrubtor : DroneBase
         //GetComponentInChildren<MeshRenderer>().material.DOFade(100, 1f);
     }
 
-    public void Move()
+    public override void Move()
     {
         currTile.Neighbours.TryGetValue(direction, out Tile nextTile);
 

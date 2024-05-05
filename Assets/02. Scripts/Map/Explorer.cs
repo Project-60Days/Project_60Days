@@ -11,7 +11,6 @@ public class Explorer : DroneBase
     private bool isIdle;
     List<Coords> movePath;
 
-    WaitForSeconds delay05 = new WaitForSeconds(0.5f);
     WaitForSeconds delay1 = new WaitForSeconds(1.5f);
 
     public void Set(Tile tile)
@@ -26,7 +25,7 @@ public class Explorer : DroneBase
         GetComponentInChildren<MeshRenderer>().material.DOFade(100, 1f);
     }
 
-    public IEnumerator Move(int walkCount = 2)
+    public override void Move()
     {
         Tile nextTile;
         Vector3 targetPos;
@@ -36,26 +35,24 @@ public class Explorer : DroneBase
 
         if (lifeTime > 0)
         {
-            if (movePath.Count < walkCount)
+            if (movePath.Count < 2)
             {
                 nextTile = App.Manager.Map.mapCtrl.GetTileFromCoords(targetTile.Coords);
                 targetPos = ((GameObject)nextTile.GameEntity).transform.position;
                 targetPos.y += 0.5f;
                 
-                gameObject.transform.DOMove(targetPos, 0.5f);
-                yield return delay05;
+                gameObject.transform.DOMove(targetPos, 0f);
                 currTile = nextTile;
             }
             else if (currTile != targetTile)
             {
-                for (int i = 0; i < walkCount; i++)
+                for (int i = 0; i < 2; i++)
                 {
                     nextTile = App.Manager.Map.mapCtrl.GetTileFromCoords(movePath[i]);
                     targetPos = ((GameObject)nextTile.GameEntity).transform.position;
                     targetPos.y += 0.5f;
                     
-                    gameObject.transform.DOMove(targetPos, 0.5f);
-                    yield return delay05;
+                    gameObject.transform.DOMove(targetPos, 0f);
                     currTile = nextTile;
                 }
             }
