@@ -19,20 +19,12 @@ public class Player : MonoBehaviour
         set => moveRange = value;
     }
 
-    private int temporaryRange;
-    
-    private int temporaryDurability;
-
     public List<Coords> MovePath { get; private set; }
 
-    bool isDead;
-    bool isClockingCheck;
     private bool isJungleDebuff;
 
     public bool JungleDebuff => isJungleDebuff;
 
-    int moveBuffDuration;
-    int durabilityBuffDuration;
     int clockBuffDuration;
 
     [SerializeField] Renderer rend;
@@ -53,24 +45,24 @@ public class Player : MonoBehaviour
         moveRange = maxMoveRange;
     }
 
-    public IEnumerator ActionDecision(TileController targetTileController)
+    public void ActionDecision(TileController targetTileController)
     {
         if (JungleDebuff)
         {
             // 이동
             Debug.Log("랜덤 이동");
-            yield return StartCoroutine(MoveToRandom());
+            MoveToRandom();
             
             isJungleDebuff = false;
         }
         else
         {
             // 공격
-            yield return StartCoroutine(MoveToTarget(targetTileController));
+            MoveToTarget(targetTileController);
         }
     }
     
-    public IEnumerator MoveToTarget(TileController targetTileController, float time = 0.4f)
+    public void MoveToTarget(TileController targetTileController)
     {
         Tile targetTile;
         Vector3 targetPos;
@@ -98,14 +90,12 @@ public class Player : MonoBehaviour
                 targetPos = ((GameObject)targetTile.GameEntity).transform.position;
                 targetPos.y += 0.5f;
 
-                transform.DOMove(targetPos, time);
+                transform.DOMove(targetPos, 0f);
                 moveRange--;
-                yield return new WaitForSeconds(time);
             }
 
             lastTargetPos.y += 0.5f;
-            yield return transform.DOMove(lastTargetPos, time);
-            yield return new WaitForSeconds(time);
+            transform.DOMove(lastTargetPos, 0f);
         }
 
         MovePath.Clear();
@@ -114,7 +104,7 @@ public class Player : MonoBehaviour
         App.Manager.Map.mapCtrl.UpdateCurrentTile(targetTileController);
     }
 
-    public IEnumerator MoveToRandom(int num = 1, float time = 0.25f)
+    public void MoveToRandom(int num = 1)
     {
         var candidate = App.Manager.Map.mapCtrl.GetTilesInRange(num, App.Manager.Map.mapCtrl.tileCtrl.Model);
 
@@ -124,7 +114,7 @@ public class Player : MonoBehaviour
         
         for (int i = 0; i < candidate.Count; i++)
         {
-            if(App.Manager.Map.mapCtrl.CheckTileType(candidate[i], "LandformPlain"))
+            if (App.Manager.Map.mapCtrl.CheckTileType(candidate[i], "LandformPlain")) 
             {
                 if (((GameObject)candidate[i].GameEntity).GetComponent<TileBase>().structure == null &&
                     ((GameObject)candidate[i].GameEntity).GetComponent<TileBase>().currZombies == null)
@@ -139,7 +129,7 @@ public class Player : MonoBehaviour
         
         targetPos.y += 0.6f;
 
-        yield return gameObject.transform.DOMove(targetPos, time);
+        gameObject.transform.DOMove(targetPos, 0f);
 
         MovePath.Clear();
         moveRange = 0;
@@ -179,17 +169,8 @@ public class Player : MonoBehaviour
 
     public void AttackZombies(ZombieBase zombies)
     {
-        // if (bulletsNum <= 0)
-        // {
-        //     // 탄 없을 시 행동 불가
-        //     return;
-        // }
-
         // 공격 애니메이션
         zombies.TakeDamage();
-
-        //bulletsNum -= 1;
-        //Debug.Log("남은 펄스탄 개수 : " + bulletsNum);
     }
 
     public void ChangeMoveRange(TileType _type)
@@ -207,12 +188,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void AddMoveRangeUntil(int _duration, int _amount)
-    {
-        moveBuffDuration = _duration;
-        temporaryRange = maxMoveRange + _amount;
-    }
-    
     public void ClockUntil(int _duration)
     {
         clockBuffDuration = _duration;

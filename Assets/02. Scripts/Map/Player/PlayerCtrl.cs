@@ -47,4 +47,17 @@ public class PlayerCtrl : MonoBehaviour
     {
         fog.InitializeMapControllerObjects(player.gameObject, data.fogSightRange);
     }
+
+    public void ReInit()
+    {
+        player.ChangeClockBuffDuration();
+
+        if (IsMovePathSaved())
+        {
+            player.ActionDecision(App.Manager.Map.mapCtrl.targetTile);
+        }
+
+        player.SetHealth(true);
+        player.TileEffectCheck();
+    }
 }

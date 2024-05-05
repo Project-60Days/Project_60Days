@@ -36,34 +36,23 @@ public class MapController : MonoBehaviour
 
     List<Tile> sightTiles = new List<Tile>();
 
-    TileController targetTileController;
+    public TileController targetTile;
     bool isLoadingComplete;
 
     public bool LoadingComplete => isLoadingComplete;
 
     MapData data;
 
-    public TileController TargetPointTile
-    {
-        get { return targetTileController; }
-    }
-
     public void Init()
     {
         data = App.Manager.Map.data;
 
-        StartCoroutine(GenerateMap());
+        GenerateMap();
         SightCheckInit();
     }
 
-    public IEnumerator GenerateMap()
+    public void GenerateMap()
     {
-        hexaMap.Destroy();
-
-        hexaMap.Generate();
-
-        hexaMap.Draw();
-
         // Add some noise to Y position of tiles
         FastNoise _fastNoise = new FastNoise();
 
@@ -80,14 +69,14 @@ public class MapController : MonoBehaviour
         mapParentTransform.position = Vector3.forward * 200f;
 
         playerCtrl.SpawnPlayer();
-        targetTileController = tileCtrl;
+        targetTile = tileCtrl;
         preemptiveTiles.Add(tileCtrl.Model);
         foreach (var item in GetTilesInRange(4))
         {
             preemptiveTiles.Add(item);
         }
 
-        yield return StartCoroutine(GenerateMapObjects());
+        GenerateMapObjects();
 
         isLoadingComplete = true;
     }
@@ -98,7 +87,7 @@ public class MapController : MonoBehaviour
     /// 맵에서 스폰되는 오브젝트들에 대한 초기화를 하는 함수이다.
     /// 플레이어, 좀비, 안개를 생성하고, 플레이어의 위치를 리소스 매니저에게 전달한다.
     /// </summary>
-    IEnumerator GenerateMapObjects()
+    void GenerateMapObjects()
     {
         structCtrl.Init();
 
@@ -109,14 +98,11 @@ public class MapController : MonoBehaviour
         playerCtrl.SpawnFog();
         DeselectAllBorderTiles();
 
-        StartCoroutine(RandomTileResource(data.resourcePercent));
-        yield return null;
+        RandomTileResource(data.resourcePercent);
     }
 
-    IEnumerator RandomTileResource(float _percent)
+    void RandomTileResource(float _percent)
     {
-        bool complete = false;
-
         List<TileBase> tileBaseList = GetAllTiles()
             .Select(x => ((GameObject)x.GameEntity).GetComponent<TileBase>())
             .ToList();
@@ -133,12 +119,7 @@ public class MapController : MonoBehaviour
         {
             TileBase tile = tileBaseList[i];
             tile.SpawnRandomResource();
-
-            if (i == tileBaseList.Count - 1)
-                complete = true;
         }
-
-        yield return new WaitUntil(() => complete);
 
         OcclusionCheck(tileCtrl.Model);
     }
@@ -247,7 +228,7 @@ public class MapController : MonoBehaviour
 
     public void SavePlayerMovePath(TileController tileController)
     {
-        targetTileController = tileController;
+        targetTile = tileController;
 
         playerCtrl.player.UpdateMovePath(AStar.FindPath(tileCtrl.Model.Coords, tileController.Model.Coords));
 
@@ -266,30 +247,13 @@ public class MapController : MonoBehaviour
         return ((GameObject)tile.GameEntity).GetComponent<TileController>();
     }
 
-    public IEnumerator NextDay()
+    public void NextDay()
     {
-        playerCtrl.player.ChangeClockBuffDuration();
-        // 플레이어 이동
-        if (playerCtrl.IsMovePathSaved())
-        {
-            yield return StartCoroutine(playerCtrl.player.ActionDecision(targetTileController));
-        }
-        else
-        {
-            DeselectAllBorderTiles();
-        }
+        DeselectAllBorderTiles();
 
+        playerCtrl.ReInit();
         droneCtrl.ReInit();
-
-        // 좀비 행동
-        enemyCtrl.MoveEnemy();
-
-        yield return new WaitForSeconds(1f);
-        enemyCtrl.CheckSumZombies();
-
-        // 이동 거리 충전
-        playerCtrl.player.SetHealth(true);
-        playerCtrl.player.TileEffectCheck();
+        enemyCtrl.ReInit();
 
         OcclusionCheck(tileCtrl.Model);
     }
@@ -482,12 +446,7 @@ public class MapController : MonoBehaviour
     }
 
     public bool CheckTileType(Tile tile, string type)
-    {
-        if (tile.Landform.GetType().Name == type)
-            return true;
-        else
-            return false;
-    }
+        => tile.Landform.GetType().Name == type;
 
     public void OcclusionCheck(Tile _targetTile)
     {
@@ -541,13 +500,6 @@ public class MapController : MonoBehaviour
     }
 
     public bool LandformCheck(TileController tileController)
-    {
-        if (CheckTileType(tileController.Model, "LandformPlain") ||
-            CheckTileType(tileController.Model, "LandformRocks"))
-        {
-            return true;
-        }
-
-        return false;
-    }
+        => CheckTileType(tileController.Model, "LandformPlain") ||
+            CheckTileType(tileController.Model, "LandformRocks");
 }

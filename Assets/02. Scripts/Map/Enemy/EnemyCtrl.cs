@@ -50,6 +50,12 @@ public class EnemyCtrl : MonoBehaviour
         enemyList.Add(zombie);
     }
 
+    public void ReInit()
+    {
+        MoveEnemy();
+        CheckSumZombies();
+    }
+
     public void MoveEnemy()
     {
         for (var index = 0; index < enemyList.Count; index++)

@@ -217,9 +217,9 @@ public class MapManager : Manager
             mouseState = ETileMouseState.DronePrepared;
     }
 
-    public IEnumerator NextDay()
+    public void NextDay()
     {
-        yield return StartCoroutine(mapCtrl.NextDay());
+        mapCtrl.NextDay();
         resourceCtrl.GetResource(mapCtrl.tileCtrl);
         arrowCtrl.ReInit();
         
