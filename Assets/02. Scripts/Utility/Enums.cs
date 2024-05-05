@@ -73,7 +73,7 @@ public enum SoundType
 
 #region HexTile
 
-public enum ETileType
+public enum TileType
 {
     City,
     Desert,

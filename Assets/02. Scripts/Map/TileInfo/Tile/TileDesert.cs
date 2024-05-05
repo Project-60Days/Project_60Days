@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class TileDesert : TileBase
 {
+    public override TileType GetTileType() => TileType.Desert;
+
     public override void Buff(Player player) { }
 
     public override void DeBuff(Player _player)

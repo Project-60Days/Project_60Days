@@ -28,7 +28,7 @@ public class ValueData
 [Serializable]
 public class TileData
 {
-    public int Index;
+    public string Code;
     public int TileTypeAppearPosibility;
     public int TileSwarmMinCount;
     public int TileSwarmMaxCount;
@@ -146,7 +146,7 @@ public class GameData : Data
     public Dictionary<string, StringData> stringData = new Dictionary<string, StringData>();
 
     public Dictionary<string, ValueData> valueData = new Dictionary<string, ValueData>();
-    public Dictionary<int, TileData> tileData = new Dictionary<int, TileData>();
+    public Dictionary<string, TileData> tileData = new Dictionary<string, TileData>();
     public Dictionary<string, StructData> structData = new Dictionary<string, StructData>();
 
     public Dictionary<string, ItemData> itemData = new Dictionary<string, ItemData>();
@@ -191,7 +191,7 @@ public class GameData : Data
             valueData.Add(data.Code, data);
 
         foreach (var data in tileDataRaw)
-            tileData.Add(data.Index, data);
+            tileData.Add(data.Code, data);
 
         foreach (var data in structDataRaw)
             structData.Add(data.Code, data);

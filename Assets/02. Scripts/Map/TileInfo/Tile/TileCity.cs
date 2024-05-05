@@ -2,10 +2,12 @@ using UnityEngine;
 
 public class TileCity : TileBase
 {
+    public override TileType GetTileType() => TileType.City;
+
     public override void Buff(Player _player)
     {
         // 포장된 도로 : 확정 이동 거리 1추가
-        _player.ChangeMoveRange(this.GetComponent<TileBase>().TileType);
+        _player.ChangeMoveRange(GetTileType());
     }
 
     public override void DeBuff(Player _player)

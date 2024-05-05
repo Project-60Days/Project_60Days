@@ -8,7 +8,8 @@ using Random = UnityEngine.Random;
 [SelectionBase]
 public abstract class TileBase : MonoBehaviour
 {
-    [SerializeField] ETileType tileType;
+    public abstract TileType GetTileType();
+
     [SerializeField] Sprite landformSprite;
     [SerializeField] SpriteRenderer[] resourceIcons;
 
@@ -30,15 +31,13 @@ public abstract class TileBase : MonoBehaviour
     public StructureBase structure { get; private set; }
     public GameObject structureObject { get; private set; }
 
-    public ETileType TileType => tileType;
-
     private void Awake()
     {
         gachaProbability = new Dictionary<EResourceType, int>();
         gachaList = new List<EResourceType>();
         appearanceResources = new List<Resource>();
 
-        App.Data.Game.tileData.TryGetValue(GetTileDataIndex(), out TileData data);
+        App.Data.Game.tileData.TryGetValue(GetTileType().ToString(), out TileData data);
         tileData = data;
         landformText = tileData.Korean;
     }
@@ -372,16 +371,6 @@ public abstract class TileBase : MonoBehaviour
         RotationCheck(transform.rotation.eulerAngles);
         ResourceUpdate(true);
     }
-
-    int GetTileDataIndex() => tileType switch
-    {
-        ETileType.City => 1001,
-        ETileType.Desert => 1002,
-        ETileType.Tundra => 1003,
-        ETileType.Jungle => 1004,
-        ETileType.Neo => 1005,
-        _ => 0,
-    };
 
     public void UpdateZombieInfo(ZombieBase zombie)
     {

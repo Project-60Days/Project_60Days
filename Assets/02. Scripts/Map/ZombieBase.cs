@@ -47,16 +47,16 @@ public class ZombieBase : MonoBehaviour
         lastZombieCount = count;
     }
 
-    ETileType CheckTileType(Tile _tile)
+    TileType CheckTileType(Tile _tile)
     {
-        return ((GameObject)_tile.GameEntity).GetComponent<TileBase>().TileType;
+        return ((GameObject)_tile.GameEntity).GetComponent<TileBase>().GetTileType();
     }
 
     void CheckTileEffect(Tile _tile)
     {
         switch (CheckTileType(_tile))
         {
-            case ETileType.City:
+            case TileType.City:
                 if (noneTileBuff == false)
                 {
                     count += 5;
@@ -65,7 +65,7 @@ public class ZombieBase : MonoBehaviour
                 }
 
                 break;
-            case ETileType.Desert:
+            case TileType.Desert:
                 if (debuffCoolTime <= 0)
                 {
                     debuffCoolTime = 1;
@@ -76,7 +76,7 @@ public class ZombieBase : MonoBehaviour
                 }
 
                 break;
-            case ETileType.Tundra:
+            case TileType.Tundra:
                 if (debuffCoolTime <= 0)
                 {
                     debuffCoolTime = 1;
@@ -87,7 +87,7 @@ public class ZombieBase : MonoBehaviour
                 }
 
                 break;
-            case ETileType.Jungle:
+            case TileType.Jungle:
                 break;
             default:
                 break;
@@ -194,7 +194,7 @@ public class ZombieBase : MonoBehaviour
         if (isChasingPlayer && !App.Manager.Map.mapCtrl.Player.GetIsClocking())
         {
             //Debug.Log(gameObject.name + "가 플레이어를 발견했습니다!");
-            MoveToAttack(App.Manager.Map.mapCtrl.Player.TileController.Model);
+            MoveToAttack(App.Manager.Map.mapCtrl.tileCtrl.Model);
 
             // 플레이어 바라보기
             var updatePos = App.Manager.Map.mapCtrl.Player.transform.position;
@@ -218,7 +218,7 @@ public class ZombieBase : MonoBehaviour
         Tile pointTile;
         Vector3 pointPos;
 
-        if (movePath.Count == 0 && target == App.Manager.Map.mapCtrl.Player.TileController.Model)
+        if (movePath.Count == 0 && target == App.Manager.Map.mapCtrl.tileCtrl.Model)
         {
             // 플레이어가 1칸 내에 있는 경우
             AttackPlayer(App.Manager.Map.mapCtrl.Player);
@@ -262,7 +262,7 @@ public class ZombieBase : MonoBehaviour
             rand = Random.Range(0, candidate.Count);
         }
 
-        if (candidate[rand] == App.Manager.Map.mapCtrl.Player.TileController.Model)
+        if (candidate[rand] == App.Manager.Map.mapCtrl.tileCtrl.Model)
             rand--;
         var targetPos = ((GameObject)candidate[rand].GameEntity).transform.position;
         targetPos.y += 0.6f;

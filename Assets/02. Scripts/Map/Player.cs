@@ -25,14 +25,6 @@ public class Player : MonoBehaviour
 
     public List<Coords> MovePath { get; private set; }
 
-    TileController currentTileContorller;
-
-    public TileController TileController
-    {
-        get => currentTileContorller;
-        set => currentTileContorller = value;
-    }
-
     bool isDead;
     bool isClockingCheck;
     private bool isJungleDebuff;
@@ -119,14 +111,14 @@ public class Player : MonoBehaviour
         MovePath.Clear();
         moveRange = 0;
 
-        UpdateCurrentTile(targetTileController);
+        App.Manager.Map.mapCtrl.UpdateCurrentTile(targetTileController);
     }
 
     public IEnumerator MoveToRandom(int num = 1, float time = 0.25f)
     {
-        var candidate = App.Manager.Map.mapCtrl.GetTilesInRange(num, currentTileContorller.Model);
+        var candidate = App.Manager.Map.mapCtrl.GetTilesInRange(num, App.Manager.Map.mapCtrl.tileCtrl.Model);
 
-        Vector3 targetPos = currentTileContorller.transform.position;
+        Vector3 targetPos = App.Manager.Map.mapCtrl.tileCtrl.transform.position;
         Tile tile = candidate[0];
         bool isFindPath = false;
         
@@ -152,8 +144,11 @@ public class Player : MonoBehaviour
         MovePath.Clear();
         moveRange = 0;
 
-        if(isFindPath)
-            UpdateCurrentTile(((GameObject)tile.GameEntity).GetComponent<TileController>());
+        if (isFindPath)
+        {
+            App.Manager.Map.mapCtrl.UpdateCurrentTile(((GameObject)tile.GameEntity).GetComponent<TileController>());
+        }
+            
     }
     
     /// <summary>
@@ -164,12 +159,6 @@ public class Player : MonoBehaviour
     {
         // AdditiveScene 딜레이 
         yield return new WaitUntil(() => PlayerSightUpdate != null);
-        PlayerSightUpdate?.Invoke();
-    }
-
-    public void UpdateCurrentTile(TileController tileController)
-    {
-        currentTileContorller = tileController;
         PlayerSightUpdate?.Invoke();
     }
 
@@ -203,14 +192,14 @@ public class Player : MonoBehaviour
         //Debug.Log("남은 펄스탄 개수 : " + bulletsNum);
     }
 
-    public void ChangeMoveRange(ETileType _type)
+    public void ChangeMoveRange(TileType _type)
     {
         switch (_type)
         {
-            case ETileType.City:
+            case TileType.City:
                 moveRange += 1;
                 break;
-            case ETileType.Desert:
+            case TileType.Desert:
                 moveRange = 0;
                 break;
             default:
@@ -260,7 +249,7 @@ public class Player : MonoBehaviour
     
     public void TileEffectCheck()
     {
-        var tileBase = currentTileContorller.GetComponent<TileBase>();
+        var tileBase = App.Manager.Map.mapCtrl.tileCtrl.GetComponent<TileBase>();
 
         tileBase.Buff(this);
         tileBase.DeBuff(this);

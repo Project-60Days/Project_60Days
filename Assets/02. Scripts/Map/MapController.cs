@@ -22,9 +22,11 @@ public class MapController : MonoBehaviour
     [SerializeField] Transform mapParentTransform;
     [SerializeField] Transform objectsTransform;
 
+    [SerializeField] PlayerCtrl playerCtrl;
     [SerializeField] EnemyCtrl enemyCtrl;
+    public TileController tileCtrl;
 
-    
+
     [Header("프리팹")] [Space(5f)] [SerializeField]
     MapPrefabSO mapPrefab;
 
@@ -148,7 +150,7 @@ public class MapController : MonoBehaviour
 
         yield return new WaitUntil(() => complete);
 
-        OcclusionCheck(player.TileController.Model);
+        OcclusionCheck(tileCtrl.Model);
     }
 
     public List<Tile> GetAllTiles() => hexaMap.Map.Tiles.Where(x => ((GameObject)x.GameEntity).CompareTag("Tile")).ToList();
@@ -164,10 +166,10 @@ public class MapController : MonoBehaviour
         player.transform.parent = mapParentTransform;
         player.InputDefaultData(data.playerMovementPoint, data.durability);
 
-        player.UpdateCurrentTile(TileToTileController(hexaMap.Map.GetTileFromCoords(new Coords(0, 0))));
-        targetTileController = player.TileController;
+        UpdateCurrentTile(TileToTileController(hexaMap.Map.GetTileFromCoords(new Coords(0, 0))));
+        targetTileController = tileCtrl;
 
-        preemptiveTiles.Add(player.TileController.Model);
+        preemptiveTiles.Add(tileCtrl.Model);
 
         //player.TileEffectCheck();
 
@@ -192,9 +194,9 @@ public class MapController : MonoBehaviour
     public void ExplorerPathFinder(TileController tileController, int num = 3)
     {
         int moveRange = 0;
-        if (tileController.Model != player.TileController.Model)
+        if (tileController.Model != tileCtrl.Model)
         {
-            foreach (Coords coords in AStar.FindPath(player.TileController.Model.Coords, tileController.Model.Coords))
+            foreach (Coords coords in AStar.FindPath(tileCtrl.Model.Coords, tileController.Model.Coords))
             {
                 if (moveRange == num)
                     break;
@@ -222,7 +224,7 @@ public class MapController : MonoBehaviour
 
     public void TilePathFinderSurroundings(TileController tileController)
     {
-        var neighborTiles = hexaMap.Map.GetTilesInRange(player.TileController.Model, player.MoveRange);
+        var neighborTiles = hexaMap.Map.GetTilesInRange(tileCtrl.Model, player.MoveRange);
 
         var neighborController = neighborTiles
             .Select(x => ((GameObject)x.GameEntity).GetComponent<TileController>()).ToList();
@@ -274,7 +276,7 @@ public class MapController : MonoBehaviour
             if (LandformCheck(tileController))
                 SelectBorder(tileController, ETileState.Moveable);
 
-            foreach (var item in player.TileController.Model.Neighbours.Where(
+            foreach (var item in tileCtrl.Model.Neighbours.Where(
                          item => item.Value == tileController.Model))
             {
                 curDistrubtor.GetComponent<Distrubtor>().GetDirectionObject(item.Key).SetActive(true);
@@ -291,7 +293,7 @@ public class MapController : MonoBehaviour
     public bool SelectPlayerMovePoint(TileController tileController)
     {
         if (tileController.GetComponent<Borders>().GetEtileState() == ETileState.Moveable
-            && player.TileController.Model != tileController.Model
+            && tileCtrl.Model != tileController.Model
             && LandformCheck(tileController))
         {
             SavePlayerMovePath(tileController);
@@ -307,9 +309,9 @@ public class MapController : MonoBehaviour
             return;
 
         if (tileController.GetComponent<Borders>().GetEtileState() == ETileState.Moveable
-            && player.TileController.Model != tileController.Model)
+            && tileCtrl.Model != tileController.Model)
         {
-            foreach (var item in player.TileController.Model.Neighbours.Where(
+            foreach (var item in tileCtrl.Model.Neighbours.Where(
                          item => item.Value == tileController.Model))
             {
                 Debug.Log("설치 시작");
@@ -321,7 +323,7 @@ public class MapController : MonoBehaviour
     public void SelectTileForExplorer(TileController tileController)
     {
         if (tileController.GetComponent<Borders>().GetEtileState() == ETileState.Moveable
-            && player.TileController.Model != tileController.Model)
+            && tileCtrl.Model != tileController.Model)
         {
             InstallExplorer(tileController);
         }
@@ -331,7 +333,7 @@ public class MapController : MonoBehaviour
     {
         targetTileController = tileController;
 
-        player.UpdateMovePath(AStar.FindPath(player.TileController.Model.Coords, tileController.Model.Coords));
+        player.UpdateMovePath(AStar.FindPath(tileCtrl.Model.Coords, tileController.Model.Coords));
 
         DeselectAllBorderTiles();
         //isPlayerSelected = false;
@@ -360,7 +362,7 @@ public class MapController : MonoBehaviour
     {
         if (set)
         {
-            var neighborTiles = hexaMap.Map.GetTilesInRange(player.TileController.Model, 1);
+            var neighborTiles = hexaMap.Map.GetTilesInRange(tileCtrl.Model, 1);
 
             var neighborController = neighborTiles
                 .Select(x => ((GameObject)x.GameEntity).GetComponent<TileController>()).ToList();
@@ -436,7 +438,7 @@ public class MapController : MonoBehaviour
         curExplorer.transform.parent = mapTransform;
 
         curExplorer.GetComponentInChildren<MeshRenderer>().material.DOFade(50, 0);
-        curExplorer.GetComponent<Explorer>().Set(player.TileController.Model);
+        curExplorer.GetComponent<Explorer>().Set(tileCtrl.Model);
 
         explorers.Add(curExplorer);
     }
@@ -490,7 +492,7 @@ public class MapController : MonoBehaviour
         player.SetHealth(true);
         player.TileEffectCheck();
 
-        OcclusionCheck(player.TileController.Model);
+        OcclusionCheck(tileCtrl.Model);
     }
 
     void SelectBorder(TileController tileController, ETileState state)
@@ -534,25 +536,6 @@ public class MapController : MonoBehaviour
 
         if (droneSelectedTiles.Contains(tileController))
             droneSelectedTiles.Remove(tileController);
-    }
-
-    public bool CheckPlayerInStructureTile(TileController tileController)
-    {
-        var structure = tileController.gameObject.GetComponent<TileBase>().structure;
-
-        if (structure != null)
-        {
-            if (tileController.gameObject.GetComponent<TileBase>().structure.isAccessible)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else
-            return false;
     }
 
     void ClearTiles(List<TileController> tiles)
@@ -610,30 +593,6 @@ public class MapController : MonoBehaviour
         return null;
     }
 
-    /// <summary>
-    /// 같은 그룹 타일이 모여있는 곳에 마우스를 올리면 그룹 전체를 선택을 하게 해주는 함수. 현재 사용 중이지 않다.
-    /// </summary>
-    /// <param name="tile"></param>
-    void SelectMetaLandform(TileController tile)
-    {
-        // Select metalandform of a tile
-        var metaLandformTiles = tile
-            .Model
-            .Landform
-            .MetaLandform
-            .Tiles
-            .Select(t => t.GameEntity)
-            .Cast<GameObject>()
-            .Select(g => g.GetComponent<TileController>())
-            .ToList();
-
-        var tileToUnselect = selectedTiles.Except(metaLandformTiles).ToList();
-        var tileToSelect = metaLandformTiles.Except(selectedTiles).ToList();
-
-        tileToSelect.ForEach(t => SelectBorder(t, ETileState.Unable));
-        tileToUnselect.ForEach(t => DeselectNormalBorder(t));
-    }
-
     public Tile GetTileFromCoords(Coords coords)
     {
         return hexaMap.Map.GetTileFromCoords(coords);
@@ -643,7 +602,7 @@ public class MapController : MonoBehaviour
     {
         if (tile == null) 
         {
-            return hexaMap.Map.GetTilesInRange(player.TileController.Model, num);
+            return hexaMap.Map.GetTilesInRange(tileCtrl.Model, num);
         }
         return hexaMap.Map.GetTilesInRange(tile, num);
     }
@@ -652,7 +611,7 @@ public class MapController : MonoBehaviour
     {
         var searchTiles = hexaMap.Map.GetTilesInRange(tile, range);
 
-        return searchTiles.Exists(x => x == player.TileController.Model);
+        return searchTiles.Exists(x => x == tileCtrl.Model);
     }
 
     public Distrubtor CalculateDistanceToDistrubtor(Tile tile, int range)
@@ -682,7 +641,7 @@ public class MapController : MonoBehaviour
     {
         var getTiles = GetTilesInRange(3);
 
-        if (player.TileController == tileController)
+        if (tileCtrl == tileController)
             return true;
 
         if (getTiles.Contains(tileController.Model))
@@ -879,7 +838,7 @@ public class MapController : MonoBehaviour
 
     public StructureBase SensingStructure()
     {
-        var tileList = player.TileController.Model.Neighbours;
+        var tileList = tileCtrl.Model.Neighbours;
 
         foreach (var item in tileList)
         {
@@ -968,6 +927,12 @@ public class MapController : MonoBehaviour
         return selectTileNumber;
     }
 
+    public void UpdateCurrentTile(TileController tileController)
+    {
+        tileCtrl = tileController;
+        Player.PlayerSightUpdate?.Invoke();
+    }
+
     bool ConditionalBranch(EObjectSpawnType type, Tile tile)
     {
         // landform rocks도 거르면 건물 잔해도 거를 수 있음
@@ -979,7 +944,7 @@ public class MapController : MonoBehaviour
         switch (type)
         {
             case EObjectSpawnType.ExcludePlayer:
-                if (player.TileController.Model != tile)
+                if (tileCtrl.Model != tile)
                     return true;
                 else
                     return false;
@@ -994,7 +959,7 @@ public class MapController : MonoBehaviour
                     return false;
 
             case EObjectSpawnType.IncludeEntites:
-                if (player.TileController.Model != tile)
+                if (tileCtrl.Model != tile)
                     return true;
                 else
                     return false;

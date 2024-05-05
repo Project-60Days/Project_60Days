@@ -220,7 +220,7 @@ public class MapManager : Manager
     public IEnumerator NextDay()
     {
         yield return StartCoroutine(mapCtrl.NextDay());
-        resourceCtrl.GetResource(mapCtrl.Player.TileController);
+        resourceCtrl.GetResource(mapCtrl.tileCtrl);
         arrowCtrl.ReInit();
         
         CheckRoutine();
@@ -370,7 +370,7 @@ public class MapManager : Manager
     }
 
     public bool IsJungleTile(TileController _tileController)
-        => _tileController.GetComponent<TileBase>().TileType == ETileType.Jungle;
+        => _tileController.GetComponent<TileBase>().GetTileType() == TileType.Jungle;
 
     public void SetIsDronePrepared(bool _isDronePrepared, string type)
     {

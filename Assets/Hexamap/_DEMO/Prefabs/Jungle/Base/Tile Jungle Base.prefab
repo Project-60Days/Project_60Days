@@ -4963,8 +4963,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2066a7add055b94f847566698cc3395, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemSO: {fileID: 11400000, guid: 9fbd54ca786ce174891a63e9312d8ea6, type: 2}
-  tileType: 1
+  tileType: 2
   landformSprite: {fileID: 21300000, guid: 93126cabd473b984fb1c5e9f2ce6bb4a, type: 3}
   resourceIcons:
   - {fileID: 2195229453317193885}

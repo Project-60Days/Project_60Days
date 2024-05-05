@@ -10,30 +10,30 @@ public class IconMap : IconBase
     [SerializeField] Sprite tundra;
 
     private Image image;
-    private Player player;
+    private MapController mapCtrl;
 
-    private ETileType type;
+    private TileType type;
 
     protected override void Start()
     {
         base.Start();
 
+        mapCtrl = App.Manager.Map.mapCtrl;
         image = GetComponent<Image>();
         StartCoroutine(Init());
     }
 
     private IEnumerator Init()
     {
-        yield return new WaitUntil(() => App.Manager.Map.mapCtrl.Player != null);
+        yield return new WaitUntil(() => App.Manager.Map.mapCtrl.tileCtrl != null);
 
-        player = App.Manager.Map.mapCtrl.Player;
         ResetIcon();
     }
 
     public void ResetIcon()
     {
-        var tile = player.TileController;
-        type = tile.GetComponent<TileBase>().TileType;
+        var tile = mapCtrl.tileCtrl;
+        type = tile.GetComponent<TileBase>().GetTileType();
 
         image.sprite = SetImage();
         text = SetString();
@@ -41,19 +41,19 @@ public class IconMap : IconBase
 
     protected override string SetString() => type switch
     {
-        ETileType.City => App.Data.Game.GetString("STR_TILE_NONE_DESC"),
-        ETileType.Desert => App.Data.Game.GetString("STR_TILE_DESERT_DESC"),
-        ETileType.Jungle => App.Data.Game.GetString("STR_TILE_JUNGLE_DESC"),
-        ETileType.Tundra => App.Data.Game.GetString("STR_TILE_TUNDRA_DESC"),
+        TileType.City => App.Data.Game.GetString("STR_TILE_NONE_DESC"),
+        TileType.Desert => App.Data.Game.GetString("STR_TILE_DESERT_DESC"),
+        TileType.Jungle => App.Data.Game.GetString("STR_TILE_JUNGLE_DESC"),
+        TileType.Tundra => App.Data.Game.GetString("STR_TILE_TUNDRA_DESC"),
         _ => "",
     };
 
     private Sprite SetImage() => type switch
     {
-        ETileType.City => city,
-        ETileType.Desert => desert,
-        ETileType.Jungle => jungle,
-        ETileType.Tundra => tundra,
+        TileType.City => city,
+        TileType.Desert => desert,
+        TileType.Jungle => jungle,
+        TileType.Tundra => tundra,
         _ => null,
     };
 }

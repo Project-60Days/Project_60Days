@@ -1,5 +1,7 @@
 public class TileTundra : TileBase
 {
+    public override TileType GetTileType() => TileType.Tundra;
+
     public override void Buff(Player player) { }
 
     public override void DeBuff(Player _player)

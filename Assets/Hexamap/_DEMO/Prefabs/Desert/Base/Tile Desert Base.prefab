@@ -4855,6 +4855,10 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 5037998388620366702, guid: 2a4d84312a74d1f46b8139342606115b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5066086824897611883, guid: 2a4d84312a74d1f46b8139342606115b, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -4971,8 +4975,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd0e3137a25be7249a704094c8fcfc43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemSO: {fileID: 11400000, guid: 9fbd54ca786ce174891a63e9312d8ea6, type: 2}
-  tileType: 2
+  tileType: 1
   landformSprite: {fileID: 21300000, guid: bf442bc6f6950ba4f88afeb997250aa0, type: 3}
   resourceIcons:
   - {fileID: 2195229453317193885}

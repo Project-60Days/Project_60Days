@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class TileJungle : TileBase
 {
+    public override TileType GetTileType() => TileType.Jungle;
+
     public override void Buff(Player player) { }
 
     public override void DeBuff(Player _player)

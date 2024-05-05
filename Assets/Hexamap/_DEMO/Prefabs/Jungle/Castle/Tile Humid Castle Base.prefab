@@ -7,65 +7,57 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4131358479879696995, guid: 2a643033d6019de4a8067d19baece194,
-        type: 3}
-      propertyPath: m_Name
-      value: Tile Humid Base
-      objectReference: {fileID: 0}
-    - target: {fileID: 3107853524204061654, guid: 2a643033d6019de4a8067d19baece194,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3107853524204061654, guid: 2a643033d6019de4a8067d19baece194,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3107853524204061654, guid: 2a643033d6019de4a8067d19baece194,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3107853524204061654, guid: 2a643033d6019de4a8067d19baece194,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3107853524204061654, guid: 2a643033d6019de4a8067d19baece194,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3107853524204061654, guid: 2a643033d6019de4a8067d19baece194,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3107853524204061654, guid: 2a643033d6019de4a8067d19baece194,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3107853524204061654, guid: 2a643033d6019de4a8067d19baece194,
-        type: 3}
+    - target: {fileID: 3107853524204061654, guid: 2a643033d6019de4a8067d19baece194, type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3107853524204061654, guid: 2a643033d6019de4a8067d19baece194,
-        type: 3}
+    - target: {fileID: 3107853524204061654, guid: 2a643033d6019de4a8067d19baece194, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3107853524204061654, guid: 2a643033d6019de4a8067d19baece194, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3107853524204061654, guid: 2a643033d6019de4a8067d19baece194, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3107853524204061654, guid: 2a643033d6019de4a8067d19baece194, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3107853524204061654, guid: 2a643033d6019de4a8067d19baece194, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3107853524204061654, guid: 2a643033d6019de4a8067d19baece194, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3107853524204061654, guid: 2a643033d6019de4a8067d19baece194, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3107853524204061654, guid: 2a643033d6019de4a8067d19baece194, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3107853524204061654, guid: 2a643033d6019de4a8067d19baece194,
-        type: 3}
+    - target: {fileID: 3107853524204061654, guid: 2a643033d6019de4a8067d19baece194, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3107853524204061654, guid: 2a643033d6019de4a8067d19baece194,
-        type: 3}
+    - target: {fileID: 3107853524204061654, guid: 2a643033d6019de4a8067d19baece194, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4131358479879696995, guid: 2a643033d6019de4a8067d19baece194, type: 3}
+      propertyPath: m_Name
+      value: Tile Humid Castle Base
+      objectReference: {fileID: 0}
+    - target: {fileID: 7736291625355718530, guid: 2a643033d6019de4a8067d19baece194, type: 3}
+      propertyPath: tileType
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a643033d6019de4a8067d19baece194, type: 3}

@@ -71,7 +71,7 @@ public class MapCamCtrl : MonoBehaviour
             .AppendCallback(() =>
             {
                 SetPrioryty(true);
-                var currTile = Map.mapCtrl.Player.TileController.GetComponent<TileBase>();
+                var currTile = Map.mapCtrl.tileCtrl.GetComponent<TileBase>();
                 Sound.PlayBGM(Map.GetLandformBGM(currTile));
                 UI.TileInfo(false);
             })
