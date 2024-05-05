@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 35908273}
   - component: {fileID: 35908274}
   - component: {fileID: 35908275}
+  - component: {fileID: 35908276}
   m_Layer: 0
   m_Name: Controllers
   m_TagString: MapController
@@ -189,7 +190,6 @@ MonoBehaviour:
   mapTransform: {fileID: 270035658}
   mapParentTransform: {fileID: 2032613207}
   objectsTransform: {fileID: 848818347}
-  arrowPrefab: {fileID: 8455040257853211726, guid: d7b10346f8761c2468d15e5a55b160f9, type: 3}
   enemyCtrl: {fileID: 35908275}
   mapPrefab: {fileID: 11400000, guid: 2ac150942be86a042a3493eb2029b8cd, type: 2}
   fog: {fileID: 1413298386}
@@ -207,6 +207,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 4352004779550836249, guid: a0525b4d277ecb9448b70a8ae0523766, type: 3}
   enemyTrans: {fileID: 706894744}
+--- !u!114 &35908276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 35908271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dea44deae377e314c99e5750c6f57ea5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arrowPrefab: {fileID: 8455040257853211726, guid: d7b10346f8761c2468d15e5a55b160f9, type: 3}
 --- !u!1 &70614907
 GameObject:
   m_ObjectHideFlags: 0
@@ -516,6 +529,7 @@ MonoBehaviour:
   mapCtrl: {fileID: 35908274}
   enemyCtrl: {fileID: 35908275}
   resourceCtrl: {fileID: 1926141685}
+  arrowCtrl: {fileID: 35908276}
   mouseIntreractable: 0
   mouseState: 0
   cameraCtrl: {fileID: 70614911}

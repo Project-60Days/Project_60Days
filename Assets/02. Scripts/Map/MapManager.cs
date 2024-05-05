@@ -8,6 +8,7 @@ public class MapManager : Manager
     public MapController mapCtrl;
     public EnemyCtrl enemyCtrl;
     public ResourceCtrl resourceCtrl;
+    public ArrowCtrl arrowCtrl;
     public bool mouseIntreractable;
 
     [SerializeField] ETileMouseState mouseState;
@@ -31,6 +32,7 @@ public class MapManager : Manager
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         data = App.Manager.Test.mapData;
 
+        arrowCtrl.Init();
         mapCtrl.Init();
         cameraCtrl.Init();
         InitValue();
@@ -142,7 +144,7 @@ public class MapManager : Manager
                 {
                     if (mapCtrl.SelectPlayerMovePoint(tileController))
                     {
-                        mapCtrl.MovePointerOn(tileController.transform.position);
+                        arrowCtrl.ArrowOn(tileController.transform.position);
                         canPlayerMove = false;
                     }
                     else
@@ -219,7 +221,7 @@ public class MapManager : Manager
     {
         yield return StartCoroutine(mapCtrl.NextDay());
         resourceCtrl.GetResource(mapCtrl.Player.TileController);
-        mapCtrl.OnlyMovePointerOff();
+        arrowCtrl.ReInit();
         
         CheckRoutine();
     }
@@ -315,7 +317,7 @@ public class MapManager : Manager
         if (mapCtrl.IsMovePathSaved() == false)
             return;
 
-        mapCtrl.MovePointerOff();
+        arrowCtrl.ArrowOff();
         mapCtrl.DeletePlayerMovePath();
     }
 

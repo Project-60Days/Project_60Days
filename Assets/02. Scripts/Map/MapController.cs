@@ -21,8 +21,6 @@ public class MapController : MonoBehaviour
     [SerializeField] Transform mapTransform;
     [SerializeField] Transform mapParentTransform;
     [SerializeField] Transform objectsTransform;
-    [SerializeField] private GameObject arrowPrefab;
-    private GameObject arrow;
 
     [SerializeField] EnemyCtrl enemyCtrl;
 
@@ -1098,51 +1096,5 @@ public class MapController : MonoBehaviour
         }
 
         return false;
-    }
-
-    public void MovePointerOn(Vector3 _pos)
-    {
-        if (arrow == null)
-        {
-            arrow = Instantiate(arrowPrefab, _pos, Quaternion.identity);
-        }
-        
-        _pos.y += 1f;
-        arrow.transform.position = _pos;
-        
-        arrow.SetActive(true);
-        App.Manager.Sound.PlaySFX("SFX_Map_Select");
-    }
-
-    public bool CheckMovePointerOn()
-    {
-        return arrow != null;
-    }
-    
-    public void MovePointerOff()
-    {
-        if (arrow == null)
-        {
-            arrow = Instantiate(arrowPrefab, Vector3.zero, Quaternion.identity);
-        }
-        
-        if (arrow.activeInHierarchy)
-        {
-            arrow.SetActive(false);
-            App.Manager.Sound.PlaySFX("SFX_Map_Cancel");
-        }
-    }
-    
-    public void OnlyMovePointerOff()
-    {
-        if (arrow == null)
-        {
-            arrow = Instantiate(arrowPrefab, Vector3.zero, Quaternion.identity);
-        }
-        
-        if (arrow.activeInHierarchy)
-        {
-            arrow.SetActive(false);
-        }
     }
 }
