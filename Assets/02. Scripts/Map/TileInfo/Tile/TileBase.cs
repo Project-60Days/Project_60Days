@@ -277,7 +277,7 @@ public abstract class TileBase : MonoBehaviour
         else
         {
             App.Manager.UI.GetPanel<MapPanel>()
-                .UpdateText(TileInfo.Zombie, "좀비 수 : " + currZombies.zombieData.count + "마리");
+                .UpdateText(TileInfo.Zombie, "좀비 수 : " + currZombies.count + "마리");
         }
     }
 
@@ -394,7 +394,7 @@ public abstract class TileBase : MonoBehaviour
         {
             currZombies = zombie;
             App.Manager.UI.GetPanel<MapPanel>()
-                .UpdateText(TileInfo.Zombie, "좀비 수 : " + currZombies.zombieData.count + "마리");
+                .UpdateText(TileInfo.Zombie, "좀비 수 : " + currZombies.count + "마리");
         }
     }
 }

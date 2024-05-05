@@ -557,10 +557,10 @@ public class MapController : MonoBehaviour
                 var firstZombies = zombieBases[i];
                 var secondZombies = zombieBases[j];
 
-                if (firstZombies.zombieData.count == 0 || secondZombies.zombieData.count == 0)
+                if (firstZombies.count == 0 || secondZombies.count == 0)
                     continue;
 
-                if (firstZombies.curTile == secondZombies.curTile)
+                if (firstZombies.currTile == secondZombies.currTile)
                 {
                     firstZombies.SumZombies(secondZombies);
                     removeZombies.Add(secondZombies);
@@ -779,7 +779,7 @@ public class MapController : MonoBehaviour
         for (int i = 0; i < zombiesList.Count; i++)
         {
             GameObject item = zombiesList[i];
-            if (playerNearthTiles.Contains(item.GetComponent<ZombieBase>().curTile))
+            if (playerNearthTiles.Contains(item.GetComponent<ZombieBase>().currTile))
             {
                 return true;
             }

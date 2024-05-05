@@ -7,23 +7,13 @@ using DG.Tweening;
 using TMPro;
 using Unity.VisualScripting;
 
-public class ZombieData
-{
-    public int count;
-    public float movePossibility;
-    public float stayPossibility;
-    public float specailZombiePossibility;
-    public float minCount;
-    public float maxCount;
-}
-
 [SelectionBase]
 public class ZombieBase : MonoBehaviour
 {
     [SerializeField] GameObject[] zombieModels;
-    public ZombieData zombieData = new ZombieData();
+    public ValueData data;
     public Distrubtor nearthDistrubtor;
-    public Tile curTile;
+    public Tile currTile;
     public Tile lastTile;
     public Tile targetTile;
     public bool isChasingPlayer;
@@ -37,31 +27,24 @@ public class ZombieBase : MonoBehaviour
     int dectectionRange = 2;
     int debuffCoolTime = 0;
 
+    public int count { get; private set; }
+
     private Vector3 initScale = new Vector3(0,0,0);
 
     public void Init(Tile tile)
     {
-        App.Data.Game.valueData.TryGetValue("Data_Zombie_Move_Possibility", out ValueData move);
-        App.Data.Game.valueData.TryGetValue("Data_Zombie_Stay_Possibility", out ValueData stay);
-        App.Data.Game.valueData.TryGetValue("Data_SpecialZombie_Possibility", out ValueData special);
-        App.Data.Game.valueData.TryGetValue("Data_MinCount_ZombieSwarm", out ValueData min);
-        App.Data.Game.valueData.TryGetValue("Data_MaxCount_ZombieSwarm", out ValueData max);
-
-        zombieData.movePossibility = move.value;
-        zombieData.stayPossibility = stay.value;
-        zombieData.specailZombiePossibility = special.value;
-        zombieData.minCount = min.value;
-        zombieData.maxCount = max.value;
+        App.Data.Game.valueData.TryGetValue("Enemy", out ValueData enemy);
+        data = enemy;
 
         ZombieCountChoice();
-        curTile = tile;
-        lastTile = curTile;
+        currTile = tile;
+        lastTile = currTile;
 
-        CheckTileEffect(curTile);
-        CurrentTileUpdate(curTile);
+        CheckTileEffect(currTile);
+        CurrentTileUpdate(currTile);
 
         initScale = transform.localScale;
-        lastZombieCount = zombieData.count;
+        lastZombieCount = count;
     }
 
     ETileType CheckTileType(Tile _tile)
@@ -76,8 +59,8 @@ public class ZombieBase : MonoBehaviour
             case ETileType.City:
                 if (noneTileBuff == false)
                 {
-                    zombieData.count += 5;
-                    ZombieModelChoice(zombieData.count);
+                    count += 5;
+                    ZombieModelChoice(count);
                     noneTileBuff = true;
                 }
 
@@ -113,17 +96,17 @@ public class ZombieBase : MonoBehaviour
 
     void ZombieCountChoice()
     {
-        var randomInt = (int)Random.Range(zombieData.minCount, zombieData.maxCount);
-        zombieData.count = randomInt;
+        var randomInt = (int)Random.Range(data.MinCount, data.MaxCount);
+        count = randomInt;
         ZombieModelChoice(randomInt);
     }
 
     public void ZombieModelChoice(int count)
     {
-        var num = (int)Mathf.Lerp(zombieData.minCount, zombieData.maxCount, 0.3f);
-        num -= (int)zombieData.minCount;
+        var num = (int)Mathf.Lerp(data.MinCount, data.MaxCount, 0.3f);
+        num -= (int)data.MinCount;
 
-        if (zombieData.minCount <= count && count <= zombieData.minCount + num)
+        if (data.MinCount <= count && count <= data.MinCount + num)
         {
             for (int i = 0; i < zombieModels.Length; i++)
             {
@@ -133,7 +116,7 @@ public class ZombieBase : MonoBehaviour
                     zombieModels[i].SetActive(false);
             }
         }
-        else if (zombieData.minCount + num <= count && count <= zombieData.minCount + num * 2)
+        else if (data.MinCount + num <= count && count <= data.MinCount + num * 2)
         {
             for (int i = 0; i < zombieModels.Length; i++)
             {
@@ -157,9 +140,9 @@ public class ZombieBase : MonoBehaviour
 
     public void SizeUpCheck()
     {
-        if (lastZombieCount != zombieData.count)
+        if (lastZombieCount != count)
         {
-            var scale = (zombieData.count / 10) * 0.1f;
+            var scale = (count / 10) * 0.1f;
 
             if (scale > 0.7f)
             {
@@ -167,7 +150,7 @@ public class ZombieBase : MonoBehaviour
             }
 
             transform.localScale = initScale + new Vector3(scale, scale, scale);
-            lastZombieCount = zombieData.count;
+            lastZombieCount = count;
         }
     }
 
@@ -179,11 +162,11 @@ public class ZombieBase : MonoBehaviour
 
     public void DetectionAndAct()
     {
-        CheckTileEffect(curTile);
+        CheckTileEffect(currTile);
 
-        isChasingPlayer = App.Manager.Map.mapCtrl.CalculateDistanceToPlayer(curTile, dectectionRange);
+        isChasingPlayer = App.Manager.Map.mapCtrl.CalculateDistanceToPlayer(currTile, dectectionRange);
 
-        nearthDistrubtor = App.Manager.Map.mapCtrl.CalculateDistanceToDistrubtor(curTile, dectectionRange);
+        nearthDistrubtor = App.Manager.Map.mapCtrl.CalculateDistanceToDistrubtor(currTile, dectectionRange);
 
         ActionDecision();
     }
@@ -204,14 +187,14 @@ public class ZombieBase : MonoBehaviour
         if (nearthDistrubtor != null)
         {
             //Debug.Log(gameObject.name + "가 교란기를 쫓아갑니다!");
-            StartCoroutine(MoveToAttack(nearthDistrubtor.currentTile));
+            MoveToAttack(nearthDistrubtor.currentTile);
             return;
         }
 
         if (isChasingPlayer && !App.Manager.Map.mapCtrl.Player.GetIsClocking())
         {
             //Debug.Log(gameObject.name + "가 플레이어를 발견했습니다!");
-            StartCoroutine(MoveToAttack(App.Manager.Map.mapCtrl.Player.TileController.Model));
+            MoveToAttack(App.Manager.Map.mapCtrl.Player.TileController.Model);
 
             // 플레이어 바라보기
             var updatePos = App.Manager.Map.mapCtrl.Player.transform.position;
@@ -228,9 +211,9 @@ public class ZombieBase : MonoBehaviour
         }
     }
 
-    public IEnumerator MoveToAttack(Tile target, float time = 0.25f)
+    public void MoveToAttack(Tile target)
     {
-        movePath = AStar.FindPath(curTile.Coords, target.Coords);
+        movePath = AStar.FindPath(currTile.Coords, target.Coords);
 
         Tile pointTile;
         Vector3 pointPos;
@@ -244,7 +227,7 @@ public class ZombieBase : MonoBehaviour
         {
             if (movePath.Count == 0)
             {
-                yield break;
+                return;
             }
 
             for (int i = 0; i < moveCost; i++)
@@ -253,10 +236,9 @@ public class ZombieBase : MonoBehaviour
                 pointPos = ((GameObject)pointTile.GameEntity).transform.position;
                 pointPos.y += 0.6f;
 
-                gameObject.transform.DOMove(pointPos, time);
+                gameObject.transform.DOMove(pointPos, 0f);
 
-                yield return new WaitForSeconds(time);
-                curTile = pointTile;
+                currTile = pointTile;
 
                 if (movePath.Count == 1)
                     break;
@@ -264,14 +246,14 @@ public class ZombieBase : MonoBehaviour
         }
 
         CurrentTileUpdate(lastTile);
-        CurrentTileUpdate(curTile);
+        CurrentTileUpdate(currTile);
 
-        lastTile = curTile;
+        lastTile = currTile;
     }
 
     public IEnumerator MoveToRandom(int num = 1, float time = 0.25f)
     {
-        var candidate = App.Manager.Map.mapCtrl.GetTilesInRange(curTile, num);
+        var candidate = App.Manager.Map.mapCtrl.GetTilesInRange(currTile, num);
         int rand = Random.Range(0, candidate.Count);
 
         while (((GameObject)candidate[rand].GameEntity).gameObject.layer == 8)
@@ -287,12 +269,12 @@ public class ZombieBase : MonoBehaviour
 
         yield return gameObject.transform.DOMove(targetPos, time);
 
-        curTile = candidate[rand];
+        currTile = candidate[rand];
 
         CurrentTileUpdate(lastTile);
-        CurrentTileUpdate(curTile);
+        CurrentTileUpdate(currTile);
 
-        lastTile = curTile;
+        lastTile = currTile;
     }
 
     public void CurrentTileUpdate(Tile tile)
@@ -300,7 +282,7 @@ public class ZombieBase : MonoBehaviour
         if (tile == null)
             return;
 
-        if (tile == curTile)
+        if (tile == currTile)
         {
             ((GameObject)(tile.GameEntity)).GetComponent<TileBase>().UpdateZombieInfo(this);
         }
@@ -312,18 +294,18 @@ public class ZombieBase : MonoBehaviour
 
     public void SumZombies(ZombieBase zombie)
     {
-        zombieData.count += zombie.zombieData.count;
-        zombie.zombieData.count = 0;
+        count += zombie.count;
+        zombie.count = 0;
 
-        ZombieModelChoice(zombieData.count);
+        ZombieModelChoice(count);
         SizeUpCheck();
-        CurrentTileUpdate(curTile);
+        CurrentTileUpdate(currTile);
     }
 
     public int GetRandom()
     {
-        float percentage = zombieData.movePossibility + zombieData.stayPossibility;
-        float probability = zombieData.movePossibility / percentage;
+        float percentage = data.Move + data.Stop;
+        float probability = data.Move / percentage;
         float rate = percentage - (percentage * probability);
         int tmp = (int)Random.Range(0, percentage);
 
@@ -338,7 +320,7 @@ public class ZombieBase : MonoBehaviour
     public void AttackPlayer(Player player)
     {
         // 공격 애니메이션
-        player.TakeDamage(zombieData.count);
+        player.TakeDamage(count);
     }
 
     public void TakeDamage()
@@ -346,7 +328,7 @@ public class ZombieBase : MonoBehaviour
         // 피격 애니메이션
 
         // 사망
-        zombieData.count = 0;
+        count = 0;
         Debug.Log(gameObject.name + " 처치 완료.");
         CurrentTileUpdate(null);
         Destroy(this);

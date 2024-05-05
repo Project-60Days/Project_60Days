@@ -17,9 +17,12 @@ public class StringData
 [Serializable]
 public class ValueData
 {
-    public int Index;
     public string Code;
-    public float value;
+    public float Move;
+    public float Stop;
+    public float SpecialSpawn;
+    public float MinCount;
+    public float MaxCount;
 }
 
 [Serializable]
