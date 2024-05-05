@@ -138,6 +138,7 @@ GameObject:
   - component: {fileID: 35908276}
   - component: {fileID: 35908277}
   - component: {fileID: 35908278}
+  - component: {fileID: 35908279}
   m_Layer: 0
   m_Name: Controllers
   m_TagString: MapController
@@ -195,6 +196,7 @@ MonoBehaviour:
   enemyCtrl: {fileID: 35908275}
   tileCtrl: {fileID: 0}
   droneCtrl: {fileID: 35908278}
+  structCtrl: {fileID: 35908279}
   mapPrefab: {fileID: 11400000, guid: 2ac150942be86a042a3493eb2029b8cd, type: 2}
   fog: {fileID: 1413298386}
 --- !u!114 &35908275
@@ -256,6 +258,22 @@ MonoBehaviour:
   mapTransform: {fileID: 270035658}
   disruptorPrefab: {fileID: 2141712199585254430, guid: fbea53f2c0e7cdc49a173ebc909cc565, type: 3}
   explorerPrefab: {fileID: 2141712199585254430, guid: 5fede54bddf76ae4fb17561eb5cb324f, type: 3}
+--- !u!114 &35908279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 35908271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f2a40c6b7eda6946a708de8d6492341, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  towerPrefab: {fileID: 160171466204798991, guid: cf95c0db2f410d245809742eb3c58a2e, type: 3}
+  productionPrefab: {fileID: 3966501793454575975, guid: af50e44c866e7ef4fba5d45331a50143, type: 3}
+  armyPrefab: {fileID: 8944453277797006517, guid: 135f99e71d3a4684ab5f9ccd2e26a39b, type: 3}
+  objectsTransform: {fileID: 848818347}
 --- !u!1 &70614907
 GameObject:
   m_ObjectHideFlags: 0

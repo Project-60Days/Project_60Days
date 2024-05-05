@@ -247,7 +247,7 @@ public class MapManager : Manager
     public void CheckRoutine()
     {
         CheckZombies();
-        CheckStructureNeighbor();
+        mapCtrl.structCtrl.CheckStructureNeighbor();
     
         InitValue();
     }
@@ -262,22 +262,6 @@ public class MapManager : Manager
             isActive = false;
 
         App.Manager.UI.GetPanel<FixedPanel>().SetAlert(AlertType.Caution, isActive);
-    }
-
-    /// <summary>
-    /// 현재 타일이 구조물 인접타일인지 확인
-    /// </summary>
-    public void CheckStructureNeighbor()
-    {
-        var structure = mapCtrl.SensingStructure();
-        if (structure != null)
-        {
-            if (structure is Tower)
-                if (App.Manager.UI.GetPanel<InventoryPanel>().CheckNetCardUsage() == false) return;
-
-            if (structure.isUse == false)
-                App.Manager.UI.GetPanel<PagePanel>().SetSelectPage("structureSelect", structure);
-        }
     }
 
     public string GetLandformBGM(TileBase _tile) => _tile.tileData.English switch
