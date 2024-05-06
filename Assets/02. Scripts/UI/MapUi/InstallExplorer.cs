@@ -15,7 +15,7 @@ public class InstallExplorer : InstallBase
             {
                 Debug.Log("탐색기 설치 가능");
 
-                App.Manager.Map.mapCtrl.droneCtrl.PreparingExplorer();
+                App.Manager.Map.droneCtrl.PreparingExplorer();
             }
         }
     }

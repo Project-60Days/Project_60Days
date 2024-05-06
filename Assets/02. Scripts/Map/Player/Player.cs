@@ -82,7 +82,7 @@ public class Player : MonoBehaviour
             for (int i = 0; i < MovePath.Count; i++)
             {
                 Coords coords = MovePath[i];
-                targetTile = App.Manager.Map.mapCtrl.GetTileFromCoords(coords);
+                targetTile = App.Manager.Map.GetTileFromCoords(coords);
 
                 if (targetTile == null)
                     break;
@@ -101,20 +101,20 @@ public class Player : MonoBehaviour
         MovePath.Clear();
         moveRange = 0;
 
-        App.Manager.Map.mapCtrl.UpdateCurrentTile(targetTileController);
+        App.Manager.Map.UpdateCurrentTile(targetTileController);
     }
 
     public void MoveToRandom(int num = 1)
     {
-        var candidate = App.Manager.Map.mapCtrl.GetTilesInRange(num, App.Manager.Map.mapCtrl.tileCtrl.Model);
+        var candidate = App.Manager.Map.GetTilesInRange(num, App.Manager.Map.tileCtrl.Model);
 
-        Vector3 targetPos = App.Manager.Map.mapCtrl.tileCtrl.transform.position;
+        Vector3 targetPos = App.Manager.Map.tileCtrl.transform.position;
         Tile tile = candidate[0];
         bool isFindPath = false;
         
         for (int i = 0; i < candidate.Count; i++)
         {
-            if (App.Manager.Map.mapCtrl.CheckTileType(candidate[i], "LandformPlain")) 
+            if (App.Manager.Map.CheckTileType(candidate[i], "LandformPlain")) 
             {
                 if (((GameObject)candidate[i].GameEntity).GetComponent<TileBase>().structure == null &&
                     ((GameObject)candidate[i].GameEntity).GetComponent<TileBase>().currZombies == null)
@@ -136,7 +136,7 @@ public class Player : MonoBehaviour
 
         if (isFindPath)
         {
-            App.Manager.Map.mapCtrl.UpdateCurrentTile(((GameObject)tile.GameEntity).GetComponent<TileController>());
+            App.Manager.Map.UpdateCurrentTile(((GameObject)tile.GameEntity).GetComponent<TileController>());
         }
             
     }
@@ -219,12 +219,12 @@ public class Player : MonoBehaviour
 
     public void AddSightRange(int _amount)
     {
-        App.Manager.Map.mapCtrl.fog.AddSightRange(_amount);
+        App.Manager.Map.fog.AddSightRange(_amount);
     }
     
     public void TileEffectCheck()
     {
-        var tileBase = App.Manager.Map.mapCtrl.tileCtrl.GetComponent<TileBase>();
+        var tileBase = App.Manager.Map.tileCtrl.GetComponent<TileBase>();
 
         tileBase.Buff(this);
         tileBase.DeBuff(this);

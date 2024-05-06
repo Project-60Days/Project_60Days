@@ -1,18 +1,18 @@
 using UnityEngine;
 
-public class ArrowCtrl : MonoBehaviour
+public class ArrowUnit : MapBase
 {
     [SerializeField] GameObject arrowPrefab;
 
     private GameObject arrow;
 
-    public void Init()
+    public override void Init()
     {
         arrow = Instantiate(arrowPrefab, Vector3.zero, Quaternion.identity);
         arrow.SetActive(false);
     }
 
-    public void ReInit()
+    public override void ReInit()
     {
         arrow.SetActive(false);
     }

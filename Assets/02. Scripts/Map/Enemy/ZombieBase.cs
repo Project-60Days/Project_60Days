@@ -164,9 +164,9 @@ public class ZombieBase : MonoBehaviour
     {
         CheckTileEffect(currTile);
 
-        isChasingPlayer = App.Manager.Map.mapCtrl.CalculateDistanceToPlayer(currTile, dectectionRange);
+        isChasingPlayer = App.Manager.Map.CalculateDistanceToPlayer(currTile, dectectionRange);
 
-        nearthDistrubtor = App.Manager.Map.mapCtrl.droneCtrl.CalculateDistanceToDistrubtor(currTile, dectectionRange);
+        nearthDistrubtor = App.Manager.Map.droneCtrl.CalculateDistanceToDistrubtor(currTile, dectectionRange);
 
         ActionDecision();
     }
@@ -191,13 +191,13 @@ public class ZombieBase : MonoBehaviour
             return;
         }
 
-        if (isChasingPlayer && !App.Manager.Map.mapCtrl.playerCtrl.player.GetIsClocking())
+        if (isChasingPlayer && !App.Manager.Map.playerCtrl.player.GetIsClocking())
         {
             //Debug.Log(gameObject.name + "가 플레이어를 발견했습니다!");
-            MoveToAttack(App.Manager.Map.mapCtrl.tileCtrl.Model);
+            MoveToAttack(App.Manager.Map.tileCtrl.Model);
 
             // 플레이어 바라보기
-            var updatePos = App.Manager.Map.mapCtrl.playerCtrl.player.transform.position;
+            var updatePos = App.Manager.Map.playerCtrl.player.transform.position;
             updatePos.y += 0.6f;
             transform.LookAt(updatePos);
         }
@@ -218,10 +218,10 @@ public class ZombieBase : MonoBehaviour
         Tile pointTile;
         Vector3 pointPos;
 
-        if (movePath.Count == 0 && target == App.Manager.Map.mapCtrl.tileCtrl.Model)
+        if (movePath.Count == 0 && target == App.Manager.Map.tileCtrl.Model)
         {
             // 플레이어가 1칸 내에 있는 경우
-            AttackPlayer(App.Manager.Map.mapCtrl.playerCtrl.player);
+            AttackPlayer(App.Manager.Map.playerCtrl.player);
         }
         else
         {
@@ -232,7 +232,7 @@ public class ZombieBase : MonoBehaviour
 
             for (int i = 0; i < moveCost; i++)
             {
-                pointTile = App.Manager.Map.mapCtrl.GetTileFromCoords(movePath[i]);
+                pointTile = App.Manager.Map.GetTileFromCoords(movePath[i]);
                 pointPos = ((GameObject)pointTile.GameEntity).transform.position;
                 pointPos.y += 0.6f;
 
@@ -253,7 +253,7 @@ public class ZombieBase : MonoBehaviour
 
     public IEnumerator MoveToRandom(int num = 1, float time = 0.25f)
     {
-        var candidate = App.Manager.Map.mapCtrl.GetTilesInRange(num, currTile);
+        var candidate = App.Manager.Map.GetTilesInRange(num, currTile);
         int rand = Random.Range(0, candidate.Count);
 
         while (((GameObject)candidate[rand].GameEntity).gameObject.layer == 8)
@@ -262,7 +262,7 @@ public class ZombieBase : MonoBehaviour
             rand = Random.Range(0, candidate.Count);
         }
 
-        if (candidate[rand] == App.Manager.Map.mapCtrl.tileCtrl.Model)
+        if (candidate[rand] == App.Manager.Map.tileCtrl.Model)
             rand--;
         var targetPos = ((GameObject)candidate[rand].GameEntity).transform.position;
         targetPos.y += 0.6f;

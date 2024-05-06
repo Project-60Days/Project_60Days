@@ -4,7 +4,7 @@ using UnityEngine;
 using Hexamap;
 using FischlWorks_FogWar;
 
-public class PlayerCtrl : MonoBehaviour
+public class PlayerUnit : MapBase
 {
     [Header("ÄÄÆ÷³ÍÆ®")]
     [Space(5f)]
@@ -15,21 +15,15 @@ public class PlayerCtrl : MonoBehaviour
     [SerializeField] GameObject prefab;
     public csFogWar fog;
     public Player player { get; private set; }
-    MapData data;
 
     public int PlayerMoveRange => player.MoveRange;
     public bool IsMovePathSaved() => player.MovePath != null;
 
     public Vector3 PlayerTransform => player.transform.position;
 
-    private void Start()
+    public override void Init()
     {
-        data = App.Manager.Test.mapData;
-    }
-
-    public void SpawnPlayer()
-    {
-        Vector3 spawnPos = App.Manager.Map.mapCtrl.TileToTileController(hexaMap.Map.GetTileFromCoords(new Coords(0, 0))).transform.position;
+        Vector3 spawnPos = App.Manager.Map.TileToTileController(hexaMap.Map.GetTileFromCoords(new Coords(0, 0))).transform.position;
         spawnPos.y += 0.7f;
 
         var playerObject = Instantiate(prefab, spawnPos,
@@ -38,23 +32,24 @@ public class PlayerCtrl : MonoBehaviour
         player.transform.parent = mapParentTransform;
         player.InputDefaultData(data.playerMovementPoint, data.durability);
 
-        App.Manager.Map.mapCtrl.UpdateCurrentTile(App.Manager.Map.mapCtrl.TileToTileController(hexaMap.Map.GetTileFromCoords(new Coords(0, 0))));
+        App.Manager.Map.UpdateCurrentTile(App.Manager.Map.TileToTileController(hexaMap.Map.GetTileFromCoords(new Coords(0, 0))));
 
+        SpawnFog();
         //player.TileEffectCheck();
     }
 
-    public void SpawnFog()
+    private void SpawnFog()
     {
         fog.InitializeMapControllerObjects(player.gameObject, data.fogSightRange);
     }
 
-    public void ReInit()
+    public override void ReInit()
     {
         player.ChangeClockBuffDuration();
 
         if (IsMovePathSaved())
         {
-            player.ActionDecision(App.Manager.Map.mapCtrl.targetTile);
+            player.ActionDecision(App.Manager.Map.targetTile);
         }
 
         player.SetHealth(true);

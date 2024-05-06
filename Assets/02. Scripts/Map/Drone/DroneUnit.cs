@@ -5,7 +5,7 @@ using UnityEngine;
 using Hexamap;
 using DG.Tweening;
 
-public class DroneCtrl : MonoBehaviour
+public class DroneUnit : MapBase
 {
     [Header("컴포넌트")]
     [Space(5f)]
@@ -26,7 +26,11 @@ public class DroneCtrl : MonoBehaviour
 
     List<TileController> droneSelectedTiles = new List<TileController>();
 
-    public void ReInit()
+    public override void Init()
+    {
+        
+    }
+    public override void ReInit()
     {
         if (drones.Count <= 0) return;
 
@@ -38,7 +42,7 @@ public class DroneCtrl : MonoBehaviour
 
     public void PreparingDistrubtor()
     {
-        var neighborTiles = hexaMap.Map.GetTilesInRange(App.Manager.Map.mapCtrl.tileCtrl.Model, 1);
+        var neighborTiles = hexaMap.Map.GetTilesInRange(App.Manager.Map.tileCtrl.Model, 1);
 
         var neighborController = neighborTiles
             .Select(x => ((GameObject)x.GameEntity).GetComponent<TileController>()).ToList();
@@ -46,7 +50,7 @@ public class DroneCtrl : MonoBehaviour
         for (var index = 0; index < neighborController.Count; index++)
         {
             var value = neighborController[index];
-            if (App.Manager.Map.mapCtrl.LandformCheck(value) == false)
+            if (App.Manager.Map.LandformCheck(value) == false)
                 continue;
             droneSelectedTiles.Add(value);
             SelectTargetBorder(value);
@@ -61,7 +65,7 @@ public class DroneCtrl : MonoBehaviour
         Debug.Log("예시 교란기");
 
         currDisruptor = Instantiate(disruptorPrefab,
-            App.Manager.Map.mapCtrl.playerCtrl.PlayerTransform + Vector3.up * 1.5f, Quaternion.Euler(0, 90, 0));
+            App.Manager.Map.playerCtrl.PlayerTransform + Vector3.up * 1.5f, Quaternion.Euler(0, 90, 0));
 
         currDisruptor.transform.parent = mapTransform;
         currDisruptor.GetComponentInChildren<MeshRenderer>(true).material.DOFade(50, 0);
@@ -88,10 +92,10 @@ public class DroneCtrl : MonoBehaviour
 
             currDisruptor.GetComponent<Distrubtor>().DirectionObjectOff();
 
-            if (App.Manager.Map.mapCtrl.LandformCheck(tileController))
-                App.Manager.Map.mapCtrl.SelectBorder(tileController, ETileState.Moveable);
+            if (App.Manager.Map.LandformCheck(tileController))
+                App.Manager.Map.SelectBorder(tileController, ETileState.Moveable);
 
-            foreach (var item in App.Manager.Map.mapCtrl.tileCtrl.Model.Neighbours.Where(
+            foreach (var item in App.Manager.Map.tileCtrl.Model.Neighbours.Where(
                          item => item.Value == tileController.Model))
             {
                 currDisruptor.GetComponent<Distrubtor>().GetDirectionObject(item.Key).SetActive(true);
@@ -99,7 +103,7 @@ public class DroneCtrl : MonoBehaviour
         }
         else
         {
-            App.Manager.Map.mapCtrl.SelectBorder(tileController, ETileState.Unable);
+            App.Manager.Map.SelectBorder(tileController, ETileState.Unable);
         }
     }
 
@@ -134,12 +138,12 @@ public class DroneCtrl : MonoBehaviour
     void GenerateExampleExplorer()
     {
         currExplorer = Instantiate(explorerPrefab,
-            App.Manager.Map.mapCtrl.playerCtrl.PlayerTransform + Vector3.up * 1.5f, Quaternion.Euler(0, 90, 0));
+            App.Manager.Map.playerCtrl.PlayerTransform + Vector3.up * 1.5f, Quaternion.Euler(0, 90, 0));
 
         currExplorer.transform.parent = mapTransform;
 
         currExplorer.GetComponentInChildren<MeshRenderer>().material.DOFade(50, 0);
-        currExplorer.GetComponent<Explorer>().Set(App.Manager.Map.mapCtrl.tileCtrl.Model);
+        currExplorer.GetComponent<Explorer>().Set(App.Manager.Map.tileCtrl.Model);
 
         explorers.Add(currExplorer);
         drones.Add(currExplorer.GetComponent<DroneBase>());
@@ -155,13 +159,13 @@ public class DroneCtrl : MonoBehaviour
 
     public void SelectTileForDisturbtor(TileController tileController)
     {
-        if (App.Manager.Map.mapCtrl.LandformCheck(tileController) == false)
+        if (App.Manager.Map.LandformCheck(tileController) == false)
             return;
 
         if (tileController.GetComponent<Borders>().GetEtileState() == ETileState.Moveable
-            && App.Manager.Map.mapCtrl.tileCtrl.Model != tileController.Model)
+            && App.Manager.Map.tileCtrl.Model != tileController.Model)
         {
-            foreach (var item in App.Manager.Map.mapCtrl.tileCtrl.Model.Neighbours.Where(
+            foreach (var item in App.Manager.Map.tileCtrl.Model.Neighbours.Where(
                          item => item.Value == tileController.Model))
             {
                 Debug.Log("설치 시작");
@@ -173,7 +177,7 @@ public class DroneCtrl : MonoBehaviour
     public void SelectTileForExplorer(TileController tileController)
     {
         if (tileController.GetComponent<Borders>().GetEtileState() == ETileState.Moveable
-            && App.Manager.Map.mapCtrl.tileCtrl.Model != tileController.Model)
+            && App.Manager.Map.tileCtrl.Model != tileController.Model)
         {
             InstallExplorer(tileController);
         }

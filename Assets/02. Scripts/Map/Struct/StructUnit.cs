@@ -4,7 +4,7 @@ using UnityEngine;
 using Hexamap;
 using System;
 
-public class StructCtrl : MonoBehaviour
+public class StructUnit : MapBase
 {
     [SerializeField] GameObject towerPrefab;
     [SerializeField] GameObject productionPrefab;
@@ -14,12 +14,15 @@ public class StructCtrl : MonoBehaviour
 
     public List<StructureObject> GetStructureObjects() => objectsTransform.GetComponentsInChildren<StructureObject>(true).ToList();
 
-    public void Init()
+    public override void Init()
     {
         GenerateTower();
         GenerateArmy(new Coords(0, 0));
         GenerateProduction(new Coords(0, 0));
     }
+
+    public override void ReInit() { }
+
     public void GenerateTower()
     {
         // 경계선으로부터 2칸 이내 범위 
@@ -29,7 +32,7 @@ public class StructCtrl : MonoBehaviour
         var tilelist = new List<Tile>();
 
         // 튜토리얼 용 위치 고정
-        Tile tile = App.Manager.Map.mapCtrl.GetTileFromCoords(new Coords(1, 3));
+        Tile tile = App.Manager.Map.GetTileFromCoords(new Coords(1, 3));
 
         tilelist.Add(tile);
 
@@ -45,7 +48,7 @@ public class StructCtrl : MonoBehaviour
 
         ((GameObject)tile.GameEntity).GetComponent<TileBase>().SpawnQuestStructure(neighborList, tower);
 
-        App.Manager.Map.mapCtrl.preemptiveTiles.Add(tile);
+        App.Manager.Map.preemptiveTiles.Add(tile);
     }
 
     public void GenerateProduction(Coords _coords)
@@ -73,7 +76,7 @@ public class StructCtrl : MonoBehaviour
 
         foreach (var item in tilelist)
         {
-            App.Manager.Map.mapCtrl.preemptiveTiles.Add(item);
+            App.Manager.Map.preemptiveTiles.Add(item);
         }
 
         List<Tile> neighborList = SetNeighborStructure(tilelist);
@@ -120,7 +123,7 @@ public class StructCtrl : MonoBehaviour
 
         foreach (var item in tilelist)
         {
-            App.Manager.Map.mapCtrl.preemptiveTiles.Add(item);
+            App.Manager.Map.preemptiveTiles.Add(item);
         }
 
         List<Tile> neighborList = SetNeighborStructure(tilelist);
@@ -150,7 +153,7 @@ public class StructCtrl : MonoBehaviour
 
     List<Tile> ObjectSpawnDistanceCalculate(int range)
     {
-        var tileList = App.Manager.Map.mapCtrl.GetAllTiles();
+        var tileList = App.Manager.Map.GetAllTiles();
 
         int biggerInt = 0;
         int maxInt = 0;
@@ -167,7 +170,7 @@ public class StructCtrl : MonoBehaviour
                 maxInt = biggerInt;
         }
 
-        List<Tile> excludeTileList = App.Manager.Map.mapCtrl.GetTilesInRange(maxInt - range, App.Manager.Map.mapCtrl.GetTileFromCoords(new Coords(0, 0)));
+        List<Tile> excludeTileList = App.Manager.Map.GetTilesInRange(maxInt - range, App.Manager.Map.GetTileFromCoords(new Coords(0, 0)));
         return excludeTileList;
     }
 
@@ -210,12 +213,12 @@ public class StructCtrl : MonoBehaviour
         {
             int randomInt = UnityEngine.Random.Range(0, tiles.Count);
 
-            if (App.Manager.Map.mapCtrl.ConditionalBranch(type, tiles[randomInt]))
+            if (App.Manager.Map.ConditionalBranch(type, tiles[randomInt]))
             {
                 if (selectTileNumber.Contains(randomInt) == false)
                 {
                     selectTileNumber.Add(randomInt);
-                    App.Manager.Map.mapCtrl.preemptiveTiles.Add(tiles[randomInt]);
+                    App.Manager.Map.preemptiveTiles.Add(tiles[randomInt]);
                 }
             }
         }
@@ -245,11 +248,11 @@ public class StructCtrl : MonoBehaviour
 
     public StructureBase SensingStructure()
     {
-        var tileList = App.Manager.Map.mapCtrl.tileCtrl.Model.Neighbours;
+        var tileList = App.Manager.Map.tileCtrl.Model.Neighbours;
 
         foreach (var item in tileList)
         {
-            if (App.Manager.Map.mapCtrl.LandformCheck(App.Manager.Map.mapCtrl.TileToTileController(item.Value)) == false)
+            if (App.Manager.Map.LandformCheck(App.Manager.Map.TileToTileController(item.Value)) == false)
                 continue;
 
             var tileBase = ((GameObject)item.Value.GameEntity).GetComponent<TileBase>();

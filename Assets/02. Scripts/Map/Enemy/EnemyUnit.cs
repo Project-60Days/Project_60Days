@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Hexamap;
 
-public class EnemyCtrl : MonoBehaviour
+public class EnemyUnit : MapBase
 {
     List<GameObject> enemyList = new List<GameObject>();
     [SerializeField] GameObject enemyPrefab;
@@ -13,6 +13,10 @@ public class EnemyCtrl : MonoBehaviour
     [SerializeField]
     Transform enemyTrans;
 
+    public override void Init()
+    {
+        
+    }
 
     public void SpawnZombies(List<Tile> _tileList, List<int> _selectList)
     {
@@ -27,7 +31,7 @@ public class EnemyCtrl : MonoBehaviour
                 Quaternion.Euler(0, Random.Range(0, 360), 0), enemyTrans);
             zombie.name = "Zombie " + (i + 1);
             zombie.GetComponent<ZombieBase>().Init(tile);
-            zombie.GetComponent<ZombieBase>().SetValue(App.Manager.Map.data.playerMovementPoint, App.Manager.Map.data.zombieDetectionRange);
+            zombie.GetComponent<ZombieBase>().SetValue(data.playerMovementPoint, data.zombieDetectionRange);
             enemyList.Add(zombie);
         }
     }
@@ -50,7 +54,7 @@ public class EnemyCtrl : MonoBehaviour
         enemyList.Add(zombie);
     }
 
-    public void ReInit()
+    public override void ReInit()
     {
         MoveEnemy();
         CheckSumZombies();
@@ -99,7 +103,7 @@ public class EnemyCtrl : MonoBehaviour
 
     public bool CheckZombies()
     {
-        var playerNearthTiles = App.Manager.Map.mapCtrl.GetTilesInRange(2);
+        var playerNearthTiles = App.Manager.Map.GetTilesInRange(2);
 
         for (int i = 0; i < enemyList.Count; i++)
         {

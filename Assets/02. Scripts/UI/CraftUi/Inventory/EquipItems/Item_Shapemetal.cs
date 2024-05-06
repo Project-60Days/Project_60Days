@@ -14,7 +14,7 @@ public class Item_Shapemetal : ItemBase
         beforeDurabillity = App.Manager.Game.durability;
 
         App.Manager.Game.durability += (int)data.value1;
-        App.Manager.Map.mapCtrl.playerCtrl.player.ClockUntil((int)data.value2);
+        App.Manager.Map.playerCtrl.player.ClockUntil((int)data.value2);
         App.Manager.UI.GetPanel<UpperPanel>().IncreaseDurabillityAnimation();
     }
 

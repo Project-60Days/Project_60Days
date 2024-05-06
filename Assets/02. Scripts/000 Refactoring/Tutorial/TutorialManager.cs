@@ -19,7 +19,7 @@ public class TutorialManager : Manager
 
     private IEnumerator WaitForLoad()
     {
-        yield return new WaitUntil(() => App.Manager.Map.mapCtrl.playerCtrl.player != null);
+        yield return new WaitUntil(() => App.Manager.Map.playerCtrl.player != null);
 
         StartTutorial();
     }

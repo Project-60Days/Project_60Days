@@ -12,7 +12,7 @@ namespace Hexamap
 
         public Map Map { get; private set; }
 
-        public void Start()
+        private void Awake()
         {
             if (GenerateOnStartup)
             {

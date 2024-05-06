@@ -17,7 +17,7 @@ public class MapCamCtrl : MonoBehaviour
         Map = App.Manager.Map;
         Sound = App.Manager.Sound;
 
-        Transform player = Map.mapCtrl.playerCtrl.player.GetComponent<Transform>();
+        Transform player = Map.playerCtrl.player.GetComponent<Transform>();
         mapCamera.Follow = player;
         mapCamera.m_Lens.OrthographicSize = 6.5f;
 
@@ -71,7 +71,7 @@ public class MapCamCtrl : MonoBehaviour
             .AppendCallback(() =>
             {
                 SetPrioryty(true);
-                var currTile = Map.mapCtrl.tileCtrl.GetComponent<TileBase>();
+                var currTile = Map.tileCtrl.GetComponent<TileBase>();
                 Sound.PlayBGM(Map.GetLandformBGM(currTile));
                 UI.TileInfo(false);
             })
@@ -79,7 +79,7 @@ public class MapCamCtrl : MonoBehaviour
             .OnComplete(()=> 
             {
                 App.Manager.Map.GetCameraCenterTile();
-                App.Manager.Map.mapCtrl.droneCtrl.InvocationExplorers();
+                App.Manager.Map.droneCtrl.InvocationExplorers();
             });
     }
 }

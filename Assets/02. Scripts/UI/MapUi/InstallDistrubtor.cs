@@ -14,7 +14,7 @@ public class InstallDistrubtor : InstallBase
             if (App.Manager.Map.CheckCanInstallDrone())
             {
                 Debug.Log("교란기 설치 가능");
-                App.Manager.Map.mapCtrl.droneCtrl.PreparingDistrubtor();
+                App.Manager.Map.droneCtrl.PreparingDistrubtor();
             }
         }
     }

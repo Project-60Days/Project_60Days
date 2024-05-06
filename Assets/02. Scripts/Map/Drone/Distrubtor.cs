@@ -42,7 +42,7 @@ public class Distrubtor : DroneBase
         }
         else
         {
-            App.Manager.Map.mapCtrl.droneCtrl.RemoveDistrubtor(this);
+            App.Manager.Map.droneCtrl.RemoveDistrubtor(this);
             StopAllCoroutines();
             Destroy(gameObject);
         }

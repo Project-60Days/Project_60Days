@@ -10,7 +10,7 @@ public class IconMap : IconBase
     [SerializeField] Sprite tundra;
 
     private Image image;
-    private MapController mapCtrl;
+    private MapManager Map;
 
     private TileType type;
 
@@ -18,21 +18,21 @@ public class IconMap : IconBase
     {
         base.Start();
 
-        mapCtrl = App.Manager.Map.mapCtrl;
+        Map = App.Manager.Map;
         image = GetComponent<Image>();
         StartCoroutine(Init());
     }
 
     private IEnumerator Init()
     {
-        yield return new WaitUntil(() => App.Manager.Map.mapCtrl.tileCtrl != null);
+        yield return new WaitUntil(() => App.Manager.Map.tileCtrl != null);
 
         ResetIcon();
     }
 
     public void ResetIcon()
     {
-        var tile = mapCtrl.tileCtrl;
+        var tile = Map.tileCtrl;
         type = tile.GetComponent<TileBase>().GetTileType();
 
         image.sprite = SetImage();
