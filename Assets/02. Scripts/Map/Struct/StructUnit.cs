@@ -10,87 +10,68 @@ public class StructUnit : MapBase
     [SerializeField] GameObject productionPrefab;
     [SerializeField] GameObject armyPrefab;
 
-    [SerializeField] Transform objectsTransform;
-
-    public List<StructureBase> GetStructureObjects() => objectsTransform.GetComponentsInChildren<StructureBase>(true).ToList();
+    public List<StructBase> GetStructObjects() => transform.GetComponentsInChildren<StructBase>(true).ToList();
 
     public override void Init()
     {
         GenerateTower();
-        GenerateArmy(new Coords(0, 0));
-        GenerateProduction(new Coords(0, 0));
+        GenerateArmy();
+        GenerateProduction();
     }
 
-    public override void ReInit() { }
+    public override void ReInit() 
+    {
+        SenseStruct()?.Around();
+    }
 
     public void GenerateTower()
     {
-        // 경계선으로부터 2칸 이내 범위 
-        // List<int> selectedTiles = RandomTileSelect(ObjectSpawnDistanceCalculate(2),
-        //     EObjectSpawnType.ExcludeEntites, 1);
-
-        var tilelist = new List<Tile>();
-
-        // 튜토리얼 용 위치 고정
         Tile tile = App.Manager.Map.GetTileFromCoords(new Coords(1, 3));
 
-        tilelist.Add(tile);
+        var tilelist = new List<Tile>
+        {
+            tile
+        };
 
-        List<Tile> neighborList = SetNeighborStructure(tilelist);
+        var spawnPos = ((GameObject)tile.GameEntity).transform.position + new Vector3(0, 0.31f, 0);
 
-        var spawnPos = ((GameObject)tile.GameEntity).transform.position;
-        spawnPos.y += 0.31f;
+        var tower = Instantiate(towerPrefab, spawnPos, Quaternion.Euler(0, 90, 0), transform).GetComponent<StructBase>();
 
-        var tower = Instantiate(towerPrefab, spawnPos, Quaternion.Euler(0, 90, 0),
-            objectsTransform);
+        tower.Init(tilelist);
 
-        tower.GetComponent<StructureBase>().Init(neighborList, tilelist);
-
-        ((GameObject)tile.GameEntity).GetComponent<TileBase>().SetTower(tower.GetComponent<StructureBase>());
+        ((GameObject)tile.GameEntity).GetComponent<TileBase>().SetTower(tower);
 
         App.Manager.Map.preemptiveTiles.Add(tile);
     }
 
-    public void GenerateProduction(Coords _coords)
+    public void GenerateProduction()
     {
-        //경계선으로부터 5칸 이내 범위 
-        var boundaryTiles = ObjectSpawnDistanceCalculate(8);
-        List<int> selectNumber = RandomTileSelect(boundaryTiles, EObjectSpawnType.ExcludeEntites, 1);
+        var boundaryTiles = GetInRangeTile(8);
+        Tile centerTile = GetRandomTile(boundaryTiles, 1)[0];
 
-        var tilelist = new List<Tile>();
-
-        // 튜토리얼 용 위치 고정
-        //Tile tile = GetTileFromCoords(_coords);
-
-        Tile tile = boundaryTiles[selectNumber[0]];
-
-        tilelist.Add(tile);
-        tilelist.Add(tile.Neighbours[CompassPoint.N]);
-        tilelist.Add(tile.Neighbours[CompassPoint.S]);
-        tilelist.Add(tile.Neighbours[CompassPoint.NE]);
-        tilelist.Add(tile.Neighbours[CompassPoint.SE]);
-        tilelist.Add(tile.Neighbours[CompassPoint.NW]);
-        tilelist.Add(tile.Neighbours[CompassPoint.SW]);
-
-        foreach (var item in tilelist)
+        var tileList = new List<Tile>
         {
-            App.Manager.Map.preemptiveTiles.Add(item);
-        }
+            centerTile,
+            centerTile.Neighbours[CompassPoint.N],
+            centerTile.Neighbours[CompassPoint.S],
+            centerTile.Neighbours[CompassPoint.NE],
+            centerTile.Neighbours[CompassPoint.SE],
+            centerTile.Neighbours[CompassPoint.NW],
+            centerTile.Neighbours[CompassPoint.SW]
+        };
 
-        List<Tile> neighborList = SetNeighborStructure(tilelist);
+        AddPreemptiveTile(tileList);
 
-        var spawnPos = ((GameObject)tile.GameEntity).transform.position;
-        spawnPos.y += 0.2f;
+        var spawnPos = ((GameObject)centerTile.GameEntity).transform.position + new Vector3(0, 0.2f, 0);
 
-        var structure = Instantiate(productionPrefab, spawnPos, Quaternion.Euler(0, 180, 0),
-            objectsTransform);
+        var structure = Instantiate(productionPrefab, spawnPos, Quaternion.Euler(0, 180, 0), transform).GetComponent<StructBase>();
 
-        structure.GetComponent<StructureBase>().Init(neighborList, tilelist);
+        structure.Init(tileList);
 
-        for (var index = 0; index < tilelist.Count; index++)
+        foreach (var tile in tileList)
         {
-            var tileBase = ((GameObject)tilelist[index].GameEntity).GetComponent<TileBase>();
-            tileBase.SetProduction(structure.GetComponent<StructureBase>());
+            var tileBase = ((GameObject)tile.GameEntity).GetComponent<TileBase>();
+            tileBase.SetProduction(structure);
 
             var position = tileBase.transform.position;
             position.y = ((GameObject)tile.GameEntity).transform.position.y;
@@ -98,146 +79,88 @@ public class StructUnit : MapBase
         }
     }
 
-    public void GenerateArmy(Coords _coords)
+    public void GenerateArmy()
     {
-        //경계선으로부터 5칸 이내 범위 
-        var boundaryTiles = ObjectSpawnDistanceCalculate(7);
-        List<int> selectNumber = RandomTileSelect(boundaryTiles, EObjectSpawnType.ExcludeEntites, 1);
+        var boundaryTiles = GetInRangeTile(7);
+        Tile centerTile = GetRandomTile(boundaryTiles, 1)[0];
 
-        var tilelist = new List<Tile>();
-
-        Tile tile = boundaryTiles[selectNumber[0]];
-
-        // 튜토리얼 용 위치 고정
-        //Tile tile = GetTileFromCoords(_coords);
-
-        tilelist.Add(tile);
-        tilelist.Add(tile.Neighbours[CompassPoint.NW]);
-        tilelist.Add(tile.Neighbours[CompassPoint.SW]);
-
-        foreach (var item in tilelist)
+        var tileList = new List<Tile>
         {
-            App.Manager.Map.preemptiveTiles.Add(item);
-        }
+            centerTile,
+            centerTile.Neighbours[CompassPoint.NW],
+            centerTile.Neighbours[CompassPoint.SW]
+        };
 
-        List<Tile> neighborList = SetNeighborStructure(tilelist);
+        AddPreemptiveTile(tileList);
 
-        var spawnPos = ((GameObject)tile.GameEntity).transform.position;
-        spawnPos.y += 0.5f;
+        var spawnPos = ((GameObject)centerTile.GameEntity).transform.position + new Vector3(0, 0.5f, 0);
 
-        var structure = Instantiate(armyPrefab, spawnPos, Quaternion.Euler(0, 90, 0),
-            objectsTransform);
+        var structure = Instantiate(armyPrefab, spawnPos, Quaternion.Euler(0, 90, 0), transform).GetComponent<StructBase>();
 
-        structure.GetComponent<StructureBase>().Init(neighborList, tilelist);
+        structure.Init(tileList);
 
-        for (var index = 0; index < tilelist.Count; index++)
+        for (var index = 0; index < tileList.Count; index++)
         {
-            var tileBase = ((GameObject)tilelist[index].GameEntity).GetComponent<TileBase>();
-            tileBase.SetArmy(structure.GetComponent<StructureBase>());
+            var tileBase = ((GameObject)tileList[index].GameEntity).GetComponent<TileBase>();
+            tileBase.SetArmy(structure);
 
             var position = tileBase.transform.position;
-            position.y = ((GameObject)tile.GameEntity).transform.position.y;
+            position.y = ((GameObject)centerTile.GameEntity).transform.position.y;
             tileBase.transform.position = position;
         }
     }
 
 
-    List<Tile> ObjectSpawnDistanceCalculate(int range)
+    private List<Tile> GetInRangeTile(int range)
     {
         var tileList = App.Manager.Map.GetAllTiles();
 
-        int biggerInt = 0;
-        int maxInt = 0;
+        int maxDistance = 0;
 
-        for (int i = 0; i < tileList.Count; i++)
+        foreach (var tile in tileList)
         {
-            Tile lastIndex = tileList[i];
-
-            biggerInt = Math.Abs(lastIndex.Coords.X) > Math.Abs(lastIndex.Coords.Y)
-                ? Math.Abs(lastIndex.Coords.X)
-                : Math.Abs(lastIndex.Coords.Y);
-
-            if (biggerInt > maxInt)
-                maxInt = biggerInt;
+            int distance = Math.Max(Math.Abs(tile.Coords.X), Math.Abs(tile.Coords.Y));
+            maxDistance = Math.Max(maxDistance, distance);
         }
 
-        List<Tile> excludeTileList = App.Manager.Map.GetTilesInRange(maxInt - range, App.Manager.Map.GetTileFromCoords(new Coords(0, 0)));
-        return excludeTileList;
+        return App.Manager.Map.GetTilesInRange(maxDistance - range, App.Manager.Map.GetTileFromCoords(new Coords(0, 0)));
     }
 
-
-
-    List<Tile> SetNeighborStructure(List<Tile> tiles)
+    public List<Tile> GetRandomTile(List<Tile> tiles, int choiceNum = 1)
     {
-        List<Tile> neighborTiles = new List<Tile>();
+        tiles.Remove(App.Manager.Map.tileCtrl.Model);
 
-        for (int i = 0; i < tiles.Count; i++)
-        {
-            var tile = tiles[i];
-            var list = tile.Neighbours.Select(kvp => kvp.Value).ToList();
-            neighborTiles.AddRange(list);
-        }
-
-        neighborTiles = neighborTiles.Distinct().ToList();
-
-        for (var index = 0; index < neighborTiles.Count; index++)
-        {
-            var tile = neighborTiles[index];
-        }
-
-        return neighborTiles;
+        return Shuffle(tiles, choiceNum);
     }
 
-
-    public List<int> RandomTileSelect(List<Tile> tiles, EObjectSpawnType type, int choiceNum = 1)
+    private List<T> Shuffle<T>(List<T> _list, int _range)
     {
-        List<int> selectTileNumber = new List<int>();
+        System.Random rand = new();
 
-        if (tiles == null || tiles.Count == 0)
+        int n = _list.Count;
+
+        while (n > 1)
         {
-            selectTileNumber.Add(5);
-            return selectTileNumber;
+            n--;
+            int k = rand.Next(n + 1);
+
+            T value = _list[k];
+            _list[k] = _list[n];
+            _list[n] = value;
         }
 
-        // 플레이어와 겹치지 않는 랜덤 타일 뽑기.
-        while (selectTileNumber.Count != choiceNum)
+        return _list.GetRange(0, _range);
+    }
+
+    void AddPreemptiveTile(List<Tile> _tiles)
+    {
+        foreach (var tile in _tiles)
         {
-            int randomInt = UnityEngine.Random.Range(0, tiles.Count);
-
-            if (App.Manager.Map.ConditionalBranch(type, tiles[randomInt]))
-            {
-                if (selectTileNumber.Contains(randomInt) == false)
-                {
-                    selectTileNumber.Add(randomInt);
-                    App.Manager.Map.preemptiveTiles.Add(tiles[randomInt]);
-                }
-            }
+            App.Manager.Map.preemptiveTiles.Add(tile);
         }
-
-        return selectTileNumber;
     }
 
-    public bool SensingSignalTower()
-    {
-        var structure = SensingStructure();
-
-        if (structure is Tower)
-            return true;
-        else
-            return false;
-    }
-
-    public bool SensingProductionStructure()
-    {
-        var structure = SensingStructure();
-
-        if (structure is ProductionStructure)
-            return true;
-        else
-            return false;
-    }
-
-    public StructureBase SensingStructure()
+    public StructBase SenseStruct()
     {
         var tileList = App.Manager.Map.tileCtrl.Model.Neighbours;
 
@@ -255,19 +178,7 @@ public class StructUnit : MapBase
         return null;
     }
 
-    /// <summary>
-    /// 현재 타일이 구조물 인접타일인지 확인
-    /// </summary>
-    public void CheckStructureNeighbor()
-    {
-        var structure = SensingStructure();
-        if (structure != null)
-        {
-            if (structure is Tower)
-                if (App.Manager.UI.GetPanel<InventoryPanel>().CheckNetCardUsage() == false) return;
+    public bool SenseTower() => SenseStruct() is StructTower;
 
-            if (structure.isUse == false)
-                App.Manager.UI.GetPanel<PagePanel>().SetSelectPage("structureSelect", structure);
-        }
-    }
+    public bool SenseProduction() => SenseStruct() is StructProduction;
 }

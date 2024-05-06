@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using Hexamap;
 
-public abstract class StructureBase: MonoBehaviour
+public abstract class StructBase: MonoBehaviour
 {
     protected StructData data;
 
@@ -39,7 +39,7 @@ public abstract class StructureBase: MonoBehaviour
     [SerializeField] private Renderer rend;
     [SerializeField] Material cloakingMaterial;
 
-    public virtual void Init(List<Tile> _neighborTiles, List<Tile> _colleagueList)
+    public virtual void Init(List<Tile> _colleagueList)
     {
         data = App.Data.Game.structData[GetCode()];
 
@@ -50,9 +50,14 @@ public abstract class StructureBase: MonoBehaviour
         isUse = false;
         isAccessible = false;
 
-        neighborTiles = _neighborTiles;
+        neighborTiles = _colleagueList.SelectMany(tile => tile.Neighbours.Values).Distinct().ToList();
         colleagues = _colleagueList;
         currTile = _colleagueList[0];
+    }
+
+    public virtual void Around()
+    {
+        App.Manager.UI.GetPanel<PagePanel>().SetSelectPage("structureSelect", this);
     }
 
     public abstract void YesFunc();

@@ -330,7 +330,6 @@ public class MapManager : Manager
     public void CheckRoutine()
     {
         CheckZombies();
-        structCtrl.CheckStructureNeighbor();
     
         InitValue();
     }
@@ -356,12 +355,12 @@ public class MapManager : Manager
         _ => "Ambience_City",
     };
 
-    public void NormalStructureResearch(StructureBase structure)
+    public void NormalStructureResearch(StructBase structure)
     {
         int randomNumber = UnityEngine.Random.Range(1, 4);
 
         if (randomNumber == 3)
-            enemyCtrl.SpawnStructureZombies(structure.colleagueBases);
+            enemyCtrl.SpawnStructureZombies(structure.colleagues);
 
         // 플레이어 체력 0으로 만들어서 경로 선택 막기
         if (isTundraTile)
@@ -372,9 +371,6 @@ public class MapManager : Manager
 
         // 경로 삭제
         MovePathDelete();
-
-        structure.FadeIn();
-        structure.colleagueBases.ForEach(tile => tile.ResourceUpdate(true));
 
         SpawnSpecialItemRandomTile(structure.colleagueBases);
     }
@@ -808,11 +804,11 @@ public class MapManager : Manager
         sightTiles = GetTilesInRange(5, _targetTile);
         sightTiles.Add(_targetTile);
 
-        List<StructureBase> structureObjects = structCtrl.GetStructureObjects();
+        List<StructBase> structureObjects = structCtrl.GetStructObjects();
 
         for (int i = 0; i < structureObjects.Count; i++)
         {
-            StructureBase item = structureObjects[i];
+            StructBase item = structureObjects[i];
 
             if (sightTiles.Contains(item.currTile) == false)
             {

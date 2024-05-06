@@ -1,4 +1,4 @@
-public class ArmyStructure : StructureBase
+public class StructArmy : StructBase
 {
     protected override string GetCode() => "STRUCT_ARMY";
 
@@ -11,6 +11,9 @@ public class ArmyStructure : StructureBase
         }
 
         App.Manager.Map.NormalStructureResearch(this);
+
+        FadeIn();
+        colleagueBases.ForEach(tile => tile.ResourceUpdate(true));
 
         isUse = true;
         isAccessible = true;

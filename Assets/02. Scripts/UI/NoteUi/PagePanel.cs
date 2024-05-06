@@ -77,7 +77,7 @@ public class PagePanel : UIBase
         resultPage.SetNodeName(_nodeName, _isResourceNode);
     }
 
-    public void SetSelectPage(string _nodeName, StructureBase _structData)
+    public void SetSelectPage(string _nodeName, StructBase _structData)
     {
         selectPage.SetNodeName(_nodeName);
         currStruct = _structData.name;

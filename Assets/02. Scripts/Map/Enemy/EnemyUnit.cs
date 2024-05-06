@@ -16,7 +16,8 @@ public class EnemyUnit : MapBase
     public override void Init()
     {
         var tiles = App.Manager.Map.GetAllTiles();
-        var selectList = Shuffle(tiles);
+        tiles.Remove(App.Manager.Map.tileCtrl.Model);
+        var selectList = Shuffle(tiles, data.zombieCount);
 
         foreach (var tile in selectList)
         { 
@@ -28,19 +29,13 @@ public class EnemyUnit : MapBase
         }
     }
 
-    public void SpawnStructureZombies(List<TileBase> tiles)
+    public void SpawnStructureZombies(List<Tile> tiles)
     {
-        var randomInt = Random.Range(0, tiles.Count);
-        var tile = tiles[randomInt];
+        var selectList = Shuffle(tiles, 1);
 
-        var spawnPos = tile.transform.position;
-        spawnPos.y += 0.6f;
+        var zombie = SpawnEnemy(selectList[0]);
 
-        var zombie = Instantiate(enemyPrefab, spawnPos,
-            Quaternion.Euler(0, Random.Range(0, 360), 0), enemyTrans);
-
-        zombie.name = "Structure Zombie";
-        zombie.GetComponent<ZombieBase>().Init(tile.GetComponent<TileController>().Model);
+        zombie.GetComponent<ZombieBase>().Init(selectList[0]);
         zombie.GetComponent<ZombieBase>().Stun();
 
         enemyList.Add(zombie);
@@ -50,7 +45,6 @@ public class EnemyUnit : MapBase
     {
         var spawnPos = ((GameObject)tile.GameEntity).transform.position;
         spawnPos.y += 0.6f;
-
 
         return Instantiate(enemyPrefab, spawnPos,
             Quaternion.Euler(0, Random.Range(0, 360), 0), enemyTrans);
@@ -119,22 +113,22 @@ public class EnemyUnit : MapBase
         return false;
     }
 
-    public List<T> Shuffle<T>(List<T> list)
+    private List<T> Shuffle<T>(List<T> _list, int _range)
     {
-        System.Random rand = new System.Random();
+        System.Random rand = new();
 
-        int n = list.Count;
+        int n = _list.Count;
 
         while (n > 1)
         {
             n--;
             int k = rand.Next(n + 1);
 
-            T value = list[k];
-            list[k] = list[n];
-            list[n] = value;
+            T value = _list[k];
+            _list[k] = _list[n];
+            _list[n] = value;
         }
 
-        return list.GetRange(0, data.zombieCount);
+        return _list.GetRange(0, _range);
     }
 }

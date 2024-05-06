@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using Hexamap;
 
-public class DynamoStructure : StructureBase
+public class DynamoStructure : StructBase
 {
     protected override string GetCode() => "STRUCT_DYNAMO";
 
-    public override void Init(List<Tile> _neighborTiles, List<Tile> _colleagueList)
+    public override void Init(List<Tile> _colleagueList)
     {
-        base.Init(_neighborTiles, _colleagueList);
+        base.Init(_colleagueList);
 
         isUse = true;
     }

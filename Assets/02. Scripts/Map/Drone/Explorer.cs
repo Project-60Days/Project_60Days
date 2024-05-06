@@ -60,7 +60,7 @@ public class Explorer : DroneBase
             if (currTile == targetTile)
             {
                 // 자원
-                App.Manager.Map.fog.AddFogRevealer(new FischlWorks_FogWar.csFogWar.FogRevealer(gameObject.transform, 2, false));
+                App.Manager.Map.fog.Add(gameObject.transform, 2, false);
                 lifeTime -= 1;
             }
 
@@ -82,12 +82,12 @@ public class Explorer : DroneBase
 
         App.Manager.Map.GetSightTiles(currTile);
         App.Manager.Map.droneCtrl.RemoveExplorer(this);
-        App.Manager.Map.fog._FogRevealers[App.Manager.Map.fog._FogRevealers.Count - 1].sightRange = 0;
+        App.Manager.Map.fog.SetRange(0);
 
         goToMap = false;
         isIdle = false;
         yield return delay1;
-        App.Manager.Map.fog.RemoveFogRevealer(1);
+        App.Manager.Map.fog.Remove();
         Destroy(gameObject);
     }
     

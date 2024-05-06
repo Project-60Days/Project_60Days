@@ -40,7 +40,7 @@ public class PlayerUnit : MapBase
 
     private void SpawnFog()
     {
-        fog.InitializeMapControllerObjects(player.gameObject, data.fogSightRange);
+        fog.Add(player.transform, data.fogSightRange, true);
     }
 
     public override void ReInit()

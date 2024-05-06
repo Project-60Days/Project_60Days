@@ -4,13 +4,13 @@ using UnityEngine;
 using System.Linq;
 using Hexamap;
 
-public class ProductionStructure : StructureBase
+public class StructProduction : StructBase
 {
     protected override string GetCode() => "STRUCT_PRODUCTION";
 
-    public override void Init(List<Tile> _neighborTiles, List<Tile> _colleagueList)
+    public override void Init(List<Tile> _colleagueList)
     {
-        base.Init(_neighborTiles, _colleagueList);
+        base.Init(_colleagueList);
 
         App.Data.Game.itemData.TryGetValue(data.SpecialItem, out ItemData itemData);
         specialItem = itemData;
@@ -23,6 +23,9 @@ public class ProductionStructure : StructureBase
             var tile = colleagueBases[index];
             tile.structure.AllowAccess();
         }
+
+        FadeIn();
+        colleagueBases.ForEach(tile => tile.ResourceUpdate(true));
 
         App.Manager.Map.NormalStructureResearch(this);
         isUse = true;

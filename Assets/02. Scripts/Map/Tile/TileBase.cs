@@ -28,7 +28,7 @@ public abstract class TileBase : MonoBehaviour
 
     public ZombieBase currZombies { get; private set; }
 
-    public StructureBase structure { get; private set; }
+    public StructBase structure { get; private set; }
     public GameObject structureObject { get; private set; }
 
     private void Awake()
@@ -280,7 +280,7 @@ public abstract class TileBase : MonoBehaviour
         }
     }
 
-    public void SetTower(StructureBase _struct)
+    public void SetTower(StructBase _struct)
     {
         SetItemNull();
 
@@ -292,7 +292,7 @@ public abstract class TileBase : MonoBehaviour
         TileInfoUpdate();
     }
 
-    public void SetProduction(StructureBase _struct)
+    public void SetProduction(StructBase _struct)
     {
         SetItemNull();
 
@@ -302,7 +302,7 @@ public abstract class TileBase : MonoBehaviour
         resourceText = "자원 : ???";
     }
 
-    public void SetArmy(StructureBase _struct)
+    public void SetArmy(StructBase _struct)
     {
         SetItemNull();
 

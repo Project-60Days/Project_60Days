@@ -1,7 +1,12 @@
-public class Tower : StructureBase
+public class StructTower : StructBase
 {
     protected override string GetCode() => "STRUCT_TOWER";
 
+    public override void Around()
+    {
+        if (App.Manager.UI.GetPanel<InventoryPanel>().CheckNetCardUsage()) 
+            base.Around();
+    }
     public override void YesFunc()
     {
         isUse = true;
