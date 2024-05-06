@@ -7,6 +7,13 @@ public class TileJungle : TileBase
 {
     public override TileType GetTileType() => TileType.Jungle;
 
+    protected override void Awake()
+    {
+        base.Awake();
+
+        resourceCount = 3;
+    }
+
     public override void Buff(Player player) { }
 
     public override void DeBuff(Player _player)

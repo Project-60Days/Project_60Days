@@ -54,7 +54,7 @@ public class PagePanel : UIBase
 
     public override void ReInit()
     {
-        var resources = App.Manager.Map.resourceCtrl.GetLastResources();
+        var resources = App.Manager.Map.GetUnit<ResourceUnit>().GetLastResources();
 
         for (int i = 0; i < resources.Count; i++)
         {

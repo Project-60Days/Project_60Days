@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 [SelectionBase]
 public abstract class TileBase : MonoBehaviour
 {
+    protected int resourceCount = 2;
     public abstract TileType GetTileType();
 
     [SerializeField] Sprite landformSprite;
@@ -29,9 +30,8 @@ public abstract class TileBase : MonoBehaviour
     public ZombieBase currZombies { get; private set; }
 
     public StructBase structure { get; private set; }
-    public GameObject structureObject { get; private set; }
 
-    private void Awake()
+    protected virtual void Awake()
     {
         gachaProbability = new Dictionary<EResourceType, int>();
         gachaList = new List<EResourceType>();
@@ -48,6 +48,10 @@ public abstract class TileBase : MonoBehaviour
         tile = GetComponent<TileController>().Model;
 
         itemSO = App.Manager.Game.itemSO;
+
+        var random = Random.Range(0, 100);
+        if (random < App.Manager.Test.mapData.resourcePercent)
+            SpawnRandomResource();
     }
 
     void OnDestroy()
@@ -219,37 +223,25 @@ public abstract class TileBase : MonoBehaviour
         }
     }
 
-    public List<Resource> GetResources(int count)
+    public List<Resource> GetResources()
     {
         List<Resource> list = new List<Resource>();
 
-        if (appearanceResources == null)
+        if (appearanceResources == null) return null;
+
+        foreach (var resource in appearanceResources)
         {
-            Debug.Log("자원이 없습니다.");
-            return null;
-        }
+            var itemBase = resource.Item;
 
-        for (int i = 0; i < appearanceResources.Count; i++)
-        {
-            Resource item = appearanceResources[i];
-
-            var itemBase = item.Item;
-
-            if (item.Count - count >= 0)
-            {
-                list.Add(new Resource(itemBase, count));
-                item.Count -= count;
-            }
-            else
-            {
-                list.Add(new Resource(itemBase, item.Count));
-                item.Count = 0;
-            }
+            list.Add(new Resource(itemBase, resourceCount));
+            resource.Count = Clamp(resource.Count - resourceCount);
         }
 
         ResourceUpdate(true);
         return list;
     }
+
+    private int Clamp(int value) => value < 0 ? 0 : value;
 
     public bool CheckResources()
     {

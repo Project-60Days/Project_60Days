@@ -80,7 +80,7 @@ public class Explorer : DroneBase
     {
         yield return new WaitUntil(()=> goToMap == true);
 
-        App.Manager.Map.GetSightTiles(currTile);
+        //App.Manager.Map.GetSightTiles(currTile);
         App.Manager.Map.droneCtrl.RemoveExplorer(this);
         App.Manager.Map.fog.SetRange(0);
 

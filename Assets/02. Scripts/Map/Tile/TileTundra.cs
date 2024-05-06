@@ -6,11 +6,13 @@ public class TileTundra : TileBase
 
     public override void DeBuff(Player _player)
     {
-        App.Manager.Map.TundraTileCheck();
+        App.Manager.UI.GetPanel<PagePanel>().SetResultPage("SEARCH_TUNDRA", false);
 
         if (RandomPercent.GetRandom(10))
         {
-            App.Manager.Map.EtherResourceCheck();
+            App.Manager.UI.GetPanel<PagePanel>().SetResultPage("ACIDENT_ETHER", false);
         }
+
+        App.Manager.Map.GetUnit<PlayerUnit>().player.SetHealth(false);
     }
 }

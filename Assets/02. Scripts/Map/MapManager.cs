@@ -14,7 +14,6 @@ public class MapManager : Manager
     public HexamapController hexaMapCtrl;
 
     public EnemyUnit enemyCtrl;
-    public ResourceCtrl resourceCtrl;
     public ArrowUnit arrowCtrl;
 
     public PlayerUnit playerCtrl;
@@ -33,8 +32,6 @@ public class MapManager : Manager
     bool canPlayerMove;
     bool isDronePrepared;
     bool isDisturbtorPrepared;
-    bool isCameraMove;
-    bool isTundraTile;
 
     private TileController cameraTarget;
 
@@ -51,7 +48,6 @@ public class MapManager : Manager
 
     List<TileController> selectedTiles = new List<TileController>();
 
-    public List<Tile> preemptiveTiles = new List<Tile>();
     List<TileController> pathTiles = new List<TileController>();
 
     List<Tile> sightTiles = new List<Tile>();
@@ -81,12 +77,32 @@ public class MapManager : Manager
         data = App.Manager.Test.mapData;
 
         GenerateMap();
-        SightCheckInit();
+        DeselectAllBorderTiles();
+        InitSight();
 
         InitMaps();
 
         cameraCtrl.Init();
         InitValue();
+    }
+
+    public void InitSight()
+    {
+        var allTiles = GetAllTiles();
+
+        foreach (var tile in allTiles)
+        {
+            ((GameObject)tile.GameEntity).SetActive(false);
+        }
+
+        var structs = structCtrl.GetStructObjects();
+
+        foreach (var structure in structs)
+        {
+            structure.gameObject.SetActive(false);
+        }
+
+        ReInitSight(tileCtrl.Model);
     }
 
     private void InitMaps()
@@ -131,9 +147,6 @@ public class MapManager : Manager
 
         if (mouseState != ETileMouseState.Nothing)
         {
-            if (isCameraMove)
-                GetCameraCenterTile();
-
             MouseOverEvents();
         }
     }
@@ -276,17 +289,6 @@ public class MapManager : Manager
 
             MovePathDelete();
         }
-
-        if (Input.GetMouseButton(2))
-        {
-            isCameraMove = true;
-        }
-        else if (Input.GetMouseButtonUp(2))
-        {
-            isCameraMove = false;
-        }
-        
-        
     }
 
     void SetETileMoveState()
@@ -310,9 +312,7 @@ public class MapManager : Manager
 
         ReInitMaps();
 
-        OcclusionCheck(tileCtrl.Model);
-
-        resourceCtrl.GetResource(tileCtrl);
+        ReInitSight(tileCtrl.Model);
 
         InitValue();
     }
@@ -342,13 +342,6 @@ public class MapManager : Manager
 
         if (randomNumber == 3)
             enemyCtrl.SpawnStructureZombies(structure.colleagues);
-
-        // 플레이어 체력 0으로 만들어서 경로 선택 막기
-        if (isTundraTile)
-        {
-            App.Manager.UI.GetPanel<PagePanel>().SetResultPage("SEARCH_TUNDRA", false);
-            playerCtrl.player.SetHealth(false);
-        }
 
         // 경로 삭제
         MovePathDelete();
@@ -384,37 +377,9 @@ public class MapManager : Manager
             if (cameraTarget != target)
             {
                 cameraTarget = target;
-                OcclusionCheck(cameraTarget.Model);
             }
         }
     }
-    
-    public void TundraTileCheck()
-    {
-        isTundraTile = true;
-    }
-
-    public void EtherResourceCheck()
-    {
-        var resources = resourceCtrl.GetLastResources();
-
-        if (resources.Count == 0 || resources == null)
-            return;
-        
-        if(resources.Find(x=> x.Item.Code == "ITEM_GAS") != null)
-        {
-            Debug.Log("에테르 디버프");
-            App.Manager.UI.GetPanel<PagePanel>().SetResultPage("ACIDENT_ETHER", false);
-            playerCtrl.player.SetHealth(false);
-        }
-        else
-        {
-            return;
-        }
-    }
-
-    public bool IsJungleTile(TileController _tileController)
-        => _tileController.GetComponent<TileBase>().GetTileType() == TileType.Jungle;
 
     public void SetIsDronePrepared(bool _isDronePrepared, string type)
     {
@@ -445,58 +410,15 @@ public class MapManager : Manager
 
         UpdateCurrentTile(TileToTileController(hexaMapCtrl.Map.GetTileFromCoords(new Coords(0, 0))));
         targetTile = tileCtrl;
-        preemptiveTiles.Add(tileCtrl.Model);
-        foreach (var item in GetTilesInRange(4))
-        {
-            preemptiveTiles.Add(item);
-        }
-
-        GenerateMapObjects();
 
         isLoadingComplete = true;
-    }
-
-
-
-    /// <summary>
-    /// 맵에서 스폰되는 오브젝트들에 대한 초기화를 하는 함수이다.
-    /// 플레이어, 좀비, 안개를 생성하고, 플레이어의 위치를 리소스 매니저에게 전달한다.
-    /// </summary>
-    void GenerateMapObjects()
-    {
-        DeselectAllBorderTiles();
-
-        RandomTileResource(data.resourcePercent);
-    }
-
-    void RandomTileResource(float _percent)
-    {
-        List<TileBase> tileBaseList = GetAllTiles()
-            .Select(x => ((GameObject)x.GameEntity).GetComponent<TileBase>())
-            .ToList();
-
-        float randomTileCount = tileBaseList.Count - (tileBaseList.Count * (_percent * 0.01f));
-
-        for (int i = 0; i < randomTileCount; ++i)
-        {
-            int randNum = UnityEngine.Random.Range(0, tileBaseList.Count);
-            tileBaseList.RemoveAt(randNum);
-        }
-
-        for (int i = 0; i < tileBaseList.Count; i++)
-        {
-            TileBase tile = tileBaseList[i];
-            tile.SpawnRandomResource();
-        }
-
-        OcclusionCheck(tileCtrl.Model);
     }
 
     public List<Tile> GetAllTiles() => hexaMapCtrl.Map.Tiles.Where(x => ((GameObject)x.GameEntity).CompareTag("Tile")).ToList();
 
     public void DefaultMouseOverState(TileController tileController)
     {
-        if (LandformCheck(tileController) == false)
+        if (CheckTileType(tileController.Model, "LandformRocks", "LandformPlain") == false)
         {
             SelectBorder(tileController, ETileState.Unable);
         }
@@ -518,7 +440,7 @@ public class MapManager : Manager
 
                 var tile = TileToTileController(GetTileFromCoords(coords));
 
-                if (LandformCheck(tile) == false)
+                if (CheckTileType(tileController.Model, "LandformRocks", "LandformPlain") == false)
                     continue;
 
                 SelectBorder(tile, ETileState.None);
@@ -548,7 +470,7 @@ public class MapManager : Manager
         {
             var value = neighborController[index];
 
-            if (LandformCheck(value) == false)
+            if (CheckTileType(tileController.Model, "LandformRocks", "LandformPlain") == false)
                 continue;
 
             selectedTiles.Add(value);
@@ -556,7 +478,7 @@ public class MapManager : Manager
         }
 
         if (tileController.gameObject.GetComponent<TileBase>().structure?.isAccessible == false
-            || LandformCheck(tileController) == false)
+            || CheckTileType(tileController.Model, "LandformRocks", "LandformPlain") == false)
         {
             SelectBorder(tileController, ETileState.Unable);
         }
@@ -585,7 +507,7 @@ public class MapManager : Manager
     {
         if (tileController.GetComponent<Borders>().GetEtileState() == ETileState.Moveable
             && tileCtrl.Model != tileController.Model
-            && LandformCheck(tileController))
+            && CheckTileType(tileController.Model, "LandformRocks", "LandformPlain"))
         {
             SavePlayerMovePath(tileController);
             return true;
@@ -708,46 +630,41 @@ public class MapManager : Manager
         Player.PlayerSightUpdate?.Invoke();
     }
 
-    public bool CheckTileType(Tile tile, string type)
-        => tile.Landform.GetType().Name == type;
-
-    public void OcclusionCheck(Tile _targetTile)
+    public bool CheckTileType(Tile tile, params string[] types)
     {
+        var landform = tile.Landform.GetType().Name;
+        foreach (var type in types) 
+        {
+            if (type == landform)
+                return true;
+        }
+
+        return false;
+    }
+
+    public void ReInitSight(Tile _targetTile)
+    {
+        foreach (var tile in sightTiles)
+        {
+            ((GameObject)tile.GameEntity).SetActive(false);
+        }
+
         sightTiles = GetTilesInRange(5, _targetTile);
         sightTiles.Add(_targetTile);
 
-        List<StructBase> structureObjects = structCtrl.GetStructObjects();
+        var structs = structCtrl.GetStructObjects();
 
-        for (int i = 0; i < structureObjects.Count; i++)
+        foreach (var structure in structs) 
         {
-            StructBase item = structureObjects[i];
+            bool check = sightTiles.Contains(structure.currTile);
 
-            if (sightTiles.Contains(item.currTile) == false)
-            {
-                item.gameObject.SetActive(false);
-            }
-            else
-            {
-                item.gameObject.SetActive(true);
-            }
+            structure.gameObject.SetActive(check);
         }
 
-        var allTiles = GetAllTiles();
-
-        for (int i = 0; i < allTiles.Count; i++)
+        foreach (var tile in sightTiles)
         {
-            Tile item = allTiles[i];
-
-            if (sightTiles.Contains(item) == false)
-                ((GameObject)item.GameEntity).SetActive(false);
-            else
-                ((GameObject)item.GameEntity).SetActive(true);
+            ((GameObject)tile.GameEntity).SetActive(true);
         }
-    }
-
-    public void SightCheckInit()
-    {
-        OcclusionCheck(GetTileFromCoords(new Coords(0, 0)));
     }
 
     public List<Tile> GetPlayerSightTiles()
@@ -755,14 +672,4 @@ public class MapManager : Manager
         var list = GetTilesInRange(2);
         return list;
     }
-
-    public List<Tile> GetSightTiles(Tile tile)
-    {
-        var list = GetTilesInRange(2, tile);
-        return list;
-    }
-
-    public bool LandformCheck(TileController tileController)
-        => CheckTileType(tileController.Model, "LandformPlain") ||
-            CheckTileType(tileController.Model, "LandformRocks");
 }

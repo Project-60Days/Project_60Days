@@ -40,8 +40,6 @@ public class StructUnit : MapBase
         tower.Init(tilelist);
 
         ((GameObject)tile.GameEntity).GetComponent<TileBase>().SetTower(tower);
-
-        App.Manager.Map.preemptiveTiles.Add(tile);
     }
 
     public void GenerateProduction()
@@ -59,8 +57,6 @@ public class StructUnit : MapBase
             centerTile.Neighbours[CompassPoint.NW],
             centerTile.Neighbours[CompassPoint.SW]
         };
-
-        AddPreemptiveTile(tileList);
 
         var spawnPos = ((GameObject)centerTile.GameEntity).transform.position + new Vector3(0, 0.2f, 0);
 
@@ -90,8 +86,6 @@ public class StructUnit : MapBase
             centerTile.Neighbours[CompassPoint.NW],
             centerTile.Neighbours[CompassPoint.SW]
         };
-
-        AddPreemptiveTile(tileList);
 
         var spawnPos = ((GameObject)centerTile.GameEntity).transform.position + new Vector3(0, 0.5f, 0);
 
@@ -152,21 +146,13 @@ public class StructUnit : MapBase
         return _list.GetRange(0, _range);
     }
 
-    void AddPreemptiveTile(List<Tile> _tiles)
-    {
-        foreach (var tile in _tiles)
-        {
-            App.Manager.Map.preemptiveTiles.Add(tile);
-        }
-    }
-
     public StructBase SenseStruct()
     {
         var tileList = App.Manager.Map.tileCtrl.Model.Neighbours;
 
         foreach (var item in tileList)
         {
-            if (App.Manager.Map.LandformCheck(App.Manager.Map.TileToTileController(item.Value)) == false)
+            if (App.Manager.Map.CheckTileType(App.Manager.Map.TileToTileController(item.Value).Model, "LandformRocks", "LandformPlain") == false)
                 continue;
 
             var tileBase = ((GameObject)item.Value.GameEntity).GetComponent<TileBase>();

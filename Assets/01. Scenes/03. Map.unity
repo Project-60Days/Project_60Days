@@ -399,7 +399,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hexaMap: {fileID: 2032613208}
-  mapTransform: {fileID: 270035658}
   disruptorPrefab: {fileID: 2141712199585254430, guid: fbea53f2c0e7cdc49a173ebc909cc565, type: 3}
   explorerPrefab: {fileID: 2141712199585254430, guid: 5fede54bddf76ae4fb17561eb5cb324f, type: 3}
 --- !u!1 &706894743
@@ -447,7 +446,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 4352004779550836249, guid: a0525b4d277ecb9448b70a8ae0523766, type: 3}
-  enemyTrans: {fileID: 706894744}
 --- !u!1 &787363466
 GameObject:
   m_ObjectHideFlags: 0
@@ -498,9 +496,9 @@ MonoBehaviour:
   - {fileID: 848818348}
   - {fileID: 1632411915}
   - {fileID: 858446723}
+  - {fileID: 1926141685}
   hexaMapCtrl: {fileID: 2032613208}
   enemyCtrl: {fileID: 706894745}
-  resourceCtrl: {fileID: 1926141685}
   arrowCtrl: {fileID: 858446723}
   playerCtrl: {fileID: 1632411915}
   tileCtrl: {fileID: 0}
@@ -561,7 +559,6 @@ MonoBehaviour:
   towerPrefab: {fileID: 160171466204798991, guid: cf95c0db2f410d245809742eb3c58a2e, type: 3}
   productionPrefab: {fileID: 3966501793454575975, guid: af50e44c866e7ef4fba5d45331a50143, type: 3}
   armyPrefab: {fileID: 8944453277797006517, guid: 135f99e71d3a4684ab5f9ccd2e26a39b, type: 3}
-  objectsTransform: {fileID: 848818347}
 --- !u!1 &858446721
 GameObject:
   m_ObjectHideFlags: 0
@@ -1056,7 +1053,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed6d3358cc62e0b43acaf32cb2a148fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collectiveAbility: 2
 --- !u!4 &1926141686
 Transform:
   m_ObjectHideFlags: 0

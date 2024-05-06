@@ -226,7 +226,7 @@ public class CustomYarnCommands : MonoBehaviour
     [YarnFunction("getResourceCount")]
     static int GetResourceCount(string _itemCode)
     {
-        var resources = App.Manager.Map.resourceCtrl.GetLastResources();
+        var resources = App.Manager.Map.GetUnit<ResourceUnit>().GetLastResources();
 
         int count = 0;
 
