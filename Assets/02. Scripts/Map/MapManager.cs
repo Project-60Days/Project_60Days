@@ -361,7 +361,7 @@ public class MapManager : Manager
         int randomNumber = UnityEngine.Random.Range(1, 4);
 
         if (randomNumber == 3)
-            enemyCtrl.SpawnStructureZombies(structure.colleagues);
+            enemyCtrl.SpawnStructureZombies(structure.colleagueBases);
 
         // 플레이어 체력 0으로 만들어서 경로 선택 막기
         if (isTundraTile)
@@ -373,10 +373,10 @@ public class MapManager : Manager
         // 경로 삭제
         MovePathDelete();
 
-        structure.structureModel.GetComponent<StructureFade>().FadeIn();
-        structure.colleagues.ForEach(tile => tile.ResourceUpdate(true));
+        structure.FadeIn();
+        structure.colleagueBases.ForEach(tile => tile.ResourceUpdate(true));
 
-        SpawnSpecialItemRandomTile(structure.colleagues);
+        SpawnSpecialItemRandomTile(structure.colleagueBases);
     }
 
     public void MovePathDelete()
@@ -808,13 +808,13 @@ public class MapManager : Manager
         sightTiles = GetTilesInRange(5, _targetTile);
         sightTiles.Add(_targetTile);
 
-        List<StructureObject> structureObjects = structCtrl.GetStructureObjects();
+        List<StructureBase> structureObjects = structCtrl.GetStructureObjects();
 
         for (int i = 0; i < structureObjects.Count; i++)
         {
-            StructureObject item = structureObjects[i];
+            StructureBase item = structureObjects[i];
 
-            if (sightTiles.Contains(item.CurTile) == false)
+            if (sightTiles.Contains(item.currTile) == false)
             {
                 item.gameObject.SetActive(false);
             }

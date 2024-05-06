@@ -1,24 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using System.Linq;
+using Hexamap;
 
 public class DynamoStructure : StructureBase
 {
     protected override string GetCode() => "STRUCT_DYNAMO";
 
-    public override void Init(List<TileBase> _neighborTiles, GameObject _structureModel, ItemSO _itemSO)
+    public override void Init(List<Tile> _neighborTiles, List<Tile> _colleagueList)
     {
-        base.Init(_neighborTiles, _structureModel, _itemSO);
+        base.Init(_neighborTiles, _colleagueList);
 
         isUse = true;
     }
 
     public override void YesFunc()
     {
-        for (var index = 0; index < colleagues.Count; index++)
+        for (var index = 0; index < colleagueBases.Count; index++)
         {
-            var tile = colleagues[index];
+            var tile = colleagueBases[index];
             tile.structure.AllowAccess();
         }
 

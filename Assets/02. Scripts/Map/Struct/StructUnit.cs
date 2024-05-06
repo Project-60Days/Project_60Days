@@ -12,7 +12,7 @@ public class StructUnit : MapBase
 
     [SerializeField] Transform objectsTransform;
 
-    public List<StructureObject> GetStructureObjects() => objectsTransform.GetComponentsInChildren<StructureObject>(true).ToList();
+    public List<StructureBase> GetStructureObjects() => objectsTransform.GetComponentsInChildren<StructureBase>(true).ToList();
 
     public override void Init()
     {
@@ -44,9 +44,9 @@ public class StructUnit : MapBase
         var tower = Instantiate(towerPrefab, spawnPos, Quaternion.Euler(0, 90, 0),
             objectsTransform);
 
-        tower.GetComponent<StructureObject>().Init(tile);
+        tower.GetComponent<StructureBase>().Init(neighborList, tilelist);
 
-        ((GameObject)tile.GameEntity).GetComponent<TileBase>().SpawnQuestStructure(neighborList, tower);
+        ((GameObject)tile.GameEntity).GetComponent<TileBase>().SetTower(tower.GetComponent<StructureBase>());
 
         App.Manager.Map.preemptiveTiles.Add(tile);
     }
@@ -58,8 +58,6 @@ public class StructUnit : MapBase
         List<int> selectNumber = RandomTileSelect(boundaryTiles, EObjectSpawnType.ExcludeEntites, 1);
 
         var tilelist = new List<Tile>();
-
-        GameObject structureObject = productionPrefab;
 
         // 튜토리얼 용 위치 고정
         //Tile tile = GetTileFromCoords(_coords);
@@ -84,19 +82,15 @@ public class StructUnit : MapBase
         var spawnPos = ((GameObject)tile.GameEntity).transform.position;
         spawnPos.y += 0.2f;
 
-        var structure = Instantiate(structureObject, spawnPos, Quaternion.Euler(0, 180, 0),
+        var structure = Instantiate(productionPrefab, spawnPos, Quaternion.Euler(0, 180, 0),
             objectsTransform);
 
-        structure.GetComponent<StructureObject>().Init(tile);
-
-        structure.name = "Production";
-
-        StructureInfo structureInfo = new StructureInfo(neighborList, tilelist, structure, EStructure.Production);
+        structure.GetComponent<StructureBase>().Init(neighborList, tilelist);
 
         for (var index = 0; index < tilelist.Count; index++)
         {
             var tileBase = ((GameObject)tilelist[index].GameEntity).GetComponent<TileBase>();
-            tileBase.SpawnNormalStructure(structureInfo);
+            tileBase.SetProduction(structure.GetComponent<StructureBase>());
 
             var position = tileBase.transform.position;
             position.y = ((GameObject)tile.GameEntity).transform.position.y;
@@ -134,15 +128,12 @@ public class StructUnit : MapBase
         var structure = Instantiate(armyPrefab, spawnPos, Quaternion.Euler(0, 90, 0),
             objectsTransform);
 
-        structure.GetComponent<StructureObject>().Init(tile);
-
-        structure.name = "Army";
-        StructureInfo structureInfo = new StructureInfo(neighborList, tilelist, structure, EStructure.Army);
+        structure.GetComponent<StructureBase>().Init(neighborList, tilelist);
 
         for (var index = 0; index < tilelist.Count; index++)
         {
             var tileBase = ((GameObject)tilelist[index].GameEntity).GetComponent<TileBase>();
-            tileBase.SpawnNormalStructure(structureInfo);
+            tileBase.SetArmy(structure.GetComponent<StructureBase>());
 
             var position = tileBase.transform.position;
             position.y = ((GameObject)tile.GameEntity).transform.position.y;

@@ -1,12 +1,14 @@
-using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Hexamap;
 
-public abstract class StructureBase
+public abstract class StructureBase: MonoBehaviour
 {
     protected StructData data;
 
+    public Tile currTile;
     protected abstract string GetCode();
 
     public string name { get; protected set; }
@@ -17,17 +19,27 @@ public abstract class StructureBase
 
     public bool isAccessible { get; protected set; }
 
-    public List<TileBase> neighborTiles { get; protected set; }
+    public List<Tile> neighborTiles { get; protected set; }
 
-    public List<TileBase> colleagues { get; protected set; }
+    public List<Tile> colleagues { get; protected set; }
+
+    public List<TileBase> neighborBases => neighborTiles
+            .Select(x => ((GameObject)x.GameEntity).GetComponent<TileBase>()).ToList();
+
+    public List<TileBase> colleagueBases => colleagues
+        .Select(x => ((GameObject)x.GameEntity).GetComponent<TileBase>()).ToList();
+
+    public EStructure StructureType;
 
     public int visitDay { get; protected set; }
 
     public ItemData specialItem;
-    
-    public GameObject structureModel;
-    
-    public virtual void Init(List<TileBase> _neighborTiles, GameObject _structureModel, ItemSO _itemSO)
+
+    private Material curMaterial;
+    [SerializeField] private Renderer rend;
+    [SerializeField] Material cloakingMaterial;
+
+    public virtual void Init(List<Tile> _neighborTiles, List<Tile> _colleagueList)
     {
         data = App.Data.Game.structData[GetCode()];
 
@@ -39,20 +51,38 @@ public abstract class StructureBase
         isAccessible = false;
 
         neighborTiles = _neighborTiles;
-        structureModel = _structureModel;
+        colleagues = _colleagueList;
+        currTile = _colleagueList[0];
     }
 
     public abstract void YesFunc();
     public abstract void NoFunc();
 
-    public void SetColleagues(List<TileBase> _colleagues)
-    {
-        colleagues = _colleagues;
-    }
-    
     public void AllowAccess()
     {
         isUse = true;
         isAccessible = true;
+    }
+
+    void Start()
+    {
+        if (rend != null)
+            curMaterial = rend.material;
+    }
+
+    public void FadeIn()
+    {
+        if (rend == null)
+            return;
+
+        rend.material = cloakingMaterial;
+    }
+
+    public void FadeOut()
+    {
+        if (rend == null)
+            return;
+
+        rend.material = curMaterial;
     }
 }

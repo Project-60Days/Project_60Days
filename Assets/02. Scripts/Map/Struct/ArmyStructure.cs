@@ -4,9 +4,9 @@ public class ArmyStructure : StructureBase
 
     public override void YesFunc()
     {
-        for (var index = 0; index < colleagues.Count; index++)
+        for (var index = 0; index < colleagueBases.Count; index++)
         {
-            var tile = colleagues[index];
+            var tile = colleagueBases[index];
             tile.structure.AllowAccess();
         }
 

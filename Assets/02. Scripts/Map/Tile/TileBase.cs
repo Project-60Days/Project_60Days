@@ -280,33 +280,40 @@ public abstract class TileBase : MonoBehaviour
         }
     }
 
-    public void SpawnQuestStructure(List<Tile> neighborTiles, GameObject _structureObject)
+    public void SetTower(StructureBase _struct)
     {
-        var neighborBases = neighborTiles
-            .Select(x => ((GameObject)x.GameEntity).GetComponent<TileBase>()).ToList();
+        SetItemNull();
 
-        structure = new Tower();
-        structure.Init(neighborBases, _structureObject, itemSO);
+        structure = _struct;
 
-        landformText = "타워";
+        landformText = "생산 공장";
         resourceText = "자원 : ???";
-
-        for (int i = 0; i < resourceIcons.Length; i++)
-        {
-            SpriteRenderer item = resourceIcons[i];
-            item.sprite = null;
-            item.gameObject.SetActive(false);
-        }
 
         TileInfoUpdate();
     }
 
-    public void SpawnNormalStructure(StructureInfo structureInfo)
+    public void SetProduction(StructureBase _struct)
     {
-        structureObject = structureInfo.StructureObject;
+        SetItemNull();
 
-        StructureDataInput(structureInfo);
-        
+        structure = _struct;
+
+        landformText = "생산 공장";
+        resourceText = "자원 : ???";
+    }
+
+    public void SetArmy(StructureBase _struct)
+    {
+        SetItemNull();
+
+        structure = _struct;
+
+        landformText = "군사 기지";
+        resourceText = "자원 : ???";
+    }
+
+    private void SetItemNull()
+    {
         for (int i = 0; i < resourceIcons.Length; i++)
         {
             SpriteRenderer item = resourceIcons[i];
@@ -314,38 +321,6 @@ public abstract class TileBase : MonoBehaviour
             item.gameObject.SetActive(false);
         }
     }
-
-    public void StructureDataInput(StructureInfo structureInfo)
-    {
-        var neighborBases = structureInfo.NeighborTiles
-            .Select(x => ((GameObject)x.GameEntity).GetComponent<TileBase>()).ToList();
-
-        var colleagueBases = structureInfo.ColleagueTiles
-            .Select(x => ((GameObject)x.GameEntity).GetComponent<TileBase>()).ToList();
-
-        
-        switch (structureInfo.StructureType)
-        {
-            case EStructure.Production:
-                structure = new ProductionStructure();
-                structure.Init(neighborBases, structureInfo.StructureObject, itemSO);
-                structure.SetColleagues(colleagueBases);
-
-                landformText = "생산 공장";
-                resourceText = "자원 : ???";
-                break;
-            case EStructure.Army:
-                structure = new ArmyStructure();
-                structure.Init(neighborBases, structureInfo.StructureObject, itemSO);
-                structure.SetColleagues(colleagueBases);
-
-                landformText = "군사 기지";
-                resourceText = "자원 : ???";
-                break;
-                
-        }
-    }
-    
 
     public void AddSpecialItem()
     {
