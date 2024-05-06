@@ -487,10 +487,6 @@ public class MapManager : Manager
     /// </summary>
     void GenerateMapObjects()
     {
-        var tileList = GetAllTiles();
-        var selectedTiles = RandomTileSelect(EObjectSpawnType.ExcludePlayer, data.zombieCount);
-        enemyCtrl.SpawnZombies(tileList, selectedTiles);
-
         DeselectAllBorderTiles();
 
         RandomTileResource(data.resourcePercent);
@@ -758,31 +754,6 @@ public class MapManager : Manager
             Debug.Log("비어있음");
 
         randomTile.AddSpecialItem();
-    }
-
-    public List<int> RandomTileSelect(EObjectSpawnType type, int choiceNum = 1)
-    {
-        var tiles = GetAllTiles();
-
-        List<int> selectTileNumber = new List<int>();
-
-        int randomInt = 0;
-        // 플레이어와 겹치지 않는 랜덤 타일 뽑기.
-        while (selectTileNumber.Count != choiceNum)
-        {
-            randomInt = UnityEngine.Random.Range(0, tiles.Count);
-
-            if (ConditionalBranch(type, tiles[randomInt]))
-            {
-                if (selectTileNumber.Contains(randomInt) == false)
-                {
-                    selectTileNumber.Add(randomInt);
-                    preemptiveTiles.Add(tiles[randomInt]);
-                }
-            }
-        }
-
-        return selectTileNumber;
     }
 
     public void UpdateCurrentTile(TileController tileController)
