@@ -4,45 +4,45 @@ using UnityEngine;
 
 public class Borders : MonoBehaviour
 {
-    [SerializeField] GameObject[] borders;
+    [SerializeField] MeshRenderer[] borders;
     [SerializeField] Material[] materials;
-    [SerializeField] ETileState currentTileState;
 
-    public GameObject GetNormalBorder()
-    {
-        currentTileState = ETileState.None;
-        borders[0].GetComponent<MeshRenderer>().material = materials[0];
-        return borders[0];
-    }
+    ETileState currentTileState = ETileState.None;
 
-    public GameObject GetAvailableBorder()
+    public void BorderOn(ETileState _state)
     {
-        currentTileState = ETileState.Moveable;
-        borders[0].GetComponent<MeshRenderer>().material = materials[1];
-        return borders[0];
-    }
+        currentTileState = _state;
 
-    public GameObject GetUnAvailableBorder()
-    {
-        currentTileState = ETileState.Unable;
-        borders[0].GetComponent<MeshRenderer>().material = materials[2];
-        return borders[0];
+        switch (_state)
+        {
+            case ETileState.None:
+                borders[0].material = materials[0];
+                break;
+
+            case ETileState.Moveable:
+                borders[0].material = materials[1];
+                break;
+
+            case ETileState.Unable:
+                borders[0].material = materials[2];
+                break;
+
+            case ETileState.Target:
+                borders[1].gameObject.SetActive(true);
+                return;
+        }
+
+        borders[0].gameObject.SetActive(true);
     }
-    
-    public GameObject GetDisturbanceBorder()
-    {
-        currentTileState = ETileState.Target;
-        return borders[1];
-    }
-    
+ 
     public void OffNormalBorder()
     {
-        borders[0].SetActive(false);
+        borders[0].gameObject.SetActive(false);
     }
     
     public void OffTargetBorder()
     {
-        borders[1].SetActive(false);
+        borders[1].gameObject.SetActive(false);
     }
 
     public ETileState GetEtileState()

@@ -313,8 +313,8 @@ public class MapManager : Manager
         OcclusionCheck(tileCtrl.Model);
 
         resourceCtrl.GetResource(tileCtrl);
-        
-        CheckRoutine();
+
+        InitValue();
     }
 
     public bool CheckCanInstallDrone()
@@ -325,25 +325,6 @@ public class MapManager : Manager
         canPlayerMove = false;
         isDronePrepared = false;
         isDisturbtorPrepared = false;
-    }
-
-    public void CheckRoutine()
-    {
-        CheckZombies();
-    
-        InitValue();
-    }
-
-    public void CheckZombies()
-    {
-        bool isActive;
-
-        if (enemyCtrl.CheckZombies())
-            isActive = true;
-        else
-            isActive = false;
-
-        App.Manager.UI.GetPanel<FixedPanel>().SetAlert(AlertType.Caution, isActive);
     }
 
     public string GetLandformBGM(TileBase _tile) => _tile.tileData.English switch
@@ -636,21 +617,8 @@ public class MapManager : Manager
 
     public void SelectBorder(TileController tileController, ETileState state)
     {
-        switch (state)
-        {
-            case ETileState.None:
-                tileController.GetComponent<Borders>().GetNormalBorder().SetActive(true);
-                break;
-            case ETileState.Moveable:
-                tileController.GetComponent<Borders>().GetAvailableBorder().SetActive(true);
-                break;
-            case ETileState.Unable:
-                tileController.GetComponent<Borders>().GetUnAvailableBorder().SetActive(true);
-                break;
-            case ETileState.Target:
-
-                break;
-        }
+        if (state != ETileState.Target) 
+            tileController.GetComponent<Borders>().BorderOn(state);
 
         selectedTiles.Add(tileController);
     }
@@ -685,24 +653,6 @@ public class MapManager : Manager
             return;
 
         ClearTiles(pathTiles);
-    }
-
-
-    GameObject GetTileBorder(TileController tileController, ETileState state)
-    {
-        switch (state)
-        {
-            case ETileState.None:
-                return tileController.GetComponent<Borders>().GetNormalBorder();
-            case ETileState.Moveable:
-                return tileController.GetComponent<Borders>().GetAvailableBorder();
-            case ETileState.Unable:
-                return tileController.GetComponent<Borders>().GetUnAvailableBorder();
-            case ETileState.Target:
-                return tileController.GetComponent<Borders>().GetDisturbanceBorder();
-        }
-
-        return null;
     }
 
     public Tile GetTileFromCoords(Coords coords)
@@ -756,44 +706,6 @@ public class MapManager : Manager
     {
         tileCtrl = tileController;
         Player.PlayerSightUpdate?.Invoke();
-    }
-
-    public bool ConditionalBranch(EObjectSpawnType type, Tile tile)
-    {
-        // landform rocks도 거르면 건물 잔해도 거를 수 있음
-        if (LandformCheck(TileToTileController(tile)) == false)
-        {
-            return false;
-        }
-
-        switch (type)
-        {
-            case EObjectSpawnType.ExcludePlayer:
-                if (tileCtrl.Model != tile)
-                    return true;
-                else
-                    return false;
-
-            case EObjectSpawnType.IncludePlayer:
-                return true;
-
-            case EObjectSpawnType.ExcludeEntites:
-                if (preemptiveTiles.Contains(tile) == false)
-                    return true;
-                else
-                    return false;
-
-            case EObjectSpawnType.IncludeEntites:
-                if (tileCtrl.Model != tile)
-                    return true;
-                else
-                    return false;
-
-            default:
-                break;
-        }
-
-        return false;
     }
 
     public bool CheckTileType(Tile tile, string type)

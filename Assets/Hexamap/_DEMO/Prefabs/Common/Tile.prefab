@@ -550,8 +550,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   borders:
-  - {fileID: 2070055698134008081}
-  - {fileID: 6401956711225370809}
+  - {fileID: 2070055698136276945}
+  - {fileID: 6401956711227635321}
   materials:
   - {fileID: 2100000, guid: 733695f5eeb697d48be9dae0cc97a269, type: 2}
   - {fileID: 2100000, guid: 82311c527c36cea499b0a142824f82dd, type: 2}
@@ -780,9 +780,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: db448c76fd5a1524db1d35b262fbd3b6, type: 3}
   m_PrefabInstance: {fileID: 2070055698133977009}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2070055698134008081 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100000, guid: db448c76fd5a1524db1d35b262fbd3b6, type: 3}
+--- !u!23 &2070055698136276945 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2300000, guid: db448c76fd5a1524db1d35b262fbd3b6, type: 3}
   m_PrefabInstance: {fileID: 2070055698133977009}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2568367244734830453
@@ -1074,8 +1074,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: db448c76fd5a1524db1d35b262fbd3b6, type: 3}
   m_PrefabInstance: {fileID: 6401956711225470489}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &6401956711225370809 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100000, guid: db448c76fd5a1524db1d35b262fbd3b6, type: 3}
+--- !u!23 &6401956711227635321 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2300000, guid: db448c76fd5a1524db1d35b262fbd3b6, type: 3}
   m_PrefabInstance: {fileID: 6401956711225470489}
   m_PrefabAsset: {fileID: 0}

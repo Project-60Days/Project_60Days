@@ -11,9 +11,9 @@ public class QuestPanel : UIBase
 
     private List<Quest> currentQuest 
         => questParent.GetComponentsInChildren<Quest>().ToList();
-    private List<RectTransform> currentQuestObject
+    private List<GameObject> currentQuestObject
         => currentQuest.OrderBy(x => x.type).ToList()
-                        .Select(x => x.gameObject.GetComponent<RectTransform>()).ToList();
+                        .Select(x => x.gameObject).ToList();
 
     private Quest GetQuest(string _code)
         => quests.Find(x => x.questCode == _code);
@@ -41,10 +41,12 @@ public class QuestPanel : UIBase
     /// </summary>
     private void SortPosition()
     {
+        var height = currentQuestObject[0].GetComponent<RectTransform>().rect.height;
+
         for (int i = 0; i < currentQuestObject.Count; i++) 
         {
-            float yPos = -i * currentQuestObject[i].rect.height;
-            currentQuestObject[i].DOLocalMoveY(yPos, 0f);
+            float yPos = -i * height;
+            currentQuestObject[i].transform.DOLocalMoveY(yPos, 0f);
         }
     }
 

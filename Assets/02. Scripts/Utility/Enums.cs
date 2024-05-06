@@ -120,14 +120,6 @@ public enum EStructure
     Dynamo
 }
 
-public enum EObjectSpawnType
-{
-    ExcludePlayer,
-    IncludePlayer,
-    ExcludeEntites,
-    IncludeEntites
-}
-
 public enum ETileMouseState
 {
     Nothing,

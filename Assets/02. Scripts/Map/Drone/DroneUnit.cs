@@ -11,7 +11,6 @@ public class DroneUnit : MapBase
     [Space(5f)]
     [SerializeField]
     HexamapController hexaMap;
-    [SerializeField] Transform mapTransform;
 
     List<GameObject> disruptors = new List<GameObject>();
     GameObject currDisruptor;
@@ -26,10 +25,8 @@ public class DroneUnit : MapBase
 
     List<TileController> droneSelectedTiles = new List<TileController>();
 
-    public override void Init()
-    {
-        
-    }
+    public override void Init() { }
+
     public override void ReInit()
     {
         if (drones.Count <= 0) return;
@@ -40,46 +37,47 @@ public class DroneUnit : MapBase
         }
     }
 
-    public void PreparingDistrubtor()
+    void GenerateDrone(GameObject prefab, List<GameObject> list)
     {
-        var neighborTiles = hexaMap.Map.GetTilesInRange(App.Manager.Map.tileCtrl.Model, 1);
-
-        var neighborController = neighborTiles
-            .Select(x => ((GameObject)x.GameEntity).GetComponent<TileController>()).ToList();
-
-        for (var index = 0; index < neighborController.Count; index++)
-        {
-            var value = neighborController[index];
-            if (App.Manager.Map.LandformCheck(value) == false)
-                continue;
-            droneSelectedTiles.Add(value);
-            SelectTargetBorder(value);
-        }
-
-        GenerateExampleDisturbtor();
-        App.Manager.Map.SetIsDronePrepared(true, "Distrubtor");
+        var drone = Instantiate(prefab, App.Manager.Map.playerCtrl.PlayerTransform + Vector3.up * 1.5f, Quaternion.Euler(0, 90, 0), transform);
+        drone.transform.parent = transform;
+        drone.GetComponentInChildren<MeshRenderer>().material.DOFade(50, 0);
+        list.Add(drone);
+        drones.Add(drone.GetComponent<DroneBase>());
     }
 
-    void GenerateExampleDisturbtor()
+    void RemoveDrone(GameObject drone, List<GameObject> list)
     {
-        Debug.Log("예시 교란기");
+        list.Remove(drone);
+        Destroy(drone);
+    }
 
-        currDisruptor = Instantiate(disruptorPrefab,
-            App.Manager.Map.playerCtrl.PlayerTransform + Vector3.up * 1.5f, Quaternion.Euler(0, 90, 0));
+    void SetDronePrepared(bool isPrepared, string type)
+    {
+        App.Manager.Map.SetIsDronePrepared(isPrepared, type);
+    }
 
-        currDisruptor.transform.parent = mapTransform;
-        currDisruptor.GetComponentInChildren<MeshRenderer>(true).material.DOFade(50, 0);
-        disruptors.Add(currDisruptor);
-        drones.Add(currDisruptor.GetComponent<DroneBase>());
+    public void PreparingDisruptor()
+    {
+        var neighborTiles = hexaMap.Map.GetTilesInRange(App.Manager.Map.tileCtrl.Model, 1)
+            .Select(tile => ((GameObject)tile.GameEntity).GetComponent<TileController>())
+            .Where(tileController => App.Manager.Map.LandformCheck(tileController));
+
+        foreach (var tile in neighborTiles) 
+        {
+            SelectTargetBorder(tile);
+            droneSelectedTiles.Add(tile);
+        }
+
+        GenerateDrone(disruptorPrefab, disruptors);
+        SetDronePrepared(true, "Distrubtor");
     }
 
     public void CancelDisrubtor()
     {
-        disruptors.Remove(currDisruptor);
-        drones.Remove(currDisruptor.GetComponent<DroneBase>());
-        App.Manager.Map.SetIsDronePrepared(false, "Distrubtor");
+        RemoveDrone(disruptors.Last(), disruptors);
+        SetDronePrepared(false, "Distrubtor");
         App.Manager.UI.GetPanel<InventoryPanel>().AddItemByItemCode("ITEM_DISTURBE");
-        Destroy(currDisruptor);
         DeselectAllTargetTiles();
     }
 
@@ -122,31 +120,15 @@ public class DroneUnit : MapBase
 
     public void PreparingExplorer()
     {
-        GenerateExampleExplorer();
-        App.Manager.Map.SetIsDronePrepared(true, "Explorer");
+        GenerateDrone(explorerPrefab, explorers);
+        SetDronePrepared(true, "Explorer");
     }
 
     public void CancelExplorer()
     {
-        explorers.Remove(currExplorer);
-        drones.Remove(currExplorer.GetComponent<DroneBase>());
-        App.Manager.Map.SetIsDronePrepared(false, "Explorer");
+        RemoveDrone(explorers.Last(), explorers);
+        SetDronePrepared(false, "Explorer");
         App.Manager.UI.GetPanel<InventoryPanel>().AddItemByItemCode("ITEM_FINDOR");
-        Destroy(currExplorer);
-    }
-
-    void GenerateExampleExplorer()
-    {
-        currExplorer = Instantiate(explorerPrefab,
-            App.Manager.Map.playerCtrl.PlayerTransform + Vector3.up * 1.5f, Quaternion.Euler(0, 90, 0));
-
-        currExplorer.transform.parent = mapTransform;
-
-        currExplorer.GetComponentInChildren<MeshRenderer>().material.DOFade(50, 0);
-        currExplorer.GetComponent<Explorer>().Set(App.Manager.Map.tileCtrl.Model);
-
-        explorers.Add(currExplorer);
-        drones.Add(currExplorer.GetComponent<DroneBase>());
     }
 
     void InstallExplorer(TileController tileController)
@@ -231,7 +213,7 @@ public class DroneUnit : MapBase
 
     void SelectTargetBorder(TileController tileController)
     {
-        tileController.GetComponent<Borders>().GetDisturbanceBorder().SetActive(true);
+        tileController.GetComponent<Borders>().BorderOn(ETileState.Target);
         droneSelectedTiles.Add(tileController);
     }
 

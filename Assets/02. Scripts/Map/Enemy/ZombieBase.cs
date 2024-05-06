@@ -36,7 +36,7 @@ public class ZombieBase : MonoBehaviour
         App.Data.Game.valueData.TryGetValue("Enemy", out ValueData enemy);
         data = enemy;
 
-        ZombieCountChoice();
+        InitCount();
         currTile = tile;
         lastTile = currTile;
 
@@ -60,7 +60,7 @@ public class ZombieBase : MonoBehaviour
                 if (noneTileBuff == false)
                 {
                     count += 5;
-                    ZombieModelChoice(count);
+                    SetModel();
                     noneTileBuff = true;
                 }
 
@@ -94,47 +94,20 @@ public class ZombieBase : MonoBehaviour
         }
     }
 
-    void ZombieCountChoice()
+    void InitCount()
     {
-        var randomInt = (int)Random.Range(data.MinCount, data.MaxCount);
-        count = randomInt;
-        ZombieModelChoice(randomInt);
+        count = (int)Random.Range(data.MinCount, data.MaxCount);;
+        SetModel();
     }
 
-    public void ZombieModelChoice(int count)
+    public void SetModel()
     {
-        var num = (int)Mathf.Lerp(data.MinCount, data.MaxCount, 0.3f);
-        num -= (int)data.MinCount;
+        int possibility = Mathf.FloorToInt((count - data.MinCount) / ((data.MaxCount - data.MinCount) / (zombieModels.Length - 1)));
+        int modelIndex = Mathf.Clamp(possibility, 0, zombieModels.Length - 1);
 
-        if (data.MinCount <= count && count <= data.MinCount + num)
+        for (int i = 0; i < zombieModels.Length; i++)
         {
-            for (int i = 0; i < zombieModels.Length; i++)
-            {
-                if (i == 0)
-                    zombieModels[i].SetActive(true);
-                else
-                    zombieModels[i].SetActive(false);
-            }
-        }
-        else if (data.MinCount + num <= count && count <= data.MinCount + num * 2)
-        {
-            for (int i = 0; i < zombieModels.Length; i++)
-            {
-                if (i == 1)
-                    zombieModels[i].SetActive(true);
-                else
-                    zombieModels[i].SetActive(false);
-            }
-        }
-        else
-        {
-            for (int i = 0; i < zombieModels.Length; i++)
-            {
-                if (i == 2)
-                    zombieModels[i].SetActive(true);
-                else
-                    zombieModels[i].SetActive(false);
-            }
+            zombieModels[i].SetActive(i == modelIndex);
         }
     }
 
@@ -144,10 +117,7 @@ public class ZombieBase : MonoBehaviour
         {
             var scale = (count / 10) * 0.1f;
 
-            if (scale > 0.7f)
-            {
-                scale = 0.7f;
-            }
+            if (scale > 0.7f) return;
 
             transform.localScale = initScale + new Vector3(scale, scale, scale);
             lastZombieCount = count;
@@ -297,7 +267,7 @@ public class ZombieBase : MonoBehaviour
         count += zombie.count;
         zombie.count = 0;
 
-        ZombieModelChoice(count);
+        SetModel();
         SizeUpCheck();
         CurrentTileUpdate(currTile);
     }

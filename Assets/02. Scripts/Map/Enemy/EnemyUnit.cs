@@ -5,13 +5,9 @@ using Hexamap;
 
 public class EnemyUnit : MapBase
 {
-    List<GameObject> enemyList = new List<GameObject>();
     [SerializeField] GameObject enemyPrefab;
 
-    [Header("Æ®·£½ºÆû")]
-    [Space(5f)]
-    [SerializeField]
-    Transform enemyTrans;
+    List<ZombieBase> enemyList = new List<ZombieBase>();
 
     public override void Init()
     {
@@ -23,60 +19,58 @@ public class EnemyUnit : MapBase
         { 
             var enemy = SpawnEnemy(tile);
 
-            enemy.GetComponent<ZombieBase>().Init(tile);
-            enemy.GetComponent<ZombieBase>().SetValue(data.playerMovementPoint, data.zombieDetectionRange);
+            enemy.Init(tile);
+            enemy.SetValue(data.playerMovementPoint, data.zombieDetectionRange);
             enemyList.Add(enemy);
         }
-    }
-
-    public void SpawnStructureZombies(List<Tile> tiles)
-    {
-        var selectList = Shuffle(tiles, 1);
-
-        var zombie = SpawnEnemy(selectList[0]);
-
-        zombie.GetComponent<ZombieBase>().Init(selectList[0]);
-        zombie.GetComponent<ZombieBase>().Stun();
-
-        enemyList.Add(zombie);
-    }
-
-    GameObject SpawnEnemy(Tile tile)
-    {
-        var spawnPos = ((GameObject)tile.GameEntity).transform.position;
-        spawnPos.y += 0.6f;
-
-        return Instantiate(enemyPrefab, spawnPos,
-            Quaternion.Euler(0, Random.Range(0, 360), 0), enemyTrans);
     }
 
     public override void ReInit()
     {
         MoveEnemy();
         CheckSumZombies();
+        CheckZombies();
+    }
+
+    public void SpawnStructureZombies(List<Tile> tiles)
+    {
+        var selectTile = Shuffle(tiles, 1)[0];
+
+        var zombie = SpawnEnemy(selectTile);
+
+        zombie.Init(selectTile);
+        zombie.Stun();
+
+        enemyList.Add(zombie);
+    }
+
+    ZombieBase SpawnEnemy(Tile tile)
+    {
+        var spawnPos = ((GameObject)tile.GameEntity).transform.position;
+        spawnPos.y += 0.6f;
+
+        return Instantiate(enemyPrefab, spawnPos,
+            Quaternion.Euler(0, Random.Range(0, 360), 0), transform).GetComponent<ZombieBase>();
     }
 
     public void MoveEnemy()
     {
-        for (var index = 0; index < enemyList.Count; index++)
+        foreach (var enemy in enemyList) 
         {
-            var zombie = enemyList[index];
-
-            zombie.GetComponent<ZombieBase>().DetectionAndAct();
+            enemy.DetectionAndAct();
         }
     }
 
     public void CheckSumZombies()
     {
-        List<ZombieBase> zombieBases = enemyList.Select(x => x.GetComponent<ZombieBase>()).ToList();
         List<ZombieBase> removeZombies = new List<ZombieBase>();
 
-        for (int i = 0; i < zombieBases.Count; i++)
+        for (int i = 0; i < enemyList.Count - 1; i++)
         {
-            for (int j = i + 1; j < zombieBases.Count; j++)
+            for (int j = i + 1; j < enemyList.Count; j++)
             {
-                var firstZombies = zombieBases[i];
-                var secondZombies = zombieBases[j];
+                var firstZombies = enemyList[i];
+                var secondZombies = enemyList[j];
 
                 if (firstZombies.count == 0 || secondZombies.count == 0)
                     continue;
@@ -89,28 +83,27 @@ public class EnemyUnit : MapBase
             }
         }
 
-        for (int i = 0; i < removeZombies.Count(); i++)
+        foreach (var zombie in removeZombies)
         {
-            var item = removeZombies[i];
-            enemyList.Remove(item.gameObject);
-            Destroy(item.gameObject);
+            enemyList.Remove(zombie);
+            Destroy(zombie.gameObject);
         }
     }
 
-    public bool CheckZombies()
+    public void CheckZombies()
     {
         var playerNearthTiles = App.Manager.Map.GetTilesInRange(2);
 
-        for (int i = 0; i < enemyList.Count; i++)
+        foreach (var enemy in enemyList) 
         {
-            GameObject item = enemyList[i];
-            if (playerNearthTiles.Contains(item.GetComponent<ZombieBase>().currTile))
+            if (playerNearthTiles.Contains(enemy.currTile))
             {
-                return true;
+                App.Manager.UI.GetPanel<FixedPanel>().SetAlert(AlertType.Caution, true);
+                return;
             }
         }
 
-        return false;
+        App.Manager.UI.GetPanel<FixedPanel>().SetAlert(AlertType.Caution, false);
     }
 
     private List<T> Shuffle<T>(List<T> _list, int _range)
