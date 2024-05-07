@@ -34,6 +34,8 @@ public class EnemyUnit : MapBase
 
     public void SpawnStructureZombies(List<Tile> tiles)
     {
+        if (Random.Range(1, 4) != 1) return;
+
         var selectTile = Shuffle(tiles, 1)[0];
 
         var zombie = SpawnEnemy(selectTile);

@@ -136,7 +136,7 @@ public class ZombieBase : MonoBehaviour
 
         isChasingPlayer = App.Manager.Map.CalculateDistanceToPlayer(currTile, dectectionRange);
 
-        nearthDistrubtor = App.Manager.Map.droneCtrl.CalculateDistanceToDistrubtor(currTile, dectectionRange);
+        nearthDistrubtor = App.Manager.Map.GetUnit<DroneUnit>().CalculateDistanceToDistrubtor(currTile, dectectionRange);
 
         ActionDecision();
     }
@@ -161,13 +161,13 @@ public class ZombieBase : MonoBehaviour
             return;
         }
 
-        if (isChasingPlayer && !App.Manager.Map.playerCtrl.player.GetIsClocking())
+        if (isChasingPlayer && !App.Manager.Map.GetUnit<PlayerUnit>().player.GetIsClocking())
         {
             //Debug.Log(gameObject.name + "가 플레이어를 발견했습니다!");
             MoveToAttack(App.Manager.Map.tileCtrl.Model);
 
             // 플레이어 바라보기
-            var updatePos = App.Manager.Map.playerCtrl.player.transform.position;
+            var updatePos = App.Manager.Map.GetUnit<PlayerUnit>().player.transform.position;
             updatePos.y += 0.6f;
             transform.LookAt(updatePos);
         }
@@ -191,7 +191,7 @@ public class ZombieBase : MonoBehaviour
         if (movePath.Count == 0 && target == App.Manager.Map.tileCtrl.Model)
         {
             // 플레이어가 1칸 내에 있는 경우
-            AttackPlayer(App.Manager.Map.playerCtrl.player);
+            AttackPlayer(App.Manager.Map.GetUnit<PlayerUnit>().player);
         }
         else
         {

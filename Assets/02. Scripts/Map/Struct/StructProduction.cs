@@ -24,10 +24,20 @@ public class StructProduction : StructBase
             tile.structure.AllowAccess();
         }
 
+        App.Manager.Map.MovePathDelete();
+        App.Manager.Map.GetUnit<EnemyUnit>().SpawnStructureZombies(colleagues);
+
         FadeIn();
         colleagueBases.ForEach(tile => tile.ResourceUpdate(true));
 
-        App.Manager.Map.NormalStructureResearch(this);
+        int randomInt = Random.Range(0, colleagueBases.Count);
+        var randomTile = colleagueBases[randomInt];
+
+        if (randomTile.structure == null)
+            Debug.Log("비어있음");
+
+        randomTile.AddSpecialItem();
+
         isUse = true;
         isAccessible = true;
         App.Manager.UI.GetPanel<PagePanel>().CreateSelectDialogueRunner("sequence");

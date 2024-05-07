@@ -39,7 +39,7 @@ public class DroneUnit : MapBase
 
     void GenerateDrone(GameObject prefab, List<GameObject> list)
     {
-        var drone = Instantiate(prefab, App.Manager.Map.playerCtrl.PlayerTransform + Vector3.up * 1.5f, Quaternion.Euler(0, 90, 0), transform);
+        var drone = Instantiate(prefab, App.Manager.Map.GetUnit<PlayerUnit>().PlayerTransform + Vector3.up * 1.5f, Quaternion.Euler(0, 90, 0), transform);
         drone.transform.parent = transform;
         drone.GetComponentInChildren<MeshRenderer>().material.DOFade(50, 0);
         list.Add(drone);
@@ -50,11 +50,6 @@ public class DroneUnit : MapBase
     {
         list.Remove(drone);
         Destroy(drone);
-    }
-
-    void SetDronePrepared(bool isPrepared, string type)
-    {
-        App.Manager.Map.SetIsDronePrepared(isPrepared, type);
     }
 
     public void PreparingDisruptor()
@@ -70,13 +65,11 @@ public class DroneUnit : MapBase
         }
 
         GenerateDrone(disruptorPrefab, disruptors);
-        SetDronePrepared(true, "Distrubtor");
     }
 
     public void CancelDisrubtor()
     {
         RemoveDrone(disruptors.Last(), disruptors);
-        SetDronePrepared(false, "Distrubtor");
         App.Manager.UI.GetPanel<InventoryPanel>().AddItemByItemCode("ITEM_DISTURBE");
         DeselectAllTargetTiles();
     }
@@ -105,6 +98,50 @@ public class DroneUnit : MapBase
         }
     }
 
+    public void SetPath(TileController _tile, DroneType _type = DroneType.Disruptor)
+    {
+        if (_type == DroneType.Disruptor)
+            DisrubtorPathFinder(_tile);
+        else
+            ExplorerPathFinder(_tile);
+    }
+
+    public void Cancel()
+    {
+        CancelDisrubtor();
+    }
+
+    public void ExplorerPathFinder(TileController tileController)
+    {
+        int moveRange = 0;
+        if (tileController.Model != tile.Model)
+        {
+            foreach (Coords coords in AStar.FindPath(tile.Model.Coords, tileController.Model.Coords))
+            {
+                if (moveRange == 5)
+                    break;
+
+                var tile = App.Manager.Map.TileToTileController(App.Manager.Map.GetTileFromCoords(coords));
+
+                if (App.Manager.Map.CheckTileType(tileController.Model, "LandformRocks", "LandformPlain") == false)
+                    continue;
+
+                App.Manager.Map.SelectBorder(tile, ETileState.None);
+                App.Manager.Map.selectedTiles.Add(tile);
+                moveRange++;
+            }
+
+            if (moveRange != 5 && tileController.gameObject.GetComponent<TileBase>().structure?.isAccessible == false)
+                App.Manager.Map.SelectBorder(tileController, ETileState.Unable);
+            else
+                App.Manager.Map.SelectBorder(tileController, ETileState.Moveable);
+        }
+        else
+        {
+            App.Manager.Map.SelectBorder(tileController, ETileState.Unable);
+        }
+    }
+
     void InstallDistrubtor(TileController tileController, CompassPoint direction)
     {
         currDisruptor.GetComponent<Distrubtor>().Set(tileController.Model, direction);
@@ -114,20 +151,16 @@ public class DroneUnit : MapBase
         {
             DeselecTargetBorder(droneSelectedTiles[i]);
         }
-
-        App.Manager.Map.SetIsDronePrepared(false, "Distrubtor");
     }
 
     public void PreparingExplorer()
     {
         GenerateDrone(explorerPrefab, explorers);
-        SetDronePrepared(true, "Explorer");
     }
 
     public void CancelExplorer()
     {
         RemoveDrone(explorers.Last(), explorers);
-        SetDronePrepared(false, "Explorer");
         App.Manager.UI.GetPanel<InventoryPanel>().AddItemByItemCode("ITEM_FINDOR");
     }
 
@@ -135,33 +168,20 @@ public class DroneUnit : MapBase
     {
         currExplorer.GetComponent<Explorer>().Targeting(tileController.Model);
         currExplorer.GetComponent<Explorer>().Move();
-
-        App.Manager.Map.SetIsDronePrepared(false, "");
     }
 
-    public void SelectTileForDisturbtor(TileController tileController)
+    public void SetTileForDrone(TileController _tile)
     {
-        if (App.Manager.Map.CheckTileType(tileController.Model, "LandformRocks", "LandformPlain") == false)
-            return;
+        if (App.Manager.Map.CheckTileType(_tile .Model, "LandformRocks", "LandformPlain") == false) return;
 
-        if (tileController.GetComponent<Borders>().GetEtileState() == ETileState.Moveable
-            && App.Manager.Map.tileCtrl.Model != tileController.Model)
+        if (_tile.GetComponent<Borders>().GetEtileState() == ETileState.Moveable
+            && App.Manager.Map.tileCtrl.Model != _tile.Model)
         {
             foreach (var item in App.Manager.Map.tileCtrl.Model.Neighbours.Where(
-                         item => item.Value == tileController.Model))
+                         item => item.Value == _tile.Model))
             {
-                Debug.Log("설치 시작");
-                InstallDistrubtor(tileController, item.Key);
+                InstallDistrubtor(_tile, item.Key);
             }
-        }
-    }
-
-    public void SelectTileForExplorer(TileController tileController)
-    {
-        if (tileController.GetComponent<Borders>().GetEtileState() == ETileState.Moveable
-            && App.Manager.Map.tileCtrl.Model != tileController.Model)
-        {
-            InstallExplorer(tileController);
         }
     }
 

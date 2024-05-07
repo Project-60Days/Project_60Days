@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class StructArmy : StructBase
 {
     protected override string GetCode() => "STRUCT_ARMY";
@@ -10,10 +12,19 @@ public class StructArmy : StructBase
             tile.structure.AllowAccess();
         }
 
-        App.Manager.Map.NormalStructureResearch(this);
+        App.Manager.Map.MovePathDelete();
+        App.Manager.Map.GetUnit<EnemyUnit>().SpawnStructureZombies(colleagues);
 
         FadeIn();
         colleagueBases.ForEach(tile => tile.ResourceUpdate(true));
+
+        int randomInt = Random.Range(0, colleagueBases.Count);
+        var randomTile = colleagueBases[randomInt];
+
+        if (randomTile.structure == null)
+            Debug.Log("비어있음");
+
+        randomTile.AddSpecialItem();
 
         isUse = true;
         isAccessible = true;

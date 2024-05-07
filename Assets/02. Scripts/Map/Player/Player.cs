@@ -110,7 +110,6 @@ public class Player : MonoBehaviour
 
         Vector3 targetPos = App.Manager.Map.tileCtrl.transform.position;
         Tile tile = candidate[0];
-        bool isFindPath = false;
         
         for (int i = 0; i < candidate.Count; i++)
         {
@@ -121,7 +120,6 @@ public class Player : MonoBehaviour
                 {
                     targetPos = ((GameObject)candidate[i].GameEntity).transform.position;
                     tile = candidate[i];
-                    isFindPath = true;
                     break;
                 }
             }
@@ -134,11 +132,8 @@ public class Player : MonoBehaviour
         MovePath.Clear();
         moveRange = 0;
 
-        if (isFindPath)
-        {
-            App.Manager.Map.UpdateCurrentTile(((GameObject)tile.GameEntity).GetComponent<TileController>());
-        }
-            
+        App.Manager.Map.UpdateCurrentTile(((GameObject)tile.GameEntity).GetComponent<TileController>());
+
     }
     
     /// <summary>

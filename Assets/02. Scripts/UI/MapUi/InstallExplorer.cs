@@ -11,11 +11,11 @@ public class InstallExplorer : InstallBase
     {
         if (App.Manager.UI.GetPanel<InventoryPanel>().CheckFindorUsage())
         {
-            if (App.Manager.Map.CheckCanInstallDrone())
+            if (App.Manager.Map.canClick)
             {
                 Debug.Log("탐색기 설치 가능");
 
-                App.Manager.Map.droneCtrl.PreparingExplorer();
+                App.Manager.Map.GetUnit<DroneUnit>().PreparingExplorer();
             }
         }
     }

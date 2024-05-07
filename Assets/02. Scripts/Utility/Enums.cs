@@ -73,6 +73,12 @@ public enum SoundType
 
 #region HexTile
 
+public enum DroneType
+{
+    Disruptor,
+    Explorer
+}
+
 public enum TileType
 {
     City,
@@ -101,17 +107,6 @@ public enum ETileState
     Target
 }
 
-public enum EMabPrefab
-{
-    Player,
-    Zombie,
-    Disturbtor,
-    Explorer,
-    Tower,
-    Production,
-    Army
-}
-
 public enum EStructure
 {
     Tower,
@@ -119,13 +114,4 @@ public enum EStructure
     Army,
     Dynamo
 }
-
-public enum ETileMouseState
-{
-    Nothing,
-    CanClick,
-    CanPlayerMove,
-    DronePrepared
-}
-
 #endregion

@@ -253,7 +253,7 @@ public abstract class TileBase : MonoBehaviour
 
     void CheckPlayerTIle()
     {
-        bool check = App.Manager.Map.GetPlayerSightTiles().Contains(tile);
+        bool check = App.Manager.Map.GetTilesInRange(2).Contains(tile);
         ResourceUpdate(check);
     }
 
