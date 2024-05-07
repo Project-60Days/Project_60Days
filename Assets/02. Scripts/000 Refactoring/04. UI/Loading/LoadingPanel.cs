@@ -18,24 +18,14 @@ public class LoadingPanel : UIBase
     public override void OpenPanel()
     {
         App.Manager.UI.AddUIStack(GetUIState());
-
-        StartCoroutine(LoadScene());
     }
 
     public override void ClosePanel()
     {
         base.ClosePanel();
 
+        App.Manager.Sound.PlayBGM("BGM_InGame");
         App.Manager.UI.FadeOut();
     }
     #endregion
-
-    private IEnumerator LoadScene()
-    {
-        yield return new WaitUntil(() => App.Manager.Map.LoadingComplete == true);
-
-        App.Manager.Sound.PlayBGM("BGM_InGame");
-
-        ClosePanel();
-    }
 }

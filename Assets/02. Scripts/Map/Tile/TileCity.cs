@@ -4,13 +4,13 @@ public class TileCity : TileBase
 {
     public override TileType GetTileType() => TileType.City;
 
-    public override void Buff(Player _player)
+    public override void Buff()
     {
         // 포장된 도로 : 확정 이동 거리 1추가
-        _player.ChangeMoveRange(GetTileType());
+        App.Manager.Map.GetUnit<PlayerUnit>().player.ChangeMoveRange(1);
     }
 
-    public override void DeBuff(Player _player)
+    public override void DeBuff()
     {
         // 확률로 구현
         // 무너진 건물사고 : 선체 내구도 -3 감소

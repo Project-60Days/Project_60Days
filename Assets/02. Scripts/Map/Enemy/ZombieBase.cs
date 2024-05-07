@@ -191,7 +191,7 @@ public class ZombieBase : MonoBehaviour
         if (movePath.Count == 0 && target == App.Manager.Map.tileCtrl.Model)
         {
             // 플레이어가 1칸 내에 있는 경우
-            AttackPlayer(App.Manager.Map.GetUnit<PlayerUnit>().player);
+            AttackPlayer();
         }
         else
         {
@@ -287,24 +287,11 @@ public class ZombieBase : MonoBehaviour
         return 1;
     }
 
-    public void AttackPlayer(Player player)
+    public void AttackPlayer()
     {
         // 공격 애니메이션
         App.Manager.Game.TakeDamage(count);
     }
-
-    public void TakeDamage()
-    {
-        // 피격 애니메이션
-
-        // 사망
-        count = 0;
-        Debug.Log(gameObject.name + " 처치 완료.");
-        CurrentTileUpdate(null);
-        Destroy(this);
-        // 시체 오브젝트 생성
-    }
-
 
     public void Stun(int time = 1)
     {

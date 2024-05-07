@@ -14,23 +14,23 @@ public class TileJungle : TileBase
         resourceCount = 3;
     }
 
-    public override void Buff(Player player) { }
+    public override void Buff() { }
 
-    public override void DeBuff(Player _player)
+    public override void DeBuff()
     {
         if (RandomPercent.GetRandom(30))
         {
             // 랜덤 이동
             App.Manager.UI.GetPanel<PagePanel>().SetResultPage("LOOSE_WAY", false);
 
-            _player.JungleDebuffOn();
+            App.Manager.Map.GetUnit<PlayerUnit>().player.JungleDebuffOn();
         }
 
         if (RandomPercent.GetRandom(10))
         {
             App.Manager.UI.GetPanel<PagePanel>().SetResultPage("SWAMP", false);
-            
-            _player.SetHealth(false);
+
+            App.Manager.Map.GetUnit<PlayerUnit>().player.SetHealth(false);
         }
     }
 }

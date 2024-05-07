@@ -24,14 +24,7 @@ public class MapManager : Manager
     bool isDronePrepared;
     public bool canClick => !canPlayerMove && !isDronePrepared;
 
-    private TileController cameraTarget;
-
-    public MapData data { get; private set; }
-
-    [SerializeField] Transform mapTransform;
     [SerializeField] Transform mapParentTransform;
-    [SerializeField] Transform objectsTransform;
-
 
     [Header("안개")]
     [Space(5f)]
@@ -39,14 +32,9 @@ public class MapManager : Manager
 
     public List<TileController> selectedTiles = new List<TileController>();
 
-    List<TileController> pathTiles = new List<TileController>();
-
-    List<Tile> sightTiles = new List<Tile>();
+    List<Tile> sightTiles = new();
 
     public TileController targetTile;
-    bool isLoadingComplete;
-
-    public bool LoadingComplete => isLoadingComplete;
 
     int playerLayer;
     int tileLayer;
@@ -70,7 +58,6 @@ public class MapManager : Manager
     private void Start()
     {
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        data = App.Manager.Test.mapData;
 
         GenerateMap();
         AllBorderOff();
@@ -78,6 +65,7 @@ public class MapManager : Manager
         InitSight();
         cameraCtrl.Init();
         InitValue();
+        fog.Add(GetUnit<PlayerUnit>().player.transform, App.Manager.Test.mapData.fogSightRange, true);
 
         playerLayer = 1 << LayerMask.NameToLayer("Player");
         tileLayer = 1 << LayerMask.NameToLayer("Tile");
@@ -102,7 +90,7 @@ public class MapManager : Manager
         UpdateCurrentTile(TileToTileController(hexaMapCtrl.Map.GetTileFromCoords(new Coords(0, 0))));
         targetTile = tileCtrl;
 
-        isLoadingComplete = true;
+        App.Manager.UI.GetPanel<LoadingPanel>().ClosePanel();
     }
 
     public void InitValue()
@@ -121,13 +109,6 @@ public class MapManager : Manager
             ((GameObject)tile.GameEntity).SetActive(false);
         }
 
-        var structs = GetUnit<StructUnit>().GetStructObjects();
-
-        foreach (var structure in structs)
-        {
-            structure.gameObject.SetActive(false);
-        }
-
         ReInitSight(tileCtrl.Model);
     }
 
@@ -141,15 +122,6 @@ public class MapManager : Manager
         sightTiles = GetTilesInRange(5, _targetTile);
         sightTiles.Add(_targetTile);
 
-        var structs = GetUnit<StructUnit>().GetStructObjects();
-
-        foreach (var structure in structs)
-        {
-            bool check = sightTiles.Contains(structure.currTile);
-
-            structure.gameObject.SetActive(check);
-        }
-
         foreach (var tile in sightTiles)
         {
             ((GameObject)tile.GameEntity).SetActive(true);
@@ -157,6 +129,7 @@ public class MapManager : Manager
     }
     #endregion
 
+    #region Units
     private void InitMaps()
     {
         foreach (var Map in MapDic.Values)
@@ -176,6 +149,7 @@ public class MapManager : Manager
             { Debug.LogError($"ERROR: {error.Message}\n{error.StackTrace}"); }
         }
     }
+    #endregion
 
     #region Get Unit
     public T GetUnit<T>() where T : MapBase => (T)MapDic[typeof(T)];
@@ -192,8 +166,6 @@ public class MapManager : Manager
         return false;
     }
     #endregion
-
-
 
     void Update()
     {
@@ -246,7 +218,7 @@ public class MapManager : Manager
             else if (canPlayerMove)
             {
                 TilePathFinderSurroundings(hitTile);
-                AddSelectedTilesList(hitTile);
+                selectedTiles.Add(hitTile);
             }
 
             else if (isDronePrepared)
@@ -324,7 +296,17 @@ public class MapManager : Manager
 
         ReInitSight(tileCtrl.Model);
 
+        TileEffectCheck();
+
         InitValue();
+    }
+
+    private void TileEffectCheck()
+    {
+        var tileBase = App.Manager.Map.tileCtrl.GetComponent<TileBase>();
+
+        tileBase.Buff();
+        tileBase.DeBuff();
     }
 
 
@@ -340,34 +322,8 @@ public class MapManager : Manager
 
     public void MovePathDelete()
     {
-        if (GetUnit<PlayerUnit>().IsMovePathSaved() == false)
-            return;
-
         GetUnit<ArrowUnit>().ArrowOff();
-        DeletePlayerMovePath();
-    }
-
-    /// <summary>
-    /// returns the coordinates of the exact center of the camera
-    /// </summary>
-    public void GetCameraCenterTile()
-    {
-        Vector3 centerPos = new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2);
-        Ray ray = Camera.main.ScreenPointToRay(centerPos);
-
-        int onlyLayerMaskTile = 1 << LayerMask.NameToLayer("Tile");
-
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, onlyLayerMaskTile))
-        {
-            var target = hit.transform.parent.GetComponent<TileController>();
-
-            if (target == null) return;
-
-            if (cameraTarget != target)
-            {
-                cameraTarget = target;
-            }
-        }
+        AllBorderOff();
     }
 
     public List<Tile> GetAllTiles() => hexaMapCtrl.Map.Tiles.Where(x => ((GameObject)x.GameEntity).CompareTag("Tile")).ToList();
@@ -423,11 +379,6 @@ public class MapManager : Manager
         }
     }
 
-    public void AddSelectedTilesList(TileController tileController)
-    {
-        selectedTiles.Add(tileController);
-    }
-
     public bool SelectPlayerMovePoint(TileController tileController)
     {
         if (tileController.GetComponent<Borders>().GetEtileState() == ETileState.Moveable
@@ -445,15 +396,6 @@ public class MapManager : Manager
     {
         targetTile = tileController;
 
-        GetUnit<PlayerUnit>().player.UpdateMovePath(AStar.FindPath(tileCtrl.Model.Coords, tileController.Model.Coords));
-
-        AllBorderOff();
-        //isPlayerSelected = false;
-    }
-
-    public void DeletePlayerMovePath()
-    {
-        GetUnit<PlayerUnit>().player.UpdateMovePath(null);
         AllBorderOff();
     }
 
@@ -472,22 +414,15 @@ public class MapManager : Manager
 
     public void AllBorderOff()
     {
-        BorderOff(selectedTiles);
+        if (selectedTiles == null) return;
 
-        BorderOff(pathTiles);
-    }
-
-    void BorderOff(List<TileController> tiles)
-    {
-        if (tiles == null) return;
-
-        for (int i = 0; i < tiles?.Count; i++)
+        for (int i = 0; i < selectedTiles.Count; i++)
         {
-            TileController tile = tiles?[i];
-            tile?.GetComponent<Borders>().OffNormalBorder();
+            TileController tile = selectedTiles[i];
+            tile.GetComponent<Borders>().OffNormalBorder();
         }
 
-        tiles?.Clear();
+        selectedTiles.Clear();
     }
 
     public Tile GetTileFromCoords(Coords coords)
@@ -531,6 +466,4 @@ public class MapManager : Manager
 
         return false;
     }
-
-
 }

@@ -10,8 +10,6 @@ public class StructUnit : MapBase
     [SerializeField] GameObject productionPrefab;
     [SerializeField] GameObject armyPrefab;
 
-    public List<StructBase> GetStructObjects() => transform.GetComponentsInChildren<StructBase>(true).ToList();
-
     public override void Init()
     {
         GenerateTower();
@@ -150,12 +148,12 @@ public class StructUnit : MapBase
     {
         var tileList = App.Manager.Map.tileCtrl.Model.Neighbours;
 
-        foreach (var item in tileList)
+        foreach (var tile in tileList)
         {
-            if (App.Manager.Map.CheckTileType(App.Manager.Map.TileToTileController(item.Value).Model, "LandformRocks", "LandformPlain") == false)
+            if (App.Manager.Map.CheckTileType(App.Manager.Map.TileToTileController(tile.Value).Model, "LandformRocks", "LandformPlain") == false)
                 continue;
 
-            var tileBase = ((GameObject)item.Value.GameEntity).GetComponent<TileBase>();
+            var tileBase = ((GameObject)tile.Value.GameEntity).GetComponent<TileBase>();
 
             if (tileBase.structure != null)
                 return tileBase.structure;

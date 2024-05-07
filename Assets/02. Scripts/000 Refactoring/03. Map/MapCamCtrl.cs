@@ -77,7 +77,6 @@ public class MapCamCtrl : MonoBehaviour
             .Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 10f, 0.5f))
             .OnComplete(()=> 
             {
-                App.Manager.Map.GetCameraCenterTile();
                 App.Manager.Map.GetUnit<DroneUnit>().InvocationExplorers();
             });
     }

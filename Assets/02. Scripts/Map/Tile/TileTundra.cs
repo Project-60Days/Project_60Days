@@ -2,9 +2,9 @@ public class TileTundra : TileBase
 {
     public override TileType GetTileType() => TileType.Tundra;
 
-    public override void Buff(Player player) { }
+    public override void Buff() { }
 
-    public override void DeBuff(Player _player)
+    public override void DeBuff()
     {
         App.Manager.UI.GetPanel<PagePanel>().SetResultPage("SEARCH_TUNDRA", false);
 

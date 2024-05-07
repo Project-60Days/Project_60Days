@@ -59,9 +59,9 @@ public abstract class TileBase : MonoBehaviour
         Player.PlayerSightUpdate -= CheckPlayerTIle;
     }
 
-    public abstract void Buff(Player _player);
+    public abstract void Buff();
 
-    public abstract void DeBuff(Player _player);
+    public abstract void DeBuff();
 
     void GetTilData()
     {

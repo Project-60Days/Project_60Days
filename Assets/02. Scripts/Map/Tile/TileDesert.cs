@@ -7,9 +7,9 @@ public class TileDesert : TileBase
 {
     public override TileType GetTileType() => TileType.Desert;
 
-    public override void Buff(Player player) { }
+    public override void Buff() { }
 
-    public override void DeBuff(Player _player)
+    public override void DeBuff()
     {
         App.Manager.Game.ChangeDurbility(-1);
 
@@ -17,7 +17,7 @@ public class TileDesert : TileBase
         {
             Debug.Log("모래폭풍 디버프");
             App.Manager.UI.GetPanel<PagePanel>().SetResultPage("DESERT_STORM",false);
-            _player.SetHealth(false);
+            App.Manager.Map.GetUnit<PlayerUnit>().player.SetHealth(false);
         }
     }
 }
