@@ -121,7 +121,7 @@ public class DroneUnit : MapBase
                 if (moveRange == 5)
                     break;
 
-                var tile = App.Manager.Map.TileToTileController(App.Manager.Map.GetTileFromCoords(coords));
+                var tile = ((GameObject)App.Manager.Map.GetTileFromCoords(coords).GameEntity).GetComponent<TileController>();
 
                 if (App.Manager.Map.CheckTileType(tileController.Model, "LandformRocks", "LandformPlain") == false)
                     continue;

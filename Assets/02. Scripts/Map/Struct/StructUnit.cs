@@ -150,7 +150,8 @@ public class StructUnit : MapBase
 
         foreach (var tile in tileList)
         {
-            if (App.Manager.Map.CheckTileType(App.Manager.Map.TileToTileController(tile.Value).Model, "LandformRocks", "LandformPlain") == false)
+            
+            if (App.Manager.Map.CheckTileType(((GameObject)tile.Value.GameEntity).GetComponent<TileController>().Model, "LandformRocks", "LandformPlain") == false)
                 continue;
 
             var tileBase = ((GameObject)tile.Value.GameEntity).GetComponent<TileBase>();

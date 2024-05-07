@@ -37,14 +37,14 @@ public class MapManager : Manager
     public HexamapController hexaMapCtrl;
 
     public TileController tileCtrl;
-
+    Tile currTile => tileCtrl.Model;
     public MapCamCtrl cameraCtrl;
 
     Camera mainCamera;
     TileController curTileController;
 
-    bool canPlayerMove;
-    bool isDronePrepared;
+    bool canPlayerMove = false;
+    bool isDronePrepared = false;
     public bool canClick => !canPlayerMove && !isDronePrepared;
 
     [SerializeField] Transform mapParentTransform;
@@ -63,8 +63,6 @@ public class MapManager : Manager
     int tileLayer;
 
     Ray ray;
-
-    int cloakDay = 0;
 
     public BuffData Buff { get; private set; }
     private BuffData defaultBuff;
@@ -116,7 +114,8 @@ public class MapManager : Manager
 
         mapParentTransform.position = Vector3.forward * 200f;
 
-        UpdateCurrentTile(TileToTileController(hexaMapCtrl.Map.GetTileFromCoords(new Coords(0, 0))));
+        UpdateCurrentTile(
+            ((GameObject)hexaMapCtrl.Map.GetTileFromCoords(new Coords(0, 0)).GameEntity).GetComponent<TileController>());
         targetTile = tileCtrl;
 
         App.Manager.UI.GetPanel<LoadingPanel>().ClosePanel();
@@ -438,11 +437,6 @@ public class MapManager : Manager
         AllBorderOff();
     }
 
-    public TileController TileToTileController(Tile tile)
-    {
-        return ((GameObject)tile.GameEntity).GetComponent<TileController>();
-    }
-
     public void SelectBorder(TileController tileController, ETileState state)
     {
         if (state != ETileState.Target) 
@@ -469,12 +463,10 @@ public class MapManager : Manager
         return hexaMapCtrl.Map.GetTileFromCoords(coords);
     }
 
-    public List<Tile> GetTilesInRange(int num, Tile tile = null)
+    public List<Tile> GetTilesInRange(int num, Tile _tile = null)
     {
-        if (tile == null)
-        {
-            return hexaMapCtrl.Map.GetTilesInRange(tileCtrl.Model, num);
-        }
+        var tile = _tile ?? tileCtrl.Model;
+
         return hexaMapCtrl.Map.GetTilesInRange(tile, num);
     }
 
@@ -530,7 +522,6 @@ public class MapManager : Manager
         Buff.canDetect = false;
         GetUnit<PlayerUnit>().SetCloaking(num);
     }
-
 
     public void UnsetCloaking()
     {

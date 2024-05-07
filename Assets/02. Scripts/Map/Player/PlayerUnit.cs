@@ -11,10 +11,11 @@ public class PlayerUnit : MapBase
     public Transform PlayerTransform => player.transform;
 
     int cloakingDay = 0;
+    bool isCloaking = false;
 
     public override void Init()
     {
-        Vector3 spawnPos = App.Manager.Map.TileToTileController(App.Manager.Map.GetTileFromCoords(new Coords(0, 0))).transform.position;
+        Vector3 spawnPos = ((GameObject)App.Manager.Map.GetTileFromCoords(new Coords(0, 0)).GameEntity).GetComponent<TileController>().transform.position;
         spawnPos.y += 0.7f;
 
         var playerObject = Instantiate(prefab, spawnPos,
@@ -22,12 +23,13 @@ public class PlayerUnit : MapBase
         player = playerObject.GetComponent<Player>();
         player.transform.parent = mapParentTransform;
 
-        App.Manager.Map.UpdateCurrentTile(App.Manager.Map.TileToTileController(App.Manager.Map.GetTileFromCoords(new Coords(0, 0))));
+        Player.PlayerSightUpdate?.Invoke();
     }
 
     public override void ReInit()
     {
-        CheckCloaking();
+        if (isCloaking) 
+            CheckCloaking();
 
         player.Move(App.Manager.Map.targetTile);
     }
@@ -36,6 +38,7 @@ public class PlayerUnit : MapBase
     {
         player.SetCloaking(true);
         cloakingDay = App.Manager.Game.dayCount + num;
+        isCloaking = true;
     }
 
     private void CheckCloaking()

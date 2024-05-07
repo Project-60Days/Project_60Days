@@ -676,13 +676,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e33d768211c2934e8a5a247f2a02a85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapData:
+  Map:
     resourcePercent: 70
-    fogSightRange: 4
-    playerMovementPoint: 2
-    zombieDetectionRange: 3
+    enemyDetectRange: 3
     zombieCount: 80
     durability: 200
+  Buff:
+    fogSightRange: 4
+    moveRange: 2
+    canDetect: 1
   startTutorial: 0
 --- !u!1 &428952731
 GameObject:

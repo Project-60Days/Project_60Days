@@ -14,6 +14,7 @@ public class ZombieBase : MonoBehaviour
     public ValueData data;
     public Distrubtor nearthDistrubtor;
     public Tile currTile;
+    public TileType type;
     public Tile lastTile;
     public Tile targetTile;
     public bool isChasingPlayer;
@@ -23,9 +24,9 @@ public class ZombieBase : MonoBehaviour
 
     List<Coords> movePath;
     int remainStunTime;
-    int moveCost = 1;
-    int dectectionRange = 2;
-    int debuffCoolTime = 0;
+    int moveRange = 1;
+    int dectectionRange = 3;
+    bool isDebuff = true;
 
     public int count { get; private set; }
 
@@ -47,9 +48,10 @@ public class ZombieBase : MonoBehaviour
         lastZombieCount = count;
     }
 
-    TileType CheckTileType(Tile _tile)
+    void InitCount()
     {
-        return ((GameObject)_tile.GameEntity).GetComponent<TileBase>().GetTileType();
+        count = (int)Random.Range(data.MinCount, data.MaxCount); ;
+        SetModel();
     }
 
     void CheckTileEffect(Tile _tile)
@@ -65,40 +67,19 @@ public class ZombieBase : MonoBehaviour
                 }
 
                 break;
+
             case TileType.Desert:
-                if (debuffCoolTime <= 0)
-                {
-                    debuffCoolTime = 1;
-                }
-                else if (debuffCoolTime > 0)
-                {
-                    debuffCoolTime -= 1;
-                }
-
-                break;
             case TileType.Tundra:
-                if (debuffCoolTime <= 0)
-                {
-                    debuffCoolTime = 1;
-                }
-                else if (debuffCoolTime > 0)
-                {
-                    debuffCoolTime -= 1;
-                }
-
-                break;
-            case TileType.Jungle:
-                break;
-            default:
+                isDebuff = !isDebuff;
                 break;
         }
     }
 
-    void InitCount()
+    TileType CheckTileType(Tile _tile)
     {
-        count = (int)Random.Range(data.MinCount, data.MaxCount);;
-        SetModel();
+        return ((GameObject)_tile.GameEntity).GetComponent<TileBase>().GetTileType();
     }
+
 
     public void SetModel()
     {
@@ -124,12 +105,6 @@ public class ZombieBase : MonoBehaviour
         }
     }
 
-    public void SetValue(int cost, int _detectionRange)
-    {
-        moveCost = cost;
-        dectectionRange = _detectionRange;
-    }
-
     public void DetectionAndAct()
     {
         CheckTileEffect(currTile);
@@ -143,10 +118,7 @@ public class ZombieBase : MonoBehaviour
 
     public void ActionDecision()
     {
-        if (debuffCoolTime > 0)
-        {
-            return;
-        }
+        if (isDebuff) return;
 
         if (remainStunTime > 0)
         {
@@ -190,7 +162,7 @@ public class ZombieBase : MonoBehaviour
         if (movePath.Count == 0 && target == App.Manager.Map.tileCtrl.Model)
         {
             // 플레이어가 1칸 내에 있는 경우
-            AttackPlayer();
+            App.Manager.Game.TakeDamage(count);
         }
         else
         {
@@ -199,7 +171,7 @@ public class ZombieBase : MonoBehaviour
                 return;
             }
 
-            for (int i = 0; i < moveCost; i++)
+            for (int i = 0; i < moveRange; i++)
             {
                 pointTile = App.Manager.Map.GetTileFromCoords(movePath[i]);
                 pointPos = ((GameObject)pointTile.GameEntity).transform.position;
@@ -284,12 +256,6 @@ public class ZombieBase : MonoBehaviour
         }
 
         return 1;
-    }
-
-    public void AttackPlayer()
-    {
-        // 공격 애니메이션
-        App.Manager.Game.TakeDamage(count);
     }
 
     public void Stun(int time = 1)
