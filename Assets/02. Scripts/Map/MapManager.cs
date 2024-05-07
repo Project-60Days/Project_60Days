@@ -281,7 +281,7 @@ public class MapManager : Manager
 
             if (!canPlayerMove && !isDronePrepared)
             {
-                tileController.GetComponent<TileBase>().TileInfoUpdate();
+                tileController.Base.TileInfoUpdate();
                 App.Manager.UI.GetPanel<MapPanel>().TileInfo(true);
             }
             else if (canPlayerMove)
@@ -332,7 +332,7 @@ public class MapManager : Manager
 
     private void TileEffectCheck()
     {
-        var tileBase = App.Manager.Map.tileCtrl.GetComponent<TileBase>();
+        var tileBase = App.Manager.Map.tileCtrl.Base;
 
         tileBase.Buff();
         tileBase.DeBuff();
@@ -398,7 +398,7 @@ public class MapManager : Manager
             SelectBorder(value, ETileState.None);
         }
 
-        if (tileController.gameObject.GetComponent<TileBase>().structure?.isAccessible == false
+        if (tileController.Base.structure?.isAccessible == false
             || CheckTileType(tileController.Model, "LandformRocks", "LandformPlain") == false)
         {
             SelectBorder(tileController, ETileState.Unable);
@@ -407,7 +407,7 @@ public class MapManager : Manager
         {
             SelectBorder(tileController, ETileState.Unable);
         }
-        else if (tileController.gameObject.GetComponent<TileBase>().currZombies != null)
+        else if (tileController.Base.currZombies != null)
         {
             SelectBorder(tileController, ETileState.Unable);
         }
@@ -419,7 +419,7 @@ public class MapManager : Manager
 
     public bool SelectPlayerMovePoint(TileController tileController)
     {
-        if (tileController.GetComponent<Borders>().GetEtileState() == ETileState.Moveable
+        if (tileController.Base.GetEtileState() == ETileState.Moveable
             && tileCtrl.Model != tileController.Model
             && CheckTileType(tileController.Model, "LandformRocks", "LandformPlain"))
         {
@@ -440,7 +440,7 @@ public class MapManager : Manager
     public void SelectBorder(TileController tileController, ETileState state)
     {
         if (state != ETileState.Target) 
-            tileController.GetComponent<Borders>().BorderOn(state);
+            tileController.Base.BorderOn(state);
 
         selectedTiles.Add(tileController);
     }
@@ -452,7 +452,7 @@ public class MapManager : Manager
         for (int i = 0; i < selectedTiles.Count; i++)
         {
             TileController tile = selectedTiles[i];
-            tile.GetComponent<Borders>().OffNormalBorder();
+            tile.Base.OffNormalBorder();
         }
 
         selectedTiles.Clear();
@@ -498,7 +498,7 @@ public class MapManager : Manager
         return false;
     }
 
-    public string GetLandformBGM() => tileCtrl.GetComponent<TileBase>().tileData.Code switch
+    public string GetLandformBGM() => tileCtrl.Base.tileData.Code switch
     {
         "None" => "Ambience_City",
         "Jungle" => "Ambience_Jungle",

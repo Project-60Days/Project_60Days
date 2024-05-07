@@ -59,5 +59,43 @@ PrefabInstance:
       propertyPath: tileType
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7736291625355718530, guid: 2a643033d6019de4a8067d19baece194, type: 3}
+      propertyPath: borders.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7736291625355718530, guid: 2a643033d6019de4a8067d19baece194, type: 3}
+      propertyPath: materials.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7736291625355718530, guid: 2a643033d6019de4a8067d19baece194, type: 3}
+      propertyPath: borders.Array.data[0]
+      value: 
+      objectReference: {fileID: 4601176908280668483}
+    - target: {fileID: 7736291625355718530, guid: 2a643033d6019de4a8067d19baece194, type: 3}
+      propertyPath: borders.Array.data[1]
+      value: 
+      objectReference: {fileID: 8915063479912990955}
+    - target: {fileID: 7736291625355718530, guid: 2a643033d6019de4a8067d19baece194, type: 3}
+      propertyPath: materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 733695f5eeb697d48be9dae0cc97a269, type: 2}
+    - target: {fileID: 7736291625355718530, guid: 2a643033d6019de4a8067d19baece194, type: 3}
+      propertyPath: materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 82311c527c36cea499b0a142824f82dd, type: 2}
+    - target: {fileID: 7736291625355718530, guid: 2a643033d6019de4a8067d19baece194, type: 3}
+      propertyPath: materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1e61c028ff3268d48898533862f445b5, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a643033d6019de4a8067d19baece194, type: 3}
+--- !u!23 &4601176908280668483 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8202563179935536236, guid: 2a643033d6019de4a8067d19baece194, type: 3}
+  m_PrefabInstance: {fileID: 5624980291594302767}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &8915063479912990955 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 3870662210850700740, guid: 2a643033d6019de4a8067d19baece194, type: 3}
+  m_PrefabInstance: {fileID: 5624980291594302767}
+  m_PrefabAsset: {fileID: 0}

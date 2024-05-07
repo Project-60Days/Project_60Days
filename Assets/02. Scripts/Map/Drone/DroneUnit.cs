@@ -131,7 +131,7 @@ public class DroneUnit : MapBase
                 moveRange++;
             }
 
-            if (moveRange != 5 && tileController.gameObject.GetComponent<TileBase>().structure?.isAccessible == false)
+            if (moveRange != 5 && tileController.Base.structure?.isAccessible == false)
                 App.Manager.Map.SelectBorder(tileController, ETileState.Unable);
             else
                 App.Manager.Map.SelectBorder(tileController, ETileState.Moveable);
@@ -174,7 +174,7 @@ public class DroneUnit : MapBase
     {
         if (App.Manager.Map.CheckTileType(_tile .Model, "LandformRocks", "LandformPlain") == false) return;
 
-        if (_tile.GetComponent<Borders>().GetEtileState() == ETileState.Moveable
+        if (_tile.Base.GetEtileState() == ETileState.Moveable
             && App.Manager.Map.tileCtrl.Model != _tile.Model)
         {
             foreach (var item in App.Manager.Map.tileCtrl.Model.Neighbours.Where(
@@ -233,13 +233,13 @@ public class DroneUnit : MapBase
 
     void SelectTargetBorder(TileController tileController)
     {
-        tileController.GetComponent<Borders>().BorderOn(ETileState.Target);
+        tileController.Base.BorderOn(ETileState.Target);
         droneSelectedTiles.Add(tileController);
     }
 
     void DeselecTargetBorder(TileController tileController)
     {
-        tileController.GetComponent<Borders>().OffTargetBorder();
+        tileController.Base.OffTargetBorder();
 
         if (droneSelectedTiles.Contains(tileController))
             droneSelectedTiles.Remove(tileController);

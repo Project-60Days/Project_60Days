@@ -9,7 +9,7 @@ public class ResourceUnit : MapBase
 
     public override void ReInit()
     {
-        resources = tile.GetComponent<TileBase>().GetResources();
+        resources = tile.Base.GetResources();
         var Inventory = App.Manager.UI.GetPanel<InventoryPanel>();
 
         foreach (var resource in resources)
@@ -22,7 +22,7 @@ public class ResourceUnit : MapBase
 
     public bool CheckResource(TileController tileController)
     {
-        return tileController.GetComponent<TileBase>().CheckResources();
+        return tileController.Base.CheckResources();
     }
 
     public List<Resource> GetLastResources()

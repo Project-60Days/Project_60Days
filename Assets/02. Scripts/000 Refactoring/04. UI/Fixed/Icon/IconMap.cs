@@ -33,7 +33,7 @@ public class IconMap : IconBase
     public void ResetIcon()
     {
         var tile = Map.tileCtrl;
-        type = tile.GetComponent<TileBase>().GetTileType();
+        type = tile.Base.GetTileType();
 
         image.sprite = SetImage();
         text = SetString();
