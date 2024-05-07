@@ -17,7 +17,7 @@ public class TileDesert : TileBase
         {
             Debug.Log("모래폭풍 디버프");
             App.Manager.UI.GetPanel<PagePanel>().SetResultPage("DESERT_STORM",false);
-            App.Manager.Map.GetUnit<PlayerUnit>().player.SetHealth(false);
+            App.Manager.Map.SetMoveRange(0);
         }
     }
 }

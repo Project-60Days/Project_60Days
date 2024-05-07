@@ -161,15 +161,14 @@ public class ZombieBase : MonoBehaviour
             return;
         }
 
-        if (isChasingPlayer && !App.Manager.Map.GetUnit<PlayerUnit>().player.GetIsClocking())
+        if (isChasingPlayer && !App.Manager.Map.Buff.canDetect)
         {
             //Debug.Log(gameObject.name + "가 플레이어를 발견했습니다!");
             MoveToAttack(App.Manager.Map.tileCtrl.Model);
 
             // 플레이어 바라보기
-            var updatePos = App.Manager.Map.GetUnit<PlayerUnit>().player.transform.position;
-            updatePos.y += 0.6f;
-            transform.LookAt(updatePos);
+            var updatePos = App.Manager.Map.GetUnit<PlayerUnit>().PlayerTransform;
+            transform.LookAt(new Vector3(updatePos.position.x, updatePos.position.y + 0.6f, updatePos.position.z));
         }
         else
         {

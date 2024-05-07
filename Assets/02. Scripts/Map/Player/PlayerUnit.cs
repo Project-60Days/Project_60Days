@@ -6,11 +6,11 @@ public class PlayerUnit : MapBase
     [SerializeField] Transform mapParentTransform;
     [SerializeField] GameObject prefab;
 
-    public Player player { get; private set; }
+    private Player player;
 
-    public int PlayerMoveRange => player.MoveRange;
+    public Transform PlayerTransform => player.transform;
 
-    public Vector3 PlayerTransform => player.transform.position;
+    int cloakingDay = 0;
 
     public override void Init()
     {
@@ -21,17 +21,29 @@ public class PlayerUnit : MapBase
             Quaternion.Euler(0, -90, 0));
         player = playerObject.GetComponent<Player>();
         player.transform.parent = mapParentTransform;
-        player.InputDefaultData(data.playerMovementPoint);
 
         App.Manager.Map.UpdateCurrentTile(App.Manager.Map.TileToTileController(App.Manager.Map.GetTileFromCoords(new Coords(0, 0))));
     }
 
     public override void ReInit()
     {
-        player.ChangeClockBuffDuration();
+        CheckCloaking();
 
-        player.ActionDecision(App.Manager.Map.targetTile);
+        player.Move(App.Manager.Map.targetTile);
+    }
 
-        player.SetHealth(true);
+    public void SetCloaking(int num)
+    {
+        player.SetCloaking(true);
+        cloakingDay = App.Manager.Game.dayCount + num;
+    }
+
+    private void CheckCloaking()
+    {
+        if (App.Manager.Game.dayCount == cloakingDay)
+        {
+            player.SetCloaking(false);
+            App.Manager.Map.UnsetCloaking();
+        }
     }
 }

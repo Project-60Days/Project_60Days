@@ -39,7 +39,7 @@ public class DroneUnit : MapBase
 
     void GenerateDrone(GameObject prefab, List<GameObject> list)
     {
-        var drone = Instantiate(prefab, App.Manager.Map.GetUnit<PlayerUnit>().PlayerTransform + Vector3.up * 1.5f, Quaternion.Euler(0, 90, 0), transform);
+        var drone = Instantiate(prefab, App.Manager.Map.GetUnit<PlayerUnit>().PlayerTransform.position + Vector3.up * 1.5f, Quaternion.Euler(0, 90, 0), transform);
         drone.transform.parent = transform;
         drone.GetComponentInChildren<MeshRenderer>().material.DOFade(50, 0);
         list.Add(drone);

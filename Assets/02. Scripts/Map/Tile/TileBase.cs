@@ -50,7 +50,7 @@ public abstract class TileBase : MonoBehaviour
         itemSO = App.Manager.Game.itemSO;
 
         var random = Random.Range(0, 100);
-        if (random < App.Manager.Test.mapData.resourcePercent)
+        if (random < App.Manager.Test.Map.resourcePercent)
             SpawnRandomResource();
     }
 
@@ -63,7 +63,7 @@ public abstract class TileBase : MonoBehaviour
 
     public abstract void DeBuff();
 
-    void GetTilData()
+    void SetTileData()
     {
         gachaList.Clear();
         appearanceResources.Clear();
@@ -79,7 +79,7 @@ public abstract class TileBase : MonoBehaviour
 
     public void SpawnRandomResource()
     {
-        GetTilData();
+        SetTileData();
 
         var randomInt = Random.Range(1, 3);
 

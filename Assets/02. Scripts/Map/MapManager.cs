@@ -6,6 +6,29 @@ using Hexamap;
 using FischlWorks_FogWar;
 using System.Collections.Generic;
 
+[Serializable]
+public class MapData
+{
+    public int resourcePercent = 70;
+
+    public int enemyDetectRange = 3;
+
+    public int zombieCount = 80;
+
+    public int durability = 200;
+}
+
+[Serializable]
+public class BuffData
+{
+    public int fogSightRange = 4;
+
+    public int moveRange = 2;
+
+    public bool canDetect = true;
+}
+
+
 public class MapManager : Manager
 {
     [SerializeField] List<MapBase> Maps;
@@ -41,6 +64,11 @@ public class MapManager : Manager
 
     Ray ray;
 
+    int cloakDay = 0;
+
+    public BuffData Buff { get; private set; }
+    private BuffData defaultBuff;
+
     protected override void Awake()
     {
         base.Awake();
@@ -58,6 +86,7 @@ public class MapManager : Manager
     private void Start()
     {
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        Buff = defaultBuff = App.Manager.Test.Buff;
 
         GenerateMap();
         AllBorderOff();
@@ -65,7 +94,7 @@ public class MapManager : Manager
         InitSight();
         cameraCtrl.Init();
         InitValue();
-        fog.Add(GetUnit<PlayerUnit>().player.transform, App.Manager.Test.mapData.fogSightRange, true);
+        fog.Add(GetUnit<PlayerUnit>().PlayerTransform, Buff.fogSightRange, true);
 
         playerLayer = 1 << LayerMask.NameToLayer("Player");
         tileLayer = 1 << LayerMask.NameToLayer("Tile");
@@ -167,6 +196,7 @@ public class MapManager : Manager
     }
     #endregion
 
+    #region Update
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -287,17 +317,17 @@ public class MapManager : Manager
 
         MovePathDelete();
     }
+    #endregion
 
     public void NextDay()
     {
+        Buff = defaultBuff;
         AllBorderOff();
-
+        TileEffectCheck();
+        UpdateCurrentTile(tileCtrl);
         ReInitMaps();
 
         ReInitSight(tileCtrl.Model);
-
-        TileEffectCheck();
-
         InitValue();
     }
 
@@ -308,17 +338,6 @@ public class MapManager : Manager
         tileBase.Buff();
         tileBase.DeBuff();
     }
-
-
-
-    public string GetLandformBGM() => tileCtrl.GetComponent<TileBase>().tileData.Code switch
-    {
-        "None" => "Ambience_City",
-        "Jungle" => "Ambience_Jungle",
-        "Desert" => "Ambience_Desert",
-        "Tundra" => "Ambience_Tundra",
-        _ => "Ambience_City",
-    };
 
     public void MovePathDelete()
     {
@@ -340,11 +359,31 @@ public class MapManager : Manager
         }
     }
 
-    
+    public void SetRandomTile()
+    {
+        var candidate = GetTilesInRange(1, tileCtrl.Model);
+
+        Tile tile = candidate[0];
+
+        for (int i = 0; i < candidate.Count; i++)
+        {
+            if (App.Manager.Map.CheckTileType(candidate[i], "LandformPlain"))
+            {
+                if (((GameObject)candidate[i].GameEntity).GetComponent<TileBase>().structure == null &&
+                    ((GameObject)candidate[i].GameEntity).GetComponent<TileBase>().currZombies == null)
+                {
+                    tile = candidate[i];
+                    break;
+                }
+            }
+        }
+
+        tileCtrl = ((GameObject)tile.GameEntity).GetComponent<TileController>();
+    }
 
     public void TilePathFinderSurroundings(TileController tileController)
     {
-        var neighborTiles = hexaMapCtrl.Map.GetTilesInRange(tileCtrl.Model, GetUnit<PlayerUnit>().PlayerMoveRange);
+        var neighborTiles = hexaMapCtrl.Map.GetTilesInRange(tileCtrl.Model, Buff.moveRange);
 
         var neighborController = neighborTiles
             .Select(x => ((GameObject)x.GameEntity).GetComponent<TileController>()).ToList();
@@ -465,5 +504,36 @@ public class MapManager : Manager
         }
 
         return false;
+    }
+
+    public string GetLandformBGM() => tileCtrl.GetComponent<TileBase>().tileData.Code switch
+    {
+        "None" => "Ambience_City",
+        "Jungle" => "Ambience_Jungle",
+        "Desert" => "Ambience_Desert",
+        "Tundra" => "Ambience_Tundra",
+        _ => "Ambience_City",
+    };
+
+    public void AddMoveRange(int num)
+    {
+        Buff.moveRange += num;
+    }
+
+    public void SetMoveRange(int num)
+    {
+        Buff.moveRange = num;
+    }
+
+    public void SetCloaking(int num)
+    {
+        Buff.canDetect = false;
+        GetUnit<PlayerUnit>().SetCloaking(num);
+    }
+
+
+    public void UnsetCloaking()
+    {
+        Buff.canDetect = true;
     }
 }

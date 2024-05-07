@@ -23,14 +23,14 @@ public class TileJungle : TileBase
             // 랜덤 이동
             App.Manager.UI.GetPanel<PagePanel>().SetResultPage("LOOSE_WAY", false);
 
-            App.Manager.Map.GetUnit<PlayerUnit>().player.JungleDebuffOn();
+            App.Manager.Map.SetRandomTile();
         }
 
         if (RandomPercent.GetRandom(10))
         {
             App.Manager.UI.GetPanel<PagePanel>().SetResultPage("SWAMP", false);
 
-            App.Manager.Map.GetUnit<PlayerUnit>().player.SetHealth(false);
+            App.Manager.Map.SetMoveRange(0);
         }
     }
 }

@@ -32,7 +32,7 @@ public class GameManager : Manager
         SetButtonEvent();
         InitItemSO();
 
-        durability = App.Manager.Test.mapData.durability;
+        durability = App.Manager.Test.Map.durability;
     }
 
     private void SetButtonEvent()

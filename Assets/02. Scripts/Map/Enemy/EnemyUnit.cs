@@ -13,14 +13,13 @@ public class EnemyUnit : MapBase
     {
         var tiles = App.Manager.Map.GetAllTiles();
         tiles.Remove(App.Manager.Map.tileCtrl.Model);
-        var selectList = Shuffle(tiles, data.zombieCount);
+        var selectList = Shuffle(tiles, App.Manager.Test.Map.zombieCount);
 
         foreach (var tile in selectList)
         { 
             var enemy = SpawnEnemy(tile);
 
             enemy.Init(tile);
-            enemy.SetValue(data.playerMovementPoint, data.zombieDetectionRange);
             enemyList.Add(enemy);
         }
     }

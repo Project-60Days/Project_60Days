@@ -13,15 +13,8 @@ public class TutorialManager : Manager
     {
         UI = App.Manager.UI;
 
-        if (App.Manager.Game.startTutorial) 
-            StartCoroutine(WaitForLoad());
-    }
-
-    private IEnumerator WaitForLoad()
-    {
-        yield return new WaitUntil(() => App.Manager.Map.GetUnit<PlayerUnit>().player != null);
-
-        StartTutorial();
+        if (App.Manager.Game.startTutorial)
+            StartTutorial();
     }
 
     public void StartTutorial()

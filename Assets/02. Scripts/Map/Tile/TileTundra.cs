@@ -13,6 +13,6 @@ public class TileTundra : TileBase
             App.Manager.UI.GetPanel<PagePanel>().SetResultPage("ACIDENT_ETHER", false);
         }
 
-        App.Manager.Map.GetUnit<PlayerUnit>().player.SetHealth(false);
+        App.Manager.Map.SetMoveRange(0);
     }
 }

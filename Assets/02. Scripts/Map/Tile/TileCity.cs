@@ -7,7 +7,7 @@ public class TileCity : TileBase
     public override void Buff()
     {
         // 포장된 도로 : 확정 이동 거리 1추가
-        App.Manager.Map.GetUnit<PlayerUnit>().player.ChangeMoveRange(1);
+        App.Manager.Map.AddMoveRange(1);
     }
 
     public override void DeBuff()
