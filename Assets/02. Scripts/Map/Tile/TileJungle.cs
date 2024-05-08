@@ -1,35 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
-using Hexamap;
 using UnityEngine;
 
 public class TileJungle : TileBase
 {
     public override TileType GetTileType() => TileType.Jungle;
 
-    protected override void Start()
+    public override void Buff() 
     {
-        resourceCount = 3;
-
-        base.Start();
+        App.Manager.Map.SetResourceCount(1);
     }
-
-    public override void Buff() { }
 
     public override void DeBuff()
     {
-        if (RandomPercent.GetRandom(30))
-        {
-            // 랜덤 이동
-            App.Manager.UI.GetPanel<PagePanel>().SetResultPage("LOOSE_WAY", false);
+        int random = Random.Range(0, 100);
 
+        if (random < 30) 
+        {
+            App.Manager.UI.GetPanel<PagePanel>().SetResultPage("LOOSE_WAY", false);
             App.Manager.Map.SetRandomTile();
         }
 
-        if (RandomPercent.GetRandom(10))
+        if (random < 10)
         {
             App.Manager.UI.GetPanel<PagePanel>().SetResultPage("SWAMP", false);
-
             App.Manager.Map.SetMoveRange(0);
         }
     }

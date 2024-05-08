@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class TileTundra : TileBase
 {
     public override TileType GetTileType() => TileType.Tundra;
@@ -6,13 +8,11 @@ public class TileTundra : TileBase
 
     public override void DeBuff()
     {
-        App.Manager.UI.GetPanel<PagePanel>().SetResultPage("SEARCH_TUNDRA", false);
+        int random = Random.Range(0, 100);
 
-        if (RandomPercent.GetRandom(10))
+        if (random < 10)
         {
             App.Manager.UI.GetPanel<PagePanel>().SetResultPage("ACIDENT_ETHER", false);
         }
-
-        App.Manager.Map.SetMoveRange(0);
     }
 }

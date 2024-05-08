@@ -25,6 +25,8 @@ public class BuffData
 
     public int moveRange = 2;
 
+    public int resourceCount = 2;
+
     public bool canDetect = true;
 }
 
@@ -515,6 +517,11 @@ public class MapManager : Manager
     public void UnsetCloaking()
     {
         Buff.canDetect = true;
+    }
+
+    public void SetResourceCount(int num)
+    {
+        Buff.resourceCount += num;
     }
 
     private TileController GetTileController(Tile _tile)

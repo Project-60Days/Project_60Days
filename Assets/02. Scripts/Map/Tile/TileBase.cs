@@ -12,7 +12,6 @@ public abstract class TileBase : MonoBehaviour
     public bool isZombie { get; private set; }
     public StructBase structure { get; private set; }
 
-    protected int resourceCount = 2;
     protected TileData tileData;
 
     private SpriteRenderer[] resourceIcons;
@@ -208,6 +207,7 @@ public abstract class TileBase : MonoBehaviour
     public List<Resource> GetResources()
     {
         List<Resource> list = new();
+        int resourceCount = App.Manager.Map.Buff.resourceCount;
 
         foreach (var resource in resources)
         {
