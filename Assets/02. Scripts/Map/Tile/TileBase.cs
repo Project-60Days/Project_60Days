@@ -1,8 +1,9 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using Hexamap;
-using System.Linq;
+
 using Random = UnityEngine.Random;
 
 [SelectionBase]
@@ -10,6 +11,7 @@ public abstract class TileBase : MonoBehaviour
 {
     public bool canMove { get; private set; }
     public bool isZombie { get; private set; }
+    public bool isAccessable = true;
     public StructBase structure { get; private set; }
 
     protected TileData tileData;
@@ -22,10 +24,9 @@ public abstract class TileBase : MonoBehaviour
 
     private void Awake()
     {
-        App.Data.Game.tileData.TryGetValue(GetTileType().ToString(), out TileData data);
-        tileData = data;
+        tileData = App.Data.Game.tileData[GetTileType().ToString()];
 
-        info.img = Resources.Load("Illust/" + data.Code) as Sprite;
+        info.img = Resources.Load("Illust/" + tileData.Code) as Sprite;
         info.landformTxt = tileData.Korean;
         resourceIcons = GetComponentsInChildren<SpriteRenderer>(true);
     }
@@ -124,14 +125,11 @@ public abstract class TileBase : MonoBehaviour
         }
     }
 
-    public void SetSpecialResource()
+    public void SetSpecialResource(Resource _resource)
     {
         resources.Clear();
 
-        var itemBase = App.Manager.Game.itemSO.items.ToList()
-                .Find(x => x == structure.resource.Item);
-
-        resources.Add(new Resource(itemBase, 1));
+        resources.Add(_resource);
 
         CheckAngle(transform.rotation.eulerAngles);
     }
@@ -194,6 +192,8 @@ public abstract class TileBase : MonoBehaviour
 
         info.landformTxt = _struct.name;
         info.resourceTxt = "자원 : ???";
+
+        isAccessable = false;
     }
 
     public void SetEnemy(ZombieBase _enemy)

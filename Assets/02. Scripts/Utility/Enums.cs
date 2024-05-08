@@ -106,12 +106,4 @@ public enum ETileState
     Unable,
     Target
 }
-
-public enum EStructure
-{
-    Tower,
-    Production,
-    Army,
-    Dynamo
-}
 #endregion

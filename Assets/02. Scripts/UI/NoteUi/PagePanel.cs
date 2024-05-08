@@ -29,8 +29,6 @@ public class PagePanel : UIBase
     [HideInInspector] public string currStruct;
     [HideInInspector] public string currResource;
     [HideInInspector] public int currResourceIndex = 0;
-    [HideInInspector] public bool isClickYesBtnInTower = false;
-    [HideInInspector] public bool isClickYesBtnInProductionStructure = false;
 
     #region Override
     public override void Init()
@@ -48,8 +46,6 @@ public class PagePanel : UIBase
         noImage = noBtn.GetComponent<Image>();
 
         currStruct = null;
-        isClickYesBtnInTower = false;
-        isClickYesBtnInProductionStructure = false;
     }
 
     public override void ReInit()
@@ -80,7 +76,7 @@ public class PagePanel : UIBase
     public void SetSelectPage(string _nodeName, StructBase _structData)
     {
         selectPage.SetNodeName(_nodeName);
-        currStruct = _structData.name;
+        currStruct = "";
 
         InitBtns();
 

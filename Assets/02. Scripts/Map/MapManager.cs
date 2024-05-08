@@ -401,7 +401,7 @@ public class MapManager : Manager
             SelectBorder(value, ETileState.None);
         }
 
-        if (tileController.Base.structure?.isAccessible == false
+        if (tileController.Base.isAccessable == false
             || !tileController.Base.canMove)
         {
             SelectBorder(tileController, ETileState.Unable);

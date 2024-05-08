@@ -2,7 +2,6 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using Hexamap;
-using System;
 
 public class StructUnit : MapBase
 {
@@ -19,10 +18,11 @@ public class StructUnit : MapBase
 
     public override void ReInit() 
     {
-        SenseStruct()?.Around();
+        SenseStruct()?.DetectStruct();
     }
 
-    public void GenerateTower()
+    #region Generate Structure
+    private void GenerateTower()
     {
         Tile tile = App.Manager.Map.GetTileFromCoords(new Coords(1, 3));
 
@@ -40,10 +40,10 @@ public class StructUnit : MapBase
         ((GameObject)tile.GameEntity).GetComponent<TileBase>().SetStruct(tower);
     }
 
-    public void GenerateProduction()
+    private void GenerateProduction()
     {
         var boundaryTiles = GetInRangeTile(8);
-        Tile centerTile = GetRandomTile(boundaryTiles, 1)[0];
+        Tile centerTile = GetRandomTile(boundaryTiles);
 
         var tileList = new List<Tile>
         {
@@ -60,23 +60,13 @@ public class StructUnit : MapBase
 
         var structure = Instantiate(productionPrefab, spawnPos, Quaternion.Euler(0, 180, 0), transform).GetComponent<StructBase>();
 
-        structure.Init(tileList);
-
-        foreach (var tile in tileList)
-        {
-            var tileBase = ((GameObject)tile.GameEntity).GetComponent<TileBase>();
-            tileBase.SetStruct(structure);
-
-            var position = tileBase.transform.position;
-            position.y = ((GameObject)tile.GameEntity).transform.position.y;
-            tileBase.transform.position = position;
-        }
+        SetStruct(structure, tileList);
     }
 
-    public void GenerateArmy()
+    private void GenerateArmy()
     {
         var boundaryTiles = GetInRangeTile(7);
-        Tile centerTile = GetRandomTile(boundaryTiles, 1)[0];
+        Tile centerTile = GetRandomTile(boundaryTiles);
 
         var tileList = new List<Tile>
         {
@@ -89,71 +79,45 @@ public class StructUnit : MapBase
 
         var structure = Instantiate(armyPrefab, spawnPos, Quaternion.Euler(0, 90, 0), transform).GetComponent<StructBase>();
 
-        structure.Init(tileList);
-
-        for (var index = 0; index < tileList.Count; index++)
-        {
-            var tileBase = ((GameObject)tileList[index].GameEntity).GetComponent<TileBase>();
-            tileBase.SetStruct(structure);
-
-            var position = tileBase.transform.position;
-            position.y = ((GameObject)centerTile.GameEntity).transform.position.y;
-            tileBase.transform.position = position;
-        }
+        SetStruct(structure, tileList);
     }
-
 
     private List<Tile> GetInRangeTile(int range)
     {
-        var tileList = App.Manager.Map.GetAllTiles();
+        var tileInRange = App.Manager.Map.GetTilesInRange(range, tile.Model);
+        var tileInRangeInner = App.Manager.Map.GetTilesInRange(range - 1, tile.Model);
 
-        int maxDistance = 0;
+        return tileInRange.Except(tileInRangeInner).ToList();
+    }
+
+    private Tile GetRandomTile(List<Tile> tiles)
+    {
+        int random = Random.Range(0, tiles.Count);
+        return tiles[random];
+    }
+
+    private void SetStruct(StructBase _struct, List<Tile> _tiles)
+    {
+        _struct.Init(_tiles);
+
+        for (var index = 0; index < _tiles.Count; index++)
+        {
+            var tileBase = ((GameObject)_tiles[index].GameEntity).GetComponent<TileBase>();
+            tileBase.SetStruct(_struct);
+
+            var position = tileBase.transform.position;
+            position.y = ((GameObject)_tiles[0].GameEntity).transform.position.y;
+            tileBase.transform.position = position;
+        }
+    }
+    #endregion
+
+    private StructBase SenseStruct()
+    {
+        var tileList = tile.Model.Neighbours;
 
         foreach (var tile in tileList)
         {
-            int distance = Math.Max(Math.Abs(tile.Coords.X), Math.Abs(tile.Coords.Y));
-            maxDistance = Math.Max(maxDistance, distance);
-        }
-
-        return App.Manager.Map.GetTilesInRange(maxDistance - range, App.Manager.Map.GetTileFromCoords(new Coords(0, 0)));
-    }
-
-    public List<Tile> GetRandomTile(List<Tile> tiles, int choiceNum = 1)
-    {
-        tiles.Remove(App.Manager.Map.tileCtrl.Model);
-
-        return Shuffle(tiles, choiceNum);
-    }
-
-    private List<T> Shuffle<T>(List<T> _list, int _range)
-    {
-        System.Random rand = new();
-
-        int n = _list.Count;
-
-        while (n > 1)
-        {
-            n--;
-            int k = rand.Next(n + 1);
-
-            T value = _list[k];
-            _list[k] = _list[n];
-            _list[n] = value;
-        }
-
-        return _list.GetRange(0, _range);
-    }
-
-    public StructBase SenseStruct()
-    {
-        var tileList = App.Manager.Map.tileCtrl.Model.Neighbours;
-
-        foreach (var tile in tileList)
-        {
-            
-            if (!((GameObject)tile.Value.GameEntity).GetComponent<TileController>().Base.canMove)
-                continue;
-
             var tileBase = ((GameObject)tile.Value.GameEntity).GetComponent<TileBase>();
 
             if (tileBase.structure != null)
@@ -162,8 +126,4 @@ public class StructUnit : MapBase
 
         return null;
     }
-
-    public bool SenseTower() => SenseStruct() is StructTower;
-
-    public bool SenseProduction() => SenseStruct() is StructProduction;
 }

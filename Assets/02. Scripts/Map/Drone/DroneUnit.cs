@@ -131,7 +131,7 @@ public class DroneUnit : MapBase
                 moveRange++;
             }
 
-            if (moveRange != 5 && tileController.Base.structure?.isAccessible == false)
+            if (moveRange != 5 && tileController.Base.isAccessable == false)
                 App.Manager.Map.SelectBorder(tileController, ETileState.Unable);
             else
                 App.Manager.Map.SelectBorder(tileController, ETileState.Moveable);
