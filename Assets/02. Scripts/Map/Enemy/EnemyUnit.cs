@@ -12,7 +12,7 @@ public class EnemyUnit : MapBase
     public override void Init()
     {
         var tiles = App.Manager.Map.GetAllTiles();
-        tiles.Remove(App.Manager.Map.tileCtrl.Model);
+        tiles.Remove(tile.Model);
         var selectList = Shuffle(tiles, App.Manager.Test.Map.zombieCount);
 
         foreach (var tile in selectList)

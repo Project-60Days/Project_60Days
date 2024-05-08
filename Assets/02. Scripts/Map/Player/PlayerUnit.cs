@@ -31,7 +31,7 @@ public class PlayerUnit : MapBase
         if (isCloaking) 
             CheckCloaking();
 
-        player.Move(App.Manager.Map.targetTile);
+        player.Move(tile);
     }
 
     public void SetCloaking(int num)

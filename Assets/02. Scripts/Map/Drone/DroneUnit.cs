@@ -54,7 +54,7 @@ public class DroneUnit : MapBase
 
     public void PreparingDisruptor()
     {
-        var neighborTiles = hexaMap.Map.GetTilesInRange(App.Manager.Map.tileCtrl.Model, 1)
+        var neighborTiles = hexaMap.Map.GetTilesInRange(tile.Model, 1)
             .Select(tile => ((GameObject)tile.GameEntity).GetComponent<TileController>())
             .Where(tileController => tileController.Base.canMove);
 
@@ -86,7 +86,7 @@ public class DroneUnit : MapBase
             if (tileController.Base.canMove)
                 App.Manager.Map.SelectBorder(tileController, ETileState.Moveable);
 
-            foreach (var item in App.Manager.Map.tileCtrl.Model.Neighbours.Where(
+            foreach (var item in tile.Model.Neighbours.Where(
                          item => item.Value == tileController.Model))
             {
                 currDisruptor.GetComponent<Distrubtor>().GetDirectionObject(item.Key).SetActive(true);
@@ -175,9 +175,9 @@ public class DroneUnit : MapBase
         if (!_tile.Base.canMove) return;
 
         if (_tile.Base.GetEtileState() == ETileState.Moveable
-            && App.Manager.Map.tileCtrl.Model != _tile.Model)
+            && tile.Model != _tile.Model)
         {
-            foreach (var item in App.Manager.Map.tileCtrl.Model.Neighbours.Where(
+            foreach (var item in tile.Model.Neighbours.Where(
                          item => item.Value == _tile.Model))
             {
                 InstallDistrubtor(_tile, item.Key);

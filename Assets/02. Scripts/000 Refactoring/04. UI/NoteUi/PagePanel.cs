@@ -54,7 +54,7 @@ public class PagePanel : UIBase
 
         for (int i = 0; i < resources.Count; i++)
         {
-            string tileName = App.Manager.Map.tileCtrl.Base.GetTileType().ToString();
+            string tileName = ""; // App.Manager.Map.tileCtrl.Base.GetTileType().ToString();
 
             int randomNumber = Random.Range(1, 6);
 

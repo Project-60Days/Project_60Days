@@ -20,24 +20,24 @@ public class IconMap : IconBase
 
         Map = App.Manager.Map;
         image = GetComponent<Image>();
-        StartCoroutine(Init());
+        //StartCoroutine(Init());
     }
 
-    private IEnumerator Init()
-    {
-        yield return new WaitUntil(() => App.Manager.Map.tileCtrl != null);
+    //private IEnumerator Init()
+    //{
+    //    yield return new WaitUntil(() => App.Manager.Map.tileCtrl != null);
 
-        ResetIcon();
-    }
+    //    ResetIcon();
+    //}
 
-    public void ResetIcon()
-    {
-        var tile = Map.tileCtrl;
-        type = tile.Base.GetTileType();
+    //public void ResetIcon()
+    //{
+    //    var tile = Map.tileCtrl;
+    //    type = tile.Base.GetTileType();
 
-        image.sprite = SetImage();
-        text = SetString();
-    }
+    //    image.sprite = SetImage();
+    //    text = SetString();
+    //}
 
     protected override string SetString() => type switch
     {

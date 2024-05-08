@@ -136,7 +136,7 @@ public class ZombieBase : MonoBehaviour
         if (isChasingPlayer && !App.Manager.Map.Buff.canDetect)
         {
             //Debug.Log(gameObject.name + "가 플레이어를 발견했습니다!");
-            MoveToAttack(App.Manager.Map.tileCtrl.Model);
+            MoveToAttack(tile.Model);
 
             // 플레이어 바라보기
             var updatePos = App.Manager.Map.GetUnit<PlayerUnit>().PlayerTransform;

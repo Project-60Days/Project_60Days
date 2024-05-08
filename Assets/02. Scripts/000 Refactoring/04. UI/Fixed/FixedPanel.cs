@@ -20,7 +20,7 @@ public class FixedPanel : UIBase
 
     public override void ReInit() 
     {
-        mapIcon.ResetIcon();
+        //mapIcon.ResetIcon();
     }
     #endregion
 

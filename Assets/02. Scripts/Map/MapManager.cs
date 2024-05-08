@@ -38,7 +38,7 @@ public class MapManager : Manager
 
     public HexamapController hexaMapCtrl;
 
-    public TileController tileCtrl;
+    private TileController tileCtrl;
     public MapCamCtrl cameraCtrl;
 
     Camera mainCamera;
@@ -58,7 +58,7 @@ public class MapManager : Manager
 
     List<Tile> sightTiles = new();
 
-    public TileController targetTile;
+    private TileController targetTile;
 
     int playerLayer;
     int tileLayer;
@@ -486,6 +486,12 @@ public class MapManager : Manager
     public void UpdateCurrentTile(TileController tileController)
     {
         tileCtrl = tileController;
+        foreach (var Map in MapDic.Values)
+        {
+            try { Map.SetTile(tileController); }
+            catch (Exception error)
+            { Debug.LogError($"ERROR: {error.Message}\n{error.StackTrace}"); }
+        }
         Player.PlayerSightUpdate?.Invoke();
     }
 
