@@ -16,7 +16,8 @@ public class StructArmy : StructBase
         App.Manager.Map.GetUnit<EnemyUnit>().SpawnStructureZombies(colleagues);
 
         FadeIn();
-        colleagueBases.ForEach(tile => tile.ResourceUpdate(true));
+        colleagueBases.ForEach(tile => tile.UpdateResource());
+        isAccessible = false;
 
         int randomInt = Random.Range(0, colleagueBases.Count);
         var randomTile = colleagueBases[randomInt];
@@ -24,9 +25,8 @@ public class StructArmy : StructBase
         if (randomTile.structure == null)
             Debug.Log("비어있음");
 
-        randomTile.AddSpecialItem();
+        randomTile.SetSpecialResource();
 
-        isUse = true;
         isAccessible = true;
 
         App.Manager.UI.GetPanel<PagePanel>().CreateSelectDialogueRunner("sequence");
@@ -34,6 +34,6 @@ public class StructArmy : StructBase
 
     public override void NoFunc()
     {
-        isUse = true;
+        
     }
 }

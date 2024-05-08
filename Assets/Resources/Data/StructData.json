@@ -39,8 +39,8 @@
     "English": -1,
     "Japanese": -1,
     "Chinese": -1,
-    "Item": "ITEM_WIRE",
+    "Item": "ITEM_NETWORKCHIP",
     "Count": 2,
-    "SpecialItem": "ITEM_NETWORKCHIP"
+    "SpecialItem": ""
   }
 ]

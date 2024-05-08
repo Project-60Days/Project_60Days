@@ -15,8 +15,6 @@ public abstract class StructBase: MonoBehaviour
 
     public Resource resource { get; protected set; }
 
-    public bool isUse { get; protected set; }
-
     public bool isAccessible { get; protected set; }
 
     public List<Tile> neighborTiles { get; protected set; }
@@ -33,8 +31,6 @@ public abstract class StructBase: MonoBehaviour
 
     public int visitDay { get; protected set; }
 
-    public ItemData specialItem;
-
     private Material curMaterial;
     [SerializeField] private Renderer rend;
     [SerializeField] Material cloakingMaterial;
@@ -47,7 +43,6 @@ public abstract class StructBase: MonoBehaviour
 
         resource = new Resource(data.Item, data.Count);
 
-        isUse = false;
         isAccessible = false;
 
         neighborTiles = _colleagueList.SelectMany(tile => tile.Neighbours.Values).Distinct().ToList();
@@ -65,7 +60,6 @@ public abstract class StructBase: MonoBehaviour
 
     public void AllowAccess()
     {
-        isUse = true;
         isAccessible = true;
     }
 

@@ -225,11 +225,11 @@ public class ZombieBase : MonoBehaviour
 
         if (tile == currTile)
         {
-            ((GameObject)(tile.GameEntity)).GetComponent<TileBase>().UpdateZombieInfo(this);
+            ((GameObject)(tile.GameEntity)).GetComponent<TileBase>().SetEnemy(this);
         }
         else
         {
-            ((GameObject)(tile.GameEntity)).GetComponent<TileBase>().UpdateZombieInfo(null);
+            ((GameObject)(tile.GameEntity)).GetComponent<TileBase>().SetEnemy(null);
         }
     }
 

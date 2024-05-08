@@ -58,7 +58,7 @@ public class MapCamCtrl : MonoBehaviour
             {
                 SetPrioryty(false);
                 Sound.PlayBGM("BGM_InGame");
-                UI.TileInfo(false);
+                UI.SetInfoActive(false);
             });
     }
 
@@ -72,7 +72,7 @@ public class MapCamCtrl : MonoBehaviour
             {
                 SetPrioryty(true);
                 Sound.PlayBGM(Map.GetLandformBGM());
-                UI.TileInfo(false);
+                UI.SetInfoActive(false);
             })
             .Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 10f, 0.5f))
             .OnComplete(()=> 

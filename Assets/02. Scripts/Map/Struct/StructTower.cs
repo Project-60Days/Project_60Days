@@ -9,8 +9,6 @@ public class StructTower : StructBase
     }
     public override void YesFunc()
     {
-        isUse = true;
-
         App.Manager.UI.GetPanel<PagePanel>().SetResultPage("Signal_Yes", false);
         App.Manager.UI.GetPanel<PagePanel>().CreateSelectDialogueRunner("sequence");
         App.Manager.UI.GetPanel<PagePanel>().isClickYesBtnInTower = true;

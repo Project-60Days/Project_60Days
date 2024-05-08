@@ -56,7 +56,7 @@ public class DroneUnit : MapBase
     {
         var neighborTiles = hexaMap.Map.GetTilesInRange(App.Manager.Map.tileCtrl.Model, 1)
             .Select(tile => ((GameObject)tile.GameEntity).GetComponent<TileController>())
-            .Where(tileController => App.Manager.Map.CheckTileType(tileController.Model, "LandformRocks", "LandformPlain"));
+            .Where(tileController => tileController.Base.canMove);
 
         foreach (var tile in neighborTiles) 
         {
@@ -83,7 +83,7 @@ public class DroneUnit : MapBase
 
             currDisruptor.GetComponent<Distrubtor>().DirectionObjectOff();
 
-            if (App.Manager.Map.CheckTileType(tileController.Model, "LandformRocks", "LandformPlain"))
+            if (tileController.Base.canMove)
                 App.Manager.Map.SelectBorder(tileController, ETileState.Moveable);
 
             foreach (var item in App.Manager.Map.tileCtrl.Model.Neighbours.Where(
@@ -123,7 +123,7 @@ public class DroneUnit : MapBase
 
                 var tile = ((GameObject)App.Manager.Map.GetTileFromCoords(coords).GameEntity).GetComponent<TileController>();
 
-                if (App.Manager.Map.CheckTileType(tileController.Model, "LandformRocks", "LandformPlain") == false)
+                if (!tileController.Base.canMove)
                     continue;
 
                 App.Manager.Map.SelectBorder(tile, ETileState.None);
@@ -172,7 +172,7 @@ public class DroneUnit : MapBase
 
     public void SetTileForDrone(TileController _tile)
     {
-        if (App.Manager.Map.CheckTileType(_tile .Model, "LandformRocks", "LandformPlain") == false) return;
+        if (!_tile.Base.canMove) return;
 
         if (_tile.Base.GetEtileState() == ETileState.Moveable
             && App.Manager.Map.tileCtrl.Model != _tile.Model)

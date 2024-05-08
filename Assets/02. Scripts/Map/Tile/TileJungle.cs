@@ -7,11 +7,11 @@ public class TileJungle : TileBase
 {
     public override TileType GetTileType() => TileType.Jungle;
 
-    protected override void Awake()
+    protected override void Start()
     {
-        base.Awake();
-
         resourceCount = 3;
+
+        base.Start();
     }
 
     public override void Buff() { }

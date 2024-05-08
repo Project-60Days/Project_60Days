@@ -8,350 +8,220 @@ using Random = UnityEngine.Random;
 [SelectionBase]
 public abstract class TileBase : MonoBehaviour
 {
-    protected int resourceCount = 2;
-    public abstract TileType GetTileType();
-
-    [SerializeField] Sprite landformSprite;
-    [SerializeField] SpriteRenderer[] resourceIcons;
-
-    Dictionary<EResourceType, int> gachaProbability;
-    List<EResourceType> gachaList;
-    List<Resource> appearanceResources;
-
-    Tile tile;
-    public TileData tileData { get; private set; }
-
-    ItemSO itemSO;
-
-
-    string resourceText;
-    string landformText;
-
-    public ZombieBase currZombies { get; private set; }
-
+    public bool canMove { get; private set; }
+    public bool isZombie { get; private set; }
     public StructBase structure { get; private set; }
 
-    protected virtual void Awake()
-    {
-        gachaProbability = new Dictionary<EResourceType, int>();
-        gachaList = new List<EResourceType>();
-        appearanceResources = new List<Resource>();
+    protected int resourceCount = 2;
+    protected TileData tileData;
 
+    private SpriteRenderer[] resourceIcons;
+    private List<Resource> resources = new();
+    private TileInfo info = new();
+
+    public abstract TileType GetTileType();
+
+    private void Awake()
+    {
         App.Data.Game.tileData.TryGetValue(GetTileType().ToString(), out TileData data);
         tileData = data;
-        landformText = tileData.Korean;
+
+        info.img = Resources.Load("Illust/" + data.Code) as Sprite;
+        info.landformTxt = tileData.Korean;
+        resourceIcons = GetComponentsInChildren<SpriteRenderer>(true);
     }
 
-    void Start()
+    protected virtual void Start()
     {
-        Player.PlayerSightUpdate += CheckPlayerTIle;
-        tile = GetComponent<TileController>().Model;
-
-        itemSO = App.Manager.Game.itemSO;
+        var lanform = gameObject.GetComponent<TileController>().Model.Landform.GetType().Name;
+        canMove = lanform == "LandformRocks" || lanform == "LandformPlain";
 
         var random = Random.Range(0, 100);
         if (random < App.Manager.Test.Map.resourcePercent)
-            SpawnRandomResource();
+            SetResource();
     }
 
-    void OnDestroy()
+    private void OnEnable()
     {
-        Player.PlayerSightUpdate -= CheckPlayerTIle;
+        Player.PlayerSightUpdate += UpdateResource;
+    }
+
+    private void OnDisable()
+    {
+        Player.PlayerSightUpdate -= UpdateResource;
     }
 
     public abstract void Buff();
 
     public abstract void DeBuff();
 
-    void SetTileData()
+    #region Set Resource
+    public void SetResource()
     {
-        gachaList.Clear();
-        appearanceResources.Clear();
-        gachaProbability.Clear();
+        var gachaProbability = SetTileData();
+        var randomResources = gachaProbability
+        .SelectMany(x => Enumerable.Repeat(x.Key, x.Value))
+        .OrderBy(x => Guid.NewGuid())
+        .Take(Random.Range(1, 3))
+        .ToList();
 
-        gachaProbability.Add(EResourceType.Steel, tileData.RemainPossibility_Steel);
-        gachaProbability.Add(EResourceType.Carbon, tileData.RemainPossibility_Carbon);
-        gachaProbability.Add(EResourceType.Plasma, tileData.RemainPossibility_Plasma);
-        gachaProbability.Add(EResourceType.Powder, tileData.RemainPossibility_Powder);
-        gachaProbability.Add(EResourceType.Gas, tileData.RemainPossibility_Gas);
-        gachaProbability.Add(EResourceType.Rubber, tileData.RemainPossibility_Rubber);
-    }
-
-    public void SpawnRandomResource()
-    {
-        SetTileData();
-
-        var randomInt = Random.Range(1, 3);
-
-        while (gachaList.Count != randomInt)
+        foreach (var resourceType in randomResources)
         {
-            var take = WeightedRandomizer.From(gachaProbability).TakeOne();
-            if (gachaList.Contains(take) == false)
-                gachaList.Add(take);
-        }
-
-        for (int i = 0; i < gachaList.Count; i++)
-        {
-            var code = "ITEM_" + gachaList[i].ToString().ToUpper();
+            var code = "ITEM_" + resourceType.ToString().ToUpper();
             var resource = new Resource(code, Random.Range(1, 16));
-            appearanceResources.Add(resource);
+            resources.Add(resource);
         }
 
-        RotationCheck(transform.rotation.eulerAngles);
+        CheckAngle(transform.rotation.eulerAngles);
     }
 
-    public void ResourceUpdate(bool _isInPlayerSight)
+    Dictionary<EResourceType, int> SetTileData()
     {
-        if (structure != null)
+        resources.Clear();
+
+        var gachaProbabilities = new Dictionary<EResourceType, int>
         {
-            if (structure.isAccessible == false)
-                return;
-        }
+            { EResourceType.Steel, tileData.RemainPossibility_Steel },
+            { EResourceType.Carbon, tileData.RemainPossibility_Carbon },
+            { EResourceType.Plasma, tileData.RemainPossibility_Plasma },
+            { EResourceType.Powder, tileData.RemainPossibility_Powder },
+            { EResourceType.Gas, tileData.RemainPossibility_Gas },
+            { EResourceType.Rubber, tileData.RemainPossibility_Rubber }
+        };
 
-        if (_isInPlayerSight)
+        return gachaProbabilities;
+    }
+
+    private void CheckAngle(Vector3 rotationValue)
+    {
+        if (resources.Count == 0) return;
+
+        float rotationAngle = rotationValue.y + 90;
+
+        switch (resources.Count)
         {
-            ResourceInit();
+            case 1:
+                resourceIcons[0].transform.Rotate(0, 0, rotationAngle);
+                break;
 
-            if (appearanceResources.Count > 0)
-            {
-                var text = "";
-
-                for (int i = 0; i < appearanceResources.Count; i++)
+            case 2:
+                if (Mathf.Abs(rotationValue.y) == 0 || Mathf.Abs(rotationValue.y) == 180) //Rotate all icons if camera is vertical
                 {
-                    text += appearanceResources[i].Item.data.Korean + " " +
-                            appearanceResources[i].Count + "EA\n";
-                }
-
-                resourceText = text;
-
-                if (appearanceResources.Count == 1)
-                {
-                    resourceIcons[0].sprite = appearanceResources[0].Item.itemImage;
-                    resourceIcons[0].gameObject.SetActive(true);
-                }
-                else if (appearanceResources.Count == 2)
-                {
-                    for (int i = 0; i < appearanceResources.Count; i++)
+                    foreach (var icon in resourceIcons)
                     {
-                        SpriteRenderer item = resourceIcons[i + 1];
-                        item.sprite = appearanceResources[i].Item.itemImage;
-                        item.gameObject.SetActive(true);
+                        icon.transform.Rotate(0, 0, rotationAngle);
                     }
                 }
-                else
+                else // If camera is horizontal, rotate only second icon and rotate parent object
                 {
-                    for (int i = 0; i < appearanceResources.Count; i++)
+                    resourceIcons[1].transform.parent.localEulerAngles = new Vector3(90, -rotationValue.y, 0);
+
+                    foreach (var icon in resourceIcons)
                     {
-                        SpriteRenderer item = resourceIcons[i + 3];
-                        item.sprite = appearanceResources[i].Item.itemImage;
-                        item.gameObject.SetActive(true);
+                        icon.transform.Rotate(0, 0, 90);
                     }
                 }
-            }
-            else
-            {
-                resourceText = "자원 없음";
-
-                for (int i = 0; i < resourceIcons.Length; i++)
-                {
-                    SpriteRenderer item = resourceIcons[i];
-                    item.gameObject.SetActive(false);
-                }
-            }
-        }
-        else
-        {
-            resourceText = "자원 : ???";
-
-            for (int i = 0; i < resourceIcons.Length; i++)
-            {
-                SpriteRenderer item = resourceIcons[i];
-                item.gameObject.SetActive(false);
-            }
+                break;
         }
     }
 
-    void ResourceInit()
+    public void SetSpecialResource()
     {
-        for (int i = 0; i < appearanceResources.Count; i++)
-        {
-            Resource item = appearanceResources[i];
+        resources.Clear();
 
-            if (item.Count == 0)
+        var itemBase = App.Manager.Game.itemSO.items.ToList()
+                .Find(x => x == structure.resource.Item);
+
+        resources.Add(new Resource(itemBase, 1));
+
+        CheckAngle(transform.rotation.eulerAngles);
+    }
+    #endregion
+
+    #region Update Resource
+    public void UpdateResource()
+    {
+        ResetTile();
+
+        if (resources.Count == 0) return;
+
+        switch (resources.Count)
+        {
+            case 1:
+                SetIcon(resourceIcons[0], resources[0]);
+                break;
+
+            case 2:
+                for (int i = 0; i < resources.Count; i++)
+                    SetIcon(resourceIcons[i + 1], resources[i]);
+                break;
+        }
+    }
+
+    void ResetTile()
+    {
+        foreach (var resource in resources)
+        {
+            if (resource.Count == 0) 
             {
-                appearanceResources.Remove(item);
+                resources.Remove(resource);
             }
         }
 
-        for (int i = 0; i < resourceIcons.Length; i++)
+        foreach (var icon in resourceIcons)
         {
-            SpriteRenderer icon = resourceIcons[i];
             icon.sprite = null;
             icon.gameObject.SetActive(false);
         }
+
+        info.resourceTxt = "";
     }
 
-
-    protected void RotationCheck(Vector3 rotationValue)
+    private void SetIcon(SpriteRenderer _icon, Resource _resource)
     {
-        if (appearanceResources.Count == 1)
-        {
-            SpriteRenderer item = resourceIcons[0];
-            item.gameObject.transform.Rotate(0, 0, rotationValue.y + 90);
-        }
-        else if (appearanceResources.Count == 2)
-        {
-            if (Mathf.Abs(rotationValue.y) == 0 || Mathf.Abs(rotationValue.y) == 180)
-            {
-                for (int i = 0; i < resourceIcons.Length; i++)
-                {
-                    SpriteRenderer item = resourceIcons[i];
-                    item.gameObject.transform.Rotate(0, 0, rotationValue.y + 90);
-                }
-            }
-            else
-            {
-                resourceIcons[1].transform.parent.transform.localEulerAngles =
-                    new Vector3(90, -rotationValue.y, 0);
+        info.resourceTxt += _resource.Item.data.Korean + " " + _resource.Count + "EA\n";
 
-                for (int i = 0; i < resourceIcons.Length; i++)
-                {
-                    SpriteRenderer item = resourceIcons[i];
-                    item.gameObject.transform.Rotate(0, 0, 90);
-                }
-            }
-        }
+        _icon.sprite = _resource.Item.itemImage;
+        _icon.gameObject.SetActive(true);
     }
+    #endregion
+
+    #region Set Object
+    public void SetStruct(StructBase _struct)
+    {
+        ResetTile();
+
+        structure = _struct;
+
+        info.landformTxt = _struct.name;
+        info.resourceTxt = "자원 : ???";
+    }
+
+    public void SetEnemy(ZombieBase _enemy)
+    {
+        isZombie = _enemy != null;
+
+        info.enemyTxt = isZombie ? "좀비 수 : " + _enemy.count + "마리" : "";
+    }
+    #endregion
 
     public List<Resource> GetResources()
     {
-        List<Resource> list = new List<Resource>();
+        List<Resource> list = new();
 
-        if (appearanceResources == null) return null;
-
-        foreach (var resource in appearanceResources)
+        foreach (var resource in resources)
         {
             var itemBase = resource.Item;
 
             list.Add(new Resource(itemBase, resourceCount));
-            resource.Count = Clamp(resource.Count - resourceCount);
+            resource.Count = Mathf.Clamp(resource.Count - resourceCount, 0, int.MaxValue);
         }
-
-        ResourceUpdate(true);
         return list;
     }
 
-    private int Clamp(int value) => value < 0 ? 0 : value;
-
-    public bool CheckResources()
+    public void UpdateTileInfo()
     {
-        if (appearanceResources != null)
-            return true;
-        else
-            return false;
-    }
-
-    void CheckPlayerTIle()
-    {
-        bool check = App.Manager.Map.GetTilesInRange(2).Contains(tile);
-        ResourceUpdate(check);
-    }
-
-    public void TileInfoUpdate()
-    {
-        App.Manager.UI.GetPanel<MapPanel>().UpdateImage(landformSprite);
-        App.Manager.UI.GetPanel<MapPanel>().UpdateText(TileInfo.Landform, landformText);
-        App.Manager.UI.GetPanel<MapPanel>().UpdateText(TileInfo.Resource, resourceText);
-
-        if (currZombies == null)
-            App.Manager.UI.GetPanel<MapPanel>().UpdateText(TileInfo.Zombie, "좀비 수 : ???");
-        else
-        {
-            App.Manager.UI.GetPanel<MapPanel>()
-                .UpdateText(TileInfo.Zombie, "좀비 수 : " + currZombies.count + "마리");
-        }
-    }
-
-    public void SetTower(StructBase _struct)
-    {
-        SetItemNull();
-
-        structure = _struct;
-
-        landformText = "생산 공장";
-        resourceText = "자원 : ???";
-
-        TileInfoUpdate();
-    }
-
-    public void SetProduction(StructBase _struct)
-    {
-        SetItemNull();
-
-        structure = _struct;
-
-        landformText = "생산 공장";
-        resourceText = "자원 : ???";
-    }
-
-    public void SetArmy(StructBase _struct)
-    {
-        SetItemNull();
-
-        structure = _struct;
-
-        landformText = "군사 기지";
-        resourceText = "자원 : ???";
-    }
-
-    private void SetItemNull()
-    {
-        for (int i = 0; i < resourceIcons.Length; i++)
-        {
-            SpriteRenderer item = resourceIcons[i];
-            item.sprite = null;
-            item.gameObject.SetActive(false);
-        }
-    }
-
-    public void AddSpecialItem()
-    {
-        ItemBase itemBase;
-
-        if (appearanceResources.Count == 2)
-            appearanceResources.RemoveRange(appearanceResources.Count - 1, 1);
-
-        if (structure.specialItem != null)
-        {
-            itemBase = itemSO.items.ToList()
-                .Find(x => x.data == structure.specialItem);
-        }
-        else
-        {
-            itemBase = itemSO.items.ToList()
-                .Find(x => x.data == structure.resource.Item.data);
-        }
-
-        // 특수 자원 추가
-        appearanceResources.Add(new Resource(itemBase, 1));
-
-        RotationCheck(transform.rotation.eulerAngles);
-        ResourceUpdate(true);
-    }
-
-    public void UpdateZombieInfo(ZombieBase zombie)
-    {
-        if (zombie == null)
-        {
-            currZombies = null;
-            App.Manager.UI.GetPanel<MapPanel>().UpdateText(TileInfo.Zombie, "좀비 수 : ???");
-        }
-        else
-        {
-            currZombies = zombie;
-            App.Manager.UI.GetPanel<MapPanel>()
-                .UpdateText(TileInfo.Zombie, "좀비 수 : " + currZombies.count + "마리");
-        }
+        App.Manager.UI.GetPanel<MapPanel>().SetInfo(info);
     }
 
     [SerializeField] MeshRenderer[] borders;

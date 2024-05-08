@@ -37,7 +37,6 @@ public class MapManager : Manager
     public HexamapController hexaMapCtrl;
 
     public TileController tileCtrl;
-    Tile currTile => tileCtrl.Model;
     public MapCamCtrl cameraCtrl;
 
     Camera mainCamera;
@@ -100,7 +99,7 @@ public class MapManager : Manager
 
     private void GenerateMap()
     {
-        FastNoise _fastNoise = new FastNoise();
+        FastNoise _fastNoise = new();
 
         _fastNoise.SetFrequency(0.1f);
         _fastNoise.SetNoiseType(FastNoise.NoiseType.Perlin);
@@ -114,8 +113,7 @@ public class MapManager : Manager
 
         mapParentTransform.position = Vector3.forward * 200f;
 
-        UpdateCurrentTile(
-            ((GameObject)hexaMapCtrl.Map.GetTileFromCoords(new Coords(0, 0)).GameEntity).GetComponent<TileController>());
+        UpdateCurrentTile(GetTileController(hexaMapCtrl.Map.GetTileFromCoords(new Coords(0, 0))));
         targetTile = tileCtrl;
 
         App.Manager.UI.GetPanel<LoadingPanel>().ClosePanel();
@@ -232,7 +230,7 @@ public class MapManager : Manager
 
             if (!CheckTileInSight(hitTile))
             {
-                App.Manager.UI.GetPanel<MapPanel>().TileInfo(false);
+                App.Manager.UI.GetPanel<MapPanel>().SetInfoActive(false);
                 return;
             }
 
@@ -241,7 +239,7 @@ public class MapManager : Manager
                 DefaultMouseOverState(hitTile);
 
                 if (hitTile != curTileController)
-                    App.Manager.UI.GetPanel<MapPanel>().TileInfo(false);
+                    App.Manager.UI.GetPanel<MapPanel>().SetInfoActive(false);
             }
 
             else if (canPlayerMove)
@@ -260,7 +258,7 @@ public class MapManager : Manager
         else
         {
             AllBorderOff();
-            App.Manager.UI.GetPanel<MapPanel>().TileInfo(false);
+            App.Manager.UI.GetPanel<MapPanel>().SetInfoActive(false);
         }
     }
 
@@ -281,8 +279,11 @@ public class MapManager : Manager
 
             if (!canPlayerMove && !isDronePrepared)
             {
-                tileController.Base.TileInfoUpdate();
-                App.Manager.UI.GetPanel<MapPanel>().TileInfo(true);
+                if (App.Manager.Map.GetTilesInRange(2).Contains(tileController.Model))
+                {
+                    tileController.Base.UpdateTileInfo();
+                    App.Manager.UI.GetPanel<MapPanel>().SetInfoActive(true);
+                }
             }
             else if (canPlayerMove)
             {
@@ -348,7 +349,7 @@ public class MapManager : Manager
 
     public void DefaultMouseOverState(TileController tileController)
     {
-        if (CheckTileType(tileController.Model, "LandformRocks", "LandformPlain") == false)
+        if (!tileController.Base.canMove)
         {
             SelectBorder(tileController, ETileState.Unable);
         }
@@ -366,10 +367,10 @@ public class MapManager : Manager
 
         for (int i = 0; i < candidate.Count; i++)
         {
-            if (App.Manager.Map.CheckTileType(candidate[i], "LandformPlain"))
+            if (GetTileController(candidate[i]).Base.canMove)
             {
-                if (((GameObject)candidate[i].GameEntity).GetComponent<TileBase>().structure == null &&
-                    ((GameObject)candidate[i].GameEntity).GetComponent<TileBase>().currZombies == null)
+                TileBase tileBase = GetTileController(candidate[i]).Base;
+                if (tileBase.structure == null && !tileBase.isZombie)
                 {
                     tile = candidate[i];
                     break;
@@ -377,7 +378,7 @@ public class MapManager : Manager
             }
         }
 
-        tileCtrl = ((GameObject)tile.GameEntity).GetComponent<TileController>();
+        tileCtrl = GetTileController(tile);
     }
 
     public void TilePathFinderSurroundings(TileController tileController)
@@ -385,13 +386,13 @@ public class MapManager : Manager
         var neighborTiles = hexaMapCtrl.Map.GetTilesInRange(tileCtrl.Model, Buff.moveRange);
 
         var neighborController = neighborTiles
-            .Select(x => ((GameObject)x.GameEntity).GetComponent<TileController>()).ToList();
+            .Select(x => GetTileController(x)).ToList();
 
         for (var index = 0; index < neighborController.Count; index++)
         {
             var value = neighborController[index];
 
-            if (CheckTileType(tileController.Model, "LandformRocks", "LandformPlain") == false)
+            if (!tileController.Base.canMove)
                 continue;
 
             selectedTiles.Add(value);
@@ -399,7 +400,7 @@ public class MapManager : Manager
         }
 
         if (tileController.Base.structure?.isAccessible == false
-            || CheckTileType(tileController.Model, "LandformRocks", "LandformPlain") == false)
+            || !tileController.Base.canMove)
         {
             SelectBorder(tileController, ETileState.Unable);
         }
@@ -407,7 +408,7 @@ public class MapManager : Manager
         {
             SelectBorder(tileController, ETileState.Unable);
         }
-        else if (tileController.Base.currZombies != null)
+        else if (tileController.Base.isZombie)
         {
             SelectBorder(tileController, ETileState.Unable);
         }
@@ -421,7 +422,7 @@ public class MapManager : Manager
     {
         if (tileController.Base.GetEtileState() == ETileState.Moveable
             && tileCtrl.Model != tileController.Model
-            && CheckTileType(tileController.Model, "LandformRocks", "LandformPlain"))
+            && !tileController.Base.canMove)
         {
             SavePlayerMovePath(tileController);
             return true;
@@ -486,19 +487,7 @@ public class MapManager : Manager
         Player.PlayerSightUpdate?.Invoke();
     }
 
-    public bool CheckTileType(Tile tile, params string[] types)
-    {
-        var landform = tile.Landform.GetType().Name;
-        foreach (var type in types) 
-        {
-            if (type == landform)
-                return true;
-        }
-
-        return false;
-    }
-
-    public string GetLandformBGM() => tileCtrl.Base.tileData.Code switch
+    public string GetLandformBGM() => tileCtrl.Base.GetTileType().ToString() switch
     {
         "None" => "Ambience_City",
         "Jungle" => "Ambience_Jungle",
@@ -527,4 +516,7 @@ public class MapManager : Manager
     {
         Buff.canDetect = true;
     }
+
+    private TileController GetTileController(Tile _tile)
+        => ((GameObject)_tile.GameEntity).GetComponent<TileController>();
 }

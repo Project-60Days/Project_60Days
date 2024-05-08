@@ -20,11 +20,6 @@ public class ResourceUnit : MapBase
         App.Manager.Sound.PlaySFX(resources[0].Item.sfxName);
     }
 
-    public bool CheckResource(TileController tileController)
-    {
-        return tileController.Base.CheckResources();
-    }
-
     public List<Resource> GetLastResources()
         => resources != null || resources.Count > 0 ? resources : null;
 }

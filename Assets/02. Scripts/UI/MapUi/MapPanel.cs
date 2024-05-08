@@ -1,11 +1,25 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+
+public struct TileInfo
+{
+    public Sprite img;
+    public string landformTxt;
+    public string resourceTxt;
+    public string enemyTxt;
+}
 
 public class MapPanel : UIBase
 {
     [SerializeField] GameObject disturbtorButton;
     [SerializeField] GameObject explorerButton;
-    [SerializeField] TileInfoCtrl tileInfoCtrl;
+
+    [SerializeField] GameObject tileInfo;
+    [SerializeField] Image image;
+    [SerializeField] TextMeshProUGUI landformTMP;
+    [SerializeField] TextMeshProUGUI resourceTMP;
+    [SerializeField] TextMeshProUGUI enemyTMP;
 
     #region Override
     public override void Init()
@@ -15,7 +29,7 @@ public class MapPanel : UIBase
 
     public override void ReInit() 
     {
-        TileInfo(false);
+        SetInfoActive(false);
     }
     #endregion
 
@@ -24,21 +38,19 @@ public class MapPanel : UIBase
         disturbtorButton.GetComponentInChildren<Button>().interactable = true;
     }
 
-    public void TileInfo(bool _isActive)
+    public void SetInfo(TileInfo _info)
     {
-        tileInfoCtrl.gameObject.SetActive(_isActive);
+        image.sprite = _info.img;
+        landformTMP.text = _info.landformTxt;
+        resourceTMP.text = _info.resourceTxt;
+        enemyTMP.text = _info.enemyTxt;
     }
 
-    public void UpdateText(TileInfo infoTMP, string text)
+    public void SetInfoActive(bool _isActive)
     {
-        tileInfoCtrl.SetText(infoTMP, text);
+        tileInfo.SetActive(_isActive);
     }
 
-    public void UpdateImage(Sprite sprite)
-    {
-        tileInfoCtrl.SetImage(sprite);
-    }
-    
     public void ExplorerButtonInteractable(bool isOn)
     {
         explorerButton.SetActive(isOn);

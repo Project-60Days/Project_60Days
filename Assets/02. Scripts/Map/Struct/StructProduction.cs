@@ -8,14 +8,6 @@ public class StructProduction : StructBase
 {
     protected override string GetCode() => "STRUCT_PRODUCTION";
 
-    public override void Init(List<Tile> _colleagueList)
-    {
-        base.Init(_colleagueList);
-
-        App.Data.Game.itemData.TryGetValue(data.SpecialItem, out ItemData itemData);
-        specialItem = itemData;
-    }
-
     public override void YesFunc()
     {
         for (var index = 0; index < colleagueBases.Count; index++)
@@ -28,7 +20,8 @@ public class StructProduction : StructBase
         App.Manager.Map.GetUnit<EnemyUnit>().SpawnStructureZombies(colleagues);
 
         FadeIn();
-        colleagueBases.ForEach(tile => tile.ResourceUpdate(true));
+        colleagueBases.ForEach(tile => tile.UpdateResource());
+        isAccessible = false;
 
         int randomInt = Random.Range(0, colleagueBases.Count);
         var randomTile = colleagueBases[randomInt];
@@ -36,9 +29,8 @@ public class StructProduction : StructBase
         if (randomTile.structure == null)
             Debug.Log("비어있음");
 
-        randomTile.AddSpecialItem();
+        randomTile.SetSpecialResource();
 
-        isUse = true;
         isAccessible = true;
         App.Manager.UI.GetPanel<PagePanel>().CreateSelectDialogueRunner("sequence");
         App.Manager.UI.GetPanel<PagePanel>().isClickYesBtnInProductionStructure = true;
@@ -46,7 +38,6 @@ public class StructProduction : StructBase
 
     public override void NoFunc()
     {
-        // 접근 불가 장애물 타일로 변경
-        isUse = true;
+
     }
 }

@@ -37,7 +37,7 @@ public class StructUnit : MapBase
 
         tower.Init(tilelist);
 
-        ((GameObject)tile.GameEntity).GetComponent<TileBase>().SetTower(tower);
+        ((GameObject)tile.GameEntity).GetComponent<TileBase>().SetStruct(tower);
     }
 
     public void GenerateProduction()
@@ -65,7 +65,7 @@ public class StructUnit : MapBase
         foreach (var tile in tileList)
         {
             var tileBase = ((GameObject)tile.GameEntity).GetComponent<TileBase>();
-            tileBase.SetProduction(structure);
+            tileBase.SetStruct(structure);
 
             var position = tileBase.transform.position;
             position.y = ((GameObject)tile.GameEntity).transform.position.y;
@@ -94,7 +94,7 @@ public class StructUnit : MapBase
         for (var index = 0; index < tileList.Count; index++)
         {
             var tileBase = ((GameObject)tileList[index].GameEntity).GetComponent<TileBase>();
-            tileBase.SetArmy(structure);
+            tileBase.SetStruct(structure);
 
             var position = tileBase.transform.position;
             position.y = ((GameObject)centerTile.GameEntity).transform.position.y;
@@ -151,7 +151,7 @@ public class StructUnit : MapBase
         foreach (var tile in tileList)
         {
             
-            if (App.Manager.Map.CheckTileType(((GameObject)tile.Value.GameEntity).GetComponent<TileController>().Model, "LandformRocks", "LandformPlain") == false)
+            if (!((GameObject)tile.Value.GameEntity).GetComponent<TileController>().Base.canMove)
                 continue;
 
             var tileBase = ((GameObject)tile.Value.GameEntity).GetComponent<TileBase>();

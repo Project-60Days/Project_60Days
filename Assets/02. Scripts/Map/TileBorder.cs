@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Borders : MonoBehaviour
+public class TileBorder : MonoBehaviour
 {
     [SerializeField] MeshRenderer[] borders;
     [SerializeField] Material[] materials;
