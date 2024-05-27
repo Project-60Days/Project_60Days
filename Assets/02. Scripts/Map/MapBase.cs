@@ -4,6 +4,8 @@ using Hexamap;
 
 public abstract class MapBase : MonoBehaviour
 {
+    [SerializeField] protected HexamapController hexaMap;
+
     protected TileController tile;
 
     public virtual Type GetUnitType() => GetType();

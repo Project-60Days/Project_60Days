@@ -14,6 +14,7 @@ namespace Hexamap
         {
             Model = model;
             Model.GameEntity = gameObject;
+            Model.Ctrl = this;
             transform.position = calculateWorldPosition(padding);
             name = $"{Model.Coords.ToString()} - {Model.Biome.Name} - {Model.Landform.GetType()}";
 

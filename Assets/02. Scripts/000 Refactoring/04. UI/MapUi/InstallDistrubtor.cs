@@ -14,7 +14,7 @@ public class InstallDistrubtor : InstallBase
             if (App.Manager.Map.canClick)
             {
                 Debug.Log("교란기 설치 가능");
-                App.Manager.Map.GetUnit<DroneUnit>().PreparingDisruptor();
+                App.Manager.Map.GetUnit<DroneUnit>().Prepare(DroneType.Disruptor);
             }
         }
     }

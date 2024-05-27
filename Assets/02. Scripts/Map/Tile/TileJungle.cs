@@ -4,12 +4,12 @@ public class TileJungle : TileBase
 {
     public override TileType GetTileType() => TileType.Jungle;
 
-    public override void Buff() 
+    protected override void Buff() 
     {
         App.Manager.Map.SetResourceCount(1);
     }
 
-    public override void DeBuff()
+    protected override void DeBuff()
     {
         int random = Random.Range(0, 100);
 

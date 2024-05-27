@@ -15,15 +15,13 @@ public class PlayerUnit : MapBase
 
     public override void Init()
     {
-        Vector3 spawnPos = ((GameObject)App.Manager.Map.GetTileFromCoords(new Coords(0, 0)).GameEntity).GetComponent<TileController>().transform.position;
+        Vector3 spawnPos = tile.gameObject.transform.position;
         spawnPos.y += 0.7f;
 
         var playerObject = Instantiate(prefab, spawnPos,
             Quaternion.Euler(0, -90, 0));
         player = playerObject.GetComponent<Player>();
         player.transform.parent = mapParentTransform;
-
-        Player.PlayerSightUpdate?.Invoke();
     }
 
     public override void ReInit()

@@ -6,23 +6,9 @@ using System.Collections;
 
 public class Player : MonoBehaviour
 {
-    public static Action PlayerSightUpdate;
-
     [SerializeField] Renderer rend;
     [SerializeField] Material cloakingMaterial;
     [SerializeField] Material normalMaterial;
-
-    void Start()
-    {
-        StartCoroutine(DelaySightGetInfo());
-    }
-
-    IEnumerator DelaySightGetInfo()
-    {
-        // AdditiveScene 딜레이 
-        yield return new WaitUntil(() => PlayerSightUpdate != null);
-        PlayerSightUpdate?.Invoke();
-    }
 
     public void Move(TileController targetTileController)
     {

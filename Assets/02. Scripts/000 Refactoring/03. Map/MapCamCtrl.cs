@@ -74,10 +74,6 @@ public class MapCamCtrl : MonoBehaviour
                 Sound.PlayBGM(Map.GetLandformBGM());
                 UI.SetInfoActive(false);
             })
-            .Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 10f, 0.5f))
-            .OnComplete(()=> 
-            {
-                App.Manager.Map.GetUnit<DroneUnit>().InvocationExplorers();
-            });
+            .Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 10f, 0.5f));
     }
 }

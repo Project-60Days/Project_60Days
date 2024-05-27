@@ -4,12 +4,12 @@ public class TileCity : TileBase
 {
     public override TileType GetTileType() => TileType.City;
 
-    public override void Buff() // Paved Road: Add 1 move range.
+    protected override void Buff() // Paved Road: Add 1 move range.
     {
         App.Manager.Map.AddMoveRange(1);
     }
 
-    public override void DeBuff()
+    protected override void DeBuff()
     {
         int random = Random.Range(0, 100);
 

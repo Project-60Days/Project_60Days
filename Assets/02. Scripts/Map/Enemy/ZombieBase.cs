@@ -10,78 +10,37 @@ using Unity.VisualScripting;
 [SelectionBase]
 public class ZombieBase : MonoBehaviour
 {
+    public int count { get; private set; }
+    public Tile currTile { get; private set; }
+
     [SerializeField] GameObject[] zombieModels;
-    public ValueData data;
-    public Distrubtor nearthDistrubtor;
-    public Tile currTile;
-    public TileType type;
-    public Tile lastTile;
-    public Tile targetTile;
-    public bool isChasingPlayer;
+
+    private ValueData data;
+
+    private Tile lastTile;
+
     private bool noneTileBuff;
 
-    private int lastZombieCount;
+    private int moveRange = 1;
+    private bool isDebuff = false;
 
-    List<Coords> movePath;
-    int remainStunTime;
-    int moveRange = 1;
-    int dectectionRange = 3;
-    bool isDebuff = true;
-
-    public int count { get; private set; }
-
-    private Vector3 initScale = new Vector3(0,0,0);
+    private Vector3 initScale;
 
     public void Init(Tile tile)
     {
-        App.Data.Game.valueData.TryGetValue("Enemy", out ValueData enemy);
-        data = enemy;
+        data = App.Data.Game.valueData["Enemy"];
 
-        InitCount();
+        count = (int)Random.Range(data.MinCount, data.MaxCount);
+        SetModel();
+
         currTile = tile;
         lastTile = currTile;
-
-        CheckTileEffect(currTile);
-        CurrentTileUpdate(currTile);
+        UpdateTile();
 
         initScale = transform.localScale;
-        lastZombieCount = count;
     }
 
-    void InitCount()
-    {
-        count = (int)Random.Range(data.MinCount, data.MaxCount); ;
-        SetModel();
-    }
-
-    void CheckTileEffect(Tile _tile)
-    {
-        switch (CheckTileType(_tile))
-        {
-            case TileType.City:
-                if (noneTileBuff == false)
-                {
-                    count += 5;
-                    SetModel();
-                    noneTileBuff = true;
-                }
-
-                break;
-
-            case TileType.Desert:
-            case TileType.Tundra:
-                isDebuff = !isDebuff;
-                break;
-        }
-    }
-
-    TileType CheckTileType(Tile _tile)
-    {
-        return ((GameObject)_tile.GameEntity).GetComponent<TileBase>().GetTileType();
-    }
-
-
-    public void SetModel()
+    private void SetModel()
     {
         int possibility = Mathf.FloorToInt((count - data.MinCount) / ((data.MaxCount - data.MinCount) / (zombieModels.Length - 1)));
         int modelIndex = Mathf.Clamp(possibility, 0, zombieModels.Length - 1);
@@ -92,174 +51,89 @@ public class ZombieBase : MonoBehaviour
         }
     }
 
-    public void SizeUpCheck()
+    private void UpdateTile()
     {
-        if (lastZombieCount != count)
-        {
-            var scale = (count / 10) * 0.1f;
-
-            if (scale > 0.7f) return;
-
-            transform.localScale = initScale + new Vector3(scale, scale, scale);
-            lastZombieCount = count;
-        }
+        lastTile?.Ctrl.Base.SetEnemy(null);
+        currTile?.Ctrl.Base.SetEnemy(this);
     }
 
-    public void DetectionAndAct()
+    #region Move
+    public void Move(Tile _playerTile, DroneBase _disruptor)
     {
-        CheckTileEffect(currTile);
+        CheckTileEffect();
 
-        isChasingPlayer = App.Manager.Map.CalculateDistanceToPlayer(currTile, dectectionRange);
-
-        nearthDistrubtor = App.Manager.Map.GetUnit<DroneUnit>().CalculateDistanceToDistrubtor(currTile, dectectionRange);
-
-        ActionDecision();
-    }
-
-    public void ActionDecision()
-    {
         if (isDebuff) return;
 
-        if (remainStunTime > 0)
-        {
-            remainStunTime--;
-            return;
-        }
+        var targetTile = _disruptor == null? _playerTile : _disruptor.CurrTile;
+        var targetVector = _disruptor == null? App.Manager.Map.GetUnit<PlayerUnit>().PlayerTransform.position : _disruptor.transform.position;
 
-        if (nearthDistrubtor != null)
-        {
-            //Debug.Log(gameObject.name + "가 교란기를 쫓아갑니다!");
-            MoveToAttack(nearthDistrubtor.currTile);
-            return;
-        }
+        Chase(targetTile);
+        transform.LookAt(new Vector3(targetVector.x, targetVector.y + 0.6f, targetVector.z));
 
-        if (isChasingPlayer && !App.Manager.Map.Buff.canDetect)
-        {
-            //Debug.Log(gameObject.name + "가 플레이어를 발견했습니다!");
-            MoveToAttack(tile.Model);
+        UpdateTile();
+    }
 
-            // 플레이어 바라보기
-            var updatePos = App.Manager.Map.GetUnit<PlayerUnit>().PlayerTransform;
-            transform.LookAt(new Vector3(updatePos.position.x, updatePos.position.y + 0.6f, updatePos.position.z));
-        }
-        else
+    private void CheckTileEffect()
+    {
+        switch (currTile.Ctrl.Base.GetTileType())
         {
-            var randomInt = GetRandom();
-            if (randomInt == 0)
-            {
-                StartCoroutine(MoveToRandom());
-            }
+            case TileType.City:
+                if (noneTileBuff == false)
+                {
+                    count += 5;
+                    SetModel();
+                    noneTileBuff = true;
+                }
+                break;
+
+            case TileType.Desert:
+            case TileType.Tundra:
+                isDebuff = !isDebuff;
+                break;
         }
     }
 
-    public void MoveToAttack(Tile target)
+    private void Chase(Tile target)
     {
-        movePath = AStar.FindPath(currTile.Coords, target.Coords);
+        var movePath = AStar.FindPath(currTile.Coords, target.Coords);
 
         Tile pointTile;
         Vector3 pointPos;
 
-        if (movePath.Count == 0 && target == App.Manager.Map.tileCtrl.Model)
+        if (movePath.Count == 0 && target == App.Manager.Map.tileCtrl.Model) // When the player is within 1 space, attack player
         {
-            // 플레이어가 1칸 내에 있는 경우
             App.Manager.Game.TakeDamage(count);
         }
         else
         {
-            if (movePath.Count == 0)
-            {
-                return;
-            }
+            var range = moveRange > movePath.Count ? movePath.Count : moveRange;
+            pointTile = App.Manager.Map.GetTileFromCoords(movePath[range]);
+            pointPos = pointTile.GameEntity.transform.position;
+            pointPos.y += 0.6f;
 
-            for (int i = 0; i < moveRange; i++)
-            {
-                pointTile = App.Manager.Map.GetTileFromCoords(movePath[i]);
-                pointPos = ((GameObject)pointTile.GameEntity).transform.position;
-                pointPos.y += 0.6f;
+            gameObject.transform.DOMove(pointPos, 0f);
 
-                gameObject.transform.DOMove(pointPos, 0f);
-
-                currTile = pointTile;
-
-                if (movePath.Count == 1)
-                    break;
-            }
+            currTile = pointTile;
         }
-
-        CurrentTileUpdate(lastTile);
-        CurrentTileUpdate(currTile);
 
         lastTile = currTile;
     }
+    #endregion
 
-    public IEnumerator MoveToRandom(int num = 1, float time = 0.25f)
-    {
-        var candidate = App.Manager.Map.GetTilesInRange(num, currTile);
-        int rand = Random.Range(0, candidate.Count);
-
-        while (((GameObject)candidate[rand].GameEntity).gameObject.layer == 8)
-        {
-            candidate.RemoveAt(rand);
-            rand = Random.Range(0, candidate.Count);
-        }
-
-        if (candidate[rand] == App.Manager.Map.tileCtrl.Model)
-            rand--;
-        var targetPos = ((GameObject)candidate[rand].GameEntity).transform.position;
-        targetPos.y += 0.6f;
-
-        yield return gameObject.transform.DOMove(targetPos, time);
-
-        currTile = candidate[rand];
-
-        CurrentTileUpdate(lastTile);
-        CurrentTileUpdate(currTile);
-
-        lastTile = currTile;
-    }
-
-    public void CurrentTileUpdate(Tile tile)
-    {
-        if (tile == null)
-            return;
-
-        if (tile == currTile)
-        {
-            ((GameObject)(tile.GameEntity)).GetComponent<TileBase>().SetEnemy(this);
-        }
-        else
-        {
-            ((GameObject)(tile.GameEntity)).GetComponent<TileBase>().SetEnemy(null);
-        }
-    }
-
-    public void SumZombies(ZombieBase zombie)
+    public void Sum(ZombieBase zombie)
     {
         count += zombie.count;
-        zombie.count = 0;
 
         SetModel();
         SizeUpCheck();
-        CurrentTileUpdate(currTile);
     }
 
-    public int GetRandom()
+    private void SizeUpCheck()
     {
-        float percentage = data.Move + data.Stop;
-        float probability = data.Move / percentage;
-        float rate = percentage - (percentage * probability);
-        int tmp = (int)Random.Range(0, percentage);
+        var scale = (count / 10) * 0.1f;
 
-        if (tmp <= rate - 1)
-        {
-            return 0;
-        }
+        if (scale > 0.7f) return;
 
-        return 1;
-    }
-
-    public void Stun(int time = 1)
-    {
-        remainStunTime = time;
+        transform.localScale = initScale + new Vector3(scale, scale, scale);
     }
 }

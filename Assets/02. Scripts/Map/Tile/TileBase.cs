@@ -9,16 +9,19 @@ using Random = UnityEngine.Random;
 [SelectionBase]
 public abstract class TileBase : MonoBehaviour
 {
-    public bool canMove { get; private set; }
+    public bool canMove => canMoveLandform && structure == null && !isZombie;
     public bool isZombie { get; private set; }
     public bool isAccessable = true;
     public StructBase structure { get; private set; }
+    public ZombieBase enemy { get; private set; }
 
     protected TileData tileData;
 
     private SpriteRenderer[] resourceIcons;
     private List<Resource> resources = new();
     private TileInfo info = new();
+
+    bool canMoveLandform;
 
     public abstract TileType GetTileType();
 
@@ -34,26 +37,20 @@ public abstract class TileBase : MonoBehaviour
     protected virtual void Start()
     {
         var lanform = gameObject.GetComponent<TileController>().Model.Landform.GetType().Name;
-        canMove = lanform == "LandformRocks" || lanform == "LandformPlain";
+        canMoveLandform = lanform == "LandformRocks" || lanform == "LandformPlain";
 
-        var random = Random.Range(0, 100);
-        if (random < App.Manager.Test.Map.resourcePercent)
             SetResource();
     }
 
-    private void OnEnable()
+    public void SetBuff()
     {
-        Player.PlayerSightUpdate += UpdateResource;
+        Buff();
+        DeBuff();
     }
 
-    private void OnDisable()
-    {
-        Player.PlayerSightUpdate -= UpdateResource;
-    }
+    protected abstract void Buff();
 
-    public abstract void Buff();
-
-    public abstract void DeBuff();
+    protected abstract void DeBuff();
 
     #region Set Resource
     public void SetResource()
@@ -198,7 +195,7 @@ public abstract class TileBase : MonoBehaviour
 
     public void SetEnemy(ZombieBase _enemy)
     {
-        isZombie = _enemy != null;
+        enemy = _enemy;
 
         info.enemyTxt = isZombie ? "좀비 수 : " + _enemy.count + "마리" : "";
     }
@@ -229,7 +226,7 @@ public abstract class TileBase : MonoBehaviour
 
     ETileState currentTileState = ETileState.None;
 
-    public void BorderOn(ETileState _state)
+    public void BorderOn(ETileState _state = ETileState.Moveable)
     {
         currentTileState = _state;
 
@@ -246,10 +243,6 @@ public abstract class TileBase : MonoBehaviour
             case ETileState.Unable:
                 borders[0].material = materials[2];
                 break;
-
-            case ETileState.Target:
-                borders[1].gameObject.SetActive(true);
-                return;
         }
 
         borders[0].gameObject.SetActive(true);

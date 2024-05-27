@@ -1,5 +1,4 @@
 using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Hexamap;
@@ -7,23 +6,10 @@ using DG.Tweening;
 
 public class DroneUnit : MapBase
 {
-    [Header("ÄÄÆ÷³ÍÆ®")]
-    [Space(5f)]
-    [SerializeField]
-    HexamapController hexaMap;
+    [SerializeField] GameObject[] prefabs;
 
-    List<GameObject> disruptors = new List<GameObject>();
-    GameObject currDisruptor;
-
-    List<GameObject> explorers = new List<GameObject>();
-    GameObject currExplorer;
-
-    List<DroneBase> drones = new List<DroneBase>();
-
-    [SerializeField] GameObject disruptorPrefab;
-    [SerializeField] GameObject explorerPrefab;
-
-    List<TileController> droneSelectedTiles = new List<TileController>();
+    private List<DroneBase> drones = new();
+    private List<TileController> selecteTiles = new();
 
     public override void Init() { }
 
@@ -33,229 +19,143 @@ public class DroneUnit : MapBase
 
         foreach (var drone in drones)
         {
+            if (drone.Life < 0)
+            {
+                Destroy(drone);
+            }
+        }
+
+        foreach (var drone in drones)
+        { 
             drone.Move();
         }
     }
 
-    void GenerateDrone(GameObject prefab, List<GameObject> list)
+    private void Destroy(DroneBase _drone)
     {
-        var drone = Instantiate(prefab, App.Manager.Map.GetUnit<PlayerUnit>().PlayerTransform.position + Vector3.up * 1.5f, Quaternion.Euler(0, 90, 0), transform);
-        drone.transform.parent = transform;
-        drone.GetComponentInChildren<MeshRenderer>().material.DOFade(50, 0);
-        list.Add(drone);
-        drones.Add(drone.GetComponent<DroneBase>());
+        drones.Remove(_drone);
+        Destroy(_drone.gameObject);
     }
 
-    void RemoveDrone(GameObject drone, List<GameObject> list)
+    #region Prepare
+    public void Prepare(DroneType _type)
     {
-        list.Remove(drone);
-        Destroy(drone);
+        SetSelectTile();
+        RemoveItem();
+        GenerateDrone(prefabs[(int)_type]);
     }
 
-    public void PreparingDisruptor()
+    private void SetSelectTile()
     {
         var neighborTiles = hexaMap.Map.GetTilesInRange(tile.Model, 1)
-            .Select(tile => ((GameObject)tile.GameEntity).GetComponent<TileController>())
-            .Where(tileController => tileController.Base.canMove);
+            .Where(tile => tile.Ctrl.Base.canMove);
 
-        foreach (var tile in neighborTiles) 
+        foreach (var tile in neighborTiles)
         {
-            SelectTargetBorder(tile);
-            droneSelectedTiles.Add(tile);
-        }
-
-        GenerateDrone(disruptorPrefab, disruptors);
-    }
-
-    public void CancelDisrubtor()
-    {
-        RemoveDrone(disruptors.Last(), disruptors);
-        App.Manager.UI.GetPanel<InventoryPanel>().AddItemByItemCode("ITEM_DISTURBE");
-        DeselectAllTargetTiles();
-    }
-
-    public void DisrubtorPathFinder(TileController tileController)
-    {
-        if (droneSelectedTiles.Contains(tileController))
-        {
-            currDisruptor.transform.position =
-                ((GameObject)tileController.Model.GameEntity).transform.position + Vector3.up;
-
-            currDisruptor.GetComponent<Distrubtor>().DirectionObjectOff();
-
-            if (tileController.Base.canMove)
-                App.Manager.Map.SelectBorder(tileController, ETileState.Moveable);
-
-            foreach (var item in tile.Model.Neighbours.Where(
-                         item => item.Value == tileController.Model))
-            {
-                currDisruptor.GetComponent<Distrubtor>().GetDirectionObject(item.Key).SetActive(true);
-            }
-        }
-        else
-        {
-            App.Manager.Map.SelectBorder(tileController, ETileState.Unable);
+            tile.Ctrl.Base.BorderOn();
+            selecteTiles.Add(tile.Ctrl);
         }
     }
 
-    public void SetPath(TileController _tile, DroneType _type = DroneType.Disruptor)
+    private void RemoveItem()
     {
-        if (_type == DroneType.Disruptor)
-            DisrubtorPathFinder(_tile);
-        else
-            ExplorerPathFinder(_tile);
+
     }
 
+    private void GenerateDrone(GameObject _prefab)
+    {
+        var drone = Instantiate(_prefab, App.Manager.Map.GetUnit<PlayerUnit>().PlayerTransform.position + Vector3.up * 1.5f, Quaternion.Euler(0, 90, 0), transform);
+        drone.transform.parent = transform;
+        drone.GetComponentInChildren<MeshRenderer>().material.DOFade(30f, 0f);
+        drones.Add(drone.GetComponent<DroneBase>());
+    }
+    #endregion
+
+    #region Cancel
     public void Cancel()
     {
-        CancelDisrubtor();
+        ResetSelectTile();
+        AddItem();
+        Remove();
     }
 
-    public void ExplorerPathFinder(TileController tileController)
+    private void ResetSelectTile()
     {
-        int moveRange = 0;
-        if (tileController.Model != tile.Model)
+        foreach (var tile in selecteTiles)
         {
-            foreach (Coords coords in AStar.FindPath(tile.Model.Coords, tileController.Model.Coords))
-            {
-                if (moveRange == 5)
-                    break;
+            tile.Base.OffTargetBorder();
+        }
 
-                var tile = ((GameObject)App.Manager.Map.GetTileFromCoords(coords).GameEntity).GetComponent<TileController>();
+        selecteTiles.Clear();
+    }
 
-                if (!tileController.Base.canMove)
-                    continue;
+    private void AddItem()
+    {
+        var itemCode = drones.Last().GetDroneType() == DroneType.Disruptor ? "ITEM_DISTURBE" : "ITEM_FINDOR";
+        App.Manager.UI.GetPanel<InventoryPanel>().AddItemByItemCode(itemCode);
+    }
 
-                App.Manager.Map.SelectBorder(tile, ETileState.None);
-                App.Manager.Map.selectedTiles.Add(tile);
-                moveRange++;
-            }
+    private void Remove()
+    {
+        Destroy(drones.Last().gameObject);
+        drones.Remove(drones.Last());
+    }
+    #endregion 
 
-            if (moveRange != 5 && tileController.Base.isAccessable == false)
-                App.Manager.Map.SelectBorder(tileController, ETileState.Unable);
-            else
-                App.Manager.Map.SelectBorder(tileController, ETileState.Moveable);
+    public void SetPath(TileController _ctrl)
+    {
+        if (selecteTiles.Contains(_ctrl))
+        {
+            var drone = drones.Last();
+
+            drone.transform.position = _ctrl.Model.GameEntity.transform.position + Vector3.up;
+            drone.DirectionOff();
+
+            if (_ctrl.Base.canMove)
+                _ctrl.Base.BorderOn(ETileState.Moveable);
+
+            drone.DirectionOn(GetDirection(_ctrl));
         }
         else
         {
-            App.Manager.Map.SelectBorder(tileController, ETileState.Unable);
+            _ctrl.Base.BorderOn(ETileState.Unable);
         }
     }
 
-    void InstallDistrubtor(TileController tileController, CompassPoint direction)
+    private CompassPoint GetDirection(TileController _ctrl)
     {
-        currDisruptor.GetComponent<Distrubtor>().Set(tileController.Model, direction);
-        currDisruptor.GetComponent<Distrubtor>().DirectionObjectOff();
-
-        for (int i = 0; i < droneSelectedTiles.Count; i++)
-        {
-            DeselecTargetBorder(droneSelectedTiles[i]);
-        }
+        var target = tile.Model.Neighbours.Where(target => target.Value == _ctrl.Model).ToList()[0];
+        return target.Key;
     }
 
-    public void PreparingExplorer()
+    #region Install
+    public void Install(TileController _ctrl)
     {
-        GenerateDrone(explorerPrefab, explorers);
+        var direction = GetDirection(_ctrl);
+        var drone = drones.Last();
+        drone.Set(tile.Model, direction);
+        drone.DirectionOff();
+
+        drone.GetComponentInChildren<MeshRenderer>().material.DOFade(100f, 0f);
+
+        ResetSelectTile();
     }
+    #endregion
 
-    public void CancelExplorer()
+    public DroneBase CheckDisruptor(Tile tile, int range)
     {
-        RemoveDrone(explorers.Last(), explorers);
-        App.Manager.UI.GetPanel<InventoryPanel>().AddItemByItemCode("ITEM_FINDOR");
-    }
+        var disruptors = drones.Where(x => x.GetDroneType() == DroneType.Disruptor).ToList();
 
-    void InstallExplorer(TileController tileController)
-    {
-        currExplorer.GetComponent<Explorer>().Targeting(tileController.Model);
-        currExplorer.GetComponent<Explorer>().Move();
-    }
+        if (disruptors.Count < 0) return null;
 
-    public void SetTileForDrone(TileController _tile)
-    {
-        if (!_tile.Base.canMove) return;
-
-        if (_tile.Base.GetEtileState() == ETileState.Moveable
-            && tile.Model != _tile.Model)
-        {
-            foreach (var item in tile.Model.Neighbours.Where(
-                         item => item.Value == _tile.Model))
-            {
-                InstallDistrubtor(_tile, item.Key);
-            }
-        }
-    }
-
-    public Distrubtor CalculateDistanceToDistrubtor(Tile tile, int range)
-    {
         var searchTiles = hexaMap.Map.GetTilesInRange(tile, range);
 
-        if (disruptors.Count <= 0)
-            return null;
-
-        for (var i = 0; i < searchTiles.Count; i++)
+        foreach (var disruptor in disruptors)
         {
-            var item = searchTiles[i];
-
-            for (var index = 0; index < disruptors.Count; index++)
-            {
-                var distrubtor = disruptors[index];
-
-                if (distrubtor.GetComponent<Distrubtor>().currTile == item)
-                    return distrubtor.GetComponent<Distrubtor>();
-            }
+            if (searchTiles.Contains(disruptor.CurrTile))
+                return disruptor;
         }
 
         return null;
-    }
-
-    public void RemoveDistrubtor(Distrubtor _distrubtor)
-    {
-        disruptors.Remove(_distrubtor.gameObject);
-        drones.Remove(currExplorer.GetComponent<DroneBase>());
-    }
-
-    public void RemoveExplorer(Explorer _explorer)
-    {
-        explorers.Remove(_explorer.gameObject);
-        drones.Remove(currExplorer.GetComponent<DroneBase>());
-    }
-
-    public void InvocationExplorers()
-    {
-        for (int i = 0; i < explorers.Count; i++)
-        {
-            var item = explorers[i].GetComponent<Explorer>();
-
-            if (item.GetIsIdle())
-                item.GetComponent<Explorer>().Invocation();
-        }
-    }
-
-    void SelectTargetBorder(TileController tileController)
-    {
-        tileController.Base.BorderOn(ETileState.Target);
-        droneSelectedTiles.Add(tileController);
-    }
-
-    void DeselecTargetBorder(TileController tileController)
-    {
-        tileController.Base.OffTargetBorder();
-
-        if (droneSelectedTiles.Contains(tileController))
-            droneSelectedTiles.Remove(tileController);
-    }
-
-    public void DeselectAllTargetTiles()
-    {
-        if (droneSelectedTiles == null)
-            return;
-
-        for (int i = 0; i < droneSelectedTiles.Count; i++)
-        {
-            TileController tile = droneSelectedTiles[i];
-            DeselecTargetBorder(tile);
-        }
-
-        droneSelectedTiles.Clear();
     }
 }

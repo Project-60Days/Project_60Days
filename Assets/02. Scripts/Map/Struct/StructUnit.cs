@@ -31,13 +31,13 @@ public class StructUnit : MapBase
             tile
         };
 
-        var spawnPos = ((GameObject)tile.GameEntity).transform.position + new Vector3(0, 0.31f, 0);
+        var spawnPos = tile.GameEntity.transform.position + new Vector3(0, 0.31f, 0);
 
         var tower = Instantiate(towerPrefab, spawnPos, Quaternion.Euler(0, 90, 0), transform).GetComponent<StructBase>();
 
         tower.Init(tilelist);
 
-        ((GameObject)tile.GameEntity).GetComponent<TileBase>().SetStruct(tower);
+        tile.Ctrl.Base.SetStruct(tower);
     }
 
     private void GenerateProduction()
@@ -56,7 +56,7 @@ public class StructUnit : MapBase
             centerTile.Neighbours[CompassPoint.SW]
         };
 
-        var spawnPos = ((GameObject)centerTile.GameEntity).transform.position + new Vector3(0, 0.2f, 0);
+        var spawnPos = centerTile.GameEntity.transform.position + new Vector3(0, 0.2f, 0);
 
         var structure = Instantiate(productionPrefab, spawnPos, Quaternion.Euler(0, 180, 0), transform).GetComponent<StructBase>();
 
@@ -75,7 +75,7 @@ public class StructUnit : MapBase
             centerTile.Neighbours[CompassPoint.SW]
         };
 
-        var spawnPos = ((GameObject)centerTile.GameEntity).transform.position + new Vector3(0, 0.5f, 0);
+        var spawnPos = centerTile.GameEntity.transform.position + new Vector3(0, 0.5f, 0);
 
         var structure = Instantiate(armyPrefab, spawnPos, Quaternion.Euler(0, 90, 0), transform).GetComponent<StructBase>();
 
@@ -84,8 +84,8 @@ public class StructUnit : MapBase
 
     private List<Tile> GetInRangeTile(int range)
     {
-        var tileInRange = App.Manager.Map.GetTilesInRange(range, tile.Model);
-        var tileInRangeInner = App.Manager.Map.GetTilesInRange(range - 1, tile.Model);
+        var tileInRange = hexaMap.Map.GetTilesInRange(tile.Model, range);
+        var tileInRangeInner = hexaMap.Map.GetTilesInRange(tile.Model, range - 1);
 
         return tileInRange.Except(tileInRangeInner).ToList();
     }
@@ -102,11 +102,11 @@ public class StructUnit : MapBase
 
         for (var index = 0; index < _tiles.Count; index++)
         {
-            var tileBase = ((GameObject)_tiles[index].GameEntity).GetComponent<TileBase>();
+            var tileBase = _tiles[index].Ctrl.Base;
             tileBase.SetStruct(_struct);
 
             var position = tileBase.transform.position;
-            position.y = ((GameObject)_tiles[0].GameEntity).transform.position.y;
+            position.y = _tiles[0].GameEntity.transform.position.y;
             tileBase.transform.position = position;
         }
     }
@@ -118,7 +118,7 @@ public class StructUnit : MapBase
 
         foreach (var tile in tileList)
         {
-            var tileBase = ((GameObject)tile.Value.GameEntity).GetComponent<TileBase>();
+            var tileBase = tile.Value.Ctrl.Base;
 
             if (tileBase.structure != null)
                 return tileBase.structure;

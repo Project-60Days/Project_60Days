@@ -6,29 +6,38 @@ using Hexamap;
 public class EnemyUnit : MapBase
 {
     [SerializeField] GameObject enemyPrefab;
-
-    List<ZombieBase> enemyList = new List<ZombieBase>();
+    private List<ZombieBase> enemyList => hexaMap.Map.GetTilesInRange(tile.Model, 3).Select(x => x.Ctrl.Base.enemy).ToList();
+    private DroneBase disruptor => App.Manager.Map.GetUnit<DroneUnit>().CheckDisruptor(tile.Model, 3);
 
     public override void Init()
     {
-        var tiles = App.Manager.Map.GetAllTiles();
+        var tiles = App.Manager.Map.AllTile;
         tiles.Remove(tile.Model);
         var selectList = Shuffle(tiles, App.Manager.Test.Map.zombieCount);
 
         foreach (var tile in selectList)
         { 
-            var enemy = SpawnEnemy(tile);
-
-            enemy.Init(tile);
-            enemyList.Add(enemy);
+            SpawnEnemy(tile);
         }
     }
 
     public override void ReInit()
     {
         MoveEnemy();
-        CheckSumZombies();
-        CheckZombies();
+        SumEnemy();
+        SetAlert();
+    }
+
+    #region Spwan Enemy
+    private void SpawnEnemy(Tile tile)
+    {
+        var spawnPos = tile.GameEntity.transform.position;
+        spawnPos.y += 0.6f;
+
+        var enemy = Instantiate(enemyPrefab, spawnPos,
+            Quaternion.Euler(0, Random.Range(0, 360), 0), transform).GetComponent<ZombieBase>();
+
+        enemy.Init(tile);
     }
 
     public void SpawnStructureZombies(List<Tile> tiles)
@@ -37,32 +46,19 @@ public class EnemyUnit : MapBase
 
         var selectTile = Shuffle(tiles, 1)[0];
 
-        var zombie = SpawnEnemy(selectTile);
-
-        zombie.Init(selectTile);
-        zombie.Stun();
-
-        enemyList.Add(zombie);
+        SpawnEnemy(selectTile);
     }
+    #endregion
 
-    ZombieBase SpawnEnemy(Tile tile)
-    {
-        var spawnPos = ((GameObject)tile.GameEntity).transform.position;
-        spawnPos.y += 0.6f;
-
-        return Instantiate(enemyPrefab, spawnPos,
-            Quaternion.Euler(0, Random.Range(0, 360), 0), transform).GetComponent<ZombieBase>();
-    }
-
-    public void MoveEnemy()
+    private void MoveEnemy()
     {
         foreach (var enemy in enemyList) 
         {
-            enemy.DetectionAndAct();
+            enemy.Move(tile.Model, disruptor);
         }
     }
 
-    public void CheckSumZombies()
+    private void SumEnemy()
     {
         List<ZombieBase> removeZombies = new List<ZombieBase>();
 
@@ -78,7 +74,7 @@ public class EnemyUnit : MapBase
 
                 if (firstZombies.currTile == secondZombies.currTile)
                 {
-                    firstZombies.SumZombies(secondZombies);
+                    firstZombies.Sum(secondZombies);
                     removeZombies.Add(secondZombies);
                 }
             }
@@ -86,25 +82,16 @@ public class EnemyUnit : MapBase
 
         foreach (var zombie in removeZombies)
         {
-            enemyList.Remove(zombie);
             Destroy(zombie.gameObject);
         }
     }
 
-    public void CheckZombies()
+    private void SetAlert()
     {
-        var playerNearthTiles = App.Manager.Map.GetTilesInRange(2);
+        var enemyNearPlayer = hexaMap.Map.GetTilesInRange(tile.Model, 2).Select(x => x.Ctrl.Base.enemy).ToList();
+        bool isExist = enemyNearPlayer.Count > 0;
 
-        foreach (var enemy in enemyList) 
-        {
-            if (playerNearthTiles.Contains(enemy.currTile))
-            {
-                App.Manager.UI.GetPanel<FixedPanel>().SetAlert(AlertType.Caution, true);
-                return;
-            }
-        }
-
-        App.Manager.UI.GetPanel<FixedPanel>().SetAlert(AlertType.Caution, false);
+        App.Manager.UI.GetPanel<FixedPanel>().SetAlert(AlertType.Caution, isExist);
     }
 
     private List<T> Shuffle<T>(List<T> _list, int _range)

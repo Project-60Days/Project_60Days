@@ -4,9 +4,9 @@ public class TileDesert : TileBase
 {
     public override TileType GetTileType() => TileType.Desert;
 
-    public override void Buff() { }
+    protected override void Buff() { }
 
-    public override void DeBuff()
+    protected override void DeBuff()
     {
         int random = Random.Range(0, 100);
 

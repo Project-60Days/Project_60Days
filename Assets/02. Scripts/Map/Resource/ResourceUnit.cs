@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class Resource
 {
@@ -36,7 +37,17 @@ public class ResourceUnit : MapBase
 {
     private List<Resource> resources;
 
-    public override void Init() { }
+    public override void Init() 
+    {
+        var tiles = App.Manager.Map.AllTile;
+        tiles.Remove(tile.Model);
+        var selectList = Shuffle(tiles, App.Manager.Test.Map.resourcePercent);
+
+        foreach (var tile in selectList)
+        {
+            tile.Ctrl.Base.SetResource();
+        }
+    }
 
     public override void ReInit()
     {
@@ -53,4 +64,23 @@ public class ResourceUnit : MapBase
 
     public List<Resource> GetLastResources()
         => resources != null || resources.Count > 0 ? resources : null;
+
+    private List<T> Shuffle<T>(List<T> _list, int _range)
+    {
+        System.Random rand = new();
+
+        int n = _list.Count;
+
+        while (n > 1)
+        {
+            n--;
+            int k = rand.Next(n + 1);
+
+            T value = _list[k];
+            _list[k] = _list[n];
+            _list[n] = value;
+        }
+
+        return _list.GetRange(0, _range * _list.Count);
+    }
 }

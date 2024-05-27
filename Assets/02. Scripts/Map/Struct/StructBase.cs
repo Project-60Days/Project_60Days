@@ -22,7 +22,7 @@ public abstract class StructBase: MonoBehaviour
 
         colleagues = _colleagueList;
         colleagueBases = colleagues
-        .Select(x => ((GameObject)x.GameEntity).GetComponent<TileBase>()).ToList();
+        .Select(x => x.Ctrl.Base).ToList();
     }
 
     public virtual void DetectStruct()
@@ -37,7 +37,6 @@ public abstract class StructBase: MonoBehaviour
             tileBase.isAccessable = true;
         }
 
-        App.Manager.Map.MovePathDelete();
         App.Manager.Map.GetUnit<EnemyUnit>().SpawnStructureZombies(colleagues);
 
         colleagueBases.ForEach(tile => tile.UpdateResource());

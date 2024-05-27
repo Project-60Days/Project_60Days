@@ -19,6 +19,20 @@ namespace Hexamap
                 Generate();
                 Draw();
             }
+
+            transform.position = Vector3.forward * 200f;
+
+            FastNoise _fastNoise = new();
+
+            _fastNoise.SetFrequency(0.1f);
+            _fastNoise.SetNoiseType(FastNoise.NoiseType.Perlin);
+            _fastNoise.SetSeed(Map.Seed);
+
+            foreach (Tile tile in Map.Tiles)
+            {
+                var noiseY = _fastNoise.GetValue(tile.Coords.X, tile.Coords.Y);
+                tile.GameEntity.transform.position += new Vector3(0, noiseY * 2, 0);
+            }
         }
         public void Generate()
         {
