@@ -41,7 +41,7 @@ public class ResourceUnit : MapBase
     {
         var tiles = App.Manager.Map.AllTile;
         tiles.Remove(tile.Model);
-        var selectList = Shuffle(tiles, App.Manager.Test.Map.resourcePercent);
+        var selectList = Shuffle(tiles, App.Manager.Test.Map.resourcePercent * 0.01f);
 
         foreach (var tile in selectList)
         {
@@ -65,7 +65,7 @@ public class ResourceUnit : MapBase
     public List<Resource> GetLastResources()
         => resources != null || resources.Count > 0 ? resources : null;
 
-    private List<T> Shuffle<T>(List<T> _list, int _range)
+    private List<T> Shuffle<T>(List<T> _list, float _range)
     {
         System.Random rand = new();
 
@@ -81,6 +81,6 @@ public class ResourceUnit : MapBase
             _list[n] = value;
         }
 
-        return _list.GetRange(0, _range * _list.Count);
+        return _list.GetRange(0, (int)(_range * _list.Count));
     }
 }

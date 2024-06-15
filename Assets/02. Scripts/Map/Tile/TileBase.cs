@@ -38,8 +38,6 @@ public abstract class TileBase : MonoBehaviour
     {
         var lanform = gameObject.GetComponent<TileController>().Model.Landform.GetType().Name;
         canMoveLandform = lanform == "LandformRocks" || lanform == "LandformPlain";
-
-            SetResource();
     }
 
     public void SetBuff()

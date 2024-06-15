@@ -399,8 +399,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hexaMap: {fileID: 2032613208}
-  disruptorPrefab: {fileID: 2141712199585254430, guid: fbea53f2c0e7cdc49a173ebc909cc565, type: 3}
-  explorerPrefab: {fileID: 2141712199585254430, guid: 5fede54bddf76ae4fb17561eb5cb324f, type: 3}
+  prefabs: []
 --- !u!1 &706894743
 GameObject:
   m_ObjectHideFlags: 0
@@ -445,6 +444,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a75773635d28ca49aa62a42b487ccb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hexaMap: {fileID: 2032613208}
   enemyPrefab: {fileID: 4352004779550836249, guid: a0525b4d277ecb9448b70a8ae0523766, type: 3}
 --- !u!1 &787363466
 GameObject:
@@ -498,20 +498,10 @@ MonoBehaviour:
   - {fileID: 858446723}
   - {fileID: 1926141685}
   hexaMapCtrl: {fileID: 2032613208}
-  enemyCtrl: {fileID: 706894745}
-  arrowCtrl: {fileID: 858446723}
-  playerCtrl: {fileID: 1632411915}
   tileCtrl: {fileID: 0}
-  droneCtrl: {fileID: 270035659}
-  structCtrl: {fileID: 848818348}
-  mouseIntreractable: 0
-  mouseState: 0
   cameraCtrl: {fileID: 70614911}
-  mapTransform: {fileID: 270035658}
-  mapParentTransform: {fileID: 2032613207}
-  objectsTransform: {fileID: 848818347}
   fog: {fileID: 1413298386}
-  targetTile: {fileID: 0}
+  selectedTiles: []
 --- !u!1 &848818346
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,6 +546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f2a40c6b7eda6946a708de8d6492341, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hexaMap: {fileID: 2032613208}
   towerPrefab: {fileID: 160171466204798991, guid: cf95c0db2f410d245809742eb3c58a2e, type: 3}
   productionPrefab: {fileID: 3966501793454575975, guid: af50e44c866e7ef4fba5d45331a50143, type: 3}
   armyPrefab: {fileID: 8944453277797006517, guid: 135f99e71d3a4684ab5f9ccd2e26a39b, type: 3}
@@ -603,6 +594,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dea44deae377e314c99e5750c6f57ea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hexaMap: {fileID: 2032613208}
   arrowPrefab: {fileID: 8455040257853211726, guid: d7b10346f8761c2468d15e5a55b160f9, type: 3}
 --- !u!1 &991915579
 GameObject:
@@ -935,7 +927,6 @@ MonoBehaviour:
   hexaMap: {fileID: 2032613208}
   mapParentTransform: {fileID: 2032613207}
   prefab: {fileID: 6314717740676103250, guid: 303886a44e740944493ee594d856f8af, type: 3}
-  fog: {fileID: 1413298386}
 --- !u!1 &1905312114
 GameObject:
   m_ObjectHideFlags: 3
@@ -1053,6 +1044,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed6d3358cc62e0b43acaf32cb2a148fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hexaMap: {fileID: 0}
 --- !u!4 &1926141686
 Transform:
   m_ObjectHideFlags: 0
