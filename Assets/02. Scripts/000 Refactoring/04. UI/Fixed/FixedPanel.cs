@@ -7,7 +7,7 @@ public class FixedPanel : UIBase
     [SerializeField] Button noteBtn;
     [SerializeField] Button cautionBtn;
 
-    [SerializeField] IconMap mapIcon;
+    public IconMap mapIcon;
 
     #region Override
     public override void Init()
@@ -18,10 +18,7 @@ public class FixedPanel : UIBase
         cautionBtn.gameObject.SetActive(false);
     }
 
-    public override void ReInit() 
-    {
-        //mapIcon.ResetIcon();
-    }
+    public override void ReInit() { }
     #endregion
 
     private void SetButtonEvent()

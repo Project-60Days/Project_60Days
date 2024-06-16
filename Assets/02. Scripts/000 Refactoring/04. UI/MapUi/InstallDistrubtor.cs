@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class InstallDistrubtor : InstallBase
 {
-    protected override string SetString()
+    protected override string GetString()
     {
         return App.Data.Game.GetString("STR_EXPLORER_DESC");
     }

@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +9,6 @@ public class IconMap : IconBase
     [SerializeField] Sprite tundra;
 
     private Image image;
-    private MapManager Map;
 
     private TileType type;
 
@@ -18,37 +16,27 @@ public class IconMap : IconBase
     {
         base.Start();
 
-        Map = App.Manager.Map;
         image = GetComponent<Image>();
-        //StartCoroutine(Init());
     }
 
-    //private IEnumerator Init()
-    //{
-    //    yield return new WaitUntil(() => App.Manager.Map.tileCtrl != null);
-
-    //    ResetIcon();
-    //}
-
-    //public void ResetIcon()
-    //{
-    //    var tile = Map.tileCtrl;
-    //    type = tile.Base.GetTileType();
-
-    //    image.sprite = SetImage();
-    //    text = SetString();
-    //}
-
-    protected override string SetString() => type switch
+    public void ResetIcon(TileBase _tile)
     {
-        TileType.City => App.Data.Game.GetString("STR_TILE_NONE_DESC"),
+        type = _tile.GetTileType();
+
+        image.sprite = GetImage();
+        text = GetString();
+    }
+
+    protected override string GetString() => type switch
+    {
+        TileType.City => App.Data.Game.GetString("STR_TILE_CITY_DESC"),
         TileType.Desert => App.Data.Game.GetString("STR_TILE_DESERT_DESC"),
         TileType.Jungle => App.Data.Game.GetString("STR_TILE_JUNGLE_DESC"),
         TileType.Tundra => App.Data.Game.GetString("STR_TILE_TUNDRA_DESC"),
         _ => "",
     };
 
-    private Sprite SetImage() => type switch
+    private Sprite GetImage() => type switch
     {
         TileType.City => city,
         TileType.Desert => desert,

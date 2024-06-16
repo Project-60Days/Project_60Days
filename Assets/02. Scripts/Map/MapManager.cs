@@ -250,8 +250,6 @@ public class MapManager : Manager
 
     public void NextDay()
     {
-        tileCtrl.Base.SetBuff();
-
         UpdateCurrentTile();
 
         ReInitMaps();
@@ -269,6 +267,9 @@ public class MapManager : Manager
             catch (Exception error)
             { Debug.LogError($"ERROR: {error.Message}\n{error.StackTrace}"); }
         }
+
+        tileCtrl.Base.SetBuff();
+        App.Manager.UI.GetPanel<FixedPanel>().mapIcon.ResetIcon(tileCtrl.Base);
     }
 
     public void SetRandomTile()
@@ -279,7 +280,7 @@ public class MapManager : Manager
         {
             if (tile.Ctrl.Base.canMove)
             {
-                tileCtrl = tile.Ctrl;
+                targetTile = tile.Ctrl;
                 return;
             }
         }

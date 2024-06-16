@@ -152,11 +152,12 @@ public abstract class TileBase : MonoBehaviour
 
     void ResetTile()
     {
-        foreach (var resource in resources)
+        for (int i = 0; i < resources.Count; i++)
         {
-            if (resource.Count == 0) 
+            if (resources[i].Count == 0)
             {
-                resources.Remove(resource);
+                resources.RemoveAt(i);
+                i--;
             }
         }
 

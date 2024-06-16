@@ -11,10 +11,10 @@ public abstract class IconBase : MonoBehaviour, IPointerEnterHandler, IPointerEx
     protected virtual void Start()
     {
         Info = App.Manager.UI.GetPanel<InfoPanel>();
-        text = SetString();
+        text = GetString();
     }
 
-    protected abstract string SetString();
+    protected abstract string GetString();
 
     private void DescriptionOn()
     {

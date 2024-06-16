@@ -34,16 +34,22 @@ public class TestManager : Manager
     [Header("Tutorial")]
     public bool startTutorial = false;
 
-    private BuffData defaultBuff;
+    private BuffData defaultBuff = new();
 
     private void Start()
     {
-        defaultBuff = Buff;
+        defaultBuff.fogSightRange = Buff.fogSightRange;
+        defaultBuff.moveRange = Buff.moveRange;
+        defaultBuff.resourceCount = Buff.resourceCount;
+        defaultBuff.canDetect = Buff.canDetect;
     }
 
     public void NextDay()
     {
-        Buff = defaultBuff;
+        Buff.fogSightRange = defaultBuff.fogSightRange;
+        Buff.moveRange = defaultBuff.moveRange;
+        Buff.resourceCount = defaultBuff.resourceCount;
+        Buff.canDetect = defaultBuff.canDetect;
     }
 
     public void AddMoveRange(int num)
