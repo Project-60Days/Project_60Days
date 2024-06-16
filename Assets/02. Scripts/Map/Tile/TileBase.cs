@@ -70,18 +70,18 @@ public abstract class TileBase : MonoBehaviour
         CheckAngle(transform.rotation.eulerAngles);
     }
 
-    Dictionary<EResourceType, int> SetTileData()
+    Dictionary<BasicItem, int> SetTileData()
     {
         resources.Clear();
 
-        var gachaProbabilities = new Dictionary<EResourceType, int>
+        var gachaProbabilities = new Dictionary<BasicItem, int>
         {
-            { EResourceType.Steel, tileData.RemainPossibility_Steel },
-            { EResourceType.Carbon, tileData.RemainPossibility_Carbon },
-            { EResourceType.Plasma, tileData.RemainPossibility_Plasma },
-            { EResourceType.Powder, tileData.RemainPossibility_Powder },
-            { EResourceType.Gas, tileData.RemainPossibility_Gas },
-            { EResourceType.Rubber, tileData.RemainPossibility_Rubber }
+            { BasicItem.Steel, tileData.RemainPossibility_Steel },
+            { BasicItem.Carbon, tileData.RemainPossibility_Carbon },
+            { BasicItem.Plasma, tileData.RemainPossibility_Plasma },
+            { BasicItem.Powder, tileData.RemainPossibility_Powder },
+            { BasicItem.Gas, tileData.RemainPossibility_Gas },
+            { BasicItem.Rubber, tileData.RemainPossibility_Rubber }
         };
 
         return gachaProbabilities;
@@ -222,23 +222,23 @@ public abstract class TileBase : MonoBehaviour
     [SerializeField] MeshRenderer[] borders;
     [SerializeField] Material[] materials;
 
-    ETileState currentTileState = ETileState.None;
+    public TileState TileState { get; private set; } = TileState.None;
 
-    public void BorderOn(ETileState _state = ETileState.Moveable)
+    public void BorderOn(TileState _state = TileState.Moveable)
     {
-        currentTileState = _state;
+        TileState = _state;
 
         switch (_state)
         {
-            case ETileState.None:
+            case TileState.None:
                 borders[0].material = materials[0];
                 break;
 
-            case ETileState.Moveable:
+            case TileState.Moveable:
                 borders[0].material = materials[1];
                 break;
 
-            case ETileState.Unable:
+            case TileState.Unable:
                 borders[0].material = materials[2];
                 break;
         }
@@ -246,18 +246,8 @@ public abstract class TileBase : MonoBehaviour
         borders[0].gameObject.SetActive(true);
     }
 
-    public void OffNormalBorder()
+    public void BorderOff()
     {
         borders[0].gameObject.SetActive(false);
-    }
-
-    public void OffTargetBorder()
-    {
-        borders[1].gameObject.SetActive(false);
-    }
-
-    public ETileState GetEtileState()
-    {
-        return currentTileState;
     }
 }

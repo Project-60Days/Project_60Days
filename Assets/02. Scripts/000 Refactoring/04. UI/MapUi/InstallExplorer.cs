@@ -11,7 +11,7 @@ public class InstallExplorer : InstallBase
     {
         if (App.Manager.UI.GetPanel<InventoryPanel>().CheckFindorUsage())
         {
-            if (App.Manager.Map.canClick)
+            if (App.Manager.Map.CanClick)
             {
                 Debug.Log("탐색기 설치 가능");
 

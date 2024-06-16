@@ -81,7 +81,7 @@ public class DroneUnit : MapBase
     {
         foreach (var tile in selecteTiles)
         {
-            tile.Base.OffTargetBorder();
+            tile.Base.BorderOff();
         }
 
         selecteTiles.Clear();
@@ -110,13 +110,13 @@ public class DroneUnit : MapBase
             drone.DirectionOff();
 
             if (_ctrl.Base.canMove)
-                _ctrl.Base.BorderOn(ETileState.Moveable);
+                _ctrl.Base.BorderOn(TileState.Moveable);
 
             drone.DirectionOn(GetDirection(_ctrl));
         }
         else
         {
-            _ctrl.Base.BorderOn(ETileState.Unable);
+            _ctrl.Base.BorderOn(TileState.Unable);
         }
     }
 

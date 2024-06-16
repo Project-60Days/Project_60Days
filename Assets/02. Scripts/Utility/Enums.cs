@@ -8,6 +8,56 @@ public enum SceneName
     Craft
 }
 
+public enum SoundType
+{
+    SFX,
+    BGM,
+    ALL
+}
+
+public enum ItemType
+{
+    Material,
+    Equipment,
+    Special
+}
+
+public enum BasicItem
+{
+    Steel,
+    Carbon,
+    Plasma,
+    Powder,
+    Gas,
+    Rubber,
+    Wire
+}
+
+#region MAP
+public enum DroneType
+{
+    Disruptor,
+    Explorer
+}
+
+public enum TileType
+{
+    City,
+    Desert,
+    Jungle,
+    Tundra,
+    Neo
+}
+
+public enum TileState
+{
+    None,
+    Moveable,
+    Unable
+}
+#endregion
+
+#region UI
 public enum UIState
 {
     Normal, 
@@ -20,13 +70,6 @@ public enum UIState
     Loading,
     Menu,
     NewDay
-}
-
-public enum ItemType
-{
-    Material,
-    Equipment,
-    Special
 }
 
 public enum PageType
@@ -62,48 +105,5 @@ public enum CraftMode
     Craft,
     Equip,
     Blueprint
-}
-
-public enum SoundType
-{
-    SFX,
-    BGM,
-    ALL
-}
-
-#region HexTile
-
-public enum DroneType
-{
-    Disruptor,
-    Explorer
-}
-
-public enum TileType
-{
-    City,
-    Desert,
-    Jungle,
-    Tundra,
-    Neo
-}
-
-public enum EResourceType
-{
-    Steel,
-    Carbon,
-    Plasma,
-    Powder,
-    Gas,
-    Rubber,
-    Wire
-}
-
-public enum ETileState
-{
-    None,
-    Moveable,
-    Unable,
-    Target
 }
 #endregion

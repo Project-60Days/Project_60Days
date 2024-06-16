@@ -46,6 +46,7 @@ public class MapCamCtrl : MonoBehaviour
         }
 
         UI.gameObject.SetActive(isOn);
+        Map.isMapActive = isOn;
     }
 
     public void GoToShelter()
