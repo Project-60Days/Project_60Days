@@ -4,52 +4,40 @@ using UnityEngine.UI;
 
 public class GlitchEffectCtrl : MonoBehaviour
 {
-    [SerializeField] float minActiveTime;
-    [SerializeField] float maxActiveTime;
-    [SerializeField] float effectRemainTime;
+    [SerializeField] float minInterval = 5f;
+    [SerializeField] float maxInterval = 8f;
+    [SerializeField] float effectRemainTime = 1f;
 
-    private Image image;
     private Material material;
 
-    private float nextTime;
+    private float interval;
 
     private void OnEnable()
     {
-        image = GetComponent<Image>();
-        material = image.material;
+        material = GetComponent<Image>().material;
 
-        nextTime = GetRandomTime();
-
+        GenerateNextInterval();
         StartCoroutine(EffectTimer());
     }
-    private float GetRandomTime()
+
+    private void GenerateNextInterval()
     {
-        return Random.Range(minActiveTime, maxActiveTime);
+        interval = Random.Range(minInterval, maxInterval);
     }
 
     private IEnumerator EffectTimer()
     {
         while (true)
         {
-            yield return new WaitForSeconds(nextTime);
+            yield return new WaitForSeconds(interval);
 
-            nextTime = GetRandomTime();
+            GenerateNextInterval();
 
-            OnEffect();
+            material.EnableKeyword("GLITCH_ON"); // Effect On
 
             yield return new WaitForSeconds(effectRemainTime);
 
-            OffEffect();
+            material.DisableKeyword("GLITCH_ON"); // Effect Off
         }
-    }
-
-    private void OnEffect()
-    {
-        material.EnableKeyword("GLITCH_ON");
-    }
-
-    private void OffEffect()
-    {
-        material.DisableKeyword("GLITCH_ON");
     }
 }

@@ -10,6 +10,11 @@ public class Player : MonoBehaviour
     [SerializeField] Material cloakingMaterial;
     [SerializeField] Material normalMaterial;
 
+    private void Start()
+    {
+        transform.DOMoveY(transform.position.y + 0.4f, 5).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+    }
+
     public void Move(TileController targetTileController)
     {
         transform.DOMove(targetTileController.transform.position, 0f);

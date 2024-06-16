@@ -8,6 +8,8 @@ public class ArrowUnit : MapBase
 
     public override void Init()
     {
+        base.Init();
+
         arrow = Instantiate(arrowPrefab, Vector3.zero, Quaternion.identity);
         arrow.SetActive(false);
     }
@@ -32,6 +34,7 @@ public class ArrowUnit : MapBase
         if (arrow.activeInHierarchy)
         {
             App.Manager.Sound.PlaySFX("SFX_Map_Cancel");
+
             arrow.SetActive(false);
         }
     }

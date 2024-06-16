@@ -8,13 +8,13 @@ public abstract class UIBase : MonoBehaviour
     public virtual UIState GetUIState() => UIState.Normal;
 
     /// <summary>
-    /// is Panel need to add ui stack?
+    /// Is Panel need to add ui stack?
     /// </summary>
     /// <returns></returns>
     public virtual bool IsAddUIStack() => false;
 
     /// <summary>
-    /// is Panel can close with ESC?
+    /// Is Panel can close with ESC?
     /// </summary>
     /// <returns></returns>
     public virtual bool IsCloseWithESC() => false;

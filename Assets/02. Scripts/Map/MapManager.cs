@@ -25,8 +25,8 @@ public class MapManager : Manager
     private List<Tile> neighborTiles = new();
     private List<Tile> sightTiles = new();
 
-    private readonly int playerLayer = 1 << LayerMask.NameToLayer("Player");
-    private readonly int tileLayer = 1 << LayerMask.NameToLayer("Tile");
+    private int playerLayer;
+    private int tileLayer;
 
     Ray ray;
 
@@ -65,7 +65,10 @@ public class MapManager : Manager
         App.Manager.UI.GetPanel<LoadingPanel>().ClosePanel();
 
         AllTile.Clear(); //clear memory
-    }
+
+        playerLayer = 1 << LayerMask.NameToLayer("Player");
+        tileLayer = 1 << LayerMask.NameToLayer("Tile");
+}
 
     private void InitValue()
     {

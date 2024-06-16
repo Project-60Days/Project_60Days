@@ -4,6 +4,7 @@ using UnityEngine;
 public class CraftRawCtrl : MonoBehaviour
 {
     private GameObject targetObject;
+    private SpriteRenderer targetSprite;
 
     private void Start()
     {
@@ -12,6 +13,7 @@ public class CraftRawCtrl : MonoBehaviour
         CraftSlot.CraftItemClick += InitTarget;
 
         targetObject = GameObject.FindWithTag("RenderTextureObject");
+        targetSprite = targetObject.GetComponent<SpriteRenderer>();
     }
 
     private void OnDestroy()
@@ -37,7 +39,6 @@ public class CraftRawCtrl : MonoBehaviour
 
         App.Manager.UI.GetPanel<CraftPanel>().TurnHologram(true);
         targetObject.SetActive(true);
-
-        targetObject.GetComponent<SpriteRenderer>().sprite = itemSprite;
+        targetSprite.sprite = itemSprite;
     }
 }

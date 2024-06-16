@@ -7,13 +7,13 @@ public class MapCamCtrl : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera mapCamera;
     private CinemachineFramingTransposer transposer;
 
-    private MapPanel UI;
+    private MapPanel MapUI;
     private MapManager Map;
     private SoundManager Sound;
 
     public void Init()
     {
-        UI = App.Manager.UI.GetPanel<MapPanel>();
+        MapUI = App.Manager.UI.GetPanel<MapPanel>();
         Map = App.Manager.Map;
         Sound = App.Manager.Sound;
 
@@ -45,7 +45,7 @@ public class MapCamCtrl : MonoBehaviour
             App.Manager.UI.PopUIStack(UIState.Map);
         }
 
-        UI.gameObject.SetActive(isOn);
+        MapUI.gameObject.SetActive(isOn);
         Map.isMapActive = isOn;
     }
 
@@ -59,13 +59,13 @@ public class MapCamCtrl : MonoBehaviour
             {
                 SetPrioryty(false);
                 Sound.PlayBGM("BGM_InGame");
-                UI.SetInfoActive(false);
+                MapUI.SetInfoActive(false);
             });
     }
 
     public void GoToMap()
     {
-        App.Manager.Sound.PlaySFX("SFX_Map_Open");
+        Sound.PlaySFX("SFX_Map_Open");
 
         Sequence sequence = DOTween.Sequence();
         sequence
@@ -73,7 +73,7 @@ public class MapCamCtrl : MonoBehaviour
             {
                 SetPrioryty(true);
                 Sound.PlayBGM(Map.GetLandformBGM());
-                UI.SetInfoActive(false);
+                MapUI.SetInfoActive(false);
             })
             .Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 10f, 0.5f));
     }

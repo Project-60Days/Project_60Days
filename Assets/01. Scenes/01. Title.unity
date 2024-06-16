@@ -1206,7 +1206,7 @@ MonoBehaviour:
   titleBack: {fileID: 1432195487}
   buttonBack: {fileID: 40974319}
   titleImage: {fileID: 1653897649}
-  loadingUI: {fileID: 1672590420}
+  loadingImg: {fileID: 1672590420}
   newGameBtn: {fileID: 720321159}
   quitBtn: {fileID: 1202390744}
 --- !u!1 &720321156

@@ -18,6 +18,14 @@ public class SparkCtrl : MonoBehaviour
         GenerateNextInterval();
     }
 
+    /// <summary>
+    /// Randomize the time to play the next animation
+    /// </summary>
+    private void GenerateNextInterval()
+    {
+        interval = Random.Range(minInterval, maxInterval);
+    }
+
     private void Update()
     {
         timer += Time.deltaTime;
@@ -44,13 +52,5 @@ public class SparkCtrl : MonoBehaviour
             if (!App.Manager.Sound.IsPlayingSFX())
                 App.Manager.Sound.PlaySFX("SFX_Spark_" + sfxIndex.ToString());
         }
-    }
-
-    /// <summary>
-    /// Randomize the time to play the next animation
-    /// </summary>
-    private void GenerateNextInterval()
-    {
-        interval = Random.Range(minInterval, maxInterval);
     }
 }

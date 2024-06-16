@@ -15,24 +15,20 @@ public class TitleManager : MonoBehaviour
     [Header("UI")]
     [SerializeField] GameObject titleBack;
     [SerializeField] GameObject buttonBack;
-
     [SerializeField] Image titleImage;
-
-    [SerializeField] GameObject loadingUI;
+    [SerializeField] GameObject loadingImg;
 
     [Header("Buttons")]
     [SerializeField] Button newGameBtn;
     [SerializeField] Button quitBtn;
 
-    private string leftfilePath = "Text/Tittle_Log_LeftAccess";
-    private string rightfilePath = "Text/Tittle_Log_RightLog";
+    private readonly string leftfilePath = "Text/Tittle_Log_LeftAccess";
+    private readonly string rightfilePath = "Text/Tittle_Log_RightLog";
 
     private string leftFileText;
     private string rightFileText;
 
     private string[] lines;
-
-    private float rightLogShowInterval;
 
     private void Start()
     {
@@ -47,7 +43,7 @@ public class TitleManager : MonoBehaviour
     {
         newGameBtn.onClick.AddListener(() =>
         {
-            loadingUI.SetActive(true);
+            loadingImg.SetActive(true);
 
             App.Manager.Sound.StopBGM();
 
@@ -64,7 +60,7 @@ public class TitleManager : MonoBehaviour
         rightFileText = Resources.Load<TextAsset>(rightfilePath).text;
 
         lines = rightFileText.Split('\n');
-        rightLogShowInterval = duration / lines.Length;
+
     }
 
     private void InitObjects()
@@ -94,6 +90,7 @@ public class TitleManager : MonoBehaviour
     private IEnumerator RightLog()
     {
         int currentIndex = 0;
+        float rightLogShowInterval = duration / lines.Length;
         rightTxt.text = "";
 
         while (currentIndex < lines.Length)
@@ -110,7 +107,7 @@ public class TitleManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Play logo production
+    /// Play "logo" production
     /// </summary>
     /// <returns></returns>
     private void Logo()
