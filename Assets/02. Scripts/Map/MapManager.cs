@@ -214,8 +214,8 @@ public class MapManager : Manager
             {
                 if (App.Manager.Asset.Hexamap.Map.GetTilesInRange(tileCtrl.Model, 2).Contains(tileController.Model))
                 {
-                    tileController.Base.UpdateTileInfo();
                     App.Manager.UI.GetPanel<MapPanel>().SetInfoActive(true);
+                    tileController.Base.UpdateTileInfo();
                     showInfoTile = tileController;
                 }
             }

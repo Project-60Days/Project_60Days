@@ -29,15 +29,16 @@ public abstract class TileBase : MonoBehaviour
     {
         tileData = App.Data.Game.tileData[GetTileType().ToString()];
 
-        info.img = Resources.Load("Illust/" + tileData.Code) as Sprite;
-        info.landformTxt = tileData.Korean;
         resourceIcons = GetComponentsInChildren<SpriteRenderer>(true);
     }
 
-    protected virtual void Start()
+    private void Start()
     {
         var lanform = gameObject.GetComponent<TileController>().Model.Landform.GetType().Name;
         canMoveLandform = lanform == "LandformRocks" || lanform == "LandformPlain";
+
+        info.img = Resources.Load<Sprite>("Illust/" + tileData.Code);
+        info.landformTxt = tileData.Korean;
     }
 
     public void SetBuff()

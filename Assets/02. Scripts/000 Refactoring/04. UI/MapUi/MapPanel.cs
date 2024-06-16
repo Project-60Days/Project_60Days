@@ -12,8 +12,8 @@ public struct TileInfo
 
 public class MapPanel : UIBase
 {
-    [SerializeField] GameObject disturbtorButton;
-    [SerializeField] GameObject explorerButton;
+    [SerializeField] Button disruptorBtn;
+    [SerializeField] Button explorerBtn;
 
     [SerializeField] GameObject tileInfo;
     [SerializeField] Image image;
@@ -24,7 +24,7 @@ public class MapPanel : UIBase
     #region Override
     public override void Init()
     {
-        gameObject.SetActive(false);
+        ClosePanel();
     }
 
     public override void ReInit() 
@@ -32,11 +32,6 @@ public class MapPanel : UIBase
         SetInfoActive(false);
     }
     #endregion
-
-    public void DisturbtorButtonInteractableOn()
-    {
-        disturbtorButton.GetComponentInChildren<Button>().interactable = true;
-    }
 
     public void SetInfo(TileInfo _info)
     {
@@ -51,15 +46,17 @@ public class MapPanel : UIBase
         tileInfo.SetActive(_isActive);
     }
 
-    public void ExplorerButtonInteractable(bool isOn)
+    public void ActiveDroneBtn(DroneType _type, bool _isOn)
     {
-        explorerButton.SetActive(isOn);
-        explorerButton.GetComponentInChildren<Button>().interactable = isOn;
-    }
-    
-    public void DistrubtorButtonInteractable(bool isOn)
-    {
-        disturbtorButton.SetActive(isOn);
-        disturbtorButton.GetComponentInChildren<Button>().interactable = isOn;
+        switch (_type)
+        {
+            case DroneType.Disruptor:
+                disruptorBtn.gameObject.SetActive(_isOn);
+                break;
+
+            case DroneType.Explorer:
+                explorerBtn.gameObject.SetActive(_isOn);
+                break;
+        }
     }
 }

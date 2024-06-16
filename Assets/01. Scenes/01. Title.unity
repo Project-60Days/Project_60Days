@@ -357,7 +357,7 @@ Transform:
   m_Children:
   - {fileID: 1893533639}
   - {fileID: 1778275276}
-  - {fileID: 398834045}
+  - {fileID: 1769864864}
   - {fileID: 1278944103}
   m_Father: {fileID: 0}
   m_RootOrder: 4
@@ -632,61 +632,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 346645493}
   m_CullTransparentMesh: 1
---- !u!1 &398834044
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 398834045}
-  - component: {fileID: 398834046}
-  m_Layer: 0
-  m_Name: TestManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &398834045
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 398834044}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 69114776}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &398834046
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 398834044}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e33d768211c2934e8a5a247f2a02a85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Map:
-    resourcePercent: 70
-    enemyDetectRange: 3
-    zombieCount: 80
-    durability: 200
-  Buff:
-    fogSightRange: 4
-    moveRange: 2
-    resourceCount: 2
-    canDetect: 1
-  startTutorial: 0
 --- !u!1 &428952731
 GameObject:
   m_ObjectHideFlags: 0
@@ -3438,7 +3383,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4495825778294196506, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4495825778294196506, guid: 6ce20a99342ed144e9e5cc1bee5d0904, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4759,6 +4704,61 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1672590420}
   m_CullTransparentMesh: 1
+--- !u!1 &1769864863
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1769864864}
+  - component: {fileID: 1769864865}
+  m_Layer: 0
+  m_Name: MapData
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1769864864
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1769864863}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 69114776}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1769864865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1769864863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e33d768211c2934e8a5a247f2a02a85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Map:
+    resourcePercent: 70
+    enemyDetectRange: 3
+    zombieCount: 80
+    durability: 200
+  Buff:
+    fogSightRange: 4
+    moveRange: 2
+    resourceCount: 2
+    canDetect: 1
+  startTutorial: 0
 --- !u!1 &1778275275
 GameObject:
   m_ObjectHideFlags: 0
