@@ -11,8 +11,6 @@ public class DroneUnit : MapBase
     private List<DroneBase> drones = new();
     private List<TileController> selecteTiles = new();
 
-    public override void Init() { }
-
     public override void ReInit()
     {
         if (drones.Count <= 0) return;

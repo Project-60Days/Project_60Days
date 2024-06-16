@@ -15,6 +15,8 @@ public class PlayerUnit : MapBase
 
     public override void Init()
     {
+        base.Init();
+
         Vector3 spawnPos = tile.gameObject.transform.position;
         spawnPos.y += 0.7f;
 
@@ -44,7 +46,7 @@ public class PlayerUnit : MapBase
         if (App.Manager.Game.dayCount == cloakingDay)
         {
             player.SetCloaking(false);
-            App.Manager.Map.UnsetCloaking();
+            App.Manager.Test.UnsetCloaking();
         }
     }
 }

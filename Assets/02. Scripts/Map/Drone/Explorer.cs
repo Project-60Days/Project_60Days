@@ -4,6 +4,6 @@ public class Explorer : DroneBase
 
     private void OnDestroy()
     {
-        App.Manager.Map.fog.Remove();
+        App.Manager.Asset.Fog.Remove();
     }
 }

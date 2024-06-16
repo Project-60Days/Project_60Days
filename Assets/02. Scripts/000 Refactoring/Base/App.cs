@@ -15,6 +15,7 @@ public class App : Singleton<App>
     private readonly UIManager ui;
     private readonly TutorialManager tutorial;
     private readonly TestManager test;
+    private readonly AssetManager asset;
 
     private readonly GameData gameData;
     private readonly SettingData settingData;
@@ -29,6 +30,7 @@ public class App : Singleton<App>
         public static UIManager UI => instance.ui;
         public static TutorialManager Tutorial => instance.tutorial;
         public static TestManager Test => instance.test;
+        public static AssetManager Asset => instance.asset;
     }
 
     public class Data

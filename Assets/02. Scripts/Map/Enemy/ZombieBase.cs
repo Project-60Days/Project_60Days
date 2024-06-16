@@ -58,14 +58,14 @@ public class ZombieBase : MonoBehaviour
     }
 
     #region Move
-    public void Move(Tile _playerTile, DroneBase _disruptor)
+    public void Move(Tile _playerTile)
     {
         CheckTileEffect();
 
         if (isDebuff) return;
 
-        var targetTile = _disruptor == null? _playerTile : _disruptor.CurrTile;
-        var targetVector = _disruptor == null? App.Manager.Map.GetUnit<PlayerUnit>().PlayerTransform.position : _disruptor.transform.position;
+        var targetTile = _playerTile;
+        var targetVector = App.Manager.Map.GetUnit<PlayerUnit>().PlayerTransform.position;
 
         Chase(targetTile);
         transform.LookAt(new Vector3(targetVector.x, targetVector.y + 0.6f, targetVector.z));
@@ -106,8 +106,8 @@ public class ZombieBase : MonoBehaviour
         }
         else
         {
-            var range = moveRange > movePath.Count ? movePath.Count : moveRange;
-            pointTile = App.Manager.Map.GetTileFromCoords(movePath[range]);
+            var range = Mathf.Min(moveRange, movePath.Count);
+            pointTile = App.Manager.Asset.Hexamap.Map.GetTileFromCoords(movePath[range - 1]);
             pointPos = pointTile.GameEntity.transform.position;
             pointPos.y += 0.6f;
 

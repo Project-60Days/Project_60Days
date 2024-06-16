@@ -6,7 +6,7 @@ public class TileJungle : TileBase
 
     protected override void Buff() 
     {
-        App.Manager.Map.SetResourceCount(1);
+        App.Manager.Test.SetResourceCount(1);
     }
 
     protected override void DeBuff()
@@ -22,7 +22,7 @@ public class TileJungle : TileBase
         if (random < 10)
         {
             App.Manager.UI.GetPanel<PagePanel>().SetResultPage("SWAMP", false);
-            App.Manager.Map.SetMoveRange(0);
+            App.Manager.Test.SetMoveRange(0);
         }
     }
 }

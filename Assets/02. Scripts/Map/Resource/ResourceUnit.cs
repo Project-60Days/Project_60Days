@@ -39,6 +39,8 @@ public class ResourceUnit : MapBase
 
     public override void Init() 
     {
+        base.Init();
+
         var tiles = App.Manager.Map.AllTile;
         tiles.Remove(tile.Model);
         var selectList = Shuffle(tiles, App.Manager.Test.Map.resourcePercent * 0.01f);
@@ -52,6 +54,9 @@ public class ResourceUnit : MapBase
     public override void ReInit()
     {
         resources = tile.Base.GetResources();
+
+        if (resources.Count == 0) return;
+
         var Inventory = App.Manager.UI.GetPanel<InventoryPanel>();
 
         foreach (var resource in resources)

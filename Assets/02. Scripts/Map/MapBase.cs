@@ -4,7 +4,7 @@ using Hexamap;
 
 public abstract class MapBase : MonoBehaviour
 {
-    [SerializeField] protected HexamapController hexaMap;
+    protected HexamapController hexaMap;
 
     protected TileController tile;
 
@@ -15,7 +15,10 @@ public abstract class MapBase : MonoBehaviour
         tile = _tile;
     }
 
-    public abstract void Init();
+    public virtual void Init()
+    {
+        hexaMap = App.Manager.Asset.Hexamap;
+    }
 
     public abstract void ReInit();
 }

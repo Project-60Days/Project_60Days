@@ -6,11 +6,12 @@ using Hexamap;
 public class EnemyUnit : MapBase
 {
     [SerializeField] GameObject enemyPrefab;
-    private List<ZombieBase> enemyList => hexaMap.Map.GetTilesInRange(tile.Model, 3).Select(x => x.Ctrl.Base.enemy).ToList();
-    private DroneBase disruptor => App.Manager.Map.GetUnit<DroneUnit>().CheckDisruptor(tile.Model, 3);
+    private List<ZombieBase> enemyList;
 
     public override void Init()
     {
+        base.Init();
+
         var tiles = App.Manager.Map.AllTile;
         tiles.Remove(tile.Model);
         var selectList = Shuffle(tiles, App.Manager.Test.Map.zombieCount);
@@ -23,6 +24,9 @@ public class EnemyUnit : MapBase
 
     public override void ReInit()
     {
+        enemyList = hexaMap.Map.GetTilesInRange(tile.Model, 3)
+        .Select(x => x.Ctrl.Base.enemy).Where(x => x != null).ToList();
+
         MoveEnemy();
         SumEnemy();
         SetAlert();
@@ -51,16 +55,19 @@ public class EnemyUnit : MapBase
     #endregion
 
     private void MoveEnemy()
-    {
+    { 
+        var disruptor = App.Manager.Map.GetUnit<DroneUnit>().CheckDisruptor(tile.Model, 3);
+        var targetTile = disruptor == null ? tile.Model : disruptor.CurrTile;
+
         foreach (var enemy in enemyList) 
         {
-            enemy.Move(tile.Model, disruptor);
+            enemy.Move(targetTile);
         }
     }
 
     private void SumEnemy()
     {
-        List<ZombieBase> removeZombies = new List<ZombieBase>();
+        List<ZombieBase> removeZombies = new();
 
         for (int i = 0; i < enemyList.Count - 1; i++)
         {

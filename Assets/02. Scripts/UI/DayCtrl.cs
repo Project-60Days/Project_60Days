@@ -44,6 +44,7 @@ public class DayCtrl : MonoBehaviour
 
     private IEnumerator SetNextDay()
     {
+        App.Manager.Test.NextDay();
         Map.NextDay();
 
         yield return new WaitForSeconds(1f);

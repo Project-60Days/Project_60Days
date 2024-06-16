@@ -14,7 +14,7 @@ public class Item_Shapemetal : ItemBase
         beforeDurabillity = App.Manager.Game.durability;
 
         App.Manager.Game.durability += (int)data.value1;
-        App.Manager.Map.SetCloaking((int)data.value2);
+        App.Manager.Test.SetCloaking((int)data.value2);
         App.Manager.UI.GetPanel<UpperPanel>().IncreaseDurabillityAnimation();
     }
 

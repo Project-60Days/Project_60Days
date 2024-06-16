@@ -3,40 +3,12 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Hexamap;
-using FischlWorks_FogWar;
 using System.Collections.Generic;
-
-[Serializable]
-public class MapData
-{
-    public int resourcePercent = 70;
-
-    public int enemyDetectRange = 3;
-
-    public int zombieCount = 80;
-
-    public int durability = 200;
-}
-
-[Serializable]
-public class BuffData
-{
-    public int fogSightRange = 4;
-
-    public int moveRange = 2;
-
-    public int resourceCount = 2;
-
-    public bool canDetect = true;
-}
-
 
 public class MapManager : Manager
 {
     [SerializeField] List<MapBase> Maps;
     private Dictionary<Type, MapBase> MapDic;
-
-    public HexamapController hexaMapCtrl;
 
     public TileController tileCtrl;
     public MapCamCtrl cameraCtrl;
@@ -48,12 +20,8 @@ public class MapManager : Manager
     bool isDronePrepared = false;
     public bool canClick => !canPlayerMove && !isDronePrepared;
 
-    [Header("안개")]
-    [Space(5f)]
-    public csFogWar fog;
-
-    public List<TileController> selectedTiles = new List<TileController>();
-
+    List<TileController> selectedTiles = new();
+    List<Tile> neighborTiles = new();
     List<Tile> sightTiles = new();
 
     private TileController targetTile;
@@ -62,9 +30,6 @@ public class MapManager : Manager
     int tileLayer;
 
     Ray ray;
-
-    public BuffData Buff { get; private set; }
-    private BuffData defaultBuff;
 
     public List<Tile> AllTile { get; private set; }
 
@@ -84,19 +49,17 @@ public class MapManager : Manager
 
     private void Start()
     {
-        mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        Buff = defaultBuff = App.Manager.Test.Buff;
+        mainCamera = Camera.main;
 
-        AllTile = hexaMapCtrl.Map.Tiles.Where(x => x.GameEntity.CompareTag("Tile")).ToList();
+        AllTile = App.Manager.Asset.Hexamap.Map.Tiles.Where(x => x.GameEntity.CompareTag("Tile")).ToList();
 
-        targetTile = hexaMapCtrl.Map.GetTileFromCoords(new Coords(0, 0)).Ctrl;
+        targetTile = App.Manager.Asset.Hexamap.Map.GetTileFromCoords(new Coords(0, 0)).Ctrl;
         UpdateCurrentTile();
 
         InitMaps();
         InitSight();
         cameraCtrl.Init();
         InitValue();
-        fog.Add(GetUnit<PlayerUnit>().PlayerTransform, Buff.fogSightRange, true);
 
         App.Manager.UI.GetPanel<LoadingPanel>().ClosePanel();
 
@@ -131,7 +94,7 @@ public class MapManager : Manager
             tile.GameEntity.SetActive(false);
         }
 
-        sightTiles = hexaMapCtrl.Map.GetTilesInRange(tileCtrl.Model, 5);
+        sightTiles = App.Manager.Asset.Hexamap.Map.GetTilesInRange(tileCtrl.Model, 5);
         sightTiles.Add(tileCtrl.Model);
 
         foreach (var tile in sightTiles)
@@ -201,17 +164,13 @@ public class MapManager : Manager
 
     void MouseOverEvents()
     {
-        if (EventSystem.current.IsPointerOverGameObject())
-        {
-            AllBorderOff();
-            return;
-        }
+        if (EventSystem.current.IsPointerOverGameObject()) return;
+
+        AllBorderOff();
 
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, tileLayer))
         {
             TileController hitTile = hit.transform.parent.GetComponent<TileController>();
-
-            AllBorderOff();
 
             if (hitTile != curTileController) 
                     App.Manager.UI.GetPanel<MapPanel>().SetInfoActive(false);
@@ -229,7 +188,6 @@ public class MapManager : Manager
         }
         else
         {
-            AllBorderOff();
             App.Manager.UI.GetPanel<MapPanel>().SetInfoActive(false);
         }
     }
@@ -249,7 +207,7 @@ public class MapManager : Manager
 
             if (!canPlayerMove && !isDronePrepared)
             {
-                if (hexaMapCtrl.Map.GetTilesInRange(tileCtrl.Model, 2).Contains(tileController.Model))
+                if (App.Manager.Asset.Hexamap.Map.GetTilesInRange(tileCtrl.Model, 2).Contains(tileController.Model))
                 {
                     tileController.Base.UpdateTileInfo();
                     App.Manager.UI.GetPanel<MapPanel>().SetInfoActive(true);
@@ -303,19 +261,13 @@ public class MapManager : Manager
 
     public void NextDay()
     {
-        SetTileBuff();
+        tileCtrl.Base.SetBuff();
 
         UpdateCurrentTile();
 
         ReInitMaps();
 
         InitValue();
-    }
-
-    private void SetTileBuff()
-    {
-        Buff = defaultBuff;
-        tileCtrl.Base.SetBuff();
     }
 
     private void UpdateCurrentTile()
@@ -328,6 +280,9 @@ public class MapManager : Manager
             catch (Exception error)
             { Debug.LogError($"ERROR: {error.Message}\n{error.StackTrace}"); }
         }
+
+        neighborTiles.Clear();
+        neighborTiles = App.Manager.Asset.Hexamap.Map.GetTilesInRange(tileCtrl.Model, App.Manager.Test.Buff.moveRange);
     }
 
     public void DefaultMouseOverState(TileController tileController)
@@ -344,7 +299,7 @@ public class MapManager : Manager
 
     public void SetRandomTile()
     {
-        var tiles = hexaMapCtrl.Map.GetTilesInRange(tileCtrl.Model, 1);
+        var tiles = App.Manager.Asset.Hexamap.Map.GetTilesInRange(tileCtrl.Model, 1);
 
         foreach (var tile in tiles)
         {
@@ -358,20 +313,15 @@ public class MapManager : Manager
 
     public void TilePathFinderSurroundings(TileController tileController)
     {
-        var neighborTiles = hexaMapCtrl.Map.GetTilesInRange(tileCtrl.Model, Buff.moveRange);
-
-        var neighborController = neighborTiles
-            .Select(x => x.Ctrl).ToList();
-
-        for (var index = 0; index < neighborController.Count; index++)
+        for (var index = 0; index < neighborTiles.Count; index++)
         {
-            var value = neighborController[index];
+            var value = neighborTiles[index];
 
             if (!tileController.Base.canMove)
                 continue;
 
-            selectedTiles.Add(value);
-            SelectBorder(value, ETileState.None);
+            selectedTiles.Add(value.Ctrl);
+            SelectBorder(value.Ctrl, ETileState.None);
         }
 
         if (tileController.Base.isAccessable == false
@@ -397,7 +347,7 @@ public class MapManager : Manager
     {
         if (tileController.Base.GetEtileState() == ETileState.Moveable
             && tileCtrl.Model != tileController.Model
-            && !tileController.Base.canMove)
+            && tileController.Base.canMove)
         {
             return true;
         }
@@ -423,11 +373,6 @@ public class MapManager : Manager
         selectedTiles.Clear();
     }
 
-    public Tile GetTileFromCoords(Coords coords)
-    {
-        return hexaMapCtrl.Map.GetTileFromCoords(coords);
-    }
-
     public string GetLandformBGM() => tileCtrl.Base.GetTileType().ToString() switch
     {
         "None" => "Ambience_City",
@@ -436,30 +381,4 @@ public class MapManager : Manager
         "Tundra" => "Ambience_Tundra",
         _ => "Ambience_City",
     };
-
-    public void AddMoveRange(int num)
-    {
-        Buff.moveRange += num;
-    }
-
-    public void SetMoveRange(int num)
-    {
-        Buff.moveRange = num;
-    }
-
-    public void SetCloaking(int num)
-    {
-        Buff.canDetect = false;
-        GetUnit<PlayerUnit>().SetCloaking(num);
-    }
-
-    public void UnsetCloaking()
-    {
-        Buff.canDetect = true;
-    }
-
-    public void SetResourceCount(int num)
-    {
-        Buff.resourceCount += num;
-    }
 }

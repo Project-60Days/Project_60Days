@@ -15,7 +15,7 @@ public class TileDesert : TileBase
         if (random < 10) // Sandstorm debuff: unable to move for a day
         {
             App.Manager.UI.GetPanel<PagePanel>().SetResultPage("DESERT_STORM",false);
-            App.Manager.Map.SetMoveRange(0);
+            App.Manager.Test.SetMoveRange(0);
         }
     }
 }

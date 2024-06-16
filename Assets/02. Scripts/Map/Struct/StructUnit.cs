@@ -11,6 +11,8 @@ public class StructUnit : MapBase
 
     public override void Init()
     {
+        base.Init();
+
         GenerateTower();
         GenerateArmy();
         GenerateProduction();
@@ -24,7 +26,7 @@ public class StructUnit : MapBase
     #region Generate Structure
     private void GenerateTower()
     {
-        Tile tile = App.Manager.Map.GetTileFromCoords(new Coords(1, 3));
+        Tile tile = App.Manager.Asset.Hexamap.Map.GetTileFromCoords(new Coords(1, 3));
 
         var tilelist = new List<Tile>
         {
