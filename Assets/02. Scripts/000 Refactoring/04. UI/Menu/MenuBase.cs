@@ -4,23 +4,23 @@ using UnityEngine.EventSystems;
 using DG.Tweening;
 using TMPro;
 
-public class MenuButtonBase : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class MenuBase : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    public bool isClicked = false;
+    public bool IsClicked { get; protected set; } = false;
 
-    protected TextMeshProUGUI buttonText;
-    protected Image buttonImage;
+    protected float startPositionY;
 
-    public float startPositionY { get; private set; }
+    private TextMeshProUGUI buttonText;
+    private Image buttonImage;
 
-    void Awake()
+    private void Awake()
     {
         Set();
         Init();
         startPositionY = transform.localPosition.y;
     }
 
-    public virtual void Set()
+    protected virtual void Set()
     {
         buttonText = GetComponentInChildren<TextMeshProUGUI>();
         buttonImage = GetComponent<Image>();
@@ -31,13 +31,10 @@ public class MenuButtonBase : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         SetButtonState(false);
     }
 
-    public virtual void ResetPosition()
+    public void ResetPosition()
     {
         transform.DOLocalMoveY(startPositionY, 0f);
     }
-
-
-
 
     protected void SetButtonState(bool _isActive)
     {
@@ -47,33 +44,30 @@ public class MenuButtonBase : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (isClicked) return;
+        if (IsClicked) return;
 
         SetButtonState(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (isClicked) return;
+        if (IsClicked) return;
 
         SetButtonState(false);
     }
 
-    void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
+    public void OnPointerClick(PointerEventData eventData)
     {
-        if (isClicked) return;
+        if (IsClicked) return;
 
         App.Manager.Sound.PlaySFX("SFX_Button_1");
         ClickEvent();
     }
 
-    public virtual void ClickEvent()
+    protected virtual void ClickEvent()
     {
         SetButtonState(false);
     }
 
-    public virtual void CloseEvent()
-    {
-
-    }
+    public virtual void CloseEvent() { }
 }

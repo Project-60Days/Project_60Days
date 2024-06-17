@@ -8,6 +8,7 @@ public class NoteScrollCtrl : MonoBehaviour
     private void Start()
     {
         startPositionY = transform.position.y;
+
         gameObject.SetActive(false);
     }
 
@@ -22,8 +23,10 @@ public class NoteScrollCtrl : MonoBehaviour
     {
         transform.DOKill();
 
-        transform.DOMoveY(startPositionY, 0f);
-
-        gameObject.SetActive(false);
+        transform.DOMoveY(startPositionY, 0f)
+                .OnComplete(() =>
+                {
+                    gameObject.SetActive(false);
+                });
     }
 }

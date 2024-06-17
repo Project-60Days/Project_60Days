@@ -14,7 +14,7 @@ public class EnemyUnit : MapBase
 
         var tiles = App.Manager.Map.AllTile;
         tiles.Remove(tile.Model);
-        var selectList = Shuffle(tiles, App.Manager.Test.Map.zombieCount);
+        var selectList = Shuffle(tiles, App.Data.Test.Map.zombieCount);
 
         foreach (var tile in selectList)
         { 

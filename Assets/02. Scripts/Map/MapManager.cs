@@ -76,7 +76,7 @@ public class MapManager : Manager
         isDronePrepared = false;
 
         neighborTiles.Clear();
-        neighborTiles = App.Manager.Asset.Hexamap.Map.GetTilesInRange(tileCtrl.Model, App.Manager.Test.Buff.moveRange);
+        neighborTiles = App.Manager.Asset.Hexamap.Map.GetTilesInRange(tileCtrl.Model, App.Data.Test.Buff.moveRange);
 
         AllBorderOff();
         ReInitSight();

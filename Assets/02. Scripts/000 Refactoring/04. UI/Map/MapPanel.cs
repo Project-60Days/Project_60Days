@@ -15,8 +15,9 @@ public class MapPanel : UIBase
     [SerializeField] Button disruptorBtn;
     [SerializeField] Button explorerBtn;
 
+    [Header("Tile Info Objects")]
     [SerializeField] GameObject tileInfo;
-    [SerializeField] Image image;
+    [SerializeField] Image infoImg;
     [SerializeField] TextMeshProUGUI landformTMP;
     [SerializeField] TextMeshProUGUI resourceTMP;
     [SerializeField] TextMeshProUGUI enemyTMP;
@@ -35,7 +36,7 @@ public class MapPanel : UIBase
 
     public void SetInfo(TileInfo _info)
     {
-        image.sprite = _info.img;
+        infoImg.sprite = _info.img;
         landformTMP.text = _info.landformTxt;
         resourceTMP.text = _info.resourceTxt;
         enemyTMP.text = _info.enemyTxt;

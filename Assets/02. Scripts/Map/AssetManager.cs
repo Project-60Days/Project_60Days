@@ -11,6 +11,6 @@ public class AssetManager : Manager
 
     private void Start()
     {
-        Fog.Add(App.Manager.Map.GetUnit<PlayerUnit>().PlayerTransform, App.Manager.Test.Buff.fogSightRange, true);
+        Fog.Add(App.Manager.Map.GetUnit<PlayerUnit>().PlayerTransform, App.Data.Test.Buff.fogSightRange, true);
     }
 }

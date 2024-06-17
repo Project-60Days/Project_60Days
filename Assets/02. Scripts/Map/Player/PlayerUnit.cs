@@ -46,7 +46,7 @@ public class PlayerUnit : MapBase
         if (App.Manager.Game.dayCount == cloakingDay)
         {
             player.SetCloaking(false);
-            App.Manager.Test.UnsetCloaking();
+            App.Data.Test.UnsetCloaking();
         }
     }
 }

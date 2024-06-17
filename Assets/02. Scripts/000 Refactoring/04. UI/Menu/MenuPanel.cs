@@ -7,7 +7,7 @@ using DG.Tweening;
 public class MenuPanel : UIBase
 { 
     [SerializeField] Transform[] objects;
-    MenuButtonBase[] buttons;
+    MenuBase[] buttons;
     float[] objectStartPositionY;
 
     [SerializeField] Button backBtn;
@@ -19,7 +19,7 @@ public class MenuPanel : UIBase
     #region Override
     public override void Init()
     {
-        buttons = GetComponentsInChildren<MenuButtonBase>();
+        buttons = GetComponentsInChildren<MenuBase>();
 
         objectStartPositionY = new float[4];
 
@@ -51,7 +51,7 @@ public class MenuPanel : UIBase
     {
         foreach (var button in buttons)
         {
-            if (button.isClicked == true)
+            if (button.IsClicked == true)
                 button.CloseEvent();
         }
 

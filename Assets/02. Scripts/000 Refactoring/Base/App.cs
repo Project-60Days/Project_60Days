@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
 
@@ -14,11 +11,11 @@ public class App : Singleton<App>
     private readonly MapManager map;
     private readonly UIManager ui;
     private readonly TutorialManager tutorial;
-    private readonly TestManager test;
     private readonly AssetManager asset;
 
     private readonly GameData gameData;
     private readonly SettingData settingData;
+    private readonly TestData testData;
     #endregion
 
     public partial class Manager
@@ -29,7 +26,6 @@ public class App : Singleton<App>
         public static MapManager Map => instance.map;
         public static UIManager UI => instance.ui;
         public static TutorialManager Tutorial => instance.tutorial;
-        public static TestManager Test => instance.test;
         public static AssetManager Asset => instance.asset;
     }
 
@@ -37,6 +33,7 @@ public class App : Singleton<App>
     {
         public static GameData Game => instance.gameData;
         public static SettingData Setting => instance.settingData;
+        public static TestData Test => instance.testData;
     }
 
     #region Load Scene
@@ -89,9 +86,9 @@ public class App : Singleton<App>
         return manager != null;
     }
 
-    public static bool TryGetTestManager(out TestManager manager)
+    public static bool TryGetAssetManager(out AssetManager manager)
     {
-        manager = Manager.Test;
+        manager = Manager.Asset;
         return manager != null;
     }
     #endregion

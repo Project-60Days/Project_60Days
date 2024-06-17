@@ -204,7 +204,7 @@ public abstract class TileBase : MonoBehaviour
     public List<Resource> GetResources()
     {
         List<Resource> list = new();
-        int resourceCount = App.Manager.Test.Buff.resourceCount;
+        int resourceCount = App.Data.Test.Buff.resourceCount;
 
         foreach (var resource in resources)
         {

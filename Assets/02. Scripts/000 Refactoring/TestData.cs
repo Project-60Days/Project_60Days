@@ -25,7 +25,7 @@ public class BuffData
     public bool canDetect = true;
 }
 
-public class TestManager : Manager
+public class TestData : Data
 {
     [Header("Map")]
     public MapData Map;

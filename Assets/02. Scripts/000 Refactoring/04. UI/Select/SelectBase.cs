@@ -28,12 +28,12 @@ public abstract class SelectBase : MonoBehaviour
         _select.text.text = GetTextB();
     }
 
-    public virtual void SelectA()
+    protected virtual void SelectA()
     {
         App.Manager.UI.GetPanel<SelectPanel>().ClosePanel();
     }
 
-    public virtual void SelectB()
+    protected virtual void SelectB()
     {
         App.Manager.UI.GetPanel<SelectPanel>().ClosePanel();
     }

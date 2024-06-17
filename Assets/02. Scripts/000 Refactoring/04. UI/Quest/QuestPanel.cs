@@ -6,19 +6,15 @@ using DG.Tweening;
 public class QuestPanel : UIBase
 {
     [SerializeField] Transform questParent;
-
     [SerializeField]  List<Quest> quests;
 
-    private List<Quest> currentQuest 
+    private List<Quest> CurrentQuest 
         => questParent.GetComponentsInChildren<Quest>().ToList();
-    private List<GameObject> currentQuestObject
-        => currentQuest.OrderBy(x => x.type).ToList()
-                        .Select(x => x.gameObject).ToList();
 
     private Quest GetQuest(string _code)
         => quests.Find(x => x.questCode == _code);
     private Quest GetCurrentQuest(string _code)
-        => currentQuest.Find(x => x.questCode == _code);
+        => CurrentQuest.Find(x => x.questCode == _code);
 
     #region Override
     public override void Init() { }
@@ -41,12 +37,14 @@ public class QuestPanel : UIBase
     /// </summary>
     private void SortPosition()
     {
-        var height = currentQuestObject[0].GetComponent<RectTransform>().rect.height;
+        var list = CurrentQuest.OrderBy(x => x.type).Select(x => x.gameObject).ToList();
 
-        for (int i = 0; i < currentQuestObject.Count; i++) 
+        var height = list[0].GetComponent<RectTransform>().rect.height;
+
+        for (int i = 0; i < list.Count; i++) 
         {
             float yPos = -i * height;
-            currentQuestObject[i].transform.DOLocalMoveY(yPos, 0f);
+            list[i].transform.DOLocalMoveY(yPos, 0f);
         }
     }
 
@@ -58,7 +56,6 @@ public class QuestPanel : UIBase
         obj.GetComponent<CanvasGroup>().DOFade(0.0f, 0.3f).SetLoops(5, LoopType.Yoyo).OnComplete(() =>
         {
             Destroy(obj);
-            currentQuest.Remove(quest);
 
             if (string.IsNullOrEmpty(_nextCode))
             {

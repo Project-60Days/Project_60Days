@@ -14,7 +14,6 @@ public class InstallExplorer : InstallBase
             if (App.Manager.Map.CanClick)
             {
                 Debug.Log("탐색기 설치 가능");
-
                 App.Manager.Map.GetUnit<DroneUnit>().Prepare(DroneType.Explorer);
             }
         }

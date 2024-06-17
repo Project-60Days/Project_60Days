@@ -43,7 +43,7 @@ public class ResourceUnit : MapBase
 
         var tiles = App.Manager.Map.AllTile;
         tiles.Remove(tile.Model);
-        var selectList = Shuffle(tiles, App.Manager.Test.Map.resourcePercent * 0.01f);
+        var selectList = Shuffle(tiles, App.Data.Test.Map.resourcePercent * 0.01f);
 
         foreach (var tile in selectList)
         {

@@ -17,7 +17,7 @@ public class SelectPanel : UIBase
     [SerializeField] SelectButton buttonA;
     [SerializeField] SelectButton buttonB;
 
-    private Dictionary<string, SelectBase> dic_Select = new Dictionary<string, SelectBase>();
+    private Dictionary<string, SelectBase> dic_Select = new();
 
     #region Override
     public override void Init()

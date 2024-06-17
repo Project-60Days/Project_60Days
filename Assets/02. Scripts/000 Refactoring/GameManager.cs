@@ -24,7 +24,7 @@ public class GameManager : Manager
     {
         base.Awake();
 
-        startTutorial = App.Manager.Test.startTutorial;
+        startTutorial = App.Data.Test.startTutorial;
     }
 
     private void Start()
@@ -32,7 +32,7 @@ public class GameManager : Manager
         SetButtonEvent();
         InitItemSO();
 
-        durability = App.Manager.Test.Map.durability;
+        durability = App.Data.Test.Map.durability;
     }
 
     private void SetButtonEvent()

@@ -7,14 +7,14 @@ public class Select_JustoUda : SelectBase
     protected override string GetTextA() => App.Data.Game.GetString("STR_SELECT_JUSTOUDA_A");
     protected override string GetTextB() => App.Data.Game.GetString("STR_SELECT_JUSTOUDA_B");
 
-    public override void SelectA()
+    protected override void SelectA()
     {
         base.SelectA();
 
         Debug.Log("Press Button A");
     }
 
-    public override void SelectB()
+    protected override void SelectB()
     {
         base.SelectB();
 

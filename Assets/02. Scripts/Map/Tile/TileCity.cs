@@ -6,7 +6,7 @@ public class TileCity : TileBase
 
     protected override void Buff() // Paved Road: Add 1 move range.
     {
-        App.Manager.Test.AddMoveRange(1);
+        App.Data.Test.AddMoveRange(1);
     }
 
     protected override void DeBuff()
