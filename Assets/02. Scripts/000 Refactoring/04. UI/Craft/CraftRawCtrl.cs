@@ -29,7 +29,7 @@ public class CraftRawCtrl : MonoBehaviour
         targetObject.SetActive(false);
     }
 
-    public void ChangeTarget(Sprite itemSprite)
+    private void ChangeTarget(Sprite itemSprite)
     {
         if (itemSprite == null)
         {

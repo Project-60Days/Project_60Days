@@ -39,8 +39,5 @@ public class ArrowUnit : MapBase
         }
     }
 
-    public bool CheckOn()
-    {
-        return arrow.activeInHierarchy;
-    }
+    public bool IsOn() => arrow.activeInHierarchy;
 }

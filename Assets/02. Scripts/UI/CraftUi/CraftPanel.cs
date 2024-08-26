@@ -16,7 +16,6 @@ public class CraftPanel : UIBase
 {
     [Header("Controller")]
     [SerializeField] CraftRawCtrl rawCtrl;
-    [SerializeField] CraftEffectCtrl effectCtrl;
 
     [Header("UI")]
     [SerializeField] Image rightImg;
@@ -67,7 +66,6 @@ public class CraftPanel : UIBase
     {
         base.OpenPanel();
 
-        effectCtrl.StartAnim();
         App.Manager.Sound.PlaySFX("SFX_Craft_Open");
 
         App.Manager.UI.GetPanel<ItemInfoPanel>().HideInfo(); //todo
@@ -83,7 +81,6 @@ public class CraftPanel : UIBase
 
     public override void ClosePanel()
     {
-        effectCtrl.StopAnim();
         App.Manager.Sound.PlaySFX("SFX_Craft_Close");
         
         Sequence sequence = DOTween.Sequence();

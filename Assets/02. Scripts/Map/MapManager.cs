@@ -281,7 +281,8 @@ public class MapManager : Manager, IListener
         }
 
         tileCtrl.Base.SetBuff();
-        App.Manager.UI.GetPanel<FixedPanel>().mapIcon.ResetIcon(tileCtrl.Base);
+
+        App.Manager.Event.PostEvent(EventCode.TileUpdate, this, tileCtrl.Base);
     }
 
     public void SetRandomTile()

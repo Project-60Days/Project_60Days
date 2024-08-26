@@ -162,7 +162,7 @@ public class CustomYarnCommands : MonoBehaviour
     #region Tutorial 05
     Coroutine WaitMovePoint()
     {
-        return StartCoroutine(new WaitUntil(() => App.Manager.Map.GetUnit<ArrowUnit>().CheckOn()));
+        return StartCoroutine(new WaitUntil(() => App.Manager.Map.GetUnit<ArrowUnit>().IsOn()));
     }
 
     void AddResource()

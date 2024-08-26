@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class IconMap : IconBase
+public class IconMap : IconBase, IListener
 {
     [SerializeField] Sprite city;    
     [SerializeField] Sprite desert;
@@ -12,6 +12,21 @@ public class IconMap : IconBase
 
     private TileType type;
 
+    private void Awake()
+    {
+        App.Manager.Event.AddListener(EventCode.TileUpdate, this);
+    }
+
+    public void OnEvent(EventCode _code, Component _sender, object _param = null)
+    {
+        switch (_code)
+        {
+            case EventCode.TileUpdate:
+                ResetIcon(_param as TileBase);
+                break;
+        }
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -19,7 +34,7 @@ public class IconMap : IconBase
         image = GetComponent<Image>();
     }
 
-    public void ResetIcon(TileBase _tile)
+    private void ResetIcon(TileBase _tile)
     {
         type = _tile.GetTileType();
 

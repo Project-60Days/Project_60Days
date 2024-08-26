@@ -6,6 +6,7 @@ public enum EventCode
     PlayerCreate,
     GoToMap,
     GoToShelter,
+    TileUpdate,
     NextDayStart,
     NextDayMiddle,
     NextDayEnd,

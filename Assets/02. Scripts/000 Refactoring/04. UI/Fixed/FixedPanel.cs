@@ -7,8 +7,6 @@ public class FixedPanel : UIBase
     [SerializeField] Button noteBtn;
     [SerializeField] Button cautionBtn;
 
-    public IconMap mapIcon;
-
     #region Override
     public override void Init()
     {
@@ -57,11 +55,6 @@ public class FixedPanel : UIBase
         App.Manager.Event.PostEvent(EventCode.GoToMap, this);
     }
 
-    public void SetAlert(string _type, bool _isActive)
-    {
-        SetAlert(GetType(_type), _isActive);
-    }
-
     public void SetAlert(AlertType _type, bool _isActive)
     {
         switch (_type)
@@ -74,6 +67,11 @@ public class FixedPanel : UIBase
                 cautionBtn.gameObject.SetActive(_isActive);
                 break;
         }
+    }
+
+    public void SetAlert(string _type, bool _isActive)
+    {
+        SetAlert(GetType(_type), _isActive);
     }
 
     private AlertType GetType(string _type) => _type switch

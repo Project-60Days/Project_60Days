@@ -8,16 +8,18 @@ public class CraftEffectCtrl : MonoBehaviour
     private void Start()
     {
         startPositionX = transform.position.x;
+
+        StartAnim();
     }
 
-    public void StartAnim()
+    private void StartAnim()
     {
         float screenWidth = Screen.width;
 
         transform.DOMoveX(screenWidth, 10f).SetLoops(-1, LoopType.Yoyo);
     }
 
-    public void StopAnim()
+    private void StopAnim()
     {
         transform.DOKill();
 

@@ -14,12 +14,6 @@ public abstract class UIBase : MonoBehaviour
     public virtual bool IsAddUIStack() => false;
 
     /// <summary>
-    /// Is Panel can close with ESC?
-    /// </summary>
-    /// <returns></returns>
-    public virtual bool IsCloseWithESC() => false;
-
-    /// <summary>
     /// Initialize Panel 
     /// called once on Awake, first time
     /// </summary>
