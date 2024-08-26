@@ -10,7 +10,6 @@ public class MapManager : Manager, IListener
     [SerializeField] List<MapBase> Maps;
     private Dictionary<Type, MapBase> MapDic;
 
-    public MapCamCtrl cameraCtrl;
     private Camera mainCamera;
 
     bool canPlayerMove = false;
@@ -71,7 +70,6 @@ public class MapManager : Manager, IListener
 
         InitMaps();
         InitSight();
-        cameraCtrl.Init();
         InitValue();
 
         App.Manager.UI.GetPanel<LoadingPanel>().ClosePanel();

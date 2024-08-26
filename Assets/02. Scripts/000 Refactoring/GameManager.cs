@@ -54,7 +54,7 @@ public class GameManager : Manager, IListener
             App.Manager.UI.FadeIn(() => App.Manager.Event.PostEvent(EventCode.NextDayStart, this)); 
         });
 
-        shelterBtn.onClick.AddListener(() => GoToShelter());
+        shelterBtn.onClick.AddListener(() => App.Manager.Event.PostEvent(EventCode.GoToShelter, this));
     }
 
     private void InitItemSO()
@@ -124,28 +124,4 @@ public class GameManager : Manager, IListener
             App.Manager.Game.isOver = true;
         }
     }
-
-    #region Move Camera
-    /// <summary>
-    /// To move camera from map to shelter
-    /// </summary>
-    public void GoToShelter()
-    {
-        App.Manager.UI.FadeInOut();
-        App.Manager.Map.cameraCtrl.GoToShelter();
-    }
-
-    /// <summary>
-    /// To move camera from shelter to map
-    /// </summary>
-    public void GoToMap()
-    {
-        App.Manager.UI.FadeInOut(MoveCameraToMap);
-    }
-
-    public void MoveCameraToMap()
-    {
-        App.Manager.Map.cameraCtrl.GoToMap();
-    }
-    #endregion
 }

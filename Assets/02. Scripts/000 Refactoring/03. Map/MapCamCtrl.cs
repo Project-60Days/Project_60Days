@@ -13,6 +13,9 @@ public class MapCamCtrl : MonoBehaviour, IListener
 
     private void Awake()
     {
+        App.Manager.Event.AddListener(EventCode.PlayerCreate, this);
+        App.Manager.Event.AddListener(EventCode.GoToMap, this);
+        App.Manager.Event.AddListener(EventCode.GoToShelter, this);
         App.Manager.Event.AddListener(EventCode.NextDayStart, this);
     }
 
@@ -20,30 +23,36 @@ public class MapCamCtrl : MonoBehaviour, IListener
     {
         switch (_code)
         {
+            case EventCode.PlayerCreate:
+                Transform player = Map.GetUnit<PlayerUnit>().PlayerTransform;
+                mapCamera.Follow = player;
+                mapCamera.m_Lens.OrthographicSize = 6.5f;
+
+                transposer = mapCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+                transposer.m_CameraDistance = 5f;
+                break;
+
+
+            case EventCode.GoToMap:
+                App.Manager.UI.FadeInOut(GoToMap);
+                break;
+
+            case EventCode.GoToShelter:
+                App.Manager.UI.FadeInOut();
+                GoToShelter();
+                break;
+
             case EventCode.NextDayStart:
                 ResetCamera();
                 break;
         }
     }
 
-    public void Init()
+    private void Start()
     {
         MapUI = App.Manager.UI.GetPanel<MapPanel>();
         Map = App.Manager.Map;
         Sound = App.Manager.Sound;
-
-        Transform player = Map.GetUnit<PlayerUnit>().PlayerTransform;
-        mapCamera.Follow = player;
-        mapCamera.m_Lens.OrthographicSize = 6.5f;
-
-        transposer = mapCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
-        transposer.m_CameraDistance = 5f;
-    }
-
-    private void ResetCamera()
-    {
-        transposer.m_CameraDistance = 5f;
-        SetPrioryty(false);
     }
 
     private void SetPrioryty(bool isOn)
@@ -64,7 +73,7 @@ public class MapCamCtrl : MonoBehaviour, IListener
         Map.isMapActive = isOn;
     }
 
-    public void GoToShelter()
+    private void GoToShelter()
     {
         Sound.PlaySFX("SFX_Map_Close");
 
@@ -78,7 +87,7 @@ public class MapCamCtrl : MonoBehaviour, IListener
             });
     }
 
-    public void GoToMap()
+    private void GoToMap()
     {
         Sound.PlaySFX("SFX_Map_Open");
 
@@ -91,5 +100,11 @@ public class MapCamCtrl : MonoBehaviour, IListener
                 MapUI.SetInfoActive(false);
             })
             .Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 10f, 0.5f));
+    }
+
+    private void ResetCamera()
+    {
+        transposer.m_CameraDistance = 5f;
+        SetPrioryty(false);
     }
 }

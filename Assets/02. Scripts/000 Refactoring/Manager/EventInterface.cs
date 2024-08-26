@@ -3,6 +3,9 @@ using UnityEngine.Scripting;
 
 public enum EventCode
 {
+    PlayerCreate,
+    GoToMap,
+    GoToShelter,
     NextDayStart,
     NextDayMiddle,
     NextDayEnd,

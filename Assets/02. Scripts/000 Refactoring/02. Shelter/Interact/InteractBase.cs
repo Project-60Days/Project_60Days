@@ -6,10 +6,12 @@ public abstract class InteractBase : MonoBehaviour, IPointerClickHandler, IPoint
 {
     [HideInInspector] public UnityEvent onClickEvent;
 
-    [SerializeField] GameObject border;
+    private GameObject border;
 
     private void Start()
     {
+        border = transform.GetChild(0).gameObject;
+
         onClickEvent.AddListener(OnClickEvent);
 
         SetOutline(false);

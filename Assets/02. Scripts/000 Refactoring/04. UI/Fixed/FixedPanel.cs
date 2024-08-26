@@ -43,7 +43,7 @@ public class FixedPanel : UIBase
 
     private IEnumerator OpenNoteInMap()
     {
-        App.Manager.Game.GoToShelter();
+        App.Manager.Event.PostEvent(EventCode.GoToShelter, this);
 
         yield return new WaitUntil(() => App.Manager.UI.CurrState == UIState.Normal);
 
@@ -54,7 +54,7 @@ public class FixedPanel : UIBase
     {
         if (App.Manager.UI.CurrState != UIState.Normal) return;
 
-        App.Manager.Game.GoToMap();
+        App.Manager.Event.PostEvent(EventCode.GoToMap, this);
     }
 
     public void SetAlert(string _type, bool _isActive)
