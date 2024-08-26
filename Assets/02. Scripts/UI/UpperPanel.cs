@@ -3,7 +3,7 @@ using UnityEngine;
 using TMPro;
 using DG.Tweening;
 
-public class UpperPanel : UIBase
+public class UpperPanel : UIBase, IListener
 {
     [Header("ItemCountText")]
     [SerializeField] TextMeshProUGUI steelText;
@@ -24,6 +24,22 @@ public class UpperPanel : UIBase
     ItemBase bullet;
 
     Color cyan = new Color(56f / 255f, 221f / 255f, 205f / 255f);
+
+    private void Awake()
+    {
+        App.Manager.Event.AddListener(EventCode.Hit, this);
+    }
+
+    public void OnEvent(EventCode _code, Component _sender, object _param = null)
+    {
+        switch (_code)
+        {
+            case EventCode.Hit:
+                DecreaseDurabillityAnimation();
+                break;
+        }
+    }
+
 
     #region Override
     public override void Init()
@@ -77,7 +93,7 @@ public class UpperPanel : UIBase
             .OnUpdate(() => durabilityText.text = currentNumber.ToString());
     }
 
-    public void DecreaseDurabillityAnimation()
+    private void DecreaseDurabillityAnimation()
     {
         int endNumber = App.Manager.Game.durability;
 

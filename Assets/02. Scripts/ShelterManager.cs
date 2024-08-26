@@ -13,8 +13,6 @@ public class ShelterManager : Manager
     [SerializeField] Image batteryImg;
     [SerializeField] CubeCtrl cubeCtrl;
 
-    public MainCamCtrl cameraCtrl;
-
     float lightUpDuration = 2f;
 
     int benchStartIndex;

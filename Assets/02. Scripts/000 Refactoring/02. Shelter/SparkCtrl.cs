@@ -18,14 +18,6 @@ public class SparkCtrl : MonoBehaviour
         GenerateNextInterval();
     }
 
-    /// <summary>
-    /// Randomize the time to play the next animation
-    /// </summary>
-    private void GenerateNextInterval()
-    {
-        interval = Random.Range(minInterval, maxInterval);
-    }
-
     private void Update()
     {
         timer += Time.deltaTime;
@@ -38,10 +30,19 @@ public class SparkCtrl : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Randomize the time to play the next animation
+    /// </summary>
+    private void GenerateNextInterval()
+    {
+        interval = Random.Range(minInterval, maxInterval);
+    }
+
     private void PlayAnim()
     {
-        animator.SetTrigger("LightUp");
         PlaySFX();
+
+        animator.SetTrigger("LightUp");
     }
 
     private void PlaySFX()

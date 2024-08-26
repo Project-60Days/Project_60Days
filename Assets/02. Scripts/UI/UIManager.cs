@@ -29,7 +29,6 @@ public class UIManager : Manager, IListener
 
         UIs.Clear(); // clear memory
 
-        App.Manager.Event.AddListener(EventCode.NextDayStart, this);
         App.Manager.Event.AddListener(EventCode.NextDayMiddle, this);
         App.Manager.Event.AddListener(EventCode.NextDayEnd, this);
     }
@@ -38,10 +37,6 @@ public class UIManager : Manager, IListener
     {
         switch (_code)
         {
-            case EventCode.NextDayStart:
-                //AddUIStack(UIState.NewDay);
-                break;
-
             case EventCode.NextDayMiddle:
                 AddUIStack(UIState.NewDay);
                 ReInitUIs();

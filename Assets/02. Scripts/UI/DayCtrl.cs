@@ -83,7 +83,7 @@ public class DayCtrl : MonoBehaviour, IListener
                 break;
 
             case NewDayState.Hit:
-                App.Manager.Shelter.cameraCtrl.Shake();
+                App.Manager.Event.PostEvent(EventCode.Hit, this);
                 goto case NewDayState.Normal;
 
             case NewDayState.Normal:

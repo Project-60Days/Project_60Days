@@ -22,8 +22,8 @@ public class TitleManager : MonoBehaviour
     [SerializeField] Button newGameBtn;
     [SerializeField] Button quitBtn;
 
-    private readonly string leftfilePath = "Text/Tittle_Log_LeftAccess";
-    private readonly string rightfilePath = "Text/Tittle_Log_RightLog";
+    private const string leftfilePath = "Text/Tittle_Log_LeftAccess";
+    private const string rightfilePath = "Text/Tittle_Log_RightLog";
 
     private string leftFileText;
     private string rightFileText;
@@ -33,10 +33,11 @@ public class TitleManager : MonoBehaviour
     private void Start()
     {
         SetButtonEvent();
-        InitText();
+        LoadTextFiles();
+
         InitObjects();
 
-        LeftLog();
+        PlayLeftLog();
     }
 
     private void SetButtonEvent()
@@ -54,13 +55,12 @@ public class TitleManager : MonoBehaviour
         });
     }
 
-    private void InitText()
+    private void LoadTextFiles()
     {
         leftFileText = Resources.Load<TextAsset>(leftfilePath).text;
         rightFileText = Resources.Load<TextAsset>(rightfilePath).text;
 
         lines = rightFileText.Split('\n');
-
     }
 
     private void InitObjects()
@@ -73,46 +73,40 @@ public class TitleManager : MonoBehaviour
     /// <summary>
     /// Play log production in the upper "left" corner
     /// </summary>
-    private void LeftLog()
+    private void PlayLeftLog()
     {
         leftTxt.DOText(leftFileText, duration)
             .SetEase(Ease.InSine)
-            .OnComplete(() =>
-            {
-                StartCoroutine(RightLog());
-            });
+            .OnComplete(() => StartCoroutine(PlayRightLog()));
     }
 
     /// <summary>
     /// Play log production in the upper "right" corner
     /// </summary>
     /// <returns></returns>
-    private IEnumerator RightLog()
+    private IEnumerator PlayRightLog()
     {
-        int currentIndex = 0;
+        rightTxt.text = string.Empty;
         float rightLogShowInterval = duration / lines.Length;
-        rightTxt.text = "";
 
-        while (currentIndex < lines.Length)
+        foreach (string line in lines)
         {
-            string line = lines[currentIndex++];
             rightTxt.text += line + '\n';
-
             rightScrollRect.verticalNormalizedPosition = 0f;
-
             yield return new WaitForSeconds(rightLogShowInterval);
         }
 
-        Logo();
+        PlayLogo();
     }
 
     /// <summary>
     /// Play "logo" production
     /// </summary>
     /// <returns></returns>
-    private void Logo()
+    private void PlayLogo()
     {
         Sequence sequence = DOTween.Sequence();
+
         sequence.AppendInterval(1f)
             .AppendCallback(() =>
             {

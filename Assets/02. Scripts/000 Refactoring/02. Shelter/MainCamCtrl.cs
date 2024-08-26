@@ -2,15 +2,28 @@ using UnityEngine;
 using Cinemachine;
 using DG.Tweening;
 
-public class MainCamCtrl : MonoBehaviour
+public class MainCamCtrl : MonoBehaviour, IListener
 {
     [SerializeField] CinemachineVirtualCamera mainCamera;
 
-    public void Shake()
+    private void Awake()
+    {
+        App.Manager.Event.AddListener(EventCode.Hit, this);
+    }
+
+    public void OnEvent(EventCode _code, Component _sender, object _param = null)
+    {
+        switch (_code)
+        {
+            case EventCode.Hit:
+                Shake();
+                break;
+        }
+    }
+
+    private void Shake()
     {
         PlaySFX();
-
-        App.Manager.UI.GetPanel<UpperPanel>().DecreaseDurabillityAnimation();
 
         mainCamera.transform.DOShakePosition(1f);
     }
