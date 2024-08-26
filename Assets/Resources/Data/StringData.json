@@ -97,32 +97,32 @@
   },
   {
     "Index": 3001,
-    "Code": "STR_TILE_NONE_DESCRIPTION",
-    "Korean": "파괴된 도시\n<size=18>포장된 도로 <color=grey>: 선체 이동 거리 + 1</size></color>",
+    "Code": "STR_TILE_CITY_DESC",
+    "Korean": "파괴된 도시 <size=15>포장된 도로 : 선체 이동 거리 + 1</size>",
     "English": -1,
     "Japanese": -1,
     "Chinese": -1
   },
   {
     "Index": 3002,
-    "Code": "STR_TILE_JUNGLE_DESCRIPTION",
-    "Korean": "습지\n<size=18>풍부한 자원 <color=grey>: 자원 획득 개수 + 1</size></color>",
+    "Code": "STR_TILE_JUNGLE_DESC",
+    "Korean": "습지 <size=15>풍부한 자원 : 자원 획득 개수 + 1</size>",
     "English": -1,
     "Japanese": -1,
     "Chinese": -1
   },
   {
     "Index": 3003,
-    "Code": "STR_TILE_DESERT_DESCRIPTION",
-    "Korean": "황야\n<size=18>부식성 바람 <color=grey>: 턴당 선체 내구도 - 1</size></color>",
+    "Code": "STR_TILE_DESERT_DESC",
+    "Korean": "황야 <size=15>부식성 바람 : 턴당 선체 내구도 - 1</size>",
     "English": -1,
     "Japanese": -1,
     "Chinese": -1
   },
   {
     "Index": 3004,
-    "Code": "STR_TILE_TUNDRA_DESCRIPTION",
-    "Korean": "툰드라\n<size=18>얼어붙은 문 <color=grey>: 구조물 탐사 시 2턴 소모</size></color>",
+    "Code": "STR_TILE_TUNDRA_DESC",
+    "Korean": "툰드라 <size=15>얼어붙은 문 : 구조물 탐사 시 2턴 소모</size>",
     "English": -1,
     "Japanese": -1,
     "Chinese": -1
@@ -138,7 +138,199 @@
   {
     "Index": 4002,
     "Code": "STR_WARNING_NOTICE_ALERT",
-    "Korean": "<color=red>경고 : 주변 1타일 이내에 글리처가 있습니다.</color>",
+    "Korean": "경고 : 주변 1타일 이내에 글리처가 있습니다.",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 5001,
+    "Code": "STR_OPTION_SOUND",
+    "Korean": "음향",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 5002,
+    "Code": "STR_OPTION_SOUND_MASTER",
+    "Korean": "전체 음향",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 5003,
+    "Code": "STR_OPTION_SOUND_BGM",
+    "Korean": "배경음",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 5004,
+    "Code": "STR_OPTION_SOUND_SFX",
+    "Korean": "효과음",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 5005,
+    "Code": "STR_OPTION_SCREEN",
+    "Korean": "화면",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 5006,
+    "Code": "STR_OPTION_SCREEN_SCREENMODE",
+    "Korean": "화면 모드",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 5007,
+    "Code": "STR_OPTION_SCREEN_FULLSCREEN",
+    "Korean": "전체 화면",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 5008,
+    "Code": "STR_OPTION_SCREEN_WINDOWED",
+    "Korean": "창 모드",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 5009,
+    "Code": "STR_OPTION_SCREEN_RESOLUTION",
+    "Korean": "해상도",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 6001,
+    "Code": "STR_DISTRUBTOR_DESC",
+    "Korean": "교란기 위치의 일정 부분 글리처 무리 정지",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 6002,
+    "Code": "STR_EXPLORER_DESC",
+    "Korean": "탐색기 위치의 일정부분 시야공유",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 7001,
+    "Code": "STR_SELECT_JUSTOUDA_KEY",
+    "Korean": "JustoUda",
+    "English": "JustoUda",
+    "Japanese": "JustoUda",
+    "Chinese": "JustoUda"
+  },
+  {
+    "Index": 7002,
+    "Code": "STR_SELECT_JUSTOUDA_A",
+    "Korean": "주스토",
+    "English": "Justo",
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 7003,
+    "Code": "STR_SELECT_JUSTOUDA_B",
+    "Korean": "유다",
+    "English": "Uda",
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 8001,
+    "Code": "STR_QUEST_TUTORIAL_02",
+    "Korean": "생존 프로세스: 배터리 제작",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 8002,
+    "Code": "STR_QUEST_TUTORIAL_03",
+    "Korean": "생존 프로세스: 결단",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 8003,
+    "Code": "STR_QUEST_TUTORIAL_04",
+    "Korean": "생존 프로세스: 글리처",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 8004,
+    "Code": "STR_QUEST_TUTORIAL_06",
+    "Korean": "생존 프로세스: 도망",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 8005,
+    "Code": "STR_QUEST_TUTORIAL_07",
+    "Korean": "생존 프로세스: 수집",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 8006,
+    "Code": "STR_QUEST_MAIN_01",
+    "Korean": "생산 공장 찾기",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 8007,
+    "Code": "STR_QUEST_MAIN_02",
+    "Korean": "노트를 열어 생산 공장 조사하기",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 8008,
+    "Code": "STR_QUEST_MAIN_03",
+    "Korean": "넷 카드 회수하기",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 8009,
+    "Code": "STR_QUEST_MAIN_04",
+    "Korean": "송신 탑 찾기",
+    "English": -1,
+    "Japanese": -1,
+    "Chinese": -1
+  },
+  {
+    "Index": 8010,
+    "Code": "STR_QUEST_MAIN_05",
+    "Korean": "넷 카드 연결하기",
     "English": -1,
     "Japanese": -1,
     "Chinese": -1

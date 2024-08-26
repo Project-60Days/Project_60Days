@@ -2,19 +2,19 @@ using System.Collections;
 using UnityEngine;
 using Yarn.Unity;
 
-public class CustomYarnCommands : Singleton<CustomYarnCommands>
+public class CustomYarnCommands : MonoBehaviour
 {
     [SerializeField] DialogueRunner dialogueRunner;
 
     void Awake()
     {
         //tutorial//
-        dialogueRunner.AddCommandHandler<string, string>("highlight", HighLightObject);
-        dialogueRunner.AddCommandHandler<string>("highlightBtn", HighLightBtn);
+        dialogueRunner.AddCommandHandler<string>("focus", FocusObject);
         dialogueRunner.AddCommandHandler<string>("waitUntil", WaitUntilUIState);
         dialogueRunner.AddCommandHandler("hide", HideDialogue);
         dialogueRunner.AddCommandHandler("show", ShowDialogue);
-        dialogueRunner.AddCommandHandler<string>("setQuest", SetQuest);
+        dialogueRunner.AddCommandHandler("startQuest", StartQuest);
+        dialogueRunner.AddCommandHandler<string, string>("endQuest", EndQuest);
         dialogueRunner.AddCommandHandler<bool>("setCloseBtnEnabled", SetCloseBtnEnabled);
         dialogueRunner.AddCommandHandler<int>("lightUpAndFillBattery", LightUpAndFillBattery);
 
@@ -40,7 +40,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
 
         //06//
         dialogueRunner.AddCommandHandler("waitNewDay", WaitNewDay);
-        dialogueRunner.AddCommandHandler("enableBtn", EnableBtn);
+        dialogueRunner.AddCommandHandler<bool>("enableBtn", EnableBtn);
 
         //08//
         dialogueRunner.AddCommandHandler("startPV", StartPV);
@@ -59,231 +59,166 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
         //dialogueRunner.AddCommandHandler<string>("stop_bgm", StopBGM);
     }
 
-
-
-
-
     void AppendNode()
     {
-        string nodeName = UIManager.instance.GetPageController().GetNextResourceNodeName();
+        string nodeName = App.Manager.UI.GetPanel<PagePanel>().GetNextResourceNodeName();
 
         if (nodeName == "-1") return;
 
-        UIManager.instance.GetPageController().CreateResultDialogueRunner(nodeName);
+        App.Manager.UI.GetPanel<PagePanel>().CreateResultDialogueRunner(nodeName);
     }
 
-
-
-
-
-    #region tutorial
-    void HighLightObject(string _objectID, string _waitStatusName)
+    #region Tutorial Common Commands
+    void FocusObject(string _objectID)
     {
-        UIManager.instance.GetUIHighLightController().ShowHighLight(_objectID, _waitStatusName);
-    }
-
-    void HighLightBtn(string _objectID)
-    {
-        UIManager.instance.GetUIHighLightController().ShowBtnHighLight(_objectID);
+        App.Manager.UI.GetPanel<FocusPanel>().ShowFocus(_objectID);
     }
 
     Coroutine WaitUntilUIState(string _UIName)
     {
-        return StartCoroutine(new WaitUntil(() => UIManager.instance.isUIStatus(_UIName)));
+        UIState state = App.Manager.UI.StringToState(_UIName);
+        return StartCoroutine(new WaitUntil(() => App.Manager.UI.CurrState == state));
     }
 
     void HideDialogue()
     {
-        TutorialManager.instance.GetTutorialController().Hide();
+        App.Manager.Tutorial.Ctrl.Hide();
     }
 
     void ShowDialogue()
     {
-        TutorialManager.instance.GetTutorialController().Show();
+        App.Manager.Tutorial.Ctrl.Show();
     }
 
-    void SetQuest(string _questCode)
+    void StartQuest()
     {
-        UIManager.instance.GetQuestController().CreateQuest(_questCode);
+        App.Manager.UI.GetPanel<QuestPanel>().StartQuest("TUTORIAL_02");
+    }
+
+    void EndQuest(string _currCode, string _nextCode)
+    {
+        App.Manager.UI.GetPanel<QuestPanel>().EndQuest(_currCode, _nextCode);
     }
 
     void SetCloseBtnEnabled(bool _isEnabled)
     {
-        UIManager.instance.GetNoteController().SetCloseBtnEnabled(_isEnabled);
+        App.Manager.UI.GetPanel<NotePanel>().SetCloseBtnEnabled(_isEnabled);
     }
 
     void LightUpAndFillBattery(int _num)
     {
-        TutorialManager.instance.GetTutorialController().LightUpAndFillBattery(_num);
+        App.Manager.Shelter.LightUpAndFillBattery(_num);
     }
     #endregion
 
-
-
-
-
-    #region 01
+    #region Tutorial 01
     void LightUpWorkBench()
     {
-        TutorialManager.instance.GetTutorialController().LightUpWorkBench();
+        App.Manager.Shelter.LightUpWorkBench();
     }
 
     void LightDownWorkBench()
     {
-        TutorialManager.instance.GetTutorialController().LightDownWorkBench();
+        App.Manager.Shelter.LightDownWorkBench();
     }
     #endregion
 
-
-
-
-
-
-    #region 02
+    #region Tutorial 02
     Coroutine WaitGetItem(string _itemCode)
     {
-        return StartCoroutine(new WaitUntil(() => UIManager.instance.GetInventoryController().CheckInventoryItem(_itemCode)));
+        return StartCoroutine(new WaitUntil(() => App.Manager.UI.GetPanel<InventoryPanel>().CheckInventoryItem(_itemCode)));
     }
     #endregion
 
-
-
-
-
-    #region 03
+    #region Tutorial 03
     void SetAlertState(string _alertType, bool _isActive)
     {
-        UIManager.instance.GetAlertController().SetAlert(_alertType, _isActive);
+        App.Manager.UI.GetPanel<FixedPanel>().SetAlert(_alertType, _isActive);
     }
 
     Coroutine WaitMoveScroll()
     {
-        return StartCoroutine(new WaitUntil(() => UIManager.instance.GetNoteController().CheckIfScrolledToEnd()));
+        return StartCoroutine(new WaitUntil(() => App.Manager.UI.GetPanel<NotePanel>().CheckIfScrolledToEnd()));
     }
 
     void SetScrollBar(bool _isInteractable)
     {
-        UIManager.instance.GetNoteController().SetScrollBarInteractable(_isInteractable);
+        App.Manager.UI.GetPanel<NotePanel>().SetScrollBarInteractable(_isInteractable);
     }
     #endregion
 
-
-
-
-
-    #region 04
+    #region Tutorial 04
     void LightUpMap()
     {
-        TutorialManager.instance.GetTutorialController().LightUpMap();
+        App.Manager.Shelter.LightUpMap();
     }
 
     void LightDownMap()
     {
-        TutorialManager.instance.GetTutorialController().LightDownMap();
+        App.Manager.Shelter.LightDownMap();
     }
     #endregion
 
-
-
-
-
-    #region 05
+    #region Tutorial 05
     Coroutine WaitMovePoint()
     {
-        return StartCoroutine(new WaitUntil(() => App.instance.GetMapManager().mapUIController.MovePointActivate()));
+        return StartCoroutine(new WaitUntil(() => App.Manager.Map.GetUnit<ArrowUnit>().IsOn()));
     }
 
     void AddResource()
     {
-        TutorialManager.instance.GetTutorialController().AddSteel();
+        App.Manager.Tutorial.Ctrl.AddResource();
     }
     #endregion
 
-
-
-
-
-    #region 06
+    #region Tutorial 06
     Coroutine WaitNewDay()
     {
-        return StartCoroutine(new WaitUntil(() => UIManager.instance.GetNoteController().GetNewDay()));
+        return StartCoroutine(new WaitUntil(() => App.Manager.Game.isNewDay));
     }
 
-    void EnableBtn()
+    void EnableBtn(bool _value)
     {
-        TutorialManager.instance.GetTutorialController().EnableBtn();
+        App.Manager.Game.EnableBtn(_value);
     }
     #endregion
 
-
-
-
-    #region 08
+    #region Tutorial 08
     void StartPV()
     {
-        UIManager.instance.GetPVController().Start01();
+        App.Manager.UI.GetPanel<VideoPanel>().Start01();
     }
 
     Coroutine WaitPVEnd()
     {
-        return StartCoroutine(new WaitUntil(() => UIManager.instance.GetPVController().isEnd));
+        return StartCoroutine(new WaitUntil(() => App.Manager.UI.GetPanel<VideoPanel>().isEnd));
     }
 
 
     void LightUp()
     {
-        TutorialManager.instance.GetTutorialController().LightUpBackground();
+        App.Manager.Shelter.LightUpBackground();
     }
     #endregion
 
-
-
-
-
-    #region 09
+    #region Tutorial 09
     void EndTutorial()
     {
-        TutorialManager.instance.EndTutorial();
-    }
-    #endregion
-
-
-
-
-
-    #region temp
-    void SpawnTutorialGlicher()
-    {
-        MapController.instance.SpawnTutorialZombie();
-    }
-
-    void PlayBGM(string bgmName)
-    {
-        App.instance.GetSoundManager().PlayBGM(bgmName);
-    }
-
-    void PlaySFX(string sfxName)
-    {
-        App.instance.GetSoundManager().PlaySFX(sfxName);
-    }
-
-    void StopBGM(string soundName)
-    {
-        App.instance.GetSoundManager().StopBGM();
+        App.Manager.Tutorial.EndTutorial();
     }
     #endregion
 
     [YarnFunction("getResourceName")]
     static string GetResourceName()
     {
-        string resourceName = UIManager.instance.GetPageController().currResource;
+        string resourceName = App.Manager.UI.GetPanel<PagePanel>().currResource;
         return resourceName;
     }
 
     [YarnFunction("getResourceIndex")]
     static int GetResourceIndex()
     {
-        int resourceIndex = UIManager.instance.GetPageController().currResourceIndex;
+        int resourceIndex = App.Manager.UI.GetPanel<PagePanel>().currResourceIndex;
         return resourceIndex;
     }
 
@@ -291,14 +226,14 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     [YarnFunction("getResourceCount")]
     static int GetResourceCount(string _itemCode)
     {
-        var resources = App.instance.GetMapManager().resourceManager.GetLastResources();
+        var resources = App.Manager.Map.GetUnit<ResourceUnit>().GetLastResources();
 
         int count = 0;
 
         for (int i = 0; i < resources.Count; i++)
         {
-            if (resources[i].ItemBase.data.Code == _itemCode)
-                count = resources[i].ItemCount;
+            if (resources[i].Item.Code == _itemCode)
+                count = resources[i].Count;
         }
 
         return count;
@@ -315,7 +250,7 @@ public class CustomYarnCommands : Singleton<CustomYarnCommands>
     [YarnFunction("getStructName")]
     static string GetStructName()
     {
-        string structName = UIManager.instance.GetPageController().currStruct;
+        string structName = App.Manager.UI.GetPanel<PagePanel>().currStruct;
         
         return structName;
     }

@@ -18,7 +18,7 @@ public class BlueprintSlot : SlotBase
 
     public BlueprintSlot()
     {
-        eSlotType = ESlotType.BlueprintSlot;
+        type = SlotType.BlueprintSlot;
     }
 
     public override void OnPointerClick(PointerEventData eventData)
@@ -26,7 +26,7 @@ public class BlueprintSlot : SlotBase
         if (item == unknownItem)
             return;
 
-        UIManager.instance.GetCraftingUiController().ShowItemBlueprint(item);
+        App.Manager.UI.GetPanel<CraftPanel>().Blueprint.ShowItemBlueprint(item);
         CraftItemClick?.Invoke(item.sprite);
     }
 

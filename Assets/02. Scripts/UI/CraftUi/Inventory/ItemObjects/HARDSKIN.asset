@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 527772d4644993a41bc286083a7184c5, type: 3}
   m_Name: HARDSKIN
   m_EditorClassIdentifier: 
-  English: ITEM_HARDSKIN
+  Code: ITEM_HARDSKIN
   data:
     Index: 1020
     Category: 3

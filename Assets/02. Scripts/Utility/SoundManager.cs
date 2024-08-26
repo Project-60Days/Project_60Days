@@ -1,133 +1,221 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using DG.Tweening;
 
-[System.Serializable]
+[Serializable]
 public class Sound
 {
     public string name;
     public AudioClip clip;
 }
 
-public class SoundManager : ManagementBase
+public class SoundManager : Manager
 {
-    [SerializeField] Sound[] array_sfx = null;
-    [SerializeField] Sound[] array_bgm = null;
+    public struct VolumeData
+    {
+        public float volume;
+        public float scale;
 
+        public readonly float calculated => volume * scale;
+
+        public VolumeData(float _volume, float _scale)
+        {
+            volume = _volume;
+            scale = _scale;
+        }
+    }
+
+    public class VolumeAccessor
+    {
+        readonly SoundManager Sound = App.Manager.Sound;
+        readonly SettingData Setting = App.Data.Setting;
+
+        public float Master
+        {
+            get => Sound.BGMData.scale;
+            set
+            {
+                Sound.BGMData.scale = value;
+                Sound.SFXData.scale = value;
+                Sound.SetMasterVolume();
+            }
+        }
+
+        public float BGM
+        {
+            get => Sound.BGMData.volume;
+            set
+            {
+                Sound.BGMData.volume = value;
+                Sound.SetBGMVolume();
+            }
+        }
+
+        public float SFX
+        {
+            get => Sound.SFXData.volume;
+            set
+            {
+                Sound.SFXData.volume = value;
+                Sound.SetSFXVolume();
+            }
+        }
+    }
+
+    [Header("Audio Clips")]
+    [SerializeField] Sound[] BGM = null;
+    [SerializeField] Sound[] SFX = null;
+
+    [Header("Audio Sources")]
     [SerializeField] AudioSource bgmPlayer = null;
     [SerializeField] AudioSource sfxPlayer = null;
     [SerializeField] AudioSource typeWritePlayer = null;
 
-    Dictionary<string, AudioClip> dic_BGM;
-    Dictionary<string, AudioClip> dic_SFX;
+    [Header("Audio Mixer")]
+    [SerializeField] AudioMixer mixer;
 
-    [SerializeField] float bgmVolume;
-    [SerializeField] float sfxVolume;
+    private Dictionary<string, AudioClip> dic_BGM;
+    private Dictionary<string, AudioClip> dic_SFX;
 
-    private void Awake()
+    private VolumeData BGMData;
+    private VolumeData SFXData;
+
+    [SerializeField] float bgmVolume; //todo
+    [SerializeField] float sfxVolume; //todo
+
+    [HideInInspector] public VolumeAccessor Volume;
+
+    protected override void Awake()
     {
+        base.Awake();
+
+        Volume = new();
+
         dic_BGM = new Dictionary<string, AudioClip>();
         dic_SFX = new Dictionary<string, AudioClip>();
 
-        foreach (Sound sound in array_bgm)
+        foreach (Sound sound in BGM)
         {
             dic_BGM.Add(sound.name, sound.clip);
         }
 
-        foreach (Sound sound in array_sfx)
+        foreach (Sound sound in SFX)
         {
             dic_SFX.Add(sound.name, sound.clip);
         }
     }
 
-    public void PlayTypeWriteSFX(string sfxName)
+    private void Start()
     {
-        if (!dic_SFX.ContainsKey(sfxName))
-        {
-            Debug.LogWarning("SoundManager - Sound not found: " + sfxName);
-            return;
-        }
+        var setting = App.Data.Setting.Sound;
 
-        typeWritePlayer.clip = dic_SFX[sfxName];
-        typeWritePlayer.volume = sfxVolume;
+        BGMData = new(setting.BGM, setting.Master);
+        SFXData = new(setting.SFX, setting.Master);
 
-        typeWritePlayer.Play();
+        SetMasterVolume();
+        SetBGMVolume();
+        SetSFXVolume();
     }
 
-    /// <summary>
-    /// sfxName 이름의 SFX 재생
-    /// </summary>
-    /// <param name="sfxName"></param>
-    public void PlaySFX(string sfxName)
+    #region Play & Stop Sound
+
+    #region BGM
+    public void PlayBGM(string _name)
     {
-        if (!dic_SFX.ContainsKey(sfxName))
+        if (!dic_BGM.TryGetValue(_name, out var clip))
         {
-            Debug.LogWarning("SoundManager - Sound not found: " + sfxName);
+            Debug.LogError("ERROR: Failed to play BGM. Unable to find " + _name);
             return;
         }
 
-        sfxPlayer.clip = dic_SFX[sfxName];
-        sfxPlayer.volume = sfxVolume;
+        bgmPlayer.clip = clip;
+
+        bgmPlayer.Play();
+        bgmPlayer.DOFade(1f, 0.5f).SetEase(Ease.Linear);
+    }
+
+    public void ResumeBGM()
+    {
+        if (bgmPlayer.isPlaying) return;
+
+        bgmPlayer.Play();
+        bgmPlayer.DOFade(1f, 0.5f).SetEase(Ease.Linear);
+    }
+
+    public void StopBGM()
+    {
+        bgmPlayer.DOFade(0f, 0.5f).OnComplete(() => bgmPlayer.Stop());
+    }
+    #endregion
+
+    #region SFX
+    public void PlaySFX(string _name)
+    {
+        if (!dic_SFX.TryGetValue(_name, out var clip))
+        {
+            Debug.LogError("ERROR: Failed to play SFX. Unable to find " + _name);
+            return;
+        }
+
+        sfxPlayer.clip = clip;
 
         sfxPlayer.Play();
     }
 
-    /// <summary>
-    /// bgmName 이름의 BGM 재생
-    /// </summary>
-    /// <param name="bgmName"></param>
-    public void PlayBGM(string bgmName)
-    {
-        if (!dic_BGM.ContainsKey(bgmName))
-        {
-            Debug.LogWarning("SoundManager - Sound not found: " + bgmName);
-            return;
-        }
-
-        bgmPlayer.clip = dic_BGM[bgmName];
-        bgmPlayer.volume = bgmVolume;
-
-        bgmPlayer.Play();
-    }
-
-    /// <summary>
-    /// BGM 멈춤
-    /// </summary>
-    public void StopBGM()
-    {
-        bgmPlayer.Stop();
-    }
-
-    /// <summary>
-    /// SFX 멈춤
-    /// </summary>
     public void StopSFX()
     {
         sfxPlayer.Stop();
     }
 
-    /// <summary>
-    /// BGM 볼륨 조절 (0 ~ 1)
-    /// </summary>
-    /// <param name="volume"></param>
-    public void SetBGMVolume(float volume)
+    public bool IsPlayingSFX()
     {
-        bgmVolume = Mathf.Clamp01(volume);
+        return sfxPlayer.isPlaying;
+    }
+    #endregion
 
-        bgmPlayer.volume = bgmVolume;
+    #region TypeWrite
+    public void PlayTypeWriteSFX(string _name)
+    {
+        if (!dic_SFX.TryGetValue(_name, out var clip))
+        {
+            Debug.LogError("ERROR: Failed to play SFX. Unable to find " + _name);
+            return;
+        }
+
+        typeWritePlayer.clip = clip;
+
+        typeWritePlayer.Play();
     }
 
-    /// <summary>
-    /// SFX 볼륨 조절 (0 ~ 1)
-    /// </summary>
-    /// <param name="volume"></param>
-    public void SetSFXVolume(float volume)
+    public bool IsPlayingTypeWriteSFX()
     {
-        sfxVolume = Mathf.Clamp01(volume * 0.5f);
-
-        sfxPlayer.volume = sfxVolume;
-        typeWritePlayer.volume = sfxVolume;
+        return typeWritePlayer.isPlaying;
     }
+    #endregion
+
+    #endregion
+
+    #region Set Volume
+    private void SetMasterVolume()
+    {
+        SetVolume("BGM", BGMData.calculated);
+        SetVolume("SFX", SFXData.calculated);
+    }
+    private void SetBGMVolume() => SetVolume("BGM", BGMData.calculated);
+    private void SetSFXVolume() => SetVolume("SFX", SFXData.calculated);
+
+    private void SetVolume(string _param, float _value)
+    {
+        if (_value < 0.001f)
+            _value = 0.00001f;
+
+        mixer.SetFloat(_param, ValueToDecibel(_value));
+    }
+
+    private float ValueToDecibel(float value) => Mathf.Log10(value * 2) * 20;
+    #endregion
 
     public float SetBGMVolumeTweening(float _duration)
     {
@@ -143,29 +231,6 @@ public class SoundManager : ManagementBase
         return volume;
     }
 
-    /// <summary>
-    /// SFX 목록에 해당 SFX 있는지 확인
-    /// </summary>
-    /// <param name="sfxName"></param>
-    /// <returns></returns>
     public bool CheckSFXExist(string sfxName)
-    {
-        if (dic_SFX.ContainsKey(sfxName)) return true;
-        else return false;
-    }
-
-    public bool CheckSFXPlayNow()
-    {
-        return sfxPlayer.isPlaying;
-    }
-
-    public bool CheckTypeWriteSFXPlayNow()
-    {
-        return typeWritePlayer.isPlaying;
-    }
-
-    public override EManagerType GetManagemetType()
-    {
-        return EManagerType.SOUND;
-    }
+        => dic_SFX.ContainsKey(sfxName);
 }

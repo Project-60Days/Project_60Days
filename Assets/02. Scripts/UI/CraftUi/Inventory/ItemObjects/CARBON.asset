@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04865242a8028fc46a0079b51f0c8ad4, type: 3}
   m_Name: CARBON
   m_EditorClassIdentifier: 
-  English: ITEM_CARBON
+  Code: ITEM_CARBON
   data:
     Index: 1002
     Category: 0
@@ -34,8 +34,9 @@ MonoBehaviour:
     value3: -1
   itemImage: {fileID: 21300000, guid: 2248000358233024f85f3dc2475a1eee, type: 3}
   itemCount: 0
-  eItemType: 0
+  itemType: 0
   sprite: {fileID: 21300000, guid: 1bb0b2c6477631c49a99e2522d21db2c, type: 3}
-  sfxName: SFX_Carbon_Acquisition
+  sfxName: SFX_Map_Carbon
   isMadeOnce: 0
   isBlueprintOpen: 0
+  canRemoveEquipment: 0

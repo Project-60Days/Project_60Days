@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public abstract class SlotBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] protected Image image;
-    public ESlotType eSlotType;
+    public SlotType type;
 
     ItemBase _item;
 
@@ -21,7 +21,7 @@ public abstract class SlotBase : MonoBehaviour, IPointerClickHandler, IPointerEn
     public virtual void ShowItemInfo()
     {
         Vector3 mousePos = Input.mousePosition;
-        UIManager.instance.GetItemInfoController().ShowInfo(_item, mousePos);
+        App.Manager.UI.GetPanel<ItemInfoPanel>().ShowInfo(_item, mousePos);
     }
 
     public ItemBase item
@@ -50,7 +50,7 @@ public abstract class SlotBase : MonoBehaviour, IPointerClickHandler, IPointerEn
         if (item != null && isMouseEnter == false)
         {
             isMouseEnter = true;
-            UIManager.instance.GetItemInfoController().isNew = true;
+            App.Manager.UI.GetPanel<ItemInfoPanel>().isNew = true;
         }
             
     }
@@ -59,14 +59,14 @@ public abstract class SlotBase : MonoBehaviour, IPointerClickHandler, IPointerEn
     {
         if (isMouseEnter == true) 
         {
-            UIManager.instance.GetItemInfoController().HideInfo();
+            App.Manager.UI.GetPanel<ItemInfoPanel>().HideInfo();
             isMouseEnter = false;
         }
     }
 
     protected void HideItemInfo()
     {
-        UIManager.instance.GetItemInfoController().HideInfo();
+        App.Manager.UI.GetPanel<ItemInfoPanel>().HideInfo();
         if (item == null)
             isMouseEnter = false;
     }

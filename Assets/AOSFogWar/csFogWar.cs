@@ -29,8 +29,29 @@ namespace FischlWorks_FogWar
     /// and is resposible for scanning / saving / loading the LevelData object.\n
     /// The class handles the update frequency of the fog, plus some shader businesses.\n
     /// Various public interfaces related to FogRevealer's FOV are also available.
-    public class csFogWar : Singleton<csFogWar>
+    public class csFogWar : MonoBehaviour
     {
+        public void Add(Transform _transform, int _sightRange, bool _updateOnlyMove)
+        {
+            AddFogRevealer(new FogRevealer(_transform, _sightRange, _updateOnlyMove));
+        }
+
+        public void Remove()
+        {
+            RemoveFogRevealer(1);
+        }
+
+        public void SetRange(int _amount)
+        {
+            fogRevealers.Last().sightRange = _amount;
+        }
+
+        public void AddRange(int _amount)
+        {
+            fogRevealers.Last().sightRange += _amount;
+        }
+
+        #region Asset Func
         /// A class for storing the base level data.
         /// 
         /// This class is later serialized into Json format.\n
@@ -595,16 +616,6 @@ namespace FischlWorks_FogWar
             Debug.LogFormat("Successfully loaded level scan data with the name of \"{0}\"", LevelDataToLoad.name);
         }
 
-        public void InitializeMapControllerObjects(GameObject player, int sightRange)
-        {
-            fogRevealers.Add(new FogRevealer(player.transform, sightRange, true));
-        }
-
-        public void AddSightRange(int _amount)
-        {
-            fogRevealers.Last().sightRange += _amount;
-        }
-
         /// Adds a new FogRevealer instance to the list and returns its index
         public int AddFogRevealer(FogRevealer fogRevealer)
         {
@@ -884,7 +895,5 @@ namespace FischlWorks_FogWar
             mText = text;
         }
     }
-
-
-
+    #endregion
 }

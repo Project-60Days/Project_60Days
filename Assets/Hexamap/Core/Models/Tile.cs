@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Hexamap
 {
@@ -10,7 +11,8 @@ namespace Hexamap
         private readonly Dictionary<CompassPoint, Tile> _neighbours = new Dictionary<CompassPoint, Tile>();
 
         public Coords Coords { get; }
-        public object GameEntity { get; set; }
+        public GameObject GameEntity { get; set; }
+        public TileController Ctrl { get; set; }
         public IReadOnlyDictionary<CompassPoint, Tile> Neighbours => _neighbours;
         public Map Map => Biome.Map;
         public Biome Biome => Landform.Biome;

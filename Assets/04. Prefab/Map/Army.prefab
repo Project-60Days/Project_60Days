@@ -9,9 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 604901732636960604}
-  - component: {fileID: 244636541702967133}
-  - component: {fileID: 2502929006550820138}
   - component: {fileID: 7128303830665445414}
+  - component: {fileID: 2659520951020878932}
   m_Layer: 0
   m_Name: Army
   m_TagString: Untagged
@@ -35,32 +34,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &244636541702967133
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8944453277797006517}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a4628e5deb37f9469d5c29d5c94b5e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rend: {fileID: 8581994682820928960}
-  cloakingMaterial: {fileID: 2100000, guid: 9e2149f49d8bb9946bb80bb702e59be6, type: 2}
---- !u!114 &2502929006550820138
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8944453277797006517}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbf38940aa09b6a49a62070deb7909a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!210 &7128303830665445414
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -72,6 +45,39 @@ SortingGroup:
   m_SortingLayerID: -2052728905
   m_SortingLayer: 1
   m_SortingOrder: 0
+--- !u!114 &2659520951020878932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8944453277797006517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f72f3e5bb04a3a47af49a4be04706fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StructureType: 0
+  specialItem:
+    Index: 0
+    Category: 0
+    Code: 
+    AppearTileType: 0
+    Type: 0
+    EquipType: 0
+    EquipArea: 
+    CombineSlotCount: 0
+    Description: 
+    EffectDescription: 
+    Korean: 
+    English: 
+    Japanese: 
+    Chinese: 
+    value1: 0
+    value2: 0
+    value3: 0
+  rend: {fileID: 8581994682820928960}
+  cloakingMaterial: {fileID: 2100000, guid: 9e2149f49d8bb9946bb80bb702e59be6, type: 2}
 --- !u!1001 &6978550892315785540
 PrefabInstance:
   m_ObjectHideFlags: 0

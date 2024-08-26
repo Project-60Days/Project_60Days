@@ -12,18 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04865242a8028fc46a0079b51f0c8ad4, type: 3}
   m_Name: GAS
   m_EditorClassIdentifier: 
-  English: ITEM_GAS
+  Code: ITEM_GAS
   data:
     Index: 1005
     Category: 0
     Code: ITEM_GAS
-    Rarity: 0
     AppearTileType: 3
-    TileIncludePossibility: 0
     Type: 0
     EquipType: 4
     EquipArea: 
-    isCanBase: 0
     CombineSlotCount: 0
     Description: "\uD230\uB4DC\uB77C\uC5D0\uC11C\uB9CC \uC5BB\uC744 \uC218 \uC788\uB294
       \uBB3C\uC9C8 \uC911 \uD558\uB098\uB85C \uACF5\uC7A5\uB4E4\uC758 \uC0DD\uC0B0\uD574\uB0B4\uB358
@@ -33,8 +30,14 @@ MonoBehaviour:
     English: Gas
     Japanese: -1
     Chinese: -1
+    value1: 0
+    value2: 0
+    value3: 0
   itemImage: {fileID: 21300000, guid: b59cef1285586f7488f1d4aedc25ae98, type: 3}
   itemCount: 0
-  eItemType: 0
+  itemType: 0
   sprite: {fileID: 21300000, guid: d7f2c2e9a8ddbe94d9a6a0b12a6960d5, type: 3}
-  sfxName: SFX_Gas_Acquisition
+  sfxName: SFX_Map_Gas
+  isMadeOnce: 0
+  isBlueprintOpen: 0
+  canRemoveEquipment: 0

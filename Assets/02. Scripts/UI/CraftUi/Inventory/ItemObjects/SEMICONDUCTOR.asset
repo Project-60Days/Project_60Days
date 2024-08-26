@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a9dac3b3b6e54c40b7297d3adbe00e2, type: 3}
   m_Name: SEMICONDUCTOR
   m_EditorClassIdentifier: 
-  English: ITEM_SEMICONDUCTOR
+  Code: ITEM_SEMICONDUCTOR
   data:
     Index: 1013
     Category: 2

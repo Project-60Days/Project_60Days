@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ee95b2ad282bd94bb7d9fc7e2ed32ee, type: 3}
+  m_Name: DefaultSetting
+  m_EditorClassIdentifier: 
+  path: data.DEADNET
+  sound:
+    Master: 100
+    BGM: 100
+    SFX: 100
+    MasterMuted: 0
+    BGMMuted: 0
+    SFXMuted: 0
+  screen:
+    isFullScreen: 0
+    resolutionWidth: 1920
+    resolutionHeight: 1080

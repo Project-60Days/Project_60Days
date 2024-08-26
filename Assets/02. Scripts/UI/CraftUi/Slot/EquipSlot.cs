@@ -4,8 +4,7 @@ using UnityEngine.EventSystems;
 
 public class EquipSlot : SlotBase
 {
-    [HideInInspector] public EItemType eItemType = EItemType.Equipment;
-    public int equipType;
+    [HideInInspector] public ItemType eItemType = ItemType.Equipment;
     [HideInInspector] public bool isLocked = false;
     [SerializeField] Image slotImage;
 
@@ -14,7 +13,7 @@ public class EquipSlot : SlotBase
 
     public EquipSlot()
     {
-        eSlotType = ESlotType.EquipSlot;
+        type = SlotType.EquipSlot;
     }
  
     public void ChangeSlotColor()
@@ -27,7 +26,7 @@ public class EquipSlot : SlotBase
     {
         if (isLocked == true) return;
 
-        UIManager.instance.GetCraftingUiController().MoveEquipToInventory(item);
+        App.Manager.UI.GetPanel<CraftPanel>().Equip.MoveEquipToInventory(item);
 
         HideItemInfo();
     }

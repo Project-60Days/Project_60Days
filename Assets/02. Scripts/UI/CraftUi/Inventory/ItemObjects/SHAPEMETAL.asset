@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9937e4419a43d424e9f8f0bbe7153f10, type: 3}
   m_Name: SHAPEMETAL
   m_EditorClassIdentifier: 
-  English: ITEM_SHAPEMETAL
+  Code: ITEM_SHAPEMETAL
   data:
     Index: 1026
     Category: 4

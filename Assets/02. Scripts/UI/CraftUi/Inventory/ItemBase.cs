@@ -1,14 +1,13 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [CreateAssetMenu]
 public class ItemBase : ScriptableObject
 {
-    [FormerlySerializedAs("itemCode")] public string English;
+    public string Code;
     public ItemData data;
     public Sprite itemImage;
     public int itemCount = 0;
-    public EItemType eItemType;
+    public ItemType itemType;
     public Sprite sprite;
     public string sfxName;
     public bool isMadeOnce = false;
@@ -33,13 +32,13 @@ public class ItemBase : ScriptableObject
         switch (data.Type)
         {
             case 0:
-                eItemType = EItemType.Material;
+                itemType = ItemType.Material;
                 break;
             case 1:
-                eItemType = EItemType.Equipment;
+                itemType = ItemType.Equipment;
                 break;
             case 2:
-                eItemType = EItemType.Special;
+                itemType = ItemType.Special;
                 break;
         }
     }
@@ -62,5 +61,4 @@ public class ItemBase : ScriptableObject
     {
 
     }
-
 }

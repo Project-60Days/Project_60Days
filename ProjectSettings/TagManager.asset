@@ -21,14 +21,9 @@ TagManager:
   - GeneratePoint
   - ShelterUi
   - Resource
-  - LightImage
-  - WorkBench
-  - Battery
   - NormalCamera
   - Tile
   - Structure
-  - WorkBenchDeco
-  - Map
   layers:
   - Default
   - TransparentFX

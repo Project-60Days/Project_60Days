@@ -9,23 +9,22 @@ public class CraftSlot : SlotBase
 
     public CraftSlot()
     {
-        eSlotType = ESlotType.CraftingSlot;
+        type = SlotType.CraftingSlot;
     }
 
     public override void OnPointerClick(PointerEventData eventData)
     {
-        switch (eSlotType)
+        switch (type)
         {
-            case ESlotType.CraftingSlot:
-                UIManager.instance.GetCraftingUiController().MoveCraftToInventory(item);
+            case SlotType.CraftingSlot:
+                App.Manager.UI.GetPanel<CraftPanel>().Craft.MoveCraftToInventory(item);
                 break;
-            case ESlotType.ResultSlot:
-                UIManager.instance.GetCraftingUiController().MoveResultToInventory(item);
-                App.instance.GetSoundManager().PlaySFX("SFX_Crafting_Result");
+            case SlotType.ResultSlot:
+                App.Manager.UI.GetPanel<CraftPanel>().Craft.MoveResultToInventory(item);
+                App.Manager.Sound.PlaySFX("SFX_Craft_Result");
                 if (item.isMadeOnce == false)
                 {
                     item.isMadeOnce = true;
-                    UIManager.instance.GetCraftModeController().UpdateBlueprint();
                 }
                     
                 break;

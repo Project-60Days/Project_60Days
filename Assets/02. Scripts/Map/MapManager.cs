@@ -1,497 +1,358 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Hexamap;
-using UnityEngine.Rendering.UI;
-using Yarn.Compiler;
-using Random = System.Random;
+using System.Collections.Generic;
 
-public class MapManager : ManagementBase
+public class MapManager : Manager, IListener
 {
-    public MapUiController mapUIController;
-    public MapController mapController;
-    public ResourceManager resourceManager;
-    public bool mouseIntreractable;
+    [SerializeField] List<MapBase> Maps;
+    private Dictionary<Type, MapBase> MapDic;
 
-    [SerializeField] ETileMouseState mouseState;
+    private Camera mainCamera;
 
-    [Header("밸런스 테스트 용")] [Space(5f)] [SerializeField]
-    MapData mapData;
-    
-    Camera mainCamera;
-    MapCamera mapCineCamera;
-    TileController curTileController;
-    StructureBase curStructure;
+    bool canPlayerMove = false;
+    bool isDronePrepared = false;
+    public bool CanClick => !canPlayerMove && !isDronePrepared;
 
-    bool canPlayerMove;
-    bool isDronePrepared;
-    bool isDisturbtorPrepared;
-    bool isCameraMove;
-    bool isTundraTile;
+    public TileController tileCtrl;
+    private TileController targetTile;
+    private TileController showInfoTile;
 
-    TileBase structureTileBase;
+    private List<TileController> selectedTiles = new();
+    private List<Tile> neighborTiles = new();
+    private List<Tile> sightTiles = new();
 
-    private TileController cameraTarget;
+    private int playerLayer;
+    private int tileLayer;
 
-    void Update()
+    Ray ray;
+
+    public bool isMapActive = false;
+
+    public List<Tile> AllTile { get; private set; }
+
+    protected override void Awake()
     {
-        SetETileMoveState();
+        base.Awake();
 
-        if (mouseState != ETileMouseState.Nothing)
+        MapDic = new(Maps.Count);
+
+        foreach (var Map in Maps)
         {
-            if (isCameraMove)
-                GetCameraCenterTile();
-
-            MouseOverEvents();
-        }
-        
-        //if(Input.GetKeyDown(KeyCode.Z))
-            //UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_FINDOR");
-        //if(Input.GetKeyDown(KeyCode.X))
-            //UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_DISTURBE");
-    }
-
-    IEnumerator GetAdditiveSceneObjects()
-    {
-        yield return new WaitForEndOfFrame();
-        mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        mapUIController = GameObject.FindGameObjectWithTag("MapUi").GetComponent<MapUiController>();
-        mapController = GameObject.FindGameObjectWithTag("MapController").GetComponent<MapController>();
-
-        mapController.InputMapData(mapData);
-
-        yield return new WaitUntil(() => mapController != null);
-        StartCoroutine(mapController.GenerateMap());
-        mapCineCamera = GameObject.FindGameObjectWithTag("MapCamera").GetComponent<MapCamera>();
-
-        AllowMouseEvent(true);
-        resourceManager = GameObject.FindGameObjectWithTag("Resource").GetComponent<ResourceManager>();
-        StartCoroutine(mapCineCamera.GetMapInfo());
-
-        mapController.SightCheckInit();
-    }
-
-    public void GetAdditiveSceneObjectsCoroutine()
-    {
-        StartCoroutine(GetAdditiveSceneObjects());
-    }
-
-    void MouseOverEvents()
-    {
-        if (EventSystem.current.IsPointerOverGameObject())
-        {
-            mapController.DeselectAllBorderTiles();
-            return;
+            MapDic.Add(Map.GetUnitType(), Map);
         }
 
-        RaycastHit hit;
-        TileController tileController;
+        Maps.Clear(); // clear memory
 
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-        int onlyLayerMaskTile = 1 << LayerMask.NameToLayer("Tile");
-
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile))
-        {
-            tileController = hit.transform.parent.GetComponent<TileController>();
-
-            mapController.DeselectAllBorderTiles();
-
-            if (!mapController.CheckPlayersView(tileController))
-            {
-                mapUIController.FalseTileInfo();
-                return;
-            }
-            
-            switch (mouseState)
-            {
-                case ETileMouseState.CanClick:
-                    mapController.DefaultMouseOverState(tileController);
-
-                    if (tileController != curTileController)
-                        mapUIController.FalseTileInfo();
-                    break;
-
-                case ETileMouseState.CanPlayerMove:
-                    mapController.TilePathFinderSurroundings(tileController);
-                    mapController.AddSelectedTilesList(tileController);
-                    break;
-
-                case ETileMouseState.DronePrepared:
-                    if (isDisturbtorPrepared)
-                    {
-                        mapController.DisturbtorPathFinder(tileController);
-                    }
-                    else
-                    {
-                        mapController.ExplorerPathFinder(tileController, 5);
-                    }
-
-                    break;
-            }
-
-            curTileController = tileController;
-        }
-        else
-        {
-            mapController.DeselectAllBorderTiles();
-            mapUIController.FalseTileInfo();
-        }
-
-        MouseClickEvents();
+        App.Manager.Event.AddListener(EventCode.NextDayStart, this);
     }
 
-    void MouseClickEvents()
+    public void OnEvent(EventCode _code, Component _sender, object _param = null)
     {
-        RaycastHit hit;
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        switch (_code)
+        {
+            case EventCode.NextDayStart:
+                NextDay();
+                break;
+        }
+    }
 
-        int onlyLayerMaskPlayer = 1 << LayerMask.NameToLayer("Player");
-        int onlyLayerMaskTile = 1 << LayerMask.NameToLayer("Tile");
+    private void Start()
+    {
+        mainCamera = Camera.main;
+
+        AllTile = App.Manager.Asset.Hexamap.Map.Tiles.Where(x => x.GameEntity.CompareTag("Tile")).ToList();
+
+        targetTile = App.Manager.Asset.Hexamap.Map.GetTileFromCoords(new Coords(0, 0)).Ctrl;
+        UpdateCurrentTile();
+
+        InitMaps();
+        InitSight();
+        InitValue();
+
+        App.Manager.UI.GetPanel<LoadingPanel>().ClosePanel();
+
+        AllTile.Clear(); //clear memory
+
+        playerLayer = 1 << LayerMask.NameToLayer("Player");
+        tileLayer = 1 << LayerMask.NameToLayer("Tile");
+}
+
+    private void InitValue()
+    {
+        canPlayerMove = false;
+        isDronePrepared = false;
+
+        neighborTiles.Clear();
+        neighborTiles = App.Manager.Asset.Hexamap.Map.GetTilesInRange(tileCtrl.Model, App.Data.Test.Buff.moveRange);
+
+        AllBorderOff();
+        ReInitSight();
+    }
+
+    #region Occlusion Culling
+    private void InitSight()
+    {
+        foreach (var tile in AllTile)
+        {
+            tile.GameEntity.SetActive(false);
+        }
+    }
+
+    private void ReInitSight()
+    {
+        foreach (var tile in sightTiles)
+        {
+            tile.GameEntity.SetActive(false);
+        }
+
+        sightTiles = App.Manager.Asset.Hexamap.Map.GetTilesInRange(tileCtrl.Model, 5);
+        sightTiles.Add(tileCtrl.Model);
+
+        foreach (var tile in sightTiles)
+        {
+            tile.GameEntity.SetActive(true);
+            tile.Ctrl.Base.UpdateResource();
+        }
+    }
+    #endregion
+
+    #region Units
+    private void InitMaps()
+    {
+        foreach (var Map in MapDic.Values)
+        {
+            try { Map.Init(); }
+            catch (Exception error)
+            { Debug.LogError($"ERROR: {error.Message}\n{error.StackTrace}"); }
+        }
+    }
+
+    private void ReInitMaps()
+    {
+        foreach (var Map in MapDic.Values)
+        {
+            try { Map.ReInit(); }
+            catch (Exception error)
+            { Debug.LogError($"ERROR: {error.Message}\n{error.StackTrace}"); }
+        }
+    }
+    #endregion
+
+    #region Get Unit
+    public T GetUnit<T>() where T : MapBase => (T)MapDic[typeof(T)];
+
+    public bool TryGetUnit<T>(out T _unit) where T : MapBase
+    {
+        if (MapDic.TryGetValue(typeof(T), out var unit))
+        {
+            _unit = (T)unit;
+            return true;
+        }
+
+        _unit = default;
+        return false;
+    }
+    #endregion
+
+    #region Update
+    private void Update()
+    {
+        if (!isMapActive) return;
+
+        ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
         if (Input.GetMouseButtonDown(0))
         {
-            // 플레이어를 클릭한 경우
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskPlayer))
-            {
-                if (!isDronePrepared)
-                    canPlayerMove = mapController.PlayerCanMoveCheck();
-            }
-            else if (Physics.Raycast(ray, out hit, Mathf.Infinity, onlyLayerMaskTile))
-            {
-                TileController tileController = hit.transform.parent.GetComponent<TileController>();
-
-                if (!canPlayerMove && !isDronePrepared)
-                {
-                    tileController.GetComponent<TileBase>().TileInfoUpdate();
-                    mapUIController.TrueTileInfo();
-                }
-                else if (canPlayerMove)
-                {
-                    if (mapController.SelectPlayerMovePoint(tileController))
-                    {
-                        mapUIController.OnPlayerMovePoint(tileController.transform);
-                        mapController.MovePointerOn(tileController.transform.position);
-                        canPlayerMove = false;
-                    }
-                    else
-                        return;
-                }
-                else if (isDronePrepared)
-                {
-                    if (isDisturbtorPrepared)
-                    {
-                        mapController.SelectTileForDisturbtor(tileController);
-                    }
-                    else
-                    {
-                        mapController.SelectTileForExplorer(tileController);
-                    }
-                }
-            }
+            LeftClickEvent();
         }
-
-        if (Input.GetMouseButtonDown(1))
+        else if (Input.GetMouseButtonDown(1))
         {
-            mapController.DeselectAllBorderTiles();
+            RightClickEvent();
+        }
+        else
+        {
+            MouseOverEvents();
+        }
+    }
+
+    private void MouseOverEvents()
+    {
+        if (EventSystem.current.IsPointerOverGameObject()) return;
+
+        AllBorderOff();
+
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, tileLayer))
+        {
+            TileController hitTile = hit.transform.parent.GetComponent<TileController>();
+
+            if (hitTile != showInfoTile) 
+                    App.Manager.UI.GetPanel<MapPanel>().SetInfoActive(false);
 
             if (canPlayerMove)
             {
-                canPlayerMove = false;
+                SetTileBorder(hitTile);
+                selectedTiles.Add(hitTile);
             }
-
-            // 목적지 정한 이후 취소 가능
-
-            if (isDronePrepared)
+            else if (isDronePrepared)
             {
-                if (isDisturbtorPrepared)
+                GetUnit<DroneUnit>().SetPath(hitTile);
+            }
+        }
+        else
+        {
+            App.Manager.UI.GetPanel<MapPanel>().SetInfoActive(false);
+        }
+    }
+
+    private void LeftClickEvent()
+    {
+        if (Physics.Raycast(ray, Mathf.Infinity, playerLayer))
+        {
+            if (!isDronePrepared)
+            {
+                canPlayerMove = true;
+            }
+        }
+        else if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, tileLayer))
+        {
+            TileController tileController = hit.transform.GetComponentInParent<TileController>();
+
+            if (!canPlayerMove && !isDronePrepared)
+            {
+                if (App.Manager.Asset.Hexamap.Map.GetTilesInRange(tileCtrl.Model, 2).Contains(tileController.Model))
                 {
-                    mapController.PreparingDistrubtor(false);
-                }
-                else
-                {
-                    mapController.PreparingExplorer(false);
+                    App.Manager.UI.GetPanel<MapPanel>().SetInfoActive(true);
+                    tileController.Base.UpdateTileInfo();
+                    showInfoTile = tileController;
                 }
             }
-
-            MovePathDelete();
+            else if (canPlayerMove)
+            {
+                if (CanSetTargetTile(tileController))
+                {
+                    SetTargetTile(tileController);
+                    canPlayerMove = false;
+                }
+            }
+            else if (isDronePrepared)
+            {
+                GetUnit<DroneUnit>().Install(tileController);
+            }
         }
+    }
 
-        if (Input.GetMouseButton(2))
+    private void RightClickEvent()
+    {
+        if (isDronePrepared)
         {
-            isCameraMove = true;
-        }
-        else if (Input.GetMouseButtonUp(2))
-        {
-            isCameraMove = false;
-        }
-        
-        
-    }
-
-    void SetETileMoveState()
-    {
-        if (!mouseIntreractable)
-            mouseState = ETileMouseState.Nothing;
-
-        else if (!canPlayerMove && !isDronePrepared)
-            mouseState = ETileMouseState.CanClick;
-
-        else if (canPlayerMove)
-            mouseState = ETileMouseState.CanPlayerMove;
-
-        else if (isDronePrepared)
-            mouseState = ETileMouseState.DronePrepared;
-    }
-
-    public IEnumerator NextDayCoroutine()
-    {
-        yield return StartCoroutine(mapController.NextDay());
-        resourceManager.GetResource(mapController.Player.TileController);
-        mapUIController.OffPlayerMovePoint();
-        mapController.OnlyMovePointerOff();
-        
-        CheckRoutine();
-    }
-
-    public bool CheckCanInstallDrone()
-    {
-        if (mouseState == ETileMouseState.CanClick)
-        {
-            return true;
+            GetUnit<DroneUnit>().Cancel();
         }
 
-        return false;
-    }
-
-    public void AllowMouseEvent(bool isAllow)
-    {
-        mouseIntreractable = isAllow;
         canPlayerMove = false;
         isDronePrepared = false;
-        isDisturbtorPrepared = false;
+
+        CancelTargetTile();
+    }
+    #endregion
+
+    public void NextDay()
+    {
+        UpdateCurrentTile();
+
+        ReInitMaps();
+
+        InitValue();
+
+        App.Manager.Event.PostEvent(EventCode.NextDayMiddle, this);
     }
 
-    public override EManagerType GetManagemetType()
+    private void UpdateCurrentTile()
     {
-        return EManagerType.MAP;
-    }
+        tileCtrl = targetTile;
 
-    public void SetMapCameraPriority(bool _set)
-    {
-        mapCineCamera.SetPrioryty(_set);
-    }
-
-    public void CheckRoutine()
-    {
-        CheckZombies();
-        CheckStructureNeighbor();
-
-        // 튜토리얼 네트워크 칩
-        // if(isVisitNoneTile == false)
-        // {
-        //     TutorialTileCheck();
-        // }
-        
-        AllowMouseEvent(true);
-    }
-
-    public void CheckZombies()
-    {
-        if (mapController.CheckZombies())
+        foreach (var Map in MapDic.Values)
         {
-            UIManager.instance.GetAlertController().SetAlert("caution", true);
-        }
-        else
-            return;
-    }
-
-    /// <summary>
-    /// 현재 타일이 구조물 인접타일인지 확인
-    /// </summary>
-    public void CheckStructureNeighbor()
-    {
-        var structure = mapController.SensingStructure();
-        if (structure != null)
-        {
-            if (structure is Tower)
-                if (UIManager.instance.GetInventoryController().CheckNetCardUsage() == false) return;
-
-            if (structure.IsUse == false)
-                UIManager.instance.GetPageController().SetSelectPage("structureSelect", structure);
-        }
-        else
-        {
-            return;
-        }
-    }
-
-    public void CheckLandformPlayMusic()
-    {
-        var curTile = mapController.Player.TileController.GetComponent<TileBase>();
-
-        switch (curTile.TileData.English)
-        {
-            case "None":
-                App.instance.GetSoundManager().PlayBGM("Ambience_City");
-                break;
-            case "Jungle":
-                App.instance.GetSoundManager().PlayBGM("Ambience_Jungle");
-                break;
-            case "Desert":
-                App.instance.GetSoundManager().PlayBGM("Ambience_Desert");
-                break;
-            case "Tundra":
-                App.instance.GetSoundManager().PlayBGM("Ambience_Tundra");
-                break;
-        }
-    }
-
-    public void NormalStructureResearch(StructureBase structure)
-    {
-        int randomNumber = UnityEngine.Random.Range(1, 4);
-
-        if (randomNumber == 3)
-            mapController.SpawnStructureZombies(structure.Colleagues);
-
-        // 플레이어 체력 0으로 만들어서 경로 선택 막기
-        if (isTundraTile)
-        {
-            UIManager.instance.GetPageController().SetResultPage("SEARCH_TUNDRA", false);
-            mapController.Player.SetHealth(false);
+            try { Map.SetTile(tileCtrl); }
+            catch (Exception error)
+            { Debug.LogError($"ERROR: {error.Message}\n{error.StackTrace}"); }
         }
 
-        // 경로 삭제
-        MovePathDelete();
+        tileCtrl.Base.SetBuff();
 
-        structure.structureModel.GetComponent<StructureFade>().FadeIn();
-        structure.Colleagues.ForEach(tile => tile.ResourceUpdate(true));
-
-        mapController.SpawnSpecialItemRandomTile(structure.Colleagues);
-        curStructure = structure;
+        App.Manager.Event.PostEvent(EventCode.TileUpdate, this, tileCtrl.Base);
     }
 
-    public void ResearchCancel(StructureBase structure)
+    public void SetRandomTile()
     {
-        Debug.Log("조사 취소!");
-    }
+        var tiles = App.Manager.Asset.Hexamap.Map.GetTilesInRange(tileCtrl.Model, 1);
 
-    public void MovePathDelete()
-    {
-        if (mapController.IsMovePathSaved() == false)
-            return;
-
-        mapUIController.OffPlayerMovePoint();
-        mapController.MovePointerOff();
-        mapController.DeletePlayerMovePath();
-    }
-
-    // public void TutorialTileCheck()
-    // {
-    //     if (mapController.Player.TileController.GetComponent<TileBase>().TileData.English == "None")
-    //     {
-    //         UIManager.instance.GetInventoryController().AddItemByItemCode("ITEM_NETWORKCHIP");
-    //         isVisitNoneTile = true;
-    //     }
-    // }
-
-    public bool SensingSignalTower()
-    {
-        return mapController.SensingSignalTower();
-    }
-
-    public bool SensingProductionStructure()
-    {
-        return mapController.SensingProductionStructure();
-    }
-
-    public bool SignalTowerQuestCheck()
-    {
-        if (curStructure == null)
-            return false;
-
-        if (curStructure.VisitDay != UIManager.instance.GetNoteController().dayCount)
+        foreach (var tile in tiles)
         {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    // 카메라 정중앙 좌표를 반환하는 함수
-    public void GetCameraCenterTile()
-    {
-        Vector3 centerPos = new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2);
-        Ray ray = Camera.main.ScreenPointToRay(centerPos);
-
-        int onlyLayerMaskTile = 1 << LayerMask.NameToLayer("Tile");
-
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, onlyLayerMaskTile))
-        {
-            var target = hit.transform.parent.GetComponent<TileController>();
-
-            if (target == null)
+            if (tile.Ctrl.Base.canMove)
             {
+                targetTile = tile.Ctrl;
                 return;
             }
-
-            if (cameraTarget != target)
-            {
-                cameraTarget = target;
-                mapController.OcclusionCheck(cameraTarget.Model);
-            }
         }
     }
-    
-    public void TundraTileCheck()
-    {
-        isTundraTile = true;
-    }
 
-    public void EtherResourceCheck()
+    private void SetTileBorder(TileController tileController)
     {
-        var resources = resourceManager.GetLastResources();
-
-        if (resources.Count == 0 || resources == null)
-            return;
+        foreach (var tile in neighborTiles)
+        {
+            selectedTiles.Add(tile.Ctrl);
+            tile.Ctrl.Base.BorderOn(TileState.None);
+        }
         
-        if(resources.Find(x=> x.ItemBase.data.Code == "ITEM_GAS") != null)
+        if (neighborTiles.Contains(tileController.Model))
         {
-            Debug.Log("에테르 디버프");
-            UIManager.instance.GetPageController().SetResultPage("ACIDENT_ETHER", false);
-            mapController.Player.SetHealth(false);
+            var state = tileController.Base.isAccessable == false || !tileController.Base.canMove ?
+                TileState.Unable : TileState.Moveable;
+
+            tileController.Base.BorderOn(state);
         }
         else
         {
-            return;
+            tileController.Base.BorderOn(TileState.Unable);
         }
     }
 
-    public bool IsJungleTile(TileController _tileController)
+    private bool CanSetTargetTile(TileController tileController) 
+        => tileController.Base.TileState == TileState.Moveable;
+
+    private void SetTargetTile(TileController tileController)
     {
-        if (_tileController.GetComponent<TileBase>().TileType == ETileType.Jungle)
-            return true;
-        else
+        targetTile = tileController;
+        GetUnit<ArrowUnit>().ArrowOn(tileController.transform.position);
+        AllBorderOff();
+    }
+
+    private void CancelTargetTile()
+    {
+        targetTile = tileCtrl;
+        GetUnit<ArrowUnit>().ArrowOff();
+        AllBorderOff();
+    }
+
+    private void AllBorderOff()
+    {
+        foreach (var tile in selectedTiles)
         {
-            return false;
+            tile.Base.BorderOff();
         }
+
+        selectedTiles.Clear();
     }
 
-    public void SetIsDronePrepared(bool _isDronePrepared, string type)
+    public string GetLandformBGM() => tileCtrl.Base.GetTileType().ToString() switch
     {
-        isDronePrepared = _isDronePrepared;
-        
-        if(type == "Distrubtor")
-            isDisturbtorPrepared = true;
-        else
-            isDisturbtorPrepared = false;
-    }
-
-    public void InvocationExplorers()
-    {
-        mapController.InvocationExplorers();
-    }
+        "None" => "Ambience_City",
+        "Jungle" => "Ambience_Jungle",
+        "Desert" => "Ambience_Desert",
+        "Tundra" => "Ambience_Tundra",
+        _ => "Ambience_City",
+    };
 }

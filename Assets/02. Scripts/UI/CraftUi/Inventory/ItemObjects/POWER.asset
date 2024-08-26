@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04865242a8028fc46a0079b51f0c8ad4, type: 3}
   m_Name: POWER
   m_EditorClassIdentifier: 
-  English: ITEM_POWER
+  Code: ITEM_POWER
   data:
     Index: 1028
     Category: 4

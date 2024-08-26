@@ -3,16 +3,16 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using Yarn.Unity;
 
-public class ResultPage : NotePageBase
+public class ResultPage : PageBase
 {
     [SerializeField] DialogueRunner dialogueRunner;
     [SerializeField] RectTransform content;
 
     List<string> tomorrowResourceNodeNames = new List<string>();
 
-    public override ENotePageType GetENotePageType()
+    public override PageType GetPageType()
     {
-        return ENotePageType.Result;
+        return PageType.Result;
     }
 
     public override void PlayNode(string _nodeName)
@@ -32,6 +32,7 @@ public class ResultPage : NotePageBase
 
     public override void SetNodeName(string _nodeName, bool _isResourceNode)
     {
+        if (!dialogueRunner.NodeExists(_nodeName)) return;
         if (_isResourceNode == true)
             tomorrowResourceNodeNames.Add(_nodeName);
         else

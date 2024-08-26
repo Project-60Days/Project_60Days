@@ -9,34 +9,34 @@ public class ItemSlot : SlotBase
 
     public ItemSlot()
     {
-        eSlotType = ESlotType.InventorySlot;
+        type = SlotType.InventorySlot;
     }
 
     public override void OnPointerClick(PointerEventData eventData)
     {
         if (item.data.Code == "ITEM_NETWORKCHIP") return;
 
-        if (UIManager.instance.GetCraftModeController().eCraftModeType == ECraftModeType.Craft)
+        if (App.Manager.UI.GetPanel<CraftPanel>().ModeType == CraftMode.Craft)
         {
-            if (UIManager.instance.GetCraftingUiController().isMoreThanThree() == true) return;
+            if (App.Manager.UI.GetPanel<CraftPanel>().Craft.IsCombinedResult) return;
 
-            string sfxName = "SFX_Crafting_" + item.data.Code;
-            if (App.instance.GetSoundManager().CheckSFXExist(sfxName) == true)
-                App.instance.GetSoundManager().PlaySFX(sfxName);
+            string sfxName = "SFX_Craft_" + item.data.Code;
+            if (App.Manager.Sound.CheckSFXExist(sfxName) == true)
+                App.Manager.Sound.PlaySFX(sfxName);
             else
-                App.instance.GetSoundManager().PlaySFX("SFX_Crafting_Item");
+                App.Manager.Sound.PlaySFX("SFX_Craft_Item");
 
             CraftItemClick?.Invoke(item.sprite);
 
-            UIManager.instance.GetCraftingUiController().MoveInventoryToCraft(item);
+            App.Manager.UI.GetPanel<CraftPanel>().Craft.MoveInventoryToCraft(item);
 
             HideItemInfo();
         }
-        else if (UIManager.instance.GetCraftModeController().eCraftModeType == ECraftModeType.Equip)
+        else if (App.Manager.UI.GetPanel<CraftPanel>().ModeType == CraftMode.Equip)
         {
-            if (item.eItemType == EItemType.Equipment)
+            if (item.itemType == ItemType.Equipment)
             {
-                if (UIManager.instance.GetCraftingUiController().MoveInventoryToEquip(item) == true) 
+                if (App.Manager.UI.GetPanel<CraftPanel>().Equip.MoveInventoryToEquip(item) == true) 
                     HideItemInfo();
             }   
         }

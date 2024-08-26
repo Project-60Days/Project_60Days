@@ -1,134 +1,28 @@
-public enum ESceneType
+public enum SceneName
 {
+    Developer,
     Title,
-    Game,
-    UI,
+    Shelter,
     Map,
-    Crafting
-}
-
-public enum EUILayer
-{
-    Base,
     UI,
-    Setting
+    Craft
 }
 
-public enum EItemType
-{
-    Material,
-    Equipment,
-    Special
-}
-
-public enum ENotePageType
-{
-    Result,
-    Select
-}
-
-public enum ESlotType
-{
-    InventorySlot,
-    CraftingSlot,
-    ResultSlot,
-    EquipSlot,
-    BlueprintSlot,
-}
-
-public enum EQuestType
-{
-    Tutorial,
-    Main,
-    Sub
-}
-
-public enum EAlertType
-{
-    Selection,
-    Caution
-}
-
-public enum ECraftModeType
-{
-    Craft,
-    Equip,
-    Blueprint
-}
-
-public enum EScriptType
-{
-    Diary,
-    Resource,
-    MainQuest,
-    SubQuest
-}
-
-public enum ESoundType
+public enum SoundType
 {
     SFX,
     BGM,
     ALL
 }
 
-#region Character
-
-public enum EHungerType
+public enum ItemType
 {
-    Normal,
-    Hunger,
-    Starving
-};
-public enum EThirstType
-{
-    Normal,
-    Thirst,
-    Dehydration
-};
-public enum EConditionType
-{
-    Normal,
-    Anx,
-    Crazy,
-    Machine
-};
-public enum EBodyHealthType
-{
-    Normal,
-    Hurt,
-    Injury,
-    Disease
-};
-public enum EInfectionType
-{
-    Normal,
-    Bite,
-    Zombie
-};
-public enum EPartsType
-{
-    None,
-    Eyeball,
-    LeftArm,
-    RightArm,
-    Body,
-    Legs
-};
-
-#endregion
-
-#region HexTile
-
-public enum ETileType
-{
-    None,
-    Jungle,
-    Desert,
-    Tundra,
-    Neo
+    Material,
+    Equipment,
+    Special
 }
 
-public enum EResourceType
+public enum BasicItem
 {
     Steel,
     Carbon,
@@ -139,47 +33,77 @@ public enum EResourceType
     Wire
 }
 
-public enum ETileState
+#region MAP
+public enum DroneType
+{
+    Disruptor,
+    Explorer
+}
+
+public enum TileType
+{
+    City,
+    Desert,
+    Jungle,
+    Tundra,
+    Neo
+}
+
+public enum TileState
 {
     None,
     Moveable,
-    Unable,
-    Target
+    Unable
 }
+#endregion
 
-public enum EMabPrefab
+#region UI
+public enum UIState
 {
-    Player,
-    Zombie,
-    Disturbtor,
-    Explorer,
-    Tower,
-    Production,
-    Army
+    Normal, 
+    Map,
+    Note,
+    Craft,
+    Select,
+    PV,
+    PopUp,
+    Loading,
+    Menu,
+    NewDay
 }
 
-public enum EStructure
+public enum PageType
 {
-    Tower,
-    Production,
-    Army,
-    Dynamo
+    Result,
+    Select
 }
 
-public enum EObjectSpawnType
+public enum SlotType
 {
-    ExcludePlayer,
-    IncludePlayer,
-    ExcludeEntites,
-    IncludeEntites
+    InventorySlot,
+    CraftingSlot,
+    ResultSlot,
+    EquipSlot,
+    BlueprintSlot,
 }
 
-public enum ETileMouseState
+public enum QuestType
 {
-    Nothing,
-    CanClick,
-    CanPlayerMove,
-    DronePrepared
+    Tutorial,
+    Main,
+    Sub
 }
 
+public enum AlertType
+{
+    Note,
+    Caution
+}
+
+public enum CraftMode
+{
+    Craft,
+    Equip,
+    Blueprint
+}
 #endregion

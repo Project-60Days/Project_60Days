@@ -1,0 +1,10 @@
+﻿[
+  {
+    "Code": "Enemy",
+    "Move": 50,
+    "Stop": 50,
+    "SpecialSpawn": 10,
+    "MinCount": 10,
+    "MaxCount": 20
+  }
+]

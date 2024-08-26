@@ -1,156 +1,209 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using DG.Tweening;
 
-public class UIManager : Singleton<UIManager>
+public class UIManager : Manager, IListener
 {
-    [SerializeField] NoteController noteController;
-    [SerializeField] InventoryController inventoryController;
-    [SerializeField] CraftingUiController craftingUiController;
-    [SerializeField] CraftingRawImageController craftingRawImageController;
-    [SerializeField] CraftModeController craftModeController;
-    [SerializeField] UIHighLightController uiHighLightController;
-    [SerializeField] SelectController selectController;
-    [SerializeField] NextDayController nextDayController;
-    [SerializeField] AlertController alertController;
-    [SerializeField] MenuController menuController;
-    [SerializeField] PageController pageController;
-    [SerializeField] QuestController questController;
-    [SerializeField] SoundController soundController;
-    [SerializeField] ItemInfoController itemInfoController;
-    [SerializeField] UpperController upperController;
-    [SerializeField] PopUpController popUpController;
-    [SerializeField] InfoController infoController;
-    [SerializeField] PVController pvController;
+    [SerializeField] Image blackBlur;
+    [SerializeField] List<UIBase> UIs;
 
+    [HideInInspector] public UIState CurrState
+        => UIStack.Count == 0 ? UIState.Normal : UIStack.Peek();
+    
+    private Dictionary<Type, UIBase> UIDic;
+    private Stack<UIState> UIStack;
 
-    public Stack<string> currUIStack = new Stack<string>();
-
-    private void Awake()
+    protected override void Awake()
     {
-        currUIStack.Push(StringUtility.UI_NORMAL);
+        base.Awake();
+
+        UIDic = new(UIs.Count);
+        UIStack = new();
+
+        foreach (var UI in UIs)
+        {
+            UIDic.Add(UI.GetPanelType(), UI);
+        }
+
+        UIs.Clear(); // clear memory
+
+        App.Manager.Event.AddListener(EventCode.NextDayMiddle, this);
+        App.Manager.Event.AddListener(EventCode.NextDayEnd, this);
     }
-    void Update()
+
+    public void OnEvent(EventCode _code, Component _sender, object _param = null)
+    {
+        switch (_code)
+        {
+            case EventCode.NextDayMiddle:
+                AddUIStack(UIState.NewDay);
+                ReInitUIs();
+                break;
+
+            case EventCode.NextDayEnd:
+                FadeOut();
+                PopUIStack(UIState.NewDay);
+                break;
+        }
+    }
+
+    private void Start()
+    {
+        InitUIs();
+    }
+
+    private void InitUIs()
+    {
+        foreach (var UI in UIDic.Values)
+        {
+            if (!UI.gameObject.activeSelf) //wake up panels
+            {
+                UI.gameObject.SetActive(true);
+                UI.gameObject.SetActive(false);
+            }
+
+            try { UI.Init(); }
+            catch (Exception error)
+            { Debug.LogError($"ERROR: {error.Message}\n{error.StackTrace}"); }
+        }
+    }
+
+    public void ReInitUIs()
+    {
+        foreach (var UI in UIDic.Values)
+        {
+            if (!UI.gameObject.activeSelf) //wake up panels
+            {
+                UI.gameObject.SetActive(true);
+                UI.gameObject.SetActive(false);
+            }
+
+            try { UI.ReInit(); }
+            catch (Exception error)
+            { Debug.LogError($"ERROR: {error.Message}\n{error.StackTrace}"); }
+        }
+    }
+
+    private void Update() //TODO
     {
         InputKey();
     }
 
-    public void InputKey()
+    private void InputKey() //TODO
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isUIStatus("UI_MENU") == false)
-                menuController.EnterMenu();
+            if (CurrState == UIState.Normal)
+                GetPanel<MenuPanel>().OpenPanel();
             else
-                menuController.QuitMenu();
+                Application.Quit();
         }
     }
 
-    public void AddCurrUIName(string _uiName)
-    {
-        currUIStack.Push(_uiName);
+    #region Get Panel
+    public T GetPanel<T>() where T : UIBase => (T)UIDic[typeof(T)];
 
-        Debug.LogError("currUIStack : " + currUIStack.Peek());
+    public bool TryGetPanel<T>(out T _panel) where T : UIBase
+    {
+        if (UIDic.TryGetValue(typeof(T), out var panel))
+        {
+            _panel = (T)panel;
+            return true;
+        }
+
+        _panel = default;
+        return false;
     }
+    #endregion
 
-    public void PopCurrUI()
+    #region UI Stack Managing
+    public void AddUIStack(UIState _state)
     {
-        currUIStack.Pop();
-    }
-
-    public bool isUIStatus(string _cmp)
-    {
-        currUIStack.TryPeek(out string top);
-        return _cmp == top;
-    }
-
-    public NoteController GetNoteController()
-    {
-        return noteController;
-    }
-
-    public InventoryController GetInventoryController()
-    {
-        return inventoryController;
+        UIStack.Push(_state);
     }
 
-    public CraftingUiController GetCraftingUiController()
+    public void PopUIStack(UIState _state = 0)
     {
-        return craftingUiController;
+        if (CurrState != _state) return;
+
+        UIStack.Pop();
     }
 
-    public CraftingRawImageController GetCraftingRawImageController()
+    public UIState StringToState(string _state) => _state switch
     {
-        return craftingRawImageController;
+        "UI_NORMAL" => UIState.Normal,
+        "UI_MAP" => UIState.Map,
+        "UI_NOTE" => UIState.Note,
+        "UI_CRAFTING" => UIState.Craft,
+        "UI_SELECT" => UIState.Select,
+        "UI_PV" => UIState.PV,
+        "UI_POPUP" => UIState.PopUp,
+        "UI_LOADING" => UIState.Loading,
+        "UI_MENU" => UIState.Menu,
+        _ => UIState.Normal,
+
+    };
+    #endregion
+
+    #region Fade In / Out
+    public void FadeIn(Action _endEvent = null)
+    {
+        App.Manager.Sound.StopBGM();
+
+        if (blackBlur.color.a == 1f)
+        {
+            _endEvent?.Invoke();
+            return;
+        }
+
+        blackBlur.gameObject.SetActive(true);
+
+        blackBlur.DOKill();
+        blackBlur.DOFade(1f, 0.5f).SetEase(Ease.Linear)
+            .OnComplete(() =>
+            {
+                _endEvent?.Invoke();
+            });
     }
 
-    public CraftModeController GetCraftModeController()
+    public void FadeOut(Action _endEvent = null)
     {
-        return craftModeController;
-    }
-   
-    public UIHighLightController GetUIHighLightController()
-    {
-        return uiHighLightController;
+        if (blackBlur.color.a == 0f)
+        {
+            _endEvent?.Invoke();
+            return;
+        }
+
+        blackBlur.DOFade(0f, 1f).SetEase(Ease.Linear)
+            .OnComplete(() =>
+            {
+                _endEvent?.Invoke();
+                blackBlur.gameObject.SetActive(false);
+            });
     }
 
-    public SelectController GetSelectController()
+    public void FadeInOut(Action _midEvent = null)
     {
-        return selectController;
-    }
+        App.Manager.Sound.StopBGM();
 
-    public NextDayController GetNextDayController()
-    {
-        return nextDayController;
-    }
+        if (blackBlur.color.a == 1f)
+        {
+            _midEvent?.Invoke();
+            FadeOut();
+            return;
+        }
 
-    public AlertController GetAlertController()
-    {
-        return alertController;
-    }
+        blackBlur.gameObject.SetActive(true);
 
-    public MenuController GetMenuController()
-    {
-        return menuController;
+        blackBlur.DOKill();
+        blackBlur.DOFade(1f, 0.5f).SetEase(Ease.Linear)
+           .OnComplete(() =>
+           {
+               _midEvent?.Invoke();
+               FadeOut();
+           });
     }
-
-    public PageController GetPageController()
-    {
-        return pageController;
-    }
-
-    public QuestController GetQuestController()
-    {
-        return questController;
-    }
-
-    public SoundController GetSoundController()
-    {
-        return soundController;
-    }
-
-    public ItemInfoController GetItemInfoController()
-    {
-        return itemInfoController;
-    }
-
-    public UpperController GetUpperController()
-    {
-        return upperController;
-    }
-
-    public PopUpController GetPopUpController()
-    {
-        return popUpController;
-    }
-
-    public InfoController GetInfoController()
-    {
-        return infoController;
-    }
-
-    public PVController GetPVController()
-    {
-        return pvController;
-    }
+    #endregion
 }

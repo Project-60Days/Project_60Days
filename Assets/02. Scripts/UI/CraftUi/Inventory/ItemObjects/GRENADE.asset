@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04865242a8028fc46a0079b51f0c8ad4, type: 3}
   m_Name: GRENADE
   m_EditorClassIdentifier: 
-  English: ITEM_GRENADE
+  Code: ITEM_GRENADE
   data:
     Index: 1029
     Category: 4

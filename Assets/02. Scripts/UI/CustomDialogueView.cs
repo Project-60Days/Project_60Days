@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Yarn.Unity;
@@ -9,8 +8,9 @@ using System;
 public class CustomDialogueView : DialogueViewBase
 {
     public Button[] skipButton;
+    [SerializeField] Selectable skipBtn;
     [SerializeField] private TextMeshProUGUI lineText;
-    [SerializeField] private string enterSFX = null;
+    [SerializeField] private string skipSFX = null;
     [SerializeField] private string textSFX = null;
 
     //private bool isRunningLine = false;
@@ -32,13 +32,13 @@ public class CustomDialogueView : DialogueViewBase
 
             lineText.maxVisibleCharacters = 10000;
 
-            if (enterSFX != null) 
-                App.instance.GetSoundManager().PlaySFX(enterSFX);
+            if (string.IsNullOrEmpty(skipSFX))
+                App.Manager.Sound.PlaySFX(skipSFX);
         }
         else
         {
-            if (!doesUserContinueRequest && enterSFX != null)
-                App.instance.GetSoundManager().PlaySFX(enterSFX);
+            if (!doesUserContinueRequest && string.IsNullOrEmpty(skipSFX))
+                App.Manager.Sound.PlaySFX(skipSFX);
             doesUserContinueRequest = true;
         }
     }
@@ -68,17 +68,6 @@ public class CustomDialogueView : DialogueViewBase
 
     private IEnumerator UpdateLine(LocalizedLine _localizedLine, Action _onDialogueLineFinished)
     {
-        //if (_localizedLine.Metadata?.Length > 0)
-        //{
-        //    foreach (var metaData in _localizedLine.Metadata)
-        //    {
-        //        Debug.LogError($"Tag Detected : {metaData}");
-        //        ReadYarnTag(metaData, _localizedLine.CharacterName);
-        //    }
-        //}
-
-        //skipButton.gameObject.SetActive(true);
-
         doesUserSkipRequest = false;
         doesUserContinueRequest = false;
         isStartLine = true;
@@ -102,11 +91,16 @@ public class CustomDialogueView : DialogueViewBase
 
     void Update()
     {
-        if (textSFX == null) return;
+        skipBtn?.Select();
+
+        if (string.IsNullOrEmpty(textSFX)) return;
         if(!doesUserSkipRequest && isStartLine)
         {
-            if (App.instance.GetSoundManager().CheckTypeWriteSFXPlayNow() == false) 
-                App.instance.GetSoundManager().PlayTypeWriteSFX(textSFX);
+            if (!App.Manager.Sound.IsPlayingTypeWriteSFX())
+                App.Manager.Sound.PlayTypeWriteSFX(textSFX);
         }
+
+        if (Input.GetMouseButtonDown(0))
+            UserRequestedViewAdvancement();
     }
 }

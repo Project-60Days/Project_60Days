@@ -12,18 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04865242a8028fc46a0079b51f0c8ad4, type: 3}
   m_Name: STEEL
   m_EditorClassIdentifier: 
-  English: ITEM_STEEL
+  Code: ITEM_STEEL
   data:
     Index: 1001
     Category: 0
     Code: ITEM_STEEL
-    Rarity: 0
     AppearTileType: 0
-    TileIncludePossibility: 0
     Type: 0
     EquipType: 4
     EquipArea: 
-    isCanBase: 0
     CombineSlotCount: 0
     Description: "\uAC00\uC7A5 \uAE30\uCD08\uC801\uC778 \uB2E8\uB2E8\uD55C \uBB3C\uC9C8
       \uC911 \uD558\uB098"
@@ -32,8 +29,14 @@ MonoBehaviour:
     English: Steel
     Japanese: -1
     Chinese: -1
+    value1: 0
+    value2: 0
+    value3: 0
   itemImage: {fileID: 21300000, guid: 351a9799c30acca41a51ea5f6ca7da9d, type: 3}
-  itemCount: 1
-  eItemType: 0
+  itemCount: 2
+  itemType: 0
   sprite: {fileID: 21300000, guid: 818f441e825888340ac723be909e0dec, type: 3}
-  sfxName: SFX_Steel_Acquisition
+  sfxName: SFX_Map_Steel
+  isMadeOnce: 0
+  isBlueprintOpen: 0
+  canRemoveEquipment: 0

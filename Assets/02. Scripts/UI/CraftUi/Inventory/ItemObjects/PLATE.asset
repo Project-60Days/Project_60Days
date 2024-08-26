@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04865242a8028fc46a0079b51f0c8ad4, type: 3}
   m_Name: PLATE
   m_EditorClassIdentifier: 
-  English: ITEM_PLATE
+  Code: ITEM_PLATE
   data:
     Index: 1007
     Category: 1
@@ -39,3 +39,4 @@ MonoBehaviour:
   sfxName: 
   isMadeOnce: 1
   isBlueprintOpen: 0
+  canRemoveEquipment: 0
