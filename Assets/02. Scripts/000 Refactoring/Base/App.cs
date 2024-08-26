@@ -12,6 +12,7 @@ public class App : Singleton<App>
     private readonly UIManager ui;
     private readonly TutorialManager tutorial;
     private readonly AssetManager asset;
+    private readonly EventManager eventM;
 
     private readonly GameData gameData;
     private readonly SettingData settingData;
@@ -27,6 +28,7 @@ public class App : Singleton<App>
         public static UIManager UI => instance.ui;
         public static TutorialManager Tutorial => instance.tutorial;
         public static AssetManager Asset => instance.asset;
+        public static EventManager Event => instance.eventM;
     }
 
     public class Data
@@ -46,50 +48,6 @@ public class App : Singleton<App>
     public static void LoadSceneAdditive(SceneName _type)
     {
         SceneManager.LoadScene((int)_type, LoadSceneMode.Additive);
-    }
-    #endregion
-
-    #region Try Get Manager
-    public static bool TryGetSoundManager(out SoundManager manager)
-    {
-        manager = Manager.Sound;
-        return manager != null;
-    }
-
-    public static bool TryGetGameManager(out GameManager manager)
-    {
-        manager = Manager.Game;
-        return manager != null;
-    }
-
-    public static bool TryGetShelterManager(out ShelterManager manager)
-    {
-        manager = Manager.Shelter;
-        return manager != null;
-    }
-
-    public static bool TryGetMapManager(out MapManager manager)
-    {
-        manager = Manager.Map;
-        return manager != null;
-    }
-
-    public static bool TryGetUIManager(out UIManager manager)
-    {
-        manager = Manager.UI;
-        return manager != null;
-    }
-
-    public static bool TryGetTutorialManager(out TutorialManager manager)
-    {
-        manager = Manager.Tutorial;
-        return manager != null;
-    }
-
-    public static bool TryGetAssetManager(out AssetManager manager)
-    {
-        manager = Manager.Asset;
-        return manager != null;
     }
     #endregion
 }

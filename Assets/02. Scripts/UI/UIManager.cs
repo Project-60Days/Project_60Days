@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class UIManager : Manager
+public class UIManager : Manager, IListener
 {
     [SerializeField] Image blackBlur;
     [SerializeField] List<UIBase> UIs;
@@ -28,6 +28,30 @@ public class UIManager : Manager
         }
 
         UIs.Clear(); // clear memory
+
+        App.Manager.Event.AddListener(EventCode.NextDayStart, this);
+        App.Manager.Event.AddListener(EventCode.NextDayMiddle, this);
+        App.Manager.Event.AddListener(EventCode.NextDayEnd, this);
+    }
+
+    public void OnEvent(EventCode _code, Component _sender, object _param = null)
+    {
+        switch (_code)
+        {
+            case EventCode.NextDayStart:
+                //AddUIStack(UIState.NewDay);
+                break;
+
+            case EventCode.NextDayMiddle:
+                AddUIStack(UIState.NewDay);
+                ReInitUIs();
+                break;
+
+            case EventCode.NextDayEnd:
+                FadeOut();
+                PopUIStack(UIState.NewDay);
+                break;
+        }
     }
 
     private void Start()

@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameManager : Manager
+public class GameManager : Manager, IListener
 {
     public ItemSO itemSO;
     [HideInInspector] public List<ItemBase> itemData => itemSO.items.ToList();
@@ -25,6 +25,18 @@ public class GameManager : Manager
         base.Awake();
 
         startTutorial = App.Data.Test.startTutorial;
+
+        App.Manager.Event.AddListener(EventCode.NextDayEnd, this);
+    }
+
+    public void OnEvent(EventCode _code, Component _sender, object _param = null)
+    {
+        switch (_code)
+        {
+            case EventCode.NextDayEnd:
+                NewDay();
+                break;
+        }
     }
 
     private void Start()
@@ -37,7 +49,11 @@ public class GameManager : Manager
 
     private void SetButtonEvent()
     {
-        nextDayBtn.onClick.AddListener(() => NextDay());
+        nextDayBtn.onClick.AddListener(() => 
+        { 
+            App.Manager.UI.FadeIn(() => App.Manager.Event.PostEvent(EventCode.NextDayStart, this)); 
+        });
+
         shelterBtn.onClick.AddListener(() => GoToShelter());
     }
 
@@ -52,16 +68,9 @@ public class GameManager : Manager
         }
     }
 
-    public void NextDay()
-    {
-        ctrl.NextDay();
-    }
-
     public void NewDay()
     {
         App.Manager.Sound.PlayBGM("BGM_InGame");
-        App.Manager.UI.FadeOut();
-        App.Manager.UI.PopUIStack(UIState.NewDay);
 
         isHit = false;
         isNewDay = true;

@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using Hexamap;
 using System.Collections.Generic;
 
-public class MapManager : Manager
+public class MapManager : Manager, IListener
 {
     [SerializeField] List<MapBase> Maps;
     private Dictionary<Type, MapBase> MapDic;
@@ -46,6 +46,18 @@ public class MapManager : Manager
         }
 
         Maps.Clear(); // clear memory
+
+        App.Manager.Event.AddListener(EventCode.NextDayStart, this);
+    }
+
+    public void OnEvent(EventCode _code, Component _sender, object _param = null)
+    {
+        switch (_code)
+        {
+            case EventCode.NextDayStart:
+                NextDay();
+                break;
+        }
     }
 
     private void Start()
@@ -255,6 +267,8 @@ public class MapManager : Manager
         ReInitMaps();
 
         InitValue();
+
+        App.Manager.Event.PostEvent(EventCode.NextDayMiddle, this);
     }
 
     private void UpdateCurrentTile()

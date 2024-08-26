@@ -25,7 +25,7 @@ public class BuffData
     public bool canDetect = true;
 }
 
-public class TestData : Data
+public class TestData : Data, IListener
 {
     [Header("Map")]
     public MapData Map;
@@ -35,6 +35,23 @@ public class TestData : Data
     public bool startTutorial = false;
 
     private BuffData defaultBuff = new();
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        App.Manager.Event.AddListener(EventCode.NextDayStart, this);
+    }
+
+    public void OnEvent(EventCode _code, Component _sender, object _param = null)
+    {
+        switch (_code)
+        {
+            case EventCode.NextDayStart:
+                NextDay();
+                break;
+        }
+    }
 
     private void Start()
     {

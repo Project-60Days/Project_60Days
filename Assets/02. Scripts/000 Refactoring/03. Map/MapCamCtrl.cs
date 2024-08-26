@@ -2,7 +2,7 @@ using UnityEngine;
 using Cinemachine;
 using DG.Tweening;
 
-public class MapCamCtrl : MonoBehaviour
+public class MapCamCtrl : MonoBehaviour, IListener
 {
     [SerializeField] CinemachineVirtualCamera mapCamera;
     private CinemachineFramingTransposer transposer;
@@ -10,6 +10,21 @@ public class MapCamCtrl : MonoBehaviour
     private MapPanel MapUI;
     private MapManager Map;
     private SoundManager Sound;
+
+    private void Awake()
+    {
+        App.Manager.Event.AddListener(EventCode.NextDayStart, this);
+    }
+
+    public void OnEvent(EventCode _code, Component _sender, object _param = null)
+    {
+        switch (_code)
+        {
+            case EventCode.NextDayStart:
+                ResetCamera();
+                break;
+        }
+    }
 
     public void Init()
     {
@@ -25,7 +40,7 @@ public class MapCamCtrl : MonoBehaviour
         transposer.m_CameraDistance = 5f;
     }
 
-    public void ResetCamera()
+    private void ResetCamera()
     {
         transposer.m_CameraDistance = 5f;
         SetPrioryty(false);

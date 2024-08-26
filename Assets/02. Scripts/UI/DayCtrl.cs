@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 
-public class DayCtrl : MonoBehaviour
+public class DayCtrl : MonoBehaviour, IListener
 {
     private enum NewDayState
     {
@@ -15,42 +15,32 @@ public class DayCtrl : MonoBehaviour
     [SerializeField] GameObject dayCountPrefab;
 
     private GameManager Game;
-    private UIManager UI;
-    private MapManager Map;
 
     private GameObject dayCount;
     private NewDayState todayState;
 
+    private void Awake()
+    {
+        App.Manager.Event.AddListener(EventCode.NextDayMiddle, this);
+    }
+
+    public void OnEvent(EventCode _code, Component _sender, object _param = null)
+    {
+        switch (_code)
+        {
+            case EventCode.NextDayMiddle:
+                StartCoroutine(SetNextDay());
+                break;
+        }
+    }
+
     private void Start()
     {
         Game = App.Manager.Game;
-        Map = App.Manager.Map;
-        UI = App.Manager.UI;
-    }
-
-    public void NextDay()
-    {
-        UI.FadeIn(FadeCallBack);
-    }
-
-    private void FadeCallBack()
-    {
-        Map.cameraCtrl.ResetCamera();
-
-        UI.AddUIStack(UIState.NewDay);
-
-        StartCoroutine(SetNextDay());
     }
 
     private IEnumerator SetNextDay()
     {
-        App.Data.Test.NextDay();
-        Map.NextDay();
-
-        yield return new WaitForSeconds(1f);
-
-        UI.ReInitUIs();
-
         SetState();
         CreateDayCountTxt(GetText());
 
@@ -98,7 +88,7 @@ public class DayCtrl : MonoBehaviour
 
             case NewDayState.Normal:
                 Destroy(dayCount);
-                Game.NewDay();
+                App.Manager.Event.PostEvent(EventCode.NextDayEnd, this);
                 break;
         }
     }
