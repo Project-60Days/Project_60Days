@@ -12,8 +12,6 @@ public struct TileInfo
 
 public class MapPanel : UIBase
 {
-    [SerializeField] GameObject disruptorBtn;
-    [SerializeField] GameObject explorerBtn;
     [SerializeField] Button nextDayBtn;
     [SerializeField] Button shelterBtn;
 
@@ -78,19 +76,5 @@ public class MapPanel : UIBase
     {
         nextDayBtn.enabled = _isActive;
         shelterBtn.enabled = _isActive;
-    }
-
-    public void ToggleDroneBtn(DroneType _type, bool _isOn)
-    {
-        switch (_type)
-        {
-            case DroneType.Disruptor:
-                disruptorBtn.SetActive(_isOn);
-                break;
-
-            case DroneType.Explorer:
-                explorerBtn.SetActive(_isOn);
-                break;
-        }
     }
 }

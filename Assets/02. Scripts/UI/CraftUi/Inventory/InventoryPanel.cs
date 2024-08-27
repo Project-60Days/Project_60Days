@@ -5,19 +5,11 @@ using TMPro;
 
 public class InventoryPanel : UIBase, IListener
 {
-    private List<ItemBase> itemData;
+    private Dictionary<string, ItemBase> itemBaseDic;
+    private List<ItemBase> items = new();
 
-    List<ItemSlot>[] slots = new List<ItemSlot>[6];
-    int[] counts = new int[6];
-
-    List<ItemBase> items = new List<ItemBase>();
-
-    ItemBase disturbe
-        => itemData.ToList().Find(x => x.data.Code == "ITEM_DISRUPTOR");
-    ItemBase findor
-        => itemData.ToList().Find(x => x.data.Code == "ITEM_EXPLORER");
-    ItemBase netCard
-        => itemData.ToList().Find(x => x.data.Code == "ITEM_NETWORKCHIP");
+    private List<ItemSlot>[] slots = new List<ItemSlot>[6];
+    private int[] counts;
 
     private void Awake()
     {
@@ -33,178 +25,145 @@ public class InventoryPanel : UIBase, IListener
                 break;
         }
     }
+
     #region Override
     public override void Init()
     {
-        itemData = App.Manager.Game.itemData;
+        itemBaseDic = App.Manager.Game.itemData.ToDictionary(item => item.data.Code);
+
+        counts = new int[6];
 
         for (int i = 0; i < 6; i++)
-            slots[i] = (new List<ItemSlot>());
-
-        for (int i = 0; i < transform.childCount; i++)
         {
-            var slot = transform.GetChild(i).GetComponent<ItemSlot>();
-            int category = slot.category;
-            slots[category].Add(slot);
+            slots[i] = new();
         }
 
-        InitSlots();
+        foreach (Transform child in transform)
+        {
+            var slot = child.GetComponent<ItemSlot>();
+            slots[slot.category].Add(slot);
+        }
+
+        ResetAllSlots();
 
         gameObject.SetActive(false);
     }
     #endregion
 
-    /// <summary>
-    /// slot 초기화
-    /// </summary>
-    void InitSlots()
+    private void ResetAllSlots()
     {
-        for (int i = 0; i < slots.Length; i++)
+        foreach (var slotList in slots)
         {
-            for (int j = 0; j < slots[i].Count; j++)
+            foreach (var slot in slotList)
             {
-                slots[i][j].gameObject.SetActive(false);
-                slots[i][j].item = null;
+                slot.ResetItem();
             }
         }
 
         for (int i = 0; i < counts.Length; i++)
+        {
             counts[i] = 0;
+        }
     }
 
-    /// <summary>
-    /// slot에 변경사항 적용 시 호출됨. 인벤토리 내의 슬롯에 아이템 추가
-    /// </summary>
-    public void UpdateSlot()
+    private void ResetSlots(int category)
     {
-        InitSlots();
-
-        App.Manager.UI.GetPanel<UpperPanel>().UpdateAllItemCount();
-
-        for (int i = 0; i < items.Count; i++)
+        foreach (var slot in slots[category])
         {
-            int category = items[i].data.Category;
-            var currentSlot = slots[category][counts[category]];
-            currentSlot.gameObject.SetActive(true);
-            currentSlot.item = items[i];
-            currentSlot.GetComponentInChildren<TextMeshProUGUI>().text = items[i].itemCount.ToString();
-            counts[category]++;
+            slot.ResetItem();
         }
 
-        CheckDisturbeNFindor();
+        counts[category] = 0;
     }
 
-    /// <summary>
-    /// 인벤토리에 ItemBase를 이용하여 아이템 추가
-    /// </summary>
-    /// <param name="_item"></param>
+    private void UpdateSlots(int category)
+    {
+        ResetSlots(category);
+
+        foreach (var item in items.Where(item => item.data.Category == category))
+        {
+            if (counts[category] < slots[category].Count)
+            {
+                var currentSlot = slots[category][counts[category]];
+                currentSlot.SetItem(item);
+                counts[category]++;
+            }
+            else
+            {
+                Debug.LogWarning($"슬롯이 부족합니다: 카테고리 {category}");
+            }
+        }
+
+        App.Manager.Event.PostEvent(EventCode.ItemUpdate, this);
+    }
+
+    #region Add Item
     public void AddItem(ItemBase _item)
     {
-        _item.itemCount++;
-
-        if (items.Contains(_item))
+        if (_item.itemCount == 0)
         {
-            UpdateSlot();
-            return;
+            items.Add(_item);
         }
 
-        items.Add(_item);
-        UpdateSlot();
+        _item.itemCount++;
+
+        UpdateSlots(_item.data.Category);
     }
 
-    void CheckDisturbeNFindor()
-    {
-        bool canUseFindor = findor.itemCount > 0;
-        App.Manager.UI.GetPanel<MapPanel>().ToggleDroneBtn(DroneType.Explorer, canUseFindor);
-
-        bool canUseDisturbe = disturbe.itemCount > 0;
-        App.Manager.UI.GetPanel<MapPanel>().ToggleDroneBtn(DroneType.Disruptor, canUseDisturbe);
-    }
-
-    /// <summary>
-    /// 인벤토리에 itemCode를 이용하여 아이템 추가
-    /// </summary>
-    /// <param name="itemCode"></param>
     public void AddItemByItemCode(params string[] _itemCode)
     {
         foreach (var code in _itemCode) 
         {
-            var item = itemData.Find(x => x.data.Code == code);
-
-            if (item != null)
+            if (itemBaseDic.TryGetValue(code, out var item))
+            {
                 AddItem(item);
+            }
         }
     }
+    #endregion
 
-
-
-
-
-    /// <summary>
-    /// 인벤토리에서 아이템 삭제
-    /// </summary>
-    /// <param name="_item"></param>
+    #region Remove Item
     public void RemoveItem(ItemBase _item)
     {
         _item.itemCount--;
 
         if (_item.itemCount == 0)
+        {
             items.Remove(_item);
+        }
 
-        UpdateSlot();
+        UpdateSlots(_item.data.Category);
     }
 
     public void RemoveItemByCode(string _itemCode)
     {
-        var item = itemData.Find(x => x.data.Code == _itemCode);
-
-        if (item != null) 
+        if (itemBaseDic.TryGetValue(_itemCode, out var item))
+        {
             RemoveItem(item);
+        }
     }
     
     public void RemoveRandomItem()
     {
-        int random;
+        if (items.Count == 0) return;
 
-        if (items.Count == 0) 
-            return;
-        
-        while (true)
+        ItemBase itemToRemove;
+        do
         {
-            random = Random.Range(0, items.Count);
+            itemToRemove = items[Random.Range(0, items.Count)];
+        } while (itemToRemove.data.Code == "ITEM_NETWORKCHIP");
 
-            if (items[random].data.Code != "ITEM_NETWORKCHIP") break;
-        }
-
-        App.Manager.UI.GetPanel<PagePanel>().SetCurrResource(items[random]);
+        App.Manager.UI.GetPanel<PagePanel>().SetCurrResource(itemToRemove);
         App.Manager.UI.GetPanel<PagePanel>().SetResultPage("LOOSE_RESOURCE", false);
-        
-        RemoveItem(items[random]);
+
+        RemoveItem(itemToRemove);
     }
+    #endregion
 
-
-
-    /// <summary>
-    /// 인벤토리 내에 특정 아이템 존재하는지 체크
-    /// </summary>
-    /// <param name="itemCode"></param>
-    /// <returns></returns>
     public bool CheckItemExist(string _itemCode)
-        => items.Find(x => x.data.Code == _itemCode) != null ? true : false;
- 
-    public bool CheckNetCardUsage()
-    {
-        if (netCard.itemCount <= 0)
-            return false;
-        else
-        {
-            RemoveItem(netCard);
-            return true;
-        }
-    }
+        => items.Exists(x => x.data.Code == _itemCode);
 
-    #region temp
-
+    #region Cheat Key
     void Update()
     {
         InputKey();
@@ -214,7 +173,7 @@ public class InventoryPanel : UIBase, IListener
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            foreach (var item in itemData)
+            foreach (var item in itemBaseDic.Values)
             {
                 if (++counts[item.data.Category] > slots[item.data.Category].Count) return;
                 AddItem(item);
@@ -222,11 +181,11 @@ public class InventoryPanel : UIBase, IListener
         }
         else if (Input.GetKeyDown(KeyCode.Z))
         {
-            AddItemByItemCode("ITEM_FINDOR");
+            AddItemByItemCode("ITEM_EXPLORER");
         }
         else if (Input.GetKeyDown(KeyCode.X))
         {
-            AddItemByItemCode("ITEM_DISTURBE");
+            AddItemByItemCode("ITEM_DISRUPTOR");
         }
     }
     #endregion

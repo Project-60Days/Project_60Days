@@ -16,6 +16,7 @@ public enum EventCode
     NormalDay,
     TutorialStart,
     TutorialEnd,
+    ItemUpdate,
 };
 
 [RequireImplementors]

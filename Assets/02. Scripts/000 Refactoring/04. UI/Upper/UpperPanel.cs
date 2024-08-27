@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using DG.Tweening;
+using System.Linq;
 
 public class UpperPanel : UIBase, IListener
 {
@@ -26,6 +27,7 @@ public class UpperPanel : UIBase, IListener
     private void Awake()
     {
         App.Manager.Event.AddListener(EventCode.Hit, this);
+        App.Manager.Event.AddListener(EventCode.ItemUpdate, this);
     }
 
     public void OnEvent(EventCode _code, Component _sender, object _param = null)
@@ -34,6 +36,10 @@ public class UpperPanel : UIBase, IListener
         {
             case EventCode.Hit:
                 PlayDurabilityAnim(false);
+                break;
+
+            case EventCode.ItemUpdate:
+                UpdateAllItemCount();
                 break;
         }
     }
@@ -64,7 +70,7 @@ public class UpperPanel : UIBase, IListener
     }
     #endregion
 
-    public void UpdateAllItemCount()
+    private void UpdateAllItemCount()
     {
         foreach (var itemBase in itemBaseDic)
         {
@@ -88,7 +94,7 @@ public class UpperPanel : UIBase, IListener
         durabilityText.text = App.Manager.Game.durability.ToString("D3");
     }
 
-    public void UpdateAfterFight()
+    private void UpdateAfterFight()
     {
         UpdateItemCount("ITEM_BULLET");
         UpdateDurability();

@@ -281,7 +281,6 @@ public class MapManager : Manager, IListener
             { Debug.LogError($"ERROR: {error.Message}\n{error.StackTrace}"); }
         }
 
-        Debug.Log(tileCtrl == null);
         tileCtrl.SetBuff();
 
         App.Manager.Event.PostEvent(EventCode.TileUpdate, this, tileCtrl);

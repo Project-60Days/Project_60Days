@@ -1,15 +1,31 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using System;
+using TMPro;
 
 public class ItemSlot : SlotBase
 {
     public int category;
     public static Action<Sprite> CraftItemClick;
+    private TextMeshProUGUI countTMP;
 
-    public ItemSlot()
+    private void Awake()
     {
         type = SlotType.InventorySlot;
+        countTMP = GetComponentInChildren<TextMeshProUGUI>();
+    }
+
+    public void SetItem(ItemBase _item)
+    {
+        gameObject.SetActive(true);
+        item = _item;
+        countTMP.text = item.itemCount.ToString();
+    }
+
+    public void ResetItem()
+    {
+        gameObject.SetActive(false);
+        item = null;
     }
 
     public override void OnPointerClick(PointerEventData eventData)
