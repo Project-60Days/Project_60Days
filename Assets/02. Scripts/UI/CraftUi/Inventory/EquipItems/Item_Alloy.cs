@@ -12,7 +12,7 @@ public class Item_Alloy : ItemBase
         beforeDurabillity = App.Manager.Game.durability;
 
         App.Manager.Game.durability += (int)data.value1;
-        App.Manager.UI.GetPanel<UpperPanel>().IncreaseDurabillityAnimation();
+        App.Manager.UI.GetPanel<UpperPanel>().PlayDurabilityAnim();
     }
 
     public override bool CheckMeetCondition()

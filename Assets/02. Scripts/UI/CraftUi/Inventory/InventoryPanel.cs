@@ -79,7 +79,7 @@ public class InventoryPanel : UIBase, IListener
     {
         InitSlots();
 
-        App.Manager.UI.GetPanel<UpperPanel>().UpdateItemCount();
+        App.Manager.UI.GetPanel<UpperPanel>().UpdateAllItemCount();
 
         for (int i = 0; i < items.Count; i++)
         {

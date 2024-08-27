@@ -192,12 +192,12 @@ public class CustomYarnCommands : MonoBehaviour
     #region Tutorial 08
     void StartPV()
     {
-        App.Manager.UI.GetPanel<VideoPanel>().Start01();
+        App.Manager.UI.GetPanel<VideoPanel>().StartVideo("PV_01");
     }
 
     Coroutine WaitPVEnd()
     {
-        return StartCoroutine(new WaitUntil(() => App.Manager.UI.GetPanel<VideoPanel>().isEnd));
+        return StartCoroutine(new WaitUntil(() => App.Manager.UI.GetPanel<VideoPanel>().IsEnd));
     }
 
 

@@ -15,7 +15,7 @@ public class Item_Shapemetal : ItemBase
 
         App.Manager.Game.durability += (int)data.value1;
         App.Data.Test.SetCloaking((int)data.value2);
-        App.Manager.UI.GetPanel<UpperPanel>().IncreaseDurabillityAnimation();
+        App.Manager.UI.GetPanel<UpperPanel>().PlayDurabilityAnim();
     }
 
     public override bool CheckMeetCondition()

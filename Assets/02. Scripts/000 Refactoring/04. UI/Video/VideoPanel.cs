@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
@@ -6,25 +8,41 @@ using DG.Tweening;
 
 public class VideoPanel : UIBase
 {
+    [Serializable]
+    public class VideoData
+    {
+        public string Code;
+        public VideoClip Clip;
+    }
+
     [SerializeField] VideoPlayer videoPlayer;
-    RawImage pvImage;
-
     [SerializeField] TextMeshProUGUI text;
-    [SerializeField] VideoClip PV01;
+    [SerializeField] List<VideoData> videoList;
 
-    [HideInInspector] public bool isEnd = true;
-    bool isPlaying = false;
+    private RawImage pvImage;
+    private Dictionary<string, VideoClip> videoDic;
+
+    public bool IsEnd { get; private set; } = true;
+    private bool isPlaying = false;
+
+    private Sequence sequence;
 
     #region Override
     public override void Init()
     {
+        videoDic = new(videoList.Count);
+
+        foreach (var video in videoList)
+        {
+            videoDic[video.Code] = video.Clip;
+        }
+
+        videoList.Clear();
+
         pvImage = GetComponent<RawImage>();
-        pvImage.DOFade(0f, 0f);
 
-        isEnd = true;
+        IsEnd = true;
         isPlaying = false;
-
-        text.gameObject.SetActive(false);
 
         videoPlayer.loopPointReached += OnVideoEnd;
 
@@ -39,20 +57,20 @@ public class VideoPanel : UIBase
     {
         base.OpenPanel();
 
-        isEnd = false;
+        IsEnd = false;
     }
 
     public override void ClosePanel()
     {
         base.ClosePanel();
 
-        isEnd = true;
+        IsEnd = true;
 
         App.Manager.Sound.PlayBGM("BGM_InGame");
     }
     #endregion
 
-    void Update()
+    private void Update()
     {
         if (isPlaying == true)
         {
@@ -63,41 +81,41 @@ public class VideoPanel : UIBase
             }
             else if (Input.anyKeyDown && text.alpha == 0)
             {
-                FadeOutText();
+                FadeInText();
             }
         }
     }
 
-    public void Start01()
+    public void StartVideo(string _code)
     {
         OpenPanel();
 
-        videoPlayer.clip = PV01;
+        videoPlayer.clip = videoDic[_code];
 
-        App.Manager.UI.FadeIn(Play01);
+        App.Manager.UI.FadeIn(PlayVideo);
     }
 
-    public void Play01()
+    private void PlayVideo()
     {
         pvImage.DOFade(1f, 0f);
 
         videoPlayer.Play();
 
-        FadeOutText();
+        FadeInText();
 
         isPlaying = true;
     }
 
-    void FadeOutText()
+    private void FadeInText()
     {
-        text.gameObject.SetActive(true);
+        sequence.Kill();
 
-        Sequence sequence = DOTween.Sequence();
+        sequence = DOTween.Sequence();
         sequence.AppendInterval(3f)
                 .Append(text.DOFade(1f, 1f).SetEase(Ease.Linear).From());
     }
 
-    void OnVideoEnd(VideoPlayer vp)
+    private void OnVideoEnd(VideoPlayer vp)
     {
         isPlaying = false;
 

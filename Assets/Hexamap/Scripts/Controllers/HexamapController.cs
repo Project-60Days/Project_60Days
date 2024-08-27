@@ -78,32 +78,6 @@ namespace Hexamap
             tileGO.transform.Rotate(tileGO.transform.up, orientation + YRotation, Space.World);
         }
 
-        private TileBase AttachTileController(GameObject tileGO, Tile tile)
-        {
-            TileBase tileController;
-
-            switch (tile.Landform.Biome.Name)
-            {
-                case "City":
-                    tileController = tileGO.AddComponent<TileCity>();
-                    break;
-                case "Jungle":
-                    tileController = tileGO.AddComponent<TileJungle>();
-                    break;
-                case "Desert":
-                    tileController = tileGO.AddComponent<TileDesert>();
-                    break;
-                case "Tundra":
-                    tileController = tileGO.AddComponent<TileTundra>();
-                    break;
-                default:
-                    tileController = tileGO.AddComponent<TileNone>();
-                    break;
-            }
-
-            return tileController;
-        }
-
         private (GameObject, int) pickPrefab(Tile tile)
         {
             GameObject prefab;
