@@ -64,18 +64,46 @@ namespace Hexamap
         {
             // Get the right prefab to use based on the name of the biome
             (GameObject prefab, int YRotation) = pickPrefab(tile);
-            
+
             // Instantiate a new gameobject from the previous prefab
             GameObject tileGO = Instantiate(prefab, Vector3.zero, Quaternion.Euler(0, 0, 0), Parent.transform);
 
             // Attach a TileController to the new gameobject
-            TileController tileController = tileGO.AddComponent<TileController>();
+            TileBase tileController = tileGO.GetComponent<TileBase>();
+
             tileController.Initialize(tile, Settings.Padding);
 
             // Randomize orientation of the tile to make the map feel less uniform
             int orientation = pickOrientation(tile);
             tileGO.transform.Rotate(tileGO.transform.up, orientation + YRotation, Space.World);
         }
+
+        private TileBase AttachTileController(GameObject tileGO, Tile tile)
+        {
+            TileBase tileController;
+
+            switch (tile.Landform.Biome.Name)
+            {
+                case "City":
+                    tileController = tileGO.AddComponent<TileCity>();
+                    break;
+                case "Jungle":
+                    tileController = tileGO.AddComponent<TileJungle>();
+                    break;
+                case "Desert":
+                    tileController = tileGO.AddComponent<TileDesert>();
+                    break;
+                case "Tundra":
+                    tileController = tileGO.AddComponent<TileTundra>();
+                    break;
+                default:
+                    tileController = tileGO.AddComponent<TileNone>();
+                    break;
+            }
+
+            return tileController;
+        }
+
         private (GameObject, int) pickPrefab(Tile tile)
         {
             GameObject prefab;

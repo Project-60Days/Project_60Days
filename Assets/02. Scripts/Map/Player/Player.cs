@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void Move(TileController targetTileController)
+    public void Move(TileBase targetTileController)
     {
         transform.DOKill();
 

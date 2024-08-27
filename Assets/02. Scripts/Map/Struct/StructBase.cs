@@ -22,7 +22,7 @@ public abstract class StructBase: MonoBehaviour
 
         colleagues = _colleagueList;
         colleagueBases = colleagues
-        .Select(x => x.Ctrl.Base).ToList();
+        .Select(x => x.Ctrl).ToList();
     }
 
     public virtual void DetectStruct()

@@ -6,11 +6,11 @@ public abstract class MapBase : MonoBehaviour
 {
     protected HexamapController hexaMap;
 
-    protected TileController tile;
+    protected TileBase tile;
 
     public virtual Type GetUnitType() => GetType();
 
-    public void SetTile(TileController _tile)
+    public void SetTile(TileBase _tile)
     {
         tile = _tile;
     }

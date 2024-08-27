@@ -9,7 +9,7 @@ public class DroneUnit : MapBase
     [SerializeField] GameObject[] prefabs;
 
     private List<DroneBase> drones = new();
-    private List<TileController> selecteTiles = new();
+    private List<TileBase> selecteTiles = new();
 
     public override void ReInit()
     {
@@ -46,7 +46,7 @@ public class DroneUnit : MapBase
     private void SetSelectTile()
     {
         var neighborTiles = hexaMap.Map.GetTilesInRange(tile.Model, 1)
-            .Where(tile => tile.Ctrl.Base.canMove);
+            .Where(tile => tile.Ctrl.canMove);
 
         foreach (var tile in neighborTiles)
         {
@@ -100,7 +100,7 @@ public class DroneUnit : MapBase
     }
     #endregion 
 
-    public void SetPath(TileController _ctrl)
+    public void SetPath(TileBase _ctrl)
     {
         if (selecteTiles.Contains(_ctrl))
         {
@@ -109,7 +109,7 @@ public class DroneUnit : MapBase
             drone.transform.position = _ctrl.Model.GameEntity.transform.position + Vector3.up;
             drone.DirectionOff();
 
-            if (_ctrl.Base.canMove)
+            if (_ctrl.canMove)
                 _ctrl.Border.BorderOn(TileState.Moveable);
 
             drone.DirectionOn(GetDirection(_ctrl));
@@ -120,14 +120,14 @@ public class DroneUnit : MapBase
         }
     }
 
-    private CompassPoint GetDirection(TileController _ctrl)
+    private CompassPoint GetDirection(TileBase _ctrl)
     {
         var target = tile.Model.Neighbours.Where(target => target.Value == _ctrl.Model).ToList()[0];
         return target.Key;
     }
 
     #region Install
-    public void Install(TileController _ctrl)
+    public void Install(TileBase _ctrl)
     {
         var direction = GetDirection(_ctrl);
         var drone = drones.Last();

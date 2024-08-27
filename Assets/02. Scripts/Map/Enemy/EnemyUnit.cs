@@ -25,7 +25,7 @@ public class EnemyUnit : MapBase
     public override void ReInit()
     {
         enemyList = hexaMap.Map.GetTilesInRange(tile.Model, 3)
-        .Select(x => x.Ctrl.Base.enemy).Where(x => x != null).ToList();
+        .Select(x => x.Ctrl.enemy).Where(x => x != null).ToList();
 
         MoveEnemy();
         SumEnemy();
@@ -95,7 +95,7 @@ public class EnemyUnit : MapBase
 
     private void SetAlert()
     {
-        var enemyNearPlayer = hexaMap.Map.GetTilesInRange(tile.Model, 2).Select(x => x.Ctrl.Base.enemy).ToList();
+        var enemyNearPlayer = hexaMap.Map.GetTilesInRange(tile.Model, 2).Select(x => x.Ctrl.enemy).ToList();
         bool isExist = enemyNearPlayer.Count > 0;
 
         App.Manager.UI.GetPanel<FixedPanel>().SetAlert(AlertType.Caution, isExist);

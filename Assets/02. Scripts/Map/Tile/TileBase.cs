@@ -21,24 +21,64 @@ public abstract class TileBase : MonoBehaviour
     private List<Resource> resources = new();
     private TileInfo info = new();
 
-    bool canMoveLandform;
+    bool canMoveLandform; private Vector3 _tileBounds = Vector3.zero;
+
+    public Tile Model { get; private set; }
+    public TileBorder Border { get; private set; }
+    public Vector2 Coords => Model.Coords.ToVector();
+
+    public void Initialize(Tile model, float padding)
+    {
+        Model = model;
+        Model.Ctrl = this;
+        Model.GameEntity = gameObject;
+        transform.position = calculateWorldPosition(padding);
+        name = $"{Model.Coords.ToString()} - {Model.Biome.Name} - {Model.Landform.GetType()}";
+
+        if (GetTileType() != TileType.None)
+        {
+            Border = GetComponent<TileBorder>();
+
+            var lanform = Model.Landform.GetType().Name;
+            canMoveLandform = lanform == "LandformRocks" || lanform == "LandformPlain";
+
+            info.img = Resources.Load<Sprite>("Illust/" + tileData.Code);
+            info.landformTxt = tileData.Korean;
+        }
+
+    }
+
+    private Vector3 calculateWorldPosition(float padding)
+    {
+        if (_tileBounds == Vector3.zero)
+            _tileBounds = GetComponentInChildren<Renderer>().bounds.size;
+
+        var tileSizeX = _tileBounds.x;
+        var tileSizeY = _tileBounds.z;
+
+        // Apply padding
+        tileSizeX += tileSizeX * padding;
+        tileSizeY += tileSizeY * padding;
+
+        float x = Coords.x * tileSizeX / 2 * 1.5f;
+        float y = Coords.y * tileSizeY;
+
+        if (Coords.x % 2 == 0)
+            y = Coords.y * tileSizeY + tileSizeY / 2;
+
+        return new Vector3(x, 0, y);
+    }
 
     public abstract TileType GetTileType();
 
     private void Awake()
     {
-        tileData = App.Data.Game.tileData[GetTileType().ToString()];
+        if (App.Data.Game.tileData.TryGetValue(GetTileType().ToString(), out var data))
+        {
+            tileData = data;
+        }
 
         resourceIcons = GetComponentsInChildren<SpriteRenderer>(true);
-    }
-
-    private void Start()
-    {
-        var lanform = gameObject.GetComponent<TileController>().Model.Landform.GetType().Name;
-        canMoveLandform = lanform == "LandformRocks" || lanform == "LandformPlain";
-
-        info.img = Resources.Load<Sprite>("Illust/" + tileData.Code);
-        info.landformTxt = tileData.Korean;
     }
 
     public void SetBuff()

@@ -47,13 +47,13 @@ public class ResourceUnit : MapBase
 
         foreach (var tile in selectList)
         {
-            tile.Ctrl.Base.SetResource();
+            tile.Ctrl.SetResource();
         }
     }
 
     public override void ReInit()
     {
-        resources = tile.Base.GetResources();
+        resources = tile.GetResources();
 
         if (resources.Count == 0) return;
 

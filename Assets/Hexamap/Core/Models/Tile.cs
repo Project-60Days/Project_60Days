@@ -12,7 +12,7 @@ namespace Hexamap
 
         public Coords Coords { get; }
         public GameObject GameEntity { get; set; }
-        public TileController Ctrl { get; set; }
+        public TileBase Ctrl { get; set; }
         public IReadOnlyDictionary<CompassPoint, Tile> Neighbours => _neighbours;
         public Map Map => Biome.Map;
         public Biome Biome => Landform.Biome;
