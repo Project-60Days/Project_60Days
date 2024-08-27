@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class IconAlert : IconBase
+public class Icon_Alert : IconBase
 {
     [SerializeField] AlertType type;
 

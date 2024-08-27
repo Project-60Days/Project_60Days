@@ -47,9 +47,6 @@ public class FocusPanel : UIBase
 
         focusImg.gameObject.SetActive(false);
 
-        if (_focus.objectID == "CraftItems")
-        {
-            ShowFocus("ResultItem");
-        }
+        _focus.OnFinish();
     }
 }

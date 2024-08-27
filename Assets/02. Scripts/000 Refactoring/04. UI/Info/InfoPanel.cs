@@ -34,7 +34,7 @@ public class InfoPanel : UIBase
         text.DOText(_text, 0.5f, true, ScrambleMode.Uppercase);
     }
 
-    void Update()
+    private void Update()
     {
         if (isDescriptionOn)
         {

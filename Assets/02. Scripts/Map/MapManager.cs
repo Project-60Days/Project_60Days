@@ -72,7 +72,7 @@ public class MapManager : Manager, IListener
         InitSight();
         InitValue();
 
-        App.Manager.UI.GetPanel<LoadingPanel>().ClosePanel();
+        App.Manager.Event.PostEvent(EventCode.GameStart, this);
 
         AllTile.Clear(); //clear memory
 

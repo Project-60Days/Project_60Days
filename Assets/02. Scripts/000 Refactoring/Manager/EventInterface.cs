@@ -4,6 +4,7 @@ using UnityEngine.Scripting;
 public enum EventCode
 {
     PlayerCreate,
+    GameStart,
     GoToMap,
     GoToShelter,
     TileUpdate,
