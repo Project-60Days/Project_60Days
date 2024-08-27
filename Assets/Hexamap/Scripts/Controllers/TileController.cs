@@ -8,6 +8,7 @@ namespace Hexamap
 
         public Tile Model { get; private set; }
         public TileBase Base { get; private set; }
+        public TileBorder Border { get; private set; }
         public Vector2 Coords => Model.Coords.ToVector();
 
         public void Initialize(Tile model, float padding)
@@ -19,6 +20,7 @@ namespace Hexamap
             name = $"{Model.Coords.ToString()} - {Model.Biome.Name} - {Model.Landform.GetType()}";
 
             Base = GetComponent<TileBase>();
+            Border = GetComponent<TileBorder>();
         }
 
         private Vector3 calculateWorldPosition(float padding)

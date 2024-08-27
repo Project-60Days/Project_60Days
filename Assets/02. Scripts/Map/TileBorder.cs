@@ -7,11 +7,11 @@ public class TileBorder : MonoBehaviour
     [SerializeField] MeshRenderer[] borders;
     [SerializeField] Material[] materials;
 
-    TileState currentTileState = TileState.None;
+    public TileState TileState { get; private set; } = TileState.None;
 
-    public void BorderOn(TileState _state)
+    public void BorderOn(TileState _state = TileState.Moveable)
     {
-        currentTileState = _state;
+        TileState = _state;
 
         switch (_state)
         {
@@ -30,19 +30,9 @@ public class TileBorder : MonoBehaviour
 
         borders[0].gameObject.SetActive(true);
     }
- 
-    public void OffNormalBorder()
+
+    public void BorderOff()
     {
         borders[0].gameObject.SetActive(false);
-    }
-    
-    public void OffTargetBorder()
-    {
-        borders[1].gameObject.SetActive(false);
-    }
-
-    public TileState GetTileState()
-    {
-        return currentTileState;
     }
 }

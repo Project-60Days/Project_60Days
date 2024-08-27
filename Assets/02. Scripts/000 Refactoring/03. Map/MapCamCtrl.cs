@@ -24,8 +24,7 @@ public class MapCamCtrl : MonoBehaviour, IListener
         switch (_code)
         {
             case EventCode.PlayerCreate:
-                Transform player = Map.GetUnit<PlayerUnit>().PlayerTransform;
-                mapCamera.Follow = player;
+                mapCamera.Follow = _param as Transform;
                 mapCamera.m_Lens.OrthographicSize = 6.5f;
 
                 transposer = mapCamera.GetCinemachineComponent<CinemachineFramingTransposer>();

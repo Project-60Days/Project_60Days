@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     {
         StartFloat();
 
-        App.Manager.Event.PostEvent(EventCode.PlayerCreate, this);
+        App.Manager.Event.PostEvent(EventCode.PlayerCreate, this, transform);
     }
 
     private void StartFloat()

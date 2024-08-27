@@ -304,7 +304,7 @@ public class MapManager : Manager, IListener
         foreach (var tile in neighborTiles)
         {
             selectedTiles.Add(tile.Ctrl);
-            tile.Ctrl.Base.BorderOn(TileState.None);
+            tile.Ctrl.Border.BorderOn(TileState.None);
         }
         
         if (neighborTiles.Contains(tileController.Model))
@@ -312,16 +312,16 @@ public class MapManager : Manager, IListener
             var state = tileController.Base.isAccessable == false || !tileController.Base.canMove ?
                 TileState.Unable : TileState.Moveable;
 
-            tileController.Base.BorderOn(state);
+            tileController.Border.BorderOn(state);
         }
         else
         {
-            tileController.Base.BorderOn(TileState.Unable);
+            tileController.Border.BorderOn(TileState.Unable);
         }
     }
 
     private bool CanSetTargetTile(TileController tileController) 
-        => tileController.Base.TileState == TileState.Moveable;
+        => tileController.Border.TileState == TileState.Moveable;
 
     private void SetTargetTile(TileController tileController)
     {
@@ -341,7 +341,7 @@ public class MapManager : Manager, IListener
     {
         foreach (var tile in selectedTiles)
         {
-            tile.Base.BorderOff();
+            tile.Border.BorderOff();
         }
 
         selectedTiles.Clear();

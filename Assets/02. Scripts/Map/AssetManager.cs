@@ -4,13 +4,25 @@ using UnityEngine;
 using Hexamap;
 using FischlWorks_FogWar;
 
-public class AssetManager : Manager
+public class AssetManager : Manager, IListener
 {
     public HexamapController Hexamap;
     public csFogWar Fog;
 
-    private void Start()
+    protected override void Awake()
     {
-        Fog.Add(App.Manager.Map.GetUnit<PlayerUnit>().PlayerTransform, App.Data.Test.Buff.fogSightRange, true);
+        base.Awake();
+
+        App.Manager.Event.AddListener(EventCode.PlayerCreate, this);
+    }
+
+    public void OnEvent(EventCode _code, Component _sender, object _param = null)
+    {
+        switch (_code)
+        {
+            case EventCode.PlayerCreate:
+                Fog.Add(_param as Transform, App.Data.Test.Buff.fogSightRange, true);
+                break;
+        }
     }
 }
