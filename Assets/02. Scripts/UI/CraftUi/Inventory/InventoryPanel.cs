@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class InventoryPanel : UIBase
+public class InventoryPanel : UIBase, IListener
 {
     private List<ItemBase> itemData;
 
@@ -19,6 +19,20 @@ public class InventoryPanel : UIBase
     ItemBase netCard
         => itemData.ToList().Find(x => x.data.Code == "ITEM_NETWORKCHIP");
 
+    private void Awake()
+    {
+        App.Manager.Event.AddListener(EventCode.TutorialStart, this);
+    }
+
+    public void OnEvent(EventCode _code, Component _sender, object _param = null)
+    {
+        switch (_code)
+        {
+            case EventCode.TutorialStart:
+                AddItemByItemCode("ITEM_PLASMA", "ITEM_CARBON", "ITEM_STEEL"); 
+                break;
+        }
+    }
     #region Override
     public override void Init()
     {
@@ -38,8 +52,6 @@ public class InventoryPanel : UIBase
 
         gameObject.SetActive(false);
     }
-
-    public override void ReInit() { }
     #endregion
 
     /// <summary>

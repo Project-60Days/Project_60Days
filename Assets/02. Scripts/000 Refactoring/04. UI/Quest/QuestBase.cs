@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-public class Quest : MonoBehaviour
+public class QuestBase : MonoBehaviour
 {
     public string questCode;
     public QuestType type;

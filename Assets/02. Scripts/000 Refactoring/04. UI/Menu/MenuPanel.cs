@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
@@ -7,13 +5,10 @@ using DG.Tweening;
 public class MenuPanel : UIBase
 { 
     [SerializeField] Transform[] objects;
-    MenuBase[] buttons;
-    float[] objectStartPositionY;
+    private MenuBase[] buttons;
+    private float[] objectStartPositionY;
 
     [SerializeField] Button backBtn;
-    [SerializeField] Button saveBtn;
-    [SerializeField] Button loadBtn;
-    [SerializeField] Button optionBtn;
     [SerializeField] Button quitBtn;
 
     #region Override
@@ -44,7 +39,9 @@ public class MenuPanel : UIBase
         base.OpenPanel();
 
         foreach (var button in buttons)
+        {
             button.Init();
+        }
     }
 
     public override void ClosePanel()
@@ -59,7 +56,7 @@ public class MenuPanel : UIBase
     }
     #endregion
 
-    void SetButtonEvent()
+    private void SetButtonEvent()
     {
         backBtn.onClick.AddListener(() => ClosePanel());
         quitBtn.onClick.AddListener(() => Application.Quit());

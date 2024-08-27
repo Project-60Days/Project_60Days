@@ -1,4 +1,4 @@
-public class Interact_Bench : InteractBase
+public class InteractBench : InteractBase
 {
     protected override void OnClickEvent()
     {

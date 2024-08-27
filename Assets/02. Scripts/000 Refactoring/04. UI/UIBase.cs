@@ -23,7 +23,7 @@ public abstract class UIBase : MonoBehaviour
     /// Re Initialize Panel
     /// called every new day
     /// </summary>
-    public abstract void ReInit();
+    public virtual void ReInit() { }
 
     /// <summary>
     /// Open Panel (virtual, choose override)

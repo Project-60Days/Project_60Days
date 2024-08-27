@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Icon_Map : IconBase, IListener
+public class IconMap : IconBase, IListener
 {
     [SerializeField] Sprite city;    
     [SerializeField] Sprite desert;

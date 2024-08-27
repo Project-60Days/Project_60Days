@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class ShelterManager : Manager
+public class ShelterManager : Manager, IListener
 {
     [SerializeField] Image blackBlur;
     [SerializeField] CanvasGroup benchImg;
@@ -25,6 +25,18 @@ public class ShelterManager : Manager
         blackBlur.gameObject.SetActive(false);
         benchStartIndex = benchImg.transform.GetSiblingIndex();
         mapStartIndex = mapImg.transform.GetSiblingIndex();
+
+        App.Manager.Event.AddListener(EventCode.TutorialStart, this);
+    }
+
+    public void OnEvent(EventCode _code, Component _sender, object _param = null)
+    {
+        switch (_code)
+        {
+            case EventCode.TutorialStart:
+                StartTutorial();
+                break;
+        }
     }
 
     #region Tutorial

@@ -15,8 +15,6 @@ public class InfoPanel : UIBase
         ClosePanel();
     }
 
-    public override void ReInit() { }
-
     public override void ClosePanel()
     {
         base.ClosePanel();

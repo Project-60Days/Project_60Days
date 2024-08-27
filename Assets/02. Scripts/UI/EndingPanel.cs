@@ -43,8 +43,6 @@ public class EndingPanel : UIBase
         background.SetActive(false);
     }
 
-    public override void ReInit() { }
-
     public override UIState GetUIState() => UIState.PopUp;
 
     public override bool IsAddUIStack() => true;

@@ -2,10 +2,25 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FixedPanel : UIBase
+public class FixedPanel : UIBase, IListener
 {
     [SerializeField] Button noteBtn;
     [SerializeField] Button cautionBtn;
+
+    private void Awake()
+    {
+        App.Manager.Event.AddListener(EventCode.TutorialStart, this);
+    }
+
+    public void OnEvent(EventCode _code, Component _sender, object _param = null)
+    {
+        switch (_code)
+        {
+            case EventCode.TutorialStart:
+                SetAlert(AlertType.Note, false);
+                break;
+        }
+    }
 
     #region Override
     public override void Init()
@@ -15,8 +30,6 @@ public class FixedPanel : UIBase
         noteBtn.gameObject.SetActive(false);
         cautionBtn.gameObject.SetActive(false);
     }
-
-    public override void ReInit() { }
     #endregion
 
     private void SetButtonEvent()

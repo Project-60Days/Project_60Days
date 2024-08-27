@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Select_JustoUda : SelectBase
+public class SelectJustoUda : SelectBase
 {
     public override string Key() => App.Data.Game.GetString("STR_SELECT_JUSTOUDA_KEY");
 

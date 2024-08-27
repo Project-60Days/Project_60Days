@@ -20,6 +20,13 @@ public class OptionSound : OptionBase
     private SoundManager Sound;
 
     #region Override
+    protected override void Awake()
+    {
+        base.Awake();
+
+        Sound = App.Manager.Sound;
+    }
+
     protected override void SetString()
     {
         Master.titleText.text = App.Data.Game.GetString("STR_OPTION_SOUND_MASTER");
@@ -63,13 +70,6 @@ public class OptionSound : OptionBase
         };
     }
     #endregion
-
-    protected override void Awake()
-    {
-        base.Awake();
-
-        Sound = App.Manager.Sound;
-    } 
 
     #region Slider
     private void OnMasterChange(float _value)

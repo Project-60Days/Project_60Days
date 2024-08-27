@@ -10,7 +10,7 @@ public abstract class SelectBase : MonoBehaviour
     protected abstract string GetTextA();
     protected abstract string GetTextB();
 
-    public virtual void SetOptionA(SelectButton _select)
+    public void SetOptionA(SelectButton _select)
     {
         _select.btn.onClick.RemoveAllListeners();
         _select.btn.onClick.AddListener(SelectA);
@@ -19,7 +19,7 @@ public abstract class SelectBase : MonoBehaviour
         _select.text.text = GetTextA();
     }
 
-    public virtual void SetOptionB(SelectButton _select)
+    public void SetOptionB(SelectButton _select)
     {
         _select.btn.onClick.RemoveAllListeners();
         _select.btn.onClick.AddListener(SelectB);

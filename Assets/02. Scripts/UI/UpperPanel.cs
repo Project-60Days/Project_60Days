@@ -58,8 +58,6 @@ public class UpperPanel : UIBase, IListener
         UpdateItemCount();
         UpdateDurabillity();
     }
-
-    public override void ReInit() { }
     #endregion
 
     public void UpdateItemCount()

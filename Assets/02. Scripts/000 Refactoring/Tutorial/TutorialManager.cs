@@ -1,42 +1,66 @@
-using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
+using DG.Tweening;
+using Yarn.Unity;
 
-public class TutorialManager : Manager
+public class TutorialManager : Manager, IListener
 {
-    [SerializeField] TutorialCtrl tutorialCtrl;
+    [SerializeField] RectTransform tutorialBack;
+    [SerializeField] Image whitePanel;
+    [SerializeField] DialogueRunner dialogueRunner;
 
-    public TutorialCtrl Ctrl => tutorialCtrl;
+    private float startPositionY;
 
-    private UIManager UI;
-
-    private void Start()
+    protected override void Awake()
     {
-        UI = App.Manager.UI;
+        base.Awake();
 
-        if (App.Manager.Game.startTutorial)
-            StartTutorial();
+        App.Manager.Event.AddListener(EventCode.TutorialStart, this);
+        App.Manager.Event.AddListener(EventCode.TutorialEnd, this);
     }
 
-    public void StartTutorial()
+    public void OnEvent(EventCode _code, Component _sender, object _param = null)
     {
-        App.Manager.Shelter.StartTutorial();
+        switch (_code)
+        {
+            case EventCode.TutorialStart:
+                StartDialogue();
+                break;
 
-        UI.GetPanel<PagePanel>().SetTutorialSelect();
-        UI.GetPanel<FixedPanel>().SetAlert(AlertType.Note, false);
-
-        UI.GetPanel<CraftPanel>().Craft.AddBatteryCombine();
-
-        UI.GetPanel<InventoryPanel>().AddItemByItemCode("ITEM_PLASMA", "ITEM_CARBON", "ITEM_STEEL");
-
-        Ctrl.StartDialogue();
+            case EventCode.TutorialEnd:
+                Destroy(gameObject);
+                break;
+        }
     }
 
-    public void EndTutorial()
+    private void StartDialogue()
     {
-        UI.GetPanel<CraftPanel>().Craft.RemoveBatteryCombine();
+        startPositionY = -tutorialBack.rect.height;
 
-        UI.GetPanel<QuestPanel>().StartQuest("MAIN_01");
+        dialogueRunner.StartDialogue("Tutorial_01");
 
-        Destroy(this);
+        Show();
+    }
+
+    public void Show()
+    {
+        tutorialBack.DOKill();
+        tutorialBack.DOAnchorPosY(0f, 0.3f).SetEase(Ease.InQuad);
+        whitePanel.raycastTarget = true;
+    }
+
+    public void Hide()
+    {
+        tutorialBack.DOKill();
+        tutorialBack.DOAnchorPosY(startPositionY, 0.3f).SetEase(Ease.OutQuad);
+        whitePanel.raycastTarget = false;
+    }
+
+    public void AddResource()
+    {
+        string nodeName = "ITEM_TUTORIAL";
+        App.Manager.UI.GetPanel<PagePanel>().SetResultPage(nodeName, true);
+
+        App.Manager.UI.GetPanel<InventoryPanel>().AddItemByItemCode("ITEM_DISTURBE", "ITEM_FINDOR");
     }
 }

@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class LoadingPanel : UIBase, IListener
@@ -23,8 +22,6 @@ public class LoadingPanel : UIBase, IListener
     {
         OpenPanel();
     }
-
-    public override void ReInit() { }
 
     public override UIState GetUIState() => UIState.Loading;
 

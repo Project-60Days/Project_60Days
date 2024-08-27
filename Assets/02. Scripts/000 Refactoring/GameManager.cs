@@ -26,6 +26,7 @@ public class GameManager : Manager, IListener
 
         startTutorial = App.Data.Test.startTutorial;
 
+        App.Manager.Event.AddListener(EventCode.GameStart, this);
         App.Manager.Event.AddListener(EventCode.NextDayEnd, this);
     }
 
@@ -33,6 +34,17 @@ public class GameManager : Manager, IListener
     {
         switch (_code)
         {
+            case EventCode.GameStart:
+                if (App.Manager.Game.startTutorial)
+                {
+                    App.Manager.Event.PostEvent(EventCode.TutorialStart, this);
+                }
+                else
+                {
+                    App.Manager.Event.PostEvent(EventCode.TutorialEnd, this);
+                }
+                break;
+
             case EventCode.NextDayEnd:
                 NewDay();
                 break;

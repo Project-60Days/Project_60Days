@@ -4799,7 +4799,7 @@ MonoBehaviour:
     moveRange: 2
     resourceCount: 2
     canDetect: 1
-  startTutorial: 0
+  startTutorial: 1
 --- !u!1 &1778275275
 GameObject:
   m_ObjectHideFlags: 0

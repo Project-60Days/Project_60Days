@@ -31,9 +31,6 @@ public class VideoPanel : UIBase
         gameObject.SetActive(false);
     }
 
-    public override void ReInit() { }
-
-
     public override UIState GetUIState() => UIState.PV;
 
     public override bool IsAddUIStack() => true;

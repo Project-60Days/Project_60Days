@@ -33,8 +33,6 @@ public class SelectPanel : UIBase
         gameObject.SetActive(false);
     }
 
-    public override void ReInit() { }
-
     public override UIState GetUIState() => UIState.Select;
 
     public override bool IsAddUIStack() => true;

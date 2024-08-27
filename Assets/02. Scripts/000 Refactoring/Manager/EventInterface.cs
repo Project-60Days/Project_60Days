@@ -13,7 +13,9 @@ public enum EventCode
     NextDayEnd,
     Hit,
     Die,
-    NormalDay
+    NormalDay,
+    TutorialStart,
+    TutorialEnd,
 };
 
 [RequireImplementors]

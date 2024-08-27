@@ -7,7 +7,7 @@ public class FocusPanel : UIBase
     [SerializeField] FocusBase[] focus;
     [SerializeField] RectTransform focusImg;
 
-    private Dictionary<string, FocusBase> dic_focus = new Dictionary<string, FocusBase>();
+    private Dictionary<string, FocusBase> dic_focus = new();
 
     #region Override
     public override void Init()
@@ -17,8 +17,6 @@ public class FocusPanel : UIBase
             dic_focus.Add(hightLight.objectID, hightLight);
         }
     }
-
-    public override void ReInit() { }
     #endregion
 
     public void ShowFocus(string _objectID)
