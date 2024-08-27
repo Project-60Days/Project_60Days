@@ -64,7 +64,7 @@ public enum UIState
     Normal, 
     Map,
     Note,
-    Craft,
+    Bench,
     Select,
     PV,
     PopUp,
@@ -101,7 +101,7 @@ public enum AlertType
     Caution
 }
 
-public enum CraftMode
+public enum BenchMode
 {
     Craft,
     Equip,

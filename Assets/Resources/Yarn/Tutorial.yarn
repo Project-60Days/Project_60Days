@@ -10,7 +10,7 @@ A-48 시스템 진단 프로토콜을 실행합니다.
 <<lightUpWorkBench>>
 <<focus Bench>>
 <<hide>>
-<<waitUntil UI_CRAFTING>>
+<<waitUntil UI_BENCH>>
 <<lightDownWorkBench>>
 <<jump Tutorial_02>>
 ===

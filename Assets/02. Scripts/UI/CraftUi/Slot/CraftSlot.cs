@@ -17,10 +17,10 @@ public class CraftSlot : SlotBase
         switch (type)
         {
             case SlotType.CraftingSlot:
-                App.Manager.UI.GetPanel<CraftPanel>().Craft.MoveCraftToInventory(item);
+                App.Manager.UI.GetPanel<BenchPanel>().Craft.MoveCraftToInventory(item);
                 break;
             case SlotType.ResultSlot:
-                App.Manager.UI.GetPanel<CraftPanel>().Craft.MoveResultToInventory(item);
+                App.Manager.UI.GetPanel<BenchPanel>().Craft.MoveResultToInventory(item);
                 App.Manager.Sound.PlaySFX("SFX_Craft_Result");
                 if (item.isMadeOnce == false)
                 {

@@ -32,9 +32,9 @@ public class ItemSlot : SlotBase
     {
         if (item.data.Code == "ITEM_NETWORKCHIP") return;
 
-        if (App.Manager.UI.GetPanel<CraftPanel>().ModeType == CraftMode.Craft)
+        if (App.Manager.UI.GetPanel<BenchPanel>().ModeType == BenchMode.Craft)
         {
-            if (App.Manager.UI.GetPanel<CraftPanel>().Craft.IsCombinedResult) return;
+            if (App.Manager.UI.GetPanel<BenchPanel>().Craft.IsCombinedResult) return;
 
             string sfxName = "SFX_Craft_" + item.data.Code;
             if (App.Manager.Sound.CheckSFXExist(sfxName) == true)
@@ -44,15 +44,15 @@ public class ItemSlot : SlotBase
 
             CraftItemClick?.Invoke(item.sprite);
 
-            App.Manager.UI.GetPanel<CraftPanel>().Craft.MoveInventoryToCraft(item);
+            App.Manager.UI.GetPanel<BenchPanel>().Craft.MoveInventoryToCraft(item);
 
             HideItemInfo();
         }
-        else if (App.Manager.UI.GetPanel<CraftPanel>().ModeType == CraftMode.Equip)
+        else if (App.Manager.UI.GetPanel<BenchPanel>().ModeType == BenchMode.Equip)
         {
             if (item.itemType == ItemType.Equipment)
             {
-                if (App.Manager.UI.GetPanel<CraftPanel>().Equip.MoveInventoryToEquip(item) == true) 
+                if (App.Manager.UI.GetPanel<BenchPanel>().Equip.MoveInventoryToEquip(item) == true) 
                     HideItemInfo();
             }   
         }

@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class CraftRawCtrl : MonoBehaviour
 {
-    private GameObject targetObject;
+    [SerializeField] GameObject hologramBack;
+
     private SpriteRenderer targetSprite;
 
     private void Start()
@@ -12,8 +13,7 @@ public class CraftRawCtrl : MonoBehaviour
         BlueprintSlot.CraftItemClick += ChangeTarget;
         CraftSlot.CraftItemClick += InitTarget;
 
-        targetObject = GameObject.FindWithTag("RenderTextureObject");
-        targetSprite = targetObject.GetComponent<SpriteRenderer>();
+        targetSprite = GameObject.FindWithTag("RenderTextureObject").GetComponent<SpriteRenderer>();
     }
 
     private void OnDestroy()
@@ -25,8 +25,7 @@ public class CraftRawCtrl : MonoBehaviour
 
     public void InitTarget()
     {
-        App.Manager.UI.GetPanel<CraftPanel>().TurnHologram(false);
-        targetObject.SetActive(false);
+        hologramBack.SetActive(false);
     }
 
     private void ChangeTarget(Sprite itemSprite)
@@ -37,8 +36,7 @@ public class CraftRawCtrl : MonoBehaviour
             return;
         }
 
-        App.Manager.UI.GetPanel<CraftPanel>().TurnHologram(true);
-        targetObject.SetActive(true);
+        hologramBack.SetActive(true);
         targetSprite.sprite = itemSprite;
     }
 }

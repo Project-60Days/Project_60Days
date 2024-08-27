@@ -4099,8 +4099,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1594158550}
-  m_RootOrder: 1
+  m_Father: {fileID: 716190465}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -4154,6 +4154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6fb8a96679fb724e9646e1148f5f8ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hologramBack: {fileID: 716190464}
 --- !u!1 &197947645
 GameObject:
   m_ObjectHideFlags: 0
@@ -15254,13 +15255,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 716190464}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 126320113}
   - {fileID: 770223078}
+  - {fileID: 195575672}
   m_Father: {fileID: 1594158550}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -19946,7 +19948,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 20, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &888903492
@@ -33425,7 +33427,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 716190465}
-  - {fileID: 195575672}
   m_Father: {fileID: 1623242714}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -34093,7 +34094,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1623242713}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -37169,8 +37170,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f96f4e11d3a0dc4c904c538b064e3ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  disruptorBtn: {fileID: 1648494666}
-  explorerBtn: {fileID: 783848024}
   nextDayBtn: {fileID: 1811381972}
   shelterBtn: {fileID: 1571979699}
   tileInfo: {fileID: 1357440930}
@@ -42121,7 +42120,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2078442784}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -42140,7 +42139,6 @@ MonoBehaviour:
   rawCtrl: {fileID: 195575675}
   rightImg: {fileID: 808010578}
   closeBtn: {fileID: 1557788508}
-  hologramBack: {fileID: 716190464}
   btnSprites:
   - {fileID: 21300000, guid: 7e276183e12329048b3889e6aec1c1d1, type: 3}
   - {fileID: 21300000, guid: 8b7aa7f30490a614d84b77e1cdc84181, type: 3}

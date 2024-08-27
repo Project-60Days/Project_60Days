@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class CraftCtrl : ModeCtrl
+public class CraftCtrl : ModeCtrl, IListener
 {
     List<ItemBase> craftItems = new List<ItemBase>();
 
@@ -13,6 +13,26 @@ public class CraftCtrl : ModeCtrl
     [SerializeField] GameObject slotPrefab;
 
     public bool IsCombinedResult => slotParent.childCount > 3;
+
+    private void Awake()
+    {
+        App.Manager.Event.AddListener(EventCode.TutorialStart, this);
+        App.Manager.Event.AddListener(EventCode.TutorialEnd, this);
+    }
+
+    public void OnEvent(EventCode _code, Component _sender, object _param = null)
+    {
+        switch (_code)
+        {
+            case EventCode.TutorialStart:
+                AddBatteryCombine();
+                break;
+
+            case EventCode.TutorialEnd:
+                RemoveBatteryCombine();
+                break;
+        }
+    }
 
     public override void Init()
     {

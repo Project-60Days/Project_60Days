@@ -8,11 +8,11 @@ using DG.Tweening;
 public class Mode
 {
     public ModeCtrl Ctrl;
-    public CraftMode Type;
+    public BenchMode Type;
     public Sprite InventorySprite;
 }
 
-public class CraftPanel : UIBase, IListener
+public class BenchPanel : UIBase
 {
     [Header("Controller")]
     [SerializeField] CraftRawCtrl rawCtrl;
@@ -20,7 +20,6 @@ public class CraftPanel : UIBase, IListener
     [Header("UI")]
     [SerializeField] Image rightImg;
     [SerializeField] Button closeBtn;
-    [SerializeField] GameObject hologramBack;
     [SerializeField] Sprite[] btnSprites;
 
     [Header("Mode")]
@@ -31,44 +30,21 @@ public class CraftPanel : UIBase, IListener
     [SerializeField] CanvasGroup background;
     [SerializeField] CanvasGroup details;
 
-    public CraftCtrl Craft => (CraftCtrl)modes[0].Ctrl;
-    public EquipCtrl Equip => (EquipCtrl)modes[1].Ctrl;
-    public BlueprintCtrl Blueprint => (BlueprintCtrl)modes[2].Ctrl;
+    public CraftCtrl Craft => modes[0].Ctrl as CraftCtrl;
+    public EquipCtrl Equip => modes[1].Ctrl as EquipCtrl;
+    public BlueprintCtrl Blueprint => modes[2].Ctrl as BlueprintCtrl;
 
-    public CraftMode ModeType { get; private set; }
-
-    private void Awake()
-    {
-        App.Manager.Event.AddListener(EventCode.TutorialStart, this);
-        App.Manager.Event.AddListener(EventCode.TutorialEnd, this);
-    }
-
-    public void OnEvent(EventCode _code, Component _sender, object _param = null)
-    {
-        switch (_code)
-        {
-            case EventCode.TutorialStart:
-                Craft.AddBatteryCombine();
-                break;
-
-            case EventCode.TutorialEnd:
-                Craft.RemoveBatteryCombine();
-                break;
-        }
-    }
+    public BenchMode ModeType { get; private set; }
 
     #region Override
     public override void Init()
     {
         foreach (var mode in modes)
+        {
             mode.Ctrl.Init();
+        }
 
         SetButtonEvent();
-
-        ModeButtonEvent((int)CraftMode.Craft);
-
-        background.alpha = 0.0f;
-        details.alpha = 0.0f;
 
         gameObject.SetActive(false);
     }
@@ -78,7 +54,7 @@ public class CraftPanel : UIBase, IListener
         Equip.EquipItemDayEvent();
     }
 
-    public override UIState GetUIState() => UIState.Craft;
+    public override UIState GetUIState() => UIState.Bench;
 
     public override bool IsAddUIStack() => true;
 
@@ -96,7 +72,7 @@ public class CraftPanel : UIBase, IListener
             .Append(details.DOFade(1f, 0.5f));
             //.OnComplete(() => App.Manager.UI.GetItemInfoController().isOpen = true);
 
-        ModeButtonEvent((int)CraftMode.Craft);
+        ModeButtonEvent(0);
     }
 
     public override void ClosePanel()
@@ -112,29 +88,27 @@ public class CraftPanel : UIBase, IListener
                 base.ClosePanel();
 
                 foreach (var mode in modes)
+                {
                     mode.Ctrl.Exit();
+                }
             });
     }
     #endregion
     
-    void SetButtonEvent()
+    private void SetButtonEvent()
     {
         for (int i = 0; i < modeBtns.Length; i++)
         {
             int idx = i;
 
-            modeBtns[idx].onClick.AddListener(() =>
-            {
-                ModeButtonEvent(idx);
-            });
-
+            modeBtns[idx].onClick.AddListener(() => ModeButtonEvent(idx));
             modeBtns[idx].gameObject.SetActive(true);
         }
 
-        closeBtn.onClick.AddListener(() => ClosePanel());
+        closeBtn.onClick.AddListener(ClosePanel);
     }
 
-    void ModeButtonEvent(int _idx)
+    private void ModeButtonEvent(int _idx)
     {
         for (int i = 0; i < modeBtns.Length; i++)
         {
@@ -157,7 +131,7 @@ public class CraftPanel : UIBase, IListener
 
         _mode.Ctrl.gameObject.SetActive(true);
 
-        if (ModeType != CraftMode.Blueprint)
+        if (ModeType != BenchMode.Blueprint)
             App.Manager.UI.GetPanel<InventoryPanel>().OpenPanel();
         else
             App.Manager.UI.GetPanel<InventoryPanel>().ClosePanel();
@@ -171,10 +145,5 @@ public class CraftPanel : UIBase, IListener
     {
         _mode.Ctrl.gameObject.SetActive(false);
         _mode.Ctrl.Exit();
-    }
-
-    public void TurnHologram(bool _isActive)
-    {
-        hologramBack.SetActive(_isActive);
     }
 }

@@ -136,7 +136,7 @@ public class UIManager : Manager, IListener
         "UI_NORMAL" => UIState.Normal,
         "UI_MAP" => UIState.Map,
         "UI_NOTE" => UIState.Note,
-        "UI_CRAFTING" => UIState.Craft,
+        "UI_BENCH" => UIState.Bench,
         "UI_SELECT" => UIState.Select,
         "UI_PV" => UIState.PV,
         "UI_POPUP" => UIState.PopUp,
