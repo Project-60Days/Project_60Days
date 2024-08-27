@@ -13,9 +13,9 @@ public class InventoryPanel : UIBase, IListener
     List<ItemBase> items = new List<ItemBase>();
 
     ItemBase disturbe
-        => itemData.ToList().Find(x => x.data.Code == "ITEM_DISTURBE");
+        => itemData.ToList().Find(x => x.data.Code == "ITEM_DISRUPTOR");
     ItemBase findor
-        => itemData.ToList().Find(x => x.data.Code == "ITEM_FINDOR");
+        => itemData.ToList().Find(x => x.data.Code == "ITEM_EXPLORER");
     ItemBase netCard
         => itemData.ToList().Find(x => x.data.Code == "ITEM_NETWORKCHIP");
 
@@ -115,10 +115,10 @@ public class InventoryPanel : UIBase, IListener
     void CheckDisturbeNFindor()
     {
         bool canUseFindor = findor.itemCount > 0;
-        App.Manager.UI.GetPanel<MapPanel>().ActiveDroneBtn(DroneType.Explorer, canUseFindor);
+        App.Manager.UI.GetPanel<MapPanel>().ToggleDroneBtn(DroneType.Explorer, canUseFindor);
 
         bool canUseDisturbe = disturbe.itemCount > 0;
-        App.Manager.UI.GetPanel<MapPanel>().ActiveDroneBtn(DroneType.Disruptor, canUseDisturbe);
+        App.Manager.UI.GetPanel<MapPanel>().ToggleDroneBtn(DroneType.Disruptor, canUseDisturbe);
     }
 
     /// <summary>
@@ -189,49 +189,9 @@ public class InventoryPanel : UIBase, IListener
     /// </summary>
     /// <param name="itemCode"></param>
     /// <returns></returns>
-    public bool CheckInventoryItem(string _itemCode)
+    public bool CheckItemExist(string _itemCode)
         => items.Find(x => x.data.Code == _itemCode) != null ? true : false;
-    
-
-
-
-
-    public bool CheckFindorUsage()
-    {
-        if (findor.itemCount <= 0)
-            return false;
-        else
-        {
-            RemoveItem(findor);
-            return true;
-        }
-    }
-    
-    public bool CheckFindorExist()
-    {
-        if (findor.itemCount <= 0)
-            return false;
-        else
-        {
-            return true;
-        }
-    }
-
-    public bool CheckDistrubtorUsage()
-    {
-        if (disturbe.itemCount <= 0)
-            return false;
-        else
-        {
-            RemoveItem(disturbe);
-            return true;
-        }
-    }
-
-    public bool CheckDisturbeExist()
-        => disturbe.itemCount > 0 ? true : false;
-
-
+ 
     public bool CheckNetCardUsage()
     {
         if (netCard.itemCount <= 0)

@@ -60,15 +60,13 @@ public class MapCamCtrl : MonoBehaviour, IListener
         if (isOn)
         {
             mapCamera.Priority = 11;
-            App.Manager.UI.AddUIStack(UIState.Map);
         }
         else
         {
             mapCamera.Priority = 8;
-            App.Manager.UI.PopUIStack(UIState.Map);
         }
 
-        MapUI.gameObject.SetActive(isOn);
+        MapUI.SetActive(isOn);
         Map.isMapActive = isOn;
     }
 
@@ -82,7 +80,6 @@ public class MapCamCtrl : MonoBehaviour, IListener
             {
                 SetPrioryty(false);
                 Sound.PlayBGM("BGM_InGame");
-                MapUI.SetInfoActive(false);
             });
     }
 
@@ -96,7 +93,6 @@ public class MapCamCtrl : MonoBehaviour, IListener
             {
                 SetPrioryty(true);
                 Sound.PlayBGM(Map.GetLandformBGM());
-                MapUI.SetInfoActive(false);
             })
             .Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 10f, 0.5f));
     }

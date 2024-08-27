@@ -17,8 +17,7 @@ public class GameManager : Manager, IListener
     [HideInInspector] public bool startTutorial = false;
     [HideInInspector] public int durability;
 
-    [SerializeField] Button nextDayBtn;
-    [SerializeField] Button shelterBtn;
+
 
     protected override void Awake()
     {
@@ -53,21 +52,13 @@ public class GameManager : Manager, IListener
 
     private void Start()
     {
-        SetButtonEvent();
+        
         InitItemSO();
 
         durability = App.Data.Test.Map.durability;
     }
 
-    private void SetButtonEvent()
-    {
-        nextDayBtn.onClick.AddListener(() => 
-        { 
-            App.Manager.UI.FadeIn(() => App.Manager.Event.PostEvent(EventCode.NextDayStart, this)); 
-        });
-
-        shelterBtn.onClick.AddListener(() => App.Manager.Event.PostEvent(EventCode.GoToShelter, this));
-    }
+   
 
     private void InitItemSO()
     {
@@ -88,11 +79,7 @@ public class GameManager : Manager, IListener
         isNewDay = true;
     }
 
-    public void EnableBtn(bool _isActive)
-    {
-        nextDayBtn.enabled = _isActive;
-        shelterBtn.enabled = _isActive;
-    }
+   
 
     public void CompleteQuest(string _currCode, string _nextCode = null)
     {

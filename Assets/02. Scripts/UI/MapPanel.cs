@@ -12,8 +12,10 @@ public struct TileInfo
 
 public class MapPanel : UIBase
 {
-    [SerializeField] Button disruptorBtn;
-    [SerializeField] Button explorerBtn;
+    [SerializeField] GameObject disruptorBtn;
+    [SerializeField] GameObject explorerBtn;
+    [SerializeField] Button nextDayBtn;
+    [SerializeField] Button shelterBtn;
 
     [Header("Tile Info Objects")]
     [SerializeField] GameObject tileInfo;
@@ -23,18 +25,25 @@ public class MapPanel : UIBase
     [SerializeField] TextMeshProUGUI enemyTMP;
 
     #region Override
+    public override UIState GetUIState() => UIState.Map;
+
+    public override bool IsAddUIStack() => true;
+
     public override void Init()
     {
+        SetButtonEvent();
         ClosePanel();
     }
 
-    public override void ReInit() 
+    public override void OpenPanel()
     {
+        base.OpenPanel();
+
         SetInfoActive(false);
     }
     #endregion
 
-    public void SetInfo(TileInfo _info)
+    public void UpdateTileInfo(TileInfo _info)
     {
         infoImg.sprite = _info.img;
         landformTMP.text = _info.landformTxt;
@@ -47,16 +56,40 @@ public class MapPanel : UIBase
         tileInfo.SetActive(_isActive);
     }
 
-    public void ActiveDroneBtn(DroneType _type, bool _isOn)
+    public void SetActive(bool _isActive)
+    {
+        if (_isActive)
+        {
+            OpenPanel();
+        }
+        else
+        {
+            ClosePanel();
+        }
+    }
+
+    private void SetButtonEvent()
+    {
+        nextDayBtn.onClick.AddListener(() => App.Manager.UI.FadeIn(() => App.Manager.Event.PostEvent(EventCode.NextDayStart, this)));
+        shelterBtn.onClick.AddListener(() => App.Manager.Event.PostEvent(EventCode.GoToShelter, this));
+    }
+
+    public void SetBtnEnabled(bool _isActive)
+    {
+        nextDayBtn.enabled = _isActive;
+        shelterBtn.enabled = _isActive;
+    }
+
+    public void ToggleDroneBtn(DroneType _type, bool _isOn)
     {
         switch (_type)
         {
             case DroneType.Disruptor:
-                disruptorBtn.gameObject.SetActive(_isOn);
+                disruptorBtn.SetActive(_isOn);
                 break;
 
             case DroneType.Explorer:
-                explorerBtn.gameObject.SetActive(_isOn);
+                explorerBtn.SetActive(_isOn);
                 break;
         }
     }

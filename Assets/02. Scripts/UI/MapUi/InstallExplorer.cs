@@ -3,13 +3,11 @@ using UnityEngine;
 public class InstallExplorer : InstallBase
 {
     protected override string GetString()
-    {
-        return App.Data.Game.GetString("STR_DISTRUBTOR_DESC");
-    }
+        => App.Data.Game.GetString("STR_EXPLORER_DESC");
 
     protected override void OnClickEvent()
     {
-        if (App.Manager.UI.GetPanel<InventoryPanel>().CheckFindorUsage())
+        if (App.Manager.UI.GetPanel<InventoryPanel>().CheckItemExist("ITEM_EXPLORER"))
         {
             if (App.Manager.Map.CanClick)
             {

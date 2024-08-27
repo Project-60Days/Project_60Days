@@ -258,6 +258,6 @@ public abstract class TileBase : MonoBehaviour
 
     public void UpdateTileInfo()
     {
-        App.Manager.UI.GetPanel<MapPanel>().SetInfo(info);
+        App.Manager.UI.GetPanel<MapPanel>().UpdateTileInfo(info);
     }
 }

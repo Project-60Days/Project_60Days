@@ -132,7 +132,7 @@ public class CustomYarnCommands : MonoBehaviour
     #region Tutorial 02
     Coroutine WaitGetItem(string _itemCode)
     {
-        return StartCoroutine(new WaitUntil(() => App.Manager.UI.GetPanel<InventoryPanel>().CheckInventoryItem(_itemCode)));
+        return StartCoroutine(new WaitUntil(() => App.Manager.UI.GetPanel<InventoryPanel>().CheckItemExist(_itemCode)));
     }
     #endregion
 
@@ -185,7 +185,7 @@ public class CustomYarnCommands : MonoBehaviour
 
     void EnableBtn(bool _value)
     {
-        App.Manager.Game.EnableBtn(_value);
+        App.Manager.UI.GetPanel<MapPanel>().SetBtnEnabled(_value);
     }
     #endregion
 

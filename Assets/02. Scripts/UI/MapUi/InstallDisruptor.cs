@@ -1,15 +1,12 @@
 using UnityEngine;
 
-public class InstallDistrubtor : InstallBase
+public class InstallDisruptor : InstallBase
 {
-    protected override string GetString()
-    {
-        return App.Data.Game.GetString("STR_EXPLORER_DESC");
-    }
-
+    protected override string GetString() => App.Data.Game.GetString("STR_DISRUPTOR_DESC");
+    
     protected override void OnClickEvent()
     {
-        if (App.Manager.UI.GetPanel<InventoryPanel>().CheckDistrubtorUsage())
+        if (App.Manager.UI.GetPanel<InventoryPanel>().CheckItemExist("ITEM_DISRUPTOR"))
         {
             if (App.Manager.Map.CanClick)
             {

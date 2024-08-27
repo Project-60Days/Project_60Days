@@ -109,14 +109,14 @@
     "Material_1": "ITEM_GENERATOR",
     "Material_2": "ITEM_SIGNAL",
     "Material_3": -1,
-    "Result": "ITEM_FINDOR"
+    "Result": "ITEM_EXPLORER"
   },
   {
     "Index": 1017,
     "Material_1": "ITEM_GENERATOR",
     "Material_2": "ITEM_RESISTOR",
     "Material_3": -1,
-    "Result": "ITEM_DISTURBE"
+    "Result": "ITEM_DISRUPTOR"
   },
   {
     "Index": 1018,
@@ -141,7 +141,7 @@
   },
   {
     "Index": 1021,
-    "Material_1": "ITEM_FINDOR",
+    "Material_1": "ITEM_EXPLORER",
     "Material_2": "ITEM_MEMORY",
     "Material_3": "ITEM_WIRE",
     "Result": "ITEM_GPS"
