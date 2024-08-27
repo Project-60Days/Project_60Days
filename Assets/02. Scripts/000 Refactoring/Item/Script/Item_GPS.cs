@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GPS", menuName = "EquipItems/Item_GPS")]
 public class Item_GPS : ItemBase
 {
-    int beforeDay = 0;
+    private int beforeDay;
 
     public override void Equip()
     {
@@ -15,7 +15,5 @@ public class Item_GPS : ItemBase
     }
 
     public override bool CheckMeetCondition()
-    {
-        return (App.Manager.Game.dayCount - beforeDay == 1);
-    }
+        => App.Manager.Game.dayCount - beforeDay == 1;
 }

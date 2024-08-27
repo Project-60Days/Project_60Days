@@ -2,20 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SEMICONDUCTOR", menuName = "EquipItems/Item_Semiconductor")]
-public class Item_Semiconductor : ItemBase
+[CreateAssetMenu(fileName = "Defense", menuName = "EquipItems/Defense")]
+public class ItemDefense : ItemBase
 {
-    int beforeDurabillity = 0;
+    protected int beforeDurabillity;
 
     public override void Equip()
     {
         beforeDurabillity = App.Manager.Game.durability;
+
         App.Manager.Game.durability += (int)data.value1;
         App.Manager.UI.GetPanel<UpperPanel>().PlayDurabilityAnim();
     }
 
     public override bool CheckMeetCondition()
-    {
-        return (App.Manager.Game.durability <= beforeDurabillity);
-    }
+        => App.Manager.Game.durability <= beforeDurabillity;
 }

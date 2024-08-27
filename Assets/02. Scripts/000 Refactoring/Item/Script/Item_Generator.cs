@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GENERATOR", menuName = "EquipItems/Item_Generator")]
 public class Item_Generator : ItemBase
 {
-    int beforeDay;
+    private int beforeDay;
 
     public override void Equip()
     {
@@ -17,7 +17,9 @@ public class Item_Generator : ItemBase
         if ((App.Manager.Game.dayCount - beforeDay) % data.value1 == 0)
         {
             for (int i = 0; i < data.value2; i++)
+            {
                 App.Manager.UI.GetPanel<InventoryPanel>().AddItemByItemCode("ITEM_PLASMA");
+            }
         }
     }
 }
