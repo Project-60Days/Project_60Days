@@ -1,15 +1,27 @@
-using System.Collections;
 using UnityEngine;
 
-public class LoadingPanel : UIBase
+public class LoadingPanel : UIBase, IListener
 {
+    private void Awake()
+    {
+        App.Manager.Event.AddListener(EventCode.GameStart, this);
+    }
+
+    public void OnEvent(EventCode _code, Component _sender, object _param = null)
+    {
+        switch (_code)
+        {
+            case EventCode.GameStart:
+                ClosePanel();
+                break;
+        }
+    }
+
     #region Override
     public override void Init()
     {
         OpenPanel();
     }
-
-    public override void ReInit() { }
 
     public override UIState GetUIState() => UIState.Loading;
 

@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e31f5bbd2c82cb48a44a78298fc79bf, type: 3}
+  m_Name: HARDSKIN
+  m_EditorClassIdentifier: 
+  Code: ITEM_HARDSKIN
+  data:
+    Index: 0
+    Category: 0
+    Code: 
+    AppearTileType: 0
+    Type: 0
+    EquipType: 0
+    EquipArea: 
+    CombineSlotCount: 0
+    Description: 
+    EffectDescription: 
+    Korean: 
+    English: 
+    Japanese: 
+    Chinese: 
+    value1: 0
+    value2: 0
+    value3: 0
+  itemImage: {fileID: 0}
+  itemCount: 0
+  itemType: 0
+  sprite: {fileID: 21300000, guid: ca8d329b36982874d9e726041b994f00, type: 3}
+  sfxName: 
+  isMadeOnce: 0
+  isBlueprintOpen: 0
+  canRemoveEquipment: 0

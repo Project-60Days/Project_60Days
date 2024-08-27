@@ -23,8 +23,8 @@ MonoBehaviour:
   WorldLimitsPrefabs:
   - {fileID: 307140750319210593, guid: ac48f32bd8226654e8066c1c6f86b3c1, type: 3}
   BiomeSettings:
-  - UUID: 2cd25cf9-39e4-4bd2-af97-3e71ec2b3376
-    Name: None
+  - UUID: dde96f8b-766c-4c06-9065-fe52ff7dda55
+    Name: City
     MinimumTilesCount: 300
     Landforms:
     - TypeAsString: LandformRocks
@@ -163,7 +163,7 @@ MonoBehaviour:
       - {fileID: 6999840904034914940, guid: 39bb7c4d0064ca845b366aa9f451713c, type: 3}
       - {fileID: 5130638035095197332, guid: 3b7607647ed6f4e418cb2566d7dd9d2d, type: 3}
     IsExpanded: 0
-  - UUID: e97f8fa3-7085-49f9-8a12-c87df748adc1
+  - UUID: 4ac141f9-8d2f-4bcc-8c5c-69928a3ecbe0
     Name: Jungle
     MinimumTilesCount: 200
     Landforms:
@@ -299,7 +299,7 @@ MonoBehaviour:
       - {fileID: 6999840904034914940, guid: 39bb7c4d0064ca845b366aa9f451713c, type: 3}
       - {fileID: 5130638035095197332, guid: 3b7607647ed6f4e418cb2566d7dd9d2d, type: 3}
     IsExpanded: 0
-  - UUID: 57b2adff-f58a-4ead-8459-1ba72caa4c15
+  - UUID: b0016c74-3980-440a-b058-3be90bf3e423
     Name: Desert
     MinimumTilesCount: 200
     Landforms:
@@ -432,7 +432,7 @@ MonoBehaviour:
       - {fileID: 6999840904034914940, guid: 39bb7c4d0064ca845b366aa9f451713c, type: 3}
       - {fileID: 5130638035095197332, guid: 3b7607647ed6f4e418cb2566d7dd9d2d, type: 3}
     IsExpanded: 0
-  - UUID: 4ddae553-4fea-4a29-9ca6-501e803a15c1
+  - UUID: 885264d1-edaf-4ab1-83e1-3011a782a5dd
     Name: Tundra
     MinimumTilesCount: 200
     Landforms:

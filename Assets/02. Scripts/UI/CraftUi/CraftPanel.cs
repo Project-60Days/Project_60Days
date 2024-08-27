@@ -12,7 +12,7 @@ public class Mode
     public Sprite InventorySprite;
 }
 
-public class CraftPanel : UIBase
+public class CraftPanel : UIBase, IListener
 {
     [Header("Controller")]
     [SerializeField] CraftRawCtrl rawCtrl;
@@ -36,6 +36,26 @@ public class CraftPanel : UIBase
     public BlueprintCtrl Blueprint => (BlueprintCtrl)modes[2].Ctrl;
 
     public CraftMode ModeType { get; private set; }
+
+    private void Awake()
+    {
+        App.Manager.Event.AddListener(EventCode.TutorialStart, this);
+        App.Manager.Event.AddListener(EventCode.TutorialEnd, this);
+    }
+
+    public void OnEvent(EventCode _code, Component _sender, object _param = null)
+    {
+        switch (_code)
+        {
+            case EventCode.TutorialStart:
+                Craft.AddBatteryCombine();
+                break;
+
+            case EventCode.TutorialEnd:
+                Craft.RemoveBatteryCombine();
+                break;
+        }
+    }
 
     #region Override
     public override void Init()

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Yarn.Unity;
 
-public class PagePanel : UIBase
+public class PagePanel : UIBase, IListener
 {
     [SerializeField] Button yesBtn;
     [SerializeField] Button noBtn;
@@ -29,6 +29,21 @@ public class PagePanel : UIBase
     [HideInInspector] public string currStruct;
     [HideInInspector] public string currResource;
     [HideInInspector] public int currResourceIndex = 0;
+
+    private void Awake()
+    {
+        App.Manager.Event.AddListener(EventCode.TutorialStart, this);
+    }
+
+    public void OnEvent(EventCode _code, Component _sender, object _param = null)
+    {
+        switch (_code)
+        {
+            case EventCode.TutorialStart:
+                SetTutorialSelect();
+                break;
+        }
+    }
 
     #region Override
     public override void Init()

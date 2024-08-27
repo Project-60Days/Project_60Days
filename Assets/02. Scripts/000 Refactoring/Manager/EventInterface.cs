@@ -4,6 +4,7 @@ using UnityEngine.Scripting;
 public enum EventCode
 {
     PlayerCreate,
+    GameStart,
     GoToMap,
     GoToShelter,
     TileUpdate,
@@ -12,7 +13,10 @@ public enum EventCode
     NextDayEnd,
     Hit,
     Die,
-    NormalDay
+    NormalDay,
+    TutorialStart,
+    TutorialEnd,
+    ItemUpdate,
 };
 
 [RequireImplementors]

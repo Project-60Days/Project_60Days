@@ -39,7 +39,7 @@ public class StructUnit : MapBase
 
         tower.Init(tilelist);
 
-        tile.Ctrl.Base.SetStruct(tower);
+        tile.Ctrl.SetStruct(tower);
     }
 
     private void GenerateProduction()
@@ -104,7 +104,7 @@ public class StructUnit : MapBase
 
         for (var index = 0; index < _tiles.Count; index++)
         {
-            var tileBase = _tiles[index].Ctrl.Base;
+            var tileBase = _tiles[index].Ctrl;
             tileBase.SetStruct(_struct);
 
             var position = tileBase.transform.position;
@@ -120,7 +120,7 @@ public class StructUnit : MapBase
 
         foreach (var tile in tileList)
         {
-            var tileBase = tile.Value.Ctrl.Base;
+            var tileBase = tile.Value.Ctrl;
 
             if (tileBase.structure != null)
                 return tileBase.structure;

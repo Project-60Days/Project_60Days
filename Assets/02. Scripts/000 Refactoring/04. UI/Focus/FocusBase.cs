@@ -8,4 +8,6 @@ public class FocusBase : MonoBehaviour
 
     public virtual bool CheckCondition()
         => App.Manager.UI.CurrState == state;
+
+    public virtual void OnFinish() { }
 }

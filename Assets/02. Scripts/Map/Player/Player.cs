@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     {
         StartFloat();
 
-        App.Manager.Event.PostEvent(EventCode.PlayerCreate, this);
+        App.Manager.Event.PostEvent(EventCode.PlayerCreate, this, transform);
     }
 
     private void StartFloat()
@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void Move(TileController targetTileController)
+    public void Move(TileBase targetTileController)
     {
         transform.DOKill();
 

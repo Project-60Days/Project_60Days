@@ -1,5 +1,5 @@
 public class FocusResult : FocusBase
 {
     public override bool CheckCondition()
-        => App.Manager.UI.GetPanel<InventoryPanel>().CheckInventoryItem("ITEM_BATTERY");
+        => App.Manager.UI.GetPanel<InventoryPanel>().CheckItemExist("ITEM_BATTERY");
 }

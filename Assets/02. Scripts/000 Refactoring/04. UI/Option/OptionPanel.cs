@@ -50,8 +50,8 @@ public class OptionPanel : UIBase
 
     private void SetButtonEvent()
     {
-        openBtn?.onClick.AddListener(OpenPanel);
-        closeBtn?.onClick.AddListener(ClosePanel);
+        openBtn.onClick.AddListener(OpenPanel);
+        closeBtn.onClick.AddListener(ClosePanel);
 
         for (int i = 0; i < menuBtns.Length; i++)
         {

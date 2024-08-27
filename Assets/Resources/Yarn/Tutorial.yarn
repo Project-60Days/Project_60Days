@@ -116,7 +116,7 @@ tags:
 선체 가동 생존 프로세스를 모두 완료하였습니다.
 <<hide>>
 <<waitUntil UI_NORMAL>>
-<<endQuest TUTORIAL_07>>
+<<realEndQuest TUTORIAL_07>>
 <<jump Tutorial_08>>
 ===
 title: Tutorial_08

@@ -42,6 +42,7 @@ public enum DroneType
 
 public enum TileType
 {
+    None,
     City,
     Desert,
     Jungle,

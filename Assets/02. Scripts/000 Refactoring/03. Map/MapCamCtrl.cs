@@ -24,8 +24,7 @@ public class MapCamCtrl : MonoBehaviour, IListener
         switch (_code)
         {
             case EventCode.PlayerCreate:
-                Transform player = Map.GetUnit<PlayerUnit>().PlayerTransform;
-                mapCamera.Follow = player;
+                mapCamera.Follow = _param as Transform;
                 mapCamera.m_Lens.OrthographicSize = 6.5f;
 
                 transposer = mapCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
@@ -61,15 +60,13 @@ public class MapCamCtrl : MonoBehaviour, IListener
         if (isOn)
         {
             mapCamera.Priority = 11;
-            App.Manager.UI.AddUIStack(UIState.Map);
         }
         else
         {
             mapCamera.Priority = 8;
-            App.Manager.UI.PopUIStack(UIState.Map);
         }
 
-        MapUI.gameObject.SetActive(isOn);
+        MapUI.SetActive(isOn);
         Map.isMapActive = isOn;
     }
 
@@ -83,7 +80,6 @@ public class MapCamCtrl : MonoBehaviour, IListener
             {
                 SetPrioryty(false);
                 Sound.PlayBGM("BGM_InGame");
-                MapUI.SetInfoActive(false);
             });
     }
 
@@ -97,7 +93,6 @@ public class MapCamCtrl : MonoBehaviour, IListener
             {
                 SetPrioryty(true);
                 Sound.PlayBGM(Map.GetLandformBGM());
-                MapUI.SetInfoActive(false);
             })
             .Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 10f, 0.5f));
     }

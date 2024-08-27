@@ -20,6 +20,20 @@ public class OptionScreen : OptionBase
     private int resolutionIndex;
 
     #region Override
+    protected override void Awake()
+    {
+        base.Awake();
+
+        InitResolutionList();
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+
+        SetResolution();
+    }
+
     protected override void SetString()
     {
         screenModeTMP.text = App.Data.Game.GetString("STR_OPTION_SCREEN_SCREENMODE");
@@ -61,20 +75,6 @@ public class OptionScreen : OptionBase
         };
     }
     #endregion
-
-    protected override void Awake()
-    {
-        base.Awake();
-
-        InitResolutionList();
-    }
-
-    protected override void Start()
-    {
-        base.Start();
-
-        SetResolution();
-    }
 
     #region Screen Mode
     private void FullScreenBtnEvent()

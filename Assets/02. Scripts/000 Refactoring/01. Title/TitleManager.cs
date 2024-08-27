@@ -37,6 +37,10 @@ public class TitleManager : MonoBehaviour
 
         InitObjects();
 
+#if UNITY_EDITOR
+        buttonBack.SetActive(true);
+        return;
+#endif
         PlayLeftLog();
     }
 

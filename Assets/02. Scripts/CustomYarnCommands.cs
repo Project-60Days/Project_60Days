@@ -15,6 +15,7 @@ public class CustomYarnCommands : MonoBehaviour
         dialogueRunner.AddCommandHandler("show", ShowDialogue);
         dialogueRunner.AddCommandHandler("startQuest", StartQuest);
         dialogueRunner.AddCommandHandler<string, string>("endQuest", EndQuest);
+        dialogueRunner.AddCommandHandler<string>("realEndQuest", RealEndQuest);
         dialogueRunner.AddCommandHandler<bool>("setCloseBtnEnabled", SetCloseBtnEnabled);
         dialogueRunner.AddCommandHandler<int>("lightUpAndFillBattery", LightUpAndFillBattery);
 
@@ -82,12 +83,12 @@ public class CustomYarnCommands : MonoBehaviour
 
     void HideDialogue()
     {
-        App.Manager.Tutorial.Ctrl.Hide();
+        App.Manager.Tutorial.Hide();
     }
 
     void ShowDialogue()
     {
-        App.Manager.Tutorial.Ctrl.Show();
+        App.Manager.Tutorial.Show();
     }
 
     void StartQuest()
@@ -98,6 +99,11 @@ public class CustomYarnCommands : MonoBehaviour
     void EndQuest(string _currCode, string _nextCode)
     {
         App.Manager.UI.GetPanel<QuestPanel>().EndQuest(_currCode, _nextCode);
+    }
+
+    void RealEndQuest(string _currCode)
+    {
+        App.Manager.UI.GetPanel<QuestPanel>().EndQuest(_currCode);
     }
 
     void SetCloseBtnEnabled(bool _isEnabled)
@@ -126,7 +132,7 @@ public class CustomYarnCommands : MonoBehaviour
     #region Tutorial 02
     Coroutine WaitGetItem(string _itemCode)
     {
-        return StartCoroutine(new WaitUntil(() => App.Manager.UI.GetPanel<InventoryPanel>().CheckInventoryItem(_itemCode)));
+        return StartCoroutine(new WaitUntil(() => App.Manager.UI.GetPanel<InventoryPanel>().CheckItemExist(_itemCode)));
     }
     #endregion
 
@@ -167,7 +173,7 @@ public class CustomYarnCommands : MonoBehaviour
 
     void AddResource()
     {
-        App.Manager.Tutorial.Ctrl.AddResource();
+        App.Manager.Tutorial.AddResource();
     }
     #endregion
 
@@ -179,19 +185,19 @@ public class CustomYarnCommands : MonoBehaviour
 
     void EnableBtn(bool _value)
     {
-        App.Manager.Game.EnableBtn(_value);
+        App.Manager.UI.GetPanel<MapPanel>().SetBtnEnabled(_value);
     }
     #endregion
 
     #region Tutorial 08
     void StartPV()
     {
-        App.Manager.UI.GetPanel<VideoPanel>().Start01();
+        App.Manager.UI.GetPanel<VideoPanel>().StartVideo("PV_01");
     }
 
     Coroutine WaitPVEnd()
     {
-        return StartCoroutine(new WaitUntil(() => App.Manager.UI.GetPanel<VideoPanel>().isEnd));
+        return StartCoroutine(new WaitUntil(() => App.Manager.UI.GetPanel<VideoPanel>().IsEnd));
     }
 
 
@@ -204,7 +210,7 @@ public class CustomYarnCommands : MonoBehaviour
     #region Tutorial 09
     void EndTutorial()
     {
-        App.Manager.Tutorial.EndTutorial();
+        App.Manager.Event.PostEvent(EventCode.TutorialEnd, this);
     }
     #endregion
 

@@ -4,9 +4,10 @@ public class StructTower : StructBase
 
     public override void DetectStruct()
     {
-        if (App.Manager.UI.GetPanel<InventoryPanel>().CheckNetCardUsage())
+        if (App.Manager.UI.GetPanel<InventoryPanel>().CheckItemExist("ITEM_NETWORKCHIP"))
         {
             base.DetectStruct();
+            App.Manager.UI.GetPanel<InventoryPanel>().RemoveItemByCode("ITEM_NETWORKCHIP");
         }
     }
     public override void YesFunc()

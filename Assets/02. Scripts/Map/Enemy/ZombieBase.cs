@@ -53,8 +53,8 @@ public class ZombieBase : MonoBehaviour
 
     private void UpdateTile()
     {
-        lastTile?.Ctrl.Base.SetEnemy(null);
-        currTile?.Ctrl.Base.SetEnemy(this);
+        lastTile?.Ctrl.SetEnemy(null);
+        currTile?.Ctrl.SetEnemy(this);
     }
 
     #region Move
@@ -75,7 +75,7 @@ public class ZombieBase : MonoBehaviour
 
     private void CheckTileEffect()
     {
-        switch (currTile.Ctrl.Base.GetTileType())
+        switch (currTile.Ctrl.GetTileType())
         {
             case TileType.City:
                 if (noneTileBuff == false)
