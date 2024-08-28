@@ -1,7 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
 
-public class CraftEffectCtrl : MonoBehaviour
+public class BenchEffectCtrl : MonoBehaviour
 {
     private float startPositionX;
 

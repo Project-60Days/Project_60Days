@@ -45,8 +45,6 @@ public class InventoryPanel : UIBase, IListener
         }
 
         ResetAllSlots();
-
-        gameObject.SetActive(false);
     }
     #endregion
 

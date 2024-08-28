@@ -6,17 +6,19 @@ using TMPro;
 
 public class CraftCtrl : ModeCtrl, IListener
 {
-    List<ItemBase> craftItems = new List<ItemBase>();
+    public override BenchType GetModeType() => BenchType.Craft;
 
-    ItemCombineData batteryCombine;
+    List<ItemBase> craftItems = new();
 
     [SerializeField] GameObject slotPrefab;
+    [SerializeField] Transform slotParent;
+
+    private Dictionary<string, ItemCombineData> itemCombineDic;
 
     public bool IsCombinedResult => slotParent.childCount > 3;
 
     private void Awake()
     {
-        App.Manager.Event.AddListener(EventCode.TutorialStart, this);
         App.Manager.Event.AddListener(EventCode.TutorialEnd, this);
     }
 
@@ -24,12 +26,8 @@ public class CraftCtrl : ModeCtrl, IListener
     {
         switch (_code)
         {
-            case EventCode.TutorialStart:
-                AddBatteryCombine();
-                break;
-
             case EventCode.TutorialEnd:
-                RemoveBatteryCombine();
+                itemCombineDic.Remove("ITEM_BATTERY");
                 break;
         }
     }
@@ -38,10 +36,7 @@ public class CraftCtrl : ModeCtrl, IListener
     {
         base.Init();
 
-        itemCombineData = App.Data.Game.itemCombineData.Values.ToList();
-
-        batteryCombine = itemCombineData.Find(x => x.Result == "ITEM_BATTERY");
-        itemCombineData.Remove(batteryCombine);
+        itemCombineDic = App.Data.Game.itemCombineData.Values.ToDictionary(x => x.Result);
     }
 
     public override void InitSlots()
@@ -52,8 +47,12 @@ public class CraftCtrl : ModeCtrl, IListener
 
     public override void Exit()
     {
-        for (int i = 0; i < craftItems.Count; i++)
-            App.Manager.UI.GetPanel<InventoryPanel>().AddItem(craftItems[i]);
+        base.Exit();
+
+        foreach (var item in craftItems)
+        {
+            App.Manager.UI.GetPanel<InventoryPanel>().AddItem(item);
+        }
 
         InitSlots();
         craftItems.Clear();
@@ -64,11 +63,13 @@ public class CraftCtrl : ModeCtrl, IListener
         InitSlots();
 
         bool isFirst = true;
-        for (int i = 0; i < craftItems.Count; i++)
+        foreach (var item in craftItems)
         {
             GameObject obj = Instantiate(slotPrefab, slotParent);
-            obj.GetComponentInChildren<CraftSlot>().item = craftItems[i];
-            if (isFirst == true)
+            var craftSlot = obj.GetComponentInChildren<CraftSlot>();
+            craftSlot.item = item;
+
+            if (isFirst)
             {
                 obj.transform.GetComponentInChildren<TextMeshProUGUI>().gameObject.SetActive(false);
                 isFirst = false;
@@ -81,37 +82,17 @@ public class CraftCtrl : ModeCtrl, IListener
     {
         if (craftItems.Count < 2) return;
 
-        ItemBase resultItem = null;
-        var sortedItem = craftItems.OrderBy(item => item.Code).ToList();
+        var sortedItems = craftItems.OrderBy(item => item.Code).ToList();
 
-        var match_1 = itemCombineData.Where(x => x.Material_1 == sortedItem[0].data.Code).ToList();
-        if (match_1.Count == 0) return;
+        var combine = itemCombineDic.Values
+            .Where(x => x.Material_1 == sortedItems[0].data.Code && x.Material_2 == sortedItems[1].data.Code)
+            .FirstOrDefault(x => craftItems.Count == 2 || x.Material_3 == sortedItems.ElementAtOrDefault(2)?.data.Code);
 
-        var match_2 = match_1.Where(x => x.Material_2 == sortedItem[1].data.Code).ToList();
-        if (match_2.Count == 0) return;
-
-        if (craftItems.Count == 2)
+        if (combine != null && itemData[combine.Result].isBlueprintOpen)
         {
-            var combine = match_2.FirstOrDefault(x => x.Material_3 == "-1");
-            if (combine != null)
-                resultItem = GetItemByCode(combine.Result);
+            AddCombineItem(itemData[combine.Result]);
         }
-        else if (craftItems.Count == 3)
-        {
-            var combine = match_2.FirstOrDefault(x => x.Material_3 == sortedItem[2].data.Code);
-            if (combine != null)
-                resultItem = GetItemByCode(combine.Result);
-        }
-
-        if (resultItem != null && resultItem.isBlueprintOpen)
-            AddCombineItem(resultItem);
     }
-
-    /// <summary>
-    /// 조합 결과 아이템 ItemBase에서 검색 후 리턴
-    /// </summary>
-    public ItemBase GetItemByCode(string _resultItemCode)
-        => itemData.Find(x => x.data.Code == _resultItemCode);
 
     /// <summary>
     /// 조합 결과 아이템 CraftBag에 표시
@@ -124,20 +105,6 @@ public class CraftCtrl : ModeCtrl, IListener
         obj.GetComponentInChildren<CraftSlot>().type = SlotType.ResultSlot;
         obj.GetComponentInChildren<TextMeshProUGUI>().text = "=";
     }
-
-    public void AddBatteryCombine()
-    {
-        itemCombineData.Add(batteryCombine);
-    }
-
-    public void RemoveBatteryCombine()
-    {
-        itemCombineData.Remove(batteryCombine);
-    }
-
-
-
-
 
     /// <summary>
     /// CraftBag에 아이템 추가
@@ -163,17 +130,4 @@ public class CraftCtrl : ModeCtrl, IListener
         craftItems.Clear();
         InitSlots();
     }
-
-
-
-
-
-    /// <summary>
-    /// 해당 아이템이 특정 갯수만큼 있는지 체크하는 함수
-    /// </summary>
-    /// <param name="itemCode"></param>
-    /// <param name="count"></param>
-    /// <returns></returns>
-    public bool CheckCraftingItem(string _itemCode, int _count = 1) 
-        => _count == craftItems.FindAll(x => x.data.Code == _itemCode).Count;
 }

@@ -3,45 +3,35 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-
-[Serializable]
-public class Mode
-{
-    public ModeCtrl Ctrl;
-    public BenchMode Type;
-    public Sprite InventorySprite;
-}
-
 public class BenchPanel : UIBase
 {
     [Header("Controller")]
-    [SerializeField] CraftRawCtrl rawCtrl;
+    [SerializeField] BenchRawCtrl rawCtrl;
 
     [Header("UI")]
-    [SerializeField] Image rightImg;
     [SerializeField] Button closeBtn;
     [SerializeField] Sprite[] btnSprites;
 
     [Header("Mode")]
-    [SerializeField] Mode[] modes;
+    [SerializeField] ModeCtrl[] modes;
     [SerializeField] Button[] modeBtns;
 
     [Header("Fade In / Out UI")]
     [SerializeField] CanvasGroup background;
     [SerializeField] CanvasGroup details;
 
-    public CraftCtrl Craft => modes[0].Ctrl as CraftCtrl;
-    public EquipCtrl Equip => modes[1].Ctrl as EquipCtrl;
-    public BlueprintCtrl Blueprint => modes[2].Ctrl as BlueprintCtrl;
+    public CraftCtrl Craft => modes[0] as CraftCtrl;
+    public EquipCtrl Equip => modes[1] as EquipCtrl;
+    public BlueprintCtrl Blueprint => modes[2] as BlueprintCtrl;
 
-    public BenchMode ModeType { get; private set; }
+    public BenchType BenchMode { get; private set; }
 
     #region Override
     public override void Init()
     {
         foreach (var mode in modes)
         {
-            mode.Ctrl.Init();
+            mode.Init();
         }
 
         SetButtonEvent();
@@ -89,7 +79,7 @@ public class BenchPanel : UIBase
 
                 foreach (var mode in modes)
                 {
-                    mode.Ctrl.Exit();
+                    DeactiveMode(mode);
                 }
             });
     }
@@ -100,9 +90,7 @@ public class BenchPanel : UIBase
         for (int i = 0; i < modeBtns.Length; i++)
         {
             int idx = i;
-
             modeBtns[idx].onClick.AddListener(() => ModeButtonEvent(idx));
-            modeBtns[idx].gameObject.SetActive(true);
         }
 
         closeBtn.onClick.AddListener(ClosePanel);
@@ -112,7 +100,7 @@ public class BenchPanel : UIBase
     {
         for (int i = 0; i < modeBtns.Length; i++)
         {
-            if (_idx == i)
+            if (i == _idx)
             {
                 modeBtns[i].image.sprite = btnSprites[1];
                 ActiveMode(modes[i]);
@@ -120,30 +108,21 @@ public class BenchPanel : UIBase
             else
             {
                 modeBtns[i].image.sprite = btnSprites[0];
-                InActiveMode(modes[i]);
+                DeactiveMode(modes[i]);
             }
         }
     }
 
-    void ActiveMode(Mode _mode)
+    private void ActiveMode(ModeCtrl _mode)
     {
-        ModeType = _mode.Type;
+        _mode.Enter();
 
-        _mode.Ctrl.gameObject.SetActive(true);
-
-        if (ModeType != BenchMode.Blueprint)
-            App.Manager.UI.GetPanel<InventoryPanel>().OpenPanel();
-        else
-            App.Manager.UI.GetPanel<InventoryPanel>().ClosePanel();
-
-        rightImg.sprite = _mode.InventorySprite;
-
+        BenchMode = _mode.GetModeType();
         rawCtrl.InitTarget();
     }
 
-    void InActiveMode(Mode _mode)
+    private void DeactiveMode(ModeCtrl _mode)
     {
-        _mode.Ctrl.gameObject.SetActive(false);
-        _mode.Ctrl.Exit();
+        _mode.Exit();
     }
 }

@@ -32,7 +32,7 @@ public class ItemSlot : SlotBase
     {
         if (item.data.Code == "ITEM_NETWORKCHIP") return;
 
-        if (App.Manager.UI.GetPanel<BenchPanel>().ModeType == BenchMode.Craft)
+        if (App.Manager.UI.GetPanel<BenchPanel>().BenchMode == BenchType.Craft)
         {
             if (App.Manager.UI.GetPanel<BenchPanel>().Craft.IsCombinedResult) return;
 
@@ -48,7 +48,7 @@ public class ItemSlot : SlotBase
 
             HideItemInfo();
         }
-        else if (App.Manager.UI.GetPanel<BenchPanel>().ModeType == BenchMode.Equip)
+        else if (App.Manager.UI.GetPanel<BenchPanel>().BenchMode == BenchType.Equip)
         {
             if (item.itemType == ItemType.Equipment)
             {

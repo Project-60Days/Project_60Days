@@ -1,10 +1,8 @@
 using UnityEngine;
 
 
-public class CraftRawCtrl : MonoBehaviour
+public class BenchRawCtrl : MonoBehaviour
 {
-    [SerializeField] GameObject hologramBack;
-
     private SpriteRenderer targetSprite;
 
     private void Start()
@@ -25,7 +23,7 @@ public class CraftRawCtrl : MonoBehaviour
 
     public void InitTarget()
     {
-        hologramBack.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     private void ChangeTarget(Sprite itemSprite)
@@ -36,7 +34,7 @@ public class CraftRawCtrl : MonoBehaviour
             return;
         }
 
-        hologramBack.SetActive(true);
+        gameObject.SetActive(true);
         targetSprite.sprite = itemSprite;
     }
 }

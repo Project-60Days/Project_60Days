@@ -8,95 +8,97 @@ public class EquipCtrl : ModeCtrl
 {
     [SerializeField] EquipSlot[] equipSlots;
 
+    public override BenchType GetModeType() => BenchType.Equip;
+
     public override void InitSlots()
     {
         foreach (var slot in equipSlots)
+        {
             slot.item = null;
-    }
-
-    public override void Exit() { }
-    bool AddEquip(ItemBase _item)
-    {
-        for (int i = 0; i < equipSlots.Length; i++)
-        {
-            if ((int)equipSlots[i].type != _item.data.EquipType)
-                continue;
-
-            if (equipSlots[i].isLocked == true) return false;
-
-            if (equipSlots[i].item != null)
-            {
-                equipSlots[i].item.UnEquip();
-                App.Manager.UI.GetPanel<InventoryPanel>().AddItem(equipSlots[i].item);
-            }
-
-            App.Manager.UI.GetPanel<InventoryPanel>().RemoveItem(_item);
-            equipSlots[i].item = _item;
-            _item.Equip();
-            if (_item.canRemoveEquipment == false)
-            {
-                equipSlots[i].isLocked = true;
-                StartCoroutine(WaitUntilItemUsed(_item));
-            }
-
-            equipSlots[i].ChangeSlotColor();
-
-            return true;
-        }
-
-        return false;
-    }
-
-    void RemoveEquip(ItemBase _item)
-    {
-        for (int i = 0; i < equipSlots.Length; i++)
-        {
-            if ((int)equipSlots[i].type != _item.data.EquipType)
-                continue;
-
-            if (equipSlots[i].item != null)
-            {
-                equipSlots[i].item.UnEquip();
-                App.Manager.UI.GetPanel<InventoryPanel>().AddItem(equipSlots[i].item);
-            }
-
-            equipSlots[i].item = null;
-
-            break;
         }
     }
 
-    IEnumerator WaitUntilItemUsed(ItemBase _item)
+    private bool AddEquip(ItemBase item)
     {
-        yield return new WaitUntil(() => _item.CheckMeetCondition());
+        var slot = FindEquipSlot(item);
 
+        if (slot == null || slot.isLocked)
+            return false;
+
+        if (slot.item != null)
+        {
+            slot.item.UnEquip();
+            App.Manager.UI.GetPanel<InventoryPanel>().AddItem(slot.item);
+        }
+
+        App.Manager.UI.GetPanel<InventoryPanel>().RemoveItem(item);
+        slot.item = item;
+        item.Equip();
+
+        if (!item.canRemoveEquipment)
+        {
+            slot.isLocked = true;
+            StartCoroutine(WaitUntilItemUsed(item, slot));
+        }
+
+        slot.ChangeSlotColor();
+
+        return true;
+    }
+
+    private void RemoveEquip(ItemBase item)
+    {
+        var slot = FindEquipSlot(item);
+
+        if (slot == null || slot.item == null)
+            return;
+
+        slot.item.UnEquip();
+        App.Manager.UI.GetPanel<InventoryPanel>().AddItem(slot.item);
+        slot.item = null;
+        slot.isLocked = false;
+
+        slot.ChangeSlotColor();
+    }
+
+    private EquipSlot FindEquipSlot(ItemBase item)
+    {
+        return equipSlots.FirstOrDefault(slot => (int)slot.type == item.data.EquipType);
+    }
+
+    private IEnumerator WaitUntilItemUsed(ItemBase item, EquipSlot slot)
+    {
+        yield return new WaitUntil(() => item.CheckMeetCondition());
+
+        slot.item = null;
+        slot.isLocked = false;
+        slot.ChangeSlotColor();
     }
 
     public void EquipItemDayEvent()
     {
-        for (int i = 0; i < equipSlots.Length; i++)
+        foreach (var slot in equipSlots)
         {
-            if (equipSlots[i].item != null)
-            {
-                equipSlots[i].item.DayEvent();
-                if (equipSlots[i].item.CheckMeetCondition() == true)
-                {
-                    equipSlots[i].item = null;
-                    equipSlots[i].isLocked = false;
-                    equipSlots[i].ChangeSlotColor();
-                }
-            }
+            if (slot.item == null) continue;
 
+            slot.item.DayEvent();
+
+            if (slot.item.CheckMeetCondition())
+            {
+                slot.item = null;
+                slot.isLocked = false;
+                slot.ChangeSlotColor();
+            }
         }
     }
 
-    public bool MoveInventoryToEquip(ItemBase _item)
+    public bool MoveInventoryToEquip(ItemBase item)
     {
-        return AddEquip(_item);
+        return AddEquip(item);
     }
 
-    public void MoveEquipToInventory(ItemBase _item)
+    public void MoveEquipToInventory(ItemBase item)
     {
-        RemoveEquip(_item);
+        RemoveEquip(item);
     }
 }

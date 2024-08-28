@@ -6,31 +6,26 @@ using TMPro;
 
 public abstract class ModeCtrl : MonoBehaviour
 {
-    protected List<ItemBase> itemData;
-    protected List<ItemCombineData> itemCombineData;
+    protected Dictionary<string, ItemBase> itemData;
 
-    [SerializeField] protected Transform slotParent;
+    public abstract BenchType GetModeType();
 
     public virtual void Init()
     {
-        itemData = App.Manager.Game.itemData;
+        itemData = App.Manager.Game.itemData.ToDictionary(x => x.Code);
 
         InitSlots();
     }
 
     public abstract void InitSlots();
 
-    public abstract void Exit();
-
-    protected string[] GetCombinationCodes(ItemCombineData _combineData)
+    public virtual void Enter()
     {
-        string[] codes = new string[4];
+        gameObject.SetActive(true);
+    }
 
-        codes[0] = _combineData.Material_1;
-        codes[1] = _combineData.Material_2;
-        codes[2] = _combineData.Material_3;
-        codes[3] = _combineData.Result;
-
-        return codes;
+    public virtual void Exit()
+    {
+        gameObject.SetActive(false);
     }
 }

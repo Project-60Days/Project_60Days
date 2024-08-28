@@ -101,7 +101,7 @@ public enum AlertType
     Caution
 }
 
-public enum BenchMode
+public enum BenchType
 {
     Craft,
     Equip,

@@ -1,12 +1,18 @@
 using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+
 
 public class BlueprintCtrl : ModeCtrl
 {
     [SerializeField] GameObject slotPrefab;
+    [SerializeField] Transform slotParent;
+
+    public override BenchType GetModeType() => BenchType.Blueprint;
 
     public BlueprintSlot[] blueprintSlots;
+    private List<ItemCombineData> itemCombineData;
 
     public override void Init()
     {
@@ -25,6 +31,8 @@ public class BlueprintCtrl : ModeCtrl
 
     public override void Exit()
     {
+        base.Exit();
+
         InitSlots();
     }
 
@@ -81,6 +89,18 @@ public class BlueprintCtrl : ModeCtrl
         }
 
         return null;
+    }
+
+    private string[] GetCombinationCodes(ItemCombineData _combineData)
+    {
+        string[] codes = new string[4];
+
+        codes[0] = _combineData.Material_1;
+        codes[1] = _combineData.Material_2;
+        codes[2] = _combineData.Material_3;
+        codes[3] = _combineData.Result;
+
+        return codes;
     }
 
     ItemBase GetItemByItemCode(string _itemCode)
