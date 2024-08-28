@@ -11,11 +11,29 @@ public class EquipSlot : SlotBase
     Color normalColor = new Color(1f, 1f, 1f, 1f);
     Color lockColor = new Color(0.5f, 0.5f, 0.5f, 1f);
 
-    public EquipSlot()
+    private void Start()
     {
         type = SlotType.EquipSlot;
     }
- 
+
+    public override void SetItem(ItemBase _item)
+    {
+        base.SetItem(_item);
+
+        item.Equip();
+        isLocked = !item.canRemoveEquipment;
+        ChangeSlotColor();
+    }
+
+    public override void ResetItem()
+    {
+        base.ResetItem();
+
+        item.UnEquip();
+        isLocked = false;
+        ChangeSlotColor();
+    }
+
     public void ChangeSlotColor()
     {
         if (isLocked == true) slotImage.color = lockColor;

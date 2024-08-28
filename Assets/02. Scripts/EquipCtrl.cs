@@ -4,78 +4,77 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class EquipCtrl : ModeCtrl
+public class EquipCtrl : ModeCtrl, IListener
 {
+    public override BenchType GetModeType() => BenchType.Equip;
+
     [SerializeField] EquipSlot[] equipSlots;
 
-    public override BenchType GetModeType() => BenchType.Equip;
+    private InventoryPanel inventory;
+
+    private void Awake()
+    {
+        App.Manager.Event.AddListener(EventCode.NextDayMiddle, this);
+    }
+
+    public void OnEvent(EventCode _code, Component _sender, object _param = null)
+    {
+        switch (_code)
+        {
+            case EventCode.NextDayMiddle:
+                CheckItemUsed();
+                break;
+        }
+    }
+
+    public override void Init()
+    {
+        inventory = App.Manager.UI.GetPanel<InventoryPanel>();
+    }
 
     public override void ResetSlots()
     {
         foreach (var slot in equipSlots)
         {
-            slot.item = null;
+            slot.ResetItem();
         }
     }
 
     private bool AddEquip(ItemBase item)
     {
-        var slot = FindEquipSlot(item);
-
-        if (slot == null || slot.isLocked)
+        if (item.data.EquipType >= equipSlots.Length)
+        {
+            Debug.LogWarning($"EquipType {item.data.EquipType} is out of range for equipSlots.");
             return false;
+        }
+
+        var slot = equipSlots[item.data.EquipType];
+
+        if (slot.isLocked) return false;
 
         if (slot.item != null)
         {
-            slot.item.UnEquip();
-            App.Manager.UI.GetPanel<InventoryPanel>().AddItem(slot.item);
+            inventory.AddItem(slot.item);
+            slot.ResetItem();
         }
 
-        App.Manager.UI.GetPanel<InventoryPanel>().RemoveItem(item);
-        slot.item = item;
-        item.Equip();
-
-        if (!item.canRemoveEquipment)
-        {
-            slot.isLocked = true;
-            StartCoroutine(WaitUntilItemUsed(item, slot));
-        }
-
-        slot.ChangeSlotColor();
+        inventory.RemoveItem(item);
+        slot.SetItem(item);
 
         return true;
     }
 
     private void RemoveEquip(ItemBase item)
     {
-        var slot = FindEquipSlot(item);
+        var slot = equipSlots[item.data.EquipType];
 
-        if (slot == null || slot.item == null)
-            return;
-
-        slot.item.UnEquip();
-        App.Manager.UI.GetPanel<InventoryPanel>().AddItem(slot.item);
-        slot.item = null;
-        slot.isLocked = false;
-
-        slot.ChangeSlotColor();
+        if (slot.item == null) return;
+        
+        inventory.AddItem(slot.item);
+        slot.ResetItem();
     }
 
-    private EquipSlot FindEquipSlot(ItemBase item)
-    {
-        return equipSlots.FirstOrDefault(slot => (int)slot.type == item.data.EquipType);
-    }
-
-    private IEnumerator WaitUntilItemUsed(ItemBase item, EquipSlot slot)
-    {
-        yield return new WaitUntil(() => item.CheckMeetCondition());
-
-        slot.item = null;
-        slot.isLocked = false;
-        slot.ChangeSlotColor();
-    }
-
-    public void EquipItemDayEvent()
+    private void CheckItemUsed()
     {
         foreach (var slot in equipSlots)
         {
@@ -85,9 +84,7 @@ public class EquipCtrl : ModeCtrl
 
             if (slot.item.CheckMeetCondition())
             {
-                slot.item = null;
-                slot.isLocked = false;
-                slot.ChangeSlotColor();
+                slot.ResetItem();
             }
         }
     }

@@ -39,11 +39,6 @@ public class BenchPanel : UIBase
         gameObject.SetActive(false);
     }
 
-    public override void ReInit() 
-    {
-        Equip.EquipItemDayEvent();
-    }
-
     public override UIState GetUIState() => UIState.Bench;
 
     public override bool IsAddUIStack() => true;

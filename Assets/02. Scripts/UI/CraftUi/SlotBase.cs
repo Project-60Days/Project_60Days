@@ -49,7 +49,7 @@ public abstract class SlotBase : MonoBehaviour, IPointerClickHandler, IPointerEn
         item = _item;
     }
 
-    public void ResetItem()
+    public virtual void ResetItem()
     {
         gameObject.SetActive(false);
         item = null;
