@@ -5,7 +5,7 @@ public class BenchRawCtrl : MonoBehaviour
 {
     private SpriteRenderer targetSprite;
 
-    private void Start()
+    private void Awake()
     {
         InventorySlot.CraftItemClick += ChangeTarget;
         BlueprintSlot.CraftItemClick += ChangeTarget;
@@ -26,10 +26,8 @@ public class BenchRawCtrl : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void ChangeTarget(Sprite itemSprite)
+    private void ChangeTarget(Sprite itemSprite)
     {
-        Debug.Log("ChangeTarget");
-
         if (itemSprite == null)
         {
             InitTarget();

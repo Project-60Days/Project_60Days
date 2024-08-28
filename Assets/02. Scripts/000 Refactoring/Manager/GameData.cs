@@ -172,7 +172,7 @@ public class GameData : Data
         }
     }
 
-    public void LoadData()
+    private void LoadData()
     {
         stringData.Clear();
         valueData.Clear();

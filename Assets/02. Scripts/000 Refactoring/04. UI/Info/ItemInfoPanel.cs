@@ -114,7 +114,7 @@ public class ItemInfoPanel : UIBase
         if (!string.IsNullOrEmpty(App.Data.Game.GetString(_item.Data.Description)))
         {
             itemDescribe.gameObject.SetActive(true);
-            itemDescribe.text = _item.Data.Description;
+            itemDescribe.text = App.Data.Game.GetString(_item.Data.Description);
         }
        
         if (!string.IsNullOrEmpty(GetEquipArea(_item)))

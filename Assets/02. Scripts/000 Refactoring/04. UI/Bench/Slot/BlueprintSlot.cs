@@ -54,8 +54,8 @@ public class BlueprintSlot : SlotBase
 
         base.OnPointerClick(eventData);
 
-        bench.Blueprint.UpdateSlots(Item);
-
         CraftItemClick?.Invoke(Item.IllustSprite);
+
+        bench.Blueprint.UpdateSlots(Item);
     }
 }

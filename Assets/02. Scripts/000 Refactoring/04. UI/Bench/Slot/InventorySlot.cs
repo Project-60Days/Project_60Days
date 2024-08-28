@@ -29,6 +29,8 @@ public class InventorySlot : SlotBase
         {
             if (bench.Craft.CanAddItem == false) return;
 
+            CraftItemClick?.Invoke(Item.IllustSprite);
+
             DescriptionOff();
 
             bench.Craft.MoveInventoryToCraft(Item);
@@ -43,9 +45,6 @@ public class InventorySlot : SlotBase
             {
                 App.Manager.Sound.PlaySFX("SFX_Craft_Item");
             }
-
-            Debug.Log(Item.IllustSprite.name);
-            CraftItemClick?.Invoke(Item.IllustSprite);
         }
         else if (bench.BenchMode == BenchType.Equip)
         {
