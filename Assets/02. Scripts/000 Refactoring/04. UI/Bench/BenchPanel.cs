@@ -48,13 +48,12 @@ public class BenchPanel : UIBase
 
         App.Manager.Sound.PlaySFX("SFX_Craft_Open");
 
-        App.Manager.UI.GetPanel<ItemInfoPanel>().HideInfo(); //todo
+        App.Manager.UI.GetPanel<ItemInfoPanel>().ClosePanel(); 
 
         Sequence sequence = DOTween.Sequence();
         sequence
             .Append(background.DOFade(1f, 0.5f))
             .Append(details.DOFade(1f, 0.5f));
-            //.OnComplete(() => App.Manager.UI.GetItemInfoController().isOpen = true);
 
         ModeButtonEvent(0);
     }

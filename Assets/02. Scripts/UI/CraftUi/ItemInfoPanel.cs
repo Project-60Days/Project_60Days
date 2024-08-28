@@ -1,6 +1,8 @@
+using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using DG.Tweening;
 
 public class ItemInfoPanel : UIBase
 {
@@ -9,41 +11,85 @@ public class ItemInfoPanel : UIBase
     [SerializeField] TextMeshProUGUI itemEquip;
     [SerializeField] TextMeshProUGUI itemEffect;
 
+    [SerializeField] InfoSlot[] infoSlots;
     [SerializeField] GameObject contour;
 
-    [SerializeField] Transform blueprintSlotParent;
-    [SerializeField] GameObject blueprintSlotPrefab;
+    private RectTransform rect;
+    private CanvasGroup canvasGroup;
 
-    [SerializeField] ItemSO itemSO;
+    private Dictionary<string, ItemBase> itemBaseDic;
+    private Dictionary<string, ItemCombineData> itemCombineDic;
 
-    RectTransform infoTransform;
-    CanvasGroup canvasGroup;
-
-    public bool isNew = true;
-
-    public bool isOpen = false;
+    private bool isDescriptionOn;
 
     #region Override
     public override void Init()
     {
-        infoTransform = gameObject.GetComponent<RectTransform>();
+        rect = gameObject.GetComponent<RectTransform>();
         canvasGroup = gameObject.GetComponent<CanvasGroup>();
 
-        HideInfo();
+        itemBaseDic = App.Data.Game.ITEM.ToDictionary(item => item.data.Code);
+        itemCombineDic = App.Data.Game.itemCombineData.Values.ToDictionary(x => x.Result);
+
+        ClosePanel();
     }
 
-    public override void ReInit() { }
+    public override void ClosePanel()
+    {
+        canvasGroup.DOKill();
+
+        isDescriptionOn = false;
+
+        ResetUI();
+    }
     #endregion
 
-    public void HideInfo()
+    private void Update()
     {
-        isNew = true;
-        InitObjects();
-        InitBlueprintSlots();
+        if (isDescriptionOn)
+        {
+            UpdateDescriptionTransform();
+        }
     }
 
-    void InitObjects()
+    private void UpdateDescriptionTransform()
     {
+        Vector2 position = Input.mousePosition;
+
+        if (position.x + rect.rect.width > App.Data.Setting.Screen.resolutionWidth)
+        {
+            position.x -= rect.rect.width;
+        }
+
+        if (position.y - rect.rect.height < 0)
+        {
+            position.y += rect.rect.height;
+        }
+
+        rect.position = position;
+    }
+
+    public void SetInfo(ItemBase _item)
+    {
+        canvasGroup.DOKill();
+
+        canvasGroup.DOFade(0f, 0.1f).OnComplete(() =>
+        {
+            isDescriptionOn = true;
+
+            ResetUI();
+
+            UpdateUI(_item);
+            UpdateBlueprint(_item);
+
+            canvasGroup.DOFade(1f, 0.1f);
+        });
+    }
+
+    private void ResetUI()
+    {
+        canvasGroup.alpha = 0f;
+
         itemName.gameObject.SetActive(false);
         itemDescribe.gameObject.SetActive(false);
         itemEquip.gameObject.SetActive(false);
@@ -51,56 +97,13 @@ public class ItemInfoPanel : UIBase
 
         contour.SetActive(false);
 
-        blueprintSlotParent.gameObject.SetActive(false);
-
-        canvasGroup.alpha = 0f;
-        gameObject.SetActive(false);
-    }
-
-    void InitBlueprintSlots()
-    {
-        for (int i = 0; i < blueprintSlotParent.childCount; i++)
-            Destroy(blueprintSlotParent.GetChild(i).gameObject);
-    }
-
-    public void ShowInfo(ItemBase _item, Vector3 _mouseCoordinate)
-    {
-        if (isOpen == false) return;
-
-        if (isNew == true)
+        foreach (var slot in infoSlots)
         {
-            HideInfo();
-            SetObejcts(_item);
-            SetBlueprint(_item);
-            isNew = false;
+            slot.ResetItem();
         }
-
-        gameObject.SetActive(true);
-
-        LayoutRebuilder.ForceRebuildLayoutImmediate(infoTransform);
-
-        float width = infoTransform.rect.width;
-        float height = infoTransform.rect.height;
-
-        float screenWidth = Screen.width;
-        float screenHeight = Screen.height;
-
-        float newX = _mouseCoordinate.x;
-        float newY = _mouseCoordinate.y;
-
-        if (newX + width > screenWidth * 0.95)
-            newX -= width * (screenWidth / 1920);
-        if (newY - height < screenHeight * 0.1)
-            newY += height * (screenHeight / 1080);
-
-        infoTransform.position = new Vector3(newX, newY, infoTransform.position.z);
-
-        LayoutRebuilder.ForceRebuildLayoutImmediate(infoTransform);
-
-        canvasGroup.alpha = 1f;
     }
 
-    void SetObejcts(ItemBase _item)
+    private void UpdateUI(ItemBase _item)
     {
         if (!string.IsNullOrEmpty(_item.data.Korean))
         {
@@ -130,38 +133,26 @@ public class ItemInfoPanel : UIBase
         }
     }
 
-    void SetBlueprint(ItemBase _item)
+    private void UpdateBlueprint(ItemBase _item)
     {
-        //string[] blueprintCodes = App.Manager.UI.GetPanel<BenchPanel>().Blueprint.GetItemCombineCodes(_item);
-        //if (blueprintCodes == null) return;
+        if (itemCombineDic.TryGetValue(_item.Code, out var combineData) == false) return;
 
-        //for (int i = 0; i < blueprintCodes.Length - 1; i++) 
-        //{
-        //    if (blueprintCodes[i] == "-1") break;
-        //    AddItemByItemCode(blueprintCodes[i]);
-        //}
+        AddItemByItemCode(combineData.Material_1, 0);
+        AddItemByItemCode(combineData.Material_2, 1);
+        AddItemByItemCode(combineData.Material_3, 2);
     }
 
-    void AddItemByItemCode(string _itemCode)
+    private void AddItemByItemCode(string _itemCode, int _index)
     {
-        for (int i = 0; i < itemSO.items.Length; i++)
-            if (itemSO.items[i].data.Code == _itemCode)
-            {
-                AddBlueprintItem(itemSO.items[i]);
-                return;
-            }
+        if (_itemCode == "-1") return;
 
-        Debug.Log("아직 추가되지 않은 아이템: " + _itemCode);
+        if (itemBaseDic.TryGetValue(_itemCode, out var item))
+        {
+            infoSlots[_index].SetItem(item);
+        }
+        else
+        {
+            Debug.Log("아직 추가되지 않은 아이템: " + _itemCode);
+        }
     }
-
-    void AddBlueprintItem(ItemBase _item)
-    {
-        GameObject obj = Instantiate(blueprintSlotPrefab, blueprintSlotParent);
-        obj.GetComponentInChildren<BlueprintSlot>().Item = _item;
-        obj.GetComponentInChildren<BlueprintSlot>().enabled = false;
-        obj.GetComponentInChildren<TextMeshProUGUI>().text = _item.data.Korean;
-
-        blueprintSlotParent.gameObject.SetActive(true);
-    }
-
 }

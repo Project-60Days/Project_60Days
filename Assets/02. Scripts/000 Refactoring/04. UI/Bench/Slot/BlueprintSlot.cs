@@ -23,11 +23,11 @@ public class BlueprintSlot : SlotBase
         SetItem(unknownItem);
     }
 
-    public override void ShowItemInfo()
+    protected override void DescriptionOn()
     {
         if (Item.Code.Equals("ITEM_UNKNOWN")) return;
 
-        base.ShowItemInfo();
+        base.DescriptionOn();
     }
 
     public void CheckShowCondition()

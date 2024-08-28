@@ -28,6 +28,7 @@ public class TutorialManager : Manager, IListener
                 break;
 
             case EventCode.TutorialEnd:
+                Destroy(whitePanel.gameObject);
                 Destroy(gameObject);
                 break;
         }

@@ -29,7 +29,7 @@ public class InventorySlot : SlotBase
         {
             if (bench.Craft.CanAddItem == false) return;
 
-            HideItemInfo();
+            DescriptionOff();
 
             bench.Craft.MoveInventoryToCraft(Item);
 
@@ -52,7 +52,7 @@ public class InventorySlot : SlotBase
             {
                 if (bench.Equip.MoveInventoryToEquip(Item) == true)
                 {
-                    HideItemInfo();
+                    DescriptionOff();
                 }
             }   
         }

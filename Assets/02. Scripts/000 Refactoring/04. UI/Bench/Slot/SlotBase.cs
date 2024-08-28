@@ -39,20 +39,6 @@ public abstract class SlotBase : MonoBehaviour, IPointerClickHandler, IPointerEn
         bench = App.Manager.UI.GetPanel<BenchPanel>();
     }
 
-    private void Update()
-    {
-        if (isMouseEnter == true)
-        {
-            ShowItemInfo();
-        }
-    }
-
-    public virtual void ShowItemInfo()
-    {
-        Vector3 mousePos = Input.mousePosition;
-        itemInfo.ShowInfo(item, mousePos);
-    }
-
     public virtual void SetItem(ItemBase _item)
     {
         gameObject.SetActive(true);
@@ -65,32 +51,32 @@ public abstract class SlotBase : MonoBehaviour, IPointerClickHandler, IPointerEn
         Item = null;
     }
 
-    public virtual void OnPointerClick(PointerEventData eventData)
+    protected virtual void DescriptionOn()
     {
-        HideItemInfo();
+        if (item != null &&  isMouseEnter) return;
+
+        itemInfo.SetInfo(Item);
+        isMouseEnter = true;
+    }
+
+    protected void DescriptionOff()
+    {
+        itemInfo.ClosePanel();
+        isMouseEnter = false;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (item != null && isMouseEnter == false)
-        {
-            itemInfo.isNew = true;
-            isMouseEnter = true;
-        }
+        DescriptionOn();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (isMouseEnter == true) 
-        {
-            itemInfo.HideInfo();
-            isMouseEnter = false;
-        }
+        DescriptionOff();
     }
 
-    protected void HideItemInfo()
+    public virtual void OnPointerClick(PointerEventData eventData)
     {
-        itemInfo.HideInfo();
-        isMouseEnter = false;
+        DescriptionOff();
     }
 }
