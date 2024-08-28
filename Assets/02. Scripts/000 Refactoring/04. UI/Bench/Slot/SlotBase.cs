@@ -5,32 +5,15 @@ using UnityEngine.EventSystems;
 
 public abstract class SlotBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField] protected Image image;
-    public SlotType type;
+    [SerializeField] Image image;
 
-    ItemBase _item;
-
-    bool isMouseEnter = false;
-
-    void Update()
+    public ItemBase Item
     {
-        if (isMouseEnter == true)
-            ShowItemInfo();
-    }
-
-    public virtual void ShowItemInfo()
-    {
-        Vector3 mousePos = Input.mousePosition;
-        App.Manager.UI.GetPanel<ItemInfoPanel>().ShowInfo(_item, mousePos);
-    }
-
-    public ItemBase item
-    {
-        get { return _item; }
+        get { return item; }
         set
         {
-            _item = value;
-            if (_item != null)
+            item = value;
+            if (item != null)
             {
                 image.sprite = item.itemImage;
                 image.color = Color.white;
@@ -43,43 +26,71 @@ public abstract class SlotBase : MonoBehaviour, IPointerClickHandler, IPointerEn
         }
     }
 
+    protected BenchPanel benchPanel;
+    private ItemInfoPanel itemInfoPanel;
+
+    private ItemBase item;
+
+    private bool isMouseEnter = false;
+
+    protected virtual void Start()
+    {
+        itemInfoPanel = App.Manager.UI.GetPanel<ItemInfoPanel>();
+        benchPanel = App.Manager.UI.GetPanel<BenchPanel>();
+    }
+
+    private void Update()
+    {
+        if (isMouseEnter == true)
+        {
+            ShowItemInfo();
+        }
+    }
+
+    public virtual void ShowItemInfo()
+    {
+        Vector3 mousePos = Input.mousePosition;
+        itemInfoPanel.ShowInfo(item, mousePos);
+    }
+
     public virtual void SetItem(ItemBase _item)
     {
         gameObject.SetActive(true);
-        item = _item;
+        Item = _item;
     }
 
     public virtual void ResetItem()
     {
         gameObject.SetActive(false);
-        item = null;
+        Item = null;
     }
 
-    public abstract void OnPointerClick(PointerEventData eventData);
+    public virtual void OnPointerClick(PointerEventData eventData)
+    {
+        HideItemInfo();
+    }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (item != null && isMouseEnter == false)
         {
+            itemInfoPanel.isNew = true;
             isMouseEnter = true;
-            App.Manager.UI.GetPanel<ItemInfoPanel>().isNew = true;
         }
-            
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         if (isMouseEnter == true) 
         {
-            App.Manager.UI.GetPanel<ItemInfoPanel>().HideInfo();
+            itemInfoPanel.HideInfo();
             isMouseEnter = false;
         }
     }
 
     protected void HideItemInfo()
     {
-        App.Manager.UI.GetPanel<ItemInfoPanel>().HideInfo();
-        if (item == null)
-            isMouseEnter = false;
+        itemInfoPanel.HideInfo();
+        isMouseEnter = false;
     }
 }

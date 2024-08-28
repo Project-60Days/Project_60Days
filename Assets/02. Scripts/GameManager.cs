@@ -6,9 +6,6 @@ using UnityEngine.UI;
 
 public class GameManager : Manager, IListener
 {
-    public ItemSO itemSO;
-    [HideInInspector] public List<ItemBase> itemData => itemSO.items.ToList();
-
     public DayCtrl ctrl;
     [HideInInspector] public bool isOver = false;
     [HideInInspector] public bool isHit = false;
@@ -52,23 +49,7 @@ public class GameManager : Manager, IListener
 
     private void Start()
     {
-        
-        InitItemSO();
-
         durability = App.Data.Test.Map.durability;
-    }
-
-   
-
-    private void InitItemSO()
-    {
-        var itemData = App.Data.Game.itemData;
-
-        foreach (var item in itemSO.items)
-        {
-            item.data = itemData[item.Code];
-            item.Init();
-        }
     }
 
     public void NewDay()

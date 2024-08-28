@@ -28,7 +28,7 @@ public class Resource
 
     public Resource(string _code, int _count)
     {
-        Item = App.Manager.Game.itemSO.items.ToList().Find(x => x.data.Code == _code);
+        Item = App.Data.Game.ITEM.Find(x => x.data.Code == _code);
         Count = _count;
     }
 }

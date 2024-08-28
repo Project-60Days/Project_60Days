@@ -12,7 +12,7 @@ public abstract class ModeCtrl : MonoBehaviour
 
     public virtual void Init()
     {
-        itemData = App.Manager.Game.itemData.ToDictionary(x => x.Code);
+        itemData = App.Data.Game.ITEM.ToDictionary(x => x.Code);
 
         ResetSlots();
     }

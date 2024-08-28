@@ -157,7 +157,7 @@ public class ItemInfoPanel : UIBase
     void AddBlueprintItem(ItemBase _item)
     {
         GameObject obj = Instantiate(blueprintSlotPrefab, blueprintSlotParent);
-        obj.GetComponentInChildren<BlueprintSlot>().item = _item;
+        obj.GetComponentInChildren<BlueprintSlot>().Item = _item;
         obj.GetComponentInChildren<BlueprintSlot>().enabled = false;
         obj.GetComponentInChildren<TextMeshProUGUI>().text = _item.data.Korean;
 

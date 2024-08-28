@@ -47,11 +47,11 @@ public class EquipCtrl : ModeCtrl, IListener
 
         var slot = equipSlots[item.data.EquipType];
 
-        if (slot.isLocked) return false;
+        if (slot.IsLocked) return false;
 
-        if (slot.item != null)
+        if (slot.Item != null)
         {
-            inventory.AddItem(slot.item);
+            inventory.AddItem(slot.Item);
             slot.ResetItem();
         }
 
@@ -65,9 +65,9 @@ public class EquipCtrl : ModeCtrl, IListener
     {
         var slot = equipSlots[item.data.EquipType];
 
-        if (slot.item == null) return;
+        if (slot.Item == null) return;
         
-        inventory.AddItem(slot.item);
+        inventory.AddItem(slot.Item);
         slot.ResetItem();
     }
 
@@ -75,11 +75,11 @@ public class EquipCtrl : ModeCtrl, IListener
     {
         foreach (var slot in equipSlots)
         {
-            if (slot.item == null) continue;
+            if (slot.Item == null) continue;
 
-            slot.item.DayEvent();
+            slot.Item.DayEvent();
 
-            if (slot.item.CheckMeetCondition())
+            if (slot.Item.CheckMeetCondition())
             {
                 slot.ResetItem();
             }

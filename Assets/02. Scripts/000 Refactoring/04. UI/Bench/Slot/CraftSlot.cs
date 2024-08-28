@@ -7,31 +7,26 @@ public class CraftSlot : SlotBase
 {
     public static Action CraftItemClick;
 
-    public CraftSlot()
-    {
-        type = SlotType.CraftingSlot;
-    }
+    [SerializeField] SlotType slotType;
 
     public override void OnPointerClick(PointerEventData eventData)
     {
-        switch (type)
+        base.OnPointerClick(eventData);
+
+        switch (slotType)
         {
             case SlotType.CraftingSlot:
-                App.Manager.UI.GetPanel<BenchPanel>().Craft.MoveCraftToInventory(item);
+                benchPanel.Craft.MoveCraftToInventory(Item);
                 break;
             case SlotType.ResultSlot:
-                App.Manager.UI.GetPanel<BenchPanel>().Craft.MoveResultToInventory(item);
+                benchPanel.Craft.MoveResultToInventory(Item);
+
                 App.Manager.Sound.PlaySFX("SFX_Craft_Result");
-                if (item.isMadeOnce == false)
-                {
-                    item.isMadeOnce = true;
-                }
-                    
+
+                Item.isMadeOnce = true;
                 break;
         }
 
         CraftItemClick?.Invoke();
-
-        HideItemInfo();
     }
 }

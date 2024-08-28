@@ -8,7 +8,7 @@ public class InventoryPanel : UIBase, IListener
     private Dictionary<string, ItemBase> itemBaseDic;
     private List<ItemBase> items = new();
 
-    private List<ItemSlot>[] slots = new List<ItemSlot>[6];
+    private List<InventorySlot>[] slots = new List<InventorySlot>[6];
     private int[] counts;
 
     private void Awake()
@@ -29,7 +29,7 @@ public class InventoryPanel : UIBase, IListener
     #region Override
     public override void Init()
     {
-        itemBaseDic = App.Manager.Game.itemData.ToDictionary(item => item.data.Code);
+        itemBaseDic = App.Data.Game.ITEM.ToDictionary(item => item.data.Code);
 
         counts = new int[6];
 
@@ -40,7 +40,7 @@ public class InventoryPanel : UIBase, IListener
 
         foreach (Transform child in transform)
         {
-            var slot = child.GetComponent<ItemSlot>();
+            var slot = child.GetComponent<InventorySlot>();
             slots[slot.category].Add(slot);
         }
 

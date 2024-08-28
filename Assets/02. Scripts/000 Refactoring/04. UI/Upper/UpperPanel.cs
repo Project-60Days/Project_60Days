@@ -57,7 +57,7 @@ public class UpperPanel : UIBase, IListener
 
         itemTextList.Clear();
 
-        foreach (var item in App.Manager.Game.itemData)
+        foreach (var item in App.Data.Game.ITEM)
         {
             if (itemTextDic.ContainsKey(item.data.Code))
             {

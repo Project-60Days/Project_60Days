@@ -169,7 +169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 411417707593680204}
-  type: 1
+  slotType: 1
 --- !u!225 &4575858052133730076
 CanvasGroup:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 #region Data Class
@@ -152,6 +153,9 @@ public class GameData : Data
     public Dictionary<string, ItemData> itemData = new Dictionary<string, ItemData>();
     public Dictionary<int, ItemCombineData> itemCombineData = new Dictionary<int, ItemCombineData>();
 
+    [SerializeField] ItemSO itemSO;
+    public List<ItemBase> ITEM => itemSO.items.ToList();
+
     #region Data Path
     private string stringDataPath = "Data/StringData";
     private string valueDataPath = "Data/ValueData";
@@ -166,6 +170,12 @@ public class GameData : Data
         base.Awake();
 
         LoadData();
+
+        foreach (var item in itemSO.items)
+        {
+            item.data = itemData[item.Code];
+            item.Init();
+        }
     }
 
     public void LoadData()

@@ -15,7 +15,7 @@ public class CraftCtrl : ModeCtrl, IListener
 
     private InventoryPanel inventory;
 
-    public bool IsCombinedResult => resultSlot.gameObject.activeSelf;
+    public bool CanAddItem => craftItems.Count < 3;
 
     private void Awake()
     {
@@ -106,10 +106,6 @@ public class CraftCtrl : ModeCtrl, IListener
         }
     }
 
-    /// <summary>
-    /// CraftBag에 아이템 추가
-    /// </summary>
-    /// <param name="_item"></param>
     public void MoveInventoryToCraft(ItemBase _item)
     {
         inventory.RemoveItem(_item);

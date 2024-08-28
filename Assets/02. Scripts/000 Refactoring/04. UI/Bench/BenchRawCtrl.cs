@@ -7,7 +7,7 @@ public class BenchRawCtrl : MonoBehaviour
 
     private void Start()
     {
-        ItemSlot.CraftItemClick += ChangeTarget;
+        InventorySlot.CraftItemClick += ChangeTarget;
         BlueprintSlot.CraftItemClick += ChangeTarget;
         CraftSlot.CraftItemClick += InitTarget;
 
@@ -16,7 +16,7 @@ public class BenchRawCtrl : MonoBehaviour
 
     private void OnDestroy()
     {
-        ItemSlot.CraftItemClick -= ChangeTarget;
+        InventorySlot.CraftItemClick -= ChangeTarget;
         BlueprintSlot.CraftItemClick -= ChangeTarget;
         CraftSlot.CraftItemClick -= InitTarget;
     }
