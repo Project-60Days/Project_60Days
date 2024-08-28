@@ -39,13 +39,9 @@ public class EquipCtrl : ModeCtrl, IListener
 
     private bool AddEquip(ItemBase item)
     {
-        if (item.data.EquipType >= equipSlots.Length)
-        {
-            Debug.LogWarning($"EquipType {item.data.EquipType} is out of range for equipSlots.");
-            return false;
-        }
+        if (item.Data.EquipType >= equipSlots.Length) return false;
 
-        var slot = equipSlots[item.data.EquipType];
+        var slot = equipSlots[item.Data.EquipType];
 
         if (slot.IsLocked) return false;
 
@@ -63,7 +59,7 @@ public class EquipCtrl : ModeCtrl, IListener
 
     private void RemoveEquip(ItemBase item)
     {
-        var slot = equipSlots[item.data.EquipType];
+        var slot = equipSlots[item.Data.EquipType];
 
         if (slot.Item == null) return;
         

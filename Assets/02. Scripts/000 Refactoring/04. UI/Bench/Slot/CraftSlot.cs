@@ -23,7 +23,7 @@ public class CraftSlot : SlotBase
 
                 App.Manager.Sound.PlaySFX("SFX_Craft_Result");
 
-                Item.isMadeOnce = true;
+                Item.Data.IsMadeOnce = true;
                 break;
         }
 

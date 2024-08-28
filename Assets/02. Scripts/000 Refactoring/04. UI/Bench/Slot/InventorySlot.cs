@@ -20,7 +20,7 @@ public class InventorySlot : SlotBase
     {
         base.SetItem(_item);
 
-        countTMP.text = Item.itemCount.ToString();
+        countTMP.text = Item.Data.Count.ToString();
     }
 
     public override void OnPointerClick(PointerEventData eventData)
@@ -43,18 +43,16 @@ public class InventorySlot : SlotBase
             {
                 App.Manager.Sound.PlaySFX("SFX_Craft_Item");
             }
-              
-            CraftItemClick?.Invoke(Item.sprite);
+
+            Debug.Log(Item.IllustSprite.name);
+            CraftItemClick?.Invoke(Item.IllustSprite);
         }
         else if (bench.BenchMode == BenchType.Equip)
         {
-            if (Item.itemType == ItemType.Equipment)
+            if (bench.Equip.MoveInventoryToEquip(Item) == true)
             {
-                if (bench.Equip.MoveInventoryToEquip(Item) == true)
-                {
-                    DescriptionOff();
-                }
-            }   
+                DescriptionOff();
+            }
         }
     }
 }

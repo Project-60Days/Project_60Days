@@ -57,7 +57,7 @@ public class BlueprintCtrl : ModeCtrl
     {
         ResetSlots();
 
-        if (!itemCombineDic.TryGetValue(_item.data.Code, out var combineData)) return;
+        if (!itemCombineDic.TryGetValue(_item.Code, out var combineData)) return;
 
         string[] blueprintCodes = { combineData.Material_1, combineData.Material_2, combineData.Material_3, combineData.Result };
 

@@ -26,8 +26,10 @@ public class BenchRawCtrl : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void ChangeTarget(Sprite itemSprite)
+    public void ChangeTarget(Sprite itemSprite)
     {
+        Debug.Log("ChangeTarget");
+
         if (itemSprite == null)
         {
             InitTarget();

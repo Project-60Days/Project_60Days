@@ -29,7 +29,7 @@ public class InventoryPanel : UIBase, IListener
     #region Override
     public override void Init()
     {
-        itemBaseDic = App.Data.Game.ITEM.ToDictionary(item => item.data.Code);
+        itemBaseDic = App.Data.Game.ITEM.ToDictionary(item => item.Code);
 
         counts = new int[6];
 
@@ -78,7 +78,7 @@ public class InventoryPanel : UIBase, IListener
     {
         ResetSlots(category);
 
-        foreach (var item in items.Where(item => item.data.Category == category))
+        foreach (var item in items.Where(item => item.Data.Category == category))
         {
             if (counts[category] < slots[category].Count)
             {
@@ -98,14 +98,14 @@ public class InventoryPanel : UIBase, IListener
     #region Add Item
     public void AddItem(ItemBase _item)
     {
-        if (_item.itemCount == 0)
+        if (_item.Data.Count == 0)
         {
             items.Add(_item);
         }
 
-        _item.itemCount++;
+        _item.Data.Count++;
 
-        UpdateSlots(_item.data.Category);
+        UpdateSlots(_item.Data.Category);
     }
 
     public void AddItemByItemCode(params string[] _itemCode)
@@ -123,14 +123,14 @@ public class InventoryPanel : UIBase, IListener
     #region Remove Item
     public void RemoveItem(ItemBase _item)
     {
-        _item.itemCount--;
+        _item.Data.Count--;
 
-        if (_item.itemCount == 0)
+        if (_item.Data.Count == 0)
         {
             items.Remove(_item);
         }
 
-        UpdateSlots(_item.data.Category);
+        UpdateSlots(_item.Data.Category);
     }
 
     public void RemoveItemByCode(string _itemCode)
@@ -149,7 +149,7 @@ public class InventoryPanel : UIBase, IListener
         do
         {
             itemToRemove = items[Random.Range(0, items.Count)];
-        } while (itemToRemove.data.Code == "ITEM_NETWORKCHIP");
+        } while (itemToRemove.Code == "ITEM_NETWORKCHIP");
 
         App.Manager.UI.GetPanel<PagePanel>().SetCurrResource(itemToRemove);
         App.Manager.UI.GetPanel<PagePanel>().SetResultPage("LOOSE_RESOURCE", false);
@@ -159,7 +159,7 @@ public class InventoryPanel : UIBase, IListener
     #endregion
 
     public bool CheckItemExist(string _itemCode)
-        => items.Exists(x => x.data.Code == _itemCode);
+        => items.Exists(x => x.Code == _itemCode);
 
     #region Cheat Key
     void Update()
@@ -173,7 +173,7 @@ public class InventoryPanel : UIBase, IListener
         {
             foreach (var item in itemBaseDic.Values)
             {
-                if (++counts[item.data.Category] > slots[item.data.Category].Count) return;
+                if (++counts[item.Data.Category] > slots[item.Data.Category].Count) return;
                 AddItem(item);
             }
         }

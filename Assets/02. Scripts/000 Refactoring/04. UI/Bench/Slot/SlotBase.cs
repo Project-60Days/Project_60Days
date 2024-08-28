@@ -15,7 +15,7 @@ public abstract class SlotBase : MonoBehaviour, IPointerClickHandler, IPointerEn
             item = value;
             if (item != null)
             {
-                image.sprite = item.itemImage;
+                image.sprite = item.IconSprite;
                 image.color = Color.white;
             }
             else

@@ -196,9 +196,9 @@ public class PagePanel : UIBase, IListener
 
     public void SetCurrResource(ItemBase _item)
     {
-        currResource = _item.data.Korean;
+        currResource = App.Data.Game.GetString(_item.Data.Name);
 
-        switch (_item.data.Code)
+        switch (_item.Code)
         {
             case "ITEM_STEEL":
                 currResourceIndex = 0;

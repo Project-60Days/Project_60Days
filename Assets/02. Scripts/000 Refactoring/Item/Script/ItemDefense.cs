@@ -11,7 +11,7 @@ public class ItemDefense : ItemBase
     {
         beforeDurabillity = App.Manager.Game.Durability;
 
-        App.Manager.Game.Durability += (int)data.value1;
+        App.Manager.Game.Durability += (int)Data.value1;
         App.Manager.UI.GetPanel<UpperPanel>().PlayDurabilityAnim();
     }
 

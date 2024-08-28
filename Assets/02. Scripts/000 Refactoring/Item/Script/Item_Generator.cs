@@ -14,9 +14,9 @@ public class Item_Generator : ItemBase
 
     public override void DayEvent()
     {
-        if ((App.Manager.Game.DayCount - beforeDay) % data.value1 == 0)
+        if ((App.Manager.Game.DayCount - beforeDay) % Data.value1 == 0)
         {
-            for (int i = 0; i < data.value2; i++)
+            for (int i = 0; i < Data.value2; i++)
             {
                 App.Manager.UI.GetPanel<InventoryPanel>().AddItemByItemCode("ITEM_PLASMA");
             }

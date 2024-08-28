@@ -28,7 +28,7 @@ public class ItemInfoPanel : UIBase
         rect = gameObject.GetComponent<RectTransform>();
         canvasGroup = gameObject.GetComponent<CanvasGroup>();
 
-        itemBaseDic = App.Data.Game.ITEM.ToDictionary(item => item.data.Code);
+        itemBaseDic = App.Data.Game.ITEM.ToDictionary(item => item.Code);
         itemCombineDic = App.Data.Game.itemCombineData.Values.ToDictionary(x => x.Result);
 
         ClosePanel();
@@ -105,33 +105,41 @@ public class ItemInfoPanel : UIBase
 
     private void UpdateUI(ItemBase _item)
     {
-        if (!string.IsNullOrEmpty(_item.data.Korean))
+        if (!string.IsNullOrEmpty(App.Data.Game.GetString(_item.Data.Name)))
         {
             itemName.gameObject.SetActive(true);
-            itemName.text = _item.data.Korean;
+            itemName.text = App.Data.Game.GetString(_item.Data.Name);
         }
        
-        if (!string.IsNullOrEmpty(_item.data.Description))
+        if (!string.IsNullOrEmpty(App.Data.Game.GetString(_item.Data.Description)))
         {
             itemDescribe.gameObject.SetActive(true);
-            itemDescribe.text = _item.data.Description;
+            itemDescribe.text = _item.Data.Description;
         }
        
-        if (_item.data.EquipArea != "-1")
+        if (!string.IsNullOrEmpty(GetEquipArea(_item)))
         {
             itemEquip.gameObject.SetActive(true);
             contour.SetActive(true);
-            itemEquip.text = _item.data.EquipArea;
+            itemEquip.text = GetEquipArea(_item);
         }
 
-        if (!string.IsNullOrEmpty(_item.data.EffectDescription))
+        if (!string.IsNullOrEmpty(App.Data.Game.GetString(_item.Data.Effect)))
         {
             itemEffect.gameObject.SetActive(true);
             contour.SetActive(true);
 
-            itemEffect.text = string.Format(_item.data.EffectDescription, _item.data.value1, _item.data.value2, _item.data.value3);
+            itemEffect.text = string.Format(App.Data.Game.GetString(_item.Data.Effect), _item.Data.value1, _item.Data.value2, _item.Data.value3);
         }
     }
+
+    private string GetEquipArea(ItemBase _item) => _item.Data.EquipType switch
+    {
+        0 => App.Data.Game.GetString("STR_ITEM_EQUIPAREA_DEFENSE"),
+        1 => App.Data.Game.GetString("STR_ITEM_EQUIPAREA_ATTACK"),
+        2 => App.Data.Game.GetString("STR_ITEM_EQUIPAREA_SPECIAL"),
+        _ => string.Empty,
+    };
 
     private void UpdateBlueprint(ItemBase _item)
     {

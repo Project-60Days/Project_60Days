@@ -213,9 +213,9 @@ public abstract class TileBase : MonoBehaviour
 
     private void SetIcon(SpriteRenderer _icon, Resource _resource)
     {
-        info.resourceTxt += _resource.Item.data.Korean + " " + _resource.Count + "EA\n";
+        info.resourceTxt += App.Data.Game.GetString(_resource.Item.Data.Name) + " " + _resource.Count + "EA\n";
 
-        _icon.sprite = _resource.Item.itemImage;
+        _icon.sprite = _resource.Item.IconSprite;
         _icon.gameObject.SetActive(true);
     }
     #endregion

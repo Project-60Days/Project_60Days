@@ -11,7 +11,7 @@ public class InfoSlot : SlotBase
     {
         base.SetItem(_item);
 
-        nameTMP.text = Item.data.Korean;
+        nameTMP.text = App.Data.Game.GetString(Item.Data.Name);
     }
 
     public override void ResetItem()

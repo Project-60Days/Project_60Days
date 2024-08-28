@@ -8,20 +8,6 @@ public enum SceneName
     Craft
 }
 
-public enum SoundType
-{
-    SFX,
-    BGM,
-    ALL
-}
-
-public enum ItemType
-{
-    Material,
-    Equipment,
-    Special
-}
-
 public enum BasicItem
 {
     Steel,

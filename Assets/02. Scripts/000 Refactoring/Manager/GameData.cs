@@ -7,7 +7,6 @@ using UnityEngine;
 [Serializable]
 public class StringData
 {
-    public int Index;
     public string Code;
     public string Korean;
     public string English;
@@ -62,20 +61,16 @@ public class StructData
 [Serializable]
 public class ItemData
 {
-    public int Index;
-    public int Category;
     public string Code;
-    public int AppearTileType;
-    public int Type;
+    public int Count;
+    public int Category;
     public int EquipType;
-    public string EquipArea;
-    public int CombineSlotCount;
+    public bool IsMadeOnce;
+    public bool IsBlueprintOpen;
+    public bool CanRemoveEquipment;
+    public string Name;
     public string Description;
-    public string EffectDescription;
-    public string Korean;
-    public string English;
-    public string Japanese;
-    public string Chinese;
+    public string Effect;
     public float value1;
     public float value2;
     public float value3;
@@ -173,8 +168,7 @@ public class GameData : Data
 
         foreach (var item in itemSO.items)
         {
-            item.data = itemData[item.Code];
-            item.Init();
+            item.SetData(itemData[item.Code]);
         }
     }
 

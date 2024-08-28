@@ -98,9 +98,9 @@ public class CraftCtrl : ModeCtrl, IListener
         if (craftItems.Count < 2) return;
 
         var sortedItems = craftItems.OrderBy(item => item.Code).ToList();
-        var combinedKey = string.Concat(sortedItems.Select(x => x.data.Code));
+        var combinedKey = string.Concat(sortedItems.Select(x => x.Code));
 
-        if (itemCombineDic.TryGetValue(combinedKey, out var combineData) && itemData[combineData.Result].isBlueprintOpen)
+        if (itemCombineDic.TryGetValue(combinedKey, out var combineData) && itemData[combineData.Result].Data.IsBlueprintOpen)
         {
             resultSlot.SetItem(itemData[combineData.Result]);
         }

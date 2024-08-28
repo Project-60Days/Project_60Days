@@ -11,7 +11,7 @@ public class Item_GPS : ItemBase
     {
         beforeDay = App.Manager.Game.DayCount;
 
-        App.Manager.Asset.Fog.AddRange((int)data.value1);
+        App.Manager.Asset.Fog.AddRange((int)Data.value1);
     }
 
     public override bool CheckMeetCondition()

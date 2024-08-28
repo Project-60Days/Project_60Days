@@ -59,9 +59,9 @@ public class UpperPanel : UIBase, IListener
 
         foreach (var item in App.Data.Game.ITEM)
         {
-            if (itemTextDic.ContainsKey(item.data.Code))
+            if (itemTextDic.ContainsKey(item.Code))
             {
-                itemBaseDic[item.data.Code] = item;
+                itemBaseDic[item.Code] = item;
             }
         }
 
@@ -77,7 +77,7 @@ public class UpperPanel : UIBase, IListener
             var itemCode = itemBase.Key;
             var item = itemBase.Value;
 
-            itemTextDic[itemCode].text = item.itemCount.ToString("D3");
+            itemTextDic[itemCode].text = item.Data.Count.ToString("D3");
         }
     }
 
@@ -85,7 +85,7 @@ public class UpperPanel : UIBase, IListener
     {
         if (itemBaseDic.ContainsKey(itemCode))
         {
-            itemTextDic[itemCode].text = itemBaseDic[itemCode].itemCount.ToString("D3");
+            itemTextDic[itemCode].text = itemBaseDic[itemCode].Data.Count.ToString("D3");
         }
     }
 

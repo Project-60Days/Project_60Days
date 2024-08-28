@@ -34,7 +34,7 @@ public class BlueprintSlot : SlotBase
     {
         foreach (var item in parentItems)
         {
-            if (item.isMadeOnce == false) return;
+            if (item.Data.IsMadeOnce == false) return;
         }
 
         SetIconShow();
@@ -45,7 +45,7 @@ public class BlueprintSlot : SlotBase
         SetItem(bluePrintItem);
 
         parentImg.sprite = openSlot;
-        bluePrintItem.isBlueprintOpen = true;
+        bluePrintItem.Data.IsBlueprintOpen = true;
     }
 
     public override void OnPointerClick(PointerEventData eventData)
@@ -56,6 +56,6 @@ public class BlueprintSlot : SlotBase
 
         bench.Blueprint.UpdateSlots(Item);
 
-        CraftItemClick?.Invoke(Item.sprite);
+        CraftItemClick?.Invoke(Item.IllustSprite);
     }
 }

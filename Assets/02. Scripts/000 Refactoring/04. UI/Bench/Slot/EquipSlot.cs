@@ -13,7 +13,7 @@ public class EquipSlot : SlotBase
         base.SetItem(_item);
 
         Item.Equip();
-        IsLocked = !Item.canRemoveEquipment;
+        IsLocked = !Item.Data.CanRemoveEquipment;
         ChangeSlotColor();
     }
 

@@ -67,7 +67,7 @@
     "Material_1": "ITEM_CARBON",
     "Material_2": "ITEM_WIRE",
     "Material_3": -1,
-    "Result": "ITEM_RESISTOR"
+    "Result": "ITEM_REGISTOR"
   },
   {
     "Index": 1011,
@@ -114,7 +114,7 @@
   {
     "Index": 1017,
     "Material_1": "ITEM_GENERATOR",
-    "Material_2": "ITEM_RESISTOR",
+    "Material_2": "ITEM_REGISTOR",
     "Material_3": -1,
     "Result": "ITEM_DISRUPTOR"
   },
@@ -164,7 +164,7 @@
     "Index": 1024,
     "Material_1": "ITEM_CANNON",
     "Material_2": "ITEM_PLASMA",
-    "Material_3": "ITEM_RESISTOR",
+    "Material_3": "ITEM_REGISTOR",
     "Result": "ITEM_EMP"
   },
   {

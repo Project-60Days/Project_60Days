@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SelectJustoUda : SelectBase
 {
-    public override string Key() => App.Data.Game.GetString("STR_SELECT_JUSTOUDA_KEY");
+    public override string Key() => "JustoUda";
 
     protected override string GetTextA() => App.Data.Game.GetString("STR_SELECT_JUSTOUDA_A");
     protected override string GetTextB() => App.Data.Game.GetString("STR_SELECT_JUSTOUDA_B");
