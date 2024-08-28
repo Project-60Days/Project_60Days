@@ -21,6 +21,8 @@ public class EquipSlot : SlotBase
     {
         base.ResetItem();
 
+        if (Item == null) return;
+
         Item.UnEquip();
         IsLocked = false;
         ChangeSlotColor();
