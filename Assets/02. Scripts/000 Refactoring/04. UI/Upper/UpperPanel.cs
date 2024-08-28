@@ -66,7 +66,7 @@ public class UpperPanel : UIBase, IListener
         }
 
         UpdateAllItemCount();
-        UpdateDurability();
+        durabilityText.text = App.Manager.Game.Durability.ToString("D3");
     }
     #endregion
 
@@ -89,20 +89,9 @@ public class UpperPanel : UIBase, IListener
         }
     }
 
-    private void UpdateDurability()
-    {
-        durabilityText.text = App.Manager.Game.durability.ToString("D3");
-    }
-
-    private void UpdateAfterFight()
-    {
-        UpdateItemCount("ITEM_BULLET");
-        UpdateDurability();
-    }
-
     public void PlayDurabilityAnim(bool increase = true)
     {
-        int endNumber = App.Manager.Game.durability;
+        int endNumber = App.Manager.Game.Durability;
         int currentNumber = int.Parse(durabilityText.text);
 
         float duration = increase ? 1f : 2f;

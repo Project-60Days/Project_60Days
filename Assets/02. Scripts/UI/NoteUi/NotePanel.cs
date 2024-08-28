@@ -53,9 +53,6 @@ public class NotePanel : UIBase
 
         ActiveAndPlayPage();
 
-        if (App.Manager.Game.isNewDay)
-            App.Manager.Game.isNewDay = false;
-
         ChangePageButton();
 
         App.Manager.Sound.PlaySFX("SFX_Note_Open");
@@ -103,7 +100,7 @@ public class NotePanel : UIBase
     /// </summary>
     void SetVariables()
     {
-        dayText.text = "Day " + ++App.Manager.Game.dayCount;
+        dayText.text = "Day " + App.Manager.Game.DayCount;
         pageNum = 0;
         notePages = GetNotePageArray();
     }

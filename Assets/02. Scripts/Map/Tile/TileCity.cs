@@ -15,7 +15,7 @@ public class TileCity : TileBase
 
         if (random < 30) // Collapsed building accident: durability reduced by -3
         {
-            App.Manager.Game.ChangeDurbility(-3);
+            App.Manager.Game.Durability -= -3;
         }
 
         if (random < 5) // Stolen Resources: One of resources is taken away at random.

@@ -11,11 +11,11 @@ public class Item_Shapemetal : ItemDefense
     {
         base.Equip();
 
-        beforeDay = App.Manager.Game.dayCount;
+        beforeDay = App.Manager.Game.DayCount;
 
         App.Data.Test.SetCloaking((int)data.value2);
     }
 
     public override bool CheckMeetCondition()
-        => App.Manager.Game.dayCount - beforeDay >= 6 && App.Manager.Game.durability <= beforeDurabillity;
+        => App.Manager.Game.DayCount - beforeDay >= 6 && App.Manager.Game.Durability <= beforeDurabillity;
 }

@@ -180,7 +180,7 @@ public class CustomYarnCommands : MonoBehaviour
     #region Tutorial 06
     Coroutine WaitNewDay()
     {
-        return StartCoroutine(new WaitUntil(() => App.Manager.Game.isNewDay));
+        return StartCoroutine(new WaitUntil(() => App.Manager.Game.DayCount == 1));
     }
 
     void EnableBtn(bool _value)

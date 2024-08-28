@@ -64,7 +64,7 @@ public class EndingPanel : UIBase
         bgmVolume = App.Manager.Sound.SetBGMVolumeTweening(8f);
         App.Manager.Sound.StopSFX();
 
-        text02.text = "메인 스토리 챕터 01 클리어까지 " + App.Manager.Game.dayCount + "일 소요되었습니다.\n축하합니다!";
+        text02.text = "메인 스토리 챕터 01 클리어까지 " + App.Manager.Game.DayCount + "일 소요되었습니다.\n축하합니다!";
 
         PlayCredit();
     }

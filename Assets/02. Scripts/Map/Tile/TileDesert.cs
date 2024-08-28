@@ -10,7 +10,7 @@ public class TileDesert : TileBase
     {
         int random = Random.Range(0, 100);
 
-        App.Manager.Game.ChangeDurbility(-1);
+        App.Manager.Game.Durability -= -1;
 
         if (random < 10) // Sandstorm debuff: unable to move for a day
         {

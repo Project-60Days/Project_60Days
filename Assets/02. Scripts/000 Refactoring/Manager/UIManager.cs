@@ -7,7 +7,6 @@ using DG.Tweening;
 public class UIManager : Manager, IListener
 {
     [SerializeField] Image blackBlur;
-    [SerializeField] List<UIBase> UIs;
 
     [HideInInspector] public UIState CurrState
         => UIStack.Count == 0 ? UIState.Normal : UIStack.Peek();
@@ -19,15 +18,15 @@ public class UIManager : Manager, IListener
     {
         base.Awake();
 
-        UIDic = new(UIs.Count);
+        UIBase[] UIs = GetComponentsInChildren<UIBase>();
+
+        UIDic = new(UIs.Length);
         UIStack = new();
 
         foreach (var UI in UIs)
         {
             UIDic.Add(UI.GetPanelType(), UI);
         }
-
-        UIs.Clear(); // clear memory
 
         App.Manager.Event.AddListener(EventCode.NextDayMiddle, this);
         App.Manager.Event.AddListener(EventCode.NextDayEnd, this);
@@ -38,13 +37,11 @@ public class UIManager : Manager, IListener
         switch (_code)
         {
             case EventCode.NextDayMiddle:
-                AddUIStack(UIState.NewDay);
                 ReInitUIs();
                 break;
 
             case EventCode.NextDayEnd:
                 FadeOut();
-                PopUIStack(UIState.NewDay);
                 break;
         }
     }
@@ -74,12 +71,6 @@ public class UIManager : Manager, IListener
     {
         foreach (var UI in UIDic.Values)
         {
-            if (!UI.gameObject.activeSelf) //wake up panels
-            {
-                UI.gameObject.SetActive(true);
-                UI.gameObject.SetActive(false);
-            }
-
             try { UI.ReInit(); }
             catch (Exception error)
             { Debug.LogError($"ERROR: {error.Message}\n{error.StackTrace}"); }
@@ -96,9 +87,13 @@ public class UIManager : Manager, IListener
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (CurrState == UIState.Normal)
+            {
                 GetPanel<MenuPanel>().OpenPanel();
+            }
             else
+            {
                 Application.Quit();
+            }
         }
     }
 
@@ -143,7 +138,6 @@ public class UIManager : Manager, IListener
         "UI_LOADING" => UIState.Loading,
         "UI_MENU" => UIState.Menu,
         _ => UIState.Normal,
-
     };
     #endregion
 

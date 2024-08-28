@@ -9,12 +9,12 @@ public class ItemDefense : ItemBase
 
     public override void Equip()
     {
-        beforeDurabillity = App.Manager.Game.durability;
+        beforeDurabillity = App.Manager.Game.Durability;
 
-        App.Manager.Game.durability += (int)data.value1;
+        App.Manager.Game.Durability += (int)data.value1;
         App.Manager.UI.GetPanel<UpperPanel>().PlayDurabilityAnim();
     }
 
     public override bool CheckMeetCondition()
-        => App.Manager.Game.durability <= beforeDurabillity;
+        => App.Manager.Game.Durability <= beforeDurabillity;
 }

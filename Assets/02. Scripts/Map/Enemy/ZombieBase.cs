@@ -102,7 +102,7 @@ public class ZombieBase : MonoBehaviour
 
         if (movePath.Count == 0 && target == App.Manager.Map.tileCtrl.Model) // When the player is within 1 space, attack player
         {
-            App.Manager.Game.TakeDamage(count);
+            App.Manager.Game.Durability -= count;
         }
         else
         {

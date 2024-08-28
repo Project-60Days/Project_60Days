@@ -9,12 +9,12 @@ public class Item_Generator : ItemBase
 
     public override void Equip()
     {
-        beforeDay = App.Manager.Game.dayCount;
+        beforeDay = App.Manager.Game.DayCount;
     }
 
     public override void DayEvent()
     {
-        if ((App.Manager.Game.dayCount - beforeDay) % data.value1 == 0)
+        if ((App.Manager.Game.DayCount - beforeDay) % data.value1 == 0)
         {
             for (int i = 0; i < data.value2; i++)
             {

@@ -37,13 +37,13 @@ public class PlayerUnit : MapBase
     public void SetCloaking(int num)
     {
         player.SetCloaking(true);
-        cloakingDay = App.Manager.Game.dayCount + num;
+        cloakingDay = App.Manager.Game.DayCount + num;
         isCloaking = true;
     }
 
     private void CheckCloaking()
     {
-        if (App.Manager.Game.dayCount == cloakingDay)
+        if (App.Manager.Game.DayCount == cloakingDay)
         {
             player.SetCloaking(false);
             App.Data.Test.UnsetCloaking();

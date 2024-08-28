@@ -9,11 +9,11 @@ public class Item_GPS : ItemBase
 
     public override void Equip()
     {
-        beforeDay = App.Manager.Game.dayCount;
+        beforeDay = App.Manager.Game.DayCount;
 
         App.Manager.Asset.Fog.AddRange((int)data.value1);
     }
 
     public override bool CheckMeetCondition()
-        => App.Manager.Game.dayCount - beforeDay == 1;
+        => App.Manager.Game.DayCount - beforeDay == 1;
 }
