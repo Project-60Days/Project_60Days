@@ -16,10 +16,10 @@ public class CraftSlot : SlotBase
         switch (slotType)
         {
             case SlotType.CraftingSlot:
-                benchPanel.Craft.MoveCraftToInventory(Item);
+                bench.Craft.MoveCraftToInventory(Item);
                 break;
             case SlotType.ResultSlot:
-                benchPanel.Craft.MoveResultToInventory(Item);
+                bench.Craft.MoveResultToInventory(Item);
 
                 App.Manager.Sound.PlaySFX("SFX_Craft_Result");
 

@@ -25,13 +25,13 @@ public class InventorySlot : SlotBase
 
     public override void OnPointerClick(PointerEventData eventData)
     {
-        if (benchPanel.BenchMode == BenchType.Craft)
+        if (bench.BenchMode == BenchType.Craft)
         {
-            if (benchPanel.Craft.CanAddItem == false) return;
+            if (bench.Craft.CanAddItem == false) return;
 
             HideItemInfo();
 
-            benchPanel.Craft.MoveInventoryToCraft(Item);
+            bench.Craft.MoveInventoryToCraft(Item);
 
             string sfxName = "SFX_Craft_" + Item.Code;
 
@@ -46,11 +46,11 @@ public class InventorySlot : SlotBase
               
             CraftItemClick?.Invoke(Item.sprite);
         }
-        else if (benchPanel.BenchMode == BenchType.Equip)
+        else if (bench.BenchMode == BenchType.Equip)
         {
             if (Item.itemType == ItemType.Equipment)
             {
-                if (benchPanel.Equip.MoveInventoryToEquip(Item) == true)
+                if (bench.Equip.MoveInventoryToEquip(Item) == true)
                 {
                     HideItemInfo();
                 }

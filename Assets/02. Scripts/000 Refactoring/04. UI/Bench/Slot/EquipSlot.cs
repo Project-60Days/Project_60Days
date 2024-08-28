@@ -37,6 +37,6 @@ public class EquipSlot : SlotBase
 
         base.OnPointerClick(eventData);
 
-        benchPanel.Equip.MoveEquipToInventory(Item);
+        bench.Equip.MoveEquipToInventory(Item);
     }
 }
