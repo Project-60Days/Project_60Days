@@ -1,21 +1,21 @@
 using System.Linq;
-using System.Collections;
+using System.Text;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 public class CraftCtrl : ModeCtrl, IListener
 {
     public override BenchType GetModeType() => BenchType.Craft;
 
-    List<ItemBase> craftItems = new();
-
-    [SerializeField] GameObject slotPrefab;
-    [SerializeField] Transform slotParent;
+    [SerializeField] CraftSlot[] craftSlots;
+    [SerializeField] CraftSlot resultSlot;
 
     private Dictionary<string, ItemCombineData> itemCombineDic;
+    private List<ItemBase> craftItems = new(3);
 
-    public bool IsCombinedResult => slotParent.childCount > 3;
+    private InventoryPanel inventory;
+
+    public bool IsCombinedResult => resultSlot.gameObject.activeSelf;
 
     private void Awake()
     {
@@ -27,7 +27,8 @@ public class CraftCtrl : ModeCtrl, IListener
         switch (_code)
         {
             case EventCode.TutorialEnd:
-                itemCombineDic.Remove("ITEM_BATTERY");
+                var itemToRemove = itemCombineDic.FirstOrDefault(x => x.Value.Result == "ITEM_BATTERY");
+                itemCombineDic.Remove(itemToRemove.Key);
                 break;
         }
     }
@@ -36,13 +37,23 @@ public class CraftCtrl : ModeCtrl, IListener
     {
         base.Init();
 
-        itemCombineDic = App.Data.Game.itemCombineData.Values.ToDictionary(x => x.Result);
-    }
+        foreach (var combineData in App.Data.Game.itemCombineData.Values)
+        {
+            var sb = new StringBuilder();
+            sb.Append(combineData.Material_1);
+            sb.Append(combineData.Material_2);
 
-    public override void InitSlots()
-    {
-        for (int i = 0; i < slotParent.childCount; i++)
-            Destroy(slotParent.GetChild(i).gameObject);
+            if (combineData.Material_3 != "-1")
+            {
+                sb.Append(combineData.Material_3);
+            }
+
+            string key = sb.ToString();
+
+            itemCombineDic[key] = combineData;
+        }
+
+        inventory = App.Manager.UI.GetPanel<InventoryPanel>();
     }
 
     public override void Exit()
@@ -51,30 +62,32 @@ public class CraftCtrl : ModeCtrl, IListener
 
         foreach (var item in craftItems)
         {
-            App.Manager.UI.GetPanel<InventoryPanel>().AddItem(item);
+            inventory.AddItem(item);
         }
 
-        InitSlots();
+        ResetSlots();
         craftItems.Clear();
     }
 
-    public void UpdateCraft() //TODO
+    public override void ResetSlots()
     {
-        InitSlots();
-
-        bool isFirst = true;
-        foreach (var item in craftItems)
+        foreach (var slot in craftSlots)
         {
-            GameObject obj = Instantiate(slotPrefab, slotParent);
-            var craftSlot = obj.GetComponentInChildren<CraftSlot>();
-            craftSlot.item = item;
-
-            if (isFirst)
-            {
-                obj.transform.GetComponentInChildren<TextMeshProUGUI>().gameObject.SetActive(false);
-                isFirst = false;
-            }
+            slot.ResetItem();
         }
+
+        resultSlot.ResetItem();
+    }
+
+    public void UpdateSlots()
+    {
+        ResetSlots();
+
+        for (int i = 0; i < craftItems.Count; i++)
+        {
+            craftSlots[i].SetItem(craftItems[i]);
+        }
+  
         CompareToCombineData();
     }
 
@@ -83,27 +96,12 @@ public class CraftCtrl : ModeCtrl, IListener
         if (craftItems.Count < 2) return;
 
         var sortedItems = craftItems.OrderBy(item => item.Code).ToList();
+        var combinedKey = string.Concat(sortedItems.Select(x => x.data.Code));
 
-        var combine = itemCombineDic.Values
-            .Where(x => x.Material_1 == sortedItems[0].data.Code && x.Material_2 == sortedItems[1].data.Code)
-            .FirstOrDefault(x => craftItems.Count == 2 || x.Material_3 == sortedItems.ElementAtOrDefault(2)?.data.Code);
-
-        if (combine != null && itemData[combine.Result].isBlueprintOpen)
+        if (itemCombineDic.TryGetValue(combinedKey, out var combineData) && itemData[combineData.Result].isBlueprintOpen)
         {
-            AddCombineItem(itemData[combine.Result]);
+            resultSlot.SetItem(itemData[combineData.Result]);
         }
-    }
-
-    /// <summary>
-    /// 조합 결과 아이템 CraftBag에 표시
-    /// </summary>
-    /// <param name="_item"></param>
-    public void AddCombineItem(ItemBase _item)
-    {
-        GameObject obj = Instantiate(slotPrefab, slotParent);
-        obj.GetComponentInChildren<CraftSlot>().item = _item;
-        obj.GetComponentInChildren<CraftSlot>().type = SlotType.ResultSlot;
-        obj.GetComponentInChildren<TextMeshProUGUI>().text = "=";
     }
 
     /// <summary>
@@ -112,22 +110,22 @@ public class CraftCtrl : ModeCtrl, IListener
     /// <param name="_item"></param>
     public void MoveInventoryToCraft(ItemBase _item)
     {
-        App.Manager.UI.GetPanel<InventoryPanel>().RemoveItem(_item);
+        inventory.RemoveItem(_item);
         craftItems.Add(_item);
-        UpdateCraft();
+        UpdateSlots();
     }
 
     public void MoveCraftToInventory(ItemBase _item)
     {
-        App.Manager.UI.GetPanel<InventoryPanel>().AddItem(_item);
+        inventory.AddItem(_item);
         craftItems.Remove(_item);
-        UpdateCraft();
+        UpdateSlots();
     }
 
     public void MoveResultToInventory(ItemBase _item)
     {
-        App.Manager.UI.GetPanel<InventoryPanel>().AddItem(_item);
+        inventory.AddItem(_item);
         craftItems.Clear();
-        InitSlots();
+        ResetSlots();
     }
 }

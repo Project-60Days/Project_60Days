@@ -43,6 +43,18 @@ public abstract class SlotBase : MonoBehaviour, IPointerClickHandler, IPointerEn
         }
     }
 
+    public virtual void SetItem(ItemBase _item)
+    {
+        gameObject.SetActive(true);
+        item = _item;
+    }
+
+    public void ResetItem()
+    {
+        gameObject.SetActive(false);
+        item = null;
+    }
+
     public abstract void OnPointerClick(PointerEventData eventData);
 
     public void OnPointerEnter(PointerEventData eventData)

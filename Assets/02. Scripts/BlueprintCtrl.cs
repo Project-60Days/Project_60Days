@@ -23,7 +23,7 @@ public class BlueprintCtrl : ModeCtrl
         blueprintSlots = GetComponentsInChildren<BlueprintSlot>(includeInactive: true);
     }
 
-    public override void InitSlots()
+    public override void ResetSlots()
     {
         for (int i = 0; i < slotParent.childCount; i++)
             Destroy(slotParent.GetChild(i).gameObject);
@@ -33,7 +33,7 @@ public class BlueprintCtrl : ModeCtrl
     {
         base.Exit();
 
-        InitSlots();
+        ResetSlots();
     }
 
     void OnEnable()
@@ -51,7 +51,7 @@ public class BlueprintCtrl : ModeCtrl
 
     public void ShowItemBlueprint(ItemBase _item)
     {
-        InitSlots();
+        ResetSlots();
 
         string[] blueprintCodes = GetItemCombineCodes(_item);
         if (blueprintCodes == null) return;
@@ -64,11 +64,11 @@ public class BlueprintCtrl : ModeCtrl
 
             if (blueprintCodes[i] == "-1")
             {
-                obj.GetComponentInChildren<CraftSlot>().item = GetItemByItemCode(blueprintCodes[blueprintCodes.Length - 1]);
+                obj.GetComponentInChildren<CraftSlot>().item = itemData[blueprintCodes[blueprintCodes.Length - 1]];
                 obj.GetComponentInChildren<TextMeshProUGUI>().text = "=";
             }
             else
-                obj.GetComponentInChildren<CraftSlot>().item = GetItemByItemCode(blueprintCodes[i]);
+                obj.GetComponentInChildren<CraftSlot>().item = itemData[blueprintCodes[i]];
 
             if (isFirst == true)
             {
@@ -102,7 +102,4 @@ public class BlueprintCtrl : ModeCtrl
 
         return codes;
     }
-
-    ItemBase GetItemByItemCode(string _itemCode)
-        => itemData.Find(x => x.data.Code == _itemCode);
 }

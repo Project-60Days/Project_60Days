@@ -14,10 +14,10 @@ public abstract class ModeCtrl : MonoBehaviour
     {
         itemData = App.Manager.Game.itemData.ToDictionary(x => x.Code);
 
-        InitSlots();
+        ResetSlots();
     }
 
-    public abstract void InitSlots();
+    public abstract void ResetSlots();
 
     public virtual void Enter()
     {

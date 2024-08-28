@@ -15,17 +15,11 @@ public class ItemSlot : SlotBase
         countTMP = GetComponentInChildren<TextMeshProUGUI>();
     }
 
-    public void SetItem(ItemBase _item)
+    public override void SetItem(ItemBase _item)
     {
-        gameObject.SetActive(true);
-        item = _item;
-        countTMP.text = item.itemCount.ToString();
-    }
+        base.SetItem(_item);
 
-    public void ResetItem()
-    {
-        gameObject.SetActive(false);
-        item = null;
+        countTMP.text = item.itemCount.ToString();
     }
 
     public override void OnPointerClick(PointerEventData eventData)

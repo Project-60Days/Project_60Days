@@ -10,7 +10,7 @@ public class EquipCtrl : ModeCtrl
 
     public override BenchType GetModeType() => BenchType.Equip;
 
-    public override void InitSlots()
+    public override void ResetSlots()
     {
         foreach (var slot in equipSlots)
         {
