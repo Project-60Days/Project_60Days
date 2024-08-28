@@ -1,32 +1,24 @@
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
-
 
 public class BlueprintCtrl : ModeCtrl
 {
-    [SerializeField] GameObject slotPrefab;
-    [SerializeField] Transform slotParent;
-
     public override BenchType GetModeType() => BenchType.Blueprint;
 
-    public BlueprintSlot[] blueprintSlots;
-    private List<ItemCombineData> itemCombineData;
+    [SerializeField] CraftSlot[] craftSlots;
+    [SerializeField] CraftSlot resultSlot;
+
+    private Dictionary<string, ItemCombineData> itemCombineDic;
+    private BlueprintSlot[] blueprintSlots;
 
     public override void Init()
     {
         base.Init();
 
-        itemCombineData = App.Data.Game.itemCombineData.Values.ToList();
+        itemCombineDic = App.Data.Game.itemCombineData.Values.ToDictionary(x => x.Result);
 
         blueprintSlots = GetComponentsInChildren<BlueprintSlot>(includeInactive: true);
-    }
-
-    public override void ResetSlots()
-    {
-        for (int i = 0; i < slotParent.childCount; i++)
-            Destroy(slotParent.GetChild(i).gameObject);
     }
 
     public override void Exit()
@@ -36,70 +28,47 @@ public class BlueprintCtrl : ModeCtrl
         ResetSlots();
     }
 
-    void OnEnable()
+    private void OnEnable()
     {
         UpdateBlueprint();
     }
 
     public void UpdateBlueprint()
     {
+        if (blueprintSlots == null) return;
+
         foreach (var slot in blueprintSlots)
         {
             slot.CheckShowCondition();
         }
     }
 
-    public void ShowItemBlueprint(ItemBase _item)
+    public override void ResetSlots()
+    {
+        foreach (var slot in craftSlots)
+        {
+            slot.ResetItem();
+        }
+
+        resultSlot.ResetItem();
+    }
+
+    public void UpdateSlots(ItemBase _item)
     {
         ResetSlots();
 
-        string[] blueprintCodes = GetItemCombineCodes(_item);
-        if (blueprintCodes == null) return;
+        if (!itemCombineDic.TryGetValue(_item.data.Code, out var combineData)) return;
 
-        bool isFirst = true;
+        string[] blueprintCodes = { combineData.Material_1, combineData.Material_2, combineData.Material_3, combineData.Result };
 
         for (int i = 0; i < blueprintCodes.Length - 1; i++)
         {
-            GameObject obj = Instantiate(slotPrefab, slotParent);
+            if (blueprintCodes[i] == "-1") continue;
 
-            if (blueprintCodes[i] == "-1")
-            {
-                obj.GetComponentInChildren<CraftSlot>().item = itemData[blueprintCodes[blueprintCodes.Length - 1]];
-                obj.GetComponentInChildren<TextMeshProUGUI>().text = "=";
-            }
-            else
-                obj.GetComponentInChildren<CraftSlot>().item = itemData[blueprintCodes[i]];
-
-            if (isFirst == true)
-            {
-                obj.transform.GetComponentInChildren<TextMeshProUGUI>().gameObject.SetActive(false);
-                isFirst = false;
-            }
-
-            obj.GetComponentInChildren<CraftSlot>().enabled = false;
-        }
-    }
-
-    public string[] GetItemCombineCodes(ItemBase _item)
-    {
-        foreach (ItemCombineData combineData in itemCombineData)
-        {
-            if (combineData.Result == _item.data.Code)
-                return GetCombinationCodes(combineData);
+            var item = itemData[blueprintCodes[i]];
+            craftSlots[i].SetItem(item);
         }
 
-        return null;
-    }
-
-    private string[] GetCombinationCodes(ItemCombineData _combineData)
-    {
-        string[] codes = new string[4];
-
-        codes[0] = _combineData.Material_1;
-        codes[1] = _combineData.Material_2;
-        codes[2] = _combineData.Material_3;
-        codes[3] = _combineData.Result;
-
-        return codes;
+        resultSlot.SetItem(itemData[combineData.Result]);
     }
 }

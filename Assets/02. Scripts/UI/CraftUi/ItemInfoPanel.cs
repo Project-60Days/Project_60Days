@@ -132,14 +132,14 @@ public class ItemInfoPanel : UIBase
 
     void SetBlueprint(ItemBase _item)
     {
-        string[] blueprintCodes = App.Manager.UI.GetPanel<BenchPanel>().Blueprint.GetItemCombineCodes(_item);
-        if (blueprintCodes == null) return;
+        //string[] blueprintCodes = App.Manager.UI.GetPanel<BenchPanel>().Blueprint.GetItemCombineCodes(_item);
+        //if (blueprintCodes == null) return;
 
-        for (int i = 0; i < blueprintCodes.Length - 1; i++) 
-        {
-            if (blueprintCodes[i] == "-1") break;
-            AddItemByItemCode(blueprintCodes[i]);
-        }
+        //for (int i = 0; i < blueprintCodes.Length - 1; i++) 
+        //{
+        //    if (blueprintCodes[i] == "-1") break;
+        //    AddItemByItemCode(blueprintCodes[i]);
+        //}
     }
 
     void AddItemByItemCode(string _itemCode)

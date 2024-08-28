@@ -37,6 +37,8 @@ public class CraftCtrl : ModeCtrl, IListener
     {
         base.Init();
 
+        itemCombineDic = new(App.Data.Game.itemCombineData.Count);
+
         foreach (var combineData in App.Data.Game.itemCombineData.Values)
         {
             var sb = new StringBuilder();

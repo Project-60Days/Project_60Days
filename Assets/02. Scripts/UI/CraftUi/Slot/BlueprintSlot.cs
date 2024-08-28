@@ -26,7 +26,7 @@ public class BlueprintSlot : SlotBase
         if (item == unknownItem)
             return;
 
-        App.Manager.UI.GetPanel<BenchPanel>().Blueprint.ShowItemBlueprint(item);
+        App.Manager.UI.GetPanel<BenchPanel>().Blueprint.UpdateSlots(item);
         CraftItemClick?.Invoke(item.sprite);
     }
 
