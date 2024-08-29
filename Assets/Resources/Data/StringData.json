@@ -98,6 +98,34 @@
     "Chinese": -1
   },
   {
+    "Code": "STR_STRUCT_TOWER_NAME",
+    "Korean": "송신탑",
+    "English": "",
+    "Japanese": "",
+    "Chinese": ""
+  },
+  {
+    "Code": "STR_STRUCT_ARMY_NAME",
+    "Korean": "군사 시설",
+    "English": "",
+    "Japanese": "",
+    "Chinese": ""
+  },
+  {
+    "Code": "STR_STRUCT_DYNAMO_NAME",
+    "Korean": "요새",
+    "English": "",
+    "Japanese": "",
+    "Chinese": ""
+  },
+  {
+    "Code": "STR_STRUCT_PRODUCTION_NAME",
+    "Korean": "생산 공장",
+    "English": "",
+    "Japanese": "",
+    "Chinese": ""
+  },
+  {
     "Code": "STR_NEW_NOTICE_ALERT",
     "Korean": "새로운 알림이 있습니다.",
     "English": -1,

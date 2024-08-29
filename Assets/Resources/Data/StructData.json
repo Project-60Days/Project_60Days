@@ -1,46 +1,34 @@
 [
   {
-    "Index": 1001,
     "Code": "STRUCT_TOWER",
-    "Korean": "송신 탑",
-    "English": -1,
-    "Japanese": -1,
-    "Chinese": -1,
+    "Name": "STR_STRUCT_TOWER_NAME",
+    "Direction": 1,
     "Item": "ITEM_WIRE",
     "Count": 10,
     "SpecialItem": ""
   },
   {
-    "Index": 1002,
     "Code": "STRUCT_ARMY",
-    "Korean": "군사 시설",
-    "English": -1,
-    "Japanese": -1,
-    "Chinese": -1,
+    "Name": "STR_STRUCT_ARMY_NAME",
+    "Direction": 3,
     "Item": "ITEM_DISTURBE",
     "Count": 2,
     "SpecialItem": ""
   },
   {
-    "Index": 1003,
     "Code": "STRUCT_DYNAMO",
-    "Korean": "요새",
-    "English": -1,
-    "Japanese": -1,
-    "Chinese": -1,
+    "Name": "STR_STRUCT_DYNAMO_NAME",
+    "Direction": 1,
     "Item": "ITEM_DISTURBE",
     "Count": 2,
     "SpecialItem": ""
   },
   {
-    "Index": 1004,
     "Code": "STRUCT_PRODUCTION",
-    "Korean": "생산 건물",
-    "English": -1,
-    "Japanese": -1,
-    "Chinese": -1,
+    "Name": "STR_STRUCT_PRODUCTION_NAME",
+    "Direction": 7,
     "Item": "ITEM_NETWORKCHIP",
     "Count": 2,
-    "SpecialItem": ""
+    "SpecialItem": "ITEM_NETWORKCHIP"
   }
 ]

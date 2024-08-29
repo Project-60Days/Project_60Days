@@ -5,14 +5,14 @@ using Hexamap;
 
 public abstract class StructBase: MonoBehaviour
 {
-    [SerializeField] Renderer rend;
     [SerializeField] Material cloakingMaterial;
 
     protected StructData data;
-
     protected List<Tile> colleagues;
-
     protected List<TileBase> colleagueBases;
+    protected PagePanel page;
+
+    private Renderer render;
 
     protected abstract string GetCode();
 
@@ -20,17 +20,29 @@ public abstract class StructBase: MonoBehaviour
     {
         data = App.Data.Game.structData[GetCode()];
 
+        render = transform.GetChild(0).GetComponent<Renderer>();
+        page = App.Manager.UI.GetPanel<PagePanel>();
+
         colleagues = _colleagueList;
-        colleagueBases = colleagues
-        .Select(x => x.Ctrl).ToList();
+        colleagueBases = colleagues.Select(x => x.Ctrl).ToList();
     }
 
     public virtual void DetectStruct()
     {
-        App.Manager.UI.GetPanel<PagePanel>().SetNextPage(PageType.Select, "STR_SELECT_STRUCT", data.Korean);
+        page.SetNextPage(PageType.Select, "STR_SELECT_STRUCT", App.Data.Game.GetString(data.Name));
     }
 
     public virtual void YesFunc()
+    {
+        page.SetNextPage(PageType.Result, "STR_RESULT_STRUCT_YES", App.Data.Game.GetString(data.Name));
+    }
+
+    public virtual void NoFunc()
+    {
+        page.SetNextPage(PageType.Result, "STR_RESULT_STRUCT_NO", App.Data.Game.GetString(data.Name));
+    }
+
+    protected void SetCanAccess()
     {
         foreach (var tileBase in colleagueBases)
         {
@@ -41,16 +53,14 @@ public abstract class StructBase: MonoBehaviour
 
         colleagueBases.ForEach(tile => tile.UpdateResource());
 
-        int randomInt = UnityEngine.Random.Range(0, colleagueBases.Count);
+        int randomInt = Random.Range(0, colleagueBases.Count);
         colleagueBases[randomInt].SetSpecialResource(new Resource(data.Item, data.Count));
 
         FadeIn();
     }
 
-    public abstract void NoFunc();
-
     protected void FadeIn()
     {
-        rend.material = cloakingMaterial;
+        render.material = cloakingMaterial;
     }
 }

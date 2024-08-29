@@ -46,12 +46,9 @@ public class TileData
 [Serializable]
 public class StructData
 {
-    public int Index;
     public string Code;
-    public string Korean;
-    public string English;
-    public string Japanese;
-    public string Chinese;
+    public string Name;
+    public int Direction;
     public string Item;
     public int Count;
     public string SpecialItem;

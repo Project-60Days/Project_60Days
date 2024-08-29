@@ -1,19 +1,25 @@
+using Hexamap;
+using System.Collections.Generic;
+
 public class StructTower : StructBase
 {
     protected override string GetCode() => "STRUCT_TOWER";
 
-    public override void DetectStruct()
+    private InventoryPanel inventory;
+
+    public override void Init(List<Tile> _colleagueList)
     {
-        if (App.Manager.UI.GetPanel<InventoryPanel>().CheckItemExist("ITEM_NETWORKCHIP"))
-        {
-            base.DetectStruct();
-            App.Manager.UI.GetPanel<InventoryPanel>().RemoveItemByCode("ITEM_NETWORKCHIP");
-        }
-    }
-    public override void YesFunc()
-    {
-        App.Manager.UI.GetPanel<PagePanel>().SetNextPage(PageType.Result, "STR_RESULT_STRUCT_YES", data.Korean);
+        base.Init(_colleagueList);
+
+        inventory = App.Manager.UI.GetPanel<InventoryPanel>();
     }
 
-    public override void NoFunc() { }
+    public override void DetectStruct()
+    {
+        if (inventory.CheckItemExist("ITEM_NETWORKCHIP"))
+        {
+            base.DetectStruct();
+            inventory.RemoveItemByCode("ITEM_NETWORKCHIP");
+        }
+    }
 }
