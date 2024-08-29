@@ -3,50 +3,31 @@ using Hexamap;
 
 public class PlayerUnit : MapBase
 {
-    [SerializeField] Transform mapParentTransform;
     [SerializeField] GameObject prefab;
-
-    private Player player;
 
     public Transform PlayerTransform => player.transform;
 
-    int cloakingDay = 0;
-    bool isCloaking = false;
+    private Player player;
 
     public override void Init()
     {
         base.Init();
 
-        Vector3 spawnPos = tile.gameObject.transform.position;
+        Vector3 spawnPos = tile.transform.position;
         spawnPos.y += 0.7f;
 
-        var playerObject = Instantiate(prefab, spawnPos,
-            Quaternion.Euler(0, -90, 0));
+        var playerObject = Instantiate(prefab, spawnPos, Quaternion.Euler(0, -90, 0));
         player = playerObject.GetComponent<Player>();
-        player.transform.parent = mapParentTransform;
+        player.transform.parent = transform;
     }
 
     public override void ReInit()
     {
-        if (isCloaking) 
-            CheckCloaking();
-
         player.Move(tile);
     }
 
-    public void SetCloaking(int num)
+    public void SetCloaking(bool _isActive)
     {
-        player.SetCloaking(true);
-        cloakingDay = App.Manager.Game.DayCount + num;
-        isCloaking = true;
-    }
-
-    private void CheckCloaking()
-    {
-        if (App.Manager.Game.DayCount == cloakingDay)
-        {
-            player.SetCloaking(false);
-            App.Data.Test.UnsetCloaking();
-        }
+        player.SetCloaking(_isActive);
     }
 }

@@ -6,7 +6,7 @@ using System.Collections;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] Renderer rend;
+    [SerializeField] Renderer render;
     [SerializeField] Material cloakingMaterial;
     [SerializeField] Material normalMaterial;
 
@@ -31,11 +31,11 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void Move(TileBase targetTileController)
+    public void Move(TileBase _tile)
     {
         transform.DOKill();
 
-        transform.DOMove(targetTileController.transform.position, 0f)
+        transform.DOMove(_tile.transform.position, 0f)
                  .OnComplete(() =>
                  {
                      transform.DOMoveY(transform.position.y + 0.5f, 0f)
@@ -45,14 +45,6 @@ public class Player : MonoBehaviour
 
     public void SetCloaking(bool _isActive)
     {
-        if (_isActive)
-        {
-            rend.material = cloakingMaterial;
-        }
-        else
-        {
-            rend.material = normalMaterial;
-        }
-        
+        render.material = _isActive ? cloakingMaterial : normalMaterial;
     }
 }

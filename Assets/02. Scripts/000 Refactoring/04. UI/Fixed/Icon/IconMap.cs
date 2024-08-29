@@ -3,14 +3,12 @@ using UnityEngine.UI;
 
 public class IconMap : IconBase, IListener
 {
-    [SerializeField] Sprite city;    
-    [SerializeField] Sprite desert;
-    [SerializeField] Sprite jungle;
-    [SerializeField] Sprite tundra;
+    protected override string GetString() => description;
+
+    [SerializeField] Sprite[] tileSprites;
 
     private Image image;
-
-    private TileType type;
+    private string description;
 
     private void Awake()
     {
@@ -36,27 +34,9 @@ public class IconMap : IconBase, IListener
 
     private void ResetIcon(TileBase _tile)
     {
-        type = _tile.GetTileType();
-
-        image.sprite = GetImage();
+        image.sprite = tileSprites[(int)_tile.GetTileType()];
         text = GetString();
+
+        description = App.Data.Game.GetString(_tile.tileData.Description);
     }
-
-    protected override string GetString() => type switch
-    {
-        TileType.City => App.Data.Game.GetString("STR_TILE_CITY_DESC"),
-        TileType.Desert => App.Data.Game.GetString("STR_TILE_DESERT_DESC"),
-        TileType.Jungle => App.Data.Game.GetString("STR_TILE_JUNGLE_DESC"),
-        TileType.Tundra => App.Data.Game.GetString("STR_TILE_TUNDRA_DESC"),
-        _ => "",
-    };
-
-    private Sprite GetImage() => type switch
-    {
-        TileType.City => city,
-        TileType.Desert => desert,
-        TileType.Jungle => jungle,
-        TileType.Tundra => tundra,
-        _ => null,
-    };
 }

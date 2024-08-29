@@ -7,16 +7,13 @@ using System.Collections.Generic;
 
 public class MapManager : Manager, IListener
 {
-    [SerializeField] List<MapBase> Maps;
     private Dictionary<Type, MapBase> MapDic;
-
-    private Camera mainCamera;
 
     bool canPlayerMove = false;
     bool isDronePrepared = false;
     public bool CanClick => !canPlayerMove && !isDronePrepared;
 
-    public TileBase tileCtrl;
+    private TileBase currTile;
     private TileBase targetTile;
     private TileBase showInfoTile;
 
@@ -29,22 +26,20 @@ public class MapManager : Manager, IListener
 
     Ray ray;
 
-    public bool isMapActive = false;
-
     public List<Tile> AllTile { get; private set; }
 
     protected override void Awake()
     {
         base.Awake();
 
-        MapDic = new(Maps.Count);
+        MapBase[] Maps = GetComponentsInChildren<MapBase>();
+
+        MapDic = new(Maps.Length);
 
         foreach (var Map in Maps)
         {
             MapDic.Add(Map.GetUnitType(), Map);
         }
-
-        Maps.Clear(); // clear memory
 
         App.Manager.Event.AddListener(EventCode.NextDayStart, this);
     }
@@ -61,8 +56,6 @@ public class MapManager : Manager, IListener
 
     private void Start()
     {
-        mainCamera = Camera.main;
-
         AllTile = App.Manager.Asset.Hexamap.Map.Tiles.Where(x => x.GameEntity.CompareTag("Tile")).ToList();
 
         targetTile = App.Manager.Asset.Hexamap.Map.GetTileFromCoords(new Coords(0, 0)).Ctrl;
@@ -87,7 +80,7 @@ public class MapManager : Manager, IListener
         isDronePrepared = false;
 
         neighborTiles.Clear();
-        neighborTiles = App.Manager.Asset.Hexamap.Map.GetTilesInRange(tileCtrl.Model, App.Data.Test.Buff.moveRange);
+        neighborTiles = App.Manager.Asset.Hexamap.Map.GetTilesInRange(currTile.Model, App.Data.Test.Buff.moveRange);
 
         AllBorderOff();
         ReInitSight();
@@ -109,8 +102,8 @@ public class MapManager : Manager, IListener
             tile.GameEntity.SetActive(false);
         }
 
-        sightTiles = App.Manager.Asset.Hexamap.Map.GetTilesInRange(tileCtrl.Model, 5);
-        sightTiles.Add(tileCtrl.Model);
+        sightTiles = App.Manager.Asset.Hexamap.Map.GetTilesInRange(currTile.Model, 5);
+        sightTiles.Add(currTile.Model);
 
         foreach (var tile in sightTiles)
         {
@@ -161,9 +154,9 @@ public class MapManager : Manager, IListener
     #region Update
     private void Update()
     {
-        if (!isMapActive) return;
+        if (App.Manager.UI.CurrState != UIState.Map) return;
 
-        ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -223,7 +216,7 @@ public class MapManager : Manager, IListener
 
             if (!canPlayerMove && !isDronePrepared)
             {
-                if (App.Manager.Asset.Hexamap.Map.GetTilesInRange(tileCtrl.Model, 2).Contains(tileController.Model))
+                if (App.Manager.Asset.Hexamap.Map.GetTilesInRange(currTile.Model, 2).Contains(tileController.Model))
                 {
                     App.Manager.UI.GetPanel<MapPanel>().SetInfoActive(true);
                     tileController.UpdateTileInfo();
@@ -259,7 +252,7 @@ public class MapManager : Manager, IListener
     }
     #endregion
 
-    public void NextDay()
+    private void NextDay()
     {
         UpdateCurrentTile();
 
@@ -272,23 +265,16 @@ public class MapManager : Manager, IListener
 
     private void UpdateCurrentTile()
     {
-        tileCtrl = targetTile;
+        currTile = targetTile;
 
-        foreach (var Map in MapDic.Values)
-        {
-            try { Map.SetTile(tileCtrl); }
-            catch (Exception error)
-            { Debug.LogError($"ERROR: {error.Message}\n{error.StackTrace}"); }
-        }
+        currTile.SetBuff();
 
-        tileCtrl.SetBuff();
-
-        App.Manager.Event.PostEvent(EventCode.TileUpdate, this, tileCtrl);
+        App.Manager.Event.PostEvent(EventCode.TileUpdate, this, currTile);
     }
 
     public void SetRandomTile()
     {
-        var tiles = App.Manager.Asset.Hexamap.Map.GetTilesInRange(tileCtrl.Model, 1);
+        var tiles = App.Manager.Asset.Hexamap.Map.GetTilesInRange(currTile.Model, 1);
 
         foreach (var tile in tiles)
         {
@@ -333,7 +319,7 @@ public class MapManager : Manager, IListener
 
     private void CancelTargetTile()
     {
-        targetTile = tileCtrl;
+        targetTile = currTile;
         GetUnit<ArrowUnit>().ArrowOff();
         AllBorderOff();
     }
@@ -347,13 +333,4 @@ public class MapManager : Manager, IListener
 
         selectedTiles.Clear();
     }
-
-    public string GetLandformBGM() => tileCtrl.GetTileType().ToString() switch
-    {
-        "None" => "Ambience_City",
-        "Jungle" => "Ambience_Jungle",
-        "Desert" => "Ambience_Desert",
-        "Tundra" => "Ambience_Tundra",
-        _ => "Ambience_City",
-    };
 }

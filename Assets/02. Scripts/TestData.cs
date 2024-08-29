@@ -79,15 +79,16 @@ public class TestData : Data, IListener
         Buff.moveRange = num;
     }
 
-    public void SetCloaking(int num)
+    public void SetCloaking()
     {
         Buff.canDetect = false;
-        App.Manager.Map.GetUnit<PlayerUnit>().SetCloaking(num);
+        App.Manager.Map.GetUnit<PlayerUnit>().SetCloaking(true);
     }
 
     public void UnsetCloaking()
     {
         Buff.canDetect = true;
+        App.Manager.Map.GetUnit<PlayerUnit>().SetCloaking(false);
     }
 
     public void SetResourceCount(int num)

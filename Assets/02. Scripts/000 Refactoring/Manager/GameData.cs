@@ -29,6 +29,9 @@ public class ValueData
 public class TileData
 {
     public string Code;
+    public string Name;
+    public string Description;
+    public string Sound;
     public int TileTypeAppearPosibility;
     public int TileSwarmMinCount;
     public int TileSwarmMaxCount;
@@ -38,10 +41,6 @@ public class TileData
     public int RemainPossibility_Powder;
     public int RemainPossibility_Gas;
     public int RemainPossibility_Rubber;
-    public string Korean;
-    public string English;
-    public string Japanese;
-    public string Chinese;
 }
 
 [Serializable]

@@ -1,6 +1,9 @@
 ﻿[
   {
     "Code": "City",
+    "Name": "STR_TILE_CITY_NAME",
+    "Description": "STR_TILE_CITY_DESC",
+    "Sound": "Ambience_City",
     "TileTypeAppearPosibility": 40,
     "TileSwarmMinCount": 25,
     "TileSwarmMaxCount": 30,
@@ -9,14 +12,13 @@
     "RemainPossibility_Plasma": 30,
     "RemainPossibility_Powder": 0,
     "RemainPossibility_Gas": 0,
-    "RemainPossibility_Rubber": 0,
-    "Korean": "파괴된 도시",
-    "English": -1,
-    "Japanese": -1,
-    "Chinese": -1
+    "RemainPossibility_Rubber": 0
   },
   {
     "Code": "Desert",
+    "Name": "STR_TILE_JUNGLE_NAME",
+    "Description": "STR_TILE_JUNGLE_DESC",
+    "Sound": "Ambience_Desert",
     "TileTypeAppearPosibility": 20,
     "TileSwarmMinCount": 10,
     "TileSwarmMaxCount": 20,
@@ -25,14 +27,13 @@
     "RemainPossibility_Plasma": 25,
     "RemainPossibility_Powder": 20,
     "RemainPossibility_Gas": 0,
-    "RemainPossibility_Rubber": 0,
-    "Korean": "메마른 도시",
-    "English": -1,
-    "Japanese": -1,
-    "Chinese": -1
+    "RemainPossibility_Rubber": 0
   },
   {
     "Code": "Tundra",
+    "Name": "STR_TILE_DESERT_NAME",
+    "Description": "STR_TILE_DESERT_DESC",
+    "Sound": "Ambience_Tundra",
     "TileTypeAppearPosibility": 20,
     "TileSwarmMinCount": 10,
     "TileSwarmMaxCount": 20,
@@ -41,14 +42,13 @@
     "RemainPossibility_Plasma": 25,
     "RemainPossibility_Powder": 0,
     "RemainPossibility_Gas": 20,
-    "RemainPossibility_Rubber": 0,
-    "Korean": "얼어붙은 도시",
-    "English": -1,
-    "Japanese": -1,
-    "Chinese": -1
+    "RemainPossibility_Rubber": 0
   },
   {
     "Code": "Jungle",
+    "Name": "STR_TILE_TUNDRA_NAME",
+    "Description": "STR_TILE_TUNDRA_DESC",
+    "Sound": "Ambience_Jungle",
     "TileTypeAppearPosibility": 20,
     "TileSwarmMinCount": 10,
     "TileSwarmMaxCount": 20,
@@ -57,10 +57,6 @@
     "RemainPossibility_Plasma": 25,
     "RemainPossibility_Powder": 0,
     "RemainPossibility_Gas": 0,
-    "RemainPossibility_Rubber": 20,
-    "Korean": "정글 도시",
-    "English": -1,
-    "Japanese": -1,
-    "Chinese": -1
+    "RemainPossibility_Rubber": 20
   }
 ]

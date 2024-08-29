@@ -15,7 +15,7 @@ public abstract class TileBase : MonoBehaviour
     public StructBase structure { get; private set; }
     public ZombieBase enemy { get; private set; }
 
-    protected TileData tileData;
+    public TileData tileData { get; private set; }
 
     private SpriteRenderer[] resourceIcons;
     private List<Resource> resources = new();
@@ -43,7 +43,7 @@ public abstract class TileBase : MonoBehaviour
             canMoveLandform = lanform == "LandformRocks" || lanform == "LandformPlain";
 
             info.img = Resources.Load<Sprite>("Illust/" + tileData.Code);
-            info.landformTxt = tileData.Korean;
+            info.landformTxt = App.Data.Game.GetString(tileData.Name);
         }
 
     }

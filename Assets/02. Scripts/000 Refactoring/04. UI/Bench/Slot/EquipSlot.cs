@@ -19,13 +19,13 @@ public class EquipSlot : SlotBase
 
     public override void ResetItem()
     {
-        base.ResetItem();
-
         if (Item == null) return;
 
         Item.UnEquip();
         IsLocked = false;
         ChangeSlotColor();
+
+        base.ResetItem();
     }
 
     private void ChangeSlotColor()

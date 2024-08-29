@@ -100,7 +100,7 @@ public class ZombieBase : MonoBehaviour
         Tile pointTile;
         Vector3 pointPos;
 
-        if (movePath.Count == 0 && target == App.Manager.Map.tileCtrl.Model) // When the player is within 1 space, attack player
+        if (movePath.Count == 0 && target == currTile) // When the player is within 1 space, attack player
         {
             App.Manager.Game.Durability -= count;
         }

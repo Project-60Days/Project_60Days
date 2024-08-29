@@ -8,12 +8,14 @@ public class MapCamCtrl : MonoBehaviour, IListener
     private CinemachineFramingTransposer transposer;
 
     private MapPanel MapUI;
-    private MapManager Map;
     private SoundManager Sound;
+
+    private TileBase currTile;
 
     private void Awake()
     {
         App.Manager.Event.AddListener(EventCode.PlayerCreate, this);
+        App.Manager.Event.AddListener(EventCode.TileUpdate, this);
         App.Manager.Event.AddListener(EventCode.GoToMap, this);
         App.Manager.Event.AddListener(EventCode.GoToShelter, this);
         App.Manager.Event.AddListener(EventCode.NextDayStart, this);
@@ -31,6 +33,9 @@ public class MapCamCtrl : MonoBehaviour, IListener
                 transposer.m_CameraDistance = 5f;
                 break;
 
+            case EventCode.TileUpdate:
+                currTile = _param as TileBase;
+                break;
 
             case EventCode.GoToMap:
                 App.Manager.UI.FadeInOut(GoToMap);
@@ -50,7 +55,6 @@ public class MapCamCtrl : MonoBehaviour, IListener
     private void Start()
     {
         MapUI = App.Manager.UI.GetPanel<MapPanel>();
-        Map = App.Manager.Map;
         Sound = App.Manager.Sound;
     }
 
@@ -67,7 +71,6 @@ public class MapCamCtrl : MonoBehaviour, IListener
         }
 
         MapUI.SetActive(isOn);
-        Map.isMapActive = isOn;
     }
 
     private void GoToShelter()
@@ -92,7 +95,7 @@ public class MapCamCtrl : MonoBehaviour, IListener
             .AppendCallback(() =>
             {
                 SetPrioryty(true);
-                Sound.PlayBGM(Map.GetLandformBGM());
+                Sound.PlayBGM(currTile.tileData.Sound);
             })
             .Append(DOTween.To(() => transposer.m_CameraDistance, x => transposer.m_CameraDistance = x, 10f, 0.5f));
     }
