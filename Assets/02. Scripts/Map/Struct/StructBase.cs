@@ -27,7 +27,7 @@ public abstract class StructBase: MonoBehaviour
 
     public virtual void DetectStruct()
     {
-        App.Manager.UI.GetPanel<PagePanel>().SetSelectPage("structureSelect", this);
+        App.Manager.UI.GetPanel<PagePanel>().SetNextPage(PageType.Select, "STR_SELECT_STRUCT", data.Korean);
     }
 
     public virtual void YesFunc()
@@ -45,8 +45,6 @@ public abstract class StructBase: MonoBehaviour
         colleagueBases[randomInt].SetSpecialResource(new Resource(data.Item, data.Count));
 
         FadeIn();
-
-        App.Manager.UI.GetPanel<PagePanel>().CreateSelectDialogueRunner("sequence");
     }
 
     public abstract void NoFunc();

@@ -1,34 +1,26 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using Yarn.Unity;
+
+public enum PageType
+{
+    Select,
+    Result,
+    Resource,
+}
 
 public class PagePanel : UIBase, IListener
 {
-    [SerializeField] Button yesBtn;
-    [SerializeField] Button noBtn;
+    [SerializeField] Button[] selectBtns;
 
-    Image yesImage;
-    Image noImage;
-
-    [SerializeField] GameObject resultPrefab;
-    [SerializeField] RectTransform resultParent;
-    [SerializeField] GameObject selectPrefab;
-    [SerializeField] RectTransform selectParent;
-
-    PageBase resultPage;
-    PageBase selectPage;
+    private Dictionary<PageType, string> tomorrowPageDic = new();
 
     [SerializeField] Button[] skipButton;
 
-    Color clickedColor = new Color(56 / 255f, 221 / 255f, 205 / 255f);
-    Color unclickedColor = new Color(1f, 1f, 1f, 0.5f);
-    Color normalColor = new Color(1f, 1f, 1f, 1f);
-
-    [HideInInspector] public string currStruct;
-    [HideInInspector] public string currResource;
-    [HideInInspector] public int currResourceIndex = 0;
+    Color clickedColor = new(56 / 255f, 221 / 255f, 205 / 255f);
+    Color unclickedColor = new(1f, 1f, 1f, 0.5f);
+    Color normalColor = Color.white;
 
     private void Awake()
     {
@@ -46,181 +38,104 @@ public class PagePanel : UIBase, IListener
     }
 
     #region Override
-    public override void Init()
-    {
-        PageBase[] pages = GetComponentsInChildren<PageBase>(includeInactive: true);
-        foreach (var page in pages)
-        {
-            if (page.GetPageType() == PageType.Result)
-                resultPage = page;
-            else if (page.GetPageType() == PageType.Select)
-                selectPage = page;
-        }
-
-        yesImage = yesBtn.GetComponent<Image>();
-        noImage = noBtn.GetComponent<Image>();
-
-        currStruct = null;
-    }
+    public override void Init() { }
 
     public override void ReInit()
     {
-        var resources = App.Manager.Map.GetUnit<ResourceUnit>().GetLastResources();
-
-        for (int i = 0; i < resources.Count; i++)
-        {
-            string tileName = ""; // App.Manager.Map.tileCtrl.Base.GetTileType().ToString();
-
-            int randomNumber = Random.Range(1, 6);
-
-            string nodeName = resources[i].Item.Code + "_" + tileName + randomNumber.ToString();
-
-            if (resources[i].Item.Code == "ITEM_NETWORKCHIP")
-                SetResultPage(nodeName, false);
-            else
-                SetResultPage(nodeName, true);
-        }
+        ResetBtns();
     }
     #endregion
 
-    public void SetResultPage(string _nodeName, bool _isResourceNode)
+    public List<string> SetTodayPage()
     {
-        resultPage.SetNodeName(_nodeName, _isResourceNode);
+        List<string> resourceValues = new();
+        List<string> sortedValues = new();
+
+        foreach (var item in tomorrowPageDic.OrderBy(x => x.Key))
+        {
+            if (item.Key == PageType.Resource)
+            {
+                resourceValues.Add(item.Value);
+            }
+            else
+            {
+                sortedValues.Add(item.Value);
+            }
+        }
+
+        if (resourceValues.Count > 0)
+        {
+            string combinedResources = string.Join(", ", resourceValues);
+            sortedValues.Add(combinedResources);
+        }
+
+        tomorrowPageDic.Clear();
+
+        App.Manager.UI.GetPanel<FixedPanel>().SetAlert(AlertType.Note, sortedValues.Count > 0 ? true : false);
+
+        return sortedValues;
     }
 
-    public void SetSelectPage(string _nodeName, StructBase _structData)
+    private void ResetBtns()
     {
-        selectPage.SetNodeName(_nodeName);
-        currStruct = "";
-
-        InitBtns();
-
-        yesBtn.onClick.AddListener(_structData.YesFunc);
-        noBtn.onClick.AddListener(_structData.NoFunc);
-
-        AddDefaultListener();
+        foreach (var btn in selectBtns)
+        {
+            btn.enabled = true;
+            btn.image.color = normalColor;
+            btn.onClick.RemoveAllListeners();
+        }
     }
 
-    void InitBtns()
+    public void SetNextPage(PageType _type, string _code, params string[] _param)
     {
-        yesBtn.enabled = true;
-        noBtn.enabled = true;
-
-        yesImage.color = normalColor;
-        noImage.color = normalColor;
-
-        yesBtn.onClick.RemoveAllListeners();
-        noBtn.onClick.RemoveAllListeners();
+        var pageText = string.Format(App.Data.Game.GetString(_code), _param);
+        tomorrowPageDic.Add(_type, pageText);
     }
 
-    void AddDefaultListener()
+    public void SetNextResourcePage(ItemBase _item, string _code)
     {
-        yesBtn.onClick.AddListener(SetYesBtnColored);
-        noBtn.onClick.AddListener(SetNoBtnColored);
+        if (_item.Code == "ITEM_NETWORKCHIP")
+        {
+            SetNextPage(PageType.Result, "STR_PAGE_RESOURCE_NETWORKCHIP");
+            return;
+        }
 
-        yesBtn.onClick.AddListener(SetBtnsEnbled);
-        noBtn.onClick.AddListener(SetBtnsEnbled);
+        //string tileName = ""; // App.Manager.Map.tileCtrl.Base.GetTileType().ToString();
+
+        int randomNumber = Random.Range(1, 6);
+
+        string nodeName = "STR_RESOURCE_CARBON_JUNGLE5";//  + "_DESERT" + randomNumber.ToString();
+
+        SetNextPage(PageType.Resource, nodeName, "1");
     }
 
-    void SetYesBtnColored()
+    public void SetNextStructPage(StructBase _struct) // TODO :어떻게 다음날이 됐을 때 이 버튼이 활성화되도록 할 수 ㅣㅇ씅ㄹ까
     {
-        yesImage.color = clickedColor;
-        noImage.color = unclickedColor;
+        SetNextPage(PageType.Select, ""/*_struct.PageCode*/);
+
+        selectBtns[0].onClick.AddListener(_struct.YesFunc);
+        selectBtns[1].onClick.AddListener(_struct.NoFunc);
     }
 
-    void SetNoBtnColored()
+    private void OnClickStructBtn(int _index, StructBase _struct)
     {
-        yesImage.color = unclickedColor;
-        noImage.color = clickedColor;
+        selectBtns[_index].image.color = clickedColor;
+        //otherBtn.image.color = unclickedColor;
+        selectBtns[_index].enabled = false;
     }
 
-    void SetBtnsEnbled()
+    private void SetTutorialSelect()
     {
-        yesBtn.enabled = false;
-        noBtn.enabled = false;
-    }
+        SetNextPage(PageType.Select, "tutorialSelect");
 
-    public void SetTutorialSelect()
-    {
-        selectPage.SetNodeName("tutorialSelect");
         App.Manager.UI.GetPanel<NotePanel>().ReInit();
 
-        yesBtn.onClick.RemoveAllListeners();
-        noBtn.onClick.RemoveAllListeners();
+        ResetBtns();
 
-        yesBtn.onClick.AddListener(TutorialYesFunc);
-    }
-
-    public void TutorialYesFunc()
-    {
-        //TutorialManager.instance.GetTutorialController().LightUpBackground();
-        App.Manager.UI.GetPanel<InventoryPanel>().RemoveItemByCode("ITEM_BATTERY");
-        App.Manager.UI.GetPanel<NotePanel>().ClosePanel();
-    }
-
-    public string GetNextResourceNodeName()
-    {
-        if (resultPage.todayResourceNodeNames.Count == 0) return "-1";
-        else
+        selectBtns[0].onClick.AddListener(() =>
         {
-            resultPage.resourceIndex++;
-            if (resultPage.resourceIndex > resultPage.todayResourceNodeNames.Count - 1) return "-1";
-            string temp = resultPage.todayResourceNodeNames[resultPage.resourceIndex];
-            return temp;
-        }
-    }
-
-    public void CreateResultDialogueRunner(string _nodeName)
-    {
-        GameObject obj = Instantiate(resultPrefab, resultParent);
-
-        DialogueRunner dialogueRunner = obj.GetComponent<DialogueRunner>();
-
-        dialogueRunner.StartDialogue(_nodeName);
-
-        LayoutRebuilder.ForceRebuildLayoutImmediate(resultParent);
-    }
-
-    public void CreateSelectDialogueRunner(string _nodeName)
-    {
-        GameObject obj = Instantiate(selectPrefab, selectParent);
-
-        obj.GetComponent<CustomDialogueView>().skipButton = skipButton;
-
-        DialogueRunner dialogueRunner = obj.GetComponent<DialogueRunner>();
-
-        dialogueRunner.StartDialogue(_nodeName);
-
-        LayoutRebuilder.ForceRebuildLayoutImmediate(selectParent);
-    }
-
-    public void SetCurrResource(ItemBase _item)
-    {
-        currResource = App.Data.Game.GetString(_item.Data.Name);
-
-        switch (_item.Code)
-        {
-            case "ITEM_STEEL":
-                currResourceIndex = 0;
-                break;
-            case "ITEM_CARBON":
-                currResourceIndex = 1;
-                break;
-            case "ITEM_PLASMA":
-                currResourceIndex = 2;
-                break;
-            case "ITEM_POWDER":
-                currResourceIndex = 4;
-                break;
-            case "ITEM_GAS":
-                currResourceIndex = 5;
-                break;
-            case "ITEM_RUBBER":
-                currResourceIndex = 6;
-                break;
-            default:
-                currResourceIndex = 3;
-                break;
-        }
+            App.Manager.UI.GetPanel<InventoryPanel>().RemoveItemByCode("ITEM_BATTERY");
+            App.Manager.UI.GetPanel<NotePanel>().ClosePanel();
+        });
     }
 }

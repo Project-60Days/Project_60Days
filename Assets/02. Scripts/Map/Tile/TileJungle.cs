@@ -15,13 +15,13 @@ public class TileJungle : TileBase
 
         if (random < 30) 
         {
-            App.Manager.UI.GetPanel<PagePanel>().SetResultPage("LOOSE_WAY", false);
+            App.Manager.UI.GetPanel<PagePanel>().SetNextPage(PageType.Result, "STR_RESULT_LOOSE_WAY");
             App.Manager.Map.SetRandomTile();
         }
 
         if (random < 10)
         {
-            App.Manager.UI.GetPanel<PagePanel>().SetResultPage("SWAMP", false);
+            App.Manager.UI.GetPanel<PagePanel>().SetNextPage(PageType.Result, "STR_RESULT_SWAMP");
             App.Data.Test.SetMoveRange(0);
         }
     }

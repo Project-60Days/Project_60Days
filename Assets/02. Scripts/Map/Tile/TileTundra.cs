@@ -12,7 +12,7 @@ public class TileTundra : TileBase
 
         if (random < 10)
         {
-            App.Manager.UI.GetPanel<PagePanel>().SetResultPage("ACIDENT_ETHER", false);
+            App.Manager.UI.GetPanel<PagePanel>().SetNextPage(PageType.Result, "STR_RESULT_ACIDENT_ETHER");
         }
     }
 }

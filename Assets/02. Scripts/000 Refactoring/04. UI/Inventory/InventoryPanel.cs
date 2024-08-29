@@ -151,8 +151,11 @@ public class InventoryPanel : UIBase, IListener
             itemToRemove = items[Random.Range(0, items.Count)];
         } while (itemToRemove.Code == "ITEM_NETWORKCHIP");
 
-        App.Manager.UI.GetPanel<PagePanel>().SetCurrResource(itemToRemove);
-        App.Manager.UI.GetPanel<PagePanel>().SetResultPage("LOOSE_RESOURCE", false);
+        App.Manager.UI.GetPanel<PagePanel>().SetNextPage(
+            PageType.Result, 
+            "STR_RESULT_LOOSE_RESOURCE", 
+            App.Data.Game.GetString(itemToRemove.Data.Name),
+            "3");
 
         RemoveItem(itemToRemove);
     }

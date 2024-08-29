@@ -62,11 +62,11 @@ public class CustomYarnCommands : MonoBehaviour
 
     void AppendNode()
     {
-        string nodeName = App.Manager.UI.GetPanel<PagePanel>().GetNextResourceNodeName();
+        //string nodeName = App.Manager.UI.GetPanel<PagePanel>().GetNextResourceNodeName();
 
-        if (nodeName == "-1") return;
+        //if (nodeName == "-1") return;
 
-        App.Manager.UI.GetPanel<PagePanel>().CreateResultDialogueRunner(nodeName);
+        //App.Manager.UI.GetPanel<PagePanel>().CreateResultDialogueRunner(nodeName);
     }
 
     #region Tutorial Common Commands
@@ -217,14 +217,14 @@ public class CustomYarnCommands : MonoBehaviour
     [YarnFunction("getResourceName")]
     static string GetResourceName()
     {
-        string resourceName = App.Manager.UI.GetPanel<PagePanel>().currResource;
+        string resourceName = string.Empty;//App.Manager.UI.GetPanel<PagePanel>().currResource;
         return resourceName;
     }
 
     [YarnFunction("getResourceIndex")]
     static int GetResourceIndex()
     {
-        int resourceIndex = App.Manager.UI.GetPanel<PagePanel>().currResourceIndex;
+        int resourceIndex = 0; //App.Manager.UI.GetPanel<PagePanel>().currResourceIndex;
         return resourceIndex;
     }
 
@@ -256,7 +256,7 @@ public class CustomYarnCommands : MonoBehaviour
     [YarnFunction("getStructName")]
     static string GetStructName()
     {
-        string structName = App.Manager.UI.GetPanel<PagePanel>().currStruct;
+        string structName = string.Empty;// App.Manager.UI.GetPanel<PagePanel>().currStruct;
         
         return structName;
     }

@@ -60,7 +60,7 @@ public class TutorialManager : Manager, IListener
     public void AddResource()
     {
         string nodeName = "ITEM_TUTORIAL";
-        App.Manager.UI.GetPanel<PagePanel>().SetResultPage(nodeName, true);
+        App.Manager.UI.GetPanel<PagePanel>().SetNextPage(PageType.Resource, "STR_RESOURCE_TUTORIAL");
 
         App.Manager.UI.GetPanel<InventoryPanel>().AddItemByItemCode("ITEM_DISTURBE", "ITEM_FINDOR");
     }

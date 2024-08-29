@@ -12,6 +12,29 @@ public class NoteScrollCtrl : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    //private IEnumerator CheckScrollEnabled()
+    //{
+    //    scrollCtrl.StopAnim();
+
+    //    int index = notePages[pageNum].GetPageType() == PageType.Result ? 0 : 1;
+    //    scrollRects[index].verticalNormalizedPosition = 1.0f;
+
+    //    yield return null;
+
+    //    if (scrollBars[index].gameObject.activeSelf)
+    //    {
+    //        scrollCtrl.StartAnim();
+    //        StartCoroutine(WaitScrollToEnd(scrollBars[index]));
+    //    }
+    //}
+
+    //private IEnumerator WaitScrollToEnd(Scrollbar scrollBar)
+    //{
+    //    yield return new WaitUntil(() => scrollBar.value <= 0.1f);
+    //    scrollCtrl.StopAnim();
+    //}
+
+
     public void StartAnim()
     {
         gameObject.SetActive(true);

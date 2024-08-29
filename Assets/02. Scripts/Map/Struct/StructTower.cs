@@ -12,8 +12,7 @@ public class StructTower : StructBase
     }
     public override void YesFunc()
     {
-        App.Manager.UI.GetPanel<PagePanel>().SetResultPage("Signal_Yes", false);
-        App.Manager.UI.GetPanel<PagePanel>().CreateSelectDialogueRunner("sequence");
+        App.Manager.UI.GetPanel<PagePanel>().SetNextPage(PageType.Result, "STR_RESULT_STRUCT_YES", data.Korean);
     }
 
     public override void NoFunc() { }

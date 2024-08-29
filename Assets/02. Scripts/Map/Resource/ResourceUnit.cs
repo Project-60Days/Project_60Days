@@ -62,6 +62,7 @@ public class ResourceUnit : MapBase
         foreach (var resource in resources)
         {
             Inventory.AddItem(resource.Item);
+            App.Manager.UI.GetPanel<PagePanel>().SetNextResourcePage(resource.Item, string.Empty);
         }
 
         App.Manager.Sound.PlaySFX(resources[0].Item.sfxName);

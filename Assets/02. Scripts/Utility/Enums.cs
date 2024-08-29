@@ -59,12 +59,6 @@ public enum UIState
     NewDay
 }
 
-public enum PageType
-{
-    Result,
-    Select
-}
-
 public enum SlotType
 {
     InventorySlot,

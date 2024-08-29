@@ -2,27 +2,27 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using DG.Tweening;
 
 public class NotePanel : UIBase
 {
     [Header("Note Objects")]
     [SerializeField] Text dayText;
     [SerializeField] GameObject noteBackground;
-    [SerializeField] NoteScrollCtrl scrollCtrl;
 
     [Header("Buttons")]
     [SerializeField] Button nextPageBtn;
     [SerializeField] Button prevPageBtn;
     [SerializeField] Button closeBtn;
+    [SerializeField] TextMeshProUGUI pageText;
 
-    [SerializeField] PageBase[] pages;
-    private PageBase[] notePages;
-
-    private bool isOpen = false;
     private int pageNum = 0;
 
     [SerializeField] ScrollRect[] scrollRects;
     [SerializeField] Scrollbar[] scrollBars;
+
+    private List<string> todayPage = new();
 
     #region Override
     public override UIState GetUIState() => UIState.Note;
@@ -38,15 +38,15 @@ public class NotePanel : UIBase
 
     public override void ReInit()
     {
+        todayPage = App.Manager.UI.GetPanel<PagePanel>().SetTodayPage();
         SetVariables();
     }
 
     public override void OpenPanel()
     {
-        if (notePages.Length == 0 || isOpen) return;
+        if (todayPage.Count == 0 || App.Manager.UI.CurrState != UIState.Normal) return;
 
         base.OpenPanel();
-        isOpen = true;
 
         ActivateCurrentPage();
         UpdatePageButtons();
@@ -56,13 +56,9 @@ public class NotePanel : UIBase
 
     public override void ClosePanel()
     {
-        if (!isOpen || App.Manager.UI.CurrState != UIState.Note) return;
+        if (App.Manager.UI.CurrState != UIState.Note) return;
 
         base.ClosePanel();
-        isOpen = false;
-
-        notePages[pageNum].gameObject.SetActive(false);
-        scrollCtrl.StopAnim();
 
         App.Manager.Sound.PlaySFX("SFX_Note_Close");
     }
@@ -82,50 +78,14 @@ public class NotePanel : UIBase
     {
         dayText.text = $"Day {App.Manager.Game.DayCount}";
         pageNum = 0;
-        notePages = GetActiveNotePages();
-    }
-
-    private PageBase[] GetActiveNotePages()
-    {
-        App.Manager.UI.GetPanel<FixedPanel>().SetAlert(AlertType.Note, false);
-
-        List<PageBase> todayPages = new();
-
-        foreach (var page in pages)
-        {
-            page.InitNodeName();
-
-            if (page.GetPageEnableToday())
-            {
-                todayPages.Add(page);
-                App.Manager.UI.GetPanel<FixedPanel>().SetAlert(AlertType.Note, true);
-            }
-
-            page.gameObject.SetActive(false);
-        }
-
-        return todayPages.ToArray();
     }
 
     private void NavigatePage(int direction)
     {
-        var currentPage = notePages[pageNum];
-        int compareIndex = currentPage.CompareIndex();
+        pageNum += direction;
+        pageNum = Mathf.Clamp(pageNum, 0, todayPage.Count - 1);
 
-        if ((direction == 1 && (compareIndex == 1 || compareIndex == 2)) ||
-            (direction == -1 && (compareIndex == -1 || compareIndex == 2)))
-        {
-            int newIndex = pageNum + direction;
-            if (newIndex >= 0 && newIndex < notePages.Length)
-            {
-                ChangePage(newIndex);
-            }
-        }
-        else
-        {
-            currentPage.ChangePageAction(direction == 1 ? "next" : "prev");
-            UpdatePageButtons();
-        }
+        ChangePage(pageNum);
     }
 
     /// <summary>
@@ -134,35 +94,26 @@ public class NotePanel : UIBase
     /// <param name="index"></param>
     private void ChangePage(int newIndex)
     {
-        notePages[pageNum].gameObject.SetActive(false);
-        pageNum = newIndex;
         ActivateCurrentPage();
         UpdatePageButtons();
     }
 
     private void ActivateCurrentPage()
     {
-        notePages[pageNum].gameObject.SetActive(true);
-        notePages[pageNum].PlayPageAciton();
+        pageText.DOKill();
+
+        pageText.DOFade(0f, 0.1f).OnComplete(() =>
+        {
+            pageText.text = todayPage[pageNum];
+            pageText.DOFade(1f, 0.1f);
+        });
     }
 
     private void UpdatePageButtons()
     {
-        StartCoroutine(CheckScrollEnabled());
+        bool nextBtnEnabled = pageNum < todayPage.Count - 2;
+        bool prevBtnEnabled = pageNum > 0;
 
-        bool nextBtnEnabled = pageNum < notePages.Length - 1 || notePages[pageNum].CompareIndex() != 1;
-        bool prevBtnEnabled = pageNum > 0 || notePages[pageNum].CompareIndex() != -1;
-
-        if (notePages.Length == 1)
-        {
-            prevBtnEnabled = nextBtnEnabled = false;
-        }
-
-        SetNavigationButtons(nextBtnEnabled, prevBtnEnabled);
-    }
-
-    private void SetNavigationButtons(bool nextBtnEnabled, bool prevBtnEnabled)
-    {
         nextPageBtn.gameObject.SetActive(nextBtnEnabled);
         prevPageBtn.gameObject.SetActive(prevBtnEnabled);
 
@@ -170,28 +121,6 @@ public class NotePanel : UIBase
         {
             App.Manager.UI.GetPanel<FixedPanel>().SetAlert(AlertType.Note, false);
         }
-    }
-
-    private IEnumerator CheckScrollEnabled()
-    {
-        scrollCtrl.StopAnim();
-
-        int index = notePages[pageNum].GetPageType() == PageType.Result ? 0 : 1;
-        scrollRects[index].verticalNormalizedPosition = 1.0f;
-
-        yield return null;
-
-        if (scrollBars[index].gameObject.activeSelf)
-        {
-            scrollCtrl.StartAnim();
-            StartCoroutine(WaitScrollToEnd(scrollBars[index]));
-        }
-    }
-
-    private IEnumerator WaitScrollToEnd(Scrollbar scrollBar)
-    {
-        yield return new WaitUntil(() => scrollBar.value <= 0.1f);
-        scrollCtrl.StopAnim();
     }
 
     #region GetAndSet
