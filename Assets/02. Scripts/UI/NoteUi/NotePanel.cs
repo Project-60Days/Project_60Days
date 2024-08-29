@@ -9,7 +9,7 @@ public class NotePanel : UIBase
 {
     [Header("Note Objects")]
     [SerializeField] Text dayText;
-    [SerializeField] GameObject noteBackground;
+    [SerializeField] NoteScrollCtrl scrollCtrl;
 
     [Header("Buttons")]
     [SerializeField] Button nextPageBtn;
@@ -19,10 +19,10 @@ public class NotePanel : UIBase
 
     private int pageNum = 0;
 
-    [SerializeField] ScrollRect[] scrollRects;
-    [SerializeField] Scrollbar[] scrollBars;
+    [SerializeField] ScrollRect scrollRect;
+    [SerializeField] Scrollbar scrollBar;
 
-    private List<string> todayPage = new();
+    private string[] todayPage;
 
     #region Override
     public override UIState GetUIState() => UIState.Note;
@@ -38,13 +38,14 @@ public class NotePanel : UIBase
 
     public override void ReInit()
     {
-        todayPage = App.Manager.UI.GetPanel<PagePanel>().SetTodayPage();
         SetVariables();
+
+        App.Manager.UI.GetPanel<FixedPanel>().SetAlert(AlertType.Note, todayPage.Length > 0 ? true : false);
     }
 
     public override void OpenPanel()
     {
-        if (todayPage.Count == 0 || App.Manager.UI.CurrState != UIState.Normal) return;
+        if (todayPage.Length == 0 || App.Manager.UI.CurrState != UIState.Normal) return;
 
         base.OpenPanel();
 
@@ -78,21 +79,22 @@ public class NotePanel : UIBase
     {
         dayText.text = $"Day {App.Manager.Game.DayCount}";
         pageNum = 0;
+        todayPage = App.Manager.UI.GetPanel<PagePanel>().SetTodayPage();
     }
 
     private void NavigatePage(int direction)
     {
         pageNum += direction;
-        pageNum = Mathf.Clamp(pageNum, 0, todayPage.Count - 1);
+        pageNum = Mathf.Clamp(pageNum, 0, todayPage.Length - 1);
 
-        ChangePage(pageNum);
+        ChangePage();
     }
 
     /// <summary>
     /// 다음/이전 페이지로 이동
     /// </summary>
     /// <param name="index"></param>
-    private void ChangePage(int newIndex)
+    private void ChangePage()
     {
         ActivateCurrentPage();
         UpdatePageButtons();
@@ -102,16 +104,17 @@ public class NotePanel : UIBase
     {
         pageText.DOKill();
 
-        pageText.DOFade(0f, 0.1f).OnComplete(() =>
+        pageText.DOFade(0f, 0.05f).OnComplete(() =>
         {
             pageText.text = todayPage[pageNum];
-            pageText.DOFade(1f, 0.1f);
+            scrollCtrl.ResetScrollActive();
+            pageText.DOFade(1f, 0.05f);
         });
     }
 
     private void UpdatePageButtons()
     {
-        bool nextBtnEnabled = pageNum < todayPage.Count - 2;
+        bool nextBtnEnabled = pageNum < todayPage.Length - 2;
         bool prevBtnEnabled = pageNum > 0;
 
         nextPageBtn.gameObject.SetActive(nextBtnEnabled);
@@ -124,12 +127,12 @@ public class NotePanel : UIBase
     }
 
     #region GetAndSet
-    public bool CheckIfScrolledToEnd() => scrollBars[1].value <= 0.1f;
+    public bool CheckIfScrolledToEnd() => scrollBar.value <= 0.1f;
 
     public void SetScrollBarInteractable(bool isInteractable)
     {
-        scrollBars[1].enabled = isInteractable;
-        scrollRects[1].enabled = isInteractable;
+        scrollBar.enabled = isInteractable;
+        scrollRect.enabled = isInteractable;
     }
 
     public void SetCloseBtnEnabled(bool isEnabled)

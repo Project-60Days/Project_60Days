@@ -1,48 +1,31 @@
 using UnityEngine;
+using UnityEngine.UI;
 using DG.Tweening;
 
 public class NoteScrollCtrl : MonoBehaviour
 {
+    [SerializeField] ScrollRect scrollRect;
+    [SerializeField] RectTransform content;
+
+    private RectTransform rect;
     private float startPositionY;
 
     private void Start()
     {
-        startPositionY = transform.position.y;
+        rect = GetComponent<RectTransform>();
+        startPositionY = rect.anchoredPosition.y;
 
-        gameObject.SetActive(false);
+        scrollRect.onValueChanged.AddListener(OnScrollValueChanged);
+
+        StartAnim();
     }
 
-    //private IEnumerator CheckScrollEnabled()
-    //{
-    //    scrollCtrl.StopAnim();
-
-    //    int index = notePages[pageNum].GetPageType() == PageType.Result ? 0 : 1;
-    //    scrollRects[index].verticalNormalizedPosition = 1.0f;
-
-    //    yield return null;
-
-    //    if (scrollBars[index].gameObject.activeSelf)
-    //    {
-    //        scrollCtrl.StartAnim();
-    //        StartCoroutine(WaitScrollToEnd(scrollBars[index]));
-    //    }
-    //}
-
-    //private IEnumerator WaitScrollToEnd(Scrollbar scrollBar)
-    //{
-    //    yield return new WaitUntil(() => scrollBar.value <= 0.1f);
-    //    scrollCtrl.StopAnim();
-    //}
-
-
-    public void StartAnim()
+    private void StartAnim()
     {
-        gameObject.SetActive(true);
-
-        transform.DOMoveY(startPositionY + 10f, 0.5f).SetLoops(-1, LoopType.Yoyo);
+        rect.DOAnchorPosY(startPositionY + 10f, 0.5f).SetLoops(-1, LoopType.Yoyo);
     }
-    
-    public void StopAnim()
+
+    private void StopAnim()
     {
         transform.DOKill();
 
@@ -51,5 +34,23 @@ public class NoteScrollCtrl : MonoBehaviour
                 {
                     gameObject.SetActive(false);
                 });
+    }
+
+    public void ResetScrollActive()
+    {
+        bool canScroll = content.rect.height > scrollRect.viewport.rect.height;
+        gameObject.SetActive(canScroll);
+    }
+
+    private void OnScrollValueChanged(Vector2 scrollPosition)
+    {
+        if (scrollRect.verticalNormalizedPosition <= 0.1f)
+        {
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            gameObject.SetActive(true);
+        }
     }
 }

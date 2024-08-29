@@ -58,7 +58,7 @@ public class PagePanel : UIBase, IListener
     }
     #endregion
 
-    public List<string> SetTodayPage()
+    public string[] SetTodayPage()
     {
         List<string> resourceValues = new();
         List<string> sortedValues = new();
@@ -83,9 +83,7 @@ public class PagePanel : UIBase, IListener
 
         tomorrowPages.Clear();
 
-        App.Manager.UI.GetPanel<FixedPanel>().SetAlert(AlertType.Note, sortedValues.Count > 0 ? true : false);
-
-        return sortedValues;
+        return sortedValues.ToArray();
     }
 
     private void ResetBtns()
@@ -95,6 +93,7 @@ public class PagePanel : UIBase, IListener
             btn.enabled = true;
             btn.image.color = normalColor;
             btn.onClick.RemoveAllListeners();
+            btn.gameObject.SetActive(false);
         }
     }
 
