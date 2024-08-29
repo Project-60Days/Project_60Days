@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Yarn.Unity;
+using DG.Tweening;
 
 public class SelectPage : PageBase
 {
@@ -21,13 +22,12 @@ public class SelectPage : PageBase
 
     public override void PlayNode(string _nodeName)
     {
-        if (dialogueRunner.IsDialogueRunning == true)
+        if (dialogueRunner.IsDialogueRunning)
+        {
             dialogueRunner.Stop();
+        }
 
         dialogueRunner.StartDialogue(_nodeName);
-
-        LayoutRebuilder.ForceRebuildLayoutImmediate(content);
-        LayoutRebuilder.ForceRebuildLayoutImmediate(lineView);
     }
 
     public override void InitInChildren()

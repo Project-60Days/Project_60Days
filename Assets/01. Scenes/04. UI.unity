@@ -17647,6 +17647,7 @@ GameObject:
   - component: {fileID: 779161649}
   - component: {fileID: 779161648}
   - component: {fileID: 779161645}
+  - component: {fileID: 779161651}
   m_Layer: 5
   m_Name: Page1_Result
   m_TagString: NotePage
@@ -17762,6 +17763,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 779161643}
   m_CullTransparentMesh: 1
+--- !u!225 &779161651
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 779161643}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &783848024
 GameObject:
   m_ObjectHideFlags: 0
@@ -45089,6 +45102,7 @@ GameObject:
   - component: {fileID: 2140631378}
   - component: {fileID: 2140631377}
   - component: {fileID: 2140631380}
+  - component: {fileID: 2140631381}
   m_Layer: 5
   m_Name: Page2_Select
   m_TagString: NotePage
@@ -45205,6 +45219,18 @@ MonoBehaviour:
   dialogueRunner: {fileID: 243579742}
   content: {fileID: 1811164150}
   lineView: {fileID: 243579735}
+--- !u!225 &2140631381
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2140631373}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2141811393
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,10 +5,12 @@ using Yarn.Unity;
 
 public abstract class PageBase : MonoBehaviour
 {
-    [SerializeField] protected List<string> todayNodeNames = new List<string>();
-    [SerializeField] protected List<string> tomorrowNodeNames = new List<string>();
+    [SerializeField] protected List<string> todayNodeNames = new();
+    [SerializeField] protected List<string> tomorrowNodeNames = new();
 
-    public List<string> todayResourceNodeNames = new List<string>();
+    public List<string> todayResourceNodeNames = new();
+
+    protected CanvasGroup canvasGroup;
 
     protected int index = 0;
 
@@ -16,15 +18,14 @@ public abstract class PageBase : MonoBehaviour
 
     public int resourceIndex = 0;
 
-    public virtual void SetNodeName(string _nodeName)
+    private void Awake()
     {
-
+        canvasGroup = GetComponent<CanvasGroup>();
     }
 
-    public virtual void SetNodeName(string _nodeName, bool _isResourceNode)
-    {
-        
-    }
+    public virtual void SetNodeName(string _nodeName) { }
+
+    public virtual void SetNodeName(string _nodeName, bool _isResourceNode) { }
 
     public virtual void InitNodeName()
     {
