@@ -10,11 +10,23 @@ public enum PageType
     Resource,
 }
 
+public class NotePage
+{
+    public PageType Type { get; set; }
+    public string Content { get; set; }
+
+    public NotePage(PageType type, string content)
+    {
+        Type = type;
+        Content = content;
+    }
+}
+
 public class PagePanel : UIBase, IListener
 {
     [SerializeField] Button[] selectBtns;
 
-    private Dictionary<PageType, string> tomorrowPageDic = new();
+    private List<NotePage> tomorrowPages = new();
 
     [SerializeField] Button[] skipButton;
 
@@ -51,25 +63,25 @@ public class PagePanel : UIBase, IListener
         List<string> resourceValues = new();
         List<string> sortedValues = new();
 
-        foreach (var item in tomorrowPageDic.OrderBy(x => x.Key))
+        foreach (var entry in tomorrowPages.OrderBy(x => x.Type))
         {
-            if (item.Key == PageType.Resource)
+            if (entry.Type == PageType.Resource)
             {
-                resourceValues.Add(item.Value);
+                resourceValues.Add(entry.Content);
             }
             else
             {
-                sortedValues.Add(item.Value);
+                sortedValues.Add(entry.Content);
             }
         }
 
         if (resourceValues.Count > 0)
         {
-            string combinedResources = string.Join(", ", resourceValues);
+            string combinedResources = string.Join("\n\n", resourceValues);
             sortedValues.Add(combinedResources);
         }
 
-        tomorrowPageDic.Clear();
+        tomorrowPages.Clear();
 
         App.Manager.UI.GetPanel<FixedPanel>().SetAlert(AlertType.Note, sortedValues.Count > 0 ? true : false);
 
@@ -89,7 +101,8 @@ public class PagePanel : UIBase, IListener
     public void SetNextPage(PageType _type, string _code, params string[] _param)
     {
         var pageText = string.Format(App.Data.Game.GetString(_code), _param);
-        tomorrowPageDic.Add(_type, pageText);
+        var page = new NotePage(_type, pageText);
+        tomorrowPages.Add(page);
     }
 
     public void SetNextResourcePage(ItemBase _item, string _code)
