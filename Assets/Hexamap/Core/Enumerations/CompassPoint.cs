@@ -2,11 +2,11 @@
 {
     public enum CompassPoint
     {
-        N = 0,
-        NE = 1,
-        SE = 2,
-        S = 3,
-        SW = 4,
-        NW = 5
+        SW = 0,
+        NW = 1,
+        N = 2,
+        NE = 3,
+        SE = 4,
+        S = 5
     }
 }

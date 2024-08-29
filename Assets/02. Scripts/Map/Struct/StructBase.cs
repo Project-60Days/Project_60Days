@@ -7,7 +7,7 @@ public abstract class StructBase: MonoBehaviour
 {
     [SerializeField] Material cloakingMaterial;
 
-    protected StructData data;
+    public StructData Data { get; private set; }
     protected List<Tile> colleagues;
     protected List<TileBase> colleagueBases;
     protected PagePanel page;
@@ -16,10 +16,13 @@ public abstract class StructBase: MonoBehaviour
 
     protected abstract string GetCode();
 
+    public void SetData()
+    {
+        Data = App.Data.Game.structData[GetCode()];
+    }
+
     public virtual void Init(List<Tile> _colleagueList)
     {
-        data = App.Data.Game.structData[GetCode()];
-
         render = transform.GetChild(0).GetComponent<Renderer>();
         page = App.Manager.UI.GetPanel<PagePanel>();
 
@@ -29,17 +32,17 @@ public abstract class StructBase: MonoBehaviour
 
     public virtual void DetectStruct()
     {
-        page.SetNextPage(PageType.Select, "STR_SELECT_STRUCT", App.Data.Game.GetString(data.Name));
+        page.SetNextPage(PageType.Select, "STR_SELECT_STRUCT", App.Data.Game.GetString(Data.Name));
     }
 
     public virtual void YesFunc()
     {
-        page.SetNextPage(PageType.Result, "STR_RESULT_STRUCT_YES", App.Data.Game.GetString(data.Name));
+        page.SetNextPage(PageType.Result, "STR_RESULT_STRUCT_YES", App.Data.Game.GetString(Data.Name));
     }
 
     public virtual void NoFunc()
     {
-        page.SetNextPage(PageType.Result, "STR_RESULT_STRUCT_NO", App.Data.Game.GetString(data.Name));
+        page.SetNextPage(PageType.Result, "STR_RESULT_STRUCT_NO", App.Data.Game.GetString(Data.Name));
     }
 
     protected void SetCanAccess()
@@ -54,7 +57,7 @@ public abstract class StructBase: MonoBehaviour
         colleagueBases.ForEach(tile => tile.UpdateResource());
 
         int randomInt = Random.Range(0, colleagueBases.Count);
-        colleagueBases[randomInt].SetSpecialResource(new Resource(data.Item, data.Count));
+        colleagueBases[randomInt].SetSpecialResource(new Resource(Data.Item, Data.Count));
 
         FadeIn();
     }

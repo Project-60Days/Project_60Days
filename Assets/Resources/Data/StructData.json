@@ -3,6 +3,7 @@
     "Code": "STRUCT_TOWER",
     "Name": "STR_STRUCT_TOWER_NAME",
     "Direction": 1,
+    "SpawnRange": 3,
     "Item": "ITEM_WIRE",
     "Count": 10,
     "SpecialItem": ""
@@ -11,6 +12,7 @@
     "Code": "STRUCT_ARMY",
     "Name": "STR_STRUCT_ARMY_NAME",
     "Direction": 3,
+    "SpawnRange": 7,
     "Item": "ITEM_DISTURBE",
     "Count": 2,
     "SpecialItem": ""
@@ -19,6 +21,7 @@
     "Code": "STRUCT_DYNAMO",
     "Name": "STR_STRUCT_DYNAMO_NAME",
     "Direction": 1,
+    "SpawnRange": 0,
     "Item": "ITEM_DISTURBE",
     "Count": 2,
     "SpecialItem": ""
@@ -27,6 +30,7 @@
     "Code": "STRUCT_PRODUCTION",
     "Name": "STR_STRUCT_PRODUCTION_NAME",
     "Direction": 7,
+    "SpawnRange": 8,
     "Item": "ITEM_NETWORKCHIP",
     "Count": 2,
     "SpecialItem": "ITEM_NETWORKCHIP"

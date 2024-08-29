@@ -398,7 +398,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cde2eefe246a3234094cb6a1be969299, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hexaMap: {fileID: 2032613208}
   prefabs: []
 --- !u!1 &706894743
 GameObject:
@@ -444,64 +443,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a75773635d28ca49aa62a42b487ccb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hexaMap: {fileID: 2032613208}
   enemyPrefab: {fileID: 4352004779550836249, guid: a0525b4d277ecb9448b70a8ae0523766, type: 3}
---- !u!1 &787363466
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 787363467}
-  - component: {fileID: 787363468}
-  m_Layer: 0
-  m_Name: MapManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &787363467
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 787363466}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &787363468
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 787363466}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25780014b375d3847aae732c64cc05ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Maps:
-  - {fileID: 270035659}
-  - {fileID: 706894745}
-  - {fileID: 848818348}
-  - {fileID: 1632411915}
-  - {fileID: 858446723}
-  - {fileID: 1926141685}
-  hexaMapCtrl: {fileID: 2032613208}
-  tileCtrl: {fileID: 0}
-  cameraCtrl: {fileID: 70614911}
-  fog: {fileID: 1413298386}
-  selectedTiles: []
 --- !u!1 &848818346
 GameObject:
   m_ObjectHideFlags: 0
@@ -513,7 +455,7 @@ GameObject:
   - component: {fileID: 848818347}
   - component: {fileID: 848818348}
   m_Layer: 0
-  m_Name: Objects
+  m_Name: Struct
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -546,7 +488,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f2a40c6b7eda6946a708de8d6492341, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hexaMap: {fileID: 2032613208}
+  structPrefabs:
+  - {fileID: 160171466204798991, guid: cf95c0db2f410d245809742eb3c58a2e, type: 3}
+  - {fileID: 3966501793454575975, guid: af50e44c866e7ef4fba5d45331a50143, type: 3}
+  - {fileID: 8944453277797006517, guid: 135f99e71d3a4684ab5f9ccd2e26a39b, type: 3}
   towerPrefab: {fileID: 160171466204798991, guid: cf95c0db2f410d245809742eb3c58a2e, type: 3}
   productionPrefab: {fileID: 3966501793454575975, guid: af50e44c866e7ef4fba5d45331a50143, type: 3}
   armyPrefab: {fileID: 8944453277797006517, guid: 135f99e71d3a4684ab5f9ccd2e26a39b, type: 3}
@@ -594,7 +539,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dea44deae377e314c99e5750c6f57ea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hexaMap: {fileID: 2032613208}
   arrowPrefab: {fileID: 8455040257853211726, guid: d7b10346f8761c2468d15e5a55b160f9, type: 3}
 --- !u!1 &991915579
 GameObject:
@@ -924,8 +868,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e60cb2c795414546b3ccfe1f4cb6292, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hexaMap: {fileID: 2032613208}
-  mapParentTransform: {fileID: 2032613207}
   prefab: {fileID: 6314717740676103250, guid: 303886a44e740944493ee594d856f8af, type: 3}
 --- !u!1 &1905312114
 GameObject:
@@ -1044,7 +986,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed6d3358cc62e0b43acaf32cb2a148fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hexaMap: {fileID: 0}
 --- !u!4 &1926141686
 Transform:
   m_ObjectHideFlags: 0
@@ -1101,6 +1042,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2032613207}
   - component: {fileID: 2032613208}
+  - component: {fileID: 2032613209}
   m_Layer: 0
   m_Name: Hexamap
   m_TagString: Untagged
@@ -1145,6 +1087,18 @@ MonoBehaviour:
   GenerateOnStartup: 1
   Settings: {fileID: 11400000, guid: 690a6be2bc3fe0645871bdab96c1b917, type: 2}
   Parent: {fileID: 270035657}
+--- !u!114 &2032613209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2032613206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25780014b375d3847aae732c64cc05ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2128140058
 GameObject:
   m_ObjectHideFlags: 0
@@ -1189,5 +1143,5 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

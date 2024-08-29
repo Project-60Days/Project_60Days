@@ -28,12 +28,11 @@ public enum DroneType
 
 public enum TileType
 {
-    None,
     City,
     Desert,
     Jungle,
     Tundra,
-    Neo
+    None,
 }
 
 public enum TileState

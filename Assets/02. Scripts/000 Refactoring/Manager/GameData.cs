@@ -49,6 +49,7 @@ public class StructData
     public string Code;
     public string Name;
     public int Direction;
+    public int SpawnRange;
     public string Item;
     public int Count;
     public string SpecialItem;
