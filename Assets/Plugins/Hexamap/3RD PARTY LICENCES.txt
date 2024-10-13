@@ -1,2 +1,0 @@
-FastNoise.cs : MIT License (available at the top of the file)
-TopologicalSort.cs : Public Domain (available at the top of the file)
