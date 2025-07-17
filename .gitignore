@@ -70,4 +70,6 @@ UserSettings/Layouts/default-2021.dwlt
 UserSettings/EditorUserSettings.asset
 
 # Assets
-/Assets/Plugins/
+/Assets/[Pp]lugins
+/Assets/[Hh]examap
+/Assets/[Ss]erializableDictionary
