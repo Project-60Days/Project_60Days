@@ -11,8 +11,37 @@ using UnityEngine.EventSystems;
 using FischlWorks_FogWar;
 using Random = UnityEngine.Random;
 
+public enum StructureType
+{
+    Tower,
+    Production,
+    Army
+}
+
+[System.Serializable]
+public struct MapSettings
+{
+    public float playerSpawnHeight;
+    public float zombieSpawnHeight;
+    public float mapOffset;
+    public float noiseMultiplier;
+    public int defaultMoveRange;
+    public int zombieDetectionRange;
+    public int sightRange;
+    public int playerSightRange;
+}
+
 public class MapController : Singleton<MapController>
 {
+    // 구조물 생성용 상수 (아직 설정으로 분리하지 않은 것들)
+    private const float TOWER_SPAWN_HEIGHT = 0.31f;
+    private const float PRODUCTION_SPAWN_HEIGHT = 0.2f;
+    private const float ARMY_SPAWN_HEIGHT = 0.5f;
+    
+    private const int TOWER_DISTANCE = 2;
+    private const int PRODUCTION_DISTANCE = 8;
+    private const int ARMY_DISTANCE = 7;
+
     [Header("컴포넌트")] [Space(5f)] [SerializeField]
     HexamapController hexaMap;
 
@@ -30,6 +59,19 @@ public class MapController : Singleton<MapController>
     
     [Header("프리팹")] [Space(5f)] [SerializeField]
     MapPrefabSO mapPrefab;
+
+    [Header("설정")] [Space(5f)] [SerializeField]
+    MapSettings mapSettings = new MapSettings
+    {
+        playerSpawnHeight = 0.7f,
+        zombieSpawnHeight = 0.6f,
+        mapOffset = 200f,
+        noiseMultiplier = 2f,
+        defaultMoveRange = 4,
+        zombieDetectionRange = 2,
+        sightRange = 5,
+        playerSightRange = 2
+    };
 
     List<TileController> selectedTiles = new List<TileController>();
     List<TileController> droneSelectedTiles = new List<TileController>();
@@ -90,10 +132,10 @@ public class MapController : Singleton<MapController>
         foreach (Tile tile in hexaMap.Map.Tiles)
         {
             var noiseY = _fastNoise.GetValue(tile.Coords.X, tile.Coords.Y);
-            (tile.GameEntity as GameObject).transform.position += new Vector3(0, noiseY * 2, 0);
+            (tile.GameEntity as GameObject).transform.position += new Vector3(0, noiseY * mapSettings.noiseMultiplier, 0);
         }
 
-        mapParentTransform.position = Vector3.forward * 200f;
+        mapParentTransform.position = Vector3.forward * mapSettings.mapOffset;
 
         yield return StartCoroutine(GenerateMapObjects());
 
@@ -119,22 +161,32 @@ public class MapController : Singleton<MapController>
     /// </summary>
     IEnumerator GenerateMapObjects()
     {
+        LoadGameData();
+        SpawnPlayer();
+        GenerateStructures();
+        SpawnZombies(mapData.zombieCount);
+        InitializeFogOfWar();
+        StartCoroutine(RandomTileResource(mapData.resourcePercent));
+        yield return null;
+    }
+
+    private void LoadGameData()
+    {
         App.instance.GetDataManager().gameData.TryGetValue("Data_MinCount_ZombieObject", out GameData min);
         App.instance.GetDataManager().gameData.TryGetValue("Data_MaxCount_ZombieObject", out GameData max);
+    }
 
-        SpawnPlayer();
-
+    private void GenerateStructures()
+    {
         GenerateTower();
         Generate3TileStructure(new Coords(0, 0));
         Generate7TileStructure(new Coords(0, 0));
+    }
 
-        SpawnZombies(mapData.zombieCount);
-
+    private void InitializeFogOfWar()
+    {
         csFogWar.instance.InitializeMapControllerObjects(player.gameObject, mapData.fogSightRange);
         DeselectAllBorderTiles();
-
-        StartCoroutine(RandomTileResource(mapData.resourcePercent));
-        yield return null;
     }
 
     IEnumerator RandomTileResource(float _percent)
@@ -167,15 +219,28 @@ public class MapController : Singleton<MapController>
         OcclusionCheck(player.TileController.Model);
     }
 
+    private List<Tile> _cachedAllTiles;
+    private bool _tilesCacheDirty = true;
+
     public List<Tile> GetAllTiles()
     {
-        return hexaMap.Map.Tiles.Where(x => ((GameObject)x.GameEntity).CompareTag("Tile")).ToList();
+        if (_tilesCacheDirty || _cachedAllTiles == null)
+        {
+            _cachedAllTiles = hexaMap.Map.Tiles.Where(x => ((GameObject)x.GameEntity).CompareTag("Tile")).ToList();
+            _tilesCacheDirty = false;
+        }
+        return _cachedAllTiles;
+    }
+
+    public void InvalidateTilesCache()
+    {
+        _tilesCacheDirty = true;
     }
 
     void SpawnPlayer()
     {
         Vector3 spawnPos = TileToTileController(hexaMap.Map.GetTileFromCoords(new Coords(0, 0))).transform.position;
-        spawnPos.y += 0.7f;
+        spawnPos.y += mapSettings.playerSpawnHeight;
 
         var playerObject = Instantiate(mapPrefab.items[(int)EMabPrefab.Player].prefab, spawnPos,
             Quaternion.Euler(0, -90, 0));
@@ -191,7 +256,7 @@ public class MapController : Singleton<MapController>
 
         //player.TileEffectCheck();
 
-        foreach (var item in GetTilesInRange(player.TileController.Model, 4))
+        foreach (var item in GetTilesInRange(player.TileController.Model, mapSettings.defaultMoveRange))
         {
             preemptiveTiles.Add(item);
         }
@@ -213,7 +278,7 @@ public class MapController : Singleton<MapController>
         {
             var tile = tileList[selectedTiles[i]];
             var spawnPos = ((GameObject)tile.GameEntity).transform.position;
-            spawnPos.y += 0.6f;
+            spawnPos.y += mapSettings.zombieSpawnHeight;
 
             var zombie = Instantiate(mapPrefab.items[(int)EMabPrefab.Zombie].prefab, spawnPos,
                 Quaternion.Euler(0, Random.Range(0, 360), 0), zombiesTransform);
@@ -229,7 +294,7 @@ public class MapController : Singleton<MapController>
         var tile = GetTileFromCoords(new Coords(0, -2));
 
         var spawnPos = ((GameObject)tile.GameEntity).transform.position;
-        spawnPos.y += 0.6f;
+        spawnPos.y += mapSettings.zombieSpawnHeight;
 
         var zombie = Instantiate(mapPrefab.items[(int)EMabPrefab.Zombie].prefab, spawnPos,
             Quaternion.Euler(0, Random.Range(0, 360), 0), zombiesTransform);
@@ -248,7 +313,7 @@ public class MapController : Singleton<MapController>
         var tile = tiles[randomInt];
 
         var spawnPos = tile.transform.position;
-        spawnPos.y += 0.6f;
+        spawnPos.y += mapSettings.zombieSpawnHeight;
 
         var zombie = Instantiate(mapPrefab.items[(int)EMabPrefab.Zombie].prefab, spawnPos,
             Quaternion.Euler(0, Random.Range(0, 360), 0), zombiesTransform);
@@ -371,10 +436,7 @@ public class MapController : Singleton<MapController>
 
     public bool PlayerCanMoveCheck()
     {
-        if (player.MoveRange != 0)
-            return true;
-        else
-            return false;
+        return player.MoveRange != 0;
     }
 
     public bool SelectPlayerMovePoint(TileController tileController)
@@ -434,10 +496,7 @@ public class MapController : Singleton<MapController>
 
     public bool IsMovePathSaved()
     {
-        if (player.MovePath != null)
-            return true;
-        else
-            return false;
+        return player.MovePath != null;
     }
 
     TileController TileToTileController(Tile tile)
@@ -540,10 +599,16 @@ public class MapController : Singleton<MapController>
 
     public IEnumerator NextDay()
     {
-        bool zombieActEnd = false;
+        yield return StartCoroutine(HandlePlayerTurn());
+        yield return StartCoroutine(HandleDrones());
+        yield return StartCoroutine(HandleZombies());
+        yield return StartCoroutine(HandleEndOfDay());
+    }
 
+    private IEnumerator HandlePlayerTurn()
+    {
         player.ChangeClockBuffDuration();
-        // 플레이어 이동
+        
         if (player.MovePath != null)
         {
             yield return StartCoroutine(player.ActionDecision(targetTileController));
@@ -552,8 +617,11 @@ public class MapController : Singleton<MapController>
         {
             DeselectAllBorderTiles();
         }
+    }
 
-        // 교란기
+    private IEnumerator HandleDrones()
+    {
+        // 교란기 처리
         if (distrubtors.Count > 0 && distrubtors != null)
         {
             for (int i = 0; i < distrubtors.Count; i++)
@@ -562,7 +630,7 @@ public class MapController : Singleton<MapController>
             }
         }
 
-        // 탐사기
+        // 탐사기 처리
         if (explorers.Count > 0 && explorers != null)
         {
             for (int i = 0; i < explorers.Count; i++)
@@ -570,13 +638,17 @@ public class MapController : Singleton<MapController>
                 StartCoroutine(explorers[i].GetComponent<Explorer>().Move());
             }
         }
+        
+        yield return null;
+    }
 
+    private IEnumerator HandleZombies()
+    {
+        bool zombieActEnd = false;
 
-        // 좀비 행동
         for (var index = 0; index < zombiesList.Count; index++)
         {
             var zombie = zombiesList[index];
-
             zombie.GetComponent<ZombieBase>().DetectionAndAct();
 
             if (index == zombiesList.Count - 1)
@@ -586,12 +658,16 @@ public class MapController : Singleton<MapController>
         yield return new WaitUntil(() => zombieActEnd);
         yield return new WaitForSeconds(1f);
         CheckSumZombies();
+    }
 
+    private IEnumerator HandleEndOfDay()
+    {
         // 이동 거리 충전
         player.SetHealth(true);
         player.TileEffectCheck();
-
         OcclusionCheck(player.TileController.Model);
+        
+        yield return null;
     }
 
     public void CheckSumZombies()
@@ -700,29 +776,31 @@ public class MapController : Singleton<MapController>
 
     public void DeselectAllBorderTiles()
     {
-        if (selectedTiles == null)
-            return;
+        if (selectedTiles?.Count > 0)
+        {
+            ClearTiles(selectedTiles);
+        }
 
-        ClearTiles(selectedTiles);
-
-        if (pathTiles == null)
-            return;
-
-        ClearTiles(pathTiles);
+        if (pathTiles?.Count > 0)
+        {
+            ClearTiles(pathTiles);
+        }
     }
 
     public void DeselectAllTargetTiles()
     {
-        if (droneSelectedTiles == null)
-            return;
-
-        for (int i = 0; i < droneSelectedTiles.Count; i++)
+        if (droneSelectedTiles?.Count > 0)
         {
-            TileController tile = droneSelectedTiles[i];
-            DeselecTargetBorder(tile);
+            for (int i = 0; i < droneSelectedTiles.Count; i++)
+            {
+                TileController tile = droneSelectedTiles[i];
+                if (tile != null)
+                {
+                    DeselecTargetBorder(tile);
+                }
+            }
+            droneSelectedTiles.Clear();
         }
-
-        droneSelectedTiles.Clear();
     }
 
     GameObject GetTileBorder(TileController tileController, ETileState state)
@@ -808,22 +886,19 @@ public class MapController : Singleton<MapController>
 
     public bool CheckPlayersView(TileController tileController)
     {
-        var getTiles = GetTilesInRange(player.TileController.Model, 3);
+        if (tileController == null || player?.TileController == null)
+            return false;
 
         if (player.TileController == tileController)
             return true;
 
-        if (getTiles.Contains(tileController.Model))
-        {
-            return true;
-        }
-        else
-            return false;
+        var getTiles = GetTilesInRange(player.TileController.Model, 3);
+        return getTiles.Contains(tileController.Model);
     }
 
     public bool CheckZombies()
     {
-        var playerNearthTiles = GetTilesInRange(player.TileController.Model, 2);
+        var playerNearthTiles = GetTilesInRange(player.TileController.Model, mapSettings.zombieDetectionRange);
 
         for (int i = 0; i < zombiesList.Count; i++)
         {
@@ -853,7 +928,7 @@ public class MapController : Singleton<MapController>
         List<Tile> neighborList = SetNeighborStructure(tilelist);
 
         var spawnPos = ((GameObject)tile.GameEntity).transform.position;
-        spawnPos.y += 0.31f;
+        spawnPos.y += TOWER_SPAWN_HEIGHT;
 
         var tower = Instantiate(mapPrefab.items[(int)EMabPrefab.Tower].prefab, spawnPos, Quaternion.Euler(0, 90, 0),
             objectsTransform);
@@ -868,7 +943,7 @@ public class MapController : Singleton<MapController>
     public void Generate7TileStructure(Coords _coords)
     {
         //경계선으로부터 5칸 이내 범위 
-        var boundaryTiles = ObjectSpawnDistanceCalculate(8);
+        var boundaryTiles = ObjectSpawnDistanceCalculate(PRODUCTION_DISTANCE);
         List<int> selectNumber = RandomTileSelect(boundaryTiles, EObjectSpawnType.ExcludeEntites, 1);
 
         var tilelist = new List<Tile>();
@@ -896,7 +971,7 @@ public class MapController : Singleton<MapController>
         List<Tile> neighborList = SetNeighborStructure(tilelist);
 
         var spawnPos = ((GameObject)tile.GameEntity).transform.position;
-        spawnPos.y += 0.2f;
+        spawnPos.y += PRODUCTION_SPAWN_HEIGHT;
 
         var structure = Instantiate(structureObject, spawnPos, Quaternion.Euler(0, 180, 0),
             objectsTransform);
@@ -921,7 +996,7 @@ public class MapController : Singleton<MapController>
     public void Generate3TileStructure(Coords _coords)
     {
         //경계선으로부터 5칸 이내 범위 
-        var boundaryTiles = ObjectSpawnDistanceCalculate(7);
+        var boundaryTiles = ObjectSpawnDistanceCalculate(ARMY_DISTANCE);
         List<int> selectNumber = RandomTileSelect(boundaryTiles, EObjectSpawnType.ExcludeEntites, 1);
 
         var tilelist = new List<Tile>();
@@ -945,7 +1020,7 @@ public class MapController : Singleton<MapController>
         List<Tile> neighborList = SetNeighborStructure(tilelist);
 
         var spawnPos = ((GameObject)tile.GameEntity).transform.position;
-        spawnPos.y += 0.5f;
+        spawnPos.y += ARMY_SPAWN_HEIGHT;
 
         var structure = Instantiate(structureObject, spawnPos, Quaternion.Euler(0, 90, 0),
             objectsTransform);
@@ -1043,46 +1118,27 @@ public class MapController : Singleton<MapController>
     public bool SensingSignalTower()
     {
         var structure = SensingStructure();
-
-        if (structure is Tower)
-            return true;
-        else
-            return false;
+        return structure is Tower;
     }
 
     public bool SensingProductionStructure()
     {
         var structure = SensingStructure();
+        return structure is ProductionStructure;
+    }
 
-        if (structure is ProductionStructure)
-            return true;
-        else
-            return false;
+    public StructureType GetStructureType(StructureBase structure)
+    {
+        if (structure is Tower) return StructureType.Tower;
+        if (structure is ProductionStructure) return StructureType.Production;
+        if (structure is ArmyStructure) return StructureType.Army;
+        return StructureType.Tower; // 기본값
     }
 
     public List<int> RandomTileSelect(EObjectSpawnType type, int choiceNum = 1)
     {
         var tiles = GetAllTiles();
-
-        List<int> selectTileNumber = new List<int>();
-
-        int randomInt = 0;
-        // 플레이어와 겹치지 않는 랜덤 타일 뽑기.
-        while (selectTileNumber.Count != choiceNum)
-        {
-            randomInt = Random.Range(0, tiles.Count);
-
-            if (ConditionalBranch(type, tiles[randomInt]))
-            {
-                if (selectTileNumber.Contains(randomInt) == false)
-                {
-                    selectTileNumber.Add(randomInt);
-                    preemptiveTiles.Add(tiles[randomInt]);
-                }
-            }
-        }
-
-        return selectTileNumber;
+        return RandomTileSelect(tiles, type, choiceNum);
     }
 
     public List<int> RandomTileSelect(List<Tile> tiles, EObjectSpawnType type, int choiceNum = 1)
@@ -1153,15 +1209,12 @@ public class MapController : Singleton<MapController>
 
     public bool CheckTileType(Tile tile, string type)
     {
-        if (tile.Landform.GetType().Name == type)
-            return true;
-        else
-            return false;
+        return tile.Landform.GetType().Name == type;
     }
 
     public void OcclusionCheck(Tile _targetTile)
     {
-        sightTiles = GetTilesInRange(_targetTile, 5);
+        sightTiles = GetTilesInRange(_targetTile, mapSettings.sightRange);
         sightTiles.Add(_targetTile);
 
         List<StructureObject> structureObjects =
@@ -1201,13 +1254,13 @@ public class MapController : Singleton<MapController>
 
     public List<Tile> GetPlayerSightTiles()
     {
-        var list = GetTilesInRange(player.TileController.Model, 2);
+        var list = GetTilesInRange(player.TileController.Model, mapSettings.playerSightRange);
         return list;
     }
 
     public List<Tile> GetSightTiles(Tile tile)
     {
-        var list = GetTilesInRange(tile, 2);
+        var list = GetTilesInRange(tile, mapSettings.playerSightRange);
         return list;
     }
 
@@ -1255,7 +1308,7 @@ public class MapController : Singleton<MapController>
             arrow = Instantiate(arrowPrefab, _pos, Quaternion.identity);
         }
         
-        _pos.y += 1f;
+        _pos.y += mapSettings.playerSpawnHeight; // 임시로 playerSpawnHeight 사용
         arrow.transform.position = _pos;
         
         arrow.SetActive(true);
