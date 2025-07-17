@@ -39,9 +39,9 @@ public class TitleManager : MonoBehaviour
 
 #if UNITY_EDITOR
         buttonBack.SetActive(true);
-        return;
-#endif
+#else
         PlayLeftLog();
+#endif
     }
 
     private void SetButtonEvent()

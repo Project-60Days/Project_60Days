@@ -61,7 +61,7 @@ public enum TileState
 #region UI
 public enum UIState
 {
-    Normal, 
+    Normal,
     Map,
     Note,
     Craft,
@@ -106,5 +106,15 @@ public enum CraftMode
     Craft,
     Equip,
     Blueprint
+}
+
+public enum CompassPoint
+{
+    N = 0,
+    NE = 1,
+    SE = 2,
+    S = 3,
+    SW = 4,
+    NW = 5
 }
 #endregion
