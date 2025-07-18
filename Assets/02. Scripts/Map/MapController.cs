@@ -76,6 +76,12 @@ public class MapController : Singleton<MapController>
     private bool _tilesCacheDirty = true;
     private GameObject arrow;
 
+    // 렌더링 최적화를 위한 캐시 변수들
+    private Dictionary<GameObject, Renderer> _rendererCache = new Dictionary<GameObject, Renderer>();
+    private Dictionary<GameObject, bool> _lastVisibilityState = new Dictionary<GameObject, bool>();
+    private HashSet<GameObject> _visibleObjects = new HashSet<GameObject>();
+    private HashSet<GameObject> _invisibleObjects = new HashSet<GameObject>();
+
     private void Start()
     {
         App.instance.GetMapManager().GetAdditiveSceneObjectsCoroutine();
@@ -539,34 +545,236 @@ public class MapController : Singleton<MapController>
         sightTiles = GetTilesInRange(_targetTile, mapSettings.sightRange);
         sightTiles.Add(_targetTile);
 
+        // 구조물 렌더링 최적화
+        OptimizeStructureRendering();
+        
+        // 타일 렌더링 최적화
+        OptimizeTileRendering();
+        
+        // 캐시 정리
+        CleanupVisibilityCache();
+    }
+
+    /// <summary>
+    /// 구조물 렌더링을 최적화하는 함수
+    /// SetActive 대신 Renderer 컴포넌트를 직접 제어하여 더 효율적으로 처리
+    /// </summary>
+    private void OptimizeStructureRendering()
+    {
         List<StructureObject> structureObjects =
             objectsTransform.GetComponentsInChildren<StructureObject>(true).ToList();
 
         for (int i = 0; i < structureObjects.Count; i++)
         {
             StructureObject item = structureObjects[i];
-
-            if (sightTiles.Contains(item.CurTile) == false)
+            GameObject obj = item.gameObject;
+            
+            bool shouldBeVisible = sightTiles.Contains(item.CurTile);
+            
+            // 캐시된 상태와 다를 때만 렌더링 상태 변경
+            if (_lastVisibilityState.TryGetValue(obj, out bool lastState))
             {
-                item.gameObject.SetActive(false);
+                if (lastState != shouldBeVisible)
+                {
+                    SetObjectVisibility(obj, shouldBeVisible);
+                    _lastVisibilityState[obj] = shouldBeVisible;
+                }
             }
             else
             {
-                item.gameObject.SetActive(true);
+                // 첫 번째 실행 시 캐시 초기화
+                SetObjectVisibility(obj, shouldBeVisible);
+                _lastVisibilityState[obj] = shouldBeVisible;
             }
         }
+    }
 
+    /// <summary>
+    /// 타일 렌더링을 최적화하는 함수
+    /// 배치 처리를 통해 성능 향상
+    /// </summary>
+    private void OptimizeTileRendering()
+    {
         var allTiles = GetAllTiles();
-
+        var visibleTiles = new HashSet<Tile>(sightTiles);
+        
+        // 배치 처리를 위한 리스트
+        var toShow = new List<GameObject>();
+        var toHide = new List<GameObject>();
+        
         for (int i = 0; i < allTiles.Count; i++)
         {
             Tile item = allTiles[i];
-
-            if (sightTiles.Contains(item) == false)
-                ((GameObject)item.GameEntity).SetActive(false);
+            GameObject tileObj = (GameObject)item.GameEntity;
+            
+            bool shouldBeVisible = visibleTiles.Contains(item);
+            
+            if (_lastVisibilityState.TryGetValue(tileObj, out bool lastState))
+            {
+                if (lastState != shouldBeVisible)
+                {
+                    if (shouldBeVisible)
+                        toShow.Add(tileObj);
+                    else
+                        toHide.Add(tileObj);
+                    
+                    _lastVisibilityState[tileObj] = shouldBeVisible;
+                }
+            }
             else
-                ((GameObject)item.GameEntity).SetActive(true);
+            {
+                if (shouldBeVisible)
+                    toShow.Add(tileObj);
+                else
+                    toHide.Add(tileObj);
+                
+                _lastVisibilityState[tileObj] = shouldBeVisible;
+            }
         }
+        
+        // 배치 처리로 성능 향상
+        BatchSetVisibility(toShow, true);
+        BatchSetVisibility(toHide, false);
+    }
+
+    /// <summary>
+    /// 오브젝트의 가시성을 설정하는 함수
+    /// SetActive 대신 Renderer 컴포넌트를 직접 제어
+    /// </summary>
+    private void SetObjectVisibility(GameObject obj, bool visible)
+    {
+        if (obj == null) return;
+        
+        // Renderer 컴포넌트 캐시
+        if (!_rendererCache.TryGetValue(obj, out Renderer renderer))
+        {
+            renderer = obj.GetComponent<Renderer>();
+            if (renderer != null)
+                _rendererCache[obj] = renderer;
+        }
+        
+        if (renderer != null)
+        {
+            // Renderer 컴포넌트를 직접 제어
+            renderer.enabled = visible;
+            
+            // 자식 오브젝트들의 Renderer도 함께 제어
+            Renderer[] childRenderers = obj.GetComponentsInChildren<Renderer>();
+            foreach (var childRenderer in childRenderers)
+            {
+                if (childRenderer != renderer)
+                    childRenderer.enabled = visible;
+            }
+        }
+        else
+        {
+            // Renderer가 없는 경우에만 SetActive 사용
+            obj.SetActive(visible);
+        }
+        
+        // 가시성 상태 추적
+        if (visible)
+            _visibleObjects.Add(obj);
+        else
+            _invisibleObjects.Add(obj);
+    }
+
+    /// <summary>
+    /// 배치 처리를 통해 여러 오브젝트의 가시성을 한 번에 설정
+    /// </summary>
+    private void BatchSetVisibility(List<GameObject> objects, bool visible)
+    {
+        if (objects.Count == 0) return;
+        
+        // 렌더러별로 그룹화하여 배치 처리
+        var rendererGroups = new Dictionary<Renderer, List<GameObject>>();
+        
+        foreach (var obj in objects)
+        {
+            if (!_rendererCache.TryGetValue(obj, out Renderer renderer))
+            {
+                renderer = obj.GetComponent<Renderer>();
+                if (renderer != null)
+                    _rendererCache[obj] = renderer;
+            }
+            
+            if (renderer != null)
+            {
+                if (!rendererGroups.ContainsKey(renderer))
+                    rendererGroups[renderer] = new List<GameObject>();
+                rendererGroups[renderer].Add(obj);
+            }
+        }
+        
+        // 배치 처리
+        foreach (var group in rendererGroups)
+        {
+            Renderer renderer = group.Key;
+            renderer.enabled = visible;
+            
+            // 자식 렌더러들도 함께 처리
+            Renderer[] childRenderers = renderer.GetComponentsInChildren<Renderer>();
+            foreach (var childRenderer in childRenderers)
+            {
+                if (childRenderer != renderer)
+                    childRenderer.enabled = visible;
+            }
+        }
+        
+        // SetActive가 필요한 오브젝트들 처리
+        foreach (var obj in objects)
+        {
+            if (!_rendererCache.ContainsKey(obj))
+            {
+                obj.SetActive(visible);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 가시성 캐시를 정리하는 함수
+    /// 메모리 누수 방지
+    /// </summary>
+    private void CleanupVisibilityCache()
+    {
+        // 파괴된 오브젝트들 제거
+        var keysToRemove = new List<GameObject>();
+        
+        foreach (var kvp in _lastVisibilityState)
+        {
+            if (kvp.Key == null)
+                keysToRemove.Add(kvp.Key);
+        }
+        
+        foreach (var key in keysToRemove)
+        {
+            _lastVisibilityState.Remove(key);
+            _rendererCache.Remove(key);
+            _visibleObjects.Remove(key);
+            _invisibleObjects.Remove(key);
+        }
+        
+        // 캐시 크기 제한 (메모리 사용량 제어)
+        if (_lastVisibilityState.Count > 1000)
+        {
+            var oldestKeys = _lastVisibilityState.Keys.Take(100).ToList();
+            foreach (var key in oldestKeys)
+            {
+                _lastVisibilityState.Remove(key);
+                _rendererCache.Remove(key);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 렌더링 최적화 캐시를 완전히 초기화하는 함수
+    /// </summary>
+    public void ClearRenderingCache()
+    {
+        _rendererCache.Clear();
+        _lastVisibilityState.Clear();
+        _visibleObjects.Clear();
+        _invisibleObjects.Clear();
     }
 
     public void SightCheckInit()
